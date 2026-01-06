@@ -1,5 +1,5 @@
 ---
-title: "BioEngineering Statistics 2025"
+title: "BioEngineering Statistics 2026"
 image: Cover2.tiff
 about:
   template: jolla
