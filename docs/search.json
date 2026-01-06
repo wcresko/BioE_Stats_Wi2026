@@ -341,5 +341,684 @@
     "title": "Resources",
     "section": "",
     "text": "Base R Cheat Sheet\nRStudio Collection of Cheat Sheets\nGit Cheat Sheet\nMarkdown Cheat Sheet\nLaTeX Cheat Sheet"
+  },
+  {
+    "objectID": "Lectures.html",
+    "href": "Lectures.html",
+    "title": "Lectures",
+    "section": "",
+    "text": "Lecture_1"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html",
+    "href": "Lecture_Folder/Week1.html",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "",
+    "text": "library(tidyverse)\n\nWarning: package 'ggplot2' was built under R version 4.4.3\n\n\nWarning: package 'tidyr' was built under R version 4.4.3\n\n\nWarning: package 'readr' was built under R version 4.4.3\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.1     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.2\n✔ purrr     1.2.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(gt)\n\nWarning: package 'gt' was built under R version 4.4.3\n\nlibrary(readxl)\ntheme_set(theme_minimal())"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#statistics-for-bioengineers-and-bioscientists",
+    "href": "Lecture_Folder/Week1.html#statistics-for-bioengineers-and-bioscientists",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Statistics for Bioengineers and Bioscientists",
+    "text": "Statistics for Bioengineers and Bioscientists"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#goals-of-the-course",
+    "href": "Lecture_Folder/Week1.html#goals-of-the-course",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Goals of the course",
+    "text": "Goals of the course\n\n\n\n\n\n\nThis is a practical course and we will learn by doing\n\n\n\n\nTeach fundamental skills for your scientific careers\nProvide a broad coverage of the core components of modern statistics\nProvide you with the computational tools necessary to carry out your work\nTo prepare you for more advanced statistics and programming education"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#what-will-you-learn",
+    "href": "Lecture_Folder/Week1.html#what-will-you-learn",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "What will you learn?",
+    "text": "What will you learn?\n\n\nRead and write code in Unix and R\nImplement reproducible research practices\nExploratory data analysis and visualization\nProbability in the context of distributions and sampling\nExperimental design\np-values, test statistics, and types of errors\nStatistical analyses such as t-tests and contigency tests\nLinear and non-linear modeling\nClassical machine learning\nOrdination such as PCA, tSNE and UMAP"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#class-logistics",
+    "href": "Lecture_Folder/Week1.html#class-logistics",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Class Logistics",
+    "text": "Class Logistics\n\nMeet Tuesdays and Thursdays from 4:00pm - 5:50pm in KC107\n\nMost of class time will be hands-on coding practice, less time lecturing\n\nCoding and statistics practice via homework in Weeks 2-9\n\nAvailable Tuesday of that week, due before class on Tuesday in two weeks\n\nWeeks 10-11 you will complete a final coding project\n\nDesign script(s) that works with your research and interests using the skills you’ve learned this term"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#required-materials",
+    "href": "Lecture_Folder/Week1.html#required-materials",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Required Materials",
+    "text": "Required Materials\n\nNo textbooks or purchases required\nAccess to a laptop or computer running Windows, MacOS, or Linux operating systems\nAnnouncements and assignments posted on Canvas\nThe majority of course material on our class website https://wcresko.github.io/BioE_Stats_Wi2026/\nThe reading material can be found here: https://wcresko.github.io/BioE_Stats_Book/"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#class-introductions",
+    "href": "Lecture_Folder/Week1.html#class-introductions",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Class Introductions",
+    "text": "Class Introductions\n\n\n\n\n\n\nWho are you?\n\n\n\n\nYour name\nYear in grad school\nHome lab or rotation lab\nWhat is your good news this week?\nWhat has your experience with programming/statistics been like?"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#why-do-we-need-statistics",
+    "href": "Lecture_Folder/Week1.html#why-do-we-need-statistics",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Why do we need statistics?",
+    "text": "Why do we need statistics?\n\nWe almost never know the world perfectly, but still want to draw conclusions or make decisions\nWe need to estimate underlying parameters from samples of data\nSometimes we need to test hypotheses using data\nOther times we need to more succinctly summarize and/or visualize large amounts of data\nThere are well known mathematical rules that help us\nStatistics can be done by hand, but computers let us do most of the mathematics quickly"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#why-do-we-need-statistics-1",
+    "href": "Lecture_Folder/Week1.html#why-do-we-need-statistics-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Why do we need statistics?",
+    "text": "Why do we need statistics?\n\nWe want to turn data into conclusions about the world\n\npoint estimates and confidence intervals\nexperimental design\nhypothesis testing\ndata reduction of highly dimensional data\n\nWe need a firm understanding of probability, sampling and distributions"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#why-do-we-need-coding-and-scripting",
+    "href": "Lecture_Folder/Week1.html#why-do-we-need-coding-and-scripting",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Why do we need coding and scripting?",
+    "text": "Why do we need coding and scripting?\n\nIt is incredibly fast and powerful, particularly for repeated actions\nIt allows you to do thousands of ‘clicks’ with single commands\nAbility to analyze large datasets that Excel and other GUIs can’t handle well\nAccess to thousands of free programs made for and by scientists\nThe commands work almost identically across platforms\nAbility to use computer clusters like Talapas\nREPRODUCIBILITY"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#what-is-the-difference-between-coding-and-scripting",
+    "href": "Lecture_Folder/Week1.html#what-is-the-difference-between-coding-and-scripting",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "What is the difference between coding and scripting?",
+    "text": "What is the difference between coding and scripting?\n\ncoding generally involves computer languages that use compilers\n\nC^{++}, Fortran, etc\n\nscripting generally involves computer languages that are interpreted on the fly\n\nPython, R, Julia, etc.\n\ncoding - faster but less flexible; scripting - flexible but slower\nThe distinction between the two has become somewhat fuzzy and most modern analytical pipelines contain a combination of both"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#section-4",
+    "href": "Lecture_Folder/Week1.html#section-4",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "",
+    "text": "Note\n\n\n\n\nMac and Linux systems run using the same language, but previous versions of Windows lacks some of the basic features found on other systems\nTo help you practice and learn how to code in Unix, we will help you install some programs on your computer for running Unix\nR and RStudio should work on any computer"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#running-r",
+    "href": "Lecture_Folder/Week1.html#running-r",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Running R",
+    "text": "Running R\n\nNeed to make sure that you have R installed\n\nlocally or on a server\nhttps://www.r-project.org\n\nCan run R from the command line\n\njust type R\ncan run it locally as well as on clusters"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#running-r-1",
+    "href": "Lecture_Folder/Week1.html#running-r-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Running R",
+    "text": "Running R\n\nInstall an R Integrated Development Environment (IDE)\n\nRStudio: http://www.rstudio.com\nMakes working with R much easier, particularly for a new R user\nRun on Windows, Mac or Linux OS\nUse the RStudio Desktop Open Source (Free)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#rstudio",
+    "href": "Lecture_Folder/Week1.html#rstudio",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "RStudio",
+    "text": "RStudio"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#accessing-the-shell",
+    "href": "Lecture_Folder/Week1.html#accessing-the-shell",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Accessing the shell",
+    "text": "Accessing the shell\n\nMac users: open the “Terminal” app, or use another app like ‘iTerm2’\nLinux users: open one of several “Terminal” apps\n\n\n\n\n\n\nWindows users have a little more work to do\n\n\n\nSee the next slides"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#accessing-the-shell-1",
+    "href": "Lecture_Folder/Week1.html#accessing-the-shell-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Accessing the shell",
+    "text": "Accessing the shell\n\nWindows users\n\nGuide: https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-10#1-overview\nRun Windows PowerShell as administrator\nInstall WSL2 by typing wsl --install\nRestart your computer\nSearch for and install Ubuntu from Microsoft store app\nOR type wsl --install -d ubuntu on PowerShell to do both at once"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#accessing-the-shell-on-windows",
+    "href": "Lecture_Folder/Week1.html#accessing-the-shell-on-windows",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Accessing the shell on Windows",
+    "text": "Accessing the shell on Windows\n\nOpen Ubuntu and set up a username and password\nDoes not have to match your login info for Windows\nRun sudo apt update then sudo apt upgrade to ensure everything is up to date\nWill need to create folders and files within your Ubuntu folder on your computer"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#what-is-a-computer",
+    "href": "Lecture_Folder/Week1.html#what-is-a-computer",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "What is a Computer?",
+    "text": "What is a Computer?\n\nAt its core, a computer operates using combinations of 0s and 1s (binary)\nBase programming languages translate binary into short commands (e.g., Fortran, C)\nProgramming languages have been built on top of one another until we get English-like commands (Unix, R, Python, etc.)\nSystem of directories (folders) and files\n/ = the root directory, which holds all other directories\n\n\n\n\n\n\n\nNote\n\n\n\nNavigation in programming consists of jumping between directories and telling your computer where files are located"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#a-note-on-programming-languages",
+    "href": "Lecture_Folder/Week1.html#a-note-on-programming-languages",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "A Note on Programming Languages",
+    "text": "A Note on Programming Languages\n\nProgramming languages are called languages for a reason\nLearning to program is a lot like learning a new spoken language\nEach programming language is different, but learning one will help you learn another\nUse it or lose it! Practice is the best way to learn and maintain your coding skills\n\n\n\n\n\n\n\nTip\n\n\n\nComputers are literal! You have to use very explicit and pre-defined phrases to tell your computer exactly what you want"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#what-is-unix",
+    "href": "Lecture_Folder/Week1.html#what-is-unix",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "What is Unix?",
+    "text": "What is Unix?\n\n\nA scripting language developed in 1969, released in 1973\nServes as the base language for many programs and computers\nIs the operating system for computers\nLinux is an open-source version of the same language"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#what-is-a-shell",
+    "href": "Lecture_Folder/Week1.html#what-is-a-shell",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "What is a shell?",
+    "text": "What is a shell?\n\nThe ‘shell’ is a program that runs UNIX and takes in commands and gives them to the operating system\nBash acts as the shell in macs, linux, and now windows\nYou can access the shell via a terminal window"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#recipes-for-a-shell-command",
+    "href": "Lecture_Folder/Week1.html#recipes-for-a-shell-command",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Recipes for a shell command",
+    "text": "Recipes for a shell command\n\nPrompt: notation used to indicate your computer is ready to accept a new command\nCommand: the building blocks of programming, tell computer to do a specific task\nOptions: change the behavior of a command\nArgument: what the command should operate on"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#why-use-the-shell",
+    "href": "Lecture_Folder/Week1.html#why-use-the-shell",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Why use the shell?",
+    "text": "Why use the shell?\n\nSpeed\nExamine large and/or unique files\nAccess super computers\nUse programs only available via shell\nThe commands work almost identically across platforms\nYou can even use them on a large computer cluster like Talapas\nIt is incredibly powerful particularly for repeated actions\nIt allows you to do thousands of ‘clicks’ with single commands\nTHIS IS HOW WE KNOW TO RUN OUR SCRIPTS"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#where-do-you-get-help",
+    "href": "Lecture_Folder/Week1.html#where-do-you-get-help",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Where do you get help?",
+    "text": "Where do you get help?\n\nManual pages!\n\nThe shell has manuals for all basic commands\nType man [command_name] to access the manual for a specific command\nType q to exit\n\nAlso…the internet!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#the-way-you-normally-navigate",
+    "href": "Lecture_Folder/Week1.html#the-way-you-normally-navigate",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "The way you normally navigate",
+    "text": "The way you normally navigate"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#how-is-a-computer-organized",
+    "href": "Lecture_Folder/Week1.html#how-is-a-computer-organized",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "How is a computer organized?",
+    "text": "How is a computer organized?\n\nSystem of directories (folders) and files\n/ = the root directory, which holds all other directories\nMost of your files will be located under /Users in a directory of your username\nthe ~ is shorthand for your home folder\nNavigation in the shell consists of jumping up and down between directories and seeing what’s in them\nThe “path” refers to the location a file is in\n\nex: “/Users/wcresko/Documents”"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#common-navigation-commands-1",
+    "href": "Lecture_Folder/Week1.html#common-navigation-commands-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Common navigation commands",
+    "text": "Common navigation commands\n\npwd = “print working directory”, which will print where you currently are in the system\n\nIn Windows, cd will print your working directory\n\nls = “list”, list all directories and files in your current position\n\nls –F = denote which results are directories, files, etc.\nls –l = ”long format”, lists total file sizes\nls –r = “reverse”, lists the results in reverse order\nls –S = “size”, sort results by size\nls –t = “time”, sort results by time created, from most recent to last\n\ncd = “change directory”, will place you in a new position based on your path argument\n\ncd .. = go up one directory\ncd – = go to the directory you were at last (like the back arrow on an internet browser)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#lets-practice",
+    "href": "Lecture_Folder/Week1.html#lets-practice",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Let’s practice!",
+    "text": "Let’s practice!\n\nTry navigating around your computer using cd and ls\nIf you are on Ubuntu, you may need to create some empty directories in your Ubuntu folder before navigating in the terminal"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#making-new-files",
+    "href": "Lecture_Folder/Week1.html#making-new-files",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Making new files",
+    "text": "Making new files\n\nMake new folders: mkdir\nMake new files: nano, touch\nRename files: mv\nMove files: mv\nCopy files: cp\nDelete files: rm\nExamining file length: wc\nReading files: cat\nLooking at beginning or end: head or tail"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#things-to-keep-in-mind",
+    "href": "Lecture_Folder/Week1.html#things-to-keep-in-mind",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Things to keep in mind",
+    "text": "Things to keep in mind\n\nThe shell trusts you\n\nIt will delete files you say to delete\nIt will override files if you name 2 things the same\n\nNaming conventions\n\nAvoid spaces\nDon’t start with a –\nStick to letters, numbers, . , -, and _\n\nUse appropriate file extensions in file names\n\nSome software expect files with certain extensions (.fasta, .txt, etc.)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#lets-try-it-out",
+    "href": "Lecture_Folder/Week1.html#lets-try-it-out",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Let’s try it out",
+    "text": "Let’s try it out\n\nMake a new directory called whatever you’d like.\n\nAdd a file named practice.txt to the directory and add some text to it\nRead the contents of the file and get its length\nRename the file to super_practice.txt\n\nMove the file to a new folder named sandbox\n\nMake a copy of the file named super_practice_copy.txt\n\nRead the contents of the file and get its length to make sure it’s the same as Super_practice.txt\nDelete the original super_practice.txt"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#break-1",
+    "href": "Lecture_Folder/Week1.html#break-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Break",
+    "text": "Break"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#an-example-to-get-us-started",
+    "href": "Lecture_Folder/Week1.html#an-example-to-get-us-started",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "An example to get us started",
+    "text": "An example to get us started"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#data-set-rules-of-thumb-aka-tidy-data",
+    "href": "Lecture_Folder/Week1.html#data-set-rules-of-thumb-aka-tidy-data",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Data set rules of thumb (aka Tidy Data)",
+    "text": "Data set rules of thumb (aka Tidy Data)\n\nStore a copy of data in nonproprietary software and hardware formats, such as plain ASCII text (aka a flat file)\nLeave an uncorrected file when doing analyses\nUse descriptive names for your data files and variables\nInclude a header line with descriptive variable names\nMaintain effective metadata about the data\nWhen you add observations to a database, add rows\nWhen you add variables to a database, add columns, not rows\nA column of data should contain only one data type"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#common-data-types",
+    "href": "Lecture_Folder/Week1.html#common-data-types",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Common Data Types",
+    "text": "Common Data Types\n\n\n\n\n\n\n\n\nStatistical Term\nDescription\nR Data Type\n\n\n\n\nNumerical (continuous)\nMeasurements that can take any value (e.g., height, weight)\nnumeric / double\n\n\nNumerical (discrete)\nWhole number counts (e.g., number of cells)\ninteger\n\n\nCategorical (nominal)\nUnordered categories (e.g., species, color)\nfactor or character\n\n\nCategorical (ordinal)\nOrdered categories (e.g., low/medium/high)\nordered factor\n\n\nLogical / Boolean\nTRUE or FALSE values\nlogical\n\n\nText / String\nFree-form text data\ncharacter\n\n\nDate / Time\nTemporal data\nDate, POSIXct\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nUse class() or str() in R to check the data type of any variable"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#computational-tools---r-and-rstudio",
+    "href": "Lecture_Folder/Week1.html#computational-tools---r-and-rstudio",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Computational Tools - R and RStudio",
+    "text": "Computational Tools - R and RStudio"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#the-rstudio-interface",
+    "href": "Lecture_Folder/Week1.html#the-rstudio-interface",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "The RStudio Interface",
+    "text": "The RStudio Interface\nRStudio has four main panes that help organize your workflow:\n\n\n\n\n\n\n\n\nPane\nLocation\nPurpose\n\n\n\n\nSource\nTop-left\nWrite and edit scripts, markdown files, and view data\n\n\nConsole\nBottom-left\nInteractive R session, run commands directly\n\n\nEnvironment/History\nTop-right\nView objects in memory, command history\n\n\nFiles/Plots/Packages/Help\nBottom-right\nNavigate files, view plots, manage packages, get help\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou can customize the pane layout in Tools → Global Options → Pane Layout"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#why-use-r",
+    "href": "Lecture_Folder/Week1.html#why-use-r",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Why use R?",
+    "text": "Why use R?\n\n\nGood general scripting tool for statistics and mathematics\nPowerful and flexible and free\nRuns on all computer platforms\nNew enhancements coming out all the time\nSuperb data management & graphics capabilities"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#why-use-r-1",
+    "href": "Lecture_Folder/Week1.html#why-use-r-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Why use R?",
+    "text": "Why use R?\n\n\nReproducibility - can keep your scripts to see exactly what was done\nYou can write your own functions\nLots of online help available\nCan use a nice GUI front end such as Rstudio\nCan embed your R analyses in dynamic, polished files using Markdown\nMarkdown can be reused for websites, papers, books, presentations…"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#r-resources",
+    "href": "Lecture_Folder/Week1.html#r-resources",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "R Resources",
+    "text": "R Resources\nHelpful links for learning and troubleshooting R:\n\n\n\nResource\nURL\n\n\n\n\nThe R Project\nhttp://www.r-project.org\n\n\nRStudio\nhttp://www.rstudio.com\n\n\nR for Data Science (free book)\nhttps://r4ds.had.co.nz\n\n\nQuick R Homepage\nhttp://www.statmethods.net\n\n\nBioconductor\nhttp://www.bioconductor.org\n\n\nStack Overflow\nhttps://stackoverflow.com/questions/tagged/r\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nWhen you get an error, copy and paste it into Google — chances are someone else has had the same problem!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#installing-and-loading-packages",
+    "href": "Lecture_Folder/Week1.html#installing-and-loading-packages",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Installing and Loading Packages",
+    "text": "Installing and Loading Packages\n\nR’s power comes from thousands of community-contributed packages\nInstall once (downloads package to your computer)\nLoad each session (makes functions available)\n\n\n# Install a package (only need to do this once)\ninstall.packages(\"tidyverse\")\n\n# Load the package (do this each R session)\nlibrary(tidyverse)\n\n\n\n\n\n\n\nNote\n\n\n\nYou can also install packages via RStudio: Tools → Install Packages"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#the-tidyverse-ecosystem",
+    "href": "Lecture_Folder/Week1.html#the-tidyverse-ecosystem",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "The Tidyverse Ecosystem",
+    "text": "The Tidyverse Ecosystem\nThe tidyverse is a collection of R packages designed for data science that share a common philosophy and syntax:\n\n\n\nPackage\nPurpose\n\n\n\n\ndplyr\nData manipulation (filter, select, mutate, summarize)\n\n\nggplot2\nData visualization\n\n\ntidyr\nReshaping data (pivot, separate, unite)\n\n\nreadr\nFast reading of rectangular data (CSV, TSV)\n\n\nstringr\nString manipulation\n\n\npurrr\nFunctional programming tools\n\n\n\nLoading tidyverse loads all of these at once!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#rscript-basics",
+    "href": "Lecture_Folder/Week1.html#rscript-basics",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Rscript basics",
+    "text": "Rscript basics\n\nA series of R commands that will be executed\nCan add comments using hashtags #\nCan have pipes to connect one step to the next"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#basics-of-r",
+    "href": "Lecture_Folder/Week1.html#basics-of-r",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "BASICS of R",
+    "text": "BASICS of R\n\nCommands can be submitted through the terminal, console or scripts\nIn your scripts, anything that follows ‘#’ symbol (aka hash) is just for humans\nNotice on these slides I’m evaluating the code chunks and showing output\nThe output is shown here after the two # symbols and the number of output items is in []\nAlso notice that R follows the normal priority of mathematical evaluation\n\n\n4*4\n\n[1] 16\n\n\n\n(4+3*2^2)\n\n[1] 16"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#assigning-variables",
+    "href": "Lecture_Folder/Week1.html#assigning-variables",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Assigning Variables",
+    "text": "Assigning Variables\n\nA better way to do this is to assign variables\nVariables are assigned values using the &lt;- operator.\nVariable names must begin with a letter, but other than that, just about anything goes.\nDo keep in mind that R is case sensitive."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#assigning-variables-1",
+    "href": "Lecture_Folder/Week1.html#assigning-variables-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Assigning Variables",
+    "text": "Assigning Variables\n\nx &lt;- 2\nx * 3\n\n[1] 6\n\ny &lt;- x * 3\ny - 2\n\n[1] 4\n\n\nThese do not work\n\n3y &lt;- 3\n3*y &lt;- 3"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#arithmetic-operations-on-functions",
+    "href": "Lecture_Folder/Week1.html#arithmetic-operations-on-functions",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Arithmetic operations on functions",
+    "text": "Arithmetic operations on functions\n\nArithmetic operations can be performed easily on functions as well as numbers.\nTry the following, and then your own.\n\n\nx+2\nx^2\nlog(x)\n\n\nNote that the last of these - log - is a built in function of R, and therefore the object of the function needs to be put in parentheses\nThese parentheses will be important, and we’ll come back to them later when we add arguments after the object in the parentheses\n\nThe outcome of calculations can be assigned to new variables as well, and the results can be checked using the ‘print’ command"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#arithmetic-operations-on-functions-1",
+    "href": "Lecture_Folder/Week1.html#arithmetic-operations-on-functions-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Arithmetic operations on functions",
+    "text": "Arithmetic operations on functions\n\ny &lt;- 67\nprint(y)\n\n[1] 67\n\nx &lt;- 124\nz &lt;- (x*y)^2\nprint(z)\n\n[1] 69022864"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#strings",
+    "href": "Lecture_Folder/Week1.html#strings",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "STRINGS",
+    "text": "STRINGS\n\nVariables and operations can be performed on characters as well\nNote that characters need to be set off by quotation marks to differentiate them from numbers\nThe c stands for concatenate\nNote that we are using the same variable names as we did previously, which means that we’re overwriting our previous assignment\nA good rule of thumb is to use new names for each variable, and make them short but still descriptive"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#strings-1",
+    "href": "Lecture_Folder/Week1.html#strings-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "STRINGS",
+    "text": "STRINGS\n\nx &lt;- \"I Love\"\nprint (x)\n\n[1] \"I Love\"\n\ny &lt;- \"Biostatistics\"\nprint (y)\n\n[1] \"Biostatistics\"\n\nz &lt;- c(x,y)\nprint (z)\n\n[1] \"I Love\"        \"Biostatistics\""
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#factors",
+    "href": "Lecture_Folder/Week1.html#factors",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "FACTORS",
+    "text": "FACTORS\n\nThe variable z is now what is called a list of character values.\nSometimes we would like to treat the characters as if they were units for subsequent calculations.\nThese are called factors, and we can redefine our character variables as factors.\nThis might seem a bit strange, but it’s important for statistical analyses where we might want to see the mean or variance for two different treatments."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#factors-1",
+    "href": "Lecture_Folder/Week1.html#factors-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "FACTORS",
+    "text": "FACTORS\n\nz_factor &lt;- as.factor(z)\nprint (z_factor)\n\n\nNote that factor levels are reported alphabetically"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#data-type-coercion",
+    "href": "Lecture_Folder/Week1.html#data-type-coercion",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Data Type Coercion",
+    "text": "Data Type Coercion\nYou can convert between data types using as.* functions:\n\n# Convert to numeric\nas.numeric(\"42\")        # Returns: 42\nas.numeric(\"hello\")     # Returns: NA (with warning)\n\n# Convert to character\nas.character(42)        # Returns: \"42\"\nas.character(TRUE)      # Returns: \"TRUE\"\n\n# Convert to factor\nas.factor(c(\"low\", \"medium\", \"high\"))\n\n# Convert to logical\nas.logical(1)           # Returns: TRUE\nas.logical(0)           # Returns: FALSE\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful! as.numeric() on a factor returns the underlying integer codes, not the labels. Use as.numeric(as.character(x)) instead."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#vectors",
+    "href": "Lecture_Folder/Week1.html#vectors",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "VECTORS",
+    "text": "VECTORS\n\nIn general R thinks in terms of vectors (a list of characters, factors or numerical values) and it will benefit any R user to try to write programs with that in mind, as it will simplify most things.\nVectors can be assigned directly using the ‘c()’ function and then entering the exact values."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#vectors-1",
+    "href": "Lecture_Folder/Week1.html#vectors-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "VECTORS",
+    "text": "VECTORS\n\nx &lt;- c(2,3,4,2,1,2,4,5,10,8,9)\nprint(x)\n\n [1]  2  3  4  2  1  2  4  5 10  8  9"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#basic-statistics",
+    "href": "Lecture_Folder/Week1.html#basic-statistics",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Basic Statistics",
+    "text": "Basic Statistics\n\nMany functions exist to operate on vectors.\nCombine these with your previous variable to see what happens.\nAlso, try to find other functions (e.g. standard deviation)."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#basic-statistics-1",
+    "href": "Lecture_Folder/Week1.html#basic-statistics-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Basic Statistics",
+    "text": "Basic Statistics\n\nmean(x)\nmedian(x)\nvar(x)\nlog(x)      # natural log (base e)\nlog10(x)    # base 10 log\nsqrt(x)\nsum(x)\nlength(x)\nsample(x, replace = T)\n\n\nNotice that the last function (sample) has an argument (replace=T)\nArguments simply modify or direct the function in some way\nThere are many arguments for each function, some of which are defaults"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#logical-operators-and-comparisons",
+    "href": "Lecture_Folder/Week1.html#logical-operators-and-comparisons",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Logical Operators and Comparisons",
+    "text": "Logical Operators and Comparisons\nLogical operations are essential for filtering and subsetting data:\n\n\n\nOperator\nMeaning\nExample\n\n\n\n\n==\nequals\nx == 5\n\n\n!=\nnot equals\nx != 5\n\n\n&lt;, &gt;\nless/greater than\nx &lt; 10\n\n\n&lt;=, &gt;=\nless/greater or equal\nx &gt;= 0\n\n\n&\nand\nx &gt; 0 & x &lt; 10\n\n\n|\nor\nx &lt; 0 | x &gt; 10\n\n\n!\nnot\n!is.na(x)\n\n\n%in%\nis element of\nx %in% c(1, 2, 3)\n\n\n\n\nx &lt;- c(1, 5, 10, 15, 20)\nx &gt; 10              # Returns: FALSE FALSE FALSE TRUE TRUE\nx[x &gt; 10]           # Returns: 15 20 (subsetting!)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#handling-missing-data-na",
+    "href": "Lecture_Folder/Week1.html#handling-missing-data-na",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Handling Missing Data (NA)",
+    "text": "Handling Missing Data (NA)\nReal data almost always has missing values. In R, these are represented as NA:\n\nx &lt;- c(1, 2, NA, 4, 5)\n\n# Checking for NA\nis.na(x)            # Returns: FALSE FALSE TRUE FALSE FALSE\n!is.na(x)           # Invert to find non-missing\n\n# WARNING: This doesn't work!\nx == NA             # Returns: NA NA NA NA NA (not what you want!)\n\n# Handling NA in functions\nmean(x)             # Returns: NA (can't compute)\nmean(x, na.rm = TRUE)   # Returns: 3 (ignores NA)\n\n# Removing NA values\nna.omit(x)          # Returns vector without NA\n\n\n\n\n\n\n\nImportant\n\n\n\nAlways use is.na() to check for missing values, never == NA"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#special-numeric-values",
+    "href": "Lecture_Folder/Week1.html#special-numeric-values",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Special Numeric Values",
+    "text": "Special Numeric Values\nR has several special values for edge cases:\n\n\n\nValue\nMeaning\nExample\n\n\n\n\nNA\nNot Available (missing data)\nc(1, NA, 3)\n\n\nNaN\nNot a Number (undefined math)\n0/0\n\n\nInf\nPositive infinity\n1/0\n\n\n-Inf\nNegative infinity\n-1/0\n\n\n\n\n# Testing for special values\nis.na(NA)       # TRUE\nis.nan(NaN)     # TRUE\nis.infinite(Inf) # TRUE\nis.finite(42)   # TRUE\n\n# NaN is also considered NA\nis.na(NaN)      # TRUE (!)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#getting-help",
+    "href": "Lecture_Folder/Week1.html#getting-help",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Getting Help",
+    "text": "Getting Help\n\nGetting Help on any function is very easy - just type a question mark and the name of the function.\nThere are functions for just about anything within R and it is easy enough to write your own functions if none already exist to do what you want to do.\nIn general, function calls have a simple structure: a function name, a set of parentheses and an optional set of parameters to send to the function.\nHelp pages exist for all functions that, at a minimum, explain what parameters exist for the function.\n\nHelp can be accessed a few ways - try them :"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#getting-help-1",
+    "href": "Lecture_Folder/Week1.html#getting-help-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Getting Help",
+    "text": "Getting Help\n\nhelp(mean)\n?mean\nexample(mean)\nhelp.search(\"mean\")\napropos(\"mean\")\nargs(mean)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#common-r-errors-dont-panic",
+    "href": "Lecture_Folder/Week1.html#common-r-errors-dont-panic",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Common R Errors (Don’t Panic!)",
+    "text": "Common R Errors (Don’t Panic!)\nYou will see errors — everyone does! Here’s how to read them:\n\n\n\n\n\n\n\n\nError Message\nWhat It Means\nHow to Fix\n\n\n\n\nobject 'x' not found\nVariable doesn’t exist\nCheck spelling, or run the line that creates it\n\n\ncould not find function\nPackage not loaded or typo\nLoad package with library() or check spelling\n\n\nunexpected ')' or '}'\nMismatched parentheses/brackets\nCount your opening and closing brackets\n\n\nnon-numeric argument\nWrong data type\nCheck with class(), convert if needed\n\n\nsubscript out of bounds\nIndex doesn’t exist\nVector/list is shorter than you think\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nRead error messages from the bottom up — the last line usually tells you what went wrong"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#creating-vectors",
+    "href": "Lecture_Folder/Week1.html#creating-vectors",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Creating vectors",
+    "text": "Creating vectors\n\nCreating vector of new data by entering it by hand can be a drag\nHowever, it is also very easy to use functions such as seq and sample\nTry the examples below Can you figure out what the three arguments in the parentheses mean?\nTry varying the arguments to see what happens.\nDon’t go too crazy with the last one or your computer might slow way down"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#creating-vectors-1",
+    "href": "Lecture_Folder/Week1.html#creating-vectors-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Creating vectors",
+    "text": "Creating vectors\n\nseq_1 &lt;- seq(0.0, 10.0, by = 0.1)\nprint(seq_1)\n\n  [1]  0.0  0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.0  1.1  1.2  1.3  1.4\n [16]  1.5  1.6  1.7  1.8  1.9  2.0  2.1  2.2  2.3  2.4  2.5  2.6  2.7  2.8  2.9\n [31]  3.0  3.1  3.2  3.3  3.4  3.5  3.6  3.7  3.8  3.9  4.0  4.1  4.2  4.3  4.4\n [46]  4.5  4.6  4.7  4.8  4.9  5.0  5.1  5.2  5.3  5.4  5.5  5.6  5.7  5.8  5.9\n [61]  6.0  6.1  6.2  6.3  6.4  6.5  6.6  6.7  6.8  6.9  7.0  7.1  7.2  7.3  7.4\n [76]  7.5  7.6  7.7  7.8  7.9  8.0  8.1  8.2  8.3  8.4  8.5  8.6  8.7  8.8  8.9\n [91]  9.0  9.1  9.2  9.3  9.4  9.5  9.6  9.7  9.8  9.9 10.0\n\nseq_2 &lt;- seq(10.0, 0.0, by = -0.1)\nprint(seq_2)\n\n  [1] 10.0  9.9  9.8  9.7  9.6  9.5  9.4  9.3  9.2  9.1  9.0  8.9  8.8  8.7  8.6\n [16]  8.5  8.4  8.3  8.2  8.1  8.0  7.9  7.8  7.7  7.6  7.5  7.4  7.3  7.2  7.1\n [31]  7.0  6.9  6.8  6.7  6.6  6.5  6.4  6.3  6.2  6.1  6.0  5.9  5.8  5.7  5.6\n [46]  5.5  5.4  5.3  5.2  5.1  5.0  4.9  4.8  4.7  4.6  4.5  4.4  4.3  4.2  4.1\n [61]  4.0  3.9  3.8  3.7  3.6  3.5  3.4  3.3  3.2  3.1  3.0  2.9  2.8  2.7  2.6\n [76]  2.5  2.4  2.3  2.2  2.1  2.0  1.9  1.8  1.7  1.6  1.5  1.4  1.3  1.2  1.1\n [91]  1.0  0.9  0.8  0.7  0.6  0.5  0.4  0.3  0.2  0.1  0.0"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#creating-vectors-2",
+    "href": "Lecture_Folder/Week1.html#creating-vectors-2",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Creating vectors",
+    "text": "Creating vectors\n\nseq_square &lt;- (seq_2)*(seq_2)\nprint(seq_square)\n\n  [1] 100.00  98.01  96.04  94.09  92.16  90.25  88.36  86.49  84.64  82.81\n [11]  81.00  79.21  77.44  75.69  73.96  72.25  70.56  68.89  67.24  65.61\n [21]  64.00  62.41  60.84  59.29  57.76  56.25  54.76  53.29  51.84  50.41\n [31]  49.00  47.61  46.24  44.89  43.56  42.25  40.96  39.69  38.44  37.21\n [41]  36.00  34.81  33.64  32.49  31.36  30.25  29.16  28.09  27.04  26.01\n [51]  25.00  24.01  23.04  22.09  21.16  20.25  19.36  18.49  17.64  16.81\n [61]  16.00  15.21  14.44  13.69  12.96  12.25  11.56  10.89  10.24   9.61\n [71]   9.00   8.41   7.84   7.29   6.76   6.25   5.76   5.29   4.84   4.41\n [81]   4.00   3.61   3.24   2.89   2.56   2.25   1.96   1.69   1.44   1.21\n [91]   1.00   0.81   0.64   0.49   0.36   0.25   0.16   0.09   0.04   0.01\n[101]   0.00"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#creating-vectors-3",
+    "href": "Lecture_Folder/Week1.html#creating-vectors-3",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Creating vectors",
+    "text": "Creating vectors\n\nseq_square_new &lt;- (seq_2)^2\nprint(seq_square_new)\n\n  [1] 100.00  98.01  96.04  94.09  92.16  90.25  88.36  86.49  84.64  82.81\n [11]  81.00  79.21  77.44  75.69  73.96  72.25  70.56  68.89  67.24  65.61\n [21]  64.00  62.41  60.84  59.29  57.76  56.25  54.76  53.29  51.84  50.41\n [31]  49.00  47.61  46.24  44.89  43.56  42.25  40.96  39.69  38.44  37.21\n [41]  36.00  34.81  33.64  32.49  31.36  30.25  29.16  28.09  27.04  26.01\n [51]  25.00  24.01  23.04  22.09  21.16  20.25  19.36  18.49  17.64  16.81\n [61]  16.00  15.21  14.44  13.69  12.96  12.25  11.56  10.89  10.24   9.61\n [71]   9.00   8.41   7.84   7.29   6.76   6.25   5.76   5.29   4.84   4.41\n [81]   4.00   3.61   3.24   2.89   2.56   2.25   1.96   1.69   1.44   1.21\n [91]   1.00   0.81   0.64   0.49   0.36   0.25   0.16   0.09   0.04   0.01\n[101]   0.00"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#drawing-samples-from-distributions",
+    "href": "Lecture_Folder/Week1.html#drawing-samples-from-distributions",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Drawing samples from distributions",
+    "text": "Drawing samples from distributions\n\nHere is a way to create your own data sets that are random samples.\nAgain, play around with the arguments in the parentheses to see what happens."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-1",
+    "href": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Drawing samples from distributions",
+    "text": "Drawing samples from distributions\n\nx &lt;- rnorm (10000, 0, 10)\ny &lt;- sample (1:10000, 10000, replace = T)\nxy &lt;- cbind(x,y)\nplot(x,y)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-2",
+    "href": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-2",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Drawing samples from distributions",
+    "text": "Drawing samples from distributions\n\nx &lt;- rnorm (10000, 0, 10)\ny &lt;- sample (1:10000, 10000, replace = T)\nxy &lt;- cbind(x,y)\nplot(xy)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-3",
+    "href": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-3",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Drawing samples from distributions",
+    "text": "Drawing samples from distributions\n\nx &lt;- rnorm (10000, 0, 10)\ny &lt;- sample (1:10000, 10000, replace = T)\nxy &lt;- cbind(x,y)\nhist(x)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-4",
+    "href": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-4",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Drawing samples from distributions",
+    "text": "Drawing samples from distributions\n\nYou’ve probably figured out that y from the last example is drawing numbers with equal probability.\nWhat if you want to draw from a distribution?\nAgain, play around with the arguments in the parentheses to see what happens."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-5",
+    "href": "Lecture_Folder/Week1.html#drawing-samples-from-distributions-5",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Drawing samples from distributions",
+    "text": "Drawing samples from distributions\n\nx &lt;-rnorm(1000, 0, 100)\nhist(x, xlim = c(-500,500))\ncurve(50000*dnorm(x, 0, 100), xlim = c(-500,500), add=TRUE, col='Red')\n\n\n\n\n\n\n\n\n\ndnorm() generates the probability density, which can be plotted using the curve() function.\nNote that is curve is added to the plot using add=TRUE"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#visualizing-data",
+    "href": "Lecture_Folder/Week1.html#visualizing-data",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Visualizing Data",
+    "text": "Visualizing Data\n\nSo far you’ve been visualizing just the list of output numbers\nExcept for the last example where I snuck in a hist function.\nYou can also visualize all of the variables that you’ve created using the plot function (as well as a number of more sophisticated plotting functions).\nEach of these is called a high level plotting function, which sets the stage\nLow level plotting functions will tweak the plots and make them beautiful"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#visualizing-data-1",
+    "href": "Lecture_Folder/Week1.html#visualizing-data-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Visualizing Data",
+    "text": "Visualizing Data\n\nWhat do you think that each of the arguments means for the plot function?\nA cool thing about R is that the options for the arguments make sense.\nTry adjusting an argument and see if it works\nNote next week we will be exploring the plotting in GGPlot2"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#visualizing-data-2",
+    "href": "Lecture_Folder/Week1.html#visualizing-data-2",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Visualizing Data",
+    "text": "Visualizing Data\n\nseq_1 &lt;- seq(0.0, 10.0, by = 0.1) \nplot (seq_1, xlab=\"space\", ylab =\"function of space\", type = \"p\", col = \"red\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#putting-plots-in-a-single-figure",
+    "href": "Lecture_Folder/Week1.html#putting-plots-in-a-single-figure",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Putting plots in a single figure",
+    "text": "Putting plots in a single figure\n\nOn the next slide\nThe first line of the lower script tells R that you are going to create a composite figure that has two rows and two columns. Can you tell how?\nNow, modify the code to add two more variables and add one more row of two panels.\n\n\nseq_1 &lt;- seq(0.0, 10.0, by = 0.1)\nseq_2 &lt;- seq(10.0, 0.0, by = -0.1)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#putting-plots-in-a-single-figure-1",
+    "href": "Lecture_Folder/Week1.html#putting-plots-in-a-single-figure-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Putting plots in a single figure",
+    "text": "Putting plots in a single figure\n\npar(mfrow=c(2,2))\nplot (seq_1, xlab=\"time\", ylab =\"p in population 1\", type = \"p\", col = 'red')\nplot (seq_2, xlab=\"time\", ylab =\"p in population 2\", type = \"p\", col = 'green')\nplot (seq_square, xlab=\"time\", ylab =\"p2 in population 2\", type = \"p\", col = 'blue')\nplot (seq_square_new, xlab=\"time\", ylab =\"p in population 1\", type = \"l\", col = 'yellow')"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#example-using-binomial-distribution",
+    "href": "Lecture_Folder/Week1.html#example-using-binomial-distribution",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Example using binomial distribution",
+    "text": "Example using binomial distribution\n\nAs above for the normal distribution, data can be generated by being sampled from nearly any distribution and then visualized.\nBelow I’m having you use the ‘histogram’ function. What does it do?"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#example-using-binomial-distribution-1",
+    "href": "Lecture_Folder/Week1.html#example-using-binomial-distribution-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Example using binomial distribution",
+    "text": "Example using binomial distribution\n\n10 successes (out of 20 trials) is the most frequent outcome\n\n\nheads &lt;- rbinom(n=1000, size=20, prob=0.5)\nhist(heads)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#example-using-binomial-distribution-2",
+    "href": "Lecture_Folder/Week1.html#example-using-binomial-distribution-2",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Example using binomial distribution",
+    "text": "Example using binomial distribution\n\nThis kind of statement can be run in one line as well, which is sometimes easier.\n\n\nhist(rbinom(n=1000, size=20, prob=0.5))"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#creating-data-frames-in-r",
+    "href": "Lecture_Folder/Week1.html#creating-data-frames-in-r",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Creating Data Frames in R",
+    "text": "Creating Data Frames in R\n\nAs you have seen, in R you can generate your own random data set drawn from nearly any distribution very easily.\nOften we will want to use collected data.\nNow, let’s make a dummy dataset to get used to dealing with data frames\nSet up three variables (hydrogel_concentration, compression and conductivity) as vectors\n\n\nhydrogel_concentration &lt;- factor(c(\"low\", \"high\", \"high\", \"high\", \"medium\", \"medium\", \"medium\",\"low\"))\ncompression &lt;- c(3.4, 3.4, 8.4, 3, 5.6, 8.1, 8.3, 4.5)\nconductivity &lt;- c(0, 9.2, 3.8, 5, 5.6, 4.1, 7.1, 5.3)\n\n\nCreate a data frame where vectors become columns\n\n\nmydata &lt;- data.frame(hydrogel_concentration, compression, conductivity)\nrow.names(mydata) &lt;- c(\"Sample_1\", \"Sample_2\", \"Sample_3\", \"Sample_4\", \n                       \"Sample_5\", \"Sample_6\", \"Sample_7\", \"Sample_8\")\n\n\nNow you have a hand-made data frame with row names\nTake a look at it in the data section of RStudio"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#setting-your-working-directory",
+    "href": "Lecture_Folder/Week1.html#setting-your-working-directory",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Setting Your Working Directory",
+    "text": "Setting Your Working Directory\nThe working directory is the folder R looks in by default when reading or writing files:\n\n# Check your current working directory\ngetwd()\n\n# Set a new working directory\nsetwd(\"/path/to/your/folder\")\n\n# List files in working directory\nlist.files()\n\nIn RStudio (easier method):\n\nSession → Set Working Directory → Choose Directory\nOr use the Files pane: navigate to folder, then click “More” → “Set As Working Directory”\n\n\n\n\n\n\n\nTip\n\n\n\nUsing RStudio Projects (File → New Project) automatically sets your working directory and keeps your work organized"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#common-data-file-formats",
+    "href": "Lecture_Folder/Week1.html#common-data-file-formats",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Common Data File Formats",
+    "text": "Common Data File Formats\n\n\n\n\n\n\n\n\n\nFormat\nExtension\nSeparator\nNotes\n\n\n\n\nComma-separated\n.csv\n,\nMost common, works with Excel\n\n\nTab-separated\n.tsv or .txt\n\\t (tab)\nGood for data with commas in text\n\n\nPlain text\n.txt\nvaries\nCheck the file to see delimiter\n\n\nExcel\n.xlsx\nn/a\nUse readxl package\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nAlways check your imported data! Use head(), str(), or View() to verify it loaded correctly."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#reading-in-data-frames-in-r",
+    "href": "Lecture_Folder/Week1.html#reading-in-data-frames-in-r",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Reading in Data Frames in R",
+    "text": "Reading in Data Frames in R\n\nA strength of R is being able to import data from an external source\nThe sep argument specifies the delimiter (comma, tab, etc.)\nThe header argument indicates whether the first row contains column names\nUse row.names to specify which column contains row identifiers\n\n\n# Comma-separated file\ndata_csv &lt;- read.csv('yourfile.csv')\n\n# Tab-separated file  \ndata_tsv &lt;- read.table('yourfile.txt', header=TRUE, sep='\\t')\n\n# Excel file (requires readxl package)\nlibrary(readxl)\ndata_xlsx &lt;- read_excel('yourfile.xlsx')"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#exporting-data-frames-in-r",
+    "href": "Lecture_Folder/Week1.html#exporting-data-frames-in-r",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Exporting Data Frames in R",
+    "text": "Exporting Data Frames in R\nSave your data frames to files for sharing or later use:\n\n# Export as CSV\nwrite.csv(YourData, \"output.csv\", row.names = FALSE)\n\n# Export as tab-separated\nwrite.table(YourData, \"output.txt\", sep = \"\\t\", row.names = FALSE, quote = FALSE)\n\n# Using tidyverse (readr package)\nwrite_csv(YourData, \"output.csv\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#indexing-in-data-frames",
+    "href": "Lecture_Folder/Week1.html#indexing-in-data-frames",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Indexing in Data Frames",
+    "text": "Indexing in Data Frames\nIndexing lets you access specific parts of your data:\n\nUse [row, column] notation to select specific cells\nUse $ to access columns by name\nLeave row or column blank to select all\n\n\nprint (YourFile[,2])\nprint (YourFile$temp)\nprint (YourFile[2,])\nplot (YourFile$temp, YourFile$elevation)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#indexing-in-data-frames-1",
+    "href": "Lecture_Folder/Week1.html#indexing-in-data-frames-1",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Indexing in data frames",
+    "text": "Indexing in data frames\n\nYou can perform operations on particular levels of a factor\nCalculating the mean of the ‘mixed’ and ‘gipps’ levels of habitat.\nNote that the first argument is the numerical column vector, and the second is the factor column vector.\nThe third is the operation. Reversing the first two does not work (the one below).\n\n\ntapply(YourFile$temp, YourFile$habitat, mean)\ntapply(YourFile$temp, YourFile$habitat, var)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#understanding-pipes",
+    "href": "Lecture_Folder/Week1.html#understanding-pipes",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Understanding Pipes",
+    "text": "Understanding Pipes\nPipes let you chain operations together, reading left-to-right instead of inside-out:\n\n# Without pipes (nested - hard to read)\nround(mean(sqrt(c(1, 4, 9, 16))), 2)\n\n# With base R pipe |&gt; (R 4.1+)\nc(1, 4, 9, 16) |&gt; sqrt() |&gt; mean() |&gt; round(2)\n\n# With magrittr pipe %&gt;% (from tidyverse)\nc(1, 4, 9, 16) %&gt;% sqrt() %&gt;% mean() %&gt;% round(2)\n\n\n\n\n\n\n\nTip\n\n\n\nBoth |&gt; and %&gt;% do the same thing. You’ll see both in online examples. We’ll primarily use |&gt; in this course."
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#r-interlude-some-real-transcriptomic-data",
+    "href": "Lecture_Folder/Week1.html#r-interlude-some-real-transcriptomic-data",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "R INTERLUDE | Some real transcriptomic data",
+    "text": "R INTERLUDE | Some real transcriptomic data\n\nExamine the data file\nHow many many rows and columns are there?\nHow many different variables are there?\nWhat are the general types of variables?\nNow let’s read the data file into R and analyze it\nThis exercise will help you get used to reading in and manipulating genomic data files\nFirst off, remember to set your working directory to find your file correctly"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#some-real-transcriptomic-data",
+    "href": "Lecture_Folder/Week1.html#some-real-transcriptomic-data",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Some real transcriptomic data",
+    "text": "Some real transcriptomic data\n\nRNAseq_Data &lt;- read.table('&lt;name_of_file&gt;', header=TRUE, sep=',')\n\nprint (RNAseq_Data)\nhead (RNAseq_Data)\ntail (RNAseq_Data)\n\nprint (RNAseq_Data[,2])\nprint (RNAseq_Data[1,])\nprint (RNAseq_Data[1,2])\nprint (RNAseq_Data$ENSGACG00000000010)\nprint (RNAseq_Data$ENSGACG00000000010&gt;45.0)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#summary-stats-and-figures",
+    "href": "Lecture_Folder/Week1.html#summary-stats-and-figures",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Summary stats and figures",
+    "text": "Summary stats and figures\n\nsummary1 &lt;- summary(RNAseq_Data $ENSGACG00000000003)\nprint (summary1)\n\nhist(RNAseq_Data $ENSGACG00000000003)\nboxplot(RNAseq_Data$ENSGACG00000000003)\nboxplot(RNAseq_Data$ENSGACG00000000003~RNAseq_Data$Population)\nplot(RNAseq_Data $ENSGACG00000000003, RNAseq_Data$ENSGACG00000000003)\n\nboxplot(RNAseq_Data $ENSGACG00000000003~RNAseq_Data$Treatment, \n        col = \"red\", ylab = \"Expression Level\", xlab = \"Treatment level\", \n        border =\"orange\", \n        main = \"Boxplot of variation in gene expression across microbiota treatments\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#r-scripts-and-quarto-markdown-files",
+    "href": "Lecture_Folder/Week1.html#r-scripts-and-quarto-markdown-files",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "R scripts and Quarto Markdown files",
+    "text": "R scripts and Quarto Markdown files\n\nOften we want to write scripts that can just be run\nWe can also embed code in Markdown files that provide more annotations\nhttps://quarto.org/docs/authoring/markdown-basics.html\nYou can insert Rchunks into Quarto markdown documents"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#markdown-basics",
+    "href": "Lecture_Folder/Week1.html#markdown-basics",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Markdown basics",
+    "text": "Markdown basics\n\na very simplified way for standard typesetting\nsimple markdown can be rendered in numerous different ways\nLists, codeblocks, images and more can all be inserted"
+  },
+  {
+    "objectID": "Lecture_Folder/Week1.html#inserting-equations-in-markdown",
+    "href": "Lecture_Folder/Week1.html#inserting-equations-in-markdown",
+    "title": "Week 1 Statistics for Bioengineering",
+    "section": "Inserting equations in markdown",
+    "text": "Inserting equations in markdown\n$$e=mc^2$$\n\\[e=mc^2\\]\n$$\\iint\\limits_{a}^{b} f(x,y) \\, dx \\, dy$$\n\\[\\iint\\limits_{a}^{b} f(x,y) \\, dx \\, dy\\]"
   }
 ]
