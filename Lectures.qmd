@@ -1,5 +1,3 @@
 ---
 title: "Lectures"
 ---
-
-[Lecture_1a](Lecture_Folder/Week1a.qmd)
