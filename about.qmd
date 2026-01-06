@@ -21,7 +21,7 @@ title: "About"
 
 |                      |                               |
 |----------------------|-------------------------------|
-| Class times          | Tuesday/Thursday 4:00 to 5:20 |
+| Class times          | Tuesday/Thursday 4:00 to 5:50 |
 | Class room           | KC107                         |
 | Office Hours         | Monday 3:30 to 4:30           |
 | Office hour location | TBD                           |
