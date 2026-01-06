@@ -11,11 +11,11 @@ title: "About"
 
 ## Instructor information
 
-|            |                                    |
-|------------|------------------------------------|
-| Instructor | Bill Cresko                        |
+|            |                                  |
+|------------|----------------------------------|
+| Instructor | Bill Cresko                      |
 | Offices    | M306 KC East Tower & Pacific 312 |
-| e-mail     | wcresko\@uoregon.edu               |
+| e-mail     | wcresko\@uoregon.edu             |
 
 ## Class information
 
@@ -26,10 +26,9 @@ title: "About"
 | Office Hours         | Monday 3:30 to 4:30           |
 | Office hour location | TBD                           |
 
-
 ## Online Course Resources
 
--   We will be using Canvas as well as this GitHub Pages website (https://wcresko.github.io/BioE_Stats/).
+-   We will be using Canvas as well as this GitHub Pages website (https://wcresko.github.io/BioE_Stats_Wi2026/).
 -   To access our course Canvas site, log into canvas.uoregon.edu using your DuckID.
 -   If you have questions about using Canvas, visit the Canvas support page.
 -   Canvas and Technology Support also is available by phone (541-346-4357) or by live chat.

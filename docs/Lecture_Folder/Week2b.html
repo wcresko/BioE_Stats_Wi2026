@@ -8,7 +8,7 @@
 
 <meta name="author" content="Bill Cresko">
 
-<title>Week 2b - Statistics for Bioengineering – BioEngineering Statistics Spring 2025</title>
+<title>Week 2b - Statistics for Bioengineering – BioEngineering Statistics Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">BioEngineering Statistics Spring 2025</span>
+    <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -279,6 +279,35 @@ window.Quarto = {
 </header>
 
 
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gt' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="today-we-will" class="level2">
 <h2 class="anchored" data-anchor-id="today-we-will">Today we will</h2>
 <ul>
@@ -320,8 +349,8 @@ Note
 <section id="formatting-text" class="level2">
 <h2 class="anchored" data-anchor-id="formatting-text">Formatting text</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span>Italic<span class="sc">*</span> or _Italic_</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">**</span>Bold<span class="sc">**</span> or __Bold__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span>Italic<span class="sc">*</span> or _Italic_</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="sc">**</span>Bold<span class="sc">**</span> or __Bold__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><em>Italic</em> or <em>Italic</em></li>
@@ -331,10 +360,10 @@ Note
 <section id="formatting-text-1" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="formatting-text-1">Formatting text</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="st">"You know the greatest danger facing us is ourselves, an irrational fear of the unknown. </span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">But there’s no such thing as the unknown — only things temporarily hidden, temporarily not understood."</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> <span class="sc">---</span> Captain James T. Kirk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="st">"You know the greatest danger facing us is ourselves, an irrational fear of the unknown. </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">But there’s no such thing as the unknown — only things temporarily hidden, temporarily not understood."</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> <span class="sc">---</span> Captain James T. Kirk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p>“You know the greatest danger facing us is ourselves, an irrational fear of the unknown. But there’s no such thing as the unknown — only things temporarily hidden, temporarily not understood.”</p>
@@ -344,13 +373,13 @@ Note
 <section id="formatting-lists" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="formatting-lists">Formatting lists</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> list_element</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> sub_list_element <span class="co">#double tab to indent</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> sub_list_element <span class="co">#double tab to indent</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> sub_list_element <span class="co">#double tab to indent</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> list_element</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> sub_list_element <span class="co">#double tab to indent</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#note the space after each dash- this is important!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> list_element</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> sub_list_element <span class="co">#double tab to indent</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> sub_list_element <span class="co">#double tab to indent</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> sub_list_element <span class="co">#double tab to indent</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span> list_element</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span> sub_list_element <span class="co">#double tab to indent</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#note the space after each dash- this is important!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>list_element
@@ -368,10 +397,10 @@ Note
 <section id="formatting-lists-1" class="level2">
 <h2 class="anchored" data-anchor-id="formatting-lists-1">Formatting lists</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.</span> One</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fl">2.</span> Two</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fl">3.</span> Three</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fl">4.</span> Four</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.</span> One</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fl">2.</span> Two</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fl">3.</span> Three</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fl">4.</span> Four</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="1">
 <li>One</li>
@@ -383,16 +412,16 @@ Note
 <section id="inserting-images-or-urls" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="inserting-images-or-urls">Inserting images or URLs</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>[Link](https<span class="sc">:</span><span class="er">//</span>commonmark.org<span class="sc">/</span>help<span class="sc">/</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span>[Image](https<span class="sc">:</span><span class="er">//</span>i1.wp.com<span class="sc">/</span>evomics.org<span class="sc">/</span>wp<span class="sc">-</span>content<span class="sc">/</span>uploads<span class="sc">/</span><span class="dv">2012</span><span class="sc">/</span><span class="dv">07</span><span class="sc">/</span><span class="dv">20120115</span><span class="sc">-</span>IMG_0297.jpg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>[Link](https<span class="sc">:</span><span class="er">//</span>commonmark.org<span class="sc">/</span>help<span class="sc">/</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span>[Image](https<span class="sc">:</span><span class="er">//</span>i1.wp.com<span class="sc">/</span>evomics.org<span class="sc">/</span>wp<span class="sc">-</span>content<span class="sc">/</span>uploads<span class="sc">/</span><span class="dv">2012</span><span class="sc">/</span><span class="dv">07</span><span class="sc">/</span><span class="dv">20120115</span><span class="sc">-</span>IMG_0297.jpg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a href="https://commonmark.org/help/">Link</a> <img src="https://i1.wp.com/evomics.org/wp-content/uploads/2012/07/20120115-IMG_0297.jpg" class="img-fluid" alt="Image"></p>
 </section>
 <section id="including-code-chunks" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="including-code-chunks">Including code chunks</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>x<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
@@ -414,22 +443,22 @@ Note
 <section id="operators-and-symbols" class="level2">
 <h2 class="anchored" data-anchor-id="operators-and-symbols">Operators and Symbols</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span> \large a<span class="sc">^</span>x, \sqrt[n]{x}, \vec{\jmath}, \tilde{\imath}<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span> \large a<span class="sc">^</span>x, \sqrt[n]{x}, \vec{\jmath}, \tilde{\imath}<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[ \large a^x, \sqrt[n]{x}, \vec{\jmath}, \tilde{\imath}\]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span> \large \alpha, \beta, \gamma<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span> \large \alpha, \beta, \gamma<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[ \large \alpha, \beta, \gamma\]</span></p>
 </section>
 <section id="operators-and-symbols-1" class="level2">
 <h2 class="anchored" data-anchor-id="operators-and-symbols-1">Operators and Symbols</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span> \large\approx, \neq, \nsim <span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span> \large\approx, \neq, \nsim <span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[ \large\approx, \neq, \nsim \]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\large \partial, \mathbb{R}, \flat<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\large \partial, \mathbb{R}, \flat<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[\large \partial, \mathbb{R}, \flat\]</span></p>
 </section>
@@ -437,33 +466,33 @@ Note
 <h2 class="smaller anchored" data-anchor-id="equations">Equations</h2>
 <p>Binomial sampling equation</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\large <span class="fu">f</span>(k) <span class="ot">=</span> {n \choose k} p<span class="sc">^</span>{k} (<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">^</span>{n<span class="sc">-</span>k}<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\large <span class="fu">f</span>(k) <span class="ot">=</span> {n \choose k} p<span class="sc">^</span>{k} (<span class="dv">1</span><span class="sc">-</span>p)<span class="sc">^</span>{n<span class="sc">-</span>k}<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[\large f(k) = {n \choose k} p^{k} (1-p)^{n-k}\]</span></p>
 <p>Poisson Sampling Equation</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\large <span class="fu">Pr</span>(<span class="at">Y=</span>r) <span class="ot">=</span> \frac{e<span class="sc">^</span>{<span class="sc">-</span>\mu}\mu<span class="sc">^</span>r}{r<span class="sc">!</span>}<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\large <span class="fu">Pr</span>(<span class="at">Y=</span>r) <span class="ot">=</span> \frac{e<span class="sc">^</span>{<span class="sc">-</span>\mu}\mu<span class="sc">^</span>r}{r<span class="sc">!</span>}<span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[\large Pr(Y=r) = \frac{e^{-\mu}\mu^r}{r!}\]</span></p>
 </section>
 <section id="differential-equations" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="differential-equations">Differential Equations</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\iint xy<span class="sc">^</span><span class="dv">2</span>\,dx\,dy <span class="ot">=</span>\frac{<span class="dv">1</span>}{<span class="dv">6</span>}x<span class="sc">^</span><span class="dv">2</span>y<span class="sc">^</span><span class="dv">3</span><span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\iint xy<span class="sc">^</span><span class="dv">2</span>\,dx\,dy <span class="ot">=</span>\frac{<span class="dv">1</span>}{<span class="dv">6</span>}x<span class="sc">^</span><span class="dv">2</span>y<span class="sc">^</span><span class="dv">3</span><span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[\iint xy^2\,dx\,dy =\frac{1}{6}x^2y^3\]</span></p>
 </section>
 <section id="matrix-formulations" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="matrix-formulations">Matrix formulations</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>  \begin{matrix}</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> \cdots <span class="sc">&amp;</span> <span class="dv">0</span>  \\</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> \cdots <span class="sc">&amp;</span> <span class="dv">0</span>  \\</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> \cdots <span class="sc">&amp;</span> <span class="dv">0</span>  \\</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> \ddots <span class="sc">&amp;</span> \vdots \\</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        \vdots <span class="sc">&amp;</span> \vdots <span class="sc">&amp;</span> \vdots <span class="sc">&amp;</span> \ddots <span class="sc">&amp;</span> \ddots <span class="sc">&amp;</span> <span class="dv">1</span>  \\</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> \cdots <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">2</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    \end{matrix} <span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>  \begin{matrix}</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> \cdots <span class="sc">&amp;</span> <span class="dv">0</span>  \\</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> \cdots <span class="sc">&amp;</span> <span class="dv">0</span>  \\</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> \cdots <span class="sc">&amp;</span> <span class="dv">0</span>  \\</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> \ddots <span class="sc">&amp;</span> \vdots \\</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        \vdots <span class="sc">&amp;</span> \vdots <span class="sc">&amp;</span> \vdots <span class="sc">&amp;</span> \ddots <span class="sc">&amp;</span> \ddots <span class="sc">&amp;</span> <span class="dv">1</span>  \\</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="dv">0</span> <span class="sc">&amp;</span> \cdots <span class="sc">&amp;</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    \end{matrix} <span class="sc">$</span><span class="er">$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[  \begin{matrix}
         -2 &amp; 1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0  \\
@@ -477,11 +506,11 @@ Note
 <section id="in-line-versus-fenced" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="in-line-versus-fenced">In-line versus fenced</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>This equation, <span class="sc">$</span>y<span class="ot">=</span>\frac{<span class="dv">1</span>}{<span class="dv">2</span>}<span class="sc">$</span>, is included inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>This equation, <span class="sc">$</span>y<span class="ot">=</span>\frac{<span class="dv">1</span>}{<span class="dv">2</span>}<span class="sc">$</span>, is included inline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This equation, <span class="math inline">\(y=\frac{1}{2}\)</span>, is included inline</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Whereas this equation, <span class="sc">$</span><span class="er">$</span>y<span class="ot">=</span>\frac{<span class="dv">1</span>}{<span class="dv">2</span>}<span class="sc">$</span><span class="er">$</span>, is put on a separate line</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Whereas this equation, <span class="sc">$</span><span class="er">$</span>y<span class="ot">=</span>\frac{<span class="dv">1</span>}{<span class="dv">2</span>}<span class="sc">$</span><span class="er">$</span>, is put on a separate line</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Whereas this equation <span class="math display">\[y=\frac{1}{2}\]</span> is put on a separate line</p>
 </section>
@@ -508,15 +537,15 @@ Note
 <br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>YourFile <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'yourfile.csv'</span>, <span class="at">header=</span>T, <span class="at">row.names=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">','</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>YourFile <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'yourfile.txt'</span>, <span class="at">header=</span>T, <span class="at">row.names=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">'</span><span class="sc">\t</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>YourFile <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'yourfile.csv'</span>, <span class="at">header=</span>T, <span class="at">row.names=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">','</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>YourFile <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'yourfile.txt'</span>, <span class="at">header=</span>T, <span class="at">row.names=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">'</span><span class="sc">\t</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 <br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(YourFile, <span class="st">"yourfile.csv"</span>, <span class="at">quote=</span>F, <span class="at">row.names=</span>T, <span class="at">sep=</span><span class="st">","</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(YourFile, <span class="st">"yourfile.txt"</span>, <span class="at">quote=</span>F, <span class="at">row.names=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(YourFile, <span class="st">"yourfile.csv"</span>, <span class="at">quote=</span>F, <span class="at">row.names=</span>T, <span class="at">sep=</span><span class="st">","</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(YourFile, <span class="st">"yourfile.txt"</span>, <span class="at">quote=</span>F, <span class="at">row.names=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="indexing-in-data-frames" class="level2 flexbox vcenter">
@@ -527,10 +556,10 @@ Note
 <li>This is analyzing only the data in the file you made that has the factor value ‘mixed’.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> (YourFile[,<span class="dv">2</span>])</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> (YourFile<span class="sc">$</span>variable)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> (YourFile[<span class="dv">2</span>,])</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span> (YourFile<span class="sc">$</span>variable1, YourFile<span class="sc">$</span>variable2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> (YourFile[,<span class="dv">2</span>])</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> (YourFile<span class="sc">$</span>variable)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span> (YourFile[<span class="dv">2</span>,])</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span> (YourFile<span class="sc">$</span>variable1, YourFile<span class="sc">$</span>variable2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="types-of-vectors-of-data" class="level2 smaller">
@@ -620,8 +649,8 @@ Note
 <li>Install and load <code>ggplot2</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggplot2")</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggplot2")</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="scatterplots-with-ggplot" class="level2">
@@ -630,14 +659,14 @@ Note
 <li>Use the preloaded <code>mpg</code> dataset available in RStudio</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(displ, hwy, <span class="at">color =</span> class)) <span class="sc">+</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">6</span>,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="st">"square"</span>,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(displ, hwy, <span class="at">color =</span> class)) <span class="sc">+</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">6</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="st">"square"</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Week2b_files/figure-revealjs/unnamed-chunk-23-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+<p><img src="Week2b_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
 </figure>
 </div>
 </div>
@@ -646,14 +675,14 @@ Note
 <section id="boxplots-in-ggplot" class="level2">
 <h2 class="anchored" data-anchor-id="boxplots-in-ggplot">Boxplots in <code>ggplot</code></h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(manufacturer, hwy, <span class="at">colour =</span> class)) <span class="sc">+</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(manufacturer, hwy, <span class="at">colour =</span> class)) <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Week2b_files/figure-revealjs/unnamed-chunk-24-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+<p><img src="Week2b_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
 </figure>
 </div>
 </div>
@@ -662,96 +691,99 @@ Note
 <section id="the-geom_bar-function" class="level2 flexbox vcenter">
 <h2 class="flexbox vcenter anchored" data-anchor-id="the-geom_bar-function">The <code>geom_bar</code> function</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now try this…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">color=</span>cut))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">color=</span>cut))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and this…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>cut))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>cut))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and finally this…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>clarity), <span class="at">position=</span><span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">fill=</span>clarity), <span class="at">position=</span><span class="st">"dodge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-geom_histogram-and-geom_freqpolyfunction" class="level2 flexbox vcenter">
 <h2 class="flexbox vcenter anchored" data-anchor-id="the-geom_histogram-and-geom_freqpolyfunction">The <code>geom_histogram</code> and <code>geom_freqpoly</code>function</h2>
 <p>With this function you can make a histogram</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>carat), <span class="at">binwidth=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>carat), <span class="at">binwidth=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This allows you to make a frequency polygram</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>carat), <span class="at">binwidth=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>carat), <span class="at">binwidth=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-geom_boxplot-function" class="level2 flexbox vcenter">
 <h2 class="flexbox vcenter anchored" data-anchor-id="the-geom_boxplot-function">The <code>geom_boxplot</code> function</h2>
 <p>Boxplots are very useful for visualizing data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">y=</span>price)) <span class="sc">+</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>cut, <span class="at">y=</span>price)) <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(class, hwy, <span class="at">FUN=</span>median), <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coordflip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(class, hwy, <span class="at">FUN=</span>median), <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coordflip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>class, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  coordflip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>class, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  coordflip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-geom_point-geom_smooth-functions" class="level2 flexbox vcenter">
 <h2 class="flexbox vcenter anchored" data-anchor-id="the-geom_point-geom_smooth-functions">The <code>geom_point</code> &amp; <code>geom_smooth</code> functions</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds2, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geompoint</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>diamonds2, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y)) <span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geompoint</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geompoint</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>class, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geompoint</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>class, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geompoint</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(drv<span class="sc">~</span>cyl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geompoint</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(drv<span class="sc">~</span>cyl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geomsmooth</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geomsmooth</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="combining-geoms" class="level2 flexbox vcenter">
 <h2 class="flexbox vcenter anchored" data-anchor-id="combining-geoms">Combining geoms</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Week2b_files/figure-revealjs/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="Week2b_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -760,17 +792,20 @@ Note
 <section id="adding-labels" class="level2 flexbox vcenter">
 <h2 class="flexbox vcenter anchored" data-anchor-id="adding-labels">Adding labels</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="fu">aes</span>(displ, hwy)) <span class="sc">+</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>class)) <span class="sc">+</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Fuel efficiency generally decreases with engine size"</span>,</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data from fueleconomy.gov"</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="fu">aes</span>(displ, hwy)) <span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>class)) <span class="sc">+</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Fuel efficiency generally decreases with engine size"</span>,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data from fueleconomy.gov"</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Week2b_files/figure-revealjs/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="Week2b_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -790,44 +825,6 @@ Note
 </section>
 
 </main> <!-- /main -->
-
-<script>
-  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-  // slide changes (different for each slide format).
-  (function () {
-    // dispatch for htmlwidgets
-    function fireSlideEnter() {
-      const event = window.document.createEvent("Event");
-      event.initEvent("slideenter", true, true);
-      window.document.dispatchEvent(event);
-    }
-
-    function fireSlideChanged(previousSlide, currentSlide) {
-      fireSlideEnter();
-
-      // dispatch for shiny
-      if (window.jQuery) {
-        if (previousSlide) {
-          window.jQuery(previousSlide).trigger("hidden");
-        }
-        if (currentSlide) {
-          window.jQuery(currentSlide).trigger("shown");
-        }
-      }
-    }
-
-    // hookup for slidy
-    if (window.w3c_slidy) {
-      window.w3c_slidy.add_observer(function (slide_num) {
-        // slide_num starts at position 1
-        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-      });
-    }
-
-  })();
-</script>
-
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

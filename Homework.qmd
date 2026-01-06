@@ -3,12 +3,3 @@ title: "Homeworks"
 ---
 
 [Homework 1](Homework_Folder/HW1_2025.qmd)
-
-[Homework 2](Homework_Folder/HW2_2025.qmd)
-
-[Homework 3](Homework_Folder/HW3_2025.qmd)
-
-[Homework 4](Homework_Folder/HW4_2025.qmd)
-
-[Term Project](Homework_Folder/Term_Project.qmd)
-

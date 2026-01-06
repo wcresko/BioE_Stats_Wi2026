@@ -8,7 +8,7 @@
 
 <meta name="author" content="Bill Cresko">
 
-<title>Week 4b - Statistics for Bioengineering – BioEngineering Statistics Spring 2025</title>
+<title>Week 4b - Statistics for Bioengineering – BioEngineering Statistics Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">BioEngineering Statistics Spring 2025</span>
+    <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -334,21 +334,33 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights23)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gt' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights23)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="sampling-parameter-estimation-error-and-power" class="level1">
 <h1>Sampling, parameter estimation, error and power</h1>
@@ -375,39 +387,39 @@ window.Quarto = {
 <section id="sample-size-of-10" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-10">Sample size of 10</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">lambda =</span> <span class="dv">3</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>samps_var_10 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="dv">10</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>samps_var_means_10 <span class="ot">&lt;-</span> <span class="fu">apply</span>(samps_var_10, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">lambda =</span> <span class="dv">3</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>samps_var_10 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="dv">10</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>samps_var_means_10 <span class="ot">&lt;-</span> <span class="fu">apply</span>(samps_var_10, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sample-size-of-100" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-100">Sample size of 100</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">lambda =</span> <span class="dv">3</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>samps_var_1000 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="dv">100</span>))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>samps_var_means_100 <span class="ot">&lt;-</span> <span class="fu">apply</span>(samps_var_1000, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">lambda =</span> <span class="dv">3</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>samps_var_1000 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="dv">100</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>samps_var_means_100 <span class="ot">&lt;-</span> <span class="fu">apply</span>(samps_var_1000, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sample-size-of-1000" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-1000">Sample size of 1000</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">lambda =</span> <span class="dv">3</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>samps_var_1000 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="dv">1000</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>samps_var_means_1000 <span class="ot">&lt;-</span> <span class="fu">apply</span>(samps_var_1000, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">lambda =</span> <span class="dv">3</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>samps_var_1000 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="dv">1000</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>samps_var_means_1000 <span class="ot">&lt;-</span> <span class="fu">apply</span>(samps_var_1000, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="statistics-for-original-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="statistics-for-original-distribution">Statistics for original distribution</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(true_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(true_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  0 12</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(true_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(true_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   0.000   2.000   3.000   2.982   4.000  12.000 </code></pre>
@@ -416,7 +428,7 @@ window.Quarto = {
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(true_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(true_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -431,11 +443,11 @@ window.Quarto = {
 <section id="sample-size-of-10-1" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-10-1">Sample size of 10</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(samps_var_means_10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(samps_var_means_10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.9 4.0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samps_var_means_10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samps_var_means_10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
     1.9     2.6     2.9     2.9     3.3     4.0 </code></pre>
@@ -445,11 +457,11 @@ window.Quarto = {
 <section id="sample-size-of-100-1" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-100-1">Sample size of 100</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(samps_var_means_100)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(samps_var_means_100)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.66 3.26</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samps_var_means_100)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samps_var_means_100)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   2.660   2.835   2.950   2.967   3.070   3.260 </code></pre>
@@ -459,11 +471,11 @@ window.Quarto = {
 <section id="sample-size-of-1000-1" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-1000-1">Sample size of 1000</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(samps_var_means_1000)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(samps_var_means_1000)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.886 3.072</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samps_var_means_1000)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samps_var_means_1000)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   2.886   2.941   2.985   2.976   3.005   3.072 </code></pre>
@@ -476,7 +488,7 @@ window.Quarto = {
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(true_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(true_pop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -487,7 +499,7 @@ window.Quarto = {
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samps_var_means_10, <span class="at">xlim =</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samps_var_means_10, <span class="at">xlim =</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -498,7 +510,7 @@ window.Quarto = {
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samps_var_means_100, <span class="at">xlim =</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samps_var_means_100, <span class="at">xlim =</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -509,7 +521,7 @@ window.Quarto = {
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samps_var_means_1000, <span class="at">xlim =</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(samps_var_means_1000, <span class="at">xlim =</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -537,8 +549,8 @@ window.Quarto = {
 <section id="percentiles-and-quantiles-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="percentiles-and-quantiles-in-r">Percentiles and quantiles in R</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data_RNAseq <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(data_RNAseq<span class="sc">$</span>Gene20, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data_RNAseq <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(data_RNAseq<span class="sc">$</span>Gene20, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  25%   50%   75% 
  2.00  3.50 21.25 </code></pre>
@@ -547,8 +559,8 @@ window.Quarto = {
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data_RNAseq <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_RNAseq<span class="sc">$</span>Gene20)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data_RNAseq <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_RNAseq<span class="sc">$</span>Gene20)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    0.00    2.00    3.50   13.11   21.25   44.00 </code></pre>
@@ -557,9 +569,9 @@ window.Quarto = {
 <p><br>
 </p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>data_RNAseq <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>data_RNAseq<span class="sc">$</span>Gene20 <span class="sc">|&gt;</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>data_RNAseq <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>data_RNAseq<span class="sc">$</span>Gene20 <span class="sc">|&gt;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    0.00    2.00    3.50   13.11   21.25   44.00 </code></pre>
@@ -584,8 +596,8 @@ window.Quarto = {
 <section id="sample-size-of-10-2" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-10-2">Sample size of 10</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>samps_var_means_10 <span class="sc">|&gt;</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>samps_var_means_10 <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  2.5%  97.5% 
 1.9675 3.6775 </code></pre>
@@ -595,8 +607,8 @@ window.Quarto = {
 <section id="sample-size-of-100-2" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-100-2">Sample size of 100</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>samps_var_means_100 <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>samps_var_means_100 <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   2.5%   97.5% 
 2.70225 3.24775 </code></pre>
@@ -606,8 +618,8 @@ window.Quarto = {
 <section id="sample-size-of-1000-2" class="level3">
 <h3 class="anchored" data-anchor-id="sample-size-of-1000-2">Sample size of 1000</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>samps_var_means_1000 <span class="sc">|&gt;</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>samps_var_means_1000 <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5%    97.5% 
 2.892575 3.068750 </code></pre>
@@ -860,9 +872,9 @@ window.Quarto = {
 <li>Use the below code to set up two simulated populations:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">518</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>pop1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">100</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>pop2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean=</span><span class="dv">5</span>, <span class="at">sd=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">518</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>pop1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">100</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>pop2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean=</span><span class="dv">5</span>, <span class="at">sd=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="lets-try-it-out-1" class="level2">
@@ -870,7 +882,7 @@ window.Quarto = {
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop1, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop1, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -881,7 +893,7 @@ window.Quarto = {
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop2, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop2, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -900,8 +912,8 @@ window.Quarto = {
 <li>How do we interpret this? How would you write this conclusion as a sentence?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(pop1, pop2)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(data<span class="sc">$</span>continuous, data<span class="sc">$</span>categorical)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(pop1, pop2)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(data<span class="sc">$</span>continuous, data<span class="sc">$</span>categorical)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="now-for-the-t-test-1" class="level2">
@@ -909,7 +921,7 @@ window.Quarto = {
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(pop1, pop2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(pop1, pop2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -926,8 +938,8 @@ mean of x mean of y
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>ttest_output <span class="ot">&lt;-</span> <span class="fu">t.test</span>(pop1, pop2)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ttest_output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>ttest_output <span class="ot">&lt;-</span> <span class="fu">t.test</span>(pop1, pop2)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ttest_output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -975,9 +987,9 @@ mean of x mean of y
 <section id="lets-try-it-out-2" class="level2">
 <h2 class="anchored" data-anchor-id="lets-try-it-out-2">Let’s try it out</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">518</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>pop1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">100</span>)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>pop2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean=</span><span class="dv">5</span>, <span class="at">sd=</span><span class="fl">1.5</span>), <span class="at">size =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">518</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>pop1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">100</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>pop2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">10000</span>, <span class="at">mean=</span><span class="dv">5</span>, <span class="at">sd=</span><span class="fl">1.5</span>), <span class="at">size =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-mann-whit-u-test" class="level2">
@@ -991,7 +1003,7 @@ mean of x mean of y
 <section id="the-mann-whit-u-test-1" class="level2">
 <h2 class="anchored" data-anchor-id="the-mann-whit-u-test-1">The Mann Whit U Test</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(pop1, pop2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(pop1, pop2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Wilcoxon rank sum test with continuity correction
@@ -1025,12 +1037,12 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <section id="lets-do-it---the-starting-populations" class="level2">
 <h2 class="anchored" data-anchor-id="lets-do-it---the-starting-populations">Let’s do it - the starting populations</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">56</span>)</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>pop_1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">50</span>, <span class="at">mean=</span><span class="fl">20.1</span>, <span class="at">sd=</span><span class="dv">2</span>)<span class="co">#simulate population 1 for this example</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>pop_2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">50</span>, <span class="at">mean=</span><span class="fl">19.3</span>, <span class="at">sd=</span><span class="dv">2</span>)<span class="co">#simulate population 2 for this example</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">56</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>pop_1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">50</span>, <span class="at">mean=</span><span class="fl">20.1</span>, <span class="at">sd=</span><span class="dv">2</span>)<span class="co">#simulate population 1 for this example</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>pop_2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">50</span>, <span class="at">mean=</span><span class="fl">19.3</span>, <span class="at">sd=</span><span class="dv">2</span>)<span class="co">#simulate population 2 for this example</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1038,7 +1050,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pop_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1051,28 +1063,28 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <section id="calculate-the-t-test" class="level2">
 <h2 class="anchored" data-anchor-id="calculate-the-t-test">Calculate the t-test</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the t statistic calculated from our samples, using t.test()</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>t_obs <span class="ot">&lt;-</span> <span class="fu">t.test</span>(<span class="at">x=</span>pop_1, <span class="at">y=</span>pop_2, <span class="at">alternative=</span><span class="st">"greater"</span>)<span class="sc">$</span>statistic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the t statistic calculated from our samples, using t.test()</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>t_obs <span class="ot">&lt;-</span> <span class="fu">t.test</span>(<span class="at">x=</span>pop_1, <span class="at">y=</span>pop_2, <span class="at">alternative=</span><span class="st">"greater"</span>)<span class="sc">$</span>statistic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="combine-the-populations-sample-from-that-and-calculate-t-tests" class="level2">
 <h2 class="anchored" data-anchor-id="combine-the-populations-sample-from-that-and-calculate-t-tests">Combine the populations, sample from that, and calculate t-tests</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine both population vectors into one</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>pops_comb <span class="ot">&lt;-</span> <span class="fu">c</span>(pop_1, pop_2)</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Randomly shuffle and calculate t statistic 1000 times</span></span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>t_rand <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  pops_shuf <span class="ot">&lt;-</span> <span class="fu">sample</span>(pops_comb)</span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(<span class="at">x=</span>pops_shuf[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>], <span class="at">y=</span>pops_shuf[<span class="dv">51</span><span class="sc">:</span><span class="dv">100</span>], <span class="at">alternative=</span><span class="st">"greater"</span>)<span class="sc">$</span>statistic</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine both population vectors into one</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>pops_comb <span class="ot">&lt;-</span> <span class="fu">c</span>(pop_1, pop_2)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Randomly shuffle and calculate t statistic 1000 times</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>t_rand <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  pops_shuf <span class="ot">&lt;-</span> <span class="fu">sample</span>(pops_comb)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t.test</span>(<span class="at">x=</span>pops_shuf[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>], <span class="at">y=</span>pops_shuf[<span class="dv">51</span><span class="sc">:</span><span class="dv">100</span>], <span class="at">alternative=</span><span class="st">"greater"</span>)<span class="sc">$</span>statistic</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plot-the-null-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="plot-the-null-distribution">Plot the null distribution</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the "null distribution" from the randomization-based t-values</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(t_rand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the "null distribution" from the randomization-based t-values</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(t_rand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1100,11 +1112,11 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <li>How do we interpret this?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the p-value for the test as the number of randomization t-values greater</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># than or equal to our actual t-value observed from the data</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">sum</span>(t_rand<span class="sc">&gt;=</span>t_obs)<span class="sc">/</span><span class="dv">1000</span></span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the p-value for the test as the number of randomization t-values greater</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># than or equal to our actual t-value observed from the data</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">sum</span>(t_rand<span class="sc">&gt;=</span>t_obs)<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.016</code></pre>
 </div>
@@ -1211,14 +1223,14 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <section id="step-1-simulating-our-true-populations-1" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-simulating-our-true-populations-1">Step 1: simulating our true populations</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>senior <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">5000</span>, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>fresh <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">5000</span>, <span class="at">lambda =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>senior <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">5000</span>, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>fresh <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">5000</span>, <span class="at">lambda =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-1-simulating-our-true-populations-2" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-simulating-our-true-populations-2">Step 1: simulating our true populations</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(senior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(senior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1226,7 +1238,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(fresh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(fresh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1239,14 +1251,14 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <section id="step-2-drawing-a-sample" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-drawing-a-sample">Step 2: drawing a sample</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>sample_s <span class="ot">&lt;-</span> <span class="fu">sample</span>(senior, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>sample_f <span class="ot">&lt;-</span> <span class="fu">sample</span>(fresh, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>sample_s <span class="ot">&lt;-</span> <span class="fu">sample</span>(senior, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>sample_f <span class="ot">&lt;-</span> <span class="fu">sample</span>(fresh, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-2-drawing-a-sample-1" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-drawing-a-sample-1">Step 2: drawing a sample</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1254,7 +1266,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample_f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample_f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1267,7 +1279,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <section id="step-3-statistical-test" class="level2">
 <h2 class="anchored" data-anchor-id="step-3-statistical-test">Step 3: statistical test</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(sample_f, sample_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(sample_f, sample_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -1289,22 +1301,22 @@ mean of x mean of y
 <li>Take a look at the “samps_var” vectors, how are they arranged? How would we begin conducting t-tests using each replicate from the two populations?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="do">## sample size of 10</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>samps_var_s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(senior, <span class="at">size =</span> <span class="dv">10</span>))</span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>samps_var_f <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(fresh, <span class="at">size =</span> <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="do">## sample size of 10</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>samps_var_s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(senior, <span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>samps_var_f <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(fresh, <span class="at">size =</span> <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="step-4-testing-our-replicates" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-testing-our-replicates">Step 4: Testing our replicates</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setting up a "test" dataframe</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>tests<span class="sc">$</span>SampleSize <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"10"</span>, <span class="dv">100</span>)</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(samps_var_f)){</span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  tests<span class="sc">$</span>result[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samps_var_s[,i], samps_var_f[,i])<span class="sc">$</span>p.value</span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(tests<span class="sc">$</span>result <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setting up a "test" dataframe</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>tests<span class="sc">$</span>SampleSize <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"10"</span>, <span class="dv">100</span>)</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(samps_var_f)){</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  tests<span class="sc">$</span>result[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samps_var_s[,i], samps_var_f[,i])<span class="sc">$</span>p.value</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(tests<span class="sc">$</span>result <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 FALSE  TRUE 
@@ -1321,23 +1333,23 @@ FALSE  TRUE
 <li>Requires a more complex for loop</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="co"># using seq to set up the sample sizes</span></span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)){</span>
-<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>  samps_var_s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(senior, <span class="at">size =</span> x))</span>
-<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>  samps_var_f <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(fresh, <span class="at">size =</span> x))</span>
-<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>  tests <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
-<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>  tests<span class="sc">$</span>SampleSize <span class="ot">&lt;-</span> <span class="fu">rep</span>(x, <span class="dv">100</span>)</span>
-<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
-<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>    tests<span class="sc">$</span>p.value[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samps_var_s[,i], samps_var_f[,i])<span class="sc">$</span>p.value</span>
-<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(results, tests)</span>
-<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co"># using seq to set up the sample sizes</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)){</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>  samps_var_s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(senior, <span class="at">size =</span> x))</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>  samps_var_f <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(fresh, <span class="at">size =</span> x))</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>  tests <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>  tests<span class="sc">$</span>SampleSize <span class="ot">&lt;-</span> <span class="fu">rep</span>(x, <span class="dv">100</span>)</span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a>    tests<span class="sc">$</span>p.value[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samps_var_s[,i], samps_var_f[,i])<span class="sc">$</span>p.value</span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(results, tests)</span>
+<span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Bill Cresko">
 
-<title>Week 5b - Statistics for Bioengineering – BioEngineering Statistics Spring 2025</title>
+<title>Week 5b - Statistics for Bioengineering – BioEngineering Statistics Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">BioEngineering Statistics Spring 2025</span>
+    <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -308,20 +308,32 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gt' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="linear-models-and-regression" class="level1">
 <h1>Linear Models and Regression</h1>
@@ -576,8 +588,8 @@ window.Quarto = {
 <li>In general we need to fit the model and then ‘read’ the output</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataset<span class="sc">$</span>variable1 <span class="sc">~</span> dataset<span class="sc">$</span>variable2)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(my_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataset<span class="sc">$</span>variable1 <span class="sc">~</span> dataset<span class="sc">$</span>variable2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(my_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Now write a script to read in the zebrafish data set.</li>
@@ -588,8 +600,8 @@ window.Quarto = {
 <section id="section" class="level2">
 <h2 class="anchored" data-anchor-id="section"></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Zebrafish_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Drerio_development_complete.csv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">","</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Zebrafish_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Zebrafish_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Drerio_development_complete.csv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">","</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Zebrafish_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  X.1 X Sample Condition    Sex Age_Days Pigmentation Group Weight_mg Length_cm
 1   1 1      1   Control Female        1           33     A  4.318525 0.9211093
@@ -604,12 +616,12 @@ window.Quarto = {
 <section id="section-1" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="section-1"></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> Zebrafish_data<span class="sc">$</span>Length_cm</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Zebrafish_data<span class="sc">$</span>Weight_mg</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>zfish_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> Zebrafish_data<span class="sc">$</span>Length_cm</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Zebrafish_data<span class="sc">$</span>Weight_mg</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>zfish_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -635,8 +647,8 @@ F-statistic:  6582 on 1 and 598 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="making-a-plot-of-the-model-fit" class="level2">
 <h2 class="anchored" data-anchor-id="making-a-plot-of-the-model-fit">Making a plot of the model fit</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y <span class="sc">~</span> x, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(zfish_lm, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y <span class="sc">~</span> x, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(zfish_lm, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -649,15 +661,21 @@ F-statistic:  6582 on 1 and 598 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="same-plot-in-ggplot2" class="level2">
 <h2 class="anchored" data-anchor-id="same-plot-in-ggplot2">Same plot in GGPlot2</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(zfish_lm, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span>                  </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Linear regression of zebrafish weight on standard length"</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"zebrafish length in cm"</span>,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"zebrafish weight in gm"</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(zfish_lm, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span>                  </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Linear regression of zebrafish weight on standard length"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"zebrafish length in cm"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"zebrafish weight in gm"</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `fortify(&lt;lm&gt;)` was deprecated in ggplot2 4.0.0.
+ℹ Please use `broom::augment(&lt;lm&gt;)` instead.
+ℹ The deprecated feature was likely used in the ggplot2 package.
+  Please report the issue at &lt;https://github.com/tidyverse/ggplot2/issues&gt;.</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -675,7 +693,7 @@ F-statistic:  6582 on 1 and 598 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="names-of-variables-in-the-model-object" class="level4">
 <h4 class="anchored" data-anchor-id="names-of-variables-in-the-model-object">Names of variables in the model object</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "coefficients"  "residuals"     "effects"       "rank"         
  [5] "fitted.values" "assign"        "qr"            "df.residual"  
@@ -688,12 +706,12 @@ F-statistic:  6582 on 1 and 598 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="pulling-out-estimates-and-confidence-intervals" class="level4">
 <h4 class="anchored" data-anchor-id="pulling-out-estimates-and-confidence-intervals">Pulling out estimates and confidence intervals</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
    2.421359    3.063034 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               2.5 %   97.5 %
 (Intercept) 2.169579 2.673139
@@ -706,27 +724,30 @@ x           2.988886 3.137182</code></pre>
 <section id="formatting-the-output-in-a-nice-table" class="level4">
 <h4 class="anchored" data-anchor-id="formatting-the-output-in-a-nice-table">Formatting the output in a nice table</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_regression</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gtsummary' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_regression</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="izacenbjmt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#izacenbjmt table {
+<div id="wwtfpixixg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wwtfpixixg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#izacenbjmt thead, #izacenbjmt tbody, #izacenbjmt tfoot, #izacenbjmt tr, #izacenbjmt td, #izacenbjmt th {
+#wwtfpixixg thead, #wwtfpixixg tbody, #wwtfpixixg tfoot, #wwtfpixixg tr, #wwtfpixixg td, #wwtfpixixg th {
   border-style: none;
 }
 
-#izacenbjmt p {
+#wwtfpixixg p {
   margin: 0;
   padding: 0;
 }
 
-#izacenbjmt .gt_table {
+#wwtfpixixg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -752,12 +773,12 @@ x           2.988886 3.137182</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_caption {
+#wwtfpixixg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#izacenbjmt .gt_title {
+#wwtfpixixg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -769,7 +790,7 @@ x           2.988886 3.137182</code></pre>
   border-bottom-width: 0;
 }
 
-#izacenbjmt .gt_subtitle {
+#wwtfpixixg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -781,7 +802,7 @@ x           2.988886 3.137182</code></pre>
   border-top-width: 0;
 }
 
-#izacenbjmt .gt_heading {
+#wwtfpixixg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -793,13 +814,13 @@ x           2.988886 3.137182</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_bottom_border {
+#wwtfpixixg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_col_headings {
+#wwtfpixixg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -814,7 +835,7 @@ x           2.988886 3.137182</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_col_heading {
+#wwtfpixixg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -834,7 +855,7 @@ x           2.988886 3.137182</code></pre>
   overflow-x: hidden;
 }
 
-#izacenbjmt .gt_column_spanner_outer {
+#wwtfpixixg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -846,15 +867,15 @@ x           2.988886 3.137182</code></pre>
   padding-right: 4px;
 }
 
-#izacenbjmt .gt_column_spanner_outer:first-child {
+#wwtfpixixg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#izacenbjmt .gt_column_spanner_outer:last-child {
+#wwtfpixixg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#izacenbjmt .gt_column_spanner {
+#wwtfpixixg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -866,11 +887,11 @@ x           2.988886 3.137182</code></pre>
   width: 100%;
 }
 
-#izacenbjmt .gt_spanner_row {
+#wwtfpixixg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#izacenbjmt .gt_group_heading {
+#wwtfpixixg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -896,7 +917,7 @@ x           2.988886 3.137182</code></pre>
   text-align: left;
 }
 
-#izacenbjmt .gt_empty_group_heading {
+#wwtfpixixg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -911,15 +932,15 @@ x           2.988886 3.137182</code></pre>
   vertical-align: middle;
 }
 
-#izacenbjmt .gt_from_md > :first-child {
+#wwtfpixixg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#izacenbjmt .gt_from_md > :last-child {
+#wwtfpixixg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#izacenbjmt .gt_row {
+#wwtfpixixg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -938,7 +959,7 @@ x           2.988886 3.137182</code></pre>
   overflow-x: hidden;
 }
 
-#izacenbjmt .gt_stub {
+#wwtfpixixg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -951,7 +972,7 @@ x           2.988886 3.137182</code></pre>
   padding-right: 5px;
 }
 
-#izacenbjmt .gt_stub_row_group {
+#wwtfpixixg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -965,15 +986,15 @@ x           2.988886 3.137182</code></pre>
   vertical-align: top;
 }
 
-#izacenbjmt .gt_row_group_first td {
+#wwtfpixixg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#izacenbjmt .gt_row_group_first th {
+#wwtfpixixg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#izacenbjmt .gt_summary_row {
+#wwtfpixixg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -983,16 +1004,16 @@ x           2.988886 3.137182</code></pre>
   padding-right: 5px;
 }
 
-#izacenbjmt .gt_first_summary_row {
+#wwtfpixixg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_first_summary_row.thick {
+#wwtfpixixg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#izacenbjmt .gt_last_summary_row {
+#wwtfpixixg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1002,7 +1023,7 @@ x           2.988886 3.137182</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_grand_summary_row {
+#wwtfpixixg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1012,7 +1033,7 @@ x           2.988886 3.137182</code></pre>
   padding-right: 5px;
 }
 
-#izacenbjmt .gt_first_grand_summary_row {
+#wwtfpixixg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1022,7 +1043,7 @@ x           2.988886 3.137182</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_last_grand_summary_row_top {
+#wwtfpixixg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1032,11 +1053,11 @@ x           2.988886 3.137182</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_striped {
+#wwtfpixixg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#izacenbjmt .gt_table_body {
+#wwtfpixixg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1045,7 +1066,7 @@ x           2.988886 3.137182</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_footnotes {
+#wwtfpixixg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1059,7 +1080,7 @@ x           2.988886 3.137182</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_footnote {
+#wwtfpixixg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1068,7 +1089,7 @@ x           2.988886 3.137182</code></pre>
   padding-right: 5px;
 }
 
-#izacenbjmt .gt_sourcenotes {
+#wwtfpixixg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1082,7 +1103,7 @@ x           2.988886 3.137182</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#izacenbjmt .gt_sourcenote {
+#wwtfpixixg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1090,72 +1111,72 @@ x           2.988886 3.137182</code></pre>
   padding-right: 5px;
 }
 
-#izacenbjmt .gt_left {
+#wwtfpixixg .gt_left {
   text-align: left;
 }
 
-#izacenbjmt .gt_center {
+#wwtfpixixg .gt_center {
   text-align: center;
 }
 
-#izacenbjmt .gt_right {
+#wwtfpixixg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#izacenbjmt .gt_font_normal {
+#wwtfpixixg .gt_font_normal {
   font-weight: normal;
 }
 
-#izacenbjmt .gt_font_bold {
+#wwtfpixixg .gt_font_bold {
   font-weight: bold;
 }
 
-#izacenbjmt .gt_font_italic {
+#wwtfpixixg .gt_font_italic {
   font-style: italic;
 }
 
-#izacenbjmt .gt_super {
+#wwtfpixixg .gt_super {
   font-size: 65%;
 }
 
-#izacenbjmt .gt_footnote_marks {
+#wwtfpixixg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#izacenbjmt .gt_asterisk {
+#wwtfpixixg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#izacenbjmt .gt_indent_1 {
+#wwtfpixixg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#izacenbjmt .gt_indent_2 {
+#wwtfpixixg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#izacenbjmt .gt_indent_3 {
+#wwtfpixixg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#izacenbjmt .gt_indent_4 {
+#wwtfpixixg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#izacenbjmt .gt_indent_5 {
+#wwtfpixixg .gt_indent_5 {
   text-indent: 25px;
 }
 
-#izacenbjmt .katex-display {
+#wwtfpixixg .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#izacenbjmt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wwtfpixixg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1176,8 +1197,8 @@ x           2.988886 3.137182</code></pre>
 <td class="gt_row gt_center" headers="conf.low">3.0, 3.1</td>
 <td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
 </tr>
-</tbody><tfoot class="gt_sourcenotes">
-<tr class="odd">
+</tbody><tfoot>
+<tr class="gt_sourcenotes odd">
 <td colspan="4" class="gt_sourcenote">Abbreviation: CI = Confidence Interval</td>
 </tr>
 </tfoot>
@@ -1192,7 +1213,7 @@ x           2.988886 3.137182</code></pre>
 <section id="using-your-fitted-model-to-make-predictions" class="level2">
 <h2 class="anchored" data-anchor-id="using-your-fitted-model-to-make-predictions">Using your fitted model to make predictions</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(zfish_lm, <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>, <span class="dv">1</span>)), <span class="at">interval=</span><span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(zfish_lm, <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>, <span class="dv">1</span>)), <span class="at">interval=</span><span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       fit      lwr      upr
 1 3.033966 2.795162 3.272770
@@ -1287,7 +1308,7 @@ x           2.988886 3.137182</code></pre>
 <h2 class="smaller anchored" data-anchor-id="r-interlude-residual-analyses">R INTERLUDE | residual analyses</h2>
 <p>Let’s look at the residuals in the zebrafish data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(zfish_lm), <span class="at">breaks=</span><span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(zfish_lm), <span class="at">breaks=</span><span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1300,7 +1321,7 @@ x           2.988886 3.137182</code></pre>
 <section id="residuals-vs.-original-x-variable" class="level2">
 <h2 class="anchored" data-anchor-id="residuals-vs.-original-x-variable">residuals vs.&nbsp;original x variable</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span> (<span class="fu">residuals</span>(zfish_lm) <span class="sc">~</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span> (<span class="fu">residuals</span>(zfish_lm) <span class="sc">~</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1313,7 +1334,7 @@ x           2.988886 3.137182</code></pre>
 <section id="residuals-vs.-predicted-fitted-values" class="level2">
 <h2 class="anchored" data-anchor-id="residuals-vs.-predicted-fitted-values">residuals vs.&nbsp;predicted (fitted) values</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span> (<span class="fu">residuals</span>(zfish_lm) <span class="sc">~</span> <span class="fu">fitted.values</span>(zfish_lm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span> (<span class="fu">residuals</span>(zfish_lm) <span class="sc">~</span> <span class="fu">fitted.values</span>(zfish_lm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1327,7 +1348,7 @@ x           2.988886 3.137182</code></pre>
 <h2 class="smaller anchored" data-anchor-id="residual-analyses">Residual analyses</h2>
 <p>Or apply the plot() function to the linear model object directly</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1362,8 +1383,21 @@ x           2.988886 3.137182</code></pre>
 <section id="or-you-can-use-this-nifty-little-package" class="level2">
 <h2 class="anchored" data-anchor-id="or-you-can-use-this-nifty-little-package">Or you can use this nifty little package</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(zfish_lm, <span class="at">which =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">label.size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(zfish_lm, <span class="at">which =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">label.size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
+ℹ Please use tidy evaluation idioms with `aes()`.
+ℹ See also `vignette("ggplot2-in-packages")` for more information.
+ℹ The deprecated feature was likely used in the ggfortify package.
+  Please report the issue at &lt;https://github.com/sinhrks/ggfortify/issues&gt;.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.
+ℹ The deprecated feature was likely used in the ggfortify package.
+  Please report the issue at &lt;https://github.com/sinhrks/ggfortify/issues&gt;.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1379,7 +1413,7 @@ x           2.988886 3.137182</code></pre>
 <li>How about using the influence.measures function???</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">influence.measures</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">influence.measures</span>(zfish_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Do we have any high leverage observations we need to worry about???</li>

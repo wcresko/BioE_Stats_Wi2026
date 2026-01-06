@@ -8,7 +8,7 @@
 
 <meta name="author" content="Bill Cresko">
 
-<title>Week 5a - Statistics for Bioengineering – BioEngineering Statistics Spring 2025</title>
+<title>Week 5a - Statistics for Bioengineering – BioEngineering Statistics Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">BioEngineering Statistics Spring 2025</span>
+    <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -307,21 +307,33 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights23)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gt' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights23)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="this-week" class="level2">
 <h2 class="anchored" data-anchor-id="this-week">This week</h2>
@@ -416,31 +428,31 @@ window.Quarto = {
 <h2 class="smaller anchored" data-anchor-id="parametric-power-in-r">Parametric Power in R</h2>
 <p>R provides several packages for conducting power analysis, including <code>pwr</code> and <code>statmod</code>. We’ll explore examples using the <code>pwr</code> package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>effect_size <span class="ot">&lt;-</span> <span class="fl">0.4</span> <span class="co"># The difference between null and alternative hypotheses</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="co"># The number of observations in each group</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co"># The standard deviation</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> <span class="co"># The significance level</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>effect_size <span class="ot">&lt;-</span> <span class="fl">0.4</span> <span class="co"># The difference between null and alternative hypotheses</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="co"># The number of observations in each group</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="co"># The standard deviation</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> <span class="co"># The significance level</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Type II Error</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pwr_result <span class="ot">&lt;-</span><span class="fu">pwr.t.test</span>(<span class="at">n =</span> sample_size, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">d =</span> effect_size <span class="sc">/</span> sd, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sig.level =</span> alpha,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">type =</span> <span class="st">"two.sample"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>type_II_error <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> pwr_result<span class="sc">$</span>power</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> pwr_result<span class="sc">$</span>power</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Type II Error</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pwr_result <span class="ot">&lt;-</span><span class="fu">pwr.t.test</span>(<span class="at">n =</span> sample_size, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">d =</span> effect_size <span class="sc">/</span> sd, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sig.level =</span> alpha,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">type =</span> <span class="st">"two.sample"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>type_II_error <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> pwr_result<span class="sc">$</span>power</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> pwr_result<span class="sc">$</span>power</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(type_II_error)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(type_II_error)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.921476</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(power)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(power)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.07852399</code></pre>
 </div>
@@ -449,21 +461,21 @@ window.Quarto = {
 <section id="calculate-sample-size-needed" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="calculate-sample-size-needed">Calculate sample size needed</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for two-sample t-test</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>effect_size_t <span class="ot">&lt;-</span> <span class="fl">2.0</span>  </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>d_calc <span class="ot">&lt;-</span> effect_size_t<span class="sc">/</span>sd <span class="co"># Moderate effect size (Cohen's d)</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>alpha_t <span class="ot">&lt;-</span> <span class="fl">0.05</span>       <span class="co"># Significance level</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>power_t <span class="ot">&lt;-</span> <span class="fl">0.8</span>        <span class="co"># Desired power</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate required sample size</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>sample_size_t <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">d =</span> d_calc, </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sig.level =</span> alpha_t, </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                            <span class="at">power =</span> power_t, </span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">type =</span> <span class="st">"two.sample"</span>)<span class="sc">$</span>n</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the result</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Sample Size for Two-Sample t-Test:"</span>, sample_size_t, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for two-sample t-test</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>effect_size_t <span class="ot">&lt;-</span> <span class="fl">2.0</span>  </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>d_calc <span class="ot">&lt;-</span> effect_size_t<span class="sc">/</span>sd <span class="co"># Moderate effect size (Cohen's d)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>alpha_t <span class="ot">&lt;-</span> <span class="fl">0.05</span>       <span class="co"># Significance level</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>power_t <span class="ot">&lt;-</span> <span class="fl">0.8</span>        <span class="co"># Desired power</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate required sample size</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>sample_size_t <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">d =</span> d_calc, </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sig.level =</span> alpha_t, </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                            <span class="at">power =</span> power_t, </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">type =</span> <span class="st">"two.sample"</span>)<span class="sc">$</span>n</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the result</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Sample Size for Two-Sample t-Test:"</span>, sample_size_t, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sample Size for Two-Sample t-Test: 16.71472 </code></pre>
 </div>
@@ -482,23 +494,23 @@ window.Quarto = {
 <section id="generate-power-curve-for-two-sample-t-test-1" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="generate-power-curve-for-two-sample-t-test-1">Generate Power Curve for Two-Sample t-Test</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for power curve</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sample_size_curve <span class="ot">&lt;-</span> <span class="dv">100</span>    <span class="co"># Sample size per group</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>effect_sizes_curve <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>, <span class="at">by =</span> <span class="fl">0.1</span>)  <span class="co"># Range of effect sizes</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power values</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>power_values_curve <span class="ot">&lt;-</span> <span class="fu">sapply</span>(effect_sizes_curve, <span class="cf">function</span>(d) <span class="fu">pwr.t.test</span>(<span class="at">d =</span> d, </span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">n =</span> sample_size_curve, </span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">sig.level =</span> alpha_t, </span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">type =</span> <span class="st">"two.sample"</span>)<span class="sc">$</span>power)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for power curve</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sample_size_curve <span class="ot">&lt;-</span> <span class="dv">100</span>    <span class="co"># Sample size per group</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>effect_sizes_curve <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>, <span class="at">by =</span> <span class="fl">0.1</span>)  <span class="co"># Range of effect sizes</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power values</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>power_values_curve <span class="ot">&lt;-</span> <span class="fu">sapply</span>(effect_sizes_curve, <span class="cf">function</span>(d) <span class="fu">pwr.t.test</span>(<span class="at">d =</span> d, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">n =</span> sample_size_curve, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">sig.level =</span> alpha_t, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">type =</span> <span class="st">"two.sample"</span>)<span class="sc">$</span>power)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot power curve</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(effect_sizes_curve, power_values_curve, <span class="at">type =</span> <span class="st">"b"</span>,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Power Curve for Two-Sample t-Test"</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Effect Size (Cohen's d)"</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Power"</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot power curve</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(effect_sizes_curve, power_values_curve, <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Power Curve for Two-Sample t-Test"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Effect Size (Cohen's d)"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Power"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -511,33 +523,33 @@ window.Quarto = {
 <section id="generate-a-sample-curve-for-two-sample-t-test" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="generate-a-sample-curve-for-two-sample-t-test">Generate a Sample Curve for Two-Sample t-Test</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>effect_size_t <span class="ot">&lt;-</span> <span class="fl">2.0</span>  </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sd <span class="sc">&lt;</span> <span class="sc">-</span> <span class="fl">2.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>effect_size_t <span class="ot">&lt;-</span> <span class="fl">2.0</span>  </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sd <span class="sc">&lt;</span> <span class="sc">-</span> <span class="fl">2.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>d_calc <span class="ot">&lt;-</span> effect_size_t<span class="sc">/</span>sd  <span class="co"># Moderate effect size (Cohen's d)</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>alpha_t <span class="ot">&lt;-</span> <span class="fl">0.05</span>             <span class="co"># Significance level</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>power_t <span class="ot">&lt;-</span> <span class="fl">0.8</span>              <span class="co"># Desired power</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>sample_sizes_curve <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">2</span>)     <span class="co"># Sample size per group</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>effect_sizes_curve <span class="ot">&lt;-</span> <span class="fl">0.4</span>                     <span class="co"># Range of effect sizes</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power values</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>power_values_curve <span class="ot">&lt;-</span> <span class="fu">sapply</span>(effect_sizes_curve, <span class="cf">function</span>(d) <span class="fu">pwr.t.test</span>(<span class="at">d =</span> d_calc, </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">n =</span> sample_sizes_curve, </span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">sig.level =</span> alpha_t, </span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">type =</span> <span class="st">"two.sample"</span>)<span class="sc">$</span>power)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>d_calc <span class="ot">&lt;-</span> effect_size_t<span class="sc">/</span>sd  <span class="co"># Moderate effect size (Cohen's d)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>alpha_t <span class="ot">&lt;-</span> <span class="fl">0.05</span>             <span class="co"># Significance level</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>power_t <span class="ot">&lt;-</span> <span class="fl">0.8</span>              <span class="co"># Desired power</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>sample_sizes_curve <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">2</span>)     <span class="co"># Sample size per group</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>effect_sizes_curve <span class="ot">&lt;-</span> <span class="fl">0.4</span>                     <span class="co"># Range of effect sizes</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate power values</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>power_values_curve <span class="ot">&lt;-</span> <span class="fu">sapply</span>(effect_sizes_curve, <span class="cf">function</span>(d) <span class="fu">pwr.t.test</span>(<span class="at">d =</span> d_calc, </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">n =</span> sample_sizes_curve, </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">sig.level =</span> alpha_t, </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>                                                     <span class="at">type =</span> <span class="st">"two.sample"</span>)<span class="sc">$</span>power)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plot-power-curve" class="level2">
 <h2 class="anchored" data-anchor-id="plot-power-curve">Plot power curve</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sample_sizes_curve, power_values_curve, <span class="at">type =</span> <span class="st">"b"</span>,</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Sample sizes for Two-Sample t-Test"</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Sample size"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Power"</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sample_sizes_curve, power_values_curve, <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Sample sizes for Two-Sample t-Test"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Sample size"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Power"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -552,18 +564,18 @@ window.Quarto = {
 <p>Here, we set the parameters for conducting a one-way ANOVA power analysis, similar to the t-test but with different effect size and significance level.</p>
 <p><code>pwr.anova.test</code> function to calculate the required sample size (<code>sample_size_anova</code>) for the one-way ANOVA based on the specified effect size, number of groups (k = 3), significance level, and desired power.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for one-way ANOVA</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>effect_size_anova <span class="ot">&lt;-</span> <span class="fl">0.25</span>  <span class="co"># Small effect size (Cohen's f)</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>alpha_anova <span class="ot">&lt;-</span> <span class="fl">0.05</span>        <span class="co"># Significance level</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>power_anova <span class="ot">&lt;-</span> <span class="fl">0.8</span>         <span class="co"># Desired power</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate required sample size</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>sample_size_anova <span class="ot">&lt;-</span> <span class="fu">pwr.anova.test</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">f =</span> effect_size_anova, </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sig.level =</span> alpha_anova, </span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">power =</span> power_anova)<span class="sc">$</span>n</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the result</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Sample Size for One-Way ANOVA:"</span>, sample_size_anova, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for one-way ANOVA</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>effect_size_anova <span class="ot">&lt;-</span> <span class="fl">0.25</span>  <span class="co"># Small effect size (Cohen's f)</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>alpha_anova <span class="ot">&lt;-</span> <span class="fl">0.05</span>        <span class="co"># Significance level</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>power_anova <span class="ot">&lt;-</span> <span class="fl">0.8</span>         <span class="co"># Desired power</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate required sample size</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>sample_size_anova <span class="ot">&lt;-</span> <span class="fu">pwr.anova.test</span>(<span class="at">k =</span> <span class="dv">3</span>, <span class="at">f =</span> effect_size_anova, </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sig.level =</span> alpha_anova, </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">power =</span> power_anova)<span class="sc">$</span>n</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the result</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Sample Size for One-Way ANOVA:"</span>, sample_size_anova, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sample Size for One-Way ANOVA: 52.3966 </code></pre>
 </div>
@@ -597,11 +609,11 @@ window.Quarto = {
 <h2 class="smaller anchored" data-anchor-id="on-your-own---bootstrap-resampling-power-calculation-1">On your own - Bootstrap resampling power calculation</h2>
 <p>Step 1: simulating our true populations</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>senior <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">5000</span>, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>fresh <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">5000</span>, <span class="at">lambda =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>senior <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">5000</span>, <span class="at">lambda =</span> <span class="dv">10</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>fresh <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">5000</span>, <span class="at">lambda =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(senior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(senior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -609,7 +621,7 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(fresh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(fresh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -623,12 +635,12 @@ window.Quarto = {
 <h2 class="smaller anchored" data-anchor-id="on-your-own---bootstrap-resampling-power-calculation-2">On your own - Bootstrap resampling power calculation</h2>
 <p>Step 2: drawing a sample</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sample_s <span class="ot">&lt;-</span> <span class="fu">sample</span>(senior, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sample_f <span class="ot">&lt;-</span> <span class="fu">sample</span>(fresh, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sample_s <span class="ot">&lt;-</span> <span class="fu">sample</span>(senior, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>sample_f <span class="ot">&lt;-</span> <span class="fu">sample</span>(fresh, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Step 2: drawing a sample</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -636,7 +648,7 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample_f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sample_f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -650,19 +662,19 @@ window.Quarto = {
 <h2 class="smaller anchored" data-anchor-id="on-your-own---bootstrap-resampling-power-calculation-3">On your own - Bootstrap resampling power calculation</h2>
 <p>Step 3: statistical test</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(sample_f, sample_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(sample_f, sample_s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
 data:  sample_f and sample_s
-t = 5.2568, df = 16.488, p-value = 7.097e-05
+t = -0.57333, df = 17.694, p-value = 0.5736
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- 4.064332 9.535668
+ -4.668967  2.668967
 sample estimates:
 mean of x mean of y 
-     14.5       7.7 </code></pre>
+      9.9      10.9 </code></pre>
 </div>
 </div>
 </section>
@@ -671,23 +683,23 @@ mean of x mean of y
 <p>Step 4: setting up our replicates</p>
 <p>Take a look at the “samps_var” vectors, how are they arranged? How would we begin conducting t-tests using each replicate from the two populations?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## sample size of 10</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>samps_var_s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(senior, <span class="at">size =</span> <span class="dv">10</span>))</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>samps_var_f <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(fresh, <span class="at">size =</span> <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## sample size of 10</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>samps_var_s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(senior, <span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>samps_var_f <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(fresh, <span class="at">size =</span> <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="on-your-own---bootstrap-resampling-power-calculation-5" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="on-your-own---bootstrap-resampling-power-calculation-5">On your own - Bootstrap resampling power calculation</h2>
 <p>Step 4: Testing our replicates</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setting up a "test" dataframe</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>tests<span class="sc">$</span>SampleSize <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"10"</span>, <span class="dv">100</span>)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(samps_var_f)){</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  tests<span class="sc">$</span>result[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samps_var_s[,i], samps_var_f[,i])<span class="sc">$</span>p.value</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(tests<span class="sc">$</span>result <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setting up a "test" dataframe</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>tests<span class="sc">$</span>SampleSize <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"10"</span>, <span class="dv">100</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(samps_var_f)){</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  tests<span class="sc">$</span>result[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samps_var_s[,i], samps_var_f[,i])<span class="sc">$</span>p.value</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(tests<span class="sc">$</span>result <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 FALSE  TRUE 
@@ -699,21 +711,21 @@ FALSE  TRUE
 <h2 class="smaller anchored" data-anchor-id="on-your-own---bootstrap-resampling-power-calculation-6">On your own - Bootstrap resampling power calculation</h2>
 <p>Requires a more complex for loop</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># using seq to set up the sample sizes</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)){</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  samps_var_s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(senior, <span class="at">size =</span> x))</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  samps_var_f <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(fresh, <span class="at">size =</span> x))</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  tests <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  tests<span class="sc">$</span>SampleSize <span class="ot">&lt;-</span> <span class="fu">rep</span>(x, <span class="dv">100</span>)</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    tests<span class="sc">$</span>p.value[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samps_var_s[,i], samps_var_f[,i])<span class="sc">$</span>p.value</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(results, tests)</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># using seq to set up the sample sizes</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)){</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  samps_var_s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(senior, <span class="at">size =</span> x))</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  samps_var_f <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="fu">sample</span>(fresh, <span class="at">size =</span> x))</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  tests <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  tests<span class="sc">$</span>SampleSize <span class="ot">&lt;-</span> <span class="fu">rep</span>(x, <span class="dv">100</span>)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>){</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    tests<span class="sc">$</span>p.value[i] <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samps_var_s[,i], samps_var_f[,i])<span class="sc">$</span>p.value</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(results, tests)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 </section>
@@ -840,7 +852,7 @@ FALSE  TRUE
 <li>Load it into R, and refamiliarize yourself with the contents</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span><span class="st">"Drerio_development_complete.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fish <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span><span class="st">"Drerio_development_complete.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="lets-try-it---correlation-2" class="level2">
@@ -854,7 +866,7 @@ FALSE  TRUE
 <section id="lets-try-it---correlation-3" class="level2">
 <h2 class="anchored" data-anchor-id="lets-try-it---correlation-3">Let’s try it - Correlation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fish<span class="sc">$</span>Weight_mg, fish<span class="sc">$</span>Length_cm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fish<span class="sc">$</span>Weight_mg, fish<span class="sc">$</span>Length_cm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -890,7 +902,7 @@ FALSE  TRUE
 <li>Which method should you use?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="lets-try-it---correlation-6" class="level2">
@@ -899,7 +911,7 @@ FALSE  TRUE
 <li>Run a correlation test</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(fish<span class="sc">$</span>Weight_mg, fish<span class="sc">$</span>Length_cm, <span class="at">method =</span> <span class="fu">c</span>(<span class="st">"kendall"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(fish<span class="sc">$</span>Weight_mg, fish<span class="sc">$</span>Length_cm, <span class="at">method =</span> <span class="fu">c</span>(<span class="st">"kendall"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Kendall's rank correlation tau
@@ -1069,44 +1081,44 @@ sample estimates:
 <h2 class="anchored" data-anchor-id="linear-models-in-r">linear models in R</h2>
 <p>All of these will <em>include</em> the intercept</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~</span>X</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~</span><span class="dv">1</span><span class="sc">+</span>X</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~</span>X<span class="sc">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~</span>X</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~</span><span class="dv">1</span><span class="sc">+</span>X</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~</span>X<span class="sc">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>All of these will <em>exclude</em> the intercept</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~-</span><span class="dv">1</span><span class="sc">+</span>X</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~</span>X<span class="dv">-1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~-</span><span class="dv">1</span><span class="sc">+</span>X</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>Y<span class="sc">~</span>X<span class="dv">-1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Need to fit the model and then ‘read’ the output</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>trial_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y<span class="sc">~</span>X)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (trial_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>trial_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y<span class="sc">~</span>X)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (trial_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="r-interlude" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="r-interlude">R INTERLUDE</h2>
 <p>Write a script to read in the perchlorate data set. Now, add the code to perform a linear model of two continuous variables. Notice how the output of the linear model is specified to a new variable. Also note that the variables and dataset are placeholders</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataset<span class="sc">$</span>variable1 <span class="sc">~</span> dataset<span class="sc">$</span>variable2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(dataset<span class="sc">$</span>variable1 <span class="sc">~</span> dataset<span class="sc">$</span>variable2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now look at a summary of the linear model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(my_lm)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(my_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(my_lm)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(my_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s produce a nice regression plot</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dataset<span class="sc">$</span>variable1 <span class="sc">~</span> dataset<span class="sc">$</span>variable2, <span class="at">col =</span> “blue”)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(my_lm, <span class="at">col =</span> “red”)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dataset<span class="sc">$</span>variable1 <span class="sc">~</span> dataset<span class="sc">$</span>variable2, <span class="at">col =</span> “blue”)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(my_lm, <span class="at">col =</span> “red”)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that you are adding the fitted line from your linear model Finally, remake this plot in GGPlot2</p>
 </section>
 <section id="r-interlude-1" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="r-interlude-1">R INTERLUDE</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>Perchlorate_Data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"perchlorate_data.tsv"</span>, <span class="at">header=</span>T)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Perchlorate_Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>Perchlorate_Data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"perchlorate_data.tsv"</span>, <span class="at">header=</span>T)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Perchlorate_Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Strain Perchlorate_Level T4_Hormone_Level Follicle_Area Number_of_Follicles
 1     WK                 A         14.54394       704.939                   9
@@ -1123,11 +1135,11 @@ sample estimates:
 5       Embryo     2286.20            0
 6       Embryo    27451.35            0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> Perchlorate_Data<span class="sc">$</span>T4_Hormone_Level</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Perchlorate_Data<span class="sc">$</span>Testes_Area</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>perc_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (perc_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> Perchlorate_Data<span class="sc">$</span>T4_Hormone_Level</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Perchlorate_Data<span class="sc">$</span>Testes_Area</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>perc_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span> (perc_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1148,8 +1160,8 @@ Residual standard error: 270600 on 388 degrees of freedom
 Multiple R-squared:  0.002687,  Adjusted R-squared:  0.0001169 
 F-statistic: 1.045 on 1 and 388 DF,  p-value: 0.3072</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y <span class="sc">~</span> x, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(perc_lm, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y <span class="sc">~</span> x, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(perc_lm, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

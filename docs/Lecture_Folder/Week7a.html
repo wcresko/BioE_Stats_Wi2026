@@ -8,7 +8,7 @@
 
 <meta name="author" content="Bill Cresko">
 
-<title>Week 7a - Statistics for Bioengineering – BioEngineering Statistics Spring 2025</title>
+<title>Week 7a - Statistics for Bioengineering – BioEngineering Statistics Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">BioEngineering Statistics Spring 2025</span>
+    <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -295,20 +295,32 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gt' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="this-week" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="this-week">This week</h2>
@@ -334,8 +346,8 @@ window.Quarto = {
 <section id="an-example---irises" class="level2">
 <h2 class="anchored" data-anchor-id="an-example---irises">An Example - Irises</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(iris<span class="sc">$</span>Sepal.Length <span class="sc">~</span> iris<span class="sc">$</span>Species, <span class="at">vertical=</span>T, <span class="at">method=</span><span class="st">"jitter"</span>,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylab=</span><span class="st">"sepal length"</span>, <span class="at">xlab=</span><span class="st">"species"</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(iris<span class="sc">$</span>Sepal.Length <span class="sc">~</span> iris<span class="sc">$</span>Species, <span class="at">vertical=</span>T, <span class="at">method=</span><span class="st">"jitter"</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylab=</span><span class="st">"sepal length"</span>, <span class="at">xlab=</span><span class="st">"species"</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -394,8 +406,8 @@ window.Quarto = {
 <section id="differences-in-iris-sepal-length" class="level2">
 <h2 class="anchored" data-anchor-id="differences-in-iris-sepal-length">Differences in Iris sepal length</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>iris_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(Sepal.Length <span class="sc">~</span> Species, iris)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(iris_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>iris_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(Sepal.Length <span class="sc">~</span> Species, iris)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(iris_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -415,7 +427,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="means-estimates-using-lm" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="means-estimates-using-lm">Means estimates using <code>lm</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(iris<span class="sc">$</span>Sepal.Length <span class="sc">~</span> iris<span class="sc">$</span>Species))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(iris<span class="sc">$</span>Sepal.Length <span class="sc">~</span> iris<span class="sc">$</span>Species))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -482,8 +494,8 @@ F-statistic: 119.3 on 2 and 147 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="irises" class="level2">
 <h2 class="anchored" data-anchor-id="irises">Irises</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>iris_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(Sepal.Length <span class="sc">~</span> Species, iris)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(iris_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>iris_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(Sepal.Length <span class="sc">~</span> Species, iris)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(iris_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
@@ -513,25 +525,25 @@ virginica-versicolor 0.652 0.4082273 0.8957727     0</code></pre>
 <section id="irises-2" class="level2">
 <h2 class="anchored" data-anchor-id="irises-2">Irises</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x =</span> Species, <span class="at">y =</span> Sepal.Length)) <span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">shape =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Box Plot by Category"</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Species"</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Sepal Length"</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x =</span> Species, <span class="at">y =</span> Sepal.Length)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">shape =</span> <span class="dv">20</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Box Plot by Category"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Species"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Sepal Length"</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="biomarker-data" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="biomarker-data">Biomarker Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>biomarker_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"biomarkers.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>biomarker_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(marker5 <span class="sc">~</span> diagnosis, biomarker_data)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(biomarker_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>biomarker_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"biomarkers.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>biomarker_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(marker5 <span class="sc">~</span> diagnosis, biomarker_data)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(biomarker_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -547,9 +559,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="biomarker-data-1" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="biomarker-data-1">Biomarker Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>biomarker_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"biomarkers.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>biomarker_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(marker5 <span class="sc">~</span> diagnosis, biomarker_data)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(biomarker_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>biomarker_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"biomarkers.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>biomarker_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(marker5 <span class="sc">~</span> diagnosis, biomarker_data)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(biomarker_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
@@ -579,9 +591,9 @@ sarcoma2-sarcoma1 24.712272   1.945757 47.47879 0.0297665</code></pre>
 <section id="biomarker-data-3" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="biomarker-data-3">Biomarker Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>biomarker_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"biomarkers.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>biomarker_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(marker5 <span class="sc">~</span> diagnosis, biomarker_data)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(marker5 <span class="sc">~</span> diagnosis, biomarker_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>biomarker_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"biomarkers.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>biomarker_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(marker5 <span class="sc">~</span> diagnosis, biomarker_data)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(marker5 <span class="sc">~</span> diagnosis, biomarker_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -618,10 +630,10 @@ F-statistic: 7.449 on 2 and 197 DF,  p-value: 0.0007613</code></pre>
 <section id="fitting-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="fitting-the-model">Fitting the model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stickle_micro <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>stickle_micro_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(Gene42 <span class="sc">~</span> Geno.Micro, stickle_micro)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(stickle_micro_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>stickle_micro <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>stickle_micro_anova <span class="ot">&lt;-</span> <span class="fu">aov</span>(Gene42 <span class="sc">~</span> Geno.Micro, stickle_micro)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(stickle_micro_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -637,7 +649,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="tukeys-posthoc" class="level2">
 <h2 class="anchored" data-anchor-id="tukeys-posthoc">Tukey’s posthoc</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(stickle_micro_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(stickle_micro_anova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
@@ -734,22 +746,22 @@ monoB-monoA  -24.8  -57.91571   8.315711 0.2095350</code></pre>
 <section id="r-interlude-planned-contrasts" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="r-interlude-planned-contrasts">R INTERLUDE | Planned contrasts</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>RNAseq_Data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">''</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>RNAseq_Data<span class="sc">$</span>Geno.Micro <span class="ot">&lt;-</span> <span class="fu">factor</span>(RNAseq_Data<span class="sc">$</span>Geno.Micro)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>contrast_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(contrast_matrix) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"level1_vs_level2"</span>, <span class="st">"level1_vs_level3"</span>)</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(contrast_matrix) <span class="ot">&lt;-</span> <span class="fu">levels</span>(RNAseq_Data<span class="sc">$</span>Geno.Micro)</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(RNAseq_Data<span class="sc">$</span>Geno.Micro) <span class="ot">&lt;-</span> contrast_matrix</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>RNA_model <span class="ot">&lt;-</span> <span class="fu">aov</span>(Gene10 <span class="sc">~</span> Geno.Micro, <span class="at">data =</span> RNAseq_Data)</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(RNA_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>RNAseq_Data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">''</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>RNAseq_Data<span class="sc">$</span>Geno.Micro <span class="ot">&lt;-</span> <span class="fu">factor</span>(RNAseq_Data<span class="sc">$</span>Geno.Micro)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>contrast_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(contrast_matrix) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"level1_vs_level2"</span>, <span class="st">"level1_vs_level3"</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(contrast_matrix) <span class="ot">&lt;-</span> <span class="fu">levels</span>(RNAseq_Data<span class="sc">$</span>Geno.Micro)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(RNAseq_Data<span class="sc">$</span>Geno.Micro) <span class="ot">&lt;-</span> contrast_matrix</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>RNA_model <span class="ot">&lt;-</span> <span class="fu">aov</span>(Gene10 <span class="sc">~</span> Geno.Micro, <span class="at">data =</span> RNAseq_Data)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(RNA_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="r-interlude-planned-contrasts-1" class="level2 smaller">
@@ -847,16 +859,16 @@ F-statistic: 11.09 on 3 and 76 DF,  p-value: 4.063e-06</code></pre>
 <li>Set up an analysis of the stickleback data but with the factor as a random effect</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>RNAseq_Data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">''</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>RNAseq_Data<span class="sc">$</span>Geno.Micro <span class="ot">&lt;-</span> <span class="fu">factor</span>(RNAseq_Data<span class="sc">$</span>Geno.Micro)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>micro_model_random_effect <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">fixed =</span> Gene202 <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> Geno.Micro,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">data =</span> stickle_micro)</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(micro_model_random_effect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>RNAseq_Data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">''</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>RNAseq_Data<span class="sc">$</span>Geno.Micro <span class="ot">&lt;-</span> <span class="fu">factor</span>(RNAseq_Data<span class="sc">$</span>Geno.Micro)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>micro_model_random_effect <span class="ot">&lt;-</span> <span class="fu">lme</span>(<span class="at">fixed =</span> Gene202 <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> Geno.Micro,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">data =</span> stickle_micro)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(micro_model_random_effect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="anova-r-interlude-1" class="level2 smaller">

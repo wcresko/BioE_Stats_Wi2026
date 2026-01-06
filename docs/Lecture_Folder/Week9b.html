@@ -8,7 +8,7 @@
 
 <meta name="author" content="Bill Cresko">
 
-<title>Week 9b - Statistics for Bioengineering – BioEngineering Statistics Spring 2025</title>
+<title>Week 9b - Statistics for Bioengineering – BioEngineering Statistics Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">BioEngineering Statistics Spring 2025</span>
+    <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -287,21 +287,33 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.2     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gt' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="this-week" class="level2">
 <h2 class="anchored" data-anchor-id="this-week">This week</h2>
@@ -569,11 +581,11 @@ window.Quarto = {
 <section id="simulated-binary-data" class="level2">
 <h2 class="anchored" data-anchor-id="simulated-binary-data">Simulated binary data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>metal_exposure <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">200</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> metal_exposure)))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>cancer_diagnosis <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">200</span>, <span class="dv">1</span>, <span class="at">prob =</span> p)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>logit_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(cancer_diagnosis <span class="sc">~</span> metal_exposure, <span class="at">family =</span> binomial)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>metal_exposure <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">200</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> metal_exposure)))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>cancer_diagnosis <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">200</span>, <span class="dv">1</span>, <span class="at">prob =</span> p)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>logit_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(cancer_diagnosis <span class="sc">~</span> metal_exposure, <span class="at">family =</span> binomial)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="simulated-binary-data-1" class="level2 smaller">
@@ -586,34 +598,34 @@ glm(formula = cancer_diagnosis ~ metal_exposure, family = binomial)
 
 Coefficients:
                Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)     -0.9842     0.2445  -4.026 5.68e-05 ***
-metal_exposure   2.3420     0.3144   7.450 9.34e-14 ***
+(Intercept)     -0.4495     0.1977  -2.274    0.023 *  
+metal_exposure   1.7459     0.2309   7.561 3.99e-14 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 271.45  on 199  degrees of freedom
-Residual deviance: 142.19  on 198  degrees of freedom
-AIC: 146.19
+    Null deviance: 274.37  on 199  degrees of freedom
+Residual deviance: 170.18  on 198  degrees of freedom
+AIC: 174.18
 
-Number of Fisher Scoring iterations: 6</code></pre>
+Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
 </section>
 <section id="plotting-the-logistic-regression-curve" class="level2">
 <h2 class="anchored" data-anchor-id="plotting-the-logistic-regression-curve">Plotting the Logistic Regression Curve</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cancer_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(metal_exposure, cancer_diagnosis)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cancer_df<span class="sc">$</span>prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit_model, <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cancer_df, <span class="fu">aes</span>(metal_exposure, cancer_diagnosis)) <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> prob), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Logistic Regression Fit"</span>, </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span> <span class="st">"Heavy Metal Exposure"</span>, </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Probability of Cancer"</span>) <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cancer_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(metal_exposure, cancer_diagnosis)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cancer_df<span class="sc">$</span>prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit_model, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cancer_df, <span class="fu">aes</span>(metal_exposure, cancer_diagnosis)) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> prob), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Logistic Regression Fit"</span>, </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span> <span class="st">"Heavy Metal Exposure"</span>, </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Probability of Cancer"</span>) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plotting-logistic-regression-curve" class="level2">
@@ -638,17 +650,26 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <li>Here we’re just creating binary variable for whether the plant is or isn’t a <em>setosa</em></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.3.0 ──</code></pre>
+<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.4.1 ──</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ broom        1.0.8     ✔ rsample      1.3.0
-✔ dials        1.4.0     ✔ tune         1.3.0
-✔ infer        1.0.8     ✔ workflows    1.2.0
-✔ modeldata    1.4.0     ✔ workflowsets 1.1.0
-✔ parsnip      1.3.1     ✔ yardstick    1.3.2
-✔ recipes      1.3.0     </code></pre>
+<pre><code>✔ broom        1.0.11     ✔ rsample      1.3.1 
+✔ dials        1.4.2      ✔ tailor       0.1.0 
+✔ infer        1.1.0      ✔ tune         2.0.1 
+✔ modeldata    1.5.1      ✔ workflows    1.3.0 
+✔ parsnip      1.4.0      ✔ workflowsets 1.1.1 
+✔ recipes      1.3.1      ✔ yardstick    1.3.2 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'broom' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'infer' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'parsnip' was built under R version 4.4.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
@@ -659,8 +680,8 @@ Number of Fisher Scoring iterations: 6</code></pre>
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>iris <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">setosa =</span> <span class="fu">as.integer</span>(Species <span class="sc">==</span> <span class="st">"setosa"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>iris <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">setosa =</span> <span class="fu">as.integer</span>(Species <span class="sc">==</span> <span class="st">"setosa"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="split-data-into-training-and-validation-sets" class="level2 smaller">
@@ -671,11 +692,11 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <li>Then we pull those out into two different data sets</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(iris, </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">prop =</span> .<span class="dv">80</span>, </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">strata =</span> setosa) </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>iris_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>iris_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(iris, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">prop =</span> .<span class="dv">80</span>, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">strata =</span> setosa) </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>iris_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>iris_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Take a look at those new data objects in R Studio. How many observations are in each, and how many observations are there in the original data set?</li>
@@ -688,14 +709,14 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <li>Does it look like sepal length can predict whether a plant is a setosa?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris_train, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length,</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> setosa)) <span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> .<span class="dv">05</span>, </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"glm"</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> <span class="st">"binomial"</span>),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iris_train, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> setosa)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">height =</span> .<span class="dv">05</span>, </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"glm"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> <span class="st">"binomial"</span>),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualize-sepal-length-to-prob-of-setosa-1" class="level2">
@@ -716,10 +737,10 @@ Number of Fisher Scoring iterations: 6</code></pre>
 <section id="build-a-model-with-training-data" class="level2">
 <h2 class="anchored" data-anchor-id="build-a-model-with-training-data">Build a model with training data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>training_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(setosa <span class="sc">~</span> Sepal.Length,</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> iris_train,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(training_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>training_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(setosa <span class="sc">~</span> Sepal.Length,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> iris_train,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(training_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="build-a-model-with-training-data-1" class="level2 smaller">
@@ -732,16 +753,16 @@ glm(formula = setosa ~ Sepal.Length, family = "binomial", data = iris_train)
 
 Coefficients:
              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)    28.432      5.587   5.089 3.60e-07 ***
-Sepal.Length   -5.273      1.031  -5.116 3.11e-07 ***
+(Intercept)   26.9183     5.2240   5.153 2.57e-07 ***
+Sepal.Length  -5.0050     0.9666  -5.178 2.24e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 152.763  on 119  degrees of freedom
-Residual deviance:  54.665  on 118  degrees of freedom
-AIC: 58.665
+Residual deviance:  58.115  on 118  degrees of freedom
+AIC: 62.115
 
 Number of Fisher Scoring iterations: 7</code></pre>
 </div>
@@ -754,11 +775,11 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <li>Note that the output is a probability, but we just turn it into a binary classification</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>iris_test <span class="ot">&lt;-</span> iris_test <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">setosa_prob =</span> <span class="fu">predict</span>(training_model,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                               iris_test,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">type =</span> <span class="st">"response"</span>),</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">setosa_pred =</span> <span class="fu">ifelse</span>(setosa_prob <span class="sc">&gt;</span> .<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>iris_test <span class="ot">&lt;-</span> iris_test <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">setosa_prob =</span> <span class="fu">predict</span>(training_model,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                               iris_test,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">type =</span> <span class="st">"response"</span>),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">setosa_pred =</span> <span class="fu">ifelse</span>(setosa_prob <span class="sc">&gt;</span> .<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><p>Take a look at the <code>iris_test</code> data object</p></li>
@@ -771,37 +792,37 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <li>Now let’s create a confusion matrix to see how well the trained model predicted on the validation data set</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>setosa_conf_matrix <span class="ot">&lt;-</span> <span class="fu">table</span>(iris_test<span class="sc">$</span>setosa,</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>           iris_test<span class="sc">$</span>setosa_pred)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame.matrix</span>(setosa_conf_matrix) <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">rownames_to_stub =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Setosa Confusion Matrix"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_stubhead</span>(<span class="at">label =</span> <span class="st">"Actual"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(<span class="at">label =</span> <span class="st">"Predicted"</span>, <span class="at">columns =</span> <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>setosa_conf_matrix <span class="ot">&lt;-</span> <span class="fu">table</span>(iris_test<span class="sc">$</span>setosa,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>           iris_test<span class="sc">$</span>setosa_pred)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame.matrix</span>(setosa_conf_matrix) <span class="sc">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">rownames_to_stub =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Setosa Confusion Matrix"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_stubhead</span>(<span class="at">label =</span> <span class="st">"Actual"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(<span class="at">label =</span> <span class="st">"Predicted"</span>, <span class="at">columns =</span> <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="evaluate-the-model-2" class="level2">
 <h2 class="anchored" data-anchor-id="evaluate-the-model-2">Evaluate the model</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="xwaelfjyfn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xwaelfjyfn table {
+<div id="wkajuutaok" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wkajuutaok table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xwaelfjyfn thead, #xwaelfjyfn tbody, #xwaelfjyfn tfoot, #xwaelfjyfn tr, #xwaelfjyfn td, #xwaelfjyfn th {
+#wkajuutaok thead, #wkajuutaok tbody, #wkajuutaok tfoot, #wkajuutaok tr, #wkajuutaok td, #wkajuutaok th {
   border-style: none;
 }
 
-#xwaelfjyfn p {
+#wkajuutaok p {
   margin: 0;
   padding: 0;
 }
 
-#xwaelfjyfn .gt_table {
+#wkajuutaok .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -827,12 +848,12 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_caption {
+#wkajuutaok .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xwaelfjyfn .gt_title {
+#wkajuutaok .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -844,7 +865,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-bottom-width: 0;
 }
 
-#xwaelfjyfn .gt_subtitle {
+#wkajuutaok .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -856,7 +877,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-top-width: 0;
 }
 
-#xwaelfjyfn .gt_heading {
+#wkajuutaok .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -868,13 +889,13 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_bottom_border {
+#wkajuutaok .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_col_headings {
+#wkajuutaok .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -889,7 +910,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_col_heading {
+#wkajuutaok .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -909,7 +930,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   overflow-x: hidden;
 }
 
-#xwaelfjyfn .gt_column_spanner_outer {
+#wkajuutaok .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -921,15 +942,15 @@ Number of Fisher Scoring iterations: 7</code></pre>
   padding-right: 4px;
 }
 
-#xwaelfjyfn .gt_column_spanner_outer:first-child {
+#wkajuutaok .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xwaelfjyfn .gt_column_spanner_outer:last-child {
+#wkajuutaok .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xwaelfjyfn .gt_column_spanner {
+#wkajuutaok .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -941,11 +962,11 @@ Number of Fisher Scoring iterations: 7</code></pre>
   width: 100%;
 }
 
-#xwaelfjyfn .gt_spanner_row {
+#wkajuutaok .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xwaelfjyfn .gt_group_heading {
+#wkajuutaok .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -971,7 +992,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   text-align: left;
 }
 
-#xwaelfjyfn .gt_empty_group_heading {
+#wkajuutaok .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -986,15 +1007,15 @@ Number of Fisher Scoring iterations: 7</code></pre>
   vertical-align: middle;
 }
 
-#xwaelfjyfn .gt_from_md > :first-child {
+#wkajuutaok .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xwaelfjyfn .gt_from_md > :last-child {
+#wkajuutaok .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xwaelfjyfn .gt_row {
+#wkajuutaok .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1013,7 +1034,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   overflow-x: hidden;
 }
 
-#xwaelfjyfn .gt_stub {
+#wkajuutaok .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1026,7 +1047,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   padding-right: 5px;
 }
 
-#xwaelfjyfn .gt_stub_row_group {
+#wkajuutaok .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1040,15 +1061,15 @@ Number of Fisher Scoring iterations: 7</code></pre>
   vertical-align: top;
 }
 
-#xwaelfjyfn .gt_row_group_first td {
+#wkajuutaok .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xwaelfjyfn .gt_row_group_first th {
+#wkajuutaok .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xwaelfjyfn .gt_summary_row {
+#wkajuutaok .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1058,16 +1079,16 @@ Number of Fisher Scoring iterations: 7</code></pre>
   padding-right: 5px;
 }
 
-#xwaelfjyfn .gt_first_summary_row {
+#wkajuutaok .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_first_summary_row.thick {
+#wkajuutaok .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xwaelfjyfn .gt_last_summary_row {
+#wkajuutaok .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1077,7 +1098,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_grand_summary_row {
+#wkajuutaok .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1087,7 +1108,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   padding-right: 5px;
 }
 
-#xwaelfjyfn .gt_first_grand_summary_row {
+#wkajuutaok .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1097,7 +1118,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_last_grand_summary_row_top {
+#wkajuutaok .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1107,11 +1128,11 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_striped {
+#wkajuutaok .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xwaelfjyfn .gt_table_body {
+#wkajuutaok .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1120,7 +1141,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_footnotes {
+#wkajuutaok .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1134,7 +1155,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_footnote {
+#wkajuutaok .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1143,7 +1164,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   padding-right: 5px;
 }
 
-#xwaelfjyfn .gt_sourcenotes {
+#wkajuutaok .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1157,7 +1178,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#xwaelfjyfn .gt_sourcenote {
+#wkajuutaok .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1165,72 +1186,72 @@ Number of Fisher Scoring iterations: 7</code></pre>
   padding-right: 5px;
 }
 
-#xwaelfjyfn .gt_left {
+#wkajuutaok .gt_left {
   text-align: left;
 }
 
-#xwaelfjyfn .gt_center {
+#wkajuutaok .gt_center {
   text-align: center;
 }
 
-#xwaelfjyfn .gt_right {
+#wkajuutaok .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xwaelfjyfn .gt_font_normal {
+#wkajuutaok .gt_font_normal {
   font-weight: normal;
 }
 
-#xwaelfjyfn .gt_font_bold {
+#wkajuutaok .gt_font_bold {
   font-weight: bold;
 }
 
-#xwaelfjyfn .gt_font_italic {
+#wkajuutaok .gt_font_italic {
   font-style: italic;
 }
 
-#xwaelfjyfn .gt_super {
+#wkajuutaok .gt_super {
   font-size: 65%;
 }
 
-#xwaelfjyfn .gt_footnote_marks {
+#wkajuutaok .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xwaelfjyfn .gt_asterisk {
+#wkajuutaok .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xwaelfjyfn .gt_indent_1 {
+#wkajuutaok .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xwaelfjyfn .gt_indent_2 {
+#wkajuutaok .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xwaelfjyfn .gt_indent_3 {
+#wkajuutaok .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xwaelfjyfn .gt_indent_4 {
+#wkajuutaok .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xwaelfjyfn .gt_indent_5 {
+#wkajuutaok .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xwaelfjyfn .katex-display {
+#wkajuutaok .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xwaelfjyfn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wkajuutaok div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1264,8 +1285,8 @@ Predicted
 </tr>
 <tr class="even">
 <td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row">1</td>
-<td class="gt_row gt_right" headers="stub_1_2 0">1</td>
-<td class="gt_row gt_right" headers="stub_1_2 1">9</td>
+<td class="gt_row gt_right" headers="stub_1_2 0">2</td>
+<td class="gt_row gt_right" headers="stub_1_2 1">8</td>
 </tr>
 </tbody>
 </table>
@@ -1382,52 +1403,52 @@ Note
 <li>Now let’s calculate various metrics for the setosa analysis</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tn <span class="ot">&lt;-</span> setosa_conf_matrix[<span class="dv">1</span>,<span class="dv">1</span>]  <span class="co"># True Negative</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fp <span class="ot">&lt;-</span> setosa_conf_matrix[<span class="dv">1</span>,<span class="dv">2</span>]  <span class="co"># False Positive  </span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> setosa_conf_matrix[<span class="dv">2</span>,<span class="dv">1</span>]  <span class="co"># False Negative</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>tp <span class="ot">&lt;-</span> setosa_conf_matrix[<span class="dv">2</span>,<span class="dv">2</span>]  <span class="co"># True Positive</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>metrics_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Accuracy"</span>, <span class="st">"Precision"</span>, <span class="st">"Recall"</span>, <span class="st">"Specificity"</span>, <span class="st">"F1-Score"</span>),</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    (tp <span class="sc">+</span> tn) <span class="sc">/</span> (tp <span class="sc">+</span> tn <span class="sc">+</span> fp <span class="sc">+</span> fn),           <span class="co"># Accuracy</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    tp <span class="sc">/</span> (tp <span class="sc">+</span> fp),                            <span class="co"># Precision</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    tp <span class="sc">/</span> (tp <span class="sc">+</span> fn),                            <span class="co"># Recall/Sensitivity</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    tn <span class="sc">/</span> (tn <span class="sc">+</span> fp),                            <span class="co"># Specificity</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span> <span class="sc">*</span> (tp <span class="sc">/</span> (tp <span class="sc">+</span> fp)) <span class="sc">*</span> (tp <span class="sc">/</span> (tp <span class="sc">+</span> fn)) <span class="sc">/</span> </span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    ((tp <span class="sc">/</span> (tp <span class="sc">+</span> fp)) <span class="sc">+</span> (tp <span class="sc">/</span> (tp <span class="sc">+</span> fn)))      <span class="co"># F1-Score</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create simple gt table</span></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>metrics_df <span class="sc">%&gt;%</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Classification Evaluation Metrics"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> Value, <span class="at">decimals =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tn <span class="ot">&lt;-</span> setosa_conf_matrix[<span class="dv">1</span>,<span class="dv">1</span>]  <span class="co"># True Negative</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>fp <span class="ot">&lt;-</span> setosa_conf_matrix[<span class="dv">1</span>,<span class="dv">2</span>]  <span class="co"># False Positive  </span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> setosa_conf_matrix[<span class="dv">2</span>,<span class="dv">1</span>]  <span class="co"># False Negative</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>tp <span class="ot">&lt;-</span> setosa_conf_matrix[<span class="dv">2</span>,<span class="dv">2</span>]  <span class="co"># True Positive</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>metrics_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Accuracy"</span>, <span class="st">"Precision"</span>, <span class="st">"Recall"</span>, <span class="st">"Specificity"</span>, <span class="st">"F1-Score"</span>),</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    (tp <span class="sc">+</span> tn) <span class="sc">/</span> (tp <span class="sc">+</span> tn <span class="sc">+</span> fp <span class="sc">+</span> fn),           <span class="co"># Accuracy</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    tp <span class="sc">/</span> (tp <span class="sc">+</span> fp),                            <span class="co"># Precision</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    tp <span class="sc">/</span> (tp <span class="sc">+</span> fn),                            <span class="co"># Recall/Sensitivity</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    tn <span class="sc">/</span> (tn <span class="sc">+</span> fp),                            <span class="co"># Specificity</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span> <span class="sc">*</span> (tp <span class="sc">/</span> (tp <span class="sc">+</span> fp)) <span class="sc">*</span> (tp <span class="sc">/</span> (tp <span class="sc">+</span> fn)) <span class="sc">/</span> </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    ((tp <span class="sc">/</span> (tp <span class="sc">+</span> fp)) <span class="sc">+</span> (tp <span class="sc">/</span> (tp <span class="sc">+</span> fn)))      <span class="co"># F1-Score</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create simple gt table</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>metrics_df <span class="sc">%&gt;%</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Classification Evaluation Metrics"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> Value, <span class="at">decimals =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="evaluate-the-model-4" class="level2">
 <h2 class="anchored" data-anchor-id="evaluate-the-model-4">Evaluate the model</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="nvyyfhibix" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nvyyfhibix table {
+<div id="sjznmvhkrc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#sjznmvhkrc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nvyyfhibix thead, #nvyyfhibix tbody, #nvyyfhibix tfoot, #nvyyfhibix tr, #nvyyfhibix td, #nvyyfhibix th {
+#sjznmvhkrc thead, #sjznmvhkrc tbody, #sjznmvhkrc tfoot, #sjznmvhkrc tr, #sjznmvhkrc td, #sjznmvhkrc th {
   border-style: none;
 }
 
-#nvyyfhibix p {
+#sjznmvhkrc p {
   margin: 0;
   padding: 0;
 }
 
-#nvyyfhibix .gt_table {
+#sjznmvhkrc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1453,12 +1474,12 @@ Note
   border-left-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_caption {
+#sjznmvhkrc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nvyyfhibix .gt_title {
+#sjznmvhkrc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1470,7 +1491,7 @@ Note
   border-bottom-width: 0;
 }
 
-#nvyyfhibix .gt_subtitle {
+#sjznmvhkrc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1482,7 +1503,7 @@ Note
   border-top-width: 0;
 }
 
-#nvyyfhibix .gt_heading {
+#sjznmvhkrc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1494,13 +1515,13 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_bottom_border {
+#sjznmvhkrc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_col_headings {
+#sjznmvhkrc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1515,7 +1536,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_col_heading {
+#sjznmvhkrc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1535,7 +1556,7 @@ Note
   overflow-x: hidden;
 }
 
-#nvyyfhibix .gt_column_spanner_outer {
+#sjznmvhkrc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1547,15 +1568,15 @@ Note
   padding-right: 4px;
 }
 
-#nvyyfhibix .gt_column_spanner_outer:first-child {
+#sjznmvhkrc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nvyyfhibix .gt_column_spanner_outer:last-child {
+#sjznmvhkrc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nvyyfhibix .gt_column_spanner {
+#sjznmvhkrc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1567,11 +1588,11 @@ Note
   width: 100%;
 }
 
-#nvyyfhibix .gt_spanner_row {
+#sjznmvhkrc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nvyyfhibix .gt_group_heading {
+#sjznmvhkrc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1597,7 +1618,7 @@ Note
   text-align: left;
 }
 
-#nvyyfhibix .gt_empty_group_heading {
+#sjznmvhkrc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1612,15 +1633,15 @@ Note
   vertical-align: middle;
 }
 
-#nvyyfhibix .gt_from_md > :first-child {
+#sjznmvhkrc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nvyyfhibix .gt_from_md > :last-child {
+#sjznmvhkrc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nvyyfhibix .gt_row {
+#sjznmvhkrc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1639,7 +1660,7 @@ Note
   overflow-x: hidden;
 }
 
-#nvyyfhibix .gt_stub {
+#sjznmvhkrc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1652,7 +1673,7 @@ Note
   padding-right: 5px;
 }
 
-#nvyyfhibix .gt_stub_row_group {
+#sjznmvhkrc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1666,15 +1687,15 @@ Note
   vertical-align: top;
 }
 
-#nvyyfhibix .gt_row_group_first td {
+#sjznmvhkrc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nvyyfhibix .gt_row_group_first th {
+#sjznmvhkrc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nvyyfhibix .gt_summary_row {
+#sjznmvhkrc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1684,16 +1705,16 @@ Note
   padding-right: 5px;
 }
 
-#nvyyfhibix .gt_first_summary_row {
+#sjznmvhkrc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_first_summary_row.thick {
+#sjznmvhkrc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nvyyfhibix .gt_last_summary_row {
+#sjznmvhkrc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1703,7 +1724,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_grand_summary_row {
+#sjznmvhkrc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1713,7 +1734,7 @@ Note
   padding-right: 5px;
 }
 
-#nvyyfhibix .gt_first_grand_summary_row {
+#sjznmvhkrc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1723,7 +1744,7 @@ Note
   border-top-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_last_grand_summary_row_top {
+#sjznmvhkrc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1733,11 +1754,11 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_striped {
+#sjznmvhkrc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nvyyfhibix .gt_table_body {
+#sjznmvhkrc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1746,7 +1767,7 @@ Note
   border-bottom-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_footnotes {
+#sjznmvhkrc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1760,7 +1781,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_footnote {
+#sjznmvhkrc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1769,7 +1790,7 @@ Note
   padding-right: 5px;
 }
 
-#nvyyfhibix .gt_sourcenotes {
+#sjznmvhkrc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1783,7 +1804,7 @@ Note
   border-right-color: #D3D3D3;
 }
 
-#nvyyfhibix .gt_sourcenote {
+#sjznmvhkrc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1791,72 +1812,72 @@ Note
   padding-right: 5px;
 }
 
-#nvyyfhibix .gt_left {
+#sjznmvhkrc .gt_left {
   text-align: left;
 }
 
-#nvyyfhibix .gt_center {
+#sjznmvhkrc .gt_center {
   text-align: center;
 }
 
-#nvyyfhibix .gt_right {
+#sjznmvhkrc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nvyyfhibix .gt_font_normal {
+#sjznmvhkrc .gt_font_normal {
   font-weight: normal;
 }
 
-#nvyyfhibix .gt_font_bold {
+#sjznmvhkrc .gt_font_bold {
   font-weight: bold;
 }
 
-#nvyyfhibix .gt_font_italic {
+#sjznmvhkrc .gt_font_italic {
   font-style: italic;
 }
 
-#nvyyfhibix .gt_super {
+#sjznmvhkrc .gt_super {
   font-size: 65%;
 }
 
-#nvyyfhibix .gt_footnote_marks {
+#sjznmvhkrc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nvyyfhibix .gt_asterisk {
+#sjznmvhkrc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nvyyfhibix .gt_indent_1 {
+#sjznmvhkrc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nvyyfhibix .gt_indent_2 {
+#sjznmvhkrc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nvyyfhibix .gt_indent_3 {
+#sjznmvhkrc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nvyyfhibix .gt_indent_4 {
+#sjznmvhkrc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nvyyfhibix .gt_indent_5 {
+#sjznmvhkrc .gt_indent_5 {
   text-indent: 25px;
 }
 
-#nvyyfhibix .katex-display {
+#sjznmvhkrc .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#nvyyfhibix div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#sjznmvhkrc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1874,15 +1895,15 @@ Note
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Metric">Accuracy</td>
-<td class="gt_row gt_right" headers="Value">0.933</td>
+<td class="gt_row gt_right" headers="Value">0.900</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Metric">Precision</td>
-<td class="gt_row gt_right" headers="Value">0.900</td>
+<td class="gt_row gt_right" headers="Value">0.889</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Metric">Recall</td>
-<td class="gt_row gt_right" headers="Value">0.900</td>
+<td class="gt_row gt_right" headers="Value">0.800</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Metric">Specificity</td>
@@ -1890,7 +1911,7 @@ Note
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Metric">F1-Score</td>
-<td class="gt_row gt_right" headers="Value">0.900</td>
+<td class="gt_row gt_right" headers="Value">0.842</td>
 </tr>
 </tbody>
 </table>

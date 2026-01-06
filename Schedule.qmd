@@ -4,19 +4,15 @@ title: "Schedule"
 
 ## Reading materials and tools
 
-### NEW!
-
--   I've started putting together out online textbook
--   [Here's a link](https://wcresko.github.io/BioE_R_book/)
-
 ### *Required (free online)*
+
+https://wcresko.github.io/BioE_Stats_Book/
+
+### *Additional resources*
 
 -   [R for Data Science](https://r4ds.hadley.nz) (RDS). 2025. Wickham, Çetinkaya-Rundel, and Grolemund. O'Reilly Press.
 -   [Modern Statistics with R](https://www.modernstatisticswithr.com) (MSR). 2025. Måns Thulin, CRC Press.
 -   [An Introduction to Statistical Learning](https://www.statlearning.com) (ISLR). 2023. James, Witten, Hastie, Tibshirani. Springer
-
-### *Additional resources*
-
 -   [Modern Statistics for Modern Biology](https://web.stanford.edu/class/bios221/book/). 2019. Holmes and Huber. Cambridge University Press.
 -   [ggPlot2: Elegant Graphics for Data Analysis, 3rd Edition](https://ggplot2-book.org). Wickham, Navarro, Pedersen. Springer.
 -   [The Visual Display of Quantitative Information.](https://www.amazon.com/Visual-Display-Quantitative-Information/dp/1930824130) Tufte, E.R. Graphics Press, Cheshire CT
@@ -33,96 +29,96 @@ title: "Schedule"
 
 ## Course schedule
 
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| Week | Dates        | Topics                                    | Readings                                   | Assignments |
-+:====:+==============+===========================================+============================================+:===========:+
-| 1    | April1/3     | -   Unix & shell commands                 | -   RDS: 1-8; 27-29                        |             |
-|      |              | -   R scripts & reproducible analysis     | -   MSR: 1-2                               |             |
-|      |              | -   Use of GenAI                          | -   [Happy Git](https://happygitwithr.com) |             |
-|      |              | -   Tidy data and data wrangling          |                                            |             |
-|      |              | -   Git, GitHub & Markdown                |                                            |             |
-|      |              | -   Sundry history of statistics          |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 2    | April8/10    | -   Exploratory data analysis             | -   RDS: 9-11                              |             |
-|      |              | -   Data visualization                    | -   MSR: 3-5                               |             |
-|      |              | -   Parameters & statistics               |                                            |             |
-|      |              | -   Probability distributions             |                                            |             |
-|      |              | -   Estimates & confidence intervals      |                                            |             |
-|      |              | -   Clinical trials & experimental design |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 3    | April15/17   | -   Hypothesis testing & significance     | -   MSR: 6-7                               | HW1 Due     |
-|      |              | -   Type I & II errors                    |                                            |             |
-|      |              | -   T-tests                               |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 4    | April22/24   | -   Frequency analyses                    |                                            |             |
-|      |              | -   Contingency tests                     |                                            |             |
-|      |              | -   Non-parametric tests                  |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 5    | April29/May1 | -   Correlation & covariance              | -   MSR: 8                                 | HW2 Due     |
-|      |              | -   Ordinary Linear Models (OLMs)         |                                            |             |
-|      |              | -   Simple linear regression              |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 6    | May 6/8      | -   Analysis of Variance (ANOVA)          | -   MSR: 8                                 |             |
-|      |              | -   Single factor ANOVA                   |                                            |             |
-|      |              | -   Planned & post hoc comparisons        |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 7    | May 13/15    | -   Multiple factor ANOVA                 | -   MSR: 8                                 | HW3 Due     |
-|      |              | -   Factorial & Nested ANOVA              |                                            |             |
-|      |              | -   Random effects                        |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 8    | May 20/22    | -   Hierarchical & mixed models           | -   ISLR: 1-3                              |             |
-|      |              | -   Generalized Linear Models (GLMs)      |                                            |             |
-|      |              | -   Logistic & Poisson regression         |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 9    | May 27/29    | -   Intro to statistical learning         | -   MSR: 11                                | HW4 Due     |
-|      |              | -   Classification & prediction           | -   ISLR: 4-6                              |             |
-|      |              | -   Validation                            |                                            |             |
-|      |              | -   Simulation in statistics              |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 10   | June 3/5     | -   Remote super computing                |                                            |             |
-|      |              | -   Talapas and SLURM                     |                                            |             |
-|      |              | -   AWS Azure                             |                                            |             |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
-| 11   | 10 June      | FINALS WEEK                               |                                            | Project Due |
-+------+--------------+-------------------------------------------+--------------------------------------------+-------------+
++----------+--------------+-------------------------------------------+------------------+-------------+
+| Week     | Dates        | Topics                                    | Readings         | Assignments |
++:========:+==============+===========================================+==================+:===========:+
+| 1        | April1/3     | -   Unix & shell commands                 | -   Chapters 1-5 |             |
+|          |              | -   R scripts & reproducible analysis     |                  |             |
+|          |              | -   Use of GenAI                          |                  |             |
+|          |              | -   Tidy data and data wrangling          |                  |             |
+|          |              | -   Git, GitHub & Markdown                |                  |             |
+|          |              | -   Sundry history of statistics          |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 2        | April8/10    | -   Exploratory data analysis             | -   Chapters xxx |             |
+|          |              | -   Data visualization                    |                  |             |
+|          |              | -   Parameters & statistics               |                  |             |
+|          |              | -   Probability distributions             |                  |             |
+|          |              | -   Estimates & confidence intervals      |                  |             |
+|          |              | -   Clinical trials & experimental design |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 3        | April15/17   | -   Hypothesis testing & significance     | -   Chapters xxx | HW1 Due     |
+|          |              | -   Type I & II errors                    |                  |             |
+|          |              | -   T-tests                               |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 4        | April22/24   | -   Frequency analyses                    | -   Chapters xxx |             |
+|          |              | -   Contingency tests                     |                  |             |
+|          |              | -   Non-parametric tests                  |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 5        | April29/May1 | -   Correlation & covariance              | -   Chapters xxx | HW2 Due     |
+|          |              | -   Ordinary Linear Models (OLMs)         |                  |             |
+|          |              | -   Simple linear regression              |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 6        | May 6/8      | -   Analysis of Variance (ANOVA)          | -   Chapters xxx |             |
+|          |              | -   Single factor ANOVA                   |                  |             |
+|          |              | -   Planned & post hoc comparisons        |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 7        | May 13/15    | -   Multiple factor ANOVA                 | -   Chapters xxx | HW3 Due     |
+|          |              | -   Factorial & Nested ANOVA              |                  |             |
+|          |              | -   Random effects                        |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 8        | May 20/22    | -   Hierarchical & mixed models           | -   Chapters xxx |             |
+|          |              | -   Generalized Linear Models (GLMs)      |                  |             |
+|          |              | -   Logistic & Poisson regression         |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 9        | May 27/29    | -   Intro to statistical learning         | -   Chapters xxx | HW4 Due     |
+|          |              | -   Classification & prediction           |                  |             |
+|          |              | -   Validation                            |                  |             |
+|          |              | -   Simulation in statistics              |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 10       | June 3/5     | -   PCA                                   | -   Chapters xxx |             |
+|          |              | -   tSNE                                  |                  |             |
+|          |              | -   UMAP                                  |                  |             |
++----------+--------------+-------------------------------------------+------------------+-------------+
+| 11       | 10 June      | FINALS WEEK                               |                  | Project Due |
++----------+--------------+-------------------------------------------+------------------+-------------+
 
 ## Proposed Scientific Computation Course Topics
 
-+---------+-------------------------------------------------------------------------------------------------------------------------------------+
-| Session | Topics                                                                                                                              |
-+:=======:+=====================================================================================================================================+
-| 1       | -   Computers and data                                                                                                              |
-|         |                                                                                                                                     |
-|         |     -   CPUs, GPUs, storage                                                                                                         |
-|         |     -   Fundamental aspects of computer systems, including file types, storage structure, and the logic of programming languages.   |
-|         |     -   Unix, paths & shell commands including GREP, AWK and SED                                                                    |
-|         |     -   Basics of data structures, databases and tidy dataProperly organize and format primary data and metadata files for analysis |
-|         |                                                                                                                                     |
-|         | -   Integrative developer environments (IDEs)                                                                                       |
-|         |                                                                                                                                     |
-|         |     -   Virtual Code Studio                                                                                                         |
-|         |     -   RStudio                                                                                                                     |
-|         |     -   upyter notebooks                                                                                                            |
-+---------+-------------------------------------------------------------------------------------------------------------------------------------+
-| 2-3     | -   Foundations of scripting using Python and R                                                                                     |
-|         |                                                                                                                                     |
-|         |     -   R and Python fundamentals                                                                                                   |
-|         |     -   packages and extending functionality                                                                                        |
-|         |     -   objects and object oriented programming                                                                                     |
-|         |     -   functions, iteration, and simulation                                                                                        |
-|         |     -   data wrangling                                                                                                              |
-|         |     -   Use and misuse of Generative AI as a digital assistant and 'vibe coding'                                                    |
-+---------+-------------------------------------------------------------------------------------------------------------------------------------+
-| 4       | -   Reproducible science                                                                                                            |
-|         |                                                                                                                                     |
-|         |     -   the NIH FAIR (Findable, accessible, interoperable) principles                                                               |
-|         |     -   Git and GitHub for project management and collaboration                                                                     |
-|         |     -   Markdown for use in manuscripts, presentations and websites                                                                 |
-|         |     -   Including LaTeX mathematical expressions in markdown                                                                        |
-+---------+-------------------------------------------------------------------------------------------------------------------------------------+
-| 5       | -   Remote super computing                                                                                                          |
-|         |                                                                                                                                     |
-|         |     -   Utilize the UO’s supercomputer cluster, Talapas, for computationally intensive tasks.                                       |
-|         |     -   Slurm scripts for big jobs                                                                                                  |
-|         |     -   Other remote systems such as AWS Azure                                                                                      |
-+---------+-------------------------------------------------------------------------------------------------------------------------------------+
++----------+-------------------------------------------------------------------------------------------------------------------------------------+
+| Session  | Topics                                                                                                                              |
++:========:+=====================================================================================================================================+
+| 1        | -   Computers and data                                                                                                              |
+|          |                                                                                                                                     |
+|          |     -   CPUs, GPUs, storage                                                                                                         |
+|          |     -   Fundamental aspects of computer systems, including file types, storage structure, and the logic of programming languages.   |
+|          |     -   Unix, paths & shell commands including GREP, AWK and SED                                                                    |
+|          |     -   Basics of data structures, databases and tidy dataProperly organize and format primary data and metadata files for analysis |
+|          |                                                                                                                                     |
+|          | -   Integrative developer environments (IDEs)                                                                                       |
+|          |                                                                                                                                     |
+|          |     -   Virtual Code Studio                                                                                                         |
+|          |     -   RStudio                                                                                                                     |
+|          |     -   upyter notebooks                                                                                                            |
++----------+-------------------------------------------------------------------------------------------------------------------------------------+
+| 2-3      | -   Foundations of scripting using Python and R                                                                                     |
+|          |                                                                                                                                     |
+|          |     -   R and Python fundamentals                                                                                                   |
+|          |     -   packages and extending functionality                                                                                        |
+|          |     -   objects and object oriented programming                                                                                     |
+|          |     -   functions, iteration, and simulation                                                                                        |
+|          |     -   data wrangling                                                                                                              |
+|          |     -   Use and misuse of Generative AI as a digital assistant and 'vibe coding'                                                    |
++----------+-------------------------------------------------------------------------------------------------------------------------------------+
+| 4        | -   Reproducible science                                                                                                            |
+|          |                                                                                                                                     |
+|          |     -   the NIH FAIR (Findable, accessible, interoperable) principles                                                               |
+|          |     -   Git and GitHub for project management and collaboration                                                                     |
+|          |     -   Markdown for use in manuscripts, presentations and websites                                                                 |
+|          |     -   Including LaTeX mathematical expressions in markdown                                                                        |
++----------+-------------------------------------------------------------------------------------------------------------------------------------+
+| 5        | -   Remote super computing                                                                                                          |
+|          |                                                                                                                                     |
+|          |     -   Utilize the UO’s supercomputer cluster, Talapas, for computationally intensive tasks.                                       |
+|          |     -   Slurm scripts for big jobs                                                                                                  |
+|          |     -   Other remote systems such as AWS Azure                                                                                      |
++----------+-------------------------------------------------------------------------------------------------------------------------------------+

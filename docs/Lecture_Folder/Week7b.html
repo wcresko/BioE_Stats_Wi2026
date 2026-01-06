@@ -8,7 +8,7 @@
 
 <meta name="author" content="Bill Cresko">
 
-<title>Week 7b - Statistics for Bioengineering – BioEngineering Statistics Spring 2025</title>
+<title>Week 7b - Statistics for Bioengineering – BioEngineering Statistics Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">BioEngineering Statistics Spring 2025</span>
+    <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -300,20 +300,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.2     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ purrr     1.2.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'gt' was built under R version 4.4.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="this-week" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="this-week">This week</h2>
@@ -501,8 +513,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="r-interlude-2-by-2-fixed-effect-factorial-anova" class="level2">
 <h2 class="anchored" data-anchor-id="r-interlude-2-by-2-fixed-effect-factorial-anova">R INTERLUDE | 2-by-2 fixed effect factorial ANOVA</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rna_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rna_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rna_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rna_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Individual Genotype   Microbiota Geno.Micro Gene1 Gene2 Gene3 Gene4 Gene5
 1        AC1        A conventional      convA    16    15    71   153     2
@@ -975,12 +987,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>continuous response variable and two main effect categorical variables</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gene <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Gene100</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>microbiota <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Microbiota</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Genotype</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gene <span class="sc">~</span> microbiota)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gene <span class="sc">~</span> genotype)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gene <span class="sc">~</span> microbiota<span class="sc">*</span>genotype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gene <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Gene100</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>microbiota <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Microbiota</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Genotype</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gene <span class="sc">~</span> microbiota)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gene <span class="sc">~</span> genotype)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gene <span class="sc">~</span> microbiota<span class="sc">*</span>genotype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="by-2-fixed-effect-boxplots" class="level2">
@@ -1022,10 +1034,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="fit-the-factorial-linear-model-different-ways-to-do-the-same-thing" class="level2">
 <h2 class="anchored" data-anchor-id="fit-the-factorial-linear-model-different-ways-to-do-the-same-thing">Fit the factorial linear model | different ways to do the same thing</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rna_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(gene <span class="sc">~</span> microbiota <span class="sc">+</span> genotype <span class="sc">+</span> microbiota<span class="sc">:</span>genotype)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>rna_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(gene <span class="sc">~</span> microbiota<span class="sc">*</span>genotype)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>rna_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(gene <span class="sc">~</span> microbiota <span class="sc">+</span> genotype <span class="sc">+</span> microbiota<span class="sc">:</span>genotype)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rna_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(gene <span class="sc">~</span> microbiota<span class="sc">*</span>genotype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rna_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(gene <span class="sc">~</span> microbiota <span class="sc">+</span> genotype <span class="sc">+</span> microbiota<span class="sc">:</span>genotype)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>rna_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(gene <span class="sc">~</span> microbiota<span class="sc">*</span>genotype)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>rna_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(gene <span class="sc">~</span> microbiota <span class="sc">+</span> genotype <span class="sc">+</span> microbiota<span class="sc">:</span>genotype)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>rna_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(gene <span class="sc">~</span> microbiota<span class="sc">*</span>genotype)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Examine the fitted model diagnostics and the ANOVA results table</li>
@@ -1034,19 +1046,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="fit-the-factorial-linear-model-different-ways-to-do-the-same-thing-1" class="level2">
 <h2 class="anchored" data-anchor-id="fit-the-factorial-linear-model-different-ways-to-do-the-same-thing-1">Fit the factorial linear model | different ways to do the same thing</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rna_aov)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_aov)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(rna_aov)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rna_lm)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_alm)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(rna_alm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rna_aov)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_aov)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(rna_aov)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rna_lm)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_alm)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(rna_alm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="fit-the-factorial-linear-model-different-ways-to-do-the-same-thing-2" class="level2">
 <h2 class="anchored" data-anchor-id="fit-the-factorial-linear-model-different-ways-to-do-the-same-thing-2">Fit the factorial linear model | different ways to do the same thing</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(rna_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(rna_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -1059,7 +1071,7 @@ Residuals           76 2717264   35753
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(rna_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(rna_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -1077,7 +1089,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="fit-the-factorial-linear-model-different-ways-to-do-the-same-thing-3" class="level2">
 <h2 class="anchored" data-anchor-id="fit-the-factorial-linear-model-different-ways-to-do-the-same-thing-3">Fit the factorial linear model | different ways to do the same thing</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                    Df  Sum Sq Mean Sq F value  Pr(&gt;F)    
 microbiota           1  243763  243763   6.818  0.0109 *  
@@ -1087,7 +1099,7 @@ Residuals           76 2717264   35753
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1115,28 +1127,28 @@ F-statistic: 15.85 on 3 and 76 DF,  p-value: 4.254e-08</code></pre>
 <section id="interaction-plots-1" class="level2 flexbox vcenter">
 <h2 class="flexbox vcenter anchored" data-anchor-id="interaction-plots-1">Interaction Plots</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>summary_df <span class="ot">&lt;-</span> rna_data <span class="sc">|&gt;</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Genotype, Microbiota) <span class="sc">|&gt;</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_response =</span> <span class="fu">mean</span>(Gene100), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>summary_df <span class="ot">&lt;-</span> rna_data <span class="sc">|&gt;</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Genotype, Microbiota) <span class="sc">|&gt;</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_response =</span> <span class="fu">mean</span>(Gene100),</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">se =</span> <span class="fu">sd</span>(Gene100) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">n</span>()), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot interaction plot</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summary_df, <span class="fu">aes</span>(<span class="at">x =</span> Genotype, <span class="at">y =</span> mean_response, <span class="at">group =</span> Microbiota, <span class="at">color =</span> Microbiota)) <span class="sc">+</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> mean_response <span class="sc">-</span> se, <span class="at">ymax =</span> mean_response <span class="sc">+</span> se), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Interaction Plot with SE"</span>,</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Genotype"</span>,</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Mean Expression of Gene100"</span>,</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Microbiota"</span>) <span class="sc">+</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>summary_df <span class="ot">&lt;-</span> rna_data <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Genotype, Microbiota) <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_response =</span> <span class="fu">mean</span>(Gene100), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>summary_df <span class="ot">&lt;-</span> rna_data <span class="sc">|&gt;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Genotype, Microbiota) <span class="sc">|&gt;</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_response =</span> <span class="fu">mean</span>(Gene100),</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">se =</span> <span class="fu">sd</span>(Gene100) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">n</span>()), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot interaction plot</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summary_df, <span class="fu">aes</span>(<span class="at">x =</span> Genotype, <span class="at">y =</span> mean_response, <span class="at">group =</span> Microbiota, <span class="at">color =</span> Microbiota)) <span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> mean_response <span class="sc">-</span> se, <span class="at">ymax =</span> mean_response <span class="sc">+</span> se), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Interaction Plot with SE"</span>,</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Genotype"</span>,</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Mean Expression of Gene100"</span>,</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Microbiota"</span>) <span class="sc">+</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="interaction-plots-2" class="level2">
@@ -1184,19 +1196,19 @@ F-statistic: 15.85 on 3 and 76 DF,  p-value: 4.254e-08</code></pre>
 <h2 class="smaller anchored" data-anchor-id="r-interlude-2x2-fixed-effects-factorial-anova-contrasts-interaction">R INTERLUDE | 2x2 Fixed-Effects Factorial ANOVA contrasts &amp; interaction</h2>
 <p>continuous response and two main effect variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rna_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>gene <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Gene80</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>microbiota <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Microbiota</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Genotype</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>rna_data <span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"Stickle_RNAseq.tsv"</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>gene <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Gene80</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>microbiota <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Microbiota</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>genotype <span class="ot">&lt;-</span> rna_data<span class="sc">$</span>Genotype</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>make new “pseudo factor,” combining genotype and microbiota</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gxm <span class="ot">&lt;-</span> <span class="fu">interaction</span>(genotype,microbiota)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(gxm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gxm <span class="ot">&lt;-</span> <span class="fu">interaction</span>(genotype,microbiota)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(gxm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "A.conventional" "B.conventional" "A.mono"         "B.mono"        </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gene <span class="sc">~</span> gxm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(gene <span class="sc">~</span> gxm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1207,18 +1219,18 @@ F-statistic: 15.85 on 3 and 76 DF,  p-value: 4.254e-08</code></pre>
 </div>
 <p>specify the following 2 contrasts</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(gxm) <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(gxm) <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="r-interlude-2x2-fixed-effects-factorial-anova-contrasts-interaction-1" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="r-interlude-2x2-fixed-effects-factorial-anova-contrasts-interaction-1">R INTERLUDE | 2x2 Fixed-Effects Factorial ANOVA contrasts &amp; interaction</h2>
 <p>Fit the factorial linear model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>rna_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(gene <span class="sc">~</span> gxm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rna_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(gene <span class="sc">~</span> gxm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Examine the ANOVA table, using supplied contrasts. Figure out the appropriate titles to give them.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_aov, <span class="at">split =</span> <span class="fu">list</span>(<span class="at">gxm =</span> <span class="fu">list</span>(<span class="st">'xxx'</span><span class="ot">=</span><span class="dv">1</span>,<span class="st">'xxx'</span><span class="ot">=</span><span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rna_aov, <span class="at">split =</span> <span class="fu">list</span>(<span class="at">gxm =</span> <span class="fu">list</span>(<span class="st">'xxx'</span><span class="ot">=</span><span class="dv">1</span>,<span class="st">'xxx'</span><span class="ot">=</span><span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What does the contrast summary tell you about the nature of the interaction?</p>
 </section>
@@ -1356,8 +1368,8 @@ F-statistic: 15.85 on 3 and 76 DF,  p-value: 4.254e-08</code></pre>
 <section id="r-interlude-nested-anova-1" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="r-interlude-nested-anova-1">R INTERLUDE | Nested ANOVA</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>andrew_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'andrew.tsv'</span>, <span class="at">header=</span>T, <span class="at">sep=</span>‘\t<span class="st">')</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="st">head(andrew_data)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>andrew_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">'andrew.tsv'</span>, <span class="at">header=</span>T, <span class="at">sep=</span>‘\t<span class="st">')</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="st">head(andrew_data)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>There are four variables: ‘TREAT’, ‘PATCH’, ‘QUAD’ and ‘ALGAE’</li>
@@ -1365,13 +1377,13 @@ F-statistic: 15.85 on 3 and 76 DF,  p-value: 4.254e-08</code></pre>
 <li>Make a simplified factor called TREAT2, in which 0% and 33% are a level called “low” and 66% and 100% are “high”</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>andrew_data<span class="sc">$</span>TREAT2 <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(“low”,<span class="dv">40</span>),<span class="fu">rep</span>(“high”,<span class="dv">40</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>andrew_data<span class="sc">$</span>TREAT2 <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(“low”,<span class="dv">40</span>),<span class="fu">rep</span>(“high”,<span class="dv">40</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>The nested factor is PATCH - also need to turn this into a factor</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>andrew_data<span class="sc">$</span>PATCH <span class="ot">&lt;-</span> <span class="fu">factor</span>(andrew_data<span class="sc">$</span>PATCH)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>andrew_data<span class="sc">$</span>PATCH <span class="ot">&lt;-</span> <span class="fu">factor</span>(andrew_data<span class="sc">$</span>PATCH)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="r-interlude-nested-anova-2" class="level2 smaller">
@@ -1381,13 +1393,13 @@ F-statistic: 15.85 on 3 and 76 DF,  p-value: 4.254e-08</code></pre>
 <li>Look at the distribution of ALGAE for the two levels of TREAT2 using boxplots based on the patch means, which are the replicates in this case.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>andrew.agg <span class="ot">&lt;-</span> <span class="fu">with</span>(andrew_data, <span class="fu">aggregate</span>(<span class="fu">data.frame</span>(ALGAE), </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">by =</span> <span class="fu">list</span>(<span class="at">TREAT2=</span>TREAT2, <span class="at">PATCH=</span>PATCH), mean)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>andrew.agg <span class="ot">&lt;-</span> <span class="fu">gsummary</span>(andrew_data, <span class="at">groups=</span>andrew_data<span class="sc">$</span>PATCH)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(ALGAE <span class="sc">~</span> TREAT2, andrew.agg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>andrew.agg <span class="ot">&lt;-</span> <span class="fu">with</span>(andrew_data, <span class="fu">aggregate</span>(<span class="fu">data.frame</span>(ALGAE), </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">by =</span> <span class="fu">list</span>(<span class="at">TREAT2=</span>TREAT2, <span class="at">PATCH=</span>PATCH), mean)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>andrew.agg <span class="ot">&lt;-</span> <span class="fu">gsummary</span>(andrew_data, <span class="at">groups=</span>andrew_data<span class="sc">$</span>PATCH)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(ALGAE <span class="sc">~</span> TREAT2, andrew.agg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Evaluate assumptions based on the boxplots</li>
@@ -1400,16 +1412,16 @@ F-statistic: 15.85 on 3 and 76 DF,  p-value: 4.254e-08</code></pre>
 <li>Run the nested ANOVA:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>nested.aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(ALGAE <span class="sc">~</span> TREAT2 <span class="sc">+</span> <span class="fu">Error</span>(PATCH), <span class="at">data=</span>andrew_data)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nested.aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>nested.aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(ALGAE <span class="sc">~</span> TREAT2 <span class="sc">+</span> <span class="fu">Error</span>(PATCH), <span class="at">data=</span>andrew_data)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nested.aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Do we detect an effect of TREAT2 (high vs low sea urchin density)?</li>
 <li>Estimate variance components to assess relative contributions of the random factors</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">VarCorr</span>(<span class="fu">lme</span>(ALGAE <span class="sc">~</span> <span class="dv">1</span>, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> TREAT2<span class="sc">/</span>PATCH, andrew_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">VarCorr</span>(<span class="fu">lme</span>(ALGAE <span class="sc">~</span> <span class="dv">1</span>, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> TREAT2<span class="sc">/</span>PATCH, andrew_data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Calculate the % of variation due to between-treatment differences vs.&nbsp;due to among patches within treatment differences.</li>
