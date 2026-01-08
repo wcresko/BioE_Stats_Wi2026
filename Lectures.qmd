@@ -2,4 +2,14 @@
 title: "Lectures"
 ---
 
-[Lecture_1](Lecture_Folder/Week1.qmd)
+### Week 1
+
+[Lecture_1](Lecture_Folder/Week1_BioE_Stats_Lecture.qmd)
+
+[Quarto_Template](Lecture_Folder/Week1_BioE_Stats_Analysis_Template.qmd)
+
+[Stickleback_RNAseq_Data_Set](Lecture_Folder/Week1_Stickle_RNAseq.tsv)
+
+::: callout-note
+You can download all of these files by using `right click` on your computer.
+:::
