@@ -23,8 +23,9 @@ title: "About"
 |----------------------|-------------------------------|
 | Class times          | Tuesday/Thursday 4:00 to 5:50 |
 | Class room           | KC107                         |
-| Office Hours         | Monday 3:30 to 4:30           |
-| Office hour location | TBD                           |
+| Cresko Office Hours  | Monday 3:30 to 4:30           |
+| Snyder Office Hours  | Wednesday 1:00 to 2:30        |
+| Office hour location | KC Mountain Room 001B         |
 
 ## Online Course Resources
 

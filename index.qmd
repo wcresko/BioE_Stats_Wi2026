@@ -1,9 +1,9 @@
 ---
 title: "BioEngineering Statistics 2026"
-image: Cover2.tiff
+image: Cover_1.gif
 about:
   template: jolla
-  image-shape: round
+  image-shape: rectangle
   image-width: 40em
 links: 
   - text: Email
