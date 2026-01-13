@@ -928,7 +928,7 @@
     "href": "Lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Week 1\nLecture_1\nQuarto_Template\nStickleback_RNAseq_Data_Set\n\n\n\n\n\n\nNote\n\n\n\nYou can download all of these files by using right click on your computer."
+    "text": "Week 1\nLecture_1\nQuarto_Template\nStickleback_RNAseq_Data_Set\n\n\nWeek 2\nLecture_2\nQuarto_Template_in_Text\nKnee_Injury_Data_Set\n\n\n\n\n\n\nNote\n\n\n\nYou can download the text and data files by using right click on your computer."
   },
   {
     "objectID": "Syllabus.html",
@@ -1048,5 +1048,586 @@
     "title": "Resources",
     "section": "",
     "text": "Base R Cheat Sheet\nRStudio Collection of Cheat Sheets\nGit Cheat Sheet\nMarkdown Cheat Sheet\nLaTeX Cheat Sheet"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "",
+    "text": "Lightweight markup language for formatting plaintext documents\nAdd basic syntax to make elements look different when rendered\nRenders to multiple output formats: PDF, HTML, presentations, websites, books\n\n\n\n\n\n*Italic* or _Italic_\n**Bold** or __Bold__\n\nResults: Italic, Bold\n\n\n\n\n&gt; \"You know the greatest danger facing us is ourselves, \n&gt; an irrational fear of the unknown.\"\n&gt;\n&gt; --- Captain James T. Kirk\n\n\n“You know the greatest danger facing us is ourselves, an irrational fear of the unknown.”\n— Captain James T. Kirk\n\n\n\n\n\nOpen-source scientific and technical publishing system\nCombines code + text + outputs in a single document\nSuccessor to R Markdown with expanded capabilities\nSupports R, Python, Julia, and more\n\n\n\n\n\n\n\nKey Benefits\n\n\n\nReproducibility, documentation, multiple output formats\n\n\n\n\n\n\nPronounced “Lah-tech” or “Lay-tech”\nDocument preparation system for high-quality typesetting\nAllows precise mathematical statements\nCan be included directly in Markdown documents\n\n\n\n\n\n\n\nTip\n\n\n\nMore info: https://www.latex-project.org\n\n\n\n\n\nPowers, roots, vectors:\na^x, \\sqrt[n]{x}, \\vec{\\jmath}, \\tilde{\\imath}\n\\[ \\large a^x, \\sqrt[n]{x}, \\vec{\\jmath}, \\tilde{\\imath}\\]\nGreek letters:\n\\alpha, \\beta, \\gamma, \\mu, \\sigma, \\lambda \\[ \\large \\alpha, \\beta, \\gamma, \\mu, \\sigma, \\lambda\\]\nRelational operators: \\approx, \\neq, \\nsim, \\leq, \\geq \\[ \\large\\approx, \\neq, \\nsim, \\leq, \\geq \\]\n\n\n\nBinomial: f(k) = {n \\choose k} p\\^{k} (1-p)\\^{n-k} \\[\\large f(k) = {n \\choose k} p^{k} (1-p)^{n-k}\\]\nPoisson: Pr(Y=r) = \\frac{e^{-\\mu}\\mu^r}{r!} \\[\\large Pr(Y=r) = \\frac{e^{-\\mu}\\mu^r}{r!}\\]\nNormal: f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma}} , \\mathrm{e}\\^{-\\frac{(x - \\mu)^2}{2\\sigma^2}} \\[f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma}} \\, \\mathrm{e}^{-\\frac{(x - \\mu)^2}{2\\sigma^2}}\\]\n\n\n\nInline: $y=\\frac{1}{2}$ renders as \\(y=\\frac{1}{2}\\) within text.\nDisplay: $$y=\\frac{1}{2}$$ renders on its own line:\n\\[y=\\frac{1}{2}\\]\n\n\n\n\n\n\nOption\nDescription\n\n\n\n\n#| echo: true\nShow code in output\n\n\n#| eval: false\nDon’t run the code\n\n\n#| output: false\nHide results\n\n\n#| warning: false\nHide warnings\n\n\n#| fig-cap: \"...\"\nFigure caption\n\n\n#| fig-width: 8\nFigure width (inches)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-markdown",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-markdown",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "What is Markdown?",
+    "text": "What is Markdown?\n\nLightweight markup language for formatting plaintext documents\nAdd basic syntax to make elements look different when rendered\nRenders to multiple output formats: PDF, HTML, presentations, websites, books"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#formatting-text",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#formatting-text",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Formatting Text",
+    "text": "Formatting Text\n\n*Italic* or _Italic_\n**Bold** or __Bold__\n\nResults: Italic, Bold"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#block-quotes",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#block-quotes",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Block Quotes",
+    "text": "Block Quotes\n\n&gt; \"You know the greatest danger facing us is ourselves, \n&gt; an irrational fear of the unknown.\"\n&gt;\n&gt; --- Captain James T. Kirk\n\n\n“You know the greatest danger facing us is ourselves, an irrational fear of the unknown.”\n— Captain James T. Kirk"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-quarto",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-quarto",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "What is Quarto?",
+    "text": "What is Quarto?\n\nOpen-source scientific and technical publishing system\nCombines code + text + outputs in a single document\nSuccessor to R Markdown with expanded capabilities\nSupports R, Python, Julia, and more\n\n\n\n\n\n\n\nKey Benefits\n\n\nReproducibility, documentation, multiple output formats"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-latex",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-latex",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "What is LaTeX?",
+    "text": "What is LaTeX?\n\nPronounced “Lah-tech” or “Lay-tech”\nDocument preparation system for high-quality typesetting\nAllows precise mathematical statements\nCan be included directly in Markdown documents\n\n\n\n\n\n\n\nTip\n\n\nMore info: https://www.latex-project.org"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#latex-operators-and-symbols",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#latex-operators-and-symbols",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "LaTeX Operators and Symbols",
+    "text": "LaTeX Operators and Symbols\nPowers, roots, vectors:\na^x, \\sqrt[n]{x}, \\vec{\\jmath}, \\tilde{\\imath}\n\\[ \\large a^x, \\sqrt[n]{x}, \\vec{\\jmath}, \\tilde{\\imath}\\]\nGreek letters:\n\\alpha, \\beta, \\gamma, \\mu, \\sigma, \\lambda \\[ \\large \\alpha, \\beta, \\gamma, \\mu, \\sigma, \\lambda\\]\nRelational operators: \\approx, \\neq, \\nsim, \\leq, \\geq \\[ \\large\\approx, \\neq, \\nsim, \\leq, \\geq \\]"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#key-equations-in-statistics",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#key-equations-in-statistics",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Key Equations in Statistics",
+    "text": "Key Equations in Statistics\nBinomial: f(k) = {n \\choose k} p\\^{k} (1-p)\\^{n-k} \\[\\large f(k) = {n \\choose k} p^{k} (1-p)^{n-k}\\]\nPoisson: Pr(Y=r) = \\frac{e^{-\\mu}\\mu^r}{r!} \\[\\large Pr(Y=r) = \\frac{e^{-\\mu}\\mu^r}{r!}\\]\nNormal: f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma}} , \\mathrm{e}\\^{-\\frac{(x - \\mu)^2}{2\\sigma^2}} \\[f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma}} \\, \\mathrm{e}^{-\\frac{(x - \\mu)^2}{2\\sigma^2}}\\]"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#inline-vs.-display-equations",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#inline-vs.-display-equations",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Inline vs. Display Equations",
+    "text": "Inline vs. Display Equations\nInline: $y=\\frac{1}{2}$ renders as \\(y=\\frac{1}{2}\\) within text.\nDisplay: $$y=\\frac{1}{2}$$ renders on its own line:\n\\[y=\\frac{1}{2}\\]"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#code-chunk-options",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#code-chunk-options",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Code Chunk Options",
+    "text": "Code Chunk Options\n\n\n\nOption\nDescription\n\n\n\n\n#| echo: true\nShow code in output\n\n\n#| eval: false\nDon’t run the code\n\n\n#| output: false\nHide results\n\n\n#| warning: false\nHide warnings\n\n\n#| fig-cap: \"...\"\nFigure caption\n\n\n#| fig-width: 8\nFigure width (inches)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#week-2-topics",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#week-2-topics",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Week 2 Topics",
+    "text": "Week 2 Topics\n\nExploratory data analysis\nData visualization\nParameters & statistics\nProbability distributions\nEstimates & confidence intervals\nClinical trials & experimental design\n\n\n\n\n\n\n\nNote\n\n\nReadings: Chapters 9-15"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-eda",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-eda",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "What is EDA?",
+    "text": "What is EDA?\n\nFirst step in any data analysis\nUnderstand structure and patterns in your data\nIdentify outliers, missing values, errors\nGenerate hypotheses for formal testing\n\n\n\n\n\n\n\nAlways visualize your data before running statistical tests!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#tidyverse-family-of-packages",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#tidyverse-family-of-packages",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Tidyverse Family of Packages",
+    "text": "Tidyverse Family of Packages\n\n\nlibrary(tidyverse)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#key-dplyr-verbs",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#key-dplyr-verbs",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Key dplyr Verbs",
+    "text": "Key dplyr Verbs\n\n\n\n\n\n\n\n\nVerb\nPurpose\nExample\n\n\n\n\nfilter()\nSubset rows by values\nfilter(df, x &gt; 5)\n\n\nselect()\nSubset columns by name\nselect(df, col1, col2)\n\n\narrange()\nReorder rows\narrange(df, x)\n\n\nmutate()\nCreate new columns\nmutate(df, z = x + y)\n\n\nsummarise()\nCollapse to summary\nsummarise(df, mean = mean(x))"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#filter-arrange-and-select",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#filter-arrange-and-select",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Filter, Arrange, and Select",
+    "text": "Filter, Arrange, and Select\n\n# Filter rows\nfilter(flights, month == 11 | month == 12)\n\n# Arrange rows\narrange(flights, year, month, day)\n\n# Select columns\nselect(flights, year, month, day)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#conditional-operators",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#conditional-operators",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Conditional Operators",
+    "text": "Conditional Operators\n\n\n\nOperator\nMeaning\n\n\n\n\n==\nEquals exactly\n\n\n&lt;, &lt;=\nLess than (or equal)\n\n\n&gt;, &gt;=\nGreater than (or equal)\n\n\n!=\nNot equal to\n\n\n!\nNOT operator\n\n\n&\nAND operator\n\n\n|\nOR operator\n\n\n%in%\nBelongs to set"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#mutate-and-transmute",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#mutate-and-transmute",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Mutate and Transmute",
+    "text": "Mutate and Transmute\n\n# Add new columns based on existing ones\nmutate(flights,\n  gain = arr_delay - dep_delay,\n  hours = air_time / 60,\n  gain_per_hour = gain / hours\n)\n\n# Using pipes\nflights |&gt;\n  mutate(\n    gain = arr_delay - dep_delay,\n    speed = distance / air_time * 60\n  )"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#group-by-and-summarise",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#group-by-and-summarise",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Group By and Summarise",
+    "text": "Group By and Summarise\n\n# Group by categorical variable\nby_day &lt;- group_by(flights, year, month, day)\n\n# Summarise within groups\nsummarise(by_day, delay = mean(dep_delay, na.rm = TRUE))\n\n\n\n\n\n\n\nWarning\n\n\nAggregation functions return NA if any input value is NA. Use na.rm = TRUE to remove missing values."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#other-useful-dplyr-functions",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#other-useful-dplyr-functions",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Other Useful dplyr Functions",
+    "text": "Other Useful dplyr Functions\n\n\n\nFunction\nPurpose\n\n\n\n\nslice()\nSubset rows by position\n\n\npull()\nExtract column as vector\n\n\ncount()\nCount observations\n\n\ndistinct()\nUnique observations"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#r-exercise-data-wrangling",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#r-exercise-data-wrangling",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "R Exercise: Data Wrangling",
+    "text": "R Exercise: Data Wrangling\n\n\n\n\n\n\nExercise\n\n\n\nRead in Week1b_Stickle_RNAseq.tsv or knee_injury.csv dataset\nSelect a subset of categorical variables + quantitative variables\nMutate to create square root transformed versions\nSummarise mean and SD grouped by categories (such as sex, population, treatment)\nWrite results to a .csv file"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#introduction-to-ggplot2",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#introduction-to-ggplot2",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Introduction to ggplot2",
+    "text": "Introduction to ggplot2\n\nPart of the tidyverse suite of packages\nGG stands for “Grammar of Graphics”\nStart with ggplot(), supply dataset and aesthetic mapping with aes()\nAdd geometry layers with geom_*() functions\n\n\n\n\n\n\n\nTip\n\n\nMore info: https://ggplot2.tidyverse.org/"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#grammar-of-graphics",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#grammar-of-graphics",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Grammar of Graphics",
+    "text": "Grammar of Graphics"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#scatterplots",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#scatterplots",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Scatterplots",
+    "text": "Scatterplots\n\nggplot(mpg, aes(displ, hwy, color = class)) + \n  geom_point(size = 4, alpha = 0.6)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#boxplots",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#boxplots",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Boxplots",
+    "text": "Boxplots\n\nggplot(mpg, aes(manufacturer, hwy, colour = class)) + \n  geom_boxplot() + \n  theme_classic() + \n  theme(axis.text.x = element_text(angle = 45, hjust=1))"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#common-ggplot-geoms",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#common-ggplot-geoms",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Common ggplot Geoms",
+    "text": "Common ggplot Geoms\n\n\n\nGeom\nPurpose\nData Type\n\n\n\n\ngeom_point()\nScatterplots\nTwo continuous\n\n\ngeom_line()\nLine plots\nContinuous over ordered\n\n\ngeom_bar()\nBar charts\nCategorical counts\n\n\ngeom_histogram()\nHistograms\nSingle continuous\n\n\ngeom_boxplot()\nBoxplots\nContinuous by category\n\n\ngeom_smooth()\nTrend lines\nTwo continuous"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#combining-geoms",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#combining-geoms",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Combining Geoms",
+    "text": "Combining Geoms\n\nggplot(data=mpg, aes(x=displ, y=hwy)) +\n  geom_point() +\n  geom_smooth() +\n  labs(title = \"Fuel efficiency decreases with engine size\",\n       caption = \"Data from fueleconomy.gov\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#faceting",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#faceting",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Faceting",
+    "text": "Faceting\n\nggplot(data=mpg) +\n  geom_point(mapping=aes(x=displ, y=hwy)) +\n  facet_wrap(~class, nrow=2)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#three-dimensional-data",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#three-dimensional-data",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Three-Dimensional Data",
+    "text": "Three-Dimensional Data\n\nset.seed(345)\nd &lt;- data.frame(a = rnorm(100, 10, 10), b = rnorm(100, 5, 5))\nggplot(d, aes(x=a, y=b)) +\n  geom_density2d_filled() +\n  theme_minimal()"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#choosing-the-right-plot",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#choosing-the-right-plot",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Choosing the Right Plot",
+    "text": "Choosing the Right Plot\n\nFlow chart for choosing data visualization types"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#r-exercise-data-visualization",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#r-exercise-data-visualization",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "R Exercise: Data Visualization",
+    "text": "R Exercise: Data Visualization\n\n\n\n\n\n\nExercise\n\n\n\nRead in Week1b_Stickle_RNAseq.tsv or knee_injury.csv dataset\nCreate histograms of data\nCreate histograms on a faceted figure for different levels of a category\nRepeat steps 2 and 3 but create boxplots\nWrite plots to a .pdf file"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#principles-of-effective-display",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#principles-of-effective-display",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Principles of Effective Display",
+    "text": "Principles of Effective Display\n\n“Graphical excellence is that which gives to the viewer the greatest number of ideas in the shortest time with the least ink in the smallest space”\n— Edward Tufte"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#principles-of-effective-display-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#principles-of-effective-display-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Principles of Effective Display",
+    "text": "Principles of Effective Display\n\nShow the data\nEncourage the eye to compare differences\nRepresent magnitudes honestly and accurately\nDraw graphical elements clearly, minimizing clutter\nMake displays easy to interpret"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#above-all-else-show-the-data",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#above-all-else-show-the-data",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "“Above All Else Show the Data”",
+    "text": "“Above All Else Show the Data”\n\nTufte 1983"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#maximize-the-data-to-ink-ratio",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#maximize-the-data-to-ink-ratio",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "“Maximize the Data to Ink Ratio”",
+    "text": "“Maximize the Data to Ink Ratio”\n\nThe Economist 2006"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#represent-magnitudes-honestly",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#represent-magnitudes-honestly",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Represent Magnitudes Honestly",
+    "text": "Represent Magnitudes Honestly\n\nRattenborg et al. 1999 Nature"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#how-not-to-make-a-figure",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#how-not-to-make-a-figure",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "How NOT to Make a Figure",
+    "text": "How NOT to Make a Figure\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n“Graphical excellence begins with telling the truth about the data” – Tufte 1983"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#population-vs.-sample",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#population-vs.-sample",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Population vs. Sample",
+    "text": "Population vs. Sample\n\n\n\nConcept\nPopulation\nSample\n\n\n\n\nDefinition\nAll individuals\nSubset of population\n\n\nParameters\nμ (mean), σ (SD)\nx̄ (mean), s (SD)\n\n\nGoal\nWhat we want to know\nWhat we can measure\n\n\n\n\n\n\n\n\n\nImportant\n\n\nWe use sample statistics to estimate population parameters"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#accuracy-vs.-precision",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#accuracy-vs.-precision",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Accuracy vs. Precision",
+    "text": "Accuracy vs. Precision\n\n\nAccuracy: closeness to true value\nPrecision: closeness of repeated estimates to each other\nReplication quantifies variation\nRandomization avoids bias"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#stochastic-processes-in-statistics",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#stochastic-processes-in-statistics",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Stochastic Processes in Statistics",
+    "text": "Stochastic Processes in Statistics\n\nWe often want to know truths about the world, but can only estimate them\nUncertainty in those estimates is a given\nStatistics is largely about quantifying and managing uncertainty\nRandom variables are products of stochastic processes\nExpectations are based on theoretical probability distributions"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#two-interpretations-of-probability",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#two-interpretations-of-probability",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Two Interpretations of Probability",
+    "text": "Two Interpretations of Probability\nFrequency interpretation:\n“Probabilities are mathematically convenient approximations to long run relative frequencies.”\nSubjective (Bayesian) interpretation:\n“A probability statement expresses the opinion of some individual regarding how certain an event is to occur.”"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#random-variables-and-probability",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#random-variables-and-probability",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Random Variables and Probability",
+    "text": "Random Variables and Probability\n\nProbability is the expression of belief in some future outcome\nA random variable can take on different values with different probabilities\nThe sample space is the universe of all possible values\nSample space represented by:\n\nProbability mass distribution (discrete)\nProbability density function (continuous)\n\n\n\n\n\n\n\n\nImportant\n\n\nProbabilities of a sample space always sum to 1.0"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#probability-rules",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#probability-rules",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Probability Rules",
+    "text": "Probability Rules\n‘And’ rule (multiplication): \\[Pr(X \\text{ and } Y) = Pr(X) \\times Pr(Y)\\]\n‘Or’ rule (addition): \\[Pr(X \\text{ or } Y) = Pr(X) + Pr(Y)\\]\n\n\n\n\n\n\nNote\n\n\nThe ‘and’ rule assumes independent events. For non-independent events, we need conditional probabilities."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#joint-and-conditional-probability",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#joint-and-conditional-probability",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Joint and Conditional Probability",
+    "text": "Joint and Conditional Probability\nJoint probability (independent events): \\[Pr(X,Y) = Pr(X) \\times Pr(Y)\\]\nConditional probability (independent): \\[Pr(Y|X) = Pr(Y) \\text{ and } Pr(X|Y) = Pr(X)\\]\nConditional probability (non-independent): \\[Pr(Y|X) \\neq Pr(Y) \\text{ and } Pr(X|Y) \\neq Pr(X)\\]"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#likelihood-vs.-probability",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#likelihood-vs.-probability",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Likelihood vs. Probability",
+    "text": "Likelihood vs. Probability\n\nProbability: proportion of times an event would occur over many trials\nLikelihood: conditional probability of a parameter value given data\n\n\\[L[\\text{parameter}|\\text{data}] = Pr[\\text{data}|\\text{parameter}]\\]\n\nMaximum likelihood: highest value of the likelihood function\nBayesian estimate: uses prior distribution to update posterior distribution"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#moments-of-distributions",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#moments-of-distributions",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Moments of Distributions",
+    "text": "Moments of Distributions\n1st moment (mean/expectation): \\[E[X] = \\sum_{\\text{all x}}xP(X=x) = \\mu\\]\n2nd moment (variance): \\[Var(X) = E[(X-\\mu)^2] = \\sigma^2\\]\nStandard deviation: \\[SD = \\sqrt{\\sigma^2} = \\sigma\\]\nHigher moments include skewness (3rd) and kurtosis (4th)."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#bernoulli-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#bernoulli-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Bernoulli Distribution",
+    "text": "Bernoulli Distribution\nDescribes the expected outcome of a single event with probability \\(p\\).\nExample: Flipping a fair coin once\n\\[Pr(X=\\text{Head}) = \\frac{1}{2} = 0.5 = p\\]\n\\[Pr(X=\\text{Tails}) = \\frac{1}{2} = 0.5 = 1 - p = q\\]\nProbabilities always sum to 1: \\(p + q = 1\\)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#lets-simulate-coin-flips",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#lets-simulate-coin-flips",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Let’s Simulate Coin Flips",
+    "text": "Let’s Simulate Coin Flips\n\ncoin &lt;- c(\"heads\", \"tails\")\nflips &lt;- sample(coin, prob = c(0.5, 0.5), size = 100, replace = TRUE)\nbarplot(table(flips), col = c(\"steelblue\", \"coral\"))"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#binomial-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#binomial-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Binomial Distribution",
+    "text": "Binomial Distribution\nResults from combining several independent Bernoulli events.\n\\[\\large f(k) = {n \\choose k} p^{k} (1-p)^{n-k}\\]\nWhere:\n\n\\(n\\) = total number of trials\n\\(k\\) = number of successes\n\\(p\\) = probability of success"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#binomial-distribution-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#binomial-distribution-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Binomial Distribution",
+    "text": "Binomial Distribution"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#testing-binomial-distributions",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#testing-binomial-distributions",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Testing Binomial Distributions",
+    "text": "Testing Binomial Distributions\n\n# Probability of exactly 5 successes in 10 trials\ndbinom(x = 5, size = 10, prob = 0.5)\n\n[1] 0.2460938\n\n# Plot distribution\nplot(0:10, dbinom(x = 0:10, size = 10, prob = 0.5), \n     type = \"h\", lwd = 3, col = \"steelblue\",\n     xlab = \"Number of Successes\", ylab = \"Probability\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#poisson-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#poisson-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Poisson Distribution",
+    "text": "Poisson Distribution\nFor discrete counts (e.g., snails per plot, neuron firings per second).\n\\[Pr(Y=r) = \\frac{e^{-\\lambda}\\lambda^r}{r!}\\]\n\n\n\n\n\n\nNote\n\n\nThe Poisson is a single-parameter distribution: \\(\\mu = \\sigma^2 = \\lambda\\)\nVariables with variance &gt; mean are called “overdispersed” (common in RNA-seq data)."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#poisson-distribution-examples",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#poisson-distribution-examples",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Poisson Distribution Examples",
+    "text": "Poisson Distribution Examples\n\n\n\n\n\nGene length by 500 nt bins\n\n\n\n\n\n\nIncreasing λ values"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#testing-poisson-distributions",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#testing-poisson-distributions",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Testing Poisson Distributions",
+    "text": "Testing Poisson Distributions\n\n# Probability of 2 counts given lambda = 1\ndpois(x = 2, lambda = 1)\n\n[1] 0.1839397\n\n# Plot distribution\nplot(0:15, dpois(x = 0:15, lambda = 3), \n     type = \"h\", lwd = 3, col = \"darkgreen\",\n     xlab = \"Count\", ylab = \"Probability\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#geometric-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#geometric-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Geometric Distribution",
+    "text": "Geometric Distribution\nProbability of observing \\(k\\) trials before the first success:\n\\[P(X=k)=(1-p)^{k-1}p\\]\n\nMean = \\(\\frac{1}{p}\\)\nVariance = \\(\\frac{(1-p)}{p^2}\\)\n\nExample: If extinction probability is 0.1 per year, expected time to extinction?"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#negative-binomial-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#negative-binomial-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Negative Binomial Distribution",
+    "text": "Negative Binomial Distribution\nProbability of the \\(r^{th}\\) success on the \\(k^{th}\\) trial:\n\\[P(X=k)=\\binom{k-1}{r-1}p^{r}(1-p)^{k-r}\\]\n\nMean = \\(\\frac{r}{p}\\)\nVariance = \\(\\frac{r(1-p)}{p^2}\\)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#continuous-probability-distributions-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#continuous-probability-distributions-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Continuous Probability Distributions",
+    "text": "Continuous Probability Distributions\n\\[P(a\\leq X \\leq b) = \\int_{a}^{b} f(x) dx\\]\nThe indefinite integral sums to one:\n\\[\\int_{-\\infty}^{\\infty} f(x) dx = 1\\]\nExpectation: \\[E[X] = \\int_{-\\infty}^{\\infty} xf(x) dx\\]"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#uniform-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#uniform-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Uniform Distribution",
+    "text": "Uniform Distribution\nAll outcomes equally probable.\n\\[E[X] = \\frac{(a+b)}{2}\\]\n\nx &lt;- seq(0, 10, 0.1)\nplot(x, dunif(x, 0, 10), type = \"l\", lwd = 2, col = \"purple\",\n     ylab = \"Density\", main = \"Uniform Distribution (0, 10)\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#exponential-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#exponential-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Exponential Distribution",
+    "text": "Exponential Distribution\n\\[f(x)=\\lambda e^{-\\lambda x}\\]\n\n\\(E[X] = \\frac{1}{\\lambda}\\)\n\\(Var(X) = \\frac{1}{\\lambda^2}\\)\n\nExample: If λ equals the instantaneous death rate, the lifespan follows an exponential distribution."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#exponential-distribution-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#exponential-distribution-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Exponential Distribution",
+    "text": "Exponential Distribution\n\nx &lt;- seq(0, 50, 0.5)\nplot(x, dexp(x, rate = 0.1), type = \"l\", lwd = 2, col = \"red\",\n     ylab = \"Density\", main = \"Exponential Distribution (λ = 0.1)\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#gamma-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#gamma-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Gamma Distribution",
+    "text": "Gamma Distribution\nWaiting time until the \\(r^{th}\\) event at rate \\(\\lambda\\):\n\\[f(x) = \\frac{\\lambda^r x^{r-1} e^{-\\lambda x}}{(r-1)!}\\]\n\nMean = \\(\\frac{r}{\\lambda}\\)\nVariance = \\(\\frac{r}{\\lambda^2}\\)\n\nExample: Time until 1000 DNA strands synthesized at rate 1/ms."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#normal-gaussian-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#normal-gaussian-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Normal (Gaussian) Distribution",
+    "text": "Normal (Gaussian) Distribution\n\\[f(x) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} \\, \\mathrm{e}^{-\\frac{(x - \\mu)^2}{2\\sigma^2}}\\]\nNotation: \\(v \\sim \\mathcal{N}(\\mu, \\sigma^2)\\)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#why-is-the-normal-distribution-special",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#why-is-the-normal-distribution-special",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Why is the Normal Distribution Special?",
+    "text": "Why is the Normal Distribution Special?"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#central-limit-theorem-connection",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#central-limit-theorem-connection",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Central Limit Theorem Connection",
+    "text": "Central Limit Theorem Connection"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#z-scores",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#z-scores",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Z-Scores",
+    "text": "Z-Scores\nStandardize variables to mean = 0, SD = 1:\n\\[\\huge z_i = \\frac{(x_i - \\bar{x})}{s}\\]\nThis is the standard normal distribution."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#distribution-functions-in-r",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#distribution-functions-in-r",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Distribution Functions in R",
+    "text": "Distribution Functions in R\n\n\n\nPrefix\nFunction\nExample\n\n\n\n\nd\nProbability density/mass\ndnorm(0, 0, 1)\n\n\np\nCumulative distribution\npnorm(1.96, 0, 1)\n\n\nq\nQuantile function\nqnorm(0.975, 0, 1)\n\n\nr\nRandom number generator\nrnorm(100, 0, 1)\n\n\n\nWorks for: binom, pois, exp, norm, geom, nbinom, unif, gamma"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#parameter-estimation",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#parameter-estimation",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Parameter Estimation",
+    "text": "Parameter Estimation\n\nEstimation infers population parameters from sample data\nSample estimates rarely equal population parameters exactly\nSampling distribution: all values we might obtain from samples\nStandard error: standard deviation of sampling distribution\n\n\n\n\n\n\n\nImportant\n\n\nNO ESTIMATE IS USEFUL WITHOUT A STANDARD ERROR!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#estimation-approaches",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#estimation-approaches",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Estimation Approaches",
+    "text": "Estimation Approaches\n\n\n\nApproach\nDescription\n\n\n\n\nParametric\nAssumes specific distributions\n\n\nResampling\nBootstrap/randomization for empirical distributions\n\n\nOLS\nOrdinary Least Squares optimization\n\n\nMaximum Likelihood\nModel-based estimates with confidence\n\n\nBayesian\nIncorporates prior information"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#the-central-limit-theorem",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#the-central-limit-theorem",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "The Central Limit Theorem",
+    "text": "The Central Limit Theorem\nFor most data, we can’t determine sampling distributions empirically.\nThe CLT tells us that the sampling distribution of the mean approaches normal as sample size increases, regardless of the underlying distribution."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#standard-error-of-the-mean",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#standard-error-of-the-mean",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Standard Error of the Mean",
+    "text": "Standard Error of the Mean\n\\[\\huge \\sigma_{\\bar{x}} \\approx s_{\\bar{x}} = \\frac{s}{\\sqrt{n}}\\]\n\n\n\n\n\n\nNote\n\n\n\nSEM is NOT the standard deviation of the original distribution\nSEM decreases as sample size increases"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#calculating-sem",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#calculating-sem",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Calculating SEM",
+    "text": "Calculating SEM\n\nset.seed(32)\ntrue_pop &lt;- rnorm(n = 1000, mean = 2, sd = 5)\n\n# Small sample\nsamps_5 &lt;- replicate(n = 50, sample(true_pop, size = 5))\nsem_5 &lt;- sd(apply(samps_5, 2, mean)) / sqrt(50)\n\n# Larger sample\nsamps_50 &lt;- replicate(n = 50, sample(true_pop, size = 50))\nsem_50 &lt;- sd(apply(samps_50, 2, mean)) / sqrt(50)\n\ncat(\"SEM (n=5):\", round(sem_5, 4), \"\\nSEM (n=50):\", round(sem_50, 4))\n\nSEM (n=5): 0.2647 \nSEM (n=50): 0.0828"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#confidence-intervals",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#confidence-intervals",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Confidence Intervals",
+    "text": "Confidence Intervals\nA confidence interval is a range of values about a parameter estimate such that we are X% certain the true population parameter lies within.\n\n# 95% CI using t.test\nsample_data &lt;- rnorm(30, mean = 10, sd = 2)\nt.test(sample_data)$conf.int\n\n[1]  9.177721 10.707722\nattr(,\"conf.level\")\n[1] 0.95"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#coefficient-of-variation",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#coefficient-of-variation",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Coefficient of Variation",
+    "text": "Coefficient of Variation\nTo compare standard deviations across populations with different means:\n\\[CV = \\frac{s}{\\bar{x}} \\times 100\\%\\]"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-an-experimental-study",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#what-is-an-experimental-study",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "What is an Experimental Study?",
+    "text": "What is an Experimental Study?\n\nIn an experimental study the researcher assigns treatments to units\nIn an observational study nature does the assigning\nThe crucial advantage of experiments: random assignment of treatments\nRandomization minimizes the influence of confounding variables\nAllows us to infer cause and effect"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#clinical-trials",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#clinical-trials",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Clinical Trials",
+    "text": "Clinical Trials\n\nGold standard of experimental designs\nTwo or more treatments assigned to human subjects\nDesign refined because cost of mistakes is high\n\nKey components:\n\nSimultaneous control group\nRandomization\nBlinding\nReplication\nBalance\nBlocking"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#clinical-trial-example",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#clinical-trial-example",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Clinical Trial Example",
+    "text": "Clinical Trial Example"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#simultaneous-control-group",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#simultaneous-control-group",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Simultaneous Control Group",
+    "text": "Simultaneous Control Group\n\nPlacebo or currently accepted treatment\nControl subjects should be perturbed similarly to treated subjects\n“Sham operation” example in surgical studies"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#randomization",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#randomization",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Randomization",
+    "text": "Randomization\n\nBreaks association between confounding variables and treatment\nEnsures variation from confounding variables is similar across groups\n\nTypes:\n\nCompletely randomized design\nRandomized block design\nMatched pair design"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#random-sampling-approaches",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#random-sampling-approaches",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Random Sampling Approaches",
+    "text": "Random Sampling Approaches\n\nSimple random sample - every sample has equal probability\nStratified sample - divided into groups, then random sample from each\nCluster sample - random sample of naturally occurring groups\nMultistage sampling - combines the above approaches\nSystematic sample - predetermined pattern (e.g., every 20th person)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#blinding",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#blinding",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Blinding",
+    "text": "Blinding\n\nSingle-blind: Subjects unaware of treatment\nDouble-blind: Both subjects and researchers unaware\n\n\n\n\n\n\n\nImportant\n\n\nStudies without double-blinding exaggerate treatment effects by 16% on average (Jüni et al. 2001)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#replication-and-balance",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#replication-and-balance",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Replication and Balance",
+    "text": "Replication and Balance\nReplication:\n\nAssignment of each treatment to multiple independent units\nLarger samples = smaller standard errors, more power\n\nBalance:\n\nEqual sample sizes across treatments\nMinimizes standard error"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#pseudoreplication",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#pseudoreplication",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Pseudoreplication",
+    "text": "Pseudoreplication"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#blocking",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#blocking",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Blocking",
+    "text": "Blocking\n\nGrouping of experimental units with similar properties\nTreatments randomly assigned within blocks\nReduces variation from differences between blocks"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#paired-designs",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#paired-designs",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Paired Designs",
+    "text": "Paired Designs"
   }
 ]
