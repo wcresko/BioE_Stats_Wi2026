@@ -920,5 +920,3 @@ Studies without double-blinding exaggerate treatment effects by 16% on average (
 ## Paired Designs {.smaller}
 
 ![](images/images_6a.009.jpeg){fig-align="center" width="90%"}
-
-

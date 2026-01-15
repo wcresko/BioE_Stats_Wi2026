@@ -1,289 +1,438 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Bill Cresko">
+
+<title>Statistics for Bioengineering 2026 - Week 2 – BioEngineering Statistics Winter 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-662ae1889177880cb371f83234c0a158.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.30">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f7fe251563e67c05764dc4775ff48cfc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
-  <meta name="author" content="Bill Cresko">
-  <title>BioEngineering Statistics Winter 2026 – Statistics for Bioengineering 2026 - Week 2</title>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
-      vertical-align: middle;
-    }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
       }
-    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-    div.sourceCode
-      { color: #24292e;  }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
     }
-    code span { color: #24292e; } /* Normal */
-    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
-    code span.an { color: #6a737d; } /* Annotation */
-    code span.at { color: #d73a49; } /* Attribute */
-    code span.bn { color: #005cc5; } /* BaseN */
-    code span.bu { color: #d73a49; } /* BuiltIn */
-    code span.cf { color: #d73a49; } /* ControlFlow */
-    code span.ch { color: #032f62; } /* Char */
-    code span.cn { color: #005cc5; } /* Constant */
-    code span.co { color: #6a737d; } /* Comment */
-    code span.cv { color: #6a737d; } /* CommentVar */
-    code span.do { color: #6a737d; } /* Documentation */
-    code span.dt { color: #d73a49; } /* DataType */
-    code span.dv { color: #005cc5; } /* DecVal */
-    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
-    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
-    code span.fl { color: #005cc5; } /* Float */
-    code span.fu { color: #6f42c1; } /* Function */
-    code span.im { color: #032f62; } /* Import */
-    code span.in { color: #6a737d; } /* Information */
-    code span.kw { color: #d73a49; } /* Keyword */
-    code span.op { color: #24292e; } /* Operator */
-    code span.ot { color: #6f42c1; } /* Other */
-    code span.pp { color: #d73a49; } /* Preprocessor */
-    code span.re { color: #6a737d; } /* RegionMarker */
-    code span.sc { color: #005cc5; } /* SpecialChar */
-    code span.ss { color: #032f62; } /* SpecialString */
-    code span.st { color: #032f62; } /* String */
-    code span.va { color: #e36209; } /* Variable */
-    code span.vs { color: #032f62; } /* VerbatimString */
-    code span.wa { color: #ff5555; } /* Warning */
-  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-ee9ab3830bbe7759b42dda8416faf5cd.css">
-  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
-  <style type="text/css">
-    .reveal div.sourceCode {
-      margin: 0;
-      overflow: auto;
-    }
-    .reveal div.hanging-indent {
-      margin-left: 1em;
-      text-indent: -1em;
-    }
-    .reveal .slide:not(.center) {
-      height: 100%;
-    }
-    .reveal .slide.scrollable {
-      overflow-y: auto;
-    }
-    .reveal .footnotes {
-      height: 100%;
-      overflow-y: auto;
-    }
-    .reveal .slide .absolute {
-      position: absolute;
-      display: block;
-    }
-    .reveal .footnotes ol {
-      counter-reset: ol;
-      list-style-type: none; 
-      margin-left: 0;
-    }
-    .reveal .footnotes ol li:before {
-      counter-increment: ol;
-      content: counter(ol) ". "; 
-    }
-    .reveal .footnotes ol li > p:first-child {
-      display: inline-block;
-    }
-    .reveal .slide ul,
-    .reveal .slide ol {
-      margin-bottom: 0.5em;
-    }
-    .reveal .slide ul li,
-    .reveal .slide ol li {
-      margin-top: 0.4em;
-      margin-bottom: 0.2em;
-    }
-    .reveal .slide ul[role="tablist"] li {
-      margin-bottom: 0;
-    }
-    .reveal .slide ul li > *:first-child,
-    .reveal .slide ol li > *:first-child {
-      margin-block-start: 0;
-    }
-    .reveal .slide ul li > *:last-child,
-    .reveal .slide ol li > *:last-child {
-      margin-block-end: 0;
-    }
-    .reveal .slide .columns:nth-child(3) {
-      margin-block-start: 0.8em;
-    }
-    .reveal blockquote {
-      box-shadow: none;
-    }
-    .reveal .tippy-content>* {
-      margin-top: 0.2em;
-      margin-bottom: 0.7em;
-    }
-    .reveal .tippy-content>*:last-child {
-      margin-bottom: 0.2em;
-    }
-    .reveal .slide > img.stretch.quarto-figure-center,
-    .reveal .slide > img.r-stretch.quarto-figure-center {
-      display: block;
-      margin-left: auto;
-      margin-right: auto; 
-    }
-    .reveal .slide > img.stretch.quarto-figure-left,
-    .reveal .slide > img.r-stretch.quarto-figure-left  {
-      display: block;
-      margin-left: 0;
-      margin-right: auto; 
-    }
-    .reveal .slide > img.stretch.quarto-figure-right,
-    .reveal .slide > img.r-stretch.quarto-figure-right  {
-      display: block;
-      margin-left: auto;
-      margin-right: 0; 
-    }
-  </style>
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
-<body class="quarto-light">
-  <div class="reveal">
-    <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Statistics for Bioengineering 2026 - Week 2</h1>
+<body class="nav-fixed quarto-light">
 
-<div class="quarto-title-authors">
-<div class="quarto-title-author">
-<div class="quarto-title-author-name">
-Bill Cresko 
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Policies.html"> 
+<span class="menu-text">Policies</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Lectures.html"> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Homework.html"> 
+<span class="menu-text">Homeworks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Software.html"> 
+<span class="menu-text">Software</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Resources.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
 </div>
-</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#markdown-and-reproducible-research" id="toc-markdown-and-reproducible-research" class="nav-link active" data-scroll-target="#markdown-and-reproducible-research">Markdown and Reproducible Research</a>
+  <ul class="collapse">
+  <li><a href="#what-is-markdown" id="toc-what-is-markdown" class="nav-link" data-scroll-target="#what-is-markdown">What is Markdown?</a></li>
+  <li><a href="#formatting-text" id="toc-formatting-text" class="nav-link" data-scroll-target="#formatting-text">Formatting Text</a></li>
+  <li><a href="#block-quotes" id="toc-block-quotes" class="nav-link" data-scroll-target="#block-quotes">Block Quotes</a></li>
+  <li><a href="#what-is-quarto" id="toc-what-is-quarto" class="nav-link" data-scroll-target="#what-is-quarto">What is Quarto?</a></li>
+  <li><a href="#what-is-latex" id="toc-what-is-latex" class="nav-link" data-scroll-target="#what-is-latex">What is LaTeX?</a></li>
+  <li><a href="#latex-operators-and-symbols" id="toc-latex-operators-and-symbols" class="nav-link" data-scroll-target="#latex-operators-and-symbols">LaTeX Operators and Symbols</a></li>
+  <li><a href="#key-equations-in-statistics" id="toc-key-equations-in-statistics" class="nav-link" data-scroll-target="#key-equations-in-statistics">Key Equations in Statistics</a></li>
+  <li><a href="#inline-vs.-display-equations" id="toc-inline-vs.-display-equations" class="nav-link" data-scroll-target="#inline-vs.-display-equations">Inline vs.&nbsp;Display Equations</a></li>
+  <li><a href="#code-chunk-options" id="toc-code-chunk-options" class="nav-link" data-scroll-target="#code-chunk-options">Code Chunk Options</a></li>
+  </ul></li>
+  <li><a href="#week-2-eda-probability-and-experimental-design" id="toc-week-2-eda-probability-and-experimental-design" class="nav-link" data-scroll-target="#week-2-eda-probability-and-experimental-design">Week 2: EDA, Probability, and Experimental Design</a>
+  <ul class="collapse">
+  <li><a href="#week-2-topics" id="toc-week-2-topics" class="nav-link" data-scroll-target="#week-2-topics">Week 2 Topics</a></li>
+  </ul></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#what-is-eda" id="toc-what-is-eda" class="nav-link" data-scroll-target="#what-is-eda">What is EDA?</a></li>
+  </ul></li>
+  <li><a href="#data-wrangling-with-tidyverse" id="toc-data-wrangling-with-tidyverse" class="nav-link" data-scroll-target="#data-wrangling-with-tidyverse">Data Wrangling with Tidyverse</a>
+  <ul class="collapse">
+  <li><a href="#tidyverse-family-of-packages" id="toc-tidyverse-family-of-packages" class="nav-link" data-scroll-target="#tidyverse-family-of-packages">Tidyverse Family of Packages</a></li>
+  <li><a href="#key-dplyr-verbs" id="toc-key-dplyr-verbs" class="nav-link" data-scroll-target="#key-dplyr-verbs">Key dplyr Verbs</a></li>
+  <li><a href="#filter-arrange-and-select" id="toc-filter-arrange-and-select" class="nav-link" data-scroll-target="#filter-arrange-and-select">Filter, Arrange, and Select</a></li>
+  <li><a href="#conditional-operators" id="toc-conditional-operators" class="nav-link" data-scroll-target="#conditional-operators">Conditional Operators</a></li>
+  <li><a href="#mutate-and-transmute" id="toc-mutate-and-transmute" class="nav-link" data-scroll-target="#mutate-and-transmute">Mutate and Transmute</a></li>
+  <li><a href="#group-by-and-summarise" id="toc-group-by-and-summarise" class="nav-link" data-scroll-target="#group-by-and-summarise">Group By and Summarise</a></li>
+  <li><a href="#other-useful-dplyr-functions" id="toc-other-useful-dplyr-functions" class="nav-link" data-scroll-target="#other-useful-dplyr-functions">Other Useful dplyr Functions</a></li>
+  <li><a href="#r-exercise-data-wrangling" id="toc-r-exercise-data-wrangling" class="nav-link" data-scroll-target="#r-exercise-data-wrangling">R Exercise: Data Wrangling</a></li>
+  </ul></li>
+  <li><a href="#break" id="toc-break" class="nav-link" data-scroll-target="#break">BREAK</a></li>
+  <li><a href="#data-visualization-with-ggplot2" id="toc-data-visualization-with-ggplot2" class="nav-link" data-scroll-target="#data-visualization-with-ggplot2">Data Visualization with ggplot2</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-ggplot2" id="toc-introduction-to-ggplot2" class="nav-link" data-scroll-target="#introduction-to-ggplot2">Introduction to ggplot2</a></li>
+  <li><a href="#grammar-of-graphics" id="toc-grammar-of-graphics" class="nav-link" data-scroll-target="#grammar-of-graphics">Grammar of Graphics</a></li>
+  <li><a href="#scatterplots" id="toc-scatterplots" class="nav-link" data-scroll-target="#scatterplots">Scatterplots</a></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots">Boxplots</a></li>
+  <li><a href="#common-ggplot-geoms" id="toc-common-ggplot-geoms" class="nav-link" data-scroll-target="#common-ggplot-geoms">Common ggplot Geoms</a></li>
+  <li><a href="#combining-geoms" id="toc-combining-geoms" class="nav-link" data-scroll-target="#combining-geoms">Combining Geoms</a></li>
+  <li><a href="#faceting" id="toc-faceting" class="nav-link" data-scroll-target="#faceting">Faceting</a></li>
+  <li><a href="#three-dimensional-data" id="toc-three-dimensional-data" class="nav-link" data-scroll-target="#three-dimensional-data">Three-Dimensional Data</a></li>
+  <li><a href="#choosing-the-right-plot" id="toc-choosing-the-right-plot" class="nav-link" data-scroll-target="#choosing-the-right-plot">Choosing the Right Plot</a></li>
+  <li><a href="#r-exercise-data-visualization" id="toc-r-exercise-data-visualization" class="nav-link" data-scroll-target="#r-exercise-data-visualization">R Exercise: Data Visualization</a></li>
+  </ul></li>
+  <li><a href="#best-practices-in-data-visualization" id="toc-best-practices-in-data-visualization" class="nav-link" data-scroll-target="#best-practices-in-data-visualization">Best Practices in Data Visualization</a>
+  <ul class="collapse">
+  <li><a href="#principles-of-effective-display" id="toc-principles-of-effective-display" class="nav-link" data-scroll-target="#principles-of-effective-display">Principles of Effective Display</a></li>
+  <li><a href="#principles-of-effective-display-1" id="toc-principles-of-effective-display-1" class="nav-link" data-scroll-target="#principles-of-effective-display-1">Principles of Effective Display</a></li>
+  <li><a href="#above-all-else-show-the-data" id="toc-above-all-else-show-the-data" class="nav-link" data-scroll-target="#above-all-else-show-the-data">“Above All Else Show the Data”</a></li>
+  <li><a href="#maximize-the-data-to-ink-ratio" id="toc-maximize-the-data-to-ink-ratio" class="nav-link" data-scroll-target="#maximize-the-data-to-ink-ratio">“Maximize the Data to Ink Ratio”</a></li>
+  <li><a href="#represent-magnitudes-honestly" id="toc-represent-magnitudes-honestly" class="nav-link" data-scroll-target="#represent-magnitudes-honestly">Represent Magnitudes Honestly</a></li>
+  <li><a href="#how-not-to-make-a-figure" id="toc-how-not-to-make-a-figure" class="nav-link" data-scroll-target="#how-not-to-make-a-figure">How NOT to Make a Figure</a></li>
+  </ul></li>
+  <li><a href="#break-1" id="toc-break-1" class="nav-link" data-scroll-target="#break-1">BREAK</a></li>
+  <li><a href="#parameters-and-statistics" id="toc-parameters-and-statistics" class="nav-link" data-scroll-target="#parameters-and-statistics">Parameters and Statistics</a>
+  <ul class="collapse">
+  <li><a href="#population-vs.-sample" id="toc-population-vs.-sample" class="nav-link" data-scroll-target="#population-vs.-sample">Population vs.&nbsp;Sample</a></li>
+  <li><a href="#accuracy-vs.-precision" id="toc-accuracy-vs.-precision" class="nav-link" data-scroll-target="#accuracy-vs.-precision">Accuracy vs.&nbsp;Precision</a></li>
+  <li><a href="#stochastic-processes-in-statistics" id="toc-stochastic-processes-in-statistics" class="nav-link" data-scroll-target="#stochastic-processes-in-statistics">Stochastic Processes in Statistics</a></li>
+  <li><a href="#two-interpretations-of-probability" id="toc-two-interpretations-of-probability" class="nav-link" data-scroll-target="#two-interpretations-of-probability">Two Interpretations of Probability</a></li>
+  <li><a href="#random-variables-and-probability" id="toc-random-variables-and-probability" class="nav-link" data-scroll-target="#random-variables-and-probability">Random Variables and Probability</a></li>
+  <li><a href="#probability-rules" id="toc-probability-rules" class="nav-link" data-scroll-target="#probability-rules">Probability Rules</a></li>
+  <li><a href="#joint-and-conditional-probability" id="toc-joint-and-conditional-probability" class="nav-link" data-scroll-target="#joint-and-conditional-probability">Joint and Conditional Probability</a></li>
+  <li><a href="#likelihood-vs.-probability" id="toc-likelihood-vs.-probability" class="nav-link" data-scroll-target="#likelihood-vs.-probability">Likelihood vs.&nbsp;Probability</a></li>
+  <li><a href="#moments-of-distributions" id="toc-moments-of-distributions" class="nav-link" data-scroll-target="#moments-of-distributions">Moments of Distributions</a></li>
+  </ul></li>
+  <li><a href="#discrete-probability-distributions" id="toc-discrete-probability-distributions" class="nav-link" data-scroll-target="#discrete-probability-distributions">Discrete Probability Distributions</a>
+  <ul class="collapse">
+  <li><a href="#bernoulli-distribution" id="toc-bernoulli-distribution" class="nav-link" data-scroll-target="#bernoulli-distribution">Bernoulli Distribution</a></li>
+  <li><a href="#lets-simulate-coin-flips" id="toc-lets-simulate-coin-flips" class="nav-link" data-scroll-target="#lets-simulate-coin-flips">Let’s Simulate Coin Flips</a></li>
+  <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution">Binomial Distribution</a></li>
+  <li><a href="#binomial-distribution-1" id="toc-binomial-distribution-1" class="nav-link" data-scroll-target="#binomial-distribution-1">Binomial Distribution</a></li>
+  <li><a href="#testing-binomial-distributions" id="toc-testing-binomial-distributions" class="nav-link" data-scroll-target="#testing-binomial-distributions">Testing Binomial Distributions</a></li>
+  <li><a href="#poisson-distribution" id="toc-poisson-distribution" class="nav-link" data-scroll-target="#poisson-distribution">Poisson Distribution</a></li>
+  <li><a href="#poisson-distribution-examples" id="toc-poisson-distribution-examples" class="nav-link" data-scroll-target="#poisson-distribution-examples">Poisson Distribution Examples</a></li>
+  <li><a href="#testing-poisson-distributions" id="toc-testing-poisson-distributions" class="nav-link" data-scroll-target="#testing-poisson-distributions">Testing Poisson Distributions</a></li>
+  <li><a href="#geometric-distribution" id="toc-geometric-distribution" class="nav-link" data-scroll-target="#geometric-distribution">Geometric Distribution</a></li>
+  <li><a href="#negative-binomial-distribution" id="toc-negative-binomial-distribution" class="nav-link" data-scroll-target="#negative-binomial-distribution">Negative Binomial Distribution</a></li>
+  </ul></li>
+  <li><a href="#continuous-probability-distributions" id="toc-continuous-probability-distributions" class="nav-link" data-scroll-target="#continuous-probability-distributions">Continuous Probability Distributions</a>
+  <ul class="collapse">
+  <li><a href="#continuous-probability-distributions-1" id="toc-continuous-probability-distributions-1" class="nav-link" data-scroll-target="#continuous-probability-distributions-1">Continuous Probability Distributions</a></li>
+  <li><a href="#uniform-distribution" id="toc-uniform-distribution" class="nav-link" data-scroll-target="#uniform-distribution">Uniform Distribution</a></li>
+  <li><a href="#exponential-distribution" id="toc-exponential-distribution" class="nav-link" data-scroll-target="#exponential-distribution">Exponential Distribution</a></li>
+  <li><a href="#exponential-distribution-1" id="toc-exponential-distribution-1" class="nav-link" data-scroll-target="#exponential-distribution-1">Exponential Distribution</a></li>
+  <li><a href="#gamma-distribution" id="toc-gamma-distribution" class="nav-link" data-scroll-target="#gamma-distribution">Gamma Distribution</a></li>
+  <li><a href="#normal-gaussian-distribution" id="toc-normal-gaussian-distribution" class="nav-link" data-scroll-target="#normal-gaussian-distribution">Normal (Gaussian) Distribution</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#why-is-the-normal-distribution-special" id="toc-why-is-the-normal-distribution-special" class="nav-link" data-scroll-target="#why-is-the-normal-distribution-special">Why is the Normal Distribution Special?</a></li>
+  <li><a href="#central-limit-theorem-connection" id="toc-central-limit-theorem-connection" class="nav-link" data-scroll-target="#central-limit-theorem-connection">Central Limit Theorem Connection</a></li>
+  <li><a href="#z-scores" id="toc-z-scores" class="nav-link" data-scroll-target="#z-scores">Z-Scores</a></li>
+  <li><a href="#distribution-functions-in-r" id="toc-distribution-functions-in-r" class="nav-link" data-scroll-target="#distribution-functions-in-r">Distribution Functions in R</a></li>
+  </ul></li>
+  <li><a href="#estimates-and-confidence-intervals" id="toc-estimates-and-confidence-intervals" class="nav-link" data-scroll-target="#estimates-and-confidence-intervals">Estimates and Confidence Intervals</a>
+  <ul class="collapse">
+  <li><a href="#parameter-estimation" id="toc-parameter-estimation" class="nav-link" data-scroll-target="#parameter-estimation">Parameter Estimation</a></li>
+  <li><a href="#estimation-approaches" id="toc-estimation-approaches" class="nav-link" data-scroll-target="#estimation-approaches">Estimation Approaches</a></li>
+  <li><a href="#the-central-limit-theorem" id="toc-the-central-limit-theorem" class="nav-link" data-scroll-target="#the-central-limit-theorem">The Central Limit Theorem</a></li>
+  <li><a href="#standard-error-of-the-mean" id="toc-standard-error-of-the-mean" class="nav-link" data-scroll-target="#standard-error-of-the-mean">Standard Error of the Mean</a></li>
+  <li><a href="#calculating-sem" id="toc-calculating-sem" class="nav-link" data-scroll-target="#calculating-sem">Calculating SEM</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">Confidence Intervals</a></li>
+  <li><a href="#coefficient-of-variation" id="toc-coefficient-of-variation" class="nav-link" data-scroll-target="#coefficient-of-variation">Coefficient of Variation</a></li>
+  </ul></li>
+  <li><a href="#break-2" id="toc-break-2" class="nav-link" data-scroll-target="#break-2">BREAK</a></li>
+  <li><a href="#experimental-design-principles" id="toc-experimental-design-principles" class="nav-link" data-scroll-target="#experimental-design-principles">Experimental Design Principles</a>
+  <ul class="collapse">
+  <li><a href="#what-is-an-experimental-study" id="toc-what-is-an-experimental-study" class="nav-link" data-scroll-target="#what-is-an-experimental-study">What is an Experimental Study?</a></li>
+  <li><a href="#clinical-trials" id="toc-clinical-trials" class="nav-link" data-scroll-target="#clinical-trials">Clinical Trials</a></li>
+  <li><a href="#clinical-trial-example" id="toc-clinical-trial-example" class="nav-link" data-scroll-target="#clinical-trial-example">Clinical Trial Example</a></li>
+  <li><a href="#simultaneous-control-group" id="toc-simultaneous-control-group" class="nav-link" data-scroll-target="#simultaneous-control-group">Simultaneous Control Group</a></li>
+  <li><a href="#randomization" id="toc-randomization" class="nav-link" data-scroll-target="#randomization">Randomization</a></li>
+  <li><a href="#random-sampling-approaches" id="toc-random-sampling-approaches" class="nav-link" data-scroll-target="#random-sampling-approaches">Random Sampling Approaches</a></li>
+  <li><a href="#blinding" id="toc-blinding" class="nav-link" data-scroll-target="#blinding">Blinding</a></li>
+  <li><a href="#replication-and-balance" id="toc-replication-and-balance" class="nav-link" data-scroll-target="#replication-and-balance">Replication and Balance</a></li>
+  <li><a href="#pseudoreplication" id="toc-pseudoreplication" class="nav-link" data-scroll-target="#pseudoreplication">Pseudoreplication</a></li>
+  <li><a href="#blocking" id="toc-blocking" class="nav-link" data-scroll-target="#blocking">Blocking</a></li>
+  <li><a href="#paired-designs" id="toc-paired-designs" class="nav-link" data-scroll-target="#paired-designs">Paired Designs</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Week2_BioE_Stats_Lecture.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Statistics for Bioengineering 2026 - Week 2</h1>
 </div>
 
-</section>
-<section>
-<section id="markdown-and-reproducible-research" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Markdown and Reproducible Research</h1>
 
-</section>
-<section id="what-is-markdown" class="slide level2 smaller">
-<h2>What is Markdown?</h2>
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Bill Cresko </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="markdown-and-reproducible-research" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Markdown and Reproducible Research</h1>
+<section id="what-is-markdown" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="what-is-markdown">What is Markdown?</h2>
 <ul>
 <li>Lightweight markup language for formatting plaintext documents</li>
 <li>Add basic syntax to make elements look different when rendered</li>
 <li>Renders to multiple output formats: PDF, HTML, presentations, websites, books</li>
 </ul>
 </section>
-<section id="formatting-text" class="slide level2">
-<h2>Formatting Text</h2>
+<section id="formatting-text" class="level2">
+<h2 class="anchored" data-anchor-id="formatting-text">Formatting Text</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="sc">*</span>Italic<span class="sc">*</span> or _Italic_</span>
-<span id="cb1-2"><a></a><span class="sc">**</span>Bold<span class="sc">**</span> or __Bold__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span>Italic<span class="sc">*</span> or _Italic_</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">**</span>Bold<span class="sc">**</span> or __Bold__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Results: <em>Italic</em>, <strong>Bold</strong></p>
 </section>
-<section id="block-quotes" class="slide level2 smaller">
-<h2>Block Quotes</h2>
+<section id="block-quotes" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="block-quotes">Block Quotes</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="sc">&gt;</span> <span class="st">"You know the greatest danger facing us is ourselves, </span></span>
-<span id="cb2-2"><a></a><span class="st">&gt; an irrational fear of the unknown."</span></span>
-<span id="cb2-3"><a></a><span class="sc">&gt;</span></span>
-<span id="cb2-4"><a></a><span class="er">&gt;</span> <span class="sc">---</span> Captain James T. Kirk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="st">"You know the greatest danger facing us is ourselves, </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; an irrational fear of the unknown."</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> <span class="sc">---</span> Captain James T. Kirk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<blockquote>
+<blockquote class="blockquote">
 <p>“You know the greatest danger facing us is ourselves, an irrational fear of the unknown.”</p>
 <p>— Captain James T. Kirk</p>
 </blockquote>
 </section>
-<section id="what-is-quarto" class="slide level2 smaller">
-<h2>What is Quarto?</h2>
+<section id="what-is-quarto" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="what-is-quarto">What is Quarto?</h2>
 <ul>
 <li>Open-source scientific and technical publishing system</li>
 <li>Combines code + text + outputs in a single document</li>
 <li>Successor to R Markdown with expanded capabilities</li>
 <li>Supports R, Python, Julia, and more</li>
 </ul>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Key Benefits</strong></p>
+<div class="callout-title-container flex-fill">
+Key Benefits
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>Reproducibility, documentation, multiple output formats</p>
 </div>
 </div>
-</div>
 </section>
-<section id="what-is-latex" class="slide level2 smaller">
-<h2>What is LaTeX?</h2>
+<section id="what-is-latex" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="what-is-latex">What is LaTeX?</h2>
 <ul>
 <li>Pronounced “Lah-tech” or “Lay-tech”</li>
 <li>Document preparation system for high-quality typesetting</li>
 <li>Allows precise mathematical statements</li>
 <li>Can be included directly in Markdown documents</li>
 </ul>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Tip</strong></p>
+<div class="callout-title-container flex-fill">
+Tip
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>More info: <a href="https://www.latex-project.org" class="uri">https://www.latex-project.org</a></p>
 </div>
 </div>
-</div>
 </section>
-<section id="latex-operators-and-symbols" class="slide level2 smaller">
-<h2>LaTeX Operators and Symbols</h2>
+<section id="latex-operators-and-symbols" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="latex-operators-and-symbols">LaTeX Operators and Symbols</h2>
 <p><strong>Powers, roots, vectors:</strong></p>
 <p><code>a^x, \sqrt[n]{x}, \vec{\jmath}, \tilde{\imath}</code></p>
 <p><span class="math display">\[ \large a^x, \sqrt[n]{x}, \vec{\jmath}, \tilde{\imath}\]</span></p>
@@ -291,21 +440,21 @@ Bill Cresko
 <p><code>\alpha, \beta, \gamma, \mu, \sigma, \lambda</code> <span class="math display">\[ \large \alpha, \beta, \gamma, \mu, \sigma, \lambda\]</span></p>
 <p><strong>Relational operators:</strong> <code>\approx, \neq, \nsim, \leq, \geq</code> <span class="math display">\[ \large\approx, \neq, \nsim, \leq, \geq \]</span></p>
 </section>
-<section id="key-equations-in-statistics" class="slide level2 smaller">
-<h2>Key Equations in Statistics</h2>
+<section id="key-equations-in-statistics" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="key-equations-in-statistics">Key Equations in Statistics</h2>
 <p><strong>Binomial:</strong> <code>f(k) = {n \choose k} p\^{k} (1-p)\^{n-k}</code> <span class="math display">\[\large f(k) = {n \choose k} p^{k} (1-p)^{n-k}\]</span></p>
 <p><strong>Poisson:</strong> <code>Pr(Y=r) = \frac{e^{-\mu}\mu^r}{r!}</code> <span class="math display">\[\large Pr(Y=r) = \frac{e^{-\mu}\mu^r}{r!}\]</span></p>
 <p><strong>Normal:</strong> <code>f(x) = \frac{1}{\sqrt{2\pi\sigma}} , \mathrm{e}\^{-\frac{(x - \mu)^2}{2\sigma^2}}</code> <span class="math display">\[f(x) = \frac{1}{\sqrt{2\pi\sigma}} \, \mathrm{e}^{-\frac{(x - \mu)^2}{2\sigma^2}}\]</span></p>
 </section>
-<section id="inline-vs.-display-equations" class="slide level2">
-<h2>Inline vs.&nbsp;Display Equations</h2>
+<section id="inline-vs.-display-equations" class="level2">
+<h2 class="anchored" data-anchor-id="inline-vs.-display-equations">Inline vs.&nbsp;Display Equations</h2>
 <p><strong>Inline:</strong> <code>$y=\frac{1}{2}$</code> renders as <span class="math inline">\(y=\frac{1}{2}\)</span> within text.</p>
 <p><strong>Display:</strong> <code>$$y=\frac{1}{2}$$</code> renders on its own line:</p>
 <p><span class="math display">\[y=\frac{1}{2}\]</span></p>
 </section>
-<section id="code-chunk-options" class="slide level2 smaller">
-<h2>Code Chunk Options</h2>
-<table class="caption-top">
+<section id="code-chunk-options" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="code-chunk-options">Code Chunk Options</h2>
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Option</th>
@@ -339,81 +488,79 @@ Bill Cresko
 </tr>
 </tbody>
 </table>
+<hr>
 </section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="week-2-eda-probability-and-experimental-design" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Week 2: EDA, Probability, and Experimental Design</h1>
-
 </section>
-<section id="week-2-topics" class="slide level2">
-<h2>Week 2 Topics</h2>
-<ul>
-<li class="fragment">Exploratory data analysis</li>
-<li class="fragment">Data visualization</li>
-<li class="fragment">Parameters &amp; statistics</li>
-<li class="fragment">Probability distributions</li>
-<li class="fragment">Estimates &amp; confidence intervals</li>
-<li class="fragment">Clinical trials &amp; experimental design</li>
+<section id="week-2-eda-probability-and-experimental-design" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Week 2: EDA, Probability, and Experimental Design</h1>
+<section id="week-2-topics" class="level2">
+<h2 class="anchored" data-anchor-id="week-2-topics">Week 2 Topics</h2>
+<div class="incremental">
+<ul class="incremental">
+<li>Exploratory data analysis</li>
+<li>Data visualization</li>
+<li>Parameters &amp; statistics</li>
+<li>Probability distributions</li>
+<li>Estimates &amp; confidence intervals</li>
+<li>Clinical trials &amp; experimental design</li>
 </ul>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Note</strong></p>
+<div class="callout-title-container flex-fill">
+Note
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p><strong>Readings:</strong> Chapters 9-15</p>
 </div>
 </div>
-</div>
-</section></section>
-<section>
-<section id="exploratory-data-analysis" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Exploratory Data Analysis</h1>
-
 </section>
-<section id="what-is-eda" class="slide level2 smaller">
-<h2>What is EDA?</h2>
+</section>
+<section id="exploratory-data-analysis" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Exploratory Data Analysis</h1>
+<section id="what-is-eda" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="what-is-eda">What is EDA?</h2>
 <ul>
 <li>First step in any data analysis</li>
 <li>Understand structure and patterns in your data</li>
 <li>Identify outliers, missing values, errors</li>
 <li>Generate hypotheses for formal testing</li>
 </ul>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Always visualize your data before running statistical tests!</strong></p>
+<div class="callout-title-container flex-fill">
+Always visualize your data before running statistical tests!
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 
 </div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="data-wrangling-with-tidyverse" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Data Wrangling with Tidyverse</h1>
-
-</section>
-<section id="tidyverse-family-of-packages" class="slide level2 smaller">
-<h2>Tidyverse Family of Packages</h2>
-
-<img data-src="images/week_3.011.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"><div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="key-dplyr-verbs" class="slide level2 smaller">
-<h2>Key dplyr Verbs</h2>
-<table class="caption-top">
+</section>
+<section id="data-wrangling-with-tidyverse" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Data Wrangling with Tidyverse</h1>
+<section id="tidyverse-family-of-packages" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="tidyverse-family-of-packages">Tidyverse Family of Packages</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week_3.011.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="key-dplyr-verbs" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="key-dplyr-verbs">Key dplyr Verbs</h2>
+<table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 33%">
@@ -455,23 +602,27 @@ Bill Cresko
 </tbody>
 </table>
 </section>
-<section id="filter-arrange-and-select" class="slide level2 smaller">
-<h2>Filter, Arrange, and Select</h2>
+<section id="filter-arrange-and-select" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="filter-arrange-and-select">Filter, Arrange, and Select</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="co"># Filter rows</span></span>
-<span id="cb4-2"><a></a><span class="fu">filter</span>(flights, month <span class="sc">==</span> <span class="dv">11</span> <span class="sc">|</span> month <span class="sc">==</span> <span class="dv">12</span>)</span>
-<span id="cb4-3"><a></a></span>
-<span id="cb4-4"><a></a><span class="co"># Arrange rows</span></span>
-<span id="cb4-5"><a></a><span class="fu">arrange</span>(flights, year, month, day)</span>
-<span id="cb4-6"><a></a></span>
-<span id="cb4-7"><a></a><span class="co"># Select columns</span></span>
-<span id="cb4-8"><a></a><span class="fu">select</span>(flights, year, month, day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(flights, month <span class="sc">==</span> <span class="dv">11</span> <span class="sc">|</span> month <span class="sc">==</span> <span class="dv">12</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Arrange rows</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(flights, year, month, day)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(flights, year, month, day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-
-<img data-src="images/week_3.015.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"></section>
-<section id="conditional-operators" class="slide level2 smaller">
-<h2>Conditional Operators</h2>
-<table class="caption-top">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week_3.015.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+</section>
+<section id="conditional-operators" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="conditional-operators">Conditional Operators</h2>
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Operator</th>
@@ -514,50 +665,50 @@ Bill Cresko
 </tbody>
 </table>
 </section>
-<section id="mutate-and-transmute" class="slide level2 smaller">
-<h2>Mutate and Transmute</h2>
+<section id="mutate-and-transmute" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="mutate-and-transmute">Mutate and Transmute</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co"># Add new columns based on existing ones</span></span>
-<span id="cb5-2"><a></a><span class="fu">mutate</span>(flights,</span>
-<span id="cb5-3"><a></a>  <span class="at">gain =</span> arr_delay <span class="sc">-</span> dep_delay,</span>
-<span id="cb5-4"><a></a>  <span class="at">hours =</span> air_time <span class="sc">/</span> <span class="dv">60</span>,</span>
-<span id="cb5-5"><a></a>  <span class="at">gain_per_hour =</span> gain <span class="sc">/</span> hours</span>
-<span id="cb5-6"><a></a>)</span>
-<span id="cb5-7"><a></a></span>
-<span id="cb5-8"><a></a><span class="co"># Using pipes</span></span>
-<span id="cb5-9"><a></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb5-10"><a></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-11"><a></a>    <span class="at">gain =</span> arr_delay <span class="sc">-</span> dep_delay,</span>
-<span id="cb5-12"><a></a>    <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span></span>
-<span id="cb5-13"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add new columns based on existing ones</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(flights,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">gain =</span> arr_delay <span class="sc">-</span> dep_delay,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">hours =</span> air_time <span class="sc">/</span> <span class="dv">60</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">gain_per_hour =</span> gain <span class="sc">/</span> hours</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Using pipes</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">gain =</span> arr_delay <span class="sc">-</span> dep_delay,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="group-by-and-summarise" class="slide level2 smaller">
-<h2>Group By and Summarise</h2>
+<section id="group-by-and-summarise" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="group-by-and-summarise">Group By and Summarise</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># Group by categorical variable</span></span>
-<span id="cb6-2"><a></a>by_day <span class="ot">&lt;-</span> <span class="fu">group_by</span>(flights, year, month, day)</span>
-<span id="cb6-3"><a></a></span>
-<span id="cb6-4"><a></a><span class="co"># Summarise within groups</span></span>
-<span id="cb6-5"><a></a><span class="fu">summarise</span>(by_day, <span class="at">delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by categorical variable</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>by_day <span class="ot">&lt;-</span> <span class="fu">group_by</span>(flights, year, month, day)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarise within groups</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(by_day, <span class="at">delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Warning</strong></p>
+<div class="callout-title-container flex-fill">
+Warning
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>Aggregation functions return NA if any input value is NA. Use <code>na.rm = TRUE</code> to remove missing values.</p>
 </div>
 </div>
-</div>
 </section>
-<section id="other-useful-dplyr-functions" class="slide level2 smaller">
-<h2>Other Useful dplyr Functions</h2>
-<table class="caption-top">
+<section id="other-useful-dplyr-functions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="other-useful-dplyr-functions">Other Useful dplyr Functions</h2>
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Function</th>
@@ -584,17 +735,18 @@ Bill Cresko
 </tbody>
 </table>
 </section>
-<section id="r-exercise-data-wrangling" class="slide level2 smaller">
-<h2>R Exercise: Data Wrangling</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<section id="r-exercise-data-wrangling" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="r-exercise-data-wrangling">R Exercise: Data Wrangling</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Exercise</strong></p>
+<div class="callout-title-container flex-fill">
+Exercise
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li>Read in <code>Week1b_Stickle_RNAseq.tsv</code> or <code>knee_injury.csv</code> dataset</li>
 <li><code>Select</code> a subset of categorical variables + quantitative variables</li>
@@ -604,65 +756,76 @@ Bill Cresko
 </ol>
 </div>
 </div>
-</div>
-</section></section>
-<section id="break" class="title-slide slide level1 center" data-background-color="#e74c3c">
-<h1>BREAK</h1>
-
 </section>
-
-<section>
-<section id="data-visualization-with-ggplot2" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Data Visualization with ggplot2</h1>
-
 </section>
-<section id="introduction-to-ggplot2" class="slide level2 smaller">
-<h2>Introduction to ggplot2</h2>
+<section id="break" class="level1" data-background-color="#e74c3c">
+<h1 data-background-color="#e74c3c">BREAK</h1>
+</section>
+<section id="data-visualization-with-ggplot2" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Data Visualization with ggplot2</h1>
+<section id="introduction-to-ggplot2" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="introduction-to-ggplot2">Introduction to ggplot2</h2>
 <ul>
 <li>Part of the <code>tidyverse</code> suite of packages</li>
 <li>GG stands for “Grammar of Graphics”</li>
 <li>Start with <code>ggplot()</code>, supply dataset and aesthetic mapping with <code>aes()</code></li>
 <li>Add geometry layers with <code>geom_*()</code> functions</li>
 </ul>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Tip</strong></p>
+<div class="callout-title-container flex-fill">
+Tip
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>More info: <a href="https://ggplot2.tidyverse.org/" class="uri">https://ggplot2.tidyverse.org/</a></p>
+</div>
+</div>
+</section>
+<section id="grammar-of-graphics" class="level2">
+<h2 class="anchored" data-anchor-id="grammar-of-graphics">Grammar of Graphics</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_4a.017.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</section>
+<section id="scatterplots" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="scatterplots">Scatterplots</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(displ, hwy, <span class="at">color =</span> class)) <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/ggplot-scatter-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
 </div>
 </div>
 </div>
 </section>
-<section id="grammar-of-graphics" class="slide level2">
-<h2>Grammar of Graphics</h2>
-
-<img data-src="images/images_4a.017.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"></section>
-<section id="scatterplots" class="slide level2 smaller">
-<h2>Scatterplots</h2>
+<section id="boxplots" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="boxplots">Boxplots</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(displ, hwy, <span class="at">color =</span> class)) <span class="sc">+</span> </span>
-<span id="cb7-2"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(manufacturer, hwy, <span class="at">colour =</span> class)) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/ggplot-boxplot-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/ggplot-scatter-1.png" width="768" class="r-stretch"></section>
-<section id="boxplots" class="slide level2 smaller">
-<h2>Boxplots</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">ggplot</span>(mpg, <span class="fu">aes</span>(manufacturer, hwy, <span class="at">colour =</span> class)) <span class="sc">+</span> </span>
-<span id="cb8-2"><a></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
-<span id="cb8-3"><a></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb8-4"><a></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/ggplot-boxplot-1.png" width="960" class="r-stretch"></section>
-<section id="common-ggplot-geoms" class="slide level2 smaller">
-<h2>Common ggplot Geoms</h2>
-<table class="caption-top">
+</div>
+</section>
+<section id="common-ggplot-geoms" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="common-ggplot-geoms">Common ggplot Geoms</h2>
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Geom</th>
@@ -704,52 +867,76 @@ Bill Cresko
 </tbody>
 </table>
 </section>
-<section id="combining-geoms" class="slide level2 smaller">
-<h2>Combining Geoms</h2>
+<section id="combining-geoms" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="combining-geoms">Combining Geoms</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
-<span id="cb9-2"><a></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb9-3"><a></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
-<span id="cb9-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Fuel efficiency decreases with engine size"</span>,</span>
-<span id="cb9-5"><a></a>       <span class="at">caption =</span> <span class="st">"Data from fueleconomy.gov"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg, <span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Fuel efficiency decreases with engine size"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data from fueleconomy.gov"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/combine-geoms-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/combine-geoms-1.png" width="768" class="r-stretch"></section>
-<section id="faceting" class="slide level2 smaller">
-<h2>Faceting</h2>
+</div>
+</div>
+</section>
+<section id="faceting" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="faceting">Faceting</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
-<span id="cb10-2"><a></a>  <span class="fu">geom_point</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
-<span id="cb10-3"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>class, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>class, <span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/facet-example-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/facet-example-1.png" width="960" class="r-stretch"></section>
-<section id="three-dimensional-data" class="slide level2 smaller">
-<h2>Three-Dimensional Data</h2>
+</div>
+</div>
+</section>
+<section id="three-dimensional-data" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="three-dimensional-data">Three-Dimensional Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">set.seed</span>(<span class="dv">345</span>)</span>
-<span id="cb11-2"><a></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">10</span>), <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb11-3"><a></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">x=</span>a, <span class="at">y=</span>b)) <span class="sc">+</span></span>
-<span id="cb11-4"><a></a>  <span class="fu">geom_density2d_filled</span>() <span class="sc">+</span></span>
-<span id="cb11-5"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">345</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">10</span>), <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">x=</span>a, <span class="at">y=</span>b)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density2d_filled</span>() <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/3d-contour-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/3d-contour-1.png" width="576" class="r-stretch"></section>
-<section id="choosing-the-right-plot" class="slide level2">
-<h2>Choosing the Right Plot</h2>
-
-<img data-src="images/Chart_flow_chart.jpeg" style="width:90.0%" class="r-stretch quarto-figure-center"><p class="caption">Flow chart for choosing data visualization types</p></section>
-<section id="r-exercise-data-visualization" class="slide level2 smaller">
-<h2>R Exercise: Data Visualization</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+</div>
+</div>
+</section>
+<section id="choosing-the-right-plot" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-the-right-plot">Choosing the Right Plot</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Chart_flow_chart.jpeg" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Flow chart for choosing data visualization types</figcaption>
+</figure>
+</div>
+</section>
+<section id="r-exercise-data-visualization" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="r-exercise-data-visualization">R Exercise: Data Visualization</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Exercise</strong></p>
+<div class="callout-title-container flex-fill">
+Exercise
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li>Read in <code>Week1b_Stickle_RNAseq.tsv</code> or <code>knee_injury.csv</code> dataset</li>
 <li>Create <code>histograms</code> of data</li>
@@ -759,22 +946,19 @@ Bill Cresko
 </ol>
 </div>
 </div>
-</div>
-</section></section>
-<section>
-<section id="best-practices-in-data-visualization" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Best Practices in Data Visualization</h1>
-
 </section>
-<section id="principles-of-effective-display" class="slide level2">
-<h2>Principles of Effective Display</h2>
-<blockquote>
+</section>
+<section id="best-practices-in-data-visualization" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Best Practices in Data Visualization</h1>
+<section id="principles-of-effective-display" class="level2">
+<h2 class="anchored" data-anchor-id="principles-of-effective-display">Principles of Effective Display</h2>
+<blockquote class="blockquote">
 <p>“Graphical excellence is that which gives to the viewer the greatest number of ideas in the shortest time with the least ink in the smallest space”</p>
 <p>— Edward Tufte</p>
 </blockquote>
 </section>
-<section id="principles-of-effective-display-1" class="slide level2 smaller">
-<h2>Principles of Effective Display</h2>
+<section id="principles-of-effective-display-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="principles-of-effective-display-1">Principles of Effective Display</h2>
 <ul>
 <li>Show the data</li>
 <li>Encourage the eye to compare differences</li>
@@ -783,49 +967,61 @@ Bill Cresko
 <li>Make displays easy to interpret</li>
 </ul>
 </section>
-<section id="above-all-else-show-the-data" class="slide level2 smaller">
-<h2>“Above All Else Show the Data”</h2>
-
-<img data-src="images/images_4a.010.jpeg" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption">Tufte 1983</p></section>
-<section id="maximize-the-data-to-ink-ratio" class="slide level2 smaller">
-<h2>“Maximize the Data to Ink Ratio”</h2>
-
-<img data-src="images/images_4a.011.jpeg" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption">The Economist 2006</p></section>
-<section id="represent-magnitudes-honestly" class="slide level2 smaller">
-<h2>Represent Magnitudes Honestly</h2>
-
-<img data-src="images/images_4a.012.jpeg" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption">Rattenborg et al.&nbsp;1999 Nature</p></section>
-<section id="how-not-to-make-a-figure" class="slide level2 smaller">
-<h2>How NOT to Make a Figure</h2>
+<section id="above-all-else-show-the-data" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="above-all-else-show-the-data">“Above All Else Show the Data”</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_4a.010.jpeg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Tufte 1983</figcaption>
+</figure>
+</div>
+</section>
+<section id="maximize-the-data-to-ink-ratio" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="maximize-the-data-to-ink-ratio">“Maximize the Data to Ink Ratio”</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_4a.011.jpeg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>The Economist 2006</figcaption>
+</figure>
+</div>
+</section>
+<section id="represent-magnitudes-honestly" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="represent-magnitudes-honestly">Represent Magnitudes Honestly</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_4a.012.jpeg" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Rattenborg et al.&nbsp;1999 Nature</figcaption>
+</figure>
+</div>
+</section>
+<section id="how-not-to-make-a-figure" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="how-not-to-make-a-figure">How NOT to Make a Figure</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/images_4a.013.jpeg" class="quarto-figure quarto-figure-center"></p>
+<figure class="figure">
+<p><img src="images/images_4a.013.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/images_4a.014.jpeg" class="quarto-figure quarto-figure-center"></p>
+<figure class="figure">
+<p><img src="images/images_4a.014.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
 </figure>
 </div>
-</div></div>
+</div>
+</div>
 <p>“Graphical excellence begins with telling the truth about the data” – Tufte 1983</p>
-</section></section>
-<section id="break-1" class="title-slide slide level1 center" data-background-color="#e74c3c">
-<h1>BREAK</h1>
-
 </section>
-
-<section>
-<section id="parameters-and-statistics" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Parameters and Statistics</h1>
-
 </section>
-<section id="population-vs.-sample" class="slide level2 smaller">
-<h2>Population vs.&nbsp;Sample</h2>
-<table class="caption-top">
+<section id="break-1" class="level1" data-background-color="#e74c3c">
+<h1 data-background-color="#e74c3c">BREAK</h1>
+</section>
+<section id="parameters-and-statistics" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Parameters and Statistics</h1>
+<section id="population-vs.-sample" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="population-vs.-sample">Population vs.&nbsp;Sample</h2>
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Concept</th>
@@ -851,32 +1047,36 @@ Bill Cresko
 </tr>
 </tbody>
 </table>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Important</strong></p>
+<div class="callout-title-container flex-fill">
+Important
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>We use sample statistics to <strong>estimate</strong> population parameters</p>
 </div>
 </div>
-</div>
 </section>
-<section id="accuracy-vs.-precision" class="slide level2 smaller">
-<h2>Accuracy vs.&nbsp;Precision</h2>
-
-<img data-src="images/week_2.024.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"><ul>
+<section id="accuracy-vs.-precision" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="accuracy-vs.-precision">Accuracy vs.&nbsp;Precision</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week_2.024.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<ul>
 <li><strong>Accuracy</strong>: closeness to true value</li>
 <li><strong>Precision</strong>: closeness of repeated estimates to each other</li>
 <li><strong>Replication</strong> quantifies variation</li>
 <li><strong>Randomization</strong> avoids bias</li>
 </ul>
 </section>
-<section id="stochastic-processes-in-statistics" class="slide level2 smaller">
-<h2>Stochastic Processes in Statistics</h2>
+<section id="stochastic-processes-in-statistics" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="stochastic-processes-in-statistics">Stochastic Processes in Statistics</h2>
 <ul>
 <li>We often want to know truths about the world, but can only estimate them</li>
 <li>Uncertainty in those estimates is a given</li>
@@ -885,15 +1085,15 @@ Bill Cresko
 <li>Expectations are based on theoretical probability distributions</li>
 </ul>
 </section>
-<section id="two-interpretations-of-probability" class="slide level2 smaller">
-<h2>Two Interpretations of Probability</h2>
+<section id="two-interpretations-of-probability" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="two-interpretations-of-probability">Two Interpretations of Probability</h2>
 <p><strong>Frequency interpretation:</strong></p>
 <p>“Probabilities are mathematically convenient approximations to long run relative frequencies.”</p>
 <p><strong>Subjective (Bayesian) interpretation:</strong></p>
 <p>“A probability statement expresses the opinion of some individual regarding how certain an event is to occur.”</p>
 </section>
-<section id="random-variables-and-probability" class="slide level2 smaller">
-<h2>Random Variables and Probability</h2>
+<section id="random-variables-and-probability" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="random-variables-and-probability">Random Variables and Probability</h2>
 <ul>
 <li><strong>Probability</strong> is the expression of belief in some future outcome</li>
 <li>A <strong>random variable</strong> can take on different values with different probabilities</li>
@@ -904,46 +1104,46 @@ Bill Cresko
 <li><strong>Probability density function</strong> (continuous)</li>
 </ul></li>
 </ul>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Important</strong></p>
+<div class="callout-title-container flex-fill">
+Important
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>Probabilities of a sample space <strong>always sum to 1.0</strong></p>
 </div>
 </div>
-</div>
 </section>
-<section id="probability-rules" class="slide level2 smaller">
-<h2>Probability Rules</h2>
+<section id="probability-rules" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="probability-rules">Probability Rules</h2>
 <p><strong>‘And’ rule (multiplication):</strong> <span class="math display">\[Pr(X \text{ and } Y) = Pr(X) \times Pr(Y)\]</span></p>
 <p><strong>‘Or’ rule (addition):</strong> <span class="math display">\[Pr(X \text{ or } Y) = Pr(X) + Pr(Y)\]</span></p>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Note</strong></p>
+<div class="callout-title-container flex-fill">
+Note
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>The ‘and’ rule assumes independent events. For non-independent events, we need conditional probabilities.</p>
 </div>
 </div>
-</div>
 </section>
-<section id="joint-and-conditional-probability" class="slide level2 smaller">
-<h2>Joint and Conditional Probability</h2>
+<section id="joint-and-conditional-probability" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="joint-and-conditional-probability">Joint and Conditional Probability</h2>
 <p><strong>Joint probability (independent events):</strong> <span class="math display">\[Pr(X,Y) = Pr(X) \times Pr(Y)\]</span></p>
 <p><strong>Conditional probability (independent):</strong> <span class="math display">\[Pr(Y|X) = Pr(Y) \text{ and } Pr(X|Y) = Pr(X)\]</span></p>
 <p><strong>Conditional probability (non-independent):</strong> <span class="math display">\[Pr(Y|X) \neq Pr(Y) \text{ and } Pr(X|Y) \neq Pr(X)\]</span></p>
 </section>
-<section id="likelihood-vs.-probability" class="slide level2 smaller">
-<h2>Likelihood vs.&nbsp;Probability</h2>
+<section id="likelihood-vs.-probability" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="likelihood-vs.-probability">Likelihood vs.&nbsp;Probability</h2>
 <ul>
 <li><strong>Probability</strong>: proportion of times an event would occur over many trials</li>
 <li><strong>Likelihood</strong>: conditional probability of a parameter value given data</li>
@@ -954,37 +1154,41 @@ Bill Cresko
 <li><strong>Bayesian estimate</strong>: uses prior distribution to update posterior distribution</li>
 </ul>
 </section>
-<section id="moments-of-distributions" class="slide level2 smaller">
-<h2>Moments of Distributions</h2>
+<section id="moments-of-distributions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="moments-of-distributions">Moments of Distributions</h2>
 <p><strong>1st moment (mean/expectation):</strong> <span class="math display">\[E[X] = \sum_{\text{all x}}xP(X=x) = \mu\]</span></p>
 <p><strong>2nd moment (variance):</strong> <span class="math display">\[Var(X) = E[(X-\mu)^2] = \sigma^2\]</span></p>
 <p><strong>Standard deviation:</strong> <span class="math display">\[SD = \sqrt{\sigma^2} = \sigma\]</span></p>
 <p>Higher moments include skewness (3rd) and kurtosis (4th).</p>
-</section></section>
-<section>
-<section id="discrete-probability-distributions" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Discrete Probability Distributions</h1>
-
 </section>
-<section id="bernoulli-distribution" class="slide level2 smaller">
-<h2>Bernoulli Distribution</h2>
+</section>
+<section id="discrete-probability-distributions" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Discrete Probability Distributions</h1>
+<section id="bernoulli-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="bernoulli-distribution">Bernoulli Distribution</h2>
 <p>Describes the expected outcome of a single event with probability <span class="math inline">\(p\)</span>.</p>
 <p><strong>Example: Flipping a fair coin once</strong></p>
 <p><span class="math display">\[Pr(X=\text{Head}) = \frac{1}{2} = 0.5 = p\]</span></p>
 <p><span class="math display">\[Pr(X=\text{Tails}) = \frac{1}{2} = 0.5 = 1 - p = q\]</span></p>
 <p>Probabilities always sum to 1: <span class="math inline">\(p + q = 1\)</span></p>
 </section>
-<section id="lets-simulate-coin-flips" class="slide level2 smaller">
-<h2>Let’s Simulate Coin Flips</h2>
+<section id="lets-simulate-coin-flips" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="lets-simulate-coin-flips">Let’s Simulate Coin Flips</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"heads"</span>, <span class="st">"tails"</span>)</span>
-<span id="cb12-2"><a></a>flips <span class="ot">&lt;-</span> <span class="fu">sample</span>(coin, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-3"><a></a><span class="fu">barplot</span>(<span class="fu">table</span>(flips), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"coral"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>coin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"heads"</span>, <span class="st">"tails"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>flips <span class="ot">&lt;-</span> <span class="fu">sample</span>(coin, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">size =</span> <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(flips), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"coral"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/coin-flip-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/coin-flip-1.png" width="576" class="r-stretch"></section>
-<section id="binomial-distribution" class="slide level2 smaller">
-<h2>Binomial Distribution</h2>
+</div>
+</div>
+</section>
+<section id="binomial-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="binomial-distribution">Binomial Distribution</h2>
 <p>Results from combining several independent Bernoulli events.</p>
 <p><span class="math display">\[\large f(k) = {n \choose k} p^{k} (1-p)^{n-k}\]</span></p>
 <p>Where:</p>
@@ -994,80 +1198,97 @@ Bill Cresko
 <li><span class="math inline">\(p\)</span> = probability of success</li>
 </ul>
 </section>
-<section id="binomial-distribution-1" class="slide level2 smaller">
-<h2>Binomial Distribution</h2>
-
-<img data-src="images/week_2.003.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
-<section id="testing-binomial-distributions" class="slide level2 smaller">
-<h2>Testing Binomial Distributions</h2>
+<section id="binomial-distribution-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="binomial-distribution-1">Binomial Distribution</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week_2.003.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</section>
+<section id="testing-binomial-distributions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="testing-binomial-distributions">Testing Binomial Distributions</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="co"># Probability of exactly 5 successes in 10 trials</span></span>
-<span id="cb13-2"><a></a><span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability of exactly 5 successes in 10 trials</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2460938</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="co"># Plot distribution</span></span>
-<span id="cb15-2"><a></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>), </span>
-<span id="cb15-3"><a></a>     <span class="at">type =</span> <span class="st">"h"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>,</span>
-<span id="cb15-4"><a></a>     <span class="at">xlab =</span> <span class="st">"Number of Successes"</span>, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/binom-test-1.png" width="672" class="r-stretch"></section>
-<section id="poisson-distribution" class="slide level2 smaller">
-<h2>Poisson Distribution</h2>
-<p>For discrete counts (e.g., snails per plot, neuron firings per second).</p>
-<p><span class="math display">\[Pr(Y=r) = \frac{e^{-\lambda}\lambda^r}{r!}\]</span></p>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>The Poisson is a single-parameter distribution: <span class="math inline">\(\mu = \sigma^2 = \lambda\)</span></p>
-<p>Variables with variance &gt; mean are called “overdispersed” (common in RNA-seq data).</p>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot distribution</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>), </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"h"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Successes"</span>, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/binom-test-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
 </div>
 </section>
-<section id="poisson-distribution-examples" class="slide level2 smaller">
-<h2>Poisson Distribution Examples</h2>
+<section id="poisson-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="poisson-distribution">Poisson Distribution</h2>
+<p>For discrete counts (e.g., snails per plot, neuron firings per second).</p>
+<p><span class="math display">\[Pr(Y=r) = \frac{e^{-\lambda}\lambda^r}{r!}\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Poisson is a single-parameter distribution: <span class="math inline">\(\mu = \sigma^2 = \lambda\)</span></p>
+<p>Variables with variance &gt; mean are called “overdispersed” (common in RNA-seq data).</p>
+</div>
+</div>
+</section>
+<section id="poisson-distribution-examples" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="poisson-distribution-examples">Poisson Distribution Examples</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/week_2.004.jpeg"></p>
+<figure class="figure">
+<p><img src="images/week_2.004.jpeg" class="img-fluid figure-img"></p>
 <figcaption>Gene length by 500 nt bins</figcaption>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/week_2.005.jpeg"></p>
+<figure class="figure">
+<p><img src="images/week_2.005.jpeg" class="img-fluid figure-img"></p>
 <figcaption>Increasing λ values</figcaption>
 </figure>
 </div>
-</div></div>
+</div>
+</div>
 </section>
-<section id="testing-poisson-distributions" class="slide level2 smaller">
-<h2>Testing Poisson Distributions</h2>
+<section id="testing-poisson-distributions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="testing-poisson-distributions">Testing Poisson Distributions</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="co"># Probability of 2 counts given lambda = 1</span></span>
-<span id="cb16-2"><a></a><span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">2</span>, <span class="at">lambda =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability of 2 counts given lambda = 1</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">2</span>, <span class="at">lambda =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1839397</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="co"># Plot distribution</span></span>
-<span id="cb18-2"><a></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>, <span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">lambda =</span> <span class="dv">3</span>), </span>
-<span id="cb18-3"><a></a>     <span class="at">type =</span> <span class="st">"h"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"darkgreen"</span>,</span>
-<span id="cb18-4"><a></a>     <span class="at">xlab =</span> <span class="st">"Count"</span>, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot distribution</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>, <span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">lambda =</span> <span class="dv">3</span>), </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"h"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"darkgreen"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Count"</span>, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/pois-test-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/pois-test-1.png" width="672" class="r-stretch"></section>
-<section id="geometric-distribution" class="slide level2 smaller">
-<h2>Geometric Distribution</h2>
+</div>
+</div>
+</section>
+<section id="geometric-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="geometric-distribution">Geometric Distribution</h2>
 <p>Probability of observing <span class="math inline">\(k\)</span> trials before the first success:</p>
 <p><span class="math display">\[P(X=k)=(1-p)^{k-1}p\]</span></p>
 <ul>
@@ -1076,40 +1297,44 @@ Bill Cresko
 </ul>
 <p><strong>Example:</strong> If extinction probability is 0.1 per year, expected time to extinction?</p>
 </section>
-<section id="negative-binomial-distribution" class="slide level2 smaller">
-<h2>Negative Binomial Distribution</h2>
+<section id="negative-binomial-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="negative-binomial-distribution">Negative Binomial Distribution</h2>
 <p>Probability of the <span class="math inline">\(r^{th}\)</span> success on the <span class="math inline">\(k^{th}\)</span> trial:</p>
 <p><span class="math display">\[P(X=k)=\binom{k-1}{r-1}p^{r}(1-p)^{k-r}\]</span></p>
 <ul>
 <li>Mean = <span class="math inline">\(\frac{r}{p}\)</span></li>
 <li>Variance = <span class="math inline">\(\frac{r(1-p)}{p^2}\)</span></li>
 </ul>
-</section></section>
-<section>
-<section id="continuous-probability-distributions" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Continuous Probability Distributions</h1>
-
 </section>
-<section id="continuous-probability-distributions-1" class="slide level2 smaller">
-<h2>Continuous Probability Distributions</h2>
+</section>
+<section id="continuous-probability-distributions" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Continuous Probability Distributions</h1>
+<section id="continuous-probability-distributions-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="continuous-probability-distributions-1">Continuous Probability Distributions</h2>
 <p><span class="math display">\[P(a\leq X \leq b) = \int_{a}^{b} f(x) dx\]</span></p>
 <p>The indefinite integral sums to one:</p>
 <p><span class="math display">\[\int_{-\infty}^{\infty} f(x) dx = 1\]</span></p>
 <p><strong>Expectation:</strong> <span class="math display">\[E[X] = \int_{-\infty}^{\infty} xf(x) dx\]</span></p>
 </section>
-<section id="uniform-distribution" class="slide level2 smaller">
-<h2>Uniform Distribution</h2>
+<section id="uniform-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="uniform-distribution">Uniform Distribution</h2>
 <p>All outcomes equally probable.</p>
 <p><span class="math display">\[E[X] = \frac{(a+b)}{2}\]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="fl">0.1</span>)</span>
-<span id="cb19-2"><a></a><span class="fu">plot</span>(x, <span class="fu">dunif</span>(x, <span class="dv">0</span>, <span class="dv">10</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"purple"</span>,</span>
-<span id="cb19-3"><a></a>     <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">main =</span> <span class="st">"Uniform Distribution (0, 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="fl">0.1</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">dunif</span>(x, <span class="dv">0</span>, <span class="dv">10</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"purple"</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">main =</span> <span class="st">"Uniform Distribution (0, 10)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/unif-dist-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/unif-dist-1.png" width="576" class="r-stretch"></section>
-<section id="exponential-distribution" class="slide level2 smaller">
-<h2>Exponential Distribution</h2>
+</div>
+</div>
+</section>
+<section id="exponential-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="exponential-distribution">Exponential Distribution</h2>
 <p><span class="math display">\[f(x)=\lambda e^{-\lambda x}\]</span></p>
 <ul>
 <li><span class="math inline">\(E[X] = \frac{1}{\lambda}\)</span></li>
@@ -1117,17 +1342,23 @@ Bill Cresko
 </ul>
 <p><strong>Example:</strong> If λ equals the instantaneous death rate, the lifespan follows an exponential distribution.</p>
 </section>
-<section id="exponential-distribution-1" class="slide level2 smaller">
-<h2>Exponential Distribution</h2>
+<section id="exponential-distribution-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="exponential-distribution-1">Exponential Distribution</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="fl">0.5</span>)</span>
-<span id="cb20-2"><a></a><span class="fu">plot</span>(x, <span class="fu">dexp</span>(x, <span class="at">rate =</span> <span class="fl">0.1</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>,</span>
-<span id="cb20-3"><a></a>     <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">main =</span> <span class="st">"Exponential Distribution (λ = 0.1)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="fl">0.5</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">dexp</span>(x, <span class="at">rate =</span> <span class="fl">0.1</span>), <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">main =</span> <span class="st">"Exponential Distribution (λ = 0.1)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/exp-dist-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<img data-src="Week2_BioE_Stats_Lecture_files/figure-html/exp-dist-1.png" width="672" class="r-stretch"></section>
-<section id="gamma-distribution" class="slide level2 smaller">
-<h2>Gamma Distribution</h2>
+</div>
+</div>
+</section>
+<section id="gamma-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="gamma-distribution">Gamma Distribution</h2>
 <p>Waiting time until the <span class="math inline">\(r^{th}\)</span> event at rate <span class="math inline">\(\lambda\)</span>:</p>
 <p><span class="math display">\[f(x) = \frac{\lambda^r x^{r-1} e^{-\lambda x}}{(r-1)!}\]</span></p>
 <ul>
@@ -1136,32 +1367,44 @@ Bill Cresko
 </ul>
 <p><strong>Example:</strong> Time until 1000 DNA strands synthesized at rate 1/ms.</p>
 </section>
-<section id="normal-gaussian-distribution" class="slide level2 smaller">
-<h2>Normal (Gaussian) Distribution</h2>
+<section id="normal-gaussian-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="normal-gaussian-distribution">Normal (Gaussian) Distribution</h2>
 <p><span class="math display">\[f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \, \mathrm{e}^{-\frac{(x - \mu)^2}{2\sigma^2}}\]</span></p>
 <p>Notation: <span class="math inline">\(v \sim \mathcal{N}(\mu, \sigma^2)\)</span></p>
 </section>
-<section id="section" class="slide level2">
-<h2></h2>
-
-<img data-src="images/week_2.011.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"></section>
-<section id="why-is-the-normal-distribution-special" class="slide level2 smaller">
-<h2>Why is the Normal Distribution Special?</h2>
-
-<img data-src="images/week_2.013.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
-<section id="central-limit-theorem-connection" class="slide level2 smaller">
-<h2>Central Limit Theorem Connection</h2>
-
-<img data-src="images/week_2.015.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
-<section id="z-scores" class="slide level2 smaller">
-<h2>Z-Scores</h2>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week_2.011.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</section>
+<section id="why-is-the-normal-distribution-special" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="why-is-the-normal-distribution-special">Why is the Normal Distribution Special?</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week_2.013.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</section>
+<section id="central-limit-theorem-connection" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="central-limit-theorem-connection">Central Limit Theorem Connection</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week_2.015.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</section>
+<section id="z-scores" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="z-scores">Z-Scores</h2>
 <p>Standardize variables to mean = 0, SD = 1:</p>
 <p><span class="math display">\[\huge z_i = \frac{(x_i - \bar{x})}{s}\]</span></p>
 <p>This is the <strong>standard normal distribution</strong>.</p>
 </section>
-<section id="distribution-functions-in-r" class="slide level2 smaller">
-<h2>Distribution Functions in R</h2>
-<table class="caption-top">
+<section id="distribution-functions-in-r" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="distribution-functions-in-r">Distribution Functions in R</h2>
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Prefix</th>
@@ -1193,37 +1436,35 @@ Bill Cresko
 </tbody>
 </table>
 <p>Works for: <code>binom</code>, <code>pois</code>, <code>exp</code>, <code>norm</code>, <code>geom</code>, <code>nbinom</code>, <code>unif</code>, <code>gamma</code></p>
-</section></section>
-<section>
-<section id="estimates-and-confidence-intervals" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Estimates and Confidence Intervals</h1>
-
 </section>
-<section id="parameter-estimation" class="slide level2 smaller">
-<h2>Parameter Estimation</h2>
+</section>
+<section id="estimates-and-confidence-intervals" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Estimates and Confidence Intervals</h1>
+<section id="parameter-estimation" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="parameter-estimation">Parameter Estimation</h2>
 <ul>
 <li>Estimation infers population parameters from sample data</li>
 <li>Sample estimates rarely equal population parameters exactly</li>
 <li><strong>Sampling distribution</strong>: all values we might obtain from samples</li>
 <li><strong>Standard error</strong>: standard deviation of sampling distribution</li>
 </ul>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Important</strong></p>
+<div class="callout-title-container flex-fill">
+Important
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>NO ESTIMATE IS USEFUL WITHOUT A STANDARD ERROR!</p>
 </div>
 </div>
-</div>
 </section>
-<section id="estimation-approaches" class="slide level2 smaller">
-<h2>Estimation Approaches</h2>
-<table class="caption-top">
+<section id="estimation-approaches" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="estimation-approaches">Estimation Approaches</h2>
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Approach</th>
@@ -1254,59 +1495,59 @@ Bill Cresko
 </tbody>
 </table>
 </section>
-<section id="the-central-limit-theorem" class="slide level2 smaller">
-<h2>The Central Limit Theorem</h2>
+<section id="the-central-limit-theorem" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="the-central-limit-theorem">The Central Limit Theorem</h2>
 <p>For most data, we can’t determine sampling distributions empirically.</p>
 <p>The CLT tells us that the sampling distribution of the mean approaches normal as sample size increases, regardless of the underlying distribution.</p>
 </section>
-<section id="standard-error-of-the-mean" class="slide level2 smaller">
-<h2>Standard Error of the Mean</h2>
+<section id="standard-error-of-the-mean" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="standard-error-of-the-mean">Standard Error of the Mean</h2>
 <p><span class="math display">\[\huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}\]</span></p>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Note</strong></p>
+<div class="callout-title-container flex-fill">
+Note
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li>SEM is NOT the standard deviation of the original distribution</li>
 <li>SEM decreases as sample size increases</li>
 </ul>
 </div>
 </div>
-</div>
 </section>
-<section id="calculating-sem" class="slide level2 smaller">
-<h2>Calculating SEM</h2>
+<section id="calculating-sem" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="calculating-sem">Calculating SEM</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
-<span id="cb21-2"><a></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
-<span id="cb21-3"><a></a></span>
-<span id="cb21-4"><a></a><span class="co"># Small sample</span></span>
-<span id="cb21-5"><a></a>samps_5 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="at">size =</span> <span class="dv">5</span>))</span>
-<span id="cb21-6"><a></a>sem_5 <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">apply</span>(samps_5, <span class="dv">2</span>, mean)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
-<span id="cb21-7"><a></a></span>
-<span id="cb21-8"><a></a><span class="co"># Larger sample</span></span>
-<span id="cb21-9"><a></a>samps_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="at">size =</span> <span class="dv">50</span>))</span>
-<span id="cb21-10"><a></a>sem_50 <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">apply</span>(samps_50, <span class="dv">2</span>, mean)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
-<span id="cb21-11"><a></a></span>
-<span id="cb21-12"><a></a><span class="fu">cat</span>(<span class="st">"SEM (n=5):"</span>, <span class="fu">round</span>(sem_5, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">SEM (n=50):"</span>, <span class="fu">round</span>(sem_50, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Small sample</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>samps_5 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="at">size =</span> <span class="dv">5</span>))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>sem_5 <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">apply</span>(samps_5, <span class="dv">2</span>, mean)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Larger sample</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>samps_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="at">size =</span> <span class="dv">50</span>))</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>sem_50 <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">apply</span>(samps_50, <span class="dv">2</span>, mean)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SEM (n=5):"</span>, <span class="fu">round</span>(sem_5, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">SEM (n=50):"</span>, <span class="fu">round</span>(sem_50, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>SEM (n=5): 0.2647 
 SEM (n=50): 0.0828</code></pre>
 </div>
 </div>
 </section>
-<section id="confidence-intervals" class="slide level2 smaller">
-<h2>Confidence Intervals</h2>
+<section id="confidence-intervals" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="confidence-intervals">Confidence Intervals</h2>
 <p>A confidence interval is a range of values about a parameter estimate such that we are X% certain the true population parameter lies within.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="co"># 95% CI using t.test</span></span>
-<span id="cb23-2"><a></a>sample_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb23-3"><a></a><span class="fu">t.test</span>(sample_data)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% CI using t.test</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(sample_data)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  9.177721 10.707722
 attr(,"conf.level")
@@ -1314,23 +1555,19 @@ attr(,"conf.level")
 </div>
 </div>
 </section>
-<section id="coefficient-of-variation" class="slide level2 smaller">
-<h2>Coefficient of Variation</h2>
+<section id="coefficient-of-variation" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="coefficient-of-variation">Coefficient of Variation</h2>
 <p>To compare standard deviations across populations with different means:</p>
 <p><span class="math display">\[CV = \frac{s}{\bar{x}} \times 100\%\]</span></p>
-</section></section>
-<section id="break-2" class="title-slide slide level1 center" data-background-color="#e74c3c">
-<h1>BREAK</h1>
-
 </section>
-
-<section>
-<section id="experimental-design-principles" class="title-slide slide level1 center" data-background-color="#2c3e50">
-<h1>Experimental Design Principles</h1>
-
 </section>
-<section id="what-is-an-experimental-study" class="slide level2 smaller">
-<h2>What is an Experimental Study?</h2>
+<section id="break-2" class="level1" data-background-color="#e74c3c">
+<h1 data-background-color="#e74c3c">BREAK</h1>
+</section>
+<section id="experimental-design-principles" class="level1" data-background-color="#2c3e50">
+<h1 data-background-color="#2c3e50">Experimental Design Principles</h1>
+<section id="what-is-an-experimental-study" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="what-is-an-experimental-study">What is an Experimental Study?</h2>
 <ul>
 <li>In an <strong>experimental study</strong> the researcher assigns treatments to units</li>
 <li>In an <strong>observational study</strong> nature does the assigning</li>
@@ -1339,8 +1576,8 @@ attr(,"conf.level")
 <li>Allows us to infer <strong>cause and effect</strong></li>
 </ul>
 </section>
-<section id="clinical-trials" class="slide level2 smaller">
-<h2>Clinical Trials</h2>
+<section id="clinical-trials" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="clinical-trials">Clinical Trials</h2>
 <ul>
 <li>Gold standard of experimental designs</li>
 <li>Two or more treatments assigned to human subjects</li>
@@ -1356,20 +1593,24 @@ attr(,"conf.level")
 <li>Blocking</li>
 </ul>
 </section>
-<section id="clinical-trial-example" class="slide level2 smaller">
-<h2>Clinical Trial Example</h2>
-
-<img data-src="images/images_6a.005.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"></section>
-<section id="simultaneous-control-group" class="slide level2 smaller">
-<h2>Simultaneous Control Group</h2>
+<section id="clinical-trial-example" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="clinical-trial-example">Clinical Trial Example</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_6a.005.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</section>
+<section id="simultaneous-control-group" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="simultaneous-control-group">Simultaneous Control Group</h2>
 <ul>
 <li>Placebo or currently accepted treatment</li>
 <li>Control subjects should be perturbed similarly to treated subjects</li>
 <li>“Sham operation” example in surgical studies</li>
 </ul>
 </section>
-<section id="randomization" class="slide level2 smaller">
-<h2>Randomization</h2>
+<section id="randomization" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="randomization">Randomization</h2>
 <ul>
 <li>Breaks association between confounding variables and treatment</li>
 <li>Ensures variation from confounding variables is similar across groups</li>
@@ -1381,8 +1622,8 @@ attr(,"conf.level")
 <li>Matched pair design</li>
 </ul>
 </section>
-<section id="random-sampling-approaches" class="slide level2 smaller">
-<h2>Random Sampling Approaches</h2>
+<section id="random-sampling-approaches" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="random-sampling-approaches">Random Sampling Approaches</h2>
 <ul>
 <li><strong>Simple random sample</strong> - every sample has equal probability</li>
 <li><strong>Stratified sample</strong> - divided into groups, then random sample from each</li>
@@ -1391,28 +1632,28 @@ attr(,"conf.level")
 <li><strong>Systematic sample</strong> - predetermined pattern (e.g., every 20th person)</li>
 </ul>
 </section>
-<section id="blinding" class="slide level2 smaller">
-<h2>Blinding</h2>
+<section id="blinding" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="blinding">Blinding</h2>
 <ul>
 <li><strong>Single-blind:</strong> Subjects unaware of treatment</li>
 <li><strong>Double-blind:</strong> Both subjects and researchers unaware</li>
 </ul>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Important</strong></p>
+<div class="callout-title-container flex-fill">
+Important
 </div>
-<div class="callout-content">
+</div>
+<div class="callout-body-container callout-body">
 <p>Studies without double-blinding exaggerate treatment effects by 16% on average (Jüni et al.&nbsp;2001)</p>
 </div>
 </div>
-</div>
 </section>
-<section id="replication-and-balance" class="slide level2 smaller">
-<h2>Replication and Balance</h2>
+<section id="replication-and-balance" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="replication-and-balance">Replication and Balance</h2>
 <p><strong>Replication:</strong></p>
 <ul>
 <li>Assignment of each treatment to multiple independent units</li>
@@ -1423,409 +1664,448 @@ attr(,"conf.level")
 <li>Equal sample sizes across treatments</li>
 <li>Minimizes standard error</li>
 </ul>
-
-<img data-src="images/images_6a.007.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
-<section id="pseudoreplication" class="slide level2 smaller">
-<h2>Pseudoreplication</h2>
-
-<img data-src="images/images_6a.006.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"></section>
-<section id="blocking" class="slide level2 smaller">
-<h2>Blocking</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_6a.007.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</section>
+<section id="pseudoreplication" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="pseudoreplication">Pseudoreplication</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_6a.006.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</section>
+<section id="blocking" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="blocking">Blocking</h2>
 <ul>
 <li>Grouping of experimental units with similar properties</li>
 <li>Treatments randomly assigned within blocks</li>
 <li>Reduces variation from differences between blocks</li>
 </ul>
-
-<img data-src="images/images_6a.008.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
-<section id="paired-designs" class="slide level2 smaller">
-<h2>Paired Designs</h2>
-
-
-
-<img data-src="images/images_6a.009.jpeg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"></section></section>
-    </div>
-  <div class="quarto-auto-generated-content" style="display: none;">
-<div class="footer footer-default">
-<p>BioE_Stats_2026 - Knight Campus</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_6a.008.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
 </div>
-</div></div>
+</section>
+<section id="paired-designs" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="paired-designs">Paired Designs</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/images_6a.009.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="../site_libs/revealjs/dist/reveal.js"></script>
-  <!-- reveal.js plugins -->
-  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
-  
 
-  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
-  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
-  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+</section>
+</section>
 
-  <script>
-
-      // Full list of configuration options available at:
-      // https://revealjs.com/config/
-      Reveal.initialize({
-'controlsAuto': true,
-'previewLinksAuto': false,
-'pdfSeparateFragments': false,
-'autoAnimateEasing': "ease",
-'autoAnimateDuration': 1,
-'autoAnimateUnmatched': true,
-'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'smaller': false,
- 
-        // Display controls in the bottom right corner
-        controls: false,
-
-        // Help the user learn the controls by providing hints, for example by
-        // bouncing the down arrow when they first encounter a vertical slide
-        controlsTutorial: false,
-
-        // Determines where controls appear, "edges" or "bottom-right"
-        controlsLayout: 'edges',
-
-        // Visibility rule for backwards navigation arrows; "faded", "hidden"
-        // or "visible"
-        controlsBackArrows: 'faded',
-
-        // Display a presentation progress bar
-        progress: true,
-
-        // Display the page number of the current slide
-        slideNumber: 'c/t',
-
-        // 'all', 'print', or 'speaker'
-        showSlideNumber: 'all',
-
-        // Add the current slide number to the URL hash so that reloading the
-        // page/copying the URL will return you to the same slide
-        hash: true,
-
-        // Start with 1 for the hash rather than 0
-        hashOneBasedIndex: false,
-
-        // Flags if we should monitor the hash and change slides accordingly
-        respondToHashChanges: true,
-
-        // Push each slide change to the browser history
-        history: true,
-
-        // Enable keyboard shortcuts for navigation
-        keyboard: true,
-
-        // Enable the slide overview mode
-        overview: true,
-
-        // Disables the default reveal.js slide layout (scaling and centering)
-        // so that you can use custom CSS layout
-        disableLayout: false,
-
-        // Vertical centering of slides
-        center: false,
-
-        // Enables touch navigation on devices with touch input
-        touch: true,
-
-        // Loop the presentation
-        loop: false,
-
-        // Change the presentation direction to be RTL
-        rtl: false,
-
-        // see https://revealjs.com/vertical-slides/#navigation-mode
-        navigationMode: 'linear',
-
-        // Randomizes the order of slides each time the presentation loads
-        shuffle: false,
-
-        // Turns fragments on and off globally
-        fragments: true,
-
-        // Flags whether to include the current fragment in the URL,
-        // so that reloading brings you to the same fragment position
-        fragmentInURL: false,
-
-        // Flags if the presentation is running in an embedded mode,
-        // i.e. contained within a limited portion of the screen
-        embedded: false,
-
-        // Flags if we should show a help overlay when the questionmark
-        // key is pressed
-        help: true,
-
-        // Flags if it should be possible to pause the presentation (blackout)
-        pause: true,
-
-        // Flags if speaker notes should be visible to all viewers
-        showNotes: false,
-
-        // Global override for autoplaying embedded media (null/true/false)
-        autoPlayMedia: null,
-
-        // Global override for preloading lazy-loaded iframes (null/true/false)
-        preloadIframes: null,
-
-        // Number of milliseconds between automatically proceeding to the
-        // next slide, disabled when set to 0, this value can be overwritten
-        // by using a data-autoslide attribute on your slides
-        autoSlide: 0,
-
-        // Stop auto-sliding after user input
-        autoSlideStoppable: true,
-
-        // Use this method for navigation when auto-sliding
-        autoSlideMethod: null,
-
-        // Specify the average time in seconds that you think you will spend
-        // presenting each slide. This is used to show a pacing timer in the
-        // speaker view
-        defaultTiming: null,
-
-        // Enable slide navigation via mouse wheel
-        mouseWheel: false,
-
-        // The display mode that will be used to show slides
-        display: 'block',
-
-        // Hide cursor if inactive
-        hideInactiveCursor: true,
-
-        // Time before the cursor is hidden (in ms)
-        hideCursorTime: 5000,
-
-        // Opens links in an iframe preview overlay
-        previewLinks: false,
-
-        // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'fade',
-
-        // Transition speed (default/fast/slow)
-        transitionSpeed: 'slow',
-
-        // Transition style for full page slide backgrounds
-        // (none/fade/slide/convex/concave/zoom)
-        backgroundTransition: 'none',
-
-        // Number of slides away from the current that are visible
-        viewDistance: 3,
-
-        // Number of slides away from the current that are visible on mobile
-        // devices. It is advisable to set this to a lower number than
-        // viewDistance in order to save resources.
-        mobileViewDistance: 2,
-
-        // The "normal" size of the presentation, aspect ratio will be preserved
-        // when the presentation is scaled to fit different resolutions. Can be
-        // specified using percentage units.
-        width: 1050,
-
-        height: 700,
-
-        // Factor of the display size that should remain empty around the content
-        margin: 0.1,
-
-        math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
-        // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
-
-          RevealMath,
-          RevealNotes,
-          RevealSearch,
-          RevealZoom
-        ]
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
-    </script>
-    <script id="quarto-html-after-body" type="application/javascript">
-      window.document.addEventListener("DOMContentLoaded", function (event) {
-        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-        tabsets.forEach(function(tabset) {
-          const tabby = new Tabby('#' + tabset.id);
-        });
-        const isCodeAnnotation = (el) => {
-          for (const clz of el.classList) {
-            if (clz.startsWith('code-annotation-')) {                     
-              return true;
-            }
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
-          return false;
         }
-        const onCopySuccess = function(e) {
-          // button target
-          const button = e.trigger;
-          // don't keep focus
-          button.blur();
-          // flash "checked"
-          button.classList.add('code-copy-button-checked');
-          var currentTitle = button.getAttribute("title");
-          button.setAttribute("title", "Copied!");
-          let tooltip;
-          if (window.bootstrap) {
-            button.setAttribute("data-bs-toggle", "tooltip");
-            button.setAttribute("data-bs-placement", "left");
-            button.setAttribute("data-bs-title", "Copied!");
-            tooltip = new bootstrap.Tooltip(button, 
-              { trigger: "manual", 
-                customClass: "code-copy-button-tooltip",
-                offset: [0, -8]});
-            tooltip.show();    
-          }
-          setTimeout(function() {
-            if (tooltip) {
-              tooltip.hide();
-              button.removeAttribute("data-bs-title");
-              button.removeAttribute("data-bs-toggle");
-              button.removeAttribute("data-bs-placement");
-            }
-            button.setAttribute("title", currentTitle);
-            button.classList.remove('code-copy-button-checked');
-          }, 1000);
-          // clear code selection
-          e.clearSelection();
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
-            }
-            return codeEl.innerText;
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
         }
-        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-          text: getTextToCopy
-        });
-        clipboard.on('success', onCopySuccess);
-        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-            text: getTextToCopy,
-            container: window.document.getElementById('quarto-embedded-source-code-modal')
-          });
-          clipboardModal.on('success', onCopySuccess);
-        }
-          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-          var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp('/' + window.location.host + '/');
-          var isInternal = (href) => {
-              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-          }
-          // Inspect non-navigation links and adorn them if external
-         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-          for (var i=0; i<links.length; i++) {
-            const link = links[i];
-            if (!isInternal(link.href)) {
-              // undo the damage that might have been done by quarto-nav.js in the case of
-              // links that we want to consider external
-              if (link.dataset.originalHref !== undefined) {
-                link.href = link.dataset.originalHref;
-              }
-            }
-          }
-        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-          const config = {
-            allowHTML: true,
-            maxWidth: 500,
-            delay: 100,
-            arrow: false,
-            appendTo: function(el) {
-                return el.closest('section.slide') || el.parentElement;
-            },
-            interactive: true,
-            interactiveBorder: 10,
-            theme: 'light-border',
-            placement: 'bottom-start',
-          };
-          if (contentFn) {
-            config.content = contentFn;
-          }
-          if (onTriggerFn) {
-            config.onTrigger = onTriggerFn;
-          }
-          if (onUntriggerFn) {
-            config.onUntrigger = onUntriggerFn;
-          }
-            config['offset'] = [0,0];
-            config['maxWidth'] = 700;
-          window.tippy(el, config); 
-        }
-        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-        for (var i=0; i<noterefs.length; i++) {
-          const ref = noterefs[i];
-          tippyHover(ref, function() {
-            // use id or data attribute instead here
-            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-            try { href = new URL(href).hash; } catch {}
-            const id = href.replace(/^#\/?/, "");
-            const note = window.document.getElementById(id);
-            if (note) {
-              return note.innerHTML;
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
             } else {
-              return "";
+              container.appendChild(child.cloneNode(true));
+              break;
             }
-          });
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
         }
-        const findCites = (el) => {
-          const parentEl = el.parentElement;
-          if (parentEl) {
-            const cites = parentEl.dataset.cites;
-            if (cites) {
-              return {
-                el,
-                cites: cites.split(' ')
-              };
-            } else {
-              return findCites(el.parentElement)
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
             }
           } else {
-            return undefined;
-          }
-        };
-        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-        for (var i=0; i<bibliorefs.length; i++) {
-          const ref = bibliorefs[i];
-          const citeInfo = findCites(ref);
-          if (citeInfo) {
-            tippyHover(citeInfo.el, function() {
-              var popup = window.document.createElement('div');
-              citeInfo.cites.forEach(function(cite) {
-                var citeDiv = window.document.createElement('div');
-                citeDiv.classList.add('hanging-indent');
-                citeDiv.classList.add('csl-entry');
-                var biblioDiv = window.document.getElementById('ref-' + cite);
-                if (biblioDiv) {
-                  citeDiv.innerHTML = biblioDiv.innerHTML;
-                }
-                popup.appendChild(citeDiv);
-              });
-              return popup.innerHTML;
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
             });
           }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
         }
+      }, function(instance) {
       });
-      </script>
-    
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
 
 </body></html>

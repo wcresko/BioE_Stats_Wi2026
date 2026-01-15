@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Homeworks – BioEngineering Statistics Winter 2026</title>
+<title>BioE_Stats_2025_HW1 - EDA, t-test and Power Calculations – BioEngineering Statistics Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,23 +23,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f7fe251563e67c05764dc4775ff48cfc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f7fe251563e67c05764dc4775ff48cfc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">BioEngineering Statistics Winter 2026</span>
     </a>
   </div>
@@ -90,39 +90,39 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Syllabus.html"> 
+    <a class="nav-link" href="../Syllabus.html"> 
 <span class="menu-text">Syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Policies.html"> 
+    <a class="nav-link" href="../Policies.html"> 
 <span class="menu-text">Policies</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Schedule.html"> 
+    <a class="nav-link" href="../Schedule.html"> 
 <span class="menu-text">Schedule</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Lectures.html"> 
+    <a class="nav-link" href="../Lectures.html"> 
 <span class="menu-text">Lectures</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./Homework.html" aria-current="page"> 
+    <a class="nav-link" href="../Homework.html"> 
 <span class="menu-text">Homeworks</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Software.html"> 
+    <a class="nav-link" href="../Software.html"> 
 <span class="menu-text">Software</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Resources.html"> 
+    <a class="nav-link" href="../Resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
 </ul>
@@ -136,15 +136,29 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#directions" id="toc-directions" class="nav-link active" data-scroll-target="#directions">Directions</a></li>
+  <li><a href="#problem-1---microbiotagene-expression-exploratory-data-analysis" id="toc-problem-1---microbiotagene-expression-exploratory-data-analysis" class="nav-link" data-scroll-target="#problem-1---microbiotagene-expression-exploratory-data-analysis">Problem 1 - Microbiota/gene expression Exploratory Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#edit-the-yaml-header-and-create-a-set-up-code-block" id="toc-edit-the-yaml-header-and-create-a-set-up-code-block" class="nav-link" data-scroll-target="#edit-the-yaml-header-and-create-a-set-up-code-block">Edit the YAML header and create a set up code block</a></li>
+  <li><a href="#read-in-the-data" id="toc-read-in-the-data" class="nav-link" data-scroll-target="#read-in-the-data">Read in the data</a></li>
+  <li><a href="#perform-some-wrangling" id="toc-perform-some-wrangling" class="nav-link" data-scroll-target="#perform-some-wrangling">Perform some wrangling</a></li>
+  <li><a href="#graphical-communication-with-ggplot2" id="toc-graphical-communication-with-ggplot2" class="nav-link" data-scroll-target="#graphical-communication-with-ggplot2">Graphical Communication with <code>ggplot2</code></a></li>
+  </ul></li>
+  <li><a href="#problem-2---knee-injury-exploratory-data-analysis" id="toc-problem-2---knee-injury-exploratory-data-analysis" class="nav-link" data-scroll-target="#problem-2---knee-injury-exploratory-data-analysis">Problem 2 - Knee injury Exploratory Data Analysis</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Homeworks</h1>
+<h1 class="title">BioE_Stats_2025_HW1 - EDA, t-test and Power Calculations</h1>
 </div>
 
 
@@ -161,9 +175,58 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><a href="./Homework_Folder/HW1_2026.html">Homework 1</a></p>
+<section id="directions" class="level2">
+<h2 class="anchored" data-anchor-id="directions">Directions</h2>
+<p><strong>Assignment:</strong> Your task is to use R and Quarto Markdown to write a short report including the following tasks. You will use both the <strong>microbiota/RNAseq data</strong> or the <strong>knee injury</strong> dataset that you have been using in class. The goal is for you to create a structured Quarto Markdown document that has a series of code blocks, and is well annotated with respect to the steps that you are performing and your findings. I provide the rough steps below, but you can depend on the class material and the web to augment and expand the document.</p>
+<p><strong>Due:</strong> Submit your work via Canvas by the end of the day (midnight) on <strong>Wednesday, January 21st.</strong> Please submit <strong>both the Quarto_md file <em>and</em> the resulting html or pdf file</strong>. You can work with other members of class, but I expect each of you to construct and run all of the scripts yourself.</p>
+</section>
+<section id="problem-1---microbiotagene-expression-exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="problem-1---microbiotagene-expression-exploratory-data-analysis">Problem 1 - Microbiota/gene expression Exploratory Data Analysis</h2>
+<section id="edit-the-yaml-header-and-create-a-set-up-code-block" class="level3">
+<h3 class="anchored" data-anchor-id="edit-the-yaml-header-and-create-a-set-up-code-block">Edit the YAML header and create a set up code block</h3>
+<ul>
+<li>Edit the YAML header to have the proper title and author, as well as any other global options you’d like.</li>
+<li>Create a <code>setup</code> code block that has any necessary libaries loaded.</li>
+</ul>
+</section>
+<section id="read-in-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="read-in-the-data">Read in the data</h3>
+<ul>
+<li>Read in the files</li>
+<li>Use <code>str</code>, <code>head</code> and <code>glimpse</code> to get an idea of the data structure</li>
+<li>Create a <code>tibble</code> data object using this dataset (the function is <code>as_tibble</code>)</li>
+<li>Create a table that functions as a <code>data dictionary</code> with your best guess as to what each of the variables is (of course for the gene expression variables you just need to describe them once)</li>
+</ul>
+</section>
+<section id="perform-some-wrangling" class="level3">
+<h3 class="anchored" data-anchor-id="perform-some-wrangling">Perform some wrangling</h3>
+<ul>
+<li>For the microbiota data, <code>Select</code> all of the categorical variables and only 3 of the continuous gene expression variables and assign them to a new data object.</li>
+<li><code>Mutate</code> some of the numeric variables by performing a square root transformation making a new variable for each of the original (keep all six variables in the dataset).</li>
+<li><code>Summarise</code> the mean and standard deviation for each of the gene count variables grouped by the ‘Microbiota’ and ‘Genotype’ categorical variables (hint, using <code>group_by</code> may make this easier; also remember your <code>na.rm=TRUE</code> to remove the <code>na</code> values)</li>
+</ul>
+</section>
+<section id="graphical-communication-with-ggplot2" class="level3">
+<h3 class="anchored" data-anchor-id="graphical-communication-with-ggplot2">Graphical Communication with <code>ggplot2</code></h3>
+<p>Insert a code chunk and complete the following tasks using your gene expression tibble:</p>
+<ul>
+<li><p>Create a barplot of microbiota and genotype- what does this tell you about experimental design?</p></li>
+<li><p>Create a histogram and frequency polygram of the expression of one particular gene.</p></li>
+<li><p>Create a boxplot of the expression of one gene by microbiota/genotype combination. Reorder it by median expression and flip the coordinates.</p></li>
+<li><p>Explore the coexpression patterns among your genes by plotting a couple pairwise combinations using <code>geom_point</code>. Plot your most interesting coexpression by treatment using <code>facet_wrap</code>.</p></li>
+</ul>
+</section>
+</section>
+<section id="problem-2---knee-injury-exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="problem-2---knee-injury-exploratory-data-analysis">Problem 2 - Knee injury Exploratory Data Analysis</h2>
+<ul>
+<li><p>For the second problem I would like you to follow the general steps above and perform an EDA on the <code>knee injury</code> data set.</p></li>
+<li><p>You won’t be following the exact same steps, but you still would like to know about the general structure of the data.</p></li>
+<li><p>The goal of this problem is to apply and extend your knowledge to a new data set.</p></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
