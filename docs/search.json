@@ -1215,7 +1215,7 @@
     "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#boxplots",
     "title": "Statistics for Bioengineering 2026 - Week 2",
     "section": "Boxplots",
-    "text": "Boxplots\n\nggplot(mpg, aes(manufacturer, hwy, colour = class)) + \n  geom_boxplot() + \n  theme_classic() + \n  theme(axis.text.x = element_text(angle = 45, hjust=1))"
+    "text": "Boxplots"
   },
   {
     "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#common-ggplot-geoms",
@@ -1320,7 +1320,7 @@
     "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#stochastic-processes-in-statistics",
     "title": "Statistics for Bioengineering 2026 - Week 2",
     "section": "Stochastic Processes in Statistics",
-    "text": "Stochastic Processes in Statistics\n\nWe often want to know truths about the world, but can only estimate them\nUncertainty in those estimates is a given\nStatistics is largely about quantifying and managing uncertainty\nRandom variables are products of stochastic processes\nExpectations are based on theoretical probability distributions"
+    "text": "Stochastic Processes in Statistics\n\nWe often want to know truths about the world, but can only estimate them\nUncertainty in those estimates is a given\nStatistics is largely about quantifying and managing that uncertainty\nRandom variables are products of stochastic processes\nDifferent stochastic processes will generate different probability distributions"
   },
   {
     "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#two-interpretations-of-probability",
@@ -1334,7 +1334,7 @@
     "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#random-variables-and-probability",
     "title": "Statistics for Bioengineering 2026 - Week 2",
     "section": "Random Variables and Probability",
-    "text": "Random Variables and Probability\n\nProbability is the expression of belief in some future outcome\nA random variable can take on different values with different probabilities\nThe sample space is the universe of all possible values\nSample space represented by:\n\nProbability mass distribution (discrete)\nProbability density function (continuous)\n\n\n\n\n\n\n\n\nImportant\n\n\n\nProbabilities of a sample space always sum to 1.0"
+    "text": "Random Variables and Probability\n\nProbability is the expression of belief in some future outcome\nA random variable can take on different values with different probabilities\nThe sample space is the universe of all possible values\nSample space represented by:\n\nProbability mass distribution (discrete)\nProbability density function (continuous)\n\nProbabilities of a sample space always sum to 1.0"
   },
   {
     "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#probability-rules",
@@ -1404,7 +1404,7 @@
     "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#poisson-distribution",
     "title": "Statistics for Bioengineering 2026 - Week 2",
     "section": "Poisson Distribution",
-    "text": "Poisson Distribution\nFor discrete counts (e.g., snails per plot, neuron firings per second).\n\\[Pr(Y=r) = \\frac{e^{-\\lambda}\\lambda^r}{r!}\\]\n\n\n\n\n\n\nNote\n\n\n\nThe Poisson is a single-parameter distribution: \\(\\mu = \\sigma^2 = \\lambda\\)\nVariables with variance &gt; mean are called “overdispersed” (common in RNA-seq data)."
+    "text": "Poisson Distribution\n\nFor discrete counts (e.g., snails per plot, neuron firings per second).\n\n\\[Pr(Y=r) = \\frac{e^{-\\lambda}\\lambda^r}{r!}\\]\n\nThe Poisson is a single-parameter distribution: \\(\\mu = \\sigma^2 = \\lambda\\)\nVariables with variance &gt; mean are called “overdispersed” (common in RNA-seq data)."
   },
   {
     "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#poisson-distribution-examples",
@@ -1664,5 +1664,12 @@
     "title": "Homeworks",
     "section": "",
     "text": "Homework 1"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#boxplots-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#boxplots-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Boxplots",
+    "text": "Boxplots\n\nggplot(mpg, aes(manufacturer, hwy, colour = class)) + \n  geom_boxplot() + \n  theme_classic() + \n  theme(axis.text.x = element_text(angle = 45, hjust=1))"
   }
 ]

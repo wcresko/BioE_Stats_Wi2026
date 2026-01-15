@@ -297,17 +297,9 @@ More info: <https://ggplot2.tidyverse.org/>
 
 ![](images/images_4a.017.jpeg){fig-align="center" width="90%"}
 
-## Scatterplots {.smaller}
+## Boxplots {.smaller}
 
-```{r}
-#| label: ggplot-scatter
-#| echo: true
-#| fig-width: 8
-#| fig-height: 4
-
-ggplot(mpg, aes(displ, hwy, color = class)) + 
-  geom_point(size = 4, alpha = 0.6)
-```
+![](images/boxplot.jpeg){fig-align="center" width="90%"}
 
 ## Boxplots {.smaller}
 
@@ -321,6 +313,18 @@ ggplot(mpg, aes(manufacturer, hwy, colour = class)) +
   geom_boxplot() + 
   theme_classic() + 
   theme(axis.text.x = element_text(angle = 45, hjust=1))
+```
+
+## Scatterplots {.smaller}
+
+```{r}
+#| label: ggplot-scatter
+#| echo: true
+#| fig-width: 8
+#| fig-height: 4
+
+ggplot(mpg, aes(displ, hwy, color = class)) + 
+  geom_point(size = 4, alpha = 0.6)
 ```
 
 ## Common ggplot Geoms {.smaller}
@@ -435,8 +439,6 @@ ggplot(d, aes(x=a, y=b)) +
 
 "Graphical excellence begins with telling the truth about the data" – Tufte 1983
 
-# BREAK {background-color="#e74c3c"}
-
 # Parameters and Statistics {background-color="#2c3e50"}
 
 ## Population vs. Sample {.smaller}
@@ -464,9 +466,19 @@ We use sample statistics to **estimate** population parameters
 
 -   We often want to know truths about the world, but can only estimate them
 -   Uncertainty in those estimates is a given
--   Statistics is largely about quantifying and managing uncertainty
+-   Statistics is largely about quantifying and managing that uncertainty
 -   Random variables are products of stochastic processes
--   Expectations are based on theoretical probability distributions
+-   Different stochastic processes will generate different probability distributions
+
+## Random Variables and Probability {.smaller}
+
+-   **Probability** is the expression of belief in some future outcome
+-   A **random variable** can take on different values with different probabilities
+-   The **sample space** is the universe of all possible values
+-   Sample space represented by:
+    -   **Probability mass distribution** (discrete)
+    -   **Probability density function** (continuous)
+-   Probabilities of a sample space **always sum to 1.0**
 
 ## Two Interpretations of Probability {.smaller}
 
@@ -477,19 +489,6 @@ We use sample statistics to **estimate** population parameters
 **Subjective (Bayesian) interpretation:**
 
 "A probability statement expresses the opinion of some individual regarding how certain an event is to occur."
-
-## Random Variables and Probability {.smaller}
-
--   **Probability** is the expression of belief in some future outcome
--   A **random variable** can take on different values with different probabilities
--   The **sample space** is the universe of all possible values
--   Sample space represented by:
-    -   **Probability mass distribution** (discrete)
-    -   **Probability density function** (continuous)
-
-::: callout-important
-Probabilities of a sample space **always sum to 1.0**
-:::
 
 ## Probability Rules {.smaller}
 
@@ -591,15 +590,13 @@ plot(0:10, dbinom(x = 0:10, size = 10, prob = 0.5),
 
 ## Poisson Distribution {.smaller}
 
-For discrete counts (e.g., snails per plot, neuron firings per second).
+-   For discrete counts (e.g., snails per plot, neuron firings per second).
 
 $$Pr(Y=r) = \frac{e^{-\lambda}\lambda^r}{r!}$$
 
-::: callout-note
-The Poisson is a single-parameter distribution: $\mu = \sigma^2 = \lambda$
+-   The Poisson is a single-parameter distribution: $\mu = \sigma^2 = \lambda$
 
-Variables with variance \> mean are called "overdispersed" (common in RNA-seq data).
-:::
+-   Variables with variance \> mean are called "overdispersed" (common in RNA-seq data).
 
 ## Poisson Distribution Examples {.smaller}
 
