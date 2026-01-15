@@ -176,6 +176,7 @@ $$y=\frac{1}{2}$$
 #| output: false
 
 library(tidyverse)
+library(nycflights23)
 ```
 
 ## Key dplyr Verbs {.smaller}
@@ -195,13 +196,13 @@ library(tidyverse)
 #| echo: true
 
 # Filter rows
-filter(flights, month == 11 | month == 12)
+dpylr::filter(flights, month == 11 | month == 12)
 
 # Arrange rows
-arrange(flights, year, month, day)
+dpylr::arrange(flights, year, month, day)
 
 # Select columns
-select(flights, year, month, day)
+dpylr::select(flights, year, month, day)
 ```
 
 ![](images/week_3.015.jpeg){fig-align="center" width="50%"}
@@ -226,7 +227,7 @@ select(flights, year, month, day)
 #| echo: true
 
 # Add new columns based on existing ones
-mutate(flights,
+dpylr::mutate(flights,
   gain = arr_delay - dep_delay,
   hours = air_time / 60,
   gain_per_hour = gain / hours
@@ -234,7 +235,7 @@ mutate(flights,
 
 # Using pipes
 flights |>
-  mutate(
+  dpylr::mutate(
     gain = arr_delay - dep_delay,
     speed = distance / air_time * 60
   )
