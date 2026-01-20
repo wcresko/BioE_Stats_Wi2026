@@ -928,7 +928,7 @@
     "href": "Lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Week 1\nLecture_1\nQuarto_Template\nStickleback_RNAseq_Data_Set\n\n\nWeek 2\nLecture_2\nQuarto_Template_in_Text\nKnee_Injury_Data_Set\n\n\n\n\n\n\nNote\n\n\n\nYou can download the text and data files by using right click on your computer."
+    "text": "Week 1\nLecture_1\nQuarto_Template\nStickleback_RNAseq_Data_Set\n\n\nWeek 2\nLecture_2\nQuarto_Template_in_Text\nKnee_Injury_Data_Set\n\n\nWeek 3\nLecture_3\n\n\n\n\n\n\nNote\n\n\n\nYou can download the text and data files by using right click on your computer."
   },
   {
     "objectID": "Syllabus.html",
@@ -1671,5 +1671,313 @@
     "title": "Statistics for Bioengineering 2026 - Week 2",
     "section": "Boxplots",
     "text": "Boxplots\n\nggplot(mpg, aes(manufacturer, hwy, colour = class)) + \n  geom_boxplot() + \n  theme_classic() + \n  theme(axis.text.x = element_text(angle = 45, hjust=1))"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html",
+    "title": "Statistics for Bioengineering",
+    "section": "",
+    "text": "Hypothesis testing & significance\nType I & II errors\nT-tests\nSimulating empirical null distributions\nMultiple testing and corrections\n\n\n\n\n\n\n\n\nNote\n\n\n\nReadings: Chapters 16-17\nHW1 Due this week"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#week-3-topics",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#week-3-topics",
+    "title": "Statistics for Bioengineering",
+    "section": "",
+    "text": "Hypothesis testing & significance\nType I & II errors\nT-tests\nSimulating empirical null distributions\nMultiple testing and corrections\n\n\n\n\n\n\n\n\nNote\n\n\n\nReadings: Chapters 16-17\nHW1 Due this week"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#what-is-a-hypothesis",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#what-is-a-hypothesis",
+    "title": "Statistics for Bioengineering",
+    "section": "What is a Hypothesis?",
+    "text": "What is a Hypothesis?\n\nA statement of belief about the world\nRequires a critical test to accept/reject\n\n\n\n\\(H_0\\): Null hypothesis — no effect/difference\n\\(H_A\\): Alternative hypothesis — there is an effect/difference"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#example-hypotheses",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#example-hypotheses",
+    "title": "Statistics for Bioengineering",
+    "section": "Example Hypotheses",
+    "text": "Example Hypotheses\n\\(H_0\\): The amino acid substitution does not change the catalytic rate\n\\(H_A\\): The amino acid substitution does change the catalytic rate\n\n\n\nOr more specifically:\n\n\\(H_A\\): The substitution increases the catalytic rate\n\\(H_A\\): The substitution decreases the catalytic rate"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#null-and-alternative-hypotheses",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#null-and-alternative-hypotheses",
+    "title": "Statistics for Bioengineering",
+    "section": "Null and Alternative Hypotheses",
+    "text": "Null and Alternative Hypotheses"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#type-i-and-type-ii-errors",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#type-i-and-type-ii-errors",
+    "title": "Statistics for Bioengineering",
+    "section": "Type I and Type II Errors",
+    "text": "Type I and Type II Errors"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#components-of-hypothesis-testing",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#components-of-hypothesis-testing",
+    "title": "Statistics for Bioengineering",
+    "section": "Components of Hypothesis Testing",
+    "text": "Components of Hypothesis Testing\n\n\n\n\n\n\n\nTerm\nDefinition\n\n\n\n\np-value\nProbability of observing data as extreme as ours if H₀ is true\n\n\nα\nProbability making a type 1 error - Critical test (usually 0.05)\n\n\nβ\nProbability of making a type 2 error - accepting a false null\n\n\nPower\nProbability of rejecting a false null (1 - β)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#why-α-0.05",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#why-α-0.05",
+    "title": "Statistics for Bioengineering",
+    "section": "Why α = 0.05?",
+    "text": "Why α = 0.05?"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#statistical-sampling-distributions",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#statistical-sampling-distributions",
+    "title": "Statistics for Bioengineering",
+    "section": "Statistical Sampling Distributions",
+    "text": "Statistical Sampling Distributions"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#statistical-null-distributions-and-p-values",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#statistical-null-distributions-and-p-values",
+    "title": "Statistics for Bioengineering",
+    "section": "Statistical Null Distributions and p-Values",
+    "text": "Statistical Null Distributions and p-Values\n\n\n\nUnderstanding p-values and null distributions"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#the-t-distribution",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#the-t-distribution",
+    "title": "Statistics for Bioengineering",
+    "section": "The t-Distribution",
+    "text": "The t-Distribution\n\\[\\large t = \\frac{(\\bar{y}_1-\\bar{y}_2)}{s_{\\bar{y}_1-\\bar{y}_2}}\\]\n\nCompares group means\nt = 0 indicates no difference\nShape depends on degrees of freedom"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#visualizing-the-t-distribution-in-r",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#visualizing-the-t-distribution-in-r",
+    "title": "Statistics for Bioengineering",
+    "section": "Visualizing the t-Distribution in R",
+    "text": "Visualizing the t-Distribution in R\n\n\n\n\n\n\n\n\nFigure 1: t-distributions approach normal as df increases"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#visualizing-the-t-distribution-in-r-code",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#visualizing-the-t-distribution-in-r-code",
+    "title": "Statistics for Bioengineering",
+    "section": "Visualizing the t-Distribution in R: Code",
+    "text": "Visualizing the t-Distribution in R: Code\n\nx &lt;- seq(-4, 4, length.out = 200)\ndf_values &lt;- c(1, 3, 10, 30)\ncolors &lt;- c(\"#E41A1C\", \"#377EB8\", \"#4DAF4A\", \"#984EA3\")\n\nplot(x, dnorm(x), type = \"l\", lwd = 3, col = \"black\", lty = 2,\n     ylab = \"Density\", xlab = \"t-value\",\n     main = \"t-Distributions vs. Standard Normal\")\n\nfor(i in seq_along(df_values)) {\n  lines(x, dt(x, df = df_values[i]), col = colors[i], lwd = 2)\n}\n\nlegend(\"topright\", c(\"Normal\", paste(\"df =\", df_values)),\n       col = c(\"black\", colors), lwd = 2, lty = c(2, rep(1, 4)))"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#visualizing-critical-regions-in-r",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#visualizing-critical-regions-in-r",
+    "title": "Statistics for Bioengineering",
+    "section": "Visualizing Critical Regions in R",
+    "text": "Visualizing Critical Regions in R\n\n\n\n\n\n\n\n\nFigure 2: Critical regions for α = 0.05 with df = 20"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#assumptions-of-parametric-t-tests",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#assumptions-of-parametric-t-tests",
+    "title": "Statistics for Bioengineering",
+    "section": "Assumptions of Parametric t-Tests",
+    "text": "Assumptions of Parametric t-Tests\n\nNormally distributed populations\nEqual variances (for two-sample)\nIndependent observations (random sampling)\n\n\n\n\n\n\n\nWarning\n\n\n\nIf assumptions are violated, use nonparametric tests or randomization."
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#one-sample-t-test",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#one-sample-t-test",
+    "title": "Statistics for Bioengineering",
+    "section": "One-Sample t-Test",
+    "text": "One-Sample t-Test\nTests whether sample mean differs from a hypothesized value:\n\nsample_data &lt;- rnorm(30, mean = 10.5, sd = 2)\nt.test(sample_data, mu = 10)\n\n\n    One Sample t-test\n\ndata:  sample_data\nt = 0.88773, df = 29, p-value = 0.382\nalternative hypothesis: true mean is not equal to 10\n95 percent confidence interval:\n  9.536937 11.173350\nsample estimates:\nmean of x \n 10.35514"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#two-sample-t-test",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#two-sample-t-test",
+    "title": "Statistics for Bioengineering",
+    "section": "Two-Sample t-Test",
+    "text": "Two-Sample t-Test\n\nset.seed(518)\npop1 &lt;- rnorm(n = 100, mean = 2, sd = 0.5)\npop2 &lt;- rnorm(n = 100, mean = 2.5, sd = 0.5)\n\nt.test(pop1, pop2)\n\n\n    Welch Two Sample t-test\n\ndata:  pop1 and pop2\nt = -8.3255, df = 195.26, p-value = 1.446e-14\nalternative hypothesis: true difference in means is not equal to 0\n95 percent confidence interval:\n -0.6680671 -0.4121746\nsample estimates:\nmean of x mean of y \n 1.930286  2.470407"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#paired-t-test",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#paired-t-test",
+    "title": "Statistics for Bioengineering",
+    "section": "Paired t-Test",
+    "text": "Paired t-Test\nFor matched or repeated measurements:\n\nbefore &lt;- c(200, 190, 210, 180, 195)\nafter &lt;- c(180, 170, 190, 165, 175)\n\nt.test(before, after, paired = TRUE)\n\n\n    Paired t-test\n\ndata:  before and after\nt = 19, df = 4, p-value = 4.52e-05\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n 16.22355 21.77645\nsample estimates:\nmean difference \n             19"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#in-class-demo-sample-size-and-statistical-significance",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#in-class-demo-sample-size-and-statistical-significance",
+    "title": "Statistics for Bioengineering",
+    "section": "In-Class Demo: Sample Size and Statistical Significance",
+    "text": "In-Class Demo: Sample Size and Statistical Significance\nWith large enough N, even tiny effects become “significant”:\n\nset.seed(22)\n\n# Small effect (1% difference): 20.0 vs 20.2\ncat(\"SMALL SAMPLE (n=10 per group):\\n\")\n\nSMALL SAMPLE (n=10 per group):\n\ndiet_A_small &lt;- rnorm(10, 20, 2)\ndiet_B_small &lt;- rnorm(10, 20.2, 2)\ncat(\"  p-value:\", round(t.test(diet_A_small, diet_B_small)$p.value, 4), \"\\n\\n\")\n\n  p-value: 0.4841 \n\ncat(\"LARGE SAMPLE (n=10,000 per group):\\n\")\n\nLARGE SAMPLE (n=10,000 per group):\n\ndiet_A_large &lt;- rnorm(10000, 20, 2)\ndiet_B_large &lt;- rnorm(10000, 20.2, 2)\ncat(\"  p-value:\", format(t.test(diet_A_large, diet_B_large)$p.value, scientific = TRUE), \"\\n\")\n\n  p-value: 8.26784e-18 \n\n\n\n\n\n\n\n\nWarning\n\n\n\nStatistical significance ≠ practical significance. Always report effect sizes!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#permutation-test-example",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#permutation-test-example",
+    "title": "Statistics for Bioengineering",
+    "section": "Permutation Test Example",
+    "text": "Permutation Test Example"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#creating-empirical-null-distributions",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#creating-empirical-null-distributions",
+    "title": "Statistics for Bioengineering",
+    "section": "Creating Empirical Null Distributions",
+    "text": "Creating Empirical Null Distributions\n\nset.seed(56)\npop_1 &lt;- rnorm(n = 50, mean = 20.1, sd = 2)\npop_2 &lt;- rnorm(n = 50, mean = 19.3, sd = 2)\n\nt_obs &lt;- t.test(x = pop_1, y = pop_2, alternative = \"greater\")$statistic\n\npops_comb &lt;- c(pop_1, pop_2)\nt_rand &lt;- replicate(1000, {\n  pops_shuf &lt;- sample(pops_comb)\n  t.test(x = pops_shuf[1:50], y = pops_shuf[51:100], alternative = \"greater\")$statistic\n})\n\nhist(t_rand, breaks = 30, main = \"Null Distribution\", col = \"lightgray\")\nabline(v = t_obs, col = \"red\", lwd = 2)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#calculating-empirical-p-value",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#calculating-empirical-p-value",
+    "title": "Statistics for Bioengineering",
+    "section": "Calculating Empirical p-Value",
+    "text": "Calculating Empirical p-Value\n\np_value &lt;- sum(t_rand &gt;= t_obs) / 1000\ncat(\"Empirical p-value:\", p_value)\n\nEmpirical p-value: 0.016"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#why-effect-sizes-matter",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#why-effect-sizes-matter",
+    "title": "Statistics for Bioengineering",
+    "section": "Why Effect Sizes Matter",
+    "text": "Why Effect Sizes Matter\nStatistical significance ≠ Practical significance\n\nP-values only tell us IF an effect exists\nEffect sizes tell us HOW BIG the effect is\nWith large samples, even tiny effects become “significant”\nAlways report both p-values AND effect sizes\n\n\n\n\n\n\n\nThe Significance Problem\n\n\n\nA study with n=10,000 might find p &lt; 0.001 for a difference of 0.1 points on a 100-point scale. Statistically significant? Yes. Practically meaningful? Probably not."
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#cohens-d-for-t-tests",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#cohens-d-for-t-tests",
+    "title": "Statistics for Bioengineering",
+    "section": "Cohen’s d for t-Tests",
+    "text": "Cohen’s d for t-Tests\nStandardized mean difference:\n\\[d = \\frac{\\bar{x}_1 - \\bar{x}_2}{s_{pooled}}\\]\nWhere: \\(s_{pooled} = \\sqrt{\\frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}}\\)\nInterpretation Guidelines (Cohen, 1988):\n\n\n\nd Value\nInterpretation\n\n\n\n\n0.2\nSmall effect\n\n\n0.5\nMedium effect\n\n\n0.8\nLarge effect"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#calculating-cohens-d-in-r",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#calculating-cohens-d-in-r",
+    "title": "Statistics for Bioengineering",
+    "section": "Calculating Cohen’s d in R",
+    "text": "Calculating Cohen’s d in R\n\n# Example: Compare two groups\nset.seed(123)\ngroup1 &lt;- rnorm(30, mean = 100, sd = 15)\ngroup2 &lt;- rnorm(30, mean = 108, sd = 15)\n\n# Manual calculation\nmean_diff &lt;- mean(group2) - mean(group1)\npooled_sd &lt;- sqrt(((29 * sd(group1)^2) + (29 * sd(group2)^2)) / 58)\ncohens_d &lt;- mean_diff / pooled_sd\n\ncat(\"Mean difference:\", round(mean_diff, 2), \"\\n\")\n\nMean difference: 11.38 \n\ncat(\"Cohen's d:\", round(cohens_d, 2), \"\\n\")\n\nCohen's d: 0.83 \n\n# Using t-test\nt_result &lt;- t.test(group2, group1)\ncat(\"p-value:\", format(t_result$p.value, digits = 4))\n\np-value: 0.00209"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#visualizing-effect-sizes",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#visualizing-effect-sizes",
+    "title": "Statistics for Bioengineering",
+    "section": "Visualizing Effect Sizes",
+    "text": "Visualizing Effect Sizes\n\npar(mfrow = c(1, 3))\n\n# Small effect (d = 0.2)\nx &lt;- seq(-4, 6, length.out = 200)\nplot(x, dnorm(x, 0, 1), type = \"l\", lwd = 2, col = \"steelblue\",\n     main = \"Small Effect (d = 0.2)\", ylab = \"Density\", xlab = \"Value\")\nlines(x, dnorm(x, 0.2, 1), lwd = 2, col = \"coral\")\nlegend(\"topright\", c(\"Group 1\", \"Group 2\"), col = c(\"steelblue\", \"coral\"), lwd = 2)\n\n# Medium effect (d = 0.5)\nplot(x, dnorm(x, 0, 1), type = \"l\", lwd = 2, col = \"steelblue\",\n     main = \"Medium Effect (d = 0.5)\", ylab = \"Density\", xlab = \"Value\")\nlines(x, dnorm(x, 0.5, 1), lwd = 2, col = \"coral\")\n\n# Large effect (d = 0.8)\nplot(x, dnorm(x, 0, 1), type = \"l\", lwd = 2, col = \"steelblue\",\n     main = \"Large Effect (d = 0.8)\", ylab = \"Density\", xlab = \"Value\")\nlines(x, dnorm(x, 0.8, 1), lwd = 2, col = \"coral\")"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#effect-sizes-for-correlations",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#effect-sizes-for-correlations",
+    "title": "Statistics for Bioengineering",
+    "section": "Effect Sizes for Correlations",
+    "text": "Effect Sizes for Correlations\nCorrelation coefficient r is itself an effect size:\n\n\n\nr Value\nInterpretation\n\n\n\n\n0.1\nSmall\n\n\n0.3\nMedium\n\n\n0.5\nLarge\n\n\n\nCoefficient of Determination (r²):\n\nProportion of variance explained\nr = 0.3 → r² = 0.09 → only 9% of variance explained\nMore intuitive for interpretation"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#confidence-intervals-for-effect-sizes",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#confidence-intervals-for-effect-sizes",
+    "title": "Statistics for Bioengineering",
+    "section": "Confidence Intervals for Effect Sizes",
+    "text": "Confidence Intervals for Effect Sizes\n\n# Bootstrap confidence interval for Cohen's d\nlibrary(boot)\n\n# Function to calculate Cohen's d\ncalc_d &lt;- function(data, indices) {\n  d &lt;- data[indices, ]\n  g1 &lt;- d[d$group == 1, \"value\"]\n  g2 &lt;- d[d$group == 2, \"value\"]\n  pooled_sd &lt;- sqrt(((length(g1)-1)*sd(g1)^2 + (length(g2)-1)*sd(g2)^2) /\n                    (length(g1) + length(g2) - 2))\n  (mean(g2) - mean(g1)) / pooled_sd\n}\n\n# Create data frame\neffect_data &lt;- data.frame(\n  value = c(group1, group2),\n  group = rep(1:2, each = 30)\n)\n\n# Bootstrap\nboot_d &lt;- boot(effect_data, calc_d, R = 1000)\nboot_ci &lt;- boot.ci(boot_d, type = \"perc\")\ncat(\"Cohen's d =\", round(boot_d$t0, 2),\n    \"\\n95% CI: [\", round(boot_ci$percent[4], 2), \",\",\n    round(boot_ci$percent[5], 2), \"]\")\n\nCohen's d = 0.83 \n95% CI: [ 0.3 , 1.43 ]"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#reporting-effect-sizes",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#reporting-effect-sizes",
+    "title": "Statistics for Bioengineering",
+    "section": "Reporting Effect Sizes",
+    "text": "Reporting Effect Sizes\n\n\n\n\n\n\nBest Practice Reporting\n\n\n\nFor t-tests:\n\n“Students who used the new method scored significantly higher (M = 85.3, SD = 12.1) than those using the traditional method (M = 78.6, SD = 11.8), t(58) = 2.14, p = .037, d = 0.56 [95% CI: 0.12, 0.99].”\n\nFor correlations:\n\n“There was a moderate positive correlation between study hours and exam scores, r = .42, p &lt; .001, r² = .18 (18% variance explained).”"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#the-multiple-testing-problem",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#the-multiple-testing-problem",
+    "title": "Statistics for Bioengineering",
+    "section": "The Multiple Testing Problem",
+    "text": "The Multiple Testing Problem\nWhen conducting multiple hypothesis tests, the probability of at least one Type I error increases dramatically.\nFamily-Wise Error Rate (FWER):\n\\[FWER = 1 - (1 - \\alpha)^k\\]\nWhere \\(k\\) is the number of tests performed.\n\n\n\nTests (k)\nFWER (α = 0.05)\n\n\n\n\n1\n0.05\n\n\n5\n0.23\n\n\n10\n0.40\n\n\n20\n0.64\n\n\n100\n0.99"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#bonferroni-correction",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#bonferroni-correction",
+    "title": "Statistics for Bioengineering",
+    "section": "Bonferroni Correction",
+    "text": "Bonferroni Correction\nThe simplest and most conservative correction:\n\\[\\alpha_{adjusted} = \\frac{\\alpha}{k}\\]\nOr equivalently, multiply each p-value by \\(k\\):\n\\[p_{adjusted} = p \\times k\\]\nPros: Simple, controls FWER strictly\nCons: Very conservative, may miss true effects (increased Type II error)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#holm-correction-step-down",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#holm-correction-step-down",
+    "title": "Statistics for Bioengineering",
+    "section": "Holm Correction (Step-Down)",
+    "text": "Holm Correction (Step-Down)\nA less conservative alternative that maintains FWER control:\n\nOrder p-values from smallest to largest: \\(p_{(1)} \\leq p_{(2)} \\leq ... \\leq p_{(k)}\\)\nFor the \\(i\\)-th smallest p-value, multiply by \\((k - i + 1)\\)\nReject hypotheses where adjusted p-value &lt; α\n\nExample with 3 tests:\n\n\n\nRank\nOriginal p\nMultiplier\nAdjusted p\n\n\n\n\n1\n0.001\n3\n0.003\n\n\n2\n0.030\n2\n0.060\n\n\n3\n0.040\n1\n0.040"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#multiple-testing-in-r",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#multiple-testing-in-r",
+    "title": "Statistics for Bioengineering",
+    "section": "Multiple Testing in R",
+    "text": "Multiple Testing in R\n\n# Original p-values from multiple tests\np_values &lt;- c(0.001, 0.030, 0.040, 0.120, 0.250)\n\n# Different correction methods\ndata.frame(\n  original = p_values,\n  bonferroni = p.adjust(p_values, method = \"bonferroni\"),\n  holm = p.adjust(p_values, method = \"holm\"),\n  BH = p.adjust(p_values, method = \"BH\")  # Benjamini-Hochberg (FDR)\n)\n\n  original bonferroni  holm         BH\n1    0.001      0.005 0.005 0.00500000\n2    0.030      0.150 0.120 0.06666667\n3    0.040      0.200 0.120 0.06666667\n4    0.120      0.600 0.240 0.15000000\n5    0.250      1.000 0.250 0.25000000"
+  },
+  {
+    "objectID": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#choosing-a-correction-method",
+    "href": "Lecture_Folder/Week3_BioE_Stats_Lecture.html#choosing-a-correction-method",
+    "title": "Statistics for Bioengineering",
+    "section": "Choosing a Correction Method",
+    "text": "Choosing a Correction Method\n\n\n\n\n\n\n\n\n\nMethod\nControls\nStringency\nUse When\n\n\n\n\nBonferroni\nFWER\nMost conservative\nFew tests, need strict control\n\n\nHolm\nFWER\nLess conservative\nMultiple tests, balanced approach\n\n\nBenjamini-Hochberg\nFDR\nLeast conservative\nMany tests, exploratory analysis\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nData Dredging Warning: Running many tests to find “something significant” inflates false positives. Always correct for multiple comparisons and report how many tests were conducted!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#the-central-limit-theorem-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#the-central-limit-theorem-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "The Central Limit Theorem",
+    "text": "The Central Limit Theorem\nFor most data, we can’t determine sampling distributions empirically.\nThe CLT tells us that the sampling distribution of the mean approaches normal as sample size increases, regardless of the underlying distribution."
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#visualizing-the-central-limit-theorem",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#visualizing-the-central-limit-theorem",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Visualizing the Central Limit Theorem",
+    "text": "Visualizing the Central Limit Theorem\n\n\n\n\n\n\n\n\nFigure 1: CLT: Sample means become normal even from non-normal populations"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#visualizing-the-central-limit-theorem-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#visualizing-the-central-limit-theorem-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Visualizing the Central Limit Theorem",
+    "text": "Visualizing the Central Limit Theorem\n\npar(mfrow = c(2, 4))\n\n# Exponential distribution (skewed)\nset.seed(42)\nexp_pop &lt;- rexp(10000, rate = 1)\nhist(exp_pop, main = \"Population\\n(Exponential)\", col = \"lightgray\",\n     border = \"white\", xlab = \"Value\", breaks = 30)\n\n# Sample means for different n\nfor(n in c(5, 30, 100)) {\n  means &lt;- replicate(1000, mean(sample(exp_pop, n, replace = TRUE)))\n  hist(means, main = paste(\"Sample Means\\n(n =\", n, \")\"),\n       col = \"steelblue\", border = \"white\", xlab = \"Mean\", breaks = 25)\n}\n\n# Uniform distribution\nunif_pop &lt;- runif(10000, 0, 1)\nhist(unif_pop, main = \"Population\\n(Uniform)\", col = \"lightgray\",\n     border = \"white\", xlab = \"Value\", breaks = 30)\n\nfor(n in c(5, 30, 100)) {\n  means &lt;- replicate(1000, mean(sample(unif_pop, n, replace = TRUE)))\n  hist(means, main = paste(\"Sample Means\\n(n =\", n, \")\"),\n       col = \"coral\", border = \"white\", xlab = \"Mean\", breaks = 25)\n}"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#in-class-demo-clt-in-quantitative-genetics",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#in-class-demo-clt-in-quantitative-genetics",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "In-Class Demo: CLT in Quantitative Genetics",
+    "text": "In-Class Demo: CLT in Quantitative Genetics\nWhy are complex traits normally distributed?\nSimulate a trait controlled by 5 genes, each with additive effects:\n\nset.seed(245)\nn_individuals &lt;- 100\n\n# Each locus contributes -1, 0, or +1 to phenotype (diploid genotypes)\ncontributions &lt;- matrix(0, nrow = n_individuals, ncol = 5)\nfor(locus in 1:5) {\n  genotype &lt;- rbinom(n_individuals, size = 2, prob = 0.5)  # 0, 1, or 2 copies\n  contributions[, locus] &lt;- ifelse(genotype == 2, 1,\n                                    ifelse(genotype == 1, 0, -1))\n}\n\n# Sum across loci to get phenotype\nphenotype &lt;- rowSums(contributions)\n\npar(mfrow = c(1, 2))\nhist(phenotype, col = \"steelblue\", border = \"white\",\n     main = \"5-Locus Trait Distribution\",\n     xlab = \"Phenotype Value\", breaks = seq(-6, 6, 1))\n\n# Add environmental noise to make continuous\nphenotype_continuous &lt;- phenotype + rnorm(n_individuals, 0, 0.5)\nhist(phenotype_continuous, col = \"coral\", border = \"white\",\n     main = \"With Environmental Variation\",\n     xlab = \"Phenotype Value\", breaks = 20)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#in-class-demo-clt-in-quantitative-genetics-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#in-class-demo-clt-in-quantitative-genetics-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "In-Class Demo: CLT in Quantitative Genetics",
+    "text": "In-Class Demo: CLT in Quantitative Genetics\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThis is why quantitative traits (height, weight, blood pressure) are approximately normal!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#sampling-variation-of-a-parameter",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#sampling-variation-of-a-parameter",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Sampling Variation of a Parameter",
+    "text": "Sampling Variation of a Parameter"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#normal-sampling-distribution",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#normal-sampling-distribution",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Normal Sampling Distribution",
+    "text": "Normal Sampling Distribution"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#estimation-and-confidence-intervals",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#estimation-and-confidence-intervals",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Estimation and Confidence Intervals",
+    "text": "Estimation and Confidence Intervals"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#visualizing-what-95-confidence-means",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#visualizing-what-95-confidence-means",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Visualizing What “95% Confidence” Means",
+    "text": "Visualizing What “95% Confidence” Means\n\n\n\n\n\n\n\n\nFigure 2: 95% of CIs from repeated sampling contain the true mean (μ = 10)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#visualizing-what-95-confidence-means-1",
+    "href": "Lecture_Folder/Week2_BioE_Stats_Lecture.html#visualizing-what-95-confidence-means-1",
+    "title": "Statistics for Bioengineering 2026 - Week 2",
+    "section": "Visualizing What “95% Confidence” Means",
+    "text": "Visualizing What “95% Confidence” Means\n\nset.seed(42)\ntrue_mean &lt;- 10\nn_samples &lt;- 50\n\n# Take 50 samples and calculate CIs\nresults &lt;- t(replicate(n_samples, {\n  samp &lt;- rnorm(20, mean = true_mean, sd = 2)\n  ci &lt;- t.test(samp)$conf.int\n  c(mean = mean(samp), lower = ci[1], upper = ci[2])\n}))\n\n# Plot CIs - color red if they miss the true mean\ncontains_true &lt;- results[, \"lower\"] &lt;= true_mean & results[, \"upper\"] &gt;= true_mean\ncolors &lt;- ifelse(contains_true, \"steelblue\", \"red\")\n\nplot(NULL, xlim = c(8, 12), ylim = c(0, n_samples + 1),\n     xlab = \"Value\", ylab = \"Sample Number\", main = \"50 Confidence Intervals\")\nabline(v = true_mean, col = \"darkgreen\", lwd = 2)\nfor(i in 1:n_samples) {\n  segments(results[i, \"lower\"], i, results[i, \"upper\"], i, col = colors[i], lwd = 2)\n  points(results[i, \"mean\"], i, pch = 19, cex = 0.6, col = colors[i])\n}\nlegend(\"topright\", c(paste(sum(contains_true), \"contain μ\"),\n       paste(sum(!contains_true), \"miss μ\")), col = c(\"steelblue\", \"red\"), lwd = 2)"
   }
 ]

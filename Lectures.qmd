@@ -18,6 +18,10 @@ title: "Lectures"
 
 [Knee_Injury_Data_Set](Lecture_Folder/knee_injury.csv)
 
+### Week 3
+
+[Lecture_3](Lecture_Folder/Week3_BioE_Stats_Lecture.qmd)
+
 ::: callout-note
 You can download the text and data files by using `right click` on your computer.
 :::

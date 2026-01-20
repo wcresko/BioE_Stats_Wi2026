@@ -305,10 +305,21 @@ window.Quarto = {
   <li><a href="#parameter-estimation" id="toc-parameter-estimation" class="nav-link" data-scroll-target="#parameter-estimation">Parameter Estimation</a></li>
   <li><a href="#estimation-approaches" id="toc-estimation-approaches" class="nav-link" data-scroll-target="#estimation-approaches">Estimation Approaches</a></li>
   <li><a href="#the-central-limit-theorem" id="toc-the-central-limit-theorem" class="nav-link" data-scroll-target="#the-central-limit-theorem">The Central Limit Theorem</a></li>
+  <li><a href="#the-central-limit-theorem-1" id="toc-the-central-limit-theorem-1" class="nav-link" data-scroll-target="#the-central-limit-theorem-1">The Central Limit Theorem</a></li>
+  <li><a href="#visualizing-the-central-limit-theorem" id="toc-visualizing-the-central-limit-theorem" class="nav-link" data-scroll-target="#visualizing-the-central-limit-theorem">Visualizing the Central Limit Theorem</a></li>
+  <li><a href="#visualizing-the-central-limit-theorem-1" id="toc-visualizing-the-central-limit-theorem-1" class="nav-link" data-scroll-target="#visualizing-the-central-limit-theorem-1">Visualizing the Central Limit Theorem</a></li>
+  <li><a href="#in-class-demo-clt-in-quantitative-genetics" id="toc-in-class-demo-clt-in-quantitative-genetics" class="nav-link" data-scroll-target="#in-class-demo-clt-in-quantitative-genetics">In-Class Demo: CLT in Quantitative Genetics</a></li>
+  <li><a href="#in-class-demo-clt-in-quantitative-genetics-1" id="toc-in-class-demo-clt-in-quantitative-genetics-1" class="nav-link" data-scroll-target="#in-class-demo-clt-in-quantitative-genetics-1">In-Class Demo: CLT in Quantitative Genetics</a></li>
+  <li><a href="#sampling-variation-of-a-parameter" id="toc-sampling-variation-of-a-parameter" class="nav-link" data-scroll-target="#sampling-variation-of-a-parameter">Sampling Variation of a Parameter</a></li>
+  <li><a href="#normal-sampling-distribution" id="toc-normal-sampling-distribution" class="nav-link" data-scroll-target="#normal-sampling-distribution">Normal Sampling Distribution</a></li>
+  <li><a href="#estimation-and-confidence-intervals" id="toc-estimation-and-confidence-intervals" class="nav-link" data-scroll-target="#estimation-and-confidence-intervals">Estimation and Confidence Intervals</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
   <li><a href="#standard-error-of-the-mean" id="toc-standard-error-of-the-mean" class="nav-link" data-scroll-target="#standard-error-of-the-mean">Standard Error of the Mean</a></li>
   <li><a href="#calculating-sem" id="toc-calculating-sem" class="nav-link" data-scroll-target="#calculating-sem">Calculating SEM</a></li>
   <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">Confidence Intervals</a></li>
-  <li><a href="#coefficient-of-variation" id="toc-coefficient-of-variation" class="nav-link" data-scroll-target="#coefficient-of-variation">Coefficient of Variation</a></li>
+  <li><a href="#visualizing-what-95-confidence-means" id="toc-visualizing-what-95-confidence-means" class="nav-link" data-scroll-target="#visualizing-what-95-confidence-means">Visualizing What “95% Confidence” Means</a></li>
+  <li><a href="#visualizing-what-95-confidence-means-1" id="toc-visualizing-what-95-confidence-means-1" class="nav-link" data-scroll-target="#visualizing-what-95-confidence-means-1">Visualizing What “95% Confidence” Means</a></li>
   </ul></li>
   <li><a href="#break-1" id="toc-break-1" class="nav-link" data-scroll-target="#break-1">BREAK</a></li>
   <li><a href="#experimental-design-principles" id="toc-experimental-design-principles" class="nav-link" data-scroll-target="#experimental-design-principles">Experimental Design Principles</a>
@@ -1485,6 +1496,154 @@ Important
 <p>For most data, we can’t determine sampling distributions empirically.</p>
 <p>The CLT tells us that the sampling distribution of the mean approaches normal as sample size increases, regardless of the underlying distribution.</p>
 </section>
+<section id="the-central-limit-theorem-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="the-central-limit-theorem-1">The Central Limit Theorem</h2>
+<p>For most data, we can’t determine sampling distributions empirically.</p>
+<p>The CLT tells us that the sampling distribution of the mean approaches normal as sample size increases, regardless of the underlying distribution.</p>
+</section>
+<section id="visualizing-the-central-limit-theorem" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="visualizing-the-central-limit-theorem">Visualizing the Central Limit Theorem</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-clt-figure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-clt-figure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Week2_BioE_Stats_Lecture_files/figure-html/fig-clt-figure-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-clt-figure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: CLT: Sample means become normal even from non-normal populations
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-the-central-limit-theorem-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="visualizing-the-central-limit-theorem-1">Visualizing the Central Limit Theorem</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Exponential distribution (skewed)</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>exp_pop <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">10000</span>, <span class="at">rate =</span> <span class="dv">1</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(exp_pop, <span class="at">main =</span> <span class="st">"Population</span><span class="sc">\n</span><span class="st">(Exponential)"</span>, <span class="at">col =</span> <span class="st">"lightgray"</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">xlab =</span> <span class="st">"Value"</span>, <span class="at">breaks =</span> <span class="dv">30</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample means for different n</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(n <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">100</span>)) {</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(exp_pop, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(means, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Sample Means</span><span class="sc">\n</span><span class="st">(n ="</span>, n, <span class="st">")"</span>),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"steelblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">xlab =</span> <span class="st">"Mean"</span>, <span class="at">breaks =</span> <span class="dv">25</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Uniform distribution</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>unif_pop <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(unif_pop, <span class="at">main =</span> <span class="st">"Population</span><span class="sc">\n</span><span class="st">(Uniform)"</span>, <span class="at">col =</span> <span class="st">"lightgray"</span>,</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">xlab =</span> <span class="st">"Value"</span>, <span class="at">breaks =</span> <span class="dv">30</span>)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(n <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">100</span>)) {</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(unif_pop, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(means, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"Sample Means</span><span class="sc">\n</span><span class="st">(n ="</span>, n, <span class="st">")"</span>),</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"coral"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">xlab =</span> <span class="st">"Mean"</span>, <span class="at">breaks =</span> <span class="dv">25</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="in-class-demo-clt-in-quantitative-genetics" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="in-class-demo-clt-in-quantitative-genetics">In-Class Demo: CLT in Quantitative Genetics</h2>
+<p><strong>Why are complex traits normally distributed?</strong></p>
+<p>Simulate a trait controlled by 5 genes, each with additive effects:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">245</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>n_individuals <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Each locus contributes -1, 0, or +1 to phenotype (diploid genotypes)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>contributions <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n_individuals, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(locus <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  genotype <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n_individuals, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)  <span class="co"># 0, 1, or 2 copies</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  contributions[, locus] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(genotype <span class="sc">==</span> <span class="dv">2</span>, <span class="dv">1</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">ifelse</span>(genotype <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum across loci to get phenotype</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>phenotype <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(contributions)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(phenotype, <span class="at">col =</span> <span class="st">"steelblue"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"5-Locus Trait Distribution"</span>,</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Phenotype Value"</span>, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">1</span>))</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Add environmental noise to make continuous</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>phenotype_continuous <span class="ot">&lt;-</span> phenotype <span class="sc">+</span> <span class="fu">rnorm</span>(n_individuals, <span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(phenotype_continuous, <span class="at">col =</span> <span class="st">"coral"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"With Environmental Variation"</span>,</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Phenotype Value"</span>, <span class="at">breaks =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="in-class-demo-clt-in-quantitative-genetics-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="in-class-demo-clt-in-quantitative-genetics-1">In-Class Demo: CLT in Quantitative Genetics</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week2_BioE_Stats_Lecture_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is why quantitative traits (height, weight, blood pressure) are approximately normal!</p>
+</div>
+</div>
+</section>
+<section id="sampling-variation-of-a-parameter" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="sampling-variation-of-a-parameter">Sampling Variation of a Parameter</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week02_88_slide025.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</section>
+<section id="normal-sampling-distribution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="normal-sampling-distribution">Normal Sampling Distribution</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week02_89_week7_normalsampling.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</section>
+<section id="estimation-and-confidence-intervals" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="estimation-and-confidence-intervals">Estimation and Confidence Intervals</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week02_90_slide026.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1"></h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week02_91_slide027.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</section>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2"></h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/week02_92_slide028.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</section>
 <section id="standard-error-of-the-mean" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="standard-error-of-the-mean">Standard Error of the Mean</h2>
 <p><span class="math display">\[\huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}\]</span></p>
@@ -1508,18 +1667,18 @@ Note
 <section id="calculating-sem" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="calculating-sem">Calculating SEM</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Small sample</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>samps_5 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="at">size =</span> <span class="dv">5</span>))</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>sem_5 <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">apply</span>(samps_5, <span class="dv">2</span>, mean)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Larger sample</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>samps_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="at">size =</span> <span class="dv">50</span>))</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>sem_50 <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">apply</span>(samps_50, <span class="dv">2</span>, mean)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SEM (n=5):"</span>, <span class="fu">round</span>(sem_5, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">SEM (n=50):"</span>, <span class="fu">round</span>(sem_50, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>true_pop <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Small sample</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>samps_5 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="at">size =</span> <span class="dv">5</span>))</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>sem_5 <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">apply</span>(samps_5, <span class="dv">2</span>, mean)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Larger sample</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>samps_50 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">sample</span>(true_pop, <span class="at">size =</span> <span class="dv">50</span>))</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>sem_50 <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">apply</span>(samps_50, <span class="dv">2</span>, mean)) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"SEM (n=5):"</span>, <span class="fu">round</span>(sem_5, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">SEM (n=50):"</span>, <span class="fu">round</span>(sem_50, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>SEM (n=5): 0.2647 
 SEM (n=50): 0.0828</code></pre>
@@ -1530,9 +1689,9 @@ SEM (n=50): 0.0828</code></pre>
 <h2 class="smaller anchored" data-anchor-id="confidence-intervals">Confidence Intervals</h2>
 <p>A confidence interval is a range of values about a parameter estimate such that we are X% certain the true population parameter lies within.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% CI using t.test</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(sample_data)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% CI using t.test</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(sample_data)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  9.177721 10.707722
 attr(,"conf.level")
@@ -1540,10 +1699,51 @@ attr(,"conf.level")
 </div>
 </div>
 </section>
-<section id="coefficient-of-variation" class="level2 smaller">
-<h2 class="smaller anchored" data-anchor-id="coefficient-of-variation">Coefficient of Variation</h2>
-<p>To compare standard deviations across populations with different means:</p>
-<p><span class="math display">\[CV = \frac{s}{\bar{x}} \times 100\%\]</span></p>
+<section id="visualizing-what-95-confidence-means" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="visualizing-what-95-confidence-means">Visualizing What “95% Confidence” Means</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-ci-demo-output" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ci-demo-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Week2_BioE_Stats_Lecture_files/figure-html/fig-ci-demo-output-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ci-demo-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: 95% of CIs from repeated sampling contain the true mean (μ = 10)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-what-95-confidence-means-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="visualizing-what-95-confidence-means-1">Visualizing What “95% Confidence” Means</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>true_mean <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>n_samples <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Take 50 samples and calculate CIs</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(n_samples, {</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> true_mean, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> <span class="fu">t.test</span>(samp)<span class="sc">$</span>conf.int</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(samp), <span class="at">lower =</span> ci[<span class="dv">1</span>], <span class="at">upper =</span> ci[<span class="dv">2</span>])</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot CIs - color red if they miss the true mean</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>contains_true <span class="ot">&lt;-</span> results[, <span class="st">"lower"</span>] <span class="sc">&lt;=</span> true_mean <span class="sc">&amp;</span> results[, <span class="st">"upper"</span>] <span class="sc">&gt;=</span> true_mean</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(contains_true, <span class="st">"steelblue"</span>, <span class="st">"red"</span>)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NULL</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">12</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, n_samples <span class="sc">+</span> <span class="dv">1</span>),</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Value"</span>, <span class="at">ylab =</span> <span class="st">"Sample Number"</span>, <span class="at">main =</span> <span class="st">"50 Confidence Intervals"</span>)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> true_mean, <span class="at">col =</span> <span class="st">"darkgreen"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_samples) {</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">segments</span>(results[i, <span class="st">"lower"</span>], i, results[i, <span class="st">"upper"</span>], i, <span class="at">col =</span> colors[i], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(results[i, <span class="st">"mean"</span>], i, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">col =</span> colors[i])</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">sum</span>(contains_true), <span class="st">"contain μ"</span>),</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>       <span class="fu">paste</span>(<span class="fu">sum</span>(<span class="sc">!</span>contains_true), <span class="st">"miss μ"</span>)), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"red"</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </section>
 <section id="break-1" class="level1" data-background-color="#e74c3c">

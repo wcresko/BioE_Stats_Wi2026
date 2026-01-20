@@ -176,7 +176,6 @@ $$y=\frac{1}{2}$$
 #| output: false
 
 library(tidyverse)
-library(nycflights23)
 ```
 
 ## Key dplyr Verbs {.smaller}
@@ -196,13 +195,13 @@ library(nycflights23)
 #| echo: true
 
 # Filter rows
-dpylr::filter(flights, month == 11 | month == 12)
+filter(flights, month == 11 | month == 12)
 
 # Arrange rows
-dpylr::arrange(flights, year, month, day)
+arrange(flights, year, month, day)
 
 # Select columns
-dpylr::select(flights, year, month, day)
+select(flights, year, month, day)
 ```
 
 ![](images/week_3.015.jpeg){fig-align="center" width="50%"}
@@ -227,7 +226,7 @@ dpylr::select(flights, year, month, day)
 #| echo: true
 
 # Add new columns based on existing ones
-dpylr::mutate(flights,
+mutate(flights,
   gain = arr_delay - dep_delay,
   hours = air_time / 60,
   gain_per_hour = gain / hours
@@ -235,7 +234,7 @@ dpylr::mutate(flights,
 
 # Using pipes
 flights |>
-  dpylr::mutate(
+  mutate(
     gain = arr_delay - dep_delay,
     speed = distance / air_time * 60
   )
@@ -776,6 +775,184 @@ For most data, we can't determine sampling distributions empirically.
 
 The CLT tells us that the sampling distribution of the mean approaches normal as sample size increases, regardless of the underlying distribution.
 
+
+## The Central Limit Theorem {.smaller}
+
+For most data, we can't determine sampling distributions empirically.
+
+The CLT tells us that the sampling distribution of the mean approaches normal as sample size increases, regardless of the underlying distribution.
+
+## Visualizing the Central Limit Theorem {.smaller}
+
+```{r}
+#| label: fig-clt-figure
+#| fig-cap: "CLT: Sample means become normal even from non-normal populations"
+#| fig-width: 10
+#| fig-height: 5
+#| echo: false
+
+par(mfrow = c(2, 4))
+
+# Exponential distribution (skewed)
+set.seed(42)
+exp_pop <- rexp(10000, rate = 1)
+hist(exp_pop, main = "Population\n(Exponential)", col = "lightgray",
+     border = "white", xlab = "Value", breaks = 30)
+
+# Sample means for different n
+for(n in c(5, 30, 100)) {
+  means <- replicate(1000, mean(sample(exp_pop, n, replace = TRUE)))
+  hist(means, main = paste("Sample Means\n(n =", n, ")"),
+       col = "steelblue", border = "white", xlab = "Mean", breaks = 25)
+}
+
+# Uniform distribution
+unif_pop <- runif(10000, 0, 1)
+hist(unif_pop, main = "Population\n(Uniform)", col = "lightgray",
+     border = "white", xlab = "Value", breaks = 30)
+
+for(n in c(5, 30, 100)) {
+  means <- replicate(1000, mean(sample(unif_pop, n, replace = TRUE)))
+  hist(means, main = paste("Sample Means\n(n =", n, ")"),
+       col = "coral", border = "white", xlab = "Mean", breaks = 25)
+}
+```
+
+## Visualizing the Central Limit Theorem {.smaller}
+
+```{r}
+#| label: fig-clt-code
+#| fig-cap: "CLT: Sample means become normal even from non-normal populations"
+#| fig-width: 10
+#| fig-height: 5
+#| echo: true
+#| eval: false
+
+par(mfrow = c(2, 4))
+
+# Exponential distribution (skewed)
+set.seed(42)
+exp_pop <- rexp(10000, rate = 1)
+hist(exp_pop, main = "Population\n(Exponential)", col = "lightgray",
+     border = "white", xlab = "Value", breaks = 30)
+
+# Sample means for different n
+for(n in c(5, 30, 100)) {
+  means <- replicate(1000, mean(sample(exp_pop, n, replace = TRUE)))
+  hist(means, main = paste("Sample Means\n(n =", n, ")"),
+       col = "steelblue", border = "white", xlab = "Mean", breaks = 25)
+}
+
+# Uniform distribution
+unif_pop <- runif(10000, 0, 1)
+hist(unif_pop, main = "Population\n(Uniform)", col = "lightgray",
+     border = "white", xlab = "Value", breaks = 30)
+
+for(n in c(5, 30, 100)) {
+  means <- replicate(1000, mean(sample(unif_pop, n, replace = TRUE)))
+  hist(means, main = paste("Sample Means\n(n =", n, ")"),
+       col = "coral", border = "white", xlab = "Mean", breaks = 25)
+}
+```
+
+## In-Class Demo: CLT in Quantitative Genetics {.smaller}
+
+**Why are complex traits normally distributed?**
+
+Simulate a trait controlled by 5 genes, each with additive effects:
+
+```{r}
+#| fig-width: 10
+#| fig-height: 4
+#| eval: false
+#| echo: true
+
+set.seed(245)
+n_individuals <- 100
+
+# Each locus contributes -1, 0, or +1 to phenotype (diploid genotypes)
+contributions <- matrix(0, nrow = n_individuals, ncol = 5)
+for(locus in 1:5) {
+  genotype <- rbinom(n_individuals, size = 2, prob = 0.5)  # 0, 1, or 2 copies
+  contributions[, locus] <- ifelse(genotype == 2, 1,
+                                    ifelse(genotype == 1, 0, -1))
+}
+
+# Sum across loci to get phenotype
+phenotype <- rowSums(contributions)
+
+par(mfrow = c(1, 2))
+hist(phenotype, col = "steelblue", border = "white",
+     main = "5-Locus Trait Distribution",
+     xlab = "Phenotype Value", breaks = seq(-6, 6, 1))
+
+# Add environmental noise to make continuous
+phenotype_continuous <- phenotype + rnorm(n_individuals, 0, 0.5)
+hist(phenotype_continuous, col = "coral", border = "white",
+     main = "With Environmental Variation",
+     xlab = "Phenotype Value", breaks = 20)
+```
+
+
+## In-Class Demo: CLT in Quantitative Genetics {.smaller}
+
+```{r}
+#| fig-width: 10
+#| fig-height: 4
+#| eval: true
+#| echo: false
+
+set.seed(245)
+n_individuals <- 100
+
+# Each locus contributes -1, 0, or +1 to phenotype (diploid genotypes)
+contributions <- matrix(0, nrow = n_individuals, ncol = 5)
+for(locus in 1:5) {
+  genotype <- rbinom(n_individuals, size = 2, prob = 0.5)  # 0, 1, or 2 copies
+  contributions[, locus] <- ifelse(genotype == 2, 1,
+                                    ifelse(genotype == 1, 0, -1))
+}
+
+# Sum across loci to get phenotype
+phenotype <- rowSums(contributions)
+
+par(mfrow = c(1, 2))
+hist(phenotype, col = "steelblue", border = "white",
+     main = "5-Locus Trait Distribution",
+     xlab = "Phenotype Value", breaks = seq(-6, 6, 1))
+
+# Add environmental noise to make continuous
+phenotype_continuous <- phenotype + rnorm(n_individuals, 0, 0.5)
+hist(phenotype_continuous, col = "coral", border = "white",
+     main = "With Environmental Variation",
+     xlab = "Phenotype Value", breaks = 20)
+```
+
+::: callout-note
+This is why quantitative traits (height, weight, blood pressure) are approximately normal!
+:::
+
+## Sampling Variation of a Parameter {.smaller}
+
+![](images/week02_88_slide025.jpeg){fig-align="center" width="100%"}
+
+## Normal Sampling Distribution {.smaller}
+
+![](images/week02_89_week7_normalsampling.jpeg){fig-align="center" width="90%"}
+
+## Estimation and Confidence Intervals {.smaller}
+
+![](images/week02_90_slide026.jpeg){fig-align="center" width="90%"}
+
+## 
+
+![](images/week02_91_slide027.jpeg){fig-align="center" width="100%"}
+
+## 
+
+![](images/week02_92_slide028.jpeg){fig-align="center" width="100%"}
+
+
 ## Standard Error of the Mean {.smaller}
 
 $$\huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}$$
@@ -818,11 +995,80 @@ sample_data <- rnorm(30, mean = 10, sd = 2)
 t.test(sample_data)$conf.int
 ```
 
-## Coefficient of Variation {.smaller}
 
-To compare standard deviations across populations with different means:
+## Visualizing What "95% Confidence" Means {.smaller}
 
-$$CV = \frac{s}{\bar{x}} \times 100\%$$
+```{r}
+#| label: fig-ci-demo-output
+#| fig-cap: "95% of CIs from repeated sampling contain the true mean (μ = 10)"
+#| fig-width: 9
+#| fig-height: 5
+#| echo: false
+#| eval: true
+
+set.seed(42)
+true_mean <- 10
+n_samples <- 50
+
+# Take 50 samples and calculate CIs
+results <- t(replicate(n_samples, {
+  samp <- rnorm(20, mean = true_mean, sd = 2)
+  ci <- t.test(samp)$conf.int
+  c(mean = mean(samp), lower = ci[1], upper = ci[2])
+}))
+
+# Plot CIs - color red if they miss the true mean
+contains_true <- results[, "lower"] <= true_mean & results[, "upper"] >= true_mean
+colors <- ifelse(contains_true, "steelblue", "red")
+
+plot(NULL, xlim = c(8, 12), ylim = c(0, n_samples + 1),
+     xlab = "Value", ylab = "Sample Number", main = "50 Confidence Intervals")
+abline(v = true_mean, col = "darkgreen", lwd = 2)
+for(i in 1:n_samples) {
+  segments(results[i, "lower"], i, results[i, "upper"], i, col = colors[i], lwd = 2)
+  points(results[i, "mean"], i, pch = 19, cex = 0.6, col = colors[i])
+}
+legend("topright", c(paste(sum(contains_true), "contain μ"),
+       paste(sum(!contains_true), "miss μ")), col = c("steelblue", "red"), lwd = 2)
+```
+
+## Visualizing What "95% Confidence" Means {.smaller}
+
+```{r}
+#| label: fig-ci-demo-code
+#| fig-cap: "95% of CIs from repeated sampling contain the true mean (μ = 10)"
+#| fig-width: 9
+#| fig-height: 5
+#| echo: true
+#| eval: false
+
+set.seed(42)
+true_mean <- 10
+n_samples <- 50
+
+# Take 50 samples and calculate CIs
+results <- t(replicate(n_samples, {
+  samp <- rnorm(20, mean = true_mean, sd = 2)
+  ci <- t.test(samp)$conf.int
+  c(mean = mean(samp), lower = ci[1], upper = ci[2])
+}))
+
+# Plot CIs - color red if they miss the true mean
+contains_true <- results[, "lower"] <= true_mean & results[, "upper"] >= true_mean
+colors <- ifelse(contains_true, "steelblue", "red")
+
+plot(NULL, xlim = c(8, 12), ylim = c(0, n_samples + 1),
+     xlab = "Value", ylab = "Sample Number", main = "50 Confidence Intervals")
+abline(v = true_mean, col = "darkgreen", lwd = 2)
+for(i in 1:n_samples) {
+  segments(results[i, "lower"], i, results[i, "upper"], i, col = colors[i], lwd = 2)
+  points(results[i, "mean"], i, pch = 19, cex = 0.6, col = colors[i])
+}
+legend("topright", c(paste(sum(contains_true), "contain μ"),
+       paste(sum(!contains_true), "miss μ")), col = c("steelblue", "red"), lwd = 2)
+```
+
+
 
 # BREAK {background-color="#e74c3c"}
 
