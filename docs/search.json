@@ -2852,15 +2852,15 @@
     "objectID": "Lecture_Folder/Week3_Lecture.html#week-3-topics",
     "href": "Lecture_Folder/Week3_Lecture.html#week-3-topics",
     "title": "Statistics for Bioengineering",
-    "section": "",
-    "text": "Hypothesis testing & significance\nType I & II errors\nT-tests\n\n\n\n\n\n\n\n\nNote\n\n\n\nReadings: Chapters 16-17\nHW1 Due this week"
+    "section": "Week 3 Topics",
+    "text": "Week 3 Topics\n\nHypothesis testing & significance\nType I & II errors\nT-tests\n\n\n\n\n\n\n\nNote\n\n\nReadings: Chapters 16-17\nHW1 Due this week"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#packages-for-this-week",
     "href": "Lecture_Folder/Week3_Lecture.html#packages-for-this-week",
     "title": "Statistics for Bioengineering",
-    "section": "",
-    "text": "# Install new packages (run once)\ninstall.packages(\"boot\")\n\n# Load packages\nlibrary(tidyverse)    # Data manipulation & visualization\nlibrary(boot)         # Bootstrap methods for resampling\n\n\n\n\n\n\n\nTip\n\n\n\nThe boot package provides tools for bootstrap resampling and confidence interval estimation."
+    "section": "Packages for This Week",
+    "text": "Packages for This Week\n\n# Install new packages (run once)\ninstall.packages(\"boot\")\n\n# Load packages\nlibrary(tidyverse)    # Data manipulation & visualization\nlibrary(boot)         # Bootstrap methods for resampling\n\n\n\n\n\n\n\nTip\n\n\nThe boot package provides tools for bootstrap resampling and confidence interval estimation."
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#null-and-alternative-hypotheses",
@@ -2874,7 +2874,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#what-is-a-hypothesis",
     "title": "Statistics for Bioengineering",
     "section": "What is a Hypothesis?",
-    "text": "What is a Hypothesis?\n\nA statement of belief about the world\nRequires a critical test to accept/reject\n\n\n\n\\(H_0\\): Null hypothesis — no effect/difference\n\\(H_A\\): Alternative hypothesis — there is an effect/difference"
+    "text": "What is a Hypothesis?\n\nA statement of belief about the world\nRequires a critical test to accept/reject\n\n\n\\(H_0\\): Null hypothesis — no effect/difference\n\\(H_A\\): Alternative hypothesis — there is an effect/difference"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#example-hypotheses",
@@ -2923,7 +2923,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#visualizing-the-t-distribution-in-r",
     "title": "Statistics for Bioengineering",
     "section": "Visualizing the t-Distribution in R",
-    "text": "Visualizing the t-Distribution in R\n\n\n\n\n\n\n\n\nFigure 1: t-distributions approach normal as df increases"
+    "text": "Visualizing the t-Distribution in R\n\n\nFigure 1: t-distributions approach normal as df increases"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#visualizing-the-t-distribution-in-r-code",
@@ -2944,14 +2944,14 @@
     "href": "Lecture_Folder/Week3_Lecture.html#two-tailed-test",
     "title": "Statistics for Bioengineering",
     "section": "Two-Tailed Test",
-    "text": "Two-Tailed Test\n\n\n\nCritical regions in a two-tailed hypothesis test"
+    "text": "Two-Tailed Test\n\nCritical regions in a two-tailed hypothesis test"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#visualizing-critical-regions-in-r",
     "href": "Lecture_Folder/Week3_Lecture.html#visualizing-critical-regions-in-r",
     "title": "Statistics for Bioengineering",
     "section": "Visualizing Critical Regions in R",
-    "text": "Visualizing Critical Regions in R\n\n\n\n\n\n\n\n\nFigure 2: Critical regions for α = 0.05 with df = 20"
+    "text": "Visualizing Critical Regions in R\n\n\nFigure 2: Critical regions for α = 0.05 with df = 20"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#visualizing-critical-regions-in-r-code",
@@ -2965,7 +2965,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#assumptions-of-parametric-t-tests",
     "title": "Statistics for Bioengineering",
     "section": "Assumptions of Parametric t-Tests",
-    "text": "Assumptions of Parametric t-Tests\n\nNormally distributed errors in the populations\nEqual variances (for two-sample t-test)\nIndependent observations (random sampling)\n\n\n\n\n\n\n\nWarning\n\n\n\nIf assumptions are violated, use nonparametric tests or randomization."
+    "text": "Assumptions of Parametric t-Tests\n\nNormally distributed errors in the populations\nEqual variances (for two-sample t-test)\nIndependent observations (random sampling)\n\n\n\n\n\n\n\nWarning\n\n\nIf assumptions are violated, use nonparametric tests or randomization."
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#checking-normality-with-qq-plots",
@@ -2993,7 +2993,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#formal-normality-tests",
     "title": "Statistics for Bioengineering",
     "section": "Formal Normality Tests",
-    "text": "Formal Normality Tests\nWhile QQ plots are preferred for visual assessment, formal tests exist:\n\n# Shapiro-Wilk test (best for n &lt; 50)\nset.seed(42)\nnormal_sample &lt;- rnorm(30)\nshapiro.test(normal_sample)\n\n\n    Shapiro-Wilk normality test\n\ndata:  normal_sample\nW = 0.96209, p-value = 0.35\n\n\n\n\n\n\n\n\nLimitations of Normality Tests\n\n\n\n\nVery sensitive with large samples (reject normality for trivial deviations)\nLow power with small samples (fail to detect real departures)\nVisual inspection with QQ plots is often more informative"
+    "text": "Formal Normality Tests\nWhile QQ plots are preferred for visual assessment, formal tests exist:\n\n# Shapiro-Wilk test (best for n &lt; 50)\nset.seed(42)\nnormal_sample &lt;- rnorm(30)\nshapiro.test(normal_sample)\n\n\n    Shapiro-Wilk normality test\n\ndata:  normal_sample\nW = 0.96209, p-value = 0.35\n\n\n\n\n\n\n\n\nLimitations of Normality Tests\n\n\n\nVery sensitive with large samples (reject normality for trivial deviations)\nLow power with small samples (fail to detect real departures)\nVisual inspection with QQ plots is often more informative"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#one-sample-t-test",
@@ -3028,7 +3028,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#null-distributions-and-p-values",
     "title": "Statistics for Bioengineering",
     "section": "Null Distributions and p-Values",
-    "text": "Null Distributions and p-Values\n\n\n\nUnderstanding p-values and null distributions"
+    "text": "Null Distributions and p-Values\n\nUnderstanding p-values and null distributions"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#permutation-test-example",
@@ -3105,7 +3105,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#blinding",
     "title": "Statistics for Bioengineering",
     "section": "Blinding",
-    "text": "Blinding\n\nSingle-blind: Subjects unaware of treatment\nDouble-blind: Both subjects and researchers unaware\n\n\n\n\n\n\n\nImportant\n\n\n\nStudies without double-blinding exaggerate treatment effects by 16% on average (Jüni et al. 2001)"
+    "text": "Blinding\n\nSingle-blind: Subjects unaware of treatment\nDouble-blind: Both subjects and researchers unaware\n\n\n\n\n\n\n\nImportant\n\n\nStudies without double-blinding exaggerate treatment effects by 16% on average (Jüni et al. 2001)"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#replication-and-balance",
@@ -3119,7 +3119,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#types-of-replication",
     "title": "Statistics for Bioengineering",
     "section": "Types of Replication",
-    "text": "Types of Replication\nUnderstanding the distinction between replication types is critical for valid statistical inference:\n\n\n\n\n\n\n\n\nType\nDefinition\nExample\n\n\n\n\nBiological replicates\nIndependent biological samples\nDifferent mice, different patients, different cell cultures\n\n\nTechnical replicates\nRepeated measurements of same sample\nRunning the same sample on a sequencer 3 times\n\n\nPseudo-replication\nTreating non-independent observations as independent\nMultiple cells from one dish treated as separate replicates\n\n\n\n\n\n\n\n\n\nCommon Error\n\n\n\nTreating technical replicates or pseudo-replicates as biological replicates inflates sample size and leads to false positives!"
+    "text": "Types of Replication\nUnderstanding the distinction between replication types is critical for valid statistical inference:\n\n\n\n\n\n\n\n\nType\nDefinition\nExample\n\n\n\n\nBiological replicates\nIndependent biological samples\nDifferent mice, different patients, different cell cultures\n\n\nTechnical replicates\nRepeated measurements of same sample\nRunning the same sample on a sequencer 3 times\n\n\nPseudo-replication\nTreating non-independent observations as independent\nMultiple cells from one dish treated as separate replicates\n\n\n\n\n\n\n\n\n\nCommon Error\n\n\nTreating technical replicates or pseudo-replicates as biological replicates inflates sample size and leads to false positives!"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#biological-vs.-technical-replication",
@@ -3140,7 +3140,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#why-effect-sizes-matter",
     "title": "Statistics for Bioengineering",
     "section": "Why Effect Sizes Matter",
-    "text": "Why Effect Sizes Matter\nStatistical significance ≠ Practical significance\n\nP-values only tell us IF an effect exists\nEffect sizes tell us HOW BIG the effect is\nWith large samples, even tiny effects become “significant”\nAlways report both p-values AND effect sizes\n\n\n\n\n\n\n\nThe Significance Problem\n\n\n\nA study with n=10,000 might find p &lt; 0.001 for a difference of 0.1 points on a 100-point scale. Statistically significant? Yes. Practically meaningful? Probably not."
+    "text": "Why Effect Sizes Matter\nStatistical significance ≠ Practical significance\n\nP-values only tell us IF an effect exists\nEffect sizes tell us HOW BIG the effect is\nWith large samples, even tiny effects become “significant”\nAlways report both p-values AND effect sizes\n\n\n\n\n\n\n\nThe Significance Problem\n\n\nA study with n=10,000 might find p &lt; 0.001 for a difference of 0.1 points on a 100-point scale. Statistically significant? Yes. Practically meaningful? Probably not."
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#cohens-d-for-t-tests",
@@ -3189,7 +3189,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#reporting-effect-sizes",
     "title": "Statistics for Bioengineering",
     "section": "Reporting Effect Sizes",
-    "text": "Reporting Effect Sizes\n\n\n\n\n\n\nBest Practice Reporting\n\n\n\nFor t-tests:\n\n“Students who used the new method scored significantly higher (M = 85.3, SD = 12.1) than those using the traditional method (M = 78.6, SD = 11.8), t(58) = 2.14, p = .037, d = 0.56 [95% CI: 0.12, 0.99].”\n\nFor correlations:\n\n“There was a moderate positive correlation between study hours and exam scores, r = .42, p &lt; .001, r² = .18 (18% variance explained).”"
+    "text": "Reporting Effect Sizes\n\n\n\n\n\n\nBest Practice Reporting\n\n\nFor t-tests:\n\n“Students who used the new method scored significantly higher (M = 85.3, SD = 12.1) than those using the traditional method (M = 78.6, SD = 11.8), t(58) = 2.14, p = .037, d = 0.56 [95% CI: 0.12, 0.99].”\n\nFor correlations:\n\n“There was a moderate positive correlation between study hours and exam scores, r = .42, p &lt; .001, r² = .18 (18% variance explained).”"
   },
   {
     "objectID": "Lecture_Folder/Week3_Lecture.html#the-multiple-testing-problem",
@@ -3224,7 +3224,7 @@
     "href": "Lecture_Folder/Week3_Lecture.html#choosing-a-correction-method",
     "title": "Statistics for Bioengineering",
     "section": "Choosing a Correction Method",
-    "text": "Choosing a Correction Method\n\n\n\n\n\n\n\n\n\nMethod\nControls\nStringency\nUse When\n\n\n\n\nBonferroni\nFWER\nMost conservative\nFew tests, need strict control\n\n\nHolm\nFWER\nLess conservative\nMultiple tests, balanced approach\n\n\nBenjamini-Hochberg\nFDR\nLeast conservative\nMany tests, exploratory analysis\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nData Dredging Warning: Running many tests to find “something significant” inflates false positives. Always correct for multiple comparisons and report how many tests were conducted!"
+    "text": "Choosing a Correction Method\n\n\n\n\n\n\n\n\n\nMethod\nControls\nStringency\nUse When\n\n\n\n\nBonferroni\nFWER\nMost conservative\nFew tests, need strict control\n\n\nHolm\nFWER\nLess conservative\nMultiple tests, balanced approach\n\n\nBenjamini-Hochberg\nFDR\nLeast conservative\nMany tests, exploratory analysis\n\n\n\n\n\n\n\n\n\nWarning\n\n\nData Dredging Warning: Running many tests to find “something significant” inflates false positives. Always correct for multiple comparisons and report how many tests were conducted!"
   },
   {
     "objectID": "Lecture_Folder/Week1_Lecture.html",
