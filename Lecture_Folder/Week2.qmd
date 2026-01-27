@@ -97,7 +97,7 @@ library(nycflights13) # NYC flights data for dplyr examples
 
 ## Tidyverse Family of Packages {.smaller}
 
-![Tidyverse packages overview](images/week02_10_tidyverse_packages.jpeg){#fig-week2-tidyverse fig-align="center" width="90%"}
+![Tidyverse packages overview](images/week02_10_slide011.jpeg){#fig-week2-tidyverse fig-align="center" width="90%"}
 
 ```{r}
 #| label: load-tidyverse
@@ -109,15 +109,15 @@ library(tidyverse)
 
 ## A tibble - a tidyverse dataframe {.smaller}
 
-![](images/week02_11_mpg_tibble_variable_definitions.jpeg){fig-align="center" width="90%"}
+![](images/week02_11_slide012.jpeg){fig-align="center" width="90%"}
 
 ## A tibble - a tidyverse dataframe {.smaller}
 
-![](images/week02_12_tidy_data_variables_observations.jpeg){fig-align="center" width="90%"}
+![](images/week02_12_slide013.jpeg){fig-align="center" width="90%"}
 
 ## Types of variables in a tibble {.smaller}
 
-![dplyr functions](images/week02_13_r_vector_types_hierarchy.jpeg){#fig-week2-dplyr-functions fig-align="center" width="90%"}
+![dplyr functions](images/week02_13_slide014.jpeg){#fig-week2-dplyr-functions fig-align="center" width="90%"}
 
 ## Key dplyr Verbs {.smaller}
 
@@ -148,7 +148,7 @@ arrange(flights, year, month, day)
 select(flights, year, month, day)
 ```
 
-![](images/week02_14_boolean_set_operations_venn.jpeg){fig-align="center" width="50%"}
+![](images/week02_14_slide015.jpeg){fig-align="center" width="50%"}
 
 ## Conditional Operators {.smaller}
 
@@ -239,7 +239,7 @@ More info: <https://ggplot2.tidyverse.org/>
 
 ## Grammar of Graphics
 
-![](images/week02_27_grammar_of_graphics_layers.jpeg){fig-align="center" width="90%"}
+![](images/week02_27_section4a_slide017.jpeg){fig-align="center" width="90%"}
 
 ## Scatterplots {.smaller}
 
@@ -472,11 +472,11 @@ ggplot(d, aes(x=a, y=b)) +
 
 ::::: columns
 ::: {.column width="50%"}
-![](images/week02_42_misleading_chart_truncated_yaxis.jpeg){fig-align="center"}
+![](images/week02_42_section4a_slide013.jpeg){fig-align="center"}
 :::
 
 ::: {.column width="50%"}
-![](images/week02_43_correct_unemployment_line_plot.jpeg){fig-align="center"}
+![](images/week02_43_section4a_slide014.jpeg){fig-align="center"}
 :::
 :::::
 
@@ -498,7 +498,7 @@ We use sample statistics to **estimate** population parameters
 
 ## Accuracy vs. Precision {.smaller}
 
-![](images/week02_52_precision_vs_accuracy_target.jpeg){fig-align="center" width="50%"}
+![](images/week02_52_slide024.jpeg){fig-align="center" width="50%"}
 
 -   **Accuracy**: closeness to true value
 -   **Precision**: closeness of repeated estimates to each other
@@ -641,17 +641,17 @@ abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 
 ## Common moments of distributions
 
-![](images/week02_80_population_sample_statistics_table.jpeg){fig-align="center" width="90%"}
+![](images/week02_80_slide010.jpeg){fig-align="center" width="90%"}
 
 # Common Probability Distributions
 
 ## A Bernouli Trial {.smaller}
 
-![](images/week02_74_coin_flip_probability.jpeg){fig-align="center" width="60%"}
+![](images/week02_74_slide001.jpeg){fig-align="center" width="60%"}
 
 ## Probability of Independent Events {.smaller}
 
-![](images/week02_75_card_deck_probability_union.jpeg){fig-align="center" width="100%"}
+![](images/week02_75_slide002.jpeg){fig-align="center" width="100%"}
 
 ## Bernoulli Distribution {.smaller}
 
@@ -788,7 +788,7 @@ Where:
 
 ## Binomial Distribution {.smaller}
 
-![](images/week02_76_bell_shaped_histogram.jpeg){fig-align="center" width="100%"}
+![](images/week02_76_slide003.jpeg){fig-align="center" width="100%"}
 
 ## Creating a Binomial Distributions {.smaller}
 
@@ -994,23 +994,23 @@ Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
 
 ## Normal Distribution
 
-![](images/week02_79_normal_distribution_68_95_99.jpeg){fig-align="center" width="90%"}
+![](images/week02_79_slide011.jpeg){fig-align="center" width="90%"}
 
 ## Normal Distribution {.smaller}
 
-![](images/week02_81_normal_distributions_varying_params.jpeg){fig-align="center" width="50%"}
+![](images/week02_81_slide012.jpeg){fig-align="center" width="50%"}
 
 ## Why is the Normal Distribution Special? {.smaller}
 
-![](images/week02_82_living_histogram_height.jpeg){fig-align="center" width="100%"}
+![](images/week02_82_slide013.jpeg){fig-align="center" width="100%"}
 
 ## Why Normal is Special in Biology {.smaller}
 
-![](images/week02_83_galton_regression_to_mean.jpeg){fig-align="center" width="70%"}
+![](images/week02_83_slide014.jpeg){fig-align="center" width="70%"}
 
 ## Why Normal is Special in Biology {.smaller}
 
-![](images/week02_84_birth_data_visualization_art.jpeg){fig-align="center" width="100%"}
+![](images/week02_84_slide015.jpeg){fig-align="center" width="100%"}
 
 ## Z-Scores of Normal distributions {.smaller}
 
@@ -1216,19 +1216,19 @@ This is why quantitative traits (height, weight, blood pressure) are approximate
 
 ## Sampling Variation of a Parameter {.smaller}
 
-![](images/week02_88_population_vs_sampling_distribution.jpeg){fig-align="center" width="100%"}
+![](images/week02_88_slide025.jpeg){fig-align="center" width="100%"}
 
 ## 
 
-![](images/week02_91_sampling_distribution_of_means.jpeg){fig-align="center" width="100%"}
+![](images/week02_91_slide027.jpeg){fig-align="center" width="100%"}
 
 ## Estimation and Confidence Intervals {.smaller}
 
-![](images/week02_90_population_vs_single_sample.jpeg){fig-align="center" width="90%"}
+![](images/week02_90_slide026.jpeg){fig-align="center" width="90%"}
 
 ## 
 
-![](images/week02_92_standard_error_confidence_interval.jpeg){fig-align="center" width="100%"}
+![](images/week02_92_slide028.jpeg){fig-align="center" width="100%"}
 
 ## Standard Error of the Mean {.smaller}
 

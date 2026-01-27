@@ -113,15 +113,15 @@ $H_A$: The substitution **decreases** the catalytic rate
 
 ## Null and Alternative Hypotheses {.smaller}
 
-![](images/week03_01_null_alt_hypothesis_distributions.jpeg){fig-align="center" width="90%"}
+![](images/week03_01_slide001.jpeg){fig-align="center" width="90%"}
 
 ## 
 
-![](images/week03_02_effect_size_overlap_distributions.jpeg){fig-align="center" width="60%"}
+![](images/week03_02_slide002.jpeg){fig-align="center" width="60%"}
 
 ## Type I and Type II Errors {.smaller}
 
-![](images/week03_03_type_i_ii_error_matrix.jpeg){fig-align="center" width="90%"}
+![](images/week03_03_slide007.jpeg){fig-align="center" width="90%"}
 
 ## Components of Hypothesis Testing {.smaller}
 
@@ -134,7 +134,7 @@ $H_A$: The substitution **decreases** the catalytic rate
 
 ## Why $\alpha$ = 0.05? {.smaller}
 
-![](images/week03_04_fisher_significance_excerpt.jpeg){fig-align="center" width="90%"}
+![](images/week03_04_slide008.jpeg){fig-align="center" width="90%"}
 
 # Statistical Sampling Distributions {.smaller}
 
@@ -150,7 +150,7 @@ $H_A$: The substitution **decreases** the catalytic rate
 
 ## Statistical Sampling Distributions {.smaller}
 
-![](images/week03_05_statistical_distributions_z_t_chi_f.jpeg){fig-align="center" width="70%"}
+![](images/week03_05_slide003.jpeg){fig-align="center" width="70%"}
 
 ## Statistical Null Distributions and p-Values {.smaller}
 
@@ -219,7 +219,7 @@ legend("topright", c("Normal", paste("df =", df_values)),
 
 ## One-Tailed Test {.smaller}
 
-![](images/week03_09_one_tailed_critical_region.jpeg){fig-align="center" width="90%"}
+![](images/week03_09_slide005.jpeg){fig-align="center" width="90%"}
 
 ## Two-Tailed Test {.smaller}
 
@@ -467,7 +467,7 @@ Statistical significance ≠ practical significance. Always report effect sizes!
 
 ## Permutation Test Example {.smaller}
 
-![](images/week03_14_permutation_null_distribution.jpeg){fig-align="center" width="40%"}
+![](images/week03_14_slide010.jpeg){fig-align="center" width="40%"}
 
 ## Creating Empirical Null Distributions {.smaller}
 
@@ -554,7 +554,7 @@ cat("Empirical p-value:", p_value)
 
 ## Clinical Trial Example {.smaller}
 
-![](images/week02_97_clinical_trial_data_table.jpeg){fig-align="center" width="90%"}
+![](images/week02_97_section6a_slide005.jpeg){fig-align="center" width="90%"}
 
 ## Simultaneous Control Group {.smaller}
 
@@ -602,7 +602,7 @@ Studies without double-blinding exaggerate treatment effects by 16% on average (
 -   Equal sample sizes across treatments
 -   Minimizes standard error
 
-![](images/week02_98_pooled_standard_error_formula.jpeg){fig-align="center" width="80%"}
+![](images/week02_98_section6a_slide007.jpeg){fig-align="center" width="80%"}
 
 ## Types of Replication {.smaller}
 

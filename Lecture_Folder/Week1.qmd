@@ -114,19 +114,19 @@ Welcome to the course! This term we will build your skills in statistical thinki
 
 ## 
 
-![](images/week01_02_nakashima_chair_craftsmanship.jpeg){fig-align="center" width="80%"}
+![](images/week01_02_slide001.jpeg){fig-align="center" width="80%"}
 
 ## 
 
-![](images/week01_03_woodworking_tool_cabinet.jpeg){fig-align="center" width="100%"}
+![](images/week01_03_slide002.jpeg){fig-align="center" width="100%"}
 
 ## 
 
-![](images/week01_04_learning_craftsmanship.jpeg){fig-align="center" width="100%"}
+![](images/week01_04_slide003.jpeg){fig-align="center" width="100%"}
 
 ## 
 
-![](images/week01_05_historical_craftsmanship.jpeg){fig-align="center" width="100%"}
+![](images/week01_05_slide004.jpeg){fig-align="center" width="100%"}
 
 ## Class Logistics {.smaller}
 
@@ -344,27 +344,27 @@ See the next slides for WSL2 installation
 
 ## 
 
-![](images/week01_24_unix_file_hierarchy.jpeg){fig-align="center" width="90%"}
+![](images/week01_24_slide012.jpeg){fig-align="center" width="90%"}
 
 ## 
 
-![](images/week01_25_unix_paths_highlighted.jpeg){fig-align="center" width="90%"}
+![](images/week01_25_slide013.jpeg){fig-align="center" width="90%"}
 
 ## 
 
-![](images/week01_26_unix_dot_files.jpeg){fig-align="center" width="90%"}
+![](images/week01_26_slide015.jpeg){fig-align="center" width="90%"}
 
 ## 
 
-![](images/week01_27_unix_dot_current_dir.jpeg){fig-align="center" width="90%"}
+![](images/week01_27_slide016.jpeg){fig-align="center" width="90%"}
 
 ## 
 
-![](images/week01_28_unix_dotdot_parent.jpeg){fig-align="center" width="90%"}
+![](images/week01_28_slide017.jpeg){fig-align="center" width="90%"}
 
 ## 
 
-![](images/week01_29_unix_dotdot_navigation.jpeg){fig-align="center" width="90%"}
+![](images/week01_29_slide018.jpeg){fig-align="center" width="90%"}
 
 ## Relative and Absolute Paths {.smaller}
 
@@ -865,11 +865,11 @@ plot((seq_1)^2, xlab="time", ylab ="p in pop 1", type = "l", col = 'orange', lwd
 
 ## 
 
-![](images/week01_44_stickleback_experiment.jpeg){fig-align="center" width="100%"}
+![](images/week01_44_slide005.jpeg){fig-align="center" width="100%"}
 
 ## What is Tidy Data? {.smaller}
 
-![](images/week01_45_statistical_terms_table.jpeg){fig-align="center" width="70%"}
+![](images/week01_45_slide006.jpeg){fig-align="center" width="70%"}
 
 ## What is Tidy Data? {.smaller}
 

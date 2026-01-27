@@ -513,7 +513,7 @@ cor.test(mtcars$mpg, mtcars$wt)
 
 ## Anscombe's Quartet {.smaller}
 
-![](images/week05_25_anscombes_quartet_four_datasets.jpeg){fig-align="center" width="90%"}
+![](images/week05_25_section4b_slide007.jpeg){fig-align="center" width="90%"}
 
 All four datasets have identical: mean of x (9), variance of x (11), mean of y (7.5), correlation (0.816), and regression line ($y = 3.00 + 0.50x$).
 
