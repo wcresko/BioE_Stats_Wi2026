@@ -4,7 +4,7 @@ title: "Lectures"
 
 ### Week 1
 
-[Lecture_1](Lecture_Folder/Week1_Lecture.qmd)
+[Lecture_1](Lecture_Folder/Week1.qmd)
 
 [Quarto_Template](Lecture_Folder/Week1_BioE_Stats_Analysis_Template.qmd)
 
@@ -12,7 +12,7 @@ title: "Lectures"
 
 ### Week 2
 
-[Lecture_2](Lecture_Folder/Week2_Lecture.qmd)
+[Lecture_2](Lecture_Folder/Week2.qmd)
 
 [Quarto_Template_in_Text](Lecture_Folder/Week1_BioE_Stats_Analysis_Template.txt)
 
@@ -20,8 +20,8 @@ title: "Lectures"
 
 ### Week 3
 
-[Lecture_3](Lecture_Folder/Week3_Lecture.qmd)
+[Lecture_3](Lecture_Folder/Week3.qmd)
 
-::: callout-note
-You can download the text and data files by using `right click` on your computer.
-:::
+### Week 4
+
+[Lecture_4](Lecture_Folder/Week4.qmd)
