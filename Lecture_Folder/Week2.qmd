@@ -1,9 +1,9 @@
 ---
 title: "Statistics for Bioengineering - Week 2"
 author: "Bill Cresko"
-format: 
+format:
   revealjs:
-    footer: BioE_Stats_2026 - Knight Campus 
+    footer: BioE_Stats_2026 - Knight Campus
     transition: fade
     transition-speed: slow
     theme: default
@@ -12,6 +12,7 @@ format:
     code-fold: false
     code-overflow: wrap
     highlight-style: github
+    embed-resources: true
 execute:
   echo: true
   warning: false
