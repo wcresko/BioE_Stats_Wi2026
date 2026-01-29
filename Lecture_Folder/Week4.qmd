@@ -566,3 +566,103 @@ for(i in 1:4) {
 ::: callout-warning
 **Always visualize your data!** Summary statistics can hide important patterns.
 :::
+
+------------------------------------------------------------------------
+
+# Simple Linear Regression {background-color="#2c3e50"}
+
+## What is a Linear Model?
+
+$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
+
+-   $\beta_0$: intercept
+-   $\beta_1$: slope
+-   $\epsilon_i$: error/residual
+
+## What is a Linear Model? {.smaller}
+
+$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
+
+-   $\beta_0$: intercept
+-   $\beta_1$: slope
+-   $\epsilon_i$: error/residual
+
+![](images/week05_10_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
+
+##  {.smaller}
+
+![](images/week05_24_linear_relationship_types_scatterplots.jpeg){fig-align="center" width="90%"}
+
+##  {.smaller}
+
+![](images/week05_23_regression_slope_intercept_diagrams.jpeg){fig-align="center" width="90%"}
+
+## Many Methods Are Linear Models {.smaller}
+
+-   Simple linear regression
+-   Multiple regression
+-   ANOVA (single and multi-factor)
+-   ANCOVA
+-   Repeated-measures ANOVA
+
+## Classes of Linear Models {.smaller}
+
+| Abbreviation       | Name                       | Description                  |
+|:-------------------|:---------------------------|:-----------------------------|
+| **GLM**            | General Linear Model       | Continuous variables         |
+| **GLMM**           | General Linear Mixed Model | Mixed continuous/categorical |
+| **Generalized LM** | Generalized Linear Model   | Non-normal response          |
+| **GAM**            | Generalized Additive Model | Non-linear relationships     |
+
+## Linear Models in R {.smaller}
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Include intercept (default)
+Y ~ X
+Y ~ 1 + X
+
+# Exclude intercept
+Y ~ -1 + X
+Y ~ X - 1
+
+# Fit and examine model
+my_lm <- lm(Y ~ X, data = mydata)
+summary(my_lm)
+```
+
+## Linear Regression Example {.smaller}
+
+```{r}
+#| label: lm-example-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+set.seed(123)
+x <- runif(50, 0, 10)
+y <- 2 + 1.5*x + rnorm(50, 0, 2)
+
+my_lm <- lm(y ~ x)
+plot(x, y, pch = 19, col = "steelblue")
+abline(my_lm, col = "red", lwd = 2)
+```
+
+## Linear Regression Example Code {.smaller}
+
+```{r}
+#| label: lm-example-code
+#| echo: true
+#| eval: false
+
+set.seed(123)
+x <- runif(50, 0, 10)
+y <- 2 + 1.5*x + rnorm(50, 0, 2)
+
+my_lm <- lm(y ~ x)
+plot(x, y, pch = 19, col = "steelblue")
+abline(my_lm, col = "red", lwd = 2)
+```

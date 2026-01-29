@@ -126,7 +126,7 @@ $H_A$: The substitution **decreases** the catalytic rate
 ## Components of Hypothesis Testing {.smaller}
 
 | Term | Definition |
-|:-----------------------------------|:-----------------------------------|
+|:---|:---|
 | **p-value** | Probability of observing data as extreme as ours if H₀ is true |
 | **α** | Probability making a type 1 error - Critical test (usually 0.05) |
 | **β** | Probability of making a type 2 error - accepting a false null |
@@ -358,7 +358,7 @@ qqPlot(my_data)  # Includes confidence envelope
 ## Interpreting QQ Plot Patterns for Normal Distribution {.smaller}
 
 | Pattern | Interpretation | Example Data |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | Points on line | Normal distribution | Most biological measurements |
 | Upward curve at both ends | Heavy tails (leptokurtic) | Gene expression, financial data |
 | Downward curve at both ends | Light tails (platykurtic) | Uniform-like data |
@@ -609,7 +609,7 @@ Studies without double-blinding exaggerate treatment effects by 16% on average (
 Understanding the distinction between replication types is **critical** for valid statistical inference:
 
 | Type | Definition | Example |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | **Biological replicates** | Independent biological samples | Different mice, different patients, different cell cultures |
 | **Technical replicates** | Repeated measurements of same sample | Running the same sample on a sequencer 3 times |
 | **Pseudo-replication** | Treating non-independent observations as independent | Multiple cells from one dish treated as separate replicates |
@@ -954,7 +954,7 @@ Controls the **False Discovery Rate** — the expected proportion of false posit
 ## Choosing a Correction Method {.smaller}
 
 | Method | Controls | Stringency | Use When |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | **Bonferroni** | FWER | Most conservative | Few tests, need strict control |
 | **Holm** | FWER | Less conservative | Multiple tests, balanced approach |
 | **Benjamini-Hochberg** | FDR | Least conservative | Many tests, exploratory analysis |
