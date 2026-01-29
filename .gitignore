@@ -12,6 +12,7 @@ rsconnect/
 /.quarto/
 _site/
 *_files/
+!docs/**/*_files/
 *_cache/
 _freeze/
 
