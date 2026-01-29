@@ -14,7 +14,7 @@ editor: visual
 
 ------------------------------------------------------------------------
 
-## Exercise 2.1  - Re-sampling to create null distributions
+## Exercise 2.1 - Re-sampling to create null distributions
 
 1.  **Simulate a measured variable from a population of 10,000 organisms** Pretend that you are simulating the *entire population* of organisms, and that this variable is some normally distributed attribute of the organisms' physiology. To perform this simulation, draw 10,000 values from a normal distribution with mean 10 and standard deviation 2, and assign to a vector called `pop_physio`. In the real world, for non-simulated data, we don't know the population parameters, (we often want to estimate them), but in this case we are all-knowing! Be sure to set the random number generator seed to 234 at the beginning of your `R` code chunk. Also verify that the population mean and standard deviation are 10 and 2, respectively, using `R` functions on your `pop_physio` vector, plot a histogram of the distribution, and draw 3 vertical lines on the plot to show the mean and the mean +/- 1 standard deviation. Hint: check out the `abline()` function for the last part.
 
@@ -40,8 +40,6 @@ t.test(continuous_variable~cat_variable, dataset name)
 4.  What if you run the test again and make the means of the categorical groups more dissimilar?
 
 5.  What happens if you change the standard deviation of your normal distributions to be very small or very large?
-
-6.  Now perform the t-test using the dataset provided in class and your own data for two variables.
 
 ------------------------------------------------------------------------
 
@@ -115,7 +113,8 @@ The counts below represent the **number of successful regenerations** out of **5
 2.  Using R, perform a Chi-square test of independence. Include the R code and output.
 3.  Calculate the odds ratio and LOD score for just the collagen/hydrogel vs. ASC/BMSC combination.
 4.  What do the results suggest? Use a significance level of α = 0.05.
-5.  Would you conclude that scaffold type and cell type influence regeneration success independently, or do they interact?
+5.  Create a mosaic plot to visualize the effect sizes.
+6.  Would you conclude that scaffold type and cell type influence regeneration success independently, or do they interact?
 
 ------------------------------------------------------------------------
 
@@ -129,6 +128,6 @@ Say that you ran a pre-clinical trial to see of a mythical drug from Hogwarts (`
 
 ### Your Tasks:
 
-1. Repeat the goodness-of-fit tests that you did previously to ask whether there is a difference between drug treated and control with respect to whether the bone heals or doesn't. Be sure to include appropriate plots and odds ratios to show effect size.
-2. Repeat the parametric t-test analyses that you performed above, but on the `bone_healing.tsv` dataset.
-3. Note that you will be performing the tests in 1. three times, and 2. three times. Create a table of original and adjusted p-values given that you did multiple testing using the three different adjustment measures that we learned in class.
+1.  Repeat the goodness-of-fit tests that you did previously to ask whether there is a difference between drug treated and control with respect to whether the bone heals or doesn't. Be sure to include appropriate mosaic plots and odds ratios to show effect size.
+2.  Repeat the parametric t-test analyses that you performed above, but on the `bone_healing.tsv` dataset.
+3.  Note that you will be performing the tests in 1. three times, and 2. three times. Create a table of original and adjusted p-values given that you did multiple testing using the three different adjustment measures that we learned in class.
