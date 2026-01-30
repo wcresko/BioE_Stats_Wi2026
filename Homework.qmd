@@ -18,6 +18,6 @@ title: "Homeworks"
 
 [igf.tsv](Homework_Folder/igf.tsv)
 
-[knee_injury.tsv](Homework_Folder/knee_injury.tsv)
+[knee_injury.csv](Homework_Folder/knee_injury.csv)
 
 [RNAseq_microbiome.csv](Homework_Folder/RNAseq_microbiome.csv)

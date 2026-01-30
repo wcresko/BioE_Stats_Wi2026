@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - "Homework_Folder/*.tsv"
+    - "Homework_Folder/*.csv"
 
 website:
   title: "BioEngineering Statistics Winter 2026"
