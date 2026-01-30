@@ -12,12 +12,12 @@ title: "Homeworks"
 
 ### Data Sets for Homeworks
 
-[bone_healing.tsv](Homework_Folder/bone_healing.tsv%5D)
+[bone_healing.tsv](Homework_Folder/bone_healing.tsv)
 
-[flu.tsv](Homework_Folder/flu.tsv%5D)
+[flu.tsv](Homework_Folder/flu.tsv)
 
-[igf.tsv](Homework_Folder/igf.tsv%5D)
+[igf.tsv](Homework_Folder/igf.tsv)
 
-[knee_injury.tsv](Homework_Folder/knee_injury.tsv%5D)
+[knee_injury.tsv](Homework_Folder/knee_injury.tsv)
 
-[RNAseq_microbiome.csv](Homework_Folder/RNAseq_microbiome.csv%5D)
+[RNAseq_microbiome.csv](Homework_Folder/RNAseq_microbiome.csv)
