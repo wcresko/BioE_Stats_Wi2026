@@ -7,7 +7,6 @@ format:
     transition: fade
     transition-speed: slow
     theme: default
-    chalkboard: true
     slide-number: true
     code-fold: false
     code-overflow: wrap
@@ -202,7 +201,7 @@ We need a firm understanding of probability, sampling, and distributions.
 ## Coding vs. Scripting {.smaller}
 
 | Type | Description | Examples | Speed | Flexibility |
-|:---|:---|:---|:---|:---|
+|:--------------|:--------------|:--------------|:--------------|:--------------|
 | **Coding** | Uses compilers to translate code | C++, Fortran | Faster | Less flexible |
 | **Scripting** | Interpreted on the fly | Python, R, Julia | Slower | More flexible |
 
@@ -388,7 +387,7 @@ See the next slides for WSL2 installation
 ## Common Navigation Commands {.smaller}
 
 | Command | Description | Common Options |
-|:---|:---|:---|
+|:-----------------------|:-----------------------|:-----------------------|
 | `pwd` | Print working directory | (In Windows, `cd` prints working directory) |
 | `ls` | List directories and files | `-F`, `-l`, `-r`, `-S`, `-t` |
 | `cd` | Change directory | `..` (up one level), `-` (previous) |
@@ -601,7 +600,7 @@ print(z)
 ## Common Data Types {.smaller}
 
 | Statistical Term       | Description                       | R Type            |
-|:-----------------------|:----------------------------------|:------------------|
+|:---------------------|:-------------------------------|:-----------------|
 | Numerical (continuous) | Measurements (height, weight)     | `numeric`         |
 | Numerical (discrete)   | Whole number counts               | `integer`         |
 | Categorical (nominal)  | Unordered categories (species)    | `factor`          |
@@ -778,7 +777,7 @@ RStudio Projects (File → New Project) automatically set your working directory
 ## Common R Errors {.smaller}
 
 | Error Message | Meaning | Fix |
-|:---|:---|:---|
+|:-----------------------|:-----------------------|:-----------------------|
 | `object 'x' not found` | Variable doesn't exist | Check spelling; run line that creates it |
 | `could not find function` | Package not loaded | Use `library()` or check spelling |
 | `unexpected ')'` | Mismatched brackets | Count opening/closing brackets |
@@ -952,7 +951,7 @@ Most bioinformatics programs work with FASTQ data
 **Reading:**
 
 | File Type | Function | Example |
-|:---|:---|:---|
+|:-----------------------|:-----------------------|:-----------------------|
 | CSV | `read.csv()` | `read.csv('file.csv')` |
 | Tab-separated | `read.table()` | `read.table('file.txt', header=TRUE, sep='\t')` |
 | Excel | `read_excel()` | `read_excel('file.xlsx')` (requires `readxl`) |
@@ -960,7 +959,7 @@ Most bioinformatics programs work with FASTQ data
 **Writing:**
 
 | Task | Function |
-|:---|:---|
+|:-----------------------------------|:-----------------------------------|
 | Export as CSV | `write.csv(data, "output.csv", row.names=FALSE)` |
 | Export tab-separated | `write.table(data, "output.txt", sep="\t", row.names=FALSE)` |
 

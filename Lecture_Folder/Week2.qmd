@@ -7,7 +7,6 @@ format:
     transition: fade
     transition-speed: slow
     theme: default
-    chalkboard: true
     slide-number: true
     code-fold: false
     code-overflow: wrap

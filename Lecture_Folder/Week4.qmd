@@ -7,7 +7,6 @@ format:
     transition: fade
     transition-speed: slow
     theme: default
-    chalkboard: true
     slide-number: true
     code-fold: false
     code-overflow: wrap
@@ -499,7 +498,7 @@ cor.test(mtcars$mpg, mtcars$wt)
 ## Parametric vs. Nonparametric Correlation {.smaller}
 
 | Test     | Use When                         | R Function                    |
-|:---------|:---------------------------------|:------------------------------|
+|:---------------|:-----------------------------|:--------------------------|
 | Pearson  | Linear relationship, normal data | `cor.test(method="pearson")`  |
 | Spearman | Monotonic relationship, n \< 30  | `cor.test(method="spearman")` |
 | Kendall  | Monotonic relationship, n ≥ 30   | `cor.test(method="kendall")`  |
@@ -609,7 +608,7 @@ $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 ## Classes of Linear Models {.smaller}
 
 | Abbreviation       | Name                       | Description                  |
-|:-------------------|:---------------------------|:-----------------------------|
+|:------------------|:-------------------------|:---------------------------|
 | **GLM**            | General Linear Model       | Continuous variables         |
 | **GLMM**           | General Linear Mixed Model | Mixed continuous/categorical |
 | **Generalized LM** | Generalized Linear Model   | Non-normal response          |
