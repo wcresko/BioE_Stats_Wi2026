@@ -4,8 +4,10 @@ project:
   resources:
     - "Homework_Folder/*.tsv"
     - "Homework_Folder/*.csv"
+    - "Homework_Folder/*.txt"
     - "Lecture_Folder/*.tsv"
     - "Lecture_Folder/*.csv"
+    - "Lecture_Folder/*.txt"
 
 website:
   title: "BioEngineering Statistics Winter 2026"
