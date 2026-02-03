@@ -25,3 +25,9 @@ title: "Lectures"
 ### Week 4
 
 [Lecture_4](Lecture_Folder/Week4.qmd)
+
+### Week 5
+
+[Lecture_5](Lecture_Folder/Week5.qmd)
+
+[Grip_Strength_Data_Set](Lecture_Folder/grip_strength.csv)
