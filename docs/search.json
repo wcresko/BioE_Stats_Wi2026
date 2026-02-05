@@ -116,7 +116,7 @@
     "href": "Lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Quarto Templates for Class Notes\nQuarto_Template\nQuarto_Template_in_Text\n\n\nDatasets for in Class Exercises\nStickleback_RNAseq_Data_Set\nKnee_Injury_Data_Set\nGrip_Strength_Data_Set\n\n\nLectures\nLecture_1\nLecture_2\nLecture_3\nLecture_4\nLecture_5"
+    "text": "Quarto Templates for Class Notes\nQuarto_Template\nQuarto_Template_in_Text\n\n\nDatasets for in Class Exercises\nStickleback_RNAseq_Data_Set\nKnee_Injury_Data_Set\nGrip_Strength_Data_Set\nCell_Culture_Data\n\n\nLectures\nLecture_1\nLecture_2\nLecture_3\nLecture_4\nLecture_5"
   },
   {
     "objectID": "Policies.html",
@@ -171,15 +171,15 @@
     "objectID": "Lecture_Folder/Week5.html#week-5-topics",
     "href": "Lecture_Folder/Week5.html#week-5-topics",
     "title": "Statistics for Bioengineering - Week 5",
-    "section": "Week 5 Topics",
-    "text": "Week 5 Topics\n\nOrdinary Linear Models (OLMs)\nSimple linear regression\nLoss function - sum of squared error (SSE and MSE)\nResidual analysis to test assumptions\nThe eugenics origin of linear models\n\n\n\n\n\n\n\nNote\n\n\nReadings: Chapters 21-24\nHW2 Due this week - on Thursday"
+    "section": "",
+    "text": "Ordinary Linear Models (OLMs)\nSimple linear regression\nLoss function - sum of squared error (SSE and MSE)\nResidual analysis to test assumptions\nThe eugenics origin of linear models\n\n\n\n\n\n\n\n\nNote\n\n\n\nReadings: Chapters 21-24\nHW2 Due this week - on Thursday"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#packages-for-this-week",
     "href": "Lecture_Folder/Week5.html#packages-for-this-week",
     "title": "Statistics for Bioengineering - Week 5",
-    "section": "Packages for This Week",
-    "text": "Packages for This Week\n\n# Install new packages (run once)\ninstall.packages(c(\"ggfortify\", \"lmodel2\"))\n\n# Load packages\nlibrary(tidyverse)    # Data manipulation & visualization\nlibrary(ggfortify)    # ggplot2 extensions for model diagnostics\nlibrary(lmodel2)      # Model II regression (when X and Y both have error)\nlibrary(broom)\nlibrary(knitr)"
+    "section": "",
+    "text": "# Install new packages (run once)\ninstall.packages(c(\"ggfortify\", \"lmodel2\"))\n\n# Load packages\nlibrary(tidyverse)    # Data manipulation & visualization\nlibrary(ggfortify)    # ggplot2 extensions for model diagnostics\nlibrary(lmodel2)      # Model II regression (when X and Y both have error)\nlibrary(broom)\nlibrary(knitr)"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#classes-of-linear-models",
@@ -193,7 +193,7 @@
     "href": "Lecture_Folder/Week5.html#what-is-a-ordinary-linear-model",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "What is a Ordinary Linear Model?",
-    "text": "What is a Ordinary Linear Model?\n\\[y_i = \\beta_0 + \\beta_1 x_i + \\epsilon_i\\]\n\n\\(\\beta_0\\): intercept\n\\(\\beta_1\\): slope\n\\(\\epsilon_i\\): error/residual"
+    "text": "What is a Ordinary Linear Model?\nAn ordinary linear model describes the relationship between a continuous response variable \\(y\\) and one or more predictor variables \\(x\\). In its simplest form with one predictor, the model is:\n\\[y_i = \\beta_0 + \\beta_1 x_i + \\epsilon_i\\]\nwhere:\n\n\\(\\beta_0\\): intercept — the expected value of \\(y\\) when \\(x = 0\\)\n\\(\\beta_1\\): slope — the expected change in \\(y\\) for a one-unit increase in \\(x\\)\n\\(\\epsilon_i\\): error/residual — the deviation of observation \\(i\\) from the fitted line\n\nThe goal of fitting a linear model is to estimate \\(\\beta_0\\) and \\(\\beta_1\\) from our data."
   },
   {
     "objectID": "Lecture_Folder/Week5.html#simple-linear-regression-example",
@@ -242,7 +242,7 @@
     "href": "Lecture_Folder/Week5.html#r²-as-measure-of-fit-effect-size",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "R² as Measure of Fit (~ effect size)",
-    "text": "R² as Measure of Fit (~ effect size)\n\\[R^2 = \\frac{SS_{Model}}{SS_{Total}} = 1 - \\frac{SS_{Error}}{SS_{Total}}\\]\n\\(R^2\\) is the proportion of variance in Y explained by X."
+    "text": "R² as Measure of Fit (~ effect size)\n\\[R^2 = \\frac{SS_{Model}}{SS_{Total}} = 1 - \\frac{SS_{Error}}{SS_{Total}}\\]\n\\(R^2\\) is the proportion of variance in Y explained by X. It ranges from 0 (model explains none of the variance) to 1 (model explains all of the variance). For simple linear regression, \\(R^2\\) equals the square of the Pearson correlation coefficient \\(r\\).\n\n\n\n\n\n\nNote\n\n\n\nA high \\(R^2\\) does not necessarily mean the model is appropriate — always check residual diagnostics!"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#table-of-statistics-from-the-model",
@@ -319,7 +319,7 @@
     "href": "Lecture_Folder/Week5.html#simpsons-paradox-code",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Simpson’s Paradox Code",
-    "text": "Simpson’s Paradox Code\n\npar(mfrow = c(1, 2))\n\n# Overall: negative correlation\nplot(iris$Sepal.Width, iris$Sepal.Length, pch = 19, col = \"gray50\",\n     xlab = \"Sepal Width\", ylab = \"Sepal Length\",\n     main = \"All Species Combined\")\nabline(lm(Sepal.Length ~ Sepal.Width, iris), col = \"black\", lwd = 2)\ncat(\"Overall correlation:\", round(cor(iris$Sepal.Width, iris$Sepal.Length), 3))\n\n# By species: positive correlation within each!\ncolors &lt;- c(\"red\", \"green3\", \"blue\")\nplot(iris$Sepal.Width, iris$Sepal.Length, pch = 19,\n     col = colors[as.numeric(iris$Species)],\n     xlab = \"Sepal Width\", ylab = \"Sepal Length\",\n     main = \"By Species: Direction Reverses!\")\nfor(i in 1:3) {\n  sp_data &lt;- iris[iris$Species == levels(iris$Species)[i], ]\n  abline(lm(Sepal.Length ~ Sepal.Width, sp_data), col = colors[i], lwd = 2)\n}\nlegend(\"topleft\", levels(iris$Species), col = colors, pch = 19, cex = 0.8)\n\n\n\n\n\n\n\nImportant\n\n\nThe overall negative trend reverses to positive within each species — a classic confounding variable problem!"
+    "text": "Simpson’s Paradox Code\n\npar(mfrow = c(1, 2))\n\n# Overall: negative correlation\nplot(iris$Sepal.Width, iris$Sepal.Length, pch = 19, col = \"gray50\",\n     xlab = \"Sepal Width\", ylab = \"Sepal Length\",\n     main = \"All Species Combined\")\nabline(lm(Sepal.Length ~ Sepal.Width, iris), col = \"black\", lwd = 2)\ncat(\"Overall correlation:\", round(cor(iris$Sepal.Width, iris$Sepal.Length), 3))\n\n# By species: positive correlation within each!\ncolors &lt;- c(\"red\", \"green3\", \"blue\")\nplot(iris$Sepal.Width, iris$Sepal.Length, pch = 19,\n     col = colors[as.numeric(iris$Species)],\n     xlab = \"Sepal Width\", ylab = \"Sepal Length\",\n     main = \"By Species: Direction Reverses!\")\nfor(i in 1:3) {\n  sp_data &lt;- iris[iris$Species == levels(iris$Species)[i], ]\n  abline(lm(Sepal.Length ~ Sepal.Width, sp_data), col = colors[i], lwd = 2)\n}\nlegend(\"topleft\", levels(iris$Species), col = colors, pch = 19, cex = 0.8)\n\n\n\n\n\n\n\nImportant\n\n\n\nThe overall negative trend reverses to positive within each species — a classic confounding variable problem!"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#assumptions-of-linear-models",
@@ -368,7 +368,7 @@
     "href": "Lecture_Folder/Week5.html#residual-diagnostic-plots",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Residual Diagnostic Plots",
-    "text": "Residual Diagnostic Plots"
+    "text": "Residual Diagnostic Plots\n\n\n\n\n\n\n\n\n\n\n\n\n\npar(mfrow = c(2, 2))\nplot(my_lm)"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#residual-diagnostic-plots-code",
@@ -382,7 +382,7 @@
     "href": "Lecture_Folder/Week5.html#using-ggfortify-for-diagnostics",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Using ggfortify for Diagnostics",
-    "text": "Using ggfortify for Diagnostics"
+    "text": "Using ggfortify for Diagnostics\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(ggfortify)\nautoplot(my_lm, which = 1:4, ncol = 2)"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#using-ggfortify-for-diagnostics-code",
@@ -396,7 +396,7 @@
     "href": "Lecture_Folder/Week5.html#when-to-use-model-ii-regression",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "When to Use Model II Regression",
-    "text": "When to Use Model II Regression\nModel I (OLS) Regression:\n\nAssumes predictor X is measured without error\nY contains all the measurement error\nStandard lm() in R\n\nModel II Regression:\n\nBoth X and Y have measurement error\nNeither variable is controlled/fixed\nUse when both variables are random measurements\n\n\n\n\n\n\n\nNote\n\n\nUse Model II when both X and Y are biological measurements (e.g., body size vs organ size, two gene expression levels)."
+    "text": "When to Use Model II Regression\nModel I (OLS) Regression:\n\nAssumes predictor X is measured without error\nY contains all the measurement error\nStandard lm() in R\n\nModel II Regression:\n\nBoth X and Y have measurement error\nNeither variable is controlled/fixed\nUse when both variables are random measurements\n\n\n\n\n\n\n\nNote\n\n\n\nUse Model II when both X and Y are biological measurements (e.g., body size vs organ size, two gene expression levels)."
   },
   {
     "objectID": "Lecture_Folder/Week5.html#model-ii-regression-methods",
@@ -410,28 +410,28 @@
     "href": "Lecture_Folder/Week5.html#types-of-linear-regression",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Types of Linear Regression",
-    "text": "Types of Linear Regression\nNot all regression is created equal! The choice depends on measurement error:\n\nModel I (OLS) vs Model II regression types"
+    "text": "Types of Linear Regression\nNot all regression is created equal! The choice depends on measurement error:\n\n\n\nModel I (OLS) vs Model II regression types"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#regression-type-examples",
     "href": "Lecture_Folder/Week5.html#regression-type-examples",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Regression Type Examples",
-    "text": "Regression Type Examples\n\nComparison of OLS (Type I) and Type II regression methods"
+    "text": "Regression Type Examples\n\n\n\nComparison of OLS (Type I) and Type II regression methods"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#when-to-use-each-model-type",
     "href": "Lecture_Folder/Week5.html#when-to-use-each-model-type",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "When to Use Each Model Type",
-    "text": "When to Use Each Model Type\n\nGuidelines for choosing between OLS, MA, and RMA regression"
+    "text": "When to Use Each Model Type\n\n\n\nGuidelines for choosing between OLS, MA, and RMA regression"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#model-ii-regression-with-lmodel2",
     "href": "Lecture_Folder/Week5.html#model-ii-regression-with-lmodel2",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Model II Regression with lmodel2",
-    "text": "Model II Regression with lmodel2\n\nlibrary(lmodel2)\n\n# Model II regression when both X and Y have measurement error\n# Example: comparing two measurement methods\nmod2 &lt;- lmodel2(Y ~ X, data = mydata, range.y = \"relative\", range.x = \"relative\")\n\n# Returns OLS, MA, SMA (RMA), and ranged major axis results\nsummary(mod2)\nplot(mod2)\n\n\n\n\n\n\n\nNote\n\n\nUse Model II regression when: - Both variables have measurement error - Neither variable is experimentally controlled - You’re comparing methods or studying allometry"
+    "text": "Model II Regression with lmodel2\n\nlibrary(lmodel2)\n\n# Model II regression when both X and Y have measurement error\n# Example: comparing two measurement methods\nmod2 &lt;- lmodel2(Y ~ X, data = mydata, range.y = \"relative\", range.x = \"relative\")\n\n# Returns OLS, MA, SMA (RMA), and ranged major axis results\nsummary(mod2)\nplot(mod2)\n\n\n\n\n\n\n\nNote\n\n\n\nUse Model II regression when: - Both variables have measurement error - Neither variable is experimentally controlled - You’re comparing methods or studying allometry"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#model-ii-regression-in-r",
@@ -445,7 +445,7 @@
     "href": "Lecture_Folder/Week5.html#choosing-between-model-i-and-ii",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Choosing Between Model I and II",
-    "text": "Choosing Between Model I and II\n\n\n\n\n\n\nDecision Guide\n\n\nUse Model I (OLS) when:\n\nX is controlled/manipulated experimentally\nX is measured with negligible error\nGoal is prediction of Y from X\n\nUse Model II (SMA/MA) when:\n\nBoth variables are random biological measurements\nBoth have comparable measurement error\nGoal is to describe the functional relationship"
+    "text": "Choosing Between Model I and II\n\n\n\n\n\n\nDecision Guide\n\n\n\nUse Model I (OLS) when:\n\nX is controlled/manipulated experimentally\nX is measured with negligible error\nGoal is prediction of Y from X\n\nUse Model II (SMA/MA) when:\n\nBoth variables are random biological measurements\nBoth have comparable measurement error\nGoal is to describe the functional relationship"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#galtons-original-data",
@@ -487,7 +487,7 @@
     "href": "Lecture_Folder/Week5.html#logo-of-the-us-eugenics-society",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Logo of the US eugenics society",
-    "text": "Logo of the US eugenics society\n\n\nAmerican Eugenics Record Office (ERO) founded in Cold Springs Harbor"
+    "text": "Logo of the US eugenics society\n\n\n\n\n\n\n\n\n\n\nAmerican Eugenics Record Office (ERO) founded in Cold Springs Harbor"
   },
   {
     "objectID": "Lecture_Folder/Week5.html#eugenics-societies-in-america",
@@ -536,7 +536,7 @@
     "href": "Lecture_Folder/Week5.html#interested-in-learning-more",
     "title": "Statistics for Bioengineering - Week 5",
     "section": "Interested in learning more?",
-    "text": "Interested in learning more?\n\n\nSee also\n\n“The Gene” by Siddhartha Mukherjee\n“Control” by Adam Rutherford"
+    "text": "Interested in learning more?\n\n\n\n\n\n\n\n\n\n\nSee also\n\n“The Gene” by Siddhartha Mukherjee\n“Control” by Adam Rutherford"
   },
   {
     "objectID": "Lecture_Folder/Week3.html",
@@ -2903,5 +2903,530 @@
     "title": "Resources",
     "section": "",
     "text": "Base R Cheat Sheet\nRStudio Collection of Cheat Sheets\nGit Cheat Sheet\nMarkdown Cheat Sheet\nLaTeX Cheat Sheet"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#the-loss-function-minimizing-error",
+    "href": "Lecture_Folder/Week5.html#the-loss-function-minimizing-error",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "The Loss Function: Minimizing Error",
+    "text": "The Loss Function: Minimizing Error\nLinear regression finds the line of best fit by minimizing the sum of squared errors (SSE). For each observation, the residual is the difference between the observed and predicted value:\n\\[e_i = y_i - \\hat{y}_i = y_i - (\\hat{\\beta}_0 + \\hat{\\beta}_1 x_i)\\]\nThe SSE is the total squared deviation of all observations from the fitted line:\n\\[SSE = \\sum_{i=1}^{n} e_i^2 = \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2\\]\nThe mean squared error (MSE) normalizes by degrees of freedom:\n\\[MSE = \\frac{SSE}{n - p}\\]\nwhere \\(p\\) is the number of parameters estimated (2 for simple linear regression: intercept and slope). Ordinary Least Squares (OLS) is the method that finds the values of \\(\\hat{\\beta}_0\\) and \\(\\hat{\\beta}_1\\) that minimize the SSE."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#the-loss-function-minimizing-error-1",
+    "href": "Lecture_Folder/Week5.html#the-loss-function-minimizing-error-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "The Loss Function: Minimizing Error",
+    "text": "The Loss Function: Minimizing Error\nLinear regression finds the line of best fit by minimizing the sum of squared errors (SSE). For each observation, the residual is the difference between the observed and predicted value:\n\\[e_i = y_i - \\hat{y}_i = y_i - (\\hat{\\beta}_0 + \\hat{\\beta}_1 x_i)\\]\nThe SSE is the total squared deviation of all observations from the fitted line:\n\\[SSE = \\sum_{i=1}^{n} e_i^2 = \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2\\]\nThe mean squared error (MSE) normalizes by degrees of freedom:\n\\[MSE = \\frac{SSE}{n - p}\\]\nwhere \\(p\\) is the number of parameters estimated (2 for simple linear regression: intercept and slope). Ordinary Least Squares (OLS) is the method that finds the values of \\(\\hat{\\beta}_0\\) and \\(\\hat{\\beta}_1\\) that minimize the SSE."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#the-grip-strength-dataset",
+    "href": "Lecture_Folder/Week5.html#the-grip-strength-dataset",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "The Grip Strength Dataset",
+    "text": "The Grip Strength Dataset\n\nThis dataset examines whether grip strength (in kg) in patients recovering from hand injury is predicted by two continuous variables:\n\nthe concentration of a BMP2 cream applied topically (mg/ml), and\nhours of exercise per week. We have 200 patients.\n\nWe will fit separate simple linear regressions for each predictor, then explore which model is more appropriate by examining residual diagnostics."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#importing-and-exploring-the-data",
+    "href": "Lecture_Folder/Week5.html#importing-and-exploring-the-data",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Importing and Exploring the Data",
+    "text": "Importing and Exploring the Data\n\nlibrary(tidyverse)\nlibrary(broom)\nlibrary(knitr)\n\ngrip &lt;- read_csv(\"grip_strength_data.csv\")\n\n# Preview the data\nhead(grip, 8) |&gt; kable(digits = 2)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#importing-and-exploring-the-data-1",
+    "href": "Lecture_Folder/Week5.html#importing-and-exploring-the-data-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Importing and Exploring the Data",
+    "text": "Importing and Exploring the Data\n\n\n\n\n\npatient_id\ngrip_strength_kg\nbmp2_cream_mg_ml\nexercise_hrs_week\n\n\n\n\nPT001\n43.7\n3.75\n12.8\n\n\nPT002\n42.4\n9.51\n1.7\n\n\nPT003\n43.4\n7.32\n3.2\n\n\nPT004\n36.7\n5.99\n18.0\n\n\nPT005\n37.9\n1.56\n12.1\n\n\nPT006\n27.3\n1.56\n0.2\n\n\nPT007\n29.8\n0.58\n2.0\n\n\nPT008\n48.7\n8.66\n13.3"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#summary-statistics-of-the-data",
+    "href": "Lecture_Folder/Week5.html#summary-statistics-of-the-data",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Summary Statistics of the Data",
+    "text": "Summary Statistics of the Data\n\nsummary(grip[, c(\"grip_strength_kg\", \"bmp2_cream_mg_ml\", \"exercise_hrs_week\")])\n\n\n\n\n\n\n grip_strength_kg bmp2_cream_mg_ml exercise_hrs_week\n Min.   :21.70    Min.   :0.060    Min.   : 0.100   \n 1st Qu.:34.38    1st Qu.:2.288    1st Qu.: 5.225   \n Median :38.95    Median :4.945    Median :10.850   \n Mean   :38.83    Mean   :4.840    Mean   :10.086   \n 3rd Qu.:43.62    3rd Qu.:7.572    3rd Qu.:14.825   \n Max.   :51.50    Max.   :9.870    Max.   :19.800"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#grip-strength-bmp2-cream",
+    "href": "Lecture_Folder/Week5.html#grip-strength-bmp2-cream",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Grip Strength ~ BMP2 Cream",
+    "text": "Grip Strength ~ BMP2 Cream\nWe hypothesize that BMP2 cream concentration is positively associated with grip strength. The model is:\n\\[\\text{grip_strength}_i = \\beta_0 + \\beta_1 \\cdot \\text{bmp2_cream}_i + \\epsilon_i\\]"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#grip-strength-bmp2-cream-1",
+    "href": "Lecture_Folder/Week5.html#grip-strength-bmp2-cream-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Grip Strength ~ BMP2 Cream",
+    "text": "Grip Strength ~ BMP2 Cream\n\nlm_bmp2 &lt;- lm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)\nsummary(lm_bmp2)\n\nThe summary() output gives us the estimated coefficients, their standard errors, t-statistics, and p-values, plus the overall model \\(R^2\\) and F-test."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#grip-strength-bmp2-cream-2",
+    "href": "Lecture_Folder/Week5.html#grip-strength-bmp2-cream-2",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Grip Strength ~ BMP2 Cream",
+    "text": "Grip Strength ~ BMP2 Cream\n\n\n\nCall:\nlm(formula = grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-9.6358 -2.8946  0.3596  2.9765  9.6819 \n\nCoefficients:\n                 Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)      30.89979    0.56202   54.98   &lt;2e-16 ***\nbmp2_cream_mg_ml  1.63861    0.09923   16.51   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 4.128 on 198 degrees of freedom\nMultiple R-squared:  0.5794,    Adjusted R-squared:  0.5772 \nF-statistic: 272.7 on 1 and 198 DF,  p-value: &lt; 2.2e-16"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#interpreting-the-bmp2-model-output",
+    "href": "Lecture_Folder/Week5.html#interpreting-the-bmp2-model-output",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Interpreting the BMP2 Model Output",
+    "text": "Interpreting the BMP2 Model Output\n\n# Coefficient-level summary\ntidy(lm_bmp2) |&gt; kable(digits = 4)\n\n# Model-level summary\nglance(lm_bmp2) |&gt; kable(digits = 4)\n\nThe broom package provides two useful functions: tidy() extracts coefficient-level information (estimates, standard errors, test statistics, and p-values), while glance() extracts model-level summaries (\\(R^2\\), AIC, BIC, etc.).\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n30.8998\n0.5620\n54.9803\n0\n\n\nbmp2_cream_mg_ml\n1.6386\n0.0992\n16.5136\n0"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#why-ggplot2-for-model-visualization",
+    "href": "Lecture_Folder/Week5.html#why-ggplot2-for-model-visualization",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Why ggplot2 for Model Visualization?",
+    "text": "Why ggplot2 for Model Visualization?\n\nBase R plot() and abline() work for quick diagnostics.\nHowever, ggplot2 provides publication-quality graphics with better control over aesthetics, annotations, and layering.\nFor presenting results in papers and talks, ggplot2 is the standard in modern statistics.\nKey advantages include built-in support for confidence intervals via geom_smooth(), faceting for multiple models, and consistent theming."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-grip-strength-bmp2-cream",
+    "href": "Lecture_Folder/Week5.html#visualizing-grip-strength-bmp2-cream",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing Grip Strength ~ BMP2 Cream",
+    "text": "Visualizing Grip Strength ~ BMP2 Cream"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-grip-strength-bmp2-cream-1",
+    "href": "Lecture_Folder/Week5.html#visualizing-grip-strength-bmp2-cream-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing Grip Strength ~ BMP2 Cream",
+    "text": "Visualizing Grip Strength ~ BMP2 Cream\n\nggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +\n  geom_point(color = \"steelblue\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"firebrick\", \n              fill = \"firebrick\", alpha = 0.2) +\n  labs(\n    x = \"BMP2 Cream Concentration (mg/ml)\",\n    y = \"Grip Strength (kg)\",\n    title = \"Grip Strength vs. BMP2 Cream Concentration\",\n    subtitle = paste0(\"Linear fit: R² = \", round(summary(lm_bmp2)$r.squared, 3))\n  ) +\n  theme_minimal(base_size = 14)\n\ngeom_smooth(method = \"lm\", se = TRUE) adds the fitted regression line with a 95% confidence interval ribbon for the mean response."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#grip-strength-exercise-hours",
+    "href": "Lecture_Folder/Week5.html#grip-strength-exercise-hours",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Grip Strength ~ Exercise Hours",
+    "text": "Grip Strength ~ Exercise Hours\nNow we test whether hours of exercise per week predict grip strength:\n\\[\\text{grip_strength}_i = \\beta_0 + \\beta_1 \\cdot \\text{exercise_hrs}_i + \\epsilon_i\\]\n\n\n\n\nlm_exercise &lt;- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)\nsummary(lm_exercise)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#grip-strength-exercise-hours-1",
+    "href": "Lecture_Folder/Week5.html#grip-strength-exercise-hours-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Grip Strength ~ Exercise Hours",
+    "text": "Grip Strength ~ Exercise Hours\n\n\n\nCall:\nlm(formula = grip_strength_kg ~ exercise_hrs_week, data = grip)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-17.0361  -4.3986   0.1145   4.8328  12.6600 \n\nCoefficients:\n                   Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)       38.732172   0.897512  43.155   &lt;2e-16 ***\nexercise_hrs_week  0.009799   0.076992   0.127    0.899    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 6.364 on 198 degrees of freedom\nMultiple R-squared:  8.179e-05, Adjusted R-squared:  -0.004968 \nF-statistic: 0.0162 on 1 and 198 DF,  p-value: 0.8989"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#interpreting-the-model-output",
+    "href": "Lecture_Folder/Week5.html#interpreting-the-model-output",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Interpreting the Model Output",
+    "text": "Interpreting the Model Output\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n38.7322\n0.8975\n43.1551\n0.0000\n\n\nexercise_hrs_week\n0.0098\n0.0770\n0.1273\n0.8989\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nr.squared\nadj.r.squared\nsigma\nstatistic\np.value\ndf\nlogLik\nAIC\nBIC\ndeviance\ndf.residual\nnobs\n\n\n\n\n1e-04\n-0.005\n6.364\n0.0162\n0.8989\n1\n-652.915\n1311.83\n1321.725\n8019.172\n198\n200\n\n\n\n\n\n\n\n\nNotice that the exercise model has a much lower \\(R^2\\) than the BMP2 model.\nThis suggests that exercise hours alone explain very little of the variation in grip strength.\nBut we should check whether the relationship might be nonlinear before concluding."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-grip-strength-exercise-hours",
+    "href": "Lecture_Folder/Week5.html#visualizing-grip-strength-exercise-hours",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing Grip Strength ~ Exercise Hours",
+    "text": "Visualizing Grip Strength ~ Exercise Hours"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-grip-strength-exercise-hours-1",
+    "href": "Lecture_Folder/Week5.html#visualizing-grip-strength-exercise-hours-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing Grip Strength ~ Exercise Hours",
+    "text": "Visualizing Grip Strength ~ Exercise Hours\n\nggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"firebrick\", \n              fill = \"firebrick\", alpha = 0.2) +\n  labs(\n    x = \"Exercise (hours/week)\",\n    y = \"Grip Strength (kg)\",\n    title = \"Grip Strength vs. Exercise Hours\",\n    subtitle = paste0(\"Linear fit: R² = \", round(summary(lm_exercise)$r.squared, 3))\n  ) +\n  theme_minimal(base_size = 14)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#comparing-both-fits-side-by-side",
+    "href": "Lecture_Folder/Week5.html#comparing-both-fits-side-by-side",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Comparing Both Fits Side by Side",
+    "text": "Comparing Both Fits Side by Side"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#comparing-both-fits-code",
+    "href": "Lecture_Folder/Week5.html#comparing-both-fits-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Comparing Both Fits — Code",
+    "text": "Comparing Both Fits — Code\n\nlibrary(patchwork)\n\np1 &lt;- ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +\n  geom_point(color = \"steelblue\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"firebrick\", fill = \"firebrick\", alpha = 0.2) +\n  labs(x = \"BMP2 Cream (mg/ml)\", y = \"Grip Strength (kg)\", \n       title = \"Model 1: BMP2 Cream\") +\n  theme_minimal(base_size = 13)\n\np2 &lt;- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"firebrick\", fill = \"firebrick\", alpha = 0.2) +\n  labs(x = \"Exercise (hours/week)\", y = \"Grip Strength (kg)\", \n       title = \"Model 2: Exercise Hours\") +\n  theme_minimal(base_size = 13)\n\np1 + p2  # patchwork combines plots side-by-side"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#using-aov-for-anova-style-output",
+    "href": "Lecture_Folder/Week5.html#using-aov-for-anova-style-output",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Using aov() for ANOVA-Style Output",
+    "text": "Using aov() for ANOVA-Style Output\n\nThe aov() function fits the same underlying model as lm(), but presents the results in an analysis of variance (ANOVA) table format.\nThis is useful when you want to focus on the partitioning of variance rather than individual coefficient estimates.\n\n\n# aov() gives ANOVA table output for the same model\naov_bmp2 &lt;- aov(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)\nsummary(aov_bmp2)\n\n\n\n\n\n\n                  Df Sum Sq Mean Sq F value Pr(&gt;F)    \nbmp2_cream_mg_ml   1   4646    4646   272.7 &lt;2e-16 ***\nResiduals        198   3374      17                   \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\n\n\n\nThe ANOVA table decomposes variance into the model sum of squares (\\(SS_{Model}\\)) and residual sum of squares (\\(SS_{Error}\\)).\nIt also tests whether the model explains a significant proportion of variance via the F-statistic."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#using-anova-to-compare-models",
+    "href": "Lecture_Folder/Week5.html#using-anova-to-compare-models",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Using anova() to Compare Models",
+    "text": "Using anova() to Compare Models\nThe anova() function can also be applied to lm objects directly, and it is especially useful for comparing nested models:\n\n# ANOVA table from an lm object\nanova(lm_bmp2)\n\n\n\n\n\nAnalysis of Variance Table\n\nResponse: grip_strength_kg\n                  Df Sum Sq Mean Sq F value    Pr(&gt;F)    \nbmp2_cream_mg_ml   1 4646.3  4646.3   272.7 &lt; 2.2e-16 ***\nResiduals        198 3373.5    17.0                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#overview-of-r-packages-for-linear-models",
+    "href": "Lecture_Folder/Week5.html#overview-of-r-packages-for-linear-models",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Overview of R Packages for Linear Models",
+    "text": "Overview of R Packages for Linear Models\nR provides a rich ecosystem of packages for fitting models of increasing complexity:\n\n\n\n\n\n\n\n\nPackage / Function\nUse Case\nKey Feature\n\n\n\n\nlm()\nSimple/multiple linear regression\nCoefficient estimates, \\(R^2\\), F-test\n\n\naov()\nANOVA-style linear models\nVariance partitioning, F-table\n\n\nglm()\nGeneralized linear models\nNon-normal response (logistic, Poisson)\n\n\nlme4::lmer()\nLinear mixed-effects models\nRandom effects for nested/grouped data\n\n\nnlme::lme()\nLinear mixed-effects models\nFlexible correlation structures\n\n\nMASS::rlm()\nRobust linear regression\nResistant to outliers\n\n\nmgcv::gam()\nGeneralized additive models\nSmooth nonlinear relationships"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#fitting-with-glm",
+    "href": "Lecture_Folder/Week5.html#fitting-with-glm",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Fitting with glm()",
+    "text": "Fitting with glm()\nThe glm() function fits generalized linear models. With the default family = gaussian, it is equivalent to lm():\n\n# glm() with family = gaussian is equivalent to lm()\nglm_bmp2 &lt;- glm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip, family = gaussian)\nsummary(glm_bmp2)\n\n\n\n\n\n\nCall:\nglm(formula = grip_strength_kg ~ bmp2_cream_mg_ml, family = gaussian, \n    data = grip)\n\nCoefficients:\n                 Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)      30.89979    0.56202   54.98   &lt;2e-16 ***\nbmp2_cream_mg_ml  1.63861    0.09923   16.51   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for gaussian family taken to be 17.03807)\n\n    Null deviance: 8019.8  on 199  degrees of freedom\nResidual deviance: 3373.5  on 198  degrees of freedom\nAIC: 1138.7\n\nNumber of Fisher Scoring iterations: 2"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#fitting-with-glm-1",
+    "href": "Lecture_Folder/Week5.html#fitting-with-glm-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Fitting with glm()",
+    "text": "Fitting with glm()\n\nThe advantage of glm() is that it generalizes to non-normal responses by changing the family argument\nbinomial for logistic regression\npoisson for count data\nWe will use this later in the course."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#how-to-report-linear-model-statistics",
+    "href": "Lecture_Folder/Week5.html#how-to-report-linear-model-statistics",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "How to report linear model statistics",
+    "text": "How to report linear model statistics\n\nSay what you found, and then put the statistics in parentheses.\nSupport the finding with the statistics, not the other way around.\nRemember to include magnitude and direction of the finding.\nAlso, reference the figure that shows the relationship.\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nWe found that topical application of a cream containing the signaling molecule bone morphogenetic protein 2 (bmp-2) significantly increased the grip strength of patients in a clinical trial (\\(F_{1,198} = 272.7; p&lt;2e^{-16}; R^2 = 0.58\\)), Specifically, an increase of 1mg/ml of bmp-2 was correlated with an increase of 1.64 kg of grip strength (Fig. 1)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#why-residual-analysis",
+    "href": "Lecture_Folder/Week5.html#why-residual-analysis",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Why Residual Analysis?",
+    "text": "Why Residual Analysis?\n\nFitting a linear model is only the first step.\nBefore we trust the model’s coefficient estimates, p-values, and confidence intervals, we must verify that the assumptions underlying the model are reasonably met.\nIf assumptions are violated, the standard errors and p-values may be unreliable, and our conclusions could be misleading.\nResidual analysis is the primary diagnostic tool for checking these assumptions.\nBy examining patterns in the residuals (\\(e_i = y_i - \\hat{y}_i\\)), we can detect violations that aren’t obvious from the raw data alone."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#assumptions-of-linear-regression",
+    "href": "Lecture_Folder/Week5.html#assumptions-of-linear-regression",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Assumptions of Linear Regression",
+    "text": "Assumptions of Linear Regression\nLinear regression makes four key assumptions, often remembered by the acronym LINE:\n\nL — Linearity: The relationship between \\(x\\) and \\(y\\) is linear. The expected value of \\(y\\) is a straight-line function of \\(x\\).\nI — Independence: The residuals are independent of each other. Knowing one residual gives no information about another. Violations often occur with time series or spatially structured data.\nN — Normality: The residuals follow a normal distribution at each value of \\(x\\): \\(\\epsilon_i \\sim N(0, \\sigma^2)\\). This assumption is most important for small sample sizes; with large \\(n\\), the Central Limit Theorem makes inference robust to moderate departures.\nE — Equal variance (Homoscedasticity): The variance of the residuals is constant across all values of \\(x\\): \\(\\text{Var}(\\epsilon_i) = \\sigma^2\\) for all \\(i\\). When variance changes with \\(x\\) (heteroscedasticity), standard errors become biased."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-the-assumptions",
+    "href": "Lecture_Folder/Week5.html#visualizing-the-assumptions",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing the Assumptions",
+    "text": "Visualizing the Assumptions\nThe figure below illustrates what the conditional distributions of \\(y\\) should look like at each value of \\(x\\) under a well-specified linear model: each distribution is normal, centered on the regression line, and has equal spread."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#common-residual-patterns-and-causes",
+    "href": "Lecture_Folder/Week5.html#common-residual-patterns-and-causes",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Common Residual Patterns and Causes",
+    "text": "Common Residual Patterns and Causes\nUnderstanding what different residual patterns mean helps you decide how to fix model problems:\n\nFunnel shape (variance increases with fitted values): Heteroscedasticity. Consider a variance-stabilizing transformation (e.g., log) or use weighted least squares.\nCurved pattern (U-shape or arch): The relationship is nonlinear. Consider adding polynomial terms (e.g., \\(x^2\\)) or using a different model.\nClusters or groups: There may be a missing categorical variable or subgroup structure in the data (recall Simpson’s Paradox).\nSystematic pattern over time/order: Autocorrelation among residuals. Consider time-series models or including a time covariate."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#what-each-residual-plot-tells-you",
+    "href": "Lecture_Folder/Week5.html#what-each-residual-plot-tells-you",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "What Each Residual Plot Tells You",
+    "text": "What Each Residual Plot Tells You\nThe standard plot(lm_object) in R produces four diagnostic plots. Each one targets a specific assumption:\n\n\n\n\n\n\n\n\n\nPlot\nName\nWhat It Checks\nWhat to Look For\n\n\n\n\n1\nResiduals vs. Fitted\nLinearity & equal variance\nNo pattern; random scatter around 0\n\n\n2\nNormal Q-Q\nNormality of residuals\nPoints follow the diagonal line\n\n\n3\nScale-Location\nHomoscedasticity\nFlat trend line; no fan shape\n\n\n4\nResiduals vs. Leverage\nInfluential observations\nNo points beyond Cook’s distance lines"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#outlier-leverage-and-influence",
+    "href": "Lecture_Folder/Week5.html#outlier-leverage-and-influence",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Outlier Leverage and Influence",
+    "text": "Outlier Leverage and Influence"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#outlier-leverage-and-influence-1",
+    "href": "Lecture_Folder/Week5.html#outlier-leverage-and-influence-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Outlier Leverage and Influence",
+    "text": "Outlier Leverage and Influence\n\nLeverage: How much of an outlier in x-space\nResidual: How much of an outlier in y-space\nCook’s D: Overall influence on fitted model\nA point with high leverage doesn’t necessarily distort the model — only if it also has a large residual.\nCook’s distance combines both: it measures how much all the fitted values would change if that single observation were removed.\n\n\n\n\n\n\n\nWarning\n\n\n\nCook’s D ≥ 1 indicates highly influential observations, and a rough rule of thumb is 4/n. Investigate these points — they may be data entry errors, measurement problems, or genuinely unusual cases."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#bmp2-model",
+    "href": "Lecture_Folder/Week5.html#bmp2-model",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "BMP2 Model",
+    "text": "BMP2 Model\n\nThe residuals vs. fitted values plot is our primary tool for checking linearity and homoscedasticity.\nIf the model is well-specified, we expect to see a random cloud of points centered around zero with no systematic pattern.\n\n\nbmp2_diag &lt;- data.frame(\n  fitted = fitted(lm_bmp2),\n  residuals = residuals(lm_bmp2)\n)\n\nggplot(bmp2_diag, aes(x = fitted, y = residuals)) +\n  geom_point(color = \"steelblue\", alpha = 0.6, size = 2) +\n  geom_hline(yintercept = 0, linetype = \"dashed\", color = \"red\", linewidth = 0.8) +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"darkorange\", linewidth = 1) +\n  labs(\n    x = \"Fitted Values (ŷ)\",\n    y = \"Residuals (y - ŷ)\",\n    title = \"Residuals vs. Fitted — BMP2 Model\"\n  ) +\n  theme_minimal(base_size = 14)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#bmp2-model-1",
+    "href": "Lecture_Folder/Week5.html#bmp2-model-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "BMP2 Model",
+    "text": "BMP2 Model\n\n\n\n\n\n\n\n\n\n\nThe loess smoother (orange line) helps visualize any systematic trend.\nIf it stays close to zero across the range of fitted values, linearity is satisfied."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#exercise-model",
+    "href": "Lecture_Folder/Week5.html#exercise-model",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Exercise Model",
+    "text": "Exercise Model\n\nexercise_diag &lt;- data.frame(\n  fitted = fitted(lm_exercise),\n  residuals = residuals(lm_exercise)\n)\n\nggplot(exercise_diag, aes(x = fitted, y = residuals)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_hline(yintercept = 0, linetype = \"dashed\", color = \"red\", linewidth = 0.8) +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"purple\", linewidth = 1) +\n  labs(\n    x = \"Fitted Values (ŷ)\",\n    y = \"Residuals (y - ŷ)\",\n    title = \"Residuals vs. Fitted — Exercise Model (Linear)\"\n  ) +\n  theme_minimal(base_size = 14)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#exercise-model-1",
+    "href": "Lecture_Folder/Week5.html#exercise-model-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Exercise Model",
+    "text": "Exercise Model\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nLook carefully at the loess smoother — does it show curvature? If the residuals show a systematic curved pattern, this suggests a nonlinear relationship that a straight line cannot capture."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#full-diagnostic-panel-bmp2-model",
+    "href": "Lecture_Folder/Week5.html#full-diagnostic-panel-bmp2-model",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Full Diagnostic Panel: BMP2 Model",
+    "text": "Full Diagnostic Panel: BMP2 Model\n\n\n\n\n\n\n\n\n\n\n\n\nautoplot(lm_bmp2, which = 1:4, ncol = 2) +\n  theme_minimal(base_size = 12)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#full-diagnostic-panel-exercise-model",
+    "href": "Lecture_Folder/Week5.html#full-diagnostic-panel-exercise-model",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Full Diagnostic Panel: Exercise Model",
+    "text": "Full Diagnostic Panel: Exercise Model\n\n\n\n\n\n\n\n\n\n\n\n\nautoplot(lm_exercise, which = 1:4, ncol = 2) +\n  theme_minimal(base_size = 12)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#fibroblast-cell-culture-bmpsox9-experiment",
+    "href": "Lecture_Folder/Week5.html#fibroblast-cell-culture-bmpsox9-experiment",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Fibroblast Cell Culture BMP/Sox9 Experiment",
+    "text": "Fibroblast Cell Culture BMP/Sox9 Experiment\n\nA colleague has shared data from a cell culture experiment measuring BMP4 and SOX9 gene expression (relative expression units from qPCR).\nThey want to model BMP4 expression as a function of SOX9 expression across 80 samples.\nHowever, they suspect there may be some data entry errors and outliers in the dataset.\nYour job is to fit a linear model, use diagnostic plots to identify the problematic observations, decide which to remove, and then refit the model.\nDownload the file cell_culture_expression.csv and move through the slides"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#types-of-outliers-to-watch-for",
+    "href": "Lecture_Folder/Week5.html#types-of-outliers-to-watch-for",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Types of Outliers to Watch For",
+    "text": "Types of Outliers to Watch For\nBefore we dive in, recall the different ways an observation can be unusual:\n\nData entry errors: Values that are off by an order of magnitude (e.g., someone typed 165 instead of 16.5). These are unambiguously wrong and should be corrected or removed.\nHigh leverage points: Observations with extreme predictor (\\(x\\)) values. They have outsized potential to influence the fit, but may not actually distort it if they fall near the regression line.\nHigh residual points: Observations far from the fitted line in the \\(y\\) direction but with typical \\(x\\) values. These inflate the residual variance but may not drastically shift the slope.\nHigh influence points: The most dangerous — observations with both high leverage and a large residual. These can pull the entire regression line toward them, distorting slope and intercept estimates. Cook’s distance captures this combined effect."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#import-and-plot-code",
+    "href": "Lecture_Folder/Week5.html#import-and-plot-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Import and Plot — Code",
+    "text": "Import and Plot — Code\n\nexpr &lt;- read_csv(\"cell_culture_expression.csv\")\n\nggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +\n  geom_point(color = \"steelblue\", alpha = 0.7, size = 2.5) +\n  geom_text(aes(label = sample_id), size = 2.2, nudge_y = 2, color = \"gray40\",\n            check_overlap = TRUE) +\n  labs(\n    x = \"SOX9 Expression (relative units)\",\n    y = \"BMP4 Expression (relative units)\",\n    title = \"BMP4 vs. SOX9 Expression — Raw Data\"\n  ) +\n  theme_minimal(base_size = 14)\n\n\n\n\n\n\n\nTip\n\n\n\nAlways label your points with sample IDs when looking for outliers — you need to know which observations to investigate!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#import-and-plot-the-raw-data",
+    "href": "Lecture_Folder/Week5.html#import-and-plot-the-raw-data",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Import and Plot the Raw Data",
+    "text": "Import and Plot the Raw Data"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#fit-the-initial-model",
+    "href": "Lecture_Folder/Week5.html#fit-the-initial-model",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Fit the Initial Model",
+    "text": "Fit the Initial Model\n\nlm_expr_raw &lt;- lm(bmp4_expression ~ sox9_expression, data = expr)\ntidy(lm_expr_raw) |&gt; kable(digits = 4)\nglance(lm_expr_raw) |&gt; kable(digits = 4)\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n7.1536\n3.7520\n1.9066\n0.0603\n\n\nsox9_expression\n1.3384\n0.6292\n2.1272\n0.0366\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nr.squared\nadj.r.squared\nsigma\nstatistic\np.value\ndf\nlogLik\nAIC\nBIC\ndeviance\ndf.residual\nnobs\n\n\n\n\n0.0548\n0.0427\n21.3758\n4.5249\n0.0366\n1\n-357.4831\n720.9662\n728.1123\n35640.11\n78\n80\n\n\n\n\n\n\n\n\nNotice that the \\(R^2\\) is lower than we might expect for a direct regulatory relationship.\nSome of the unexplained variance is likely due to the outliers pulling the fit."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualize-the-fit-code",
+    "href": "Lecture_Folder/Week5.html#visualize-the-fit-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualize the Fit — Code",
+    "text": "Visualize the Fit — Code\n\nggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +\n  geom_point(color = \"steelblue\", alpha = 0.7, size = 2.5) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"firebrick\", \n              fill = \"firebrick\", alpha = 0.2) +\n  labs(\n    x = \"SOX9 Expression (relative units)\",\n    y = \"BMP4 Expression (relative units)\",\n    title = \"Linear Fit with Outliers Present\",\n    subtitle = paste0(\"R² = \", round(summary(lm_expr_raw)$r.squared, 3))\n  ) +\n  theme_minimal(base_size = 14)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualize-the-fit-with-outliers-present",
+    "href": "Lecture_Folder/Week5.html#visualize-the-fit-with-outliers-present",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualize the Fit with Outliers Present",
+    "text": "Visualize the Fit with Outliers Present"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#diagnostic-plots-to-identify-outliers",
+    "href": "Lecture_Folder/Week5.html#diagnostic-plots-to-identify-outliers",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Diagnostic Plots to Identify Outliers",
+    "text": "Diagnostic Plots to Identify Outliers\n\nautoplot(lm_expr_raw, which = 1:4, ncol = 2) +\n  theme_minimal(base_size = 12)\n\n\nExamine the four panels. Which observations are flagged by R with their row numbers?\nPay attention to the Residuals vs. Leverage plot — points near or beyond the Cook’s distance contour lines are the most influential."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#diagnostic-plots-to-identify-outliers-1",
+    "href": "Lecture_Folder/Week5.html#diagnostic-plots-to-identify-outliers-1",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Diagnostic Plots to Identify Outliers",
+    "text": "Diagnostic Plots to Identify Outliers"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#cooks-distance",
+    "href": "Lecture_Folder/Week5.html#cooks-distance",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Cook’s Distance",
+    "text": "Cook’s Distance\n\nWe can extract Cook’s distance values and identify the most influential observations programmatically.\nA common threshold for Cook’s distance is \\(4/n\\). Values exceeding this warrant closer inspection.\nValues approaching or exceeding 1 are almost certainly problematic.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsample_id\nbmp4_expression\nsox9_expression\nstd_resid\nleverage\ncooks_d\n\n\n\n\nSC037\n6.45\n27.80\n-2.4568\n0.4789\n2.7738\n\n\nSC012\n165.50\n7.77\n6.9959\n0.0212\n0.5306\n\n\nSC055\n117.50\n4.98\n4.8813\n0.0126\n0.1524"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#cooks-distance-code",
+    "href": "Lecture_Folder/Week5.html#cooks-distance-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Cook’s Distance — Code",
+    "text": "Cook’s Distance — Code\n\nexpr_diag &lt;- expr |&gt;\n  mutate(\n    cooks_d = cooks.distance(lm_expr_raw),\n    leverage = hatvalues(lm_expr_raw),\n    std_resid = rstandard(lm_expr_raw)\n  )\n\n# Flag observations with Cook's D &gt; 4/n (common threshold)\nthreshold &lt;- 4 / nrow(expr)\n\nexpr_diag |&gt;\n  filter(cooks_d &gt; threshold) |&gt;\n  select(sample_id, bmp4_expression, sox9_expression, std_resid, leverage, cooks_d) |&gt;\n  arrange(desc(cooks_d)) |&gt;\n  kable(digits = 4)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-cooks-distance",
+    "href": "Lecture_Folder/Week5.html#visualizing-cooks-distance",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing Cook’s Distance",
+    "text": "Visualizing Cook’s Distance"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-cooks-distance-code",
+    "href": "Lecture_Folder/Week5.html#visualizing-cooks-distance-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing Cook’s Distance — Code",
+    "text": "Visualizing Cook’s Distance — Code\n\nexpr_diag &lt;- expr_diag |&gt;\n  mutate(row_num = row_number())\n\nthreshold &lt;- 4 / nrow(expr)\n\nggplot(expr_diag, aes(x = row_num, y = cooks_d)) +\n  geom_col(fill = ifelse(expr_diag$cooks_d &gt; threshold, \"firebrick\", \"steelblue\"),\n           alpha = 0.7) +\n  geom_hline(yintercept = threshold, linetype = \"dashed\", color = \"red\", linewidth = 0.8) +\n  geom_text(data = expr_diag |&gt; filter(cooks_d &gt; threshold),\n            aes(label = sample_id), size = 2.8, nudge_y = 0.01, angle = 45) +\n  labs(\n    x = \"Observation Index\",\n    y = \"Cook's Distance\",\n    title = \"Cook's Distance for Each Observation\",\n    subtitle = paste0(\"Dashed line = 4/n threshold (\", round(threshold, 4), \")\")\n  ) +\n  theme_minimal(base_size = 13)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#interpreting-what-we-found",
+    "href": "Lecture_Folder/Week5.html#interpreting-what-we-found",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Interpreting What We Found",
+    "text": "Interpreting What We Found\nLook at the flagged observations and think about what kind of outlier each one is:\n\nSC012 and SC055: BMP4 values around 100–165 when the rest of the data is in the 0–50 range. These are almost certainly data entry errors — values off by an order of magnitude (someone forgot a decimal point). These should be removed or corrected.\nSC037: SOX9 value around 28 when the rest of the data is in the 0.5–8 range. Another likely data entry error with the same order-of-magnitude pattern.\nSC060: High SOX9 (13.8) but very low BMP4 (8.5). This is a high influence point — extreme in x-space and far from the expected trend. It pulls the regression line down at the right end.\nSC045: Moderate SOX9 (4.2) but very high BMP4 (25.5). A high residual point — not extreme in x-space, but far above the fitted line.\n\n\n\n\n\n\n\nImportant\n\n\n\nData entry errors should always be corrected or removed. For other outliers, the decision is more nuanced — document your reasoning!"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#remove-the-problematic-observations",
+    "href": "Lecture_Folder/Week5.html#remove-the-problematic-observations",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Remove the Problematic Observations",
+    "text": "Remove the Problematic Observations\n\nWe will remove the three clear data entry errors (SC012, SC037, SC055) and the high influence point (SC060).\nWe keep SC045 for now — it has a large residual but isn’t clearly erroneous, and it doesn’t have enough leverage to distort the fit badly.\n\n\n# Remove data entry errors and the high influence point\nremove_ids &lt;- c(\"SC012\", \"SC037\", \"SC055\", \"SC060\")\n\nexpr_clean &lt;- expr |&gt;\n  filter(!sample_id %in% remove_ids)\n\ncat(\"Original observations:\", nrow(expr), \"\\n\")\ncat(\"Removed:\", length(remove_ids), \"observations\\n\")\ncat(\"Remaining observations:\", nrow(expr_clean), \"\\n\")\n\n\n\n\n\nOriginal observations: 80 \n\n\nRemoved: 4 observations: SC012, SC037, SC055, SC060 \n\n\nRemaining observations: 76 \n\n\n\n\n\n\n\n\nNote\n\n\n\nAlways document which observations you removed and why. Never silently drop data points — your methods section should describe this."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#refit-the-model-on-clean-data",
+    "href": "Lecture_Folder/Week5.html#refit-the-model-on-clean-data",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Refit the Model on Clean Data",
+    "text": "Refit the Model on Clean Data\n\nlm_expr_clean &lt;- lm(bmp4_expression ~ sox9_expression, data = expr_clean)\ntidy(lm_expr_clean) |&gt; kable(digits = 4)\nglance(lm_expr_clean) |&gt; kable(digits = 4)\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n1.0065\n0.4955\n2.0314\n0.0458\n\n\nsox9_expression\n2.2016\n0.1019\n21.6034\n0.0000\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nr.squared\nadj.r.squared\nsigma\nstatistic\np.value\ndf\nlogLik\nAIC\nBIC\ndeviance\ndf.residual\nnobs\n\n\n\n\n0.8631\n0.8613\n2.2879\n466.707\n0\n1\n-169.7257\n345.4514\n352.4436\n387.3473\n74\n76\n\n\n\n\n\n\n\n\nCompare the \\(R^2\\) before and after cleaning.\nThe relationship between SOX9 and BMP4 should now be much clearer, and the coefficient estimates more trustworthy."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#compare-fits-before-and-after",
+    "href": "Lecture_Folder/Week5.html#compare-fits-before-and-after",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Compare Fits — Before and After",
+    "text": "Compare Fits — Before and After"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#compare-fits-code",
+    "href": "Lecture_Folder/Week5.html#compare-fits-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Compare Fits — Code",
+    "text": "Compare Fits — Code\n\np_raw &lt;- ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +\n  geom_point(color = \"steelblue\", alpha = 0.6, size = 2) +\n  geom_point(data = expr |&gt; filter(sample_id %in% remove_ids),\n             color = \"firebrick\", size = 3, shape = 1, stroke = 1.5) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"firebrick\", \n              fill = \"firebrick\", alpha = 0.15) +\n  labs(x = \"SOX9 Expression\", y = \"BMP4 Expression\",\n       title = \"Before: With Outliers\",\n       subtitle = paste0(\"R² = \", round(summary(lm_expr_raw)$r.squared, 3))) +\n  theme_minimal(base_size = 13)\n\np_clean &lt;- ggplot(expr_clean, aes(x = sox9_expression, y = bmp4_expression)) +\n  geom_point(color = \"steelblue\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"darkgreen\", \n              fill = \"darkgreen\", alpha = 0.15) +\n  labs(x = \"SOX9 Expression\", y = \"BMP4 Expression\",\n       title = \"After: Outliers Removed\",\n       subtitle = paste0(\"R² = \", round(summary(lm_expr_clean)$r.squared, 3))) +\n  theme_minimal(base_size = 13)\n\np_raw + p_clean"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#residual-diagnostics-on-clean-data",
+    "href": "Lecture_Folder/Week5.html#residual-diagnostics-on-clean-data",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Residual Diagnostics on Clean Data",
+    "text": "Residual Diagnostics on Clean Data\n\nautoplot(lm_expr_clean, which = 1:4, ncol = 2) +\n  theme_minimal(base_size = 12)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#outlier-exercise-summary",
+    "href": "Lecture_Folder/Week5.html#outlier-exercise-summary",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Outlier Exercise Summary",
+    "text": "Outlier Exercise Summary\n\n\n\n\n\n\nWhat We Learned\n\n\n\n\nAlways visualize your data first. A simple scatterplot with labeled points would have immediately revealed the order-of-magnitude entry errors.\nUse multiple diagnostic tools. Cook’s distance, leverage, and standardized residuals each capture different aspects of “outlierness.”\nDistinguish error from biology. Data entry errors (10x values) are unambiguously wrong. Biological outliers require more thought — they could represent real variation, subpopulations, or experimental artifacts.\nDocument everything. Record which observations you removed, why, and how the results changed. Transparency is essential for reproducibility.\nOutlier removal can dramatically improve \\(R^2\\) and coefficient estimates, but it must be justified by evidence, not by a desire for better-looking results."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#motivation-for-polynomial-regression",
+    "href": "Lecture_Folder/Week5.html#motivation-for-polynomial-regression",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Motivation for Polynomial Regression",
+    "text": "Motivation for Polynomial Regression\nThe residual plots for the exercise model may suggest curvature — the loess smoother deviates from zero in a systematic way. This is a signal that the true relationship between exercise hours and grip strength may be nonlinear.\nA polynomial regression extends the linear model by adding powers of \\(x\\) as additional predictors. For a quadratic (degree 2) polynomial:\n\\[y_i = \\beta_0 + \\beta_1 x_i + \\beta_2 x_i^2 + \\epsilon_i\\]\nThis is still a linear model in the statistical sense (the parameters \\(\\beta\\) enter linearly), but the relationship between \\(y\\) and \\(x\\) is now curved. A quadratic term can capture a U-shape or inverted-U pattern that a straight line would miss."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#fitting-a-polynomial-model-grip-strength-exercise",
+    "href": "Lecture_Folder/Week5.html#fitting-a-polynomial-model-grip-strength-exercise",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Fitting a Polynomial Model: Grip Strength ~ Exercise",
+    "text": "Fitting a Polynomial Model: Grip Strength ~ Exercise\nIn R, we use poly(x, degree) inside the lm() formula, or equivalently I(x^2):\n\n\n\nCall:\nlm(formula = grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE), \n    data = grip)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-13.9075  -3.8397   0.2455   4.2645  11.5638 \n\nCoefficients:\n                                        Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)                             31.93561    1.05629  30.234  &lt; 2e-16\npoly(exercise_hrs_week, 2, raw = TRUE)1  2.21049    0.24837   8.900 3.66e-16\npoly(exercise_hrs_week, 2, raw = TRUE)2 -0.11333    0.01235  -9.176  &lt; 2e-16\n                                           \n(Intercept)                             ***\npoly(exercise_hrs_week, 2, raw = TRUE)1 ***\npoly(exercise_hrs_week, 2, raw = TRUE)2 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 5.34 on 197 degrees of freedom\nMultiple R-squared:  0.2995,    Adjusted R-squared:  0.2924 \nF-statistic: 42.11 on 2 and 197 DF,  p-value: 5.921e-16"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#fitting-a-polynomial-model-code",
+    "href": "Lecture_Folder/Week5.html#fitting-a-polynomial-model-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Fitting a Polynomial Model — Code",
+    "text": "Fitting a Polynomial Model — Code\n\n# Fit quadratic polynomial: grip_strength ~ exercise + exercise^2\nlm_exercise_poly &lt;- lm(grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE), \n                        data = grip)\nsummary(lm_exercise_poly)\n\nThe raw = TRUE argument means R uses the raw polynomial terms (\\(x\\) and \\(x^2\\)) rather than orthogonal polynomials, making the coefficients directly interpretable."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#interpreting-the-polynomial-model",
+    "href": "Lecture_Folder/Week5.html#interpreting-the-polynomial-model",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Interpreting the Polynomial Model",
+    "text": "Interpreting the Polynomial Model\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n31.9356\n1.0563\n30.2338\n0\n\n\npoly(exercise_hrs_week, 2, raw = TRUE)1\n2.2105\n0.2484\n8.9000\n0\n\n\npoly(exercise_hrs_week, 2, raw = TRUE)2\n-0.1133\n0.0123\n-9.1764\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nr.squared\nadj.r.squared\nsigma\nstatistic\np.value\ndf\nlogLik\nAIC\nBIC\ndeviance\ndf.residual\nnobs\n\n\n\n\n0.2995\n0.2924\n5.3401\n42.1149\n0\n2\n-617.3264\n1242.653\n1255.846\n5617.848\n197\n200\n\n\n\n\n\n\n\nCompare the \\(R^2\\) from this polynomial model with the linear exercise model. If the quadratic term is significant and \\(R^2\\) improves meaningfully, the curvilinear fit is more appropriate."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#interpreting-the-polynomial-model-code",
+    "href": "Lecture_Folder/Week5.html#interpreting-the-polynomial-model-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Interpreting the Polynomial Model — Code",
+    "text": "Interpreting the Polynomial Model — Code\n\ntidy(lm_exercise_poly) |&gt; kable(digits = 4)\nglance(lm_exercise_poly) |&gt; kable(digits = 4)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#comparing-linear-vs.-polynomial-fit",
+    "href": "Lecture_Folder/Week5.html#comparing-linear-vs.-polynomial-fit",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Comparing Linear vs. Polynomial Fit",
+    "text": "Comparing Linear vs. Polynomial Fit\nWe can formally compare the linear and polynomial models using anova(), which tests whether the additional quadratic term significantly improves the fit:\n\n\nAnalysis of Variance Table\n\nModel 1: grip_strength_kg ~ exercise_hrs_week\nModel 2: grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE)\n  Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    \n1    198 8019.2                                  \n2    197 5617.8  1    2401.3 84.207 &lt; 2.2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#comparing-linear-vs.-polynomial-fit-code",
+    "href": "Lecture_Folder/Week5.html#comparing-linear-vs.-polynomial-fit-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Comparing Linear vs. Polynomial Fit — Code",
+    "text": "Comparing Linear vs. Polynomial Fit — Code\n\n# Compare nested models: linear vs. quadratic\nanova(lm_exercise, lm_exercise_poly)\n\nA significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone."
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-the-polynomial-fit",
+    "href": "Lecture_Folder/Week5.html#visualizing-the-polynomial-fit",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing the Polynomial Fit",
+    "text": "Visualizing the Polynomial Fit"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#visualizing-the-polynomial-fit-code",
+    "href": "Lecture_Folder/Week5.html#visualizing-the-polynomial-fit-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Visualizing the Polynomial Fit — Code",
+    "text": "Visualizing the Polynomial Fit — Code\n\nggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", formula = y ~ poly(x, 2), \n              se = TRUE, color = \"darkgreen\", fill = \"darkgreen\", alpha = 0.2) +\n  labs(\n    x = \"Exercise (hours/week)\",\n    y = \"Grip Strength (kg)\",\n    title = \"Grip Strength vs. Exercise Hours — Polynomial Fit\",\n    subtitle = paste0(\"Quadratic fit: R² = \", \n                      round(summary(lm_exercise_poly)$r.squared, 3))\n  ) +\n  theme_minimal(base_size = 14)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#linear-vs.-polynomial-side-by-side",
+    "href": "Lecture_Folder/Week5.html#linear-vs.-polynomial-side-by-side",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Linear vs. Polynomial: Side by Side",
+    "text": "Linear vs. Polynomial: Side by Side"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#linear-vs.-polynomial-side-by-side-code",
+    "href": "Lecture_Folder/Week5.html#linear-vs.-polynomial-side-by-side-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Linear vs. Polynomial: Side by Side — Code",
+    "text": "Linear vs. Polynomial: Side by Side — Code\n\np_lin &lt;- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"firebrick\", \n              fill = \"firebrick\", alpha = 0.2) +\n  labs(x = \"Exercise (hours/week)\", y = \"Grip Strength (kg)\",\n       title = \"Linear Fit\",\n       subtitle = paste0(\"R² = \", round(summary(lm_exercise)$r.squared, 3))) +\n  theme_minimal(base_size = 13)\n\np_poly &lt;- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", formula = y ~ poly(x, 2), \n              se = TRUE, color = \"darkgreen\", fill = \"darkgreen\", alpha = 0.2) +\n  labs(x = \"Exercise (hours/week)\", y = \"Grip Strength (kg)\",\n       title = \"Quadratic Fit\",\n       subtitle = paste0(\"R² = \", round(summary(lm_exercise_poly)$r.squared, 3))) +\n  theme_minimal(base_size = 13)\n\np_lin + p_poly"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#residuals-linear-vs.-polynomial-exercise-model",
+    "href": "Lecture_Folder/Week5.html#residuals-linear-vs.-polynomial-exercise-model",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Residuals: Linear vs. Polynomial Exercise Model",
+    "text": "Residuals: Linear vs. Polynomial Exercise Model\nNow we compare the residual plots to see whether the polynomial model resolves the curvature issue:"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#residuals-linear-vs.-polynomial-code",
+    "href": "Lecture_Folder/Week5.html#residuals-linear-vs.-polynomial-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Residuals: Linear vs. Polynomial — Code",
+    "text": "Residuals: Linear vs. Polynomial — Code\n\nlin_diag &lt;- data.frame(\n  fitted = fitted(lm_exercise),\n  residuals = residuals(lm_exercise),\n  model = \"Linear\"\n)\n\npoly_diag &lt;- data.frame(\n  fitted = fitted(lm_exercise_poly),\n  residuals = residuals(lm_exercise_poly),\n  model = \"Quadratic\"\n)\n\nboth_diag &lt;- rbind(lin_diag, poly_diag)\n\nggplot(both_diag, aes(x = fitted, y = residuals)) +\n  geom_point(alpha = 0.5, size = 2) +\n  geom_hline(yintercept = 0, linetype = \"dashed\", color = \"red\", linewidth = 0.8) +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"darkorange\", linewidth = 1) +\n  facet_wrap(~ model, scales = \"free_x\") +\n  labs(x = \"Fitted Values (ŷ)\", y = \"Residuals (y - ŷ)\",\n       title = \"Residuals vs. Fitted — Linear vs. Quadratic Exercise Model\") +\n  theme_minimal(base_size = 13)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#full-diagnostics-polynomial-exercise-model",
+    "href": "Lecture_Folder/Week5.html#full-diagnostics-polynomial-exercise-model",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Full Diagnostics: Polynomial Exercise Model",
+    "text": "Full Diagnostics: Polynomial Exercise Model"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#full-diagnostics-polynomial-exercise-model-code",
+    "href": "Lecture_Folder/Week5.html#full-diagnostics-polynomial-exercise-model-code",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Full Diagnostics: Polynomial Exercise Model — Code",
+    "text": "Full Diagnostics: Polynomial Exercise Model — Code\n\nautoplot(lm_exercise_poly, which = 1:4, ncol = 2) +\n  theme_minimal(base_size = 12)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week5.html#key-takeaways-model-diagnostics",
+    "href": "Lecture_Folder/Week5.html#key-takeaways-model-diagnostics",
+    "title": "Statistics for Bioengineering - Week 5",
+    "section": "Key Takeaways: Model Diagnostics",
+    "text": "Key Takeaways: Model Diagnostics\n\n\n\n\n\n\nSummary\n\n\n\n\nAlways plot residuals after fitting a model. The summary statistics (\\(R^2\\), p-values) alone are not sufficient.\nA poor residual pattern does not mean your data are bad — it means your model needs improvement. Consider transformations, polynomial terms, or different model families.\nThe BMP2 cream model shows a clear linear relationship with well-behaved residuals.\nThe exercise model shows that forcing a linear fit on a potentially nonlinear relationship produces misleading residuals. Adding a quadratic term can resolve this.\nModel selection is iterative: fit, diagnose, improve, repeat."
   }
 ]

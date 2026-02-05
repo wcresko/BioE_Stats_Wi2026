@@ -16,6 +16,8 @@ title: "Lectures"
 
 [Grip_Strength_Data_Set](Lecture_Folder/grip_strength.csv)
 
+[Cell_Culture_Data](Lecture_Folder/cell_culture_expression.csv)
+
 ### Lectures
 
 [Lecture_1](Lecture_Folder/Week1.qmd)
@@ -27,5 +29,3 @@ title: "Lectures"
 [Lecture_4](Lecture_Folder/Week4.qmd)
 
 [Lecture_5](Lecture_Folder/Week5.qmd)
-
-

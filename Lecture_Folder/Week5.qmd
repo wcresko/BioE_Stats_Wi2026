@@ -19,7 +19,6 @@ execute:
 editor: visual
 ---
 
-
 # Week 5: Linear Models {background-color="#2c3e50"}
 
 ## Week 5 Topics
@@ -55,7 +54,6 @@ library(broom)
 library(knitr)
 ```
 
-
 # Linear Models {background-color="#2c3e50"}
 
 ## Classes of Linear Models {.smaller}
@@ -67,15 +65,19 @@ library(knitr)
 | **Generalized LM** | Generalized Linear Model   | Non-normal response          |
 | **GAM**            | Generalized Additive Model | Non-linear relationships     |
 
+## What is a Ordinary Linear Model? {.smaller}
 
-## What is a Ordinary Linear Model?
+An ordinary linear model describes the relationship between a continuous response variable $y$ and one or more predictor variables $x$. In its simplest form with one predictor, the model is:
 
 $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 
--   $\beta_0$: intercept
--   $\beta_1$: slope
--   $\epsilon_i$: error/residual
+where:
 
+-   $\beta_0$: intercept — the expected value of $y$ when $x = 0$
+-   $\beta_1$: slope — the expected change in $y$ for a one-unit increase in $x$
+-   $\epsilon_i$: error/residual — the deviation of observation $i$ from the fitted line
+
+The goal of fitting a linear model is to estimate $\beta_0$ and $\beta_1$ from our data.
 
 ## Simple Linear Regression Example {.smaller}
 
@@ -115,20 +117,17 @@ plot(x, y, pch = 19, col = "steelblue")
 abline(my_lm, col = "red", lwd = 2)
 ```
 
-##
+## 
 
 ![](images/week05_26_residuals_least_squares_diagram.jpeg){fig-align="center" width="90%"}
 
-##
+## 
 
 ![](images/week05_31_regression_conditional_distributions.jpeg){fig-align="center" width="90%"}
-
-
 
 ## Hypothesis Tests in Regression {.smaller}
 
 ![](images/week05_28_reduced_vs_full_model_residuals.jpeg){fig-align="center" width="90%"}
-
 
 ## Hypothesis Tests in Regression {.smaller}
 
@@ -138,8 +137,6 @@ Compares:
 
 -   Reduced model: $y_i = \beta_0 + \epsilon_i$
 -   Full model: $y_i = \beta_0 + \beta_1 x_i + \epsilon_i$
-
-
 
 ## Sum of Squares
 
@@ -151,83 +148,42 @@ Compares:
 
 $$SS_{Total} = SS_{Model} + SS_{Error}$$
 
+## The Loss Function: Minimizing Error {.smaller}
+
+Linear regression finds the line of best fit by minimizing the **sum of squared errors (SSE)**. For each observation, the residual is the difference between the observed and predicted value:
+
+$$e_i = y_i - \hat{y}_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)$$
+
+The SSE is the total squared deviation of all observations from the fitted line:
+
+$$SSE = \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+The **mean squared error (MSE)** normalizes by degrees of freedom:
+
+$$MSE = \frac{SSE}{n - p}$$
+
+where $p$ is the number of parameters estimated (2 for simple linear regression: intercept and slope). Ordinary Least Squares (OLS) is the method that finds the values of $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize the SSE.
 
 ## Hypothesis Tests in Regression {.smaller}
 
 ![](images/week05_29_f_ratio_f_distribution_hypothesis.jpeg){fig-align="center" width="90%"}
 
-
-## R² as Measure of Fit (~ effect size)
+## R² as Measure of Fit (\~ effect size)
 
 $$R^2 = \frac{SS_{Model}}{SS_{Total}} = 1 - \frac{SS_{Error}}{SS_{Total}}$$
 
+$R^2$ is the proportion of variance in Y explained by X. It ranges from 0 (model explains none of the variance) to 1 (model explains all of the variance). For simple linear regression, $R^2$ equals the square of the Pearson correlation coefficient $r$.
 
-
-$R^2$ is the proportion of variance in Y explained by X.
-
-
-
-# Accessing model information 
-
-## Table of statistics from the model
-
-### Statistical tests of parameters
-```{r}
-#| label: lm-example-table-output-tests
-#| echo: false
-#| eval: true
-
-library(broom)
-library(knitr)
-
-
-# Tidy table of coefficients
-tidy(my_lm) |> kable(digits = 4)
-
-```
-\
-\
-
-### Model level estimates
-```{r}
-#| label: lm-example-table-output-estimates
-#| echo: false
-#| eval: true
-
-library(broom)
-library(knitr)
-
-
-# Model-level statistics
-glance(my_lm) |> kable(digits = 4)
-
-```
-
-## Table of statistics from the model
-
-```{r}
-#| label: lm-example-table-code
-#| echo: true
-#| eval: false
-
-library(broom)
-library(knitr)
-
-
-# Tidy table of coefficients
-tidy(my_lm) |> kable(digits = 4)
-
-# Model-level statistics
-glance(my_lm) |> kable(digits = 4)
-
-```
+::: callout-note
+A high $R^2$ does not necessarily mean the model is appropriate — always check residual diagnostics!
+:::
 
 ## Components of an lm Object {.smaller}
 
 When you fit a model with `lm()`, R stores many useful components in the returned object:
 
 | Component | Description | Accessor Function |
-|:------------------|:---------------------|:-------------------------------|
+|:------------------|:---------------------|:------------------------------|
 | `coefficients` | Estimated $\beta$ values | `coef()` |
 | `residuals` | Observed minus fitted values ($y_i - \hat{y}_i$) | `residuals()` or `resid()` |
 | `fitted.values` | Predicted values ($\hat{y}_i$) | `fitted()` |
@@ -273,18 +229,7 @@ confint(my_lm)
 predict(my_lm, data.frame(x = c(2, 5, 8)), interval = "confidence")
 ```
 
-## R Exercise: Linear Regression {.smaller}
-
-
-- Load the grip_strength.csv` dataset
-- The data set has one reponse variable and two predictor variables:
-  - response: grip_strength
-  - predictor 1: bmp2_cream
-  - predictor 2: exercise_hours
-- Run appropriate correlation test
-- Create scatterplots and check the fit
-- Fit a linear model with `lm()`
-- Interpret coefficients and R²
+------------------------------------------------------------------------
 
 # Subgroups in simple linear regression
 
@@ -361,20 +306,514 @@ legend("topleft", levels(iris$Species), col = colors, pch = 19, cex = 0.8)
 The overall negative trend reverses to positive within each species — a classic confounding variable problem!
 :::
 
+------------------------------------------------------------------------
 
-___________________________
+## R Exercise: Linear Regression {.smaller}
+
+-   Load the grip_strength.csv\` dataset
+-   The data set has one reponse variable and two predictor variables:
+    -   response: grip_strength
+    -   predictor 1: bmp2_cream
+    -   predictor 2: exercise_hours
+-   Run appropriate correlation test
+-   Create scatterplots and check the fit
+-   Fit a linear model with `lm()`
+-   Interpret coefficients and R²
+
+## The Loss Function: Minimizing Error {.smaller}
+
+Linear regression finds the line of best fit by minimizing the **sum of squared errors (SSE)**. For each observation, the residual is the difference between the observed and predicted value:
+
+$$e_i = y_i - \hat{y}_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)$$
+
+The SSE is the total squared deviation of all observations from the fitted line:
+
+$$SSE = \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+The **mean squared error (MSE)** normalizes by degrees of freedom:
+
+$$MSE = \frac{SSE}{n - p}$$
+
+where $p$ is the number of parameters estimated (2 for simple linear regression: intercept and slope). Ordinary Least Squares (OLS) is the method that finds the values of $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize the SSE.
+
+## The Grip Strength Dataset {.smaller}
+
+-   This dataset examines whether grip strength (in kg) in patients recovering from hand injury is predicted by two continuous variables:
+    -   the concentration of a BMP2 cream applied topically (mg/ml), and
+    -   hours of exercise per week. We have 200 patients.
+-   We will fit separate simple linear regressions for each predictor, then explore which model is more appropriate by examining residual diagnostics.
+
+## Importing and Exploring the Data {.smaller}
+
+```{r}
+#| label: grip-import-code
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+library(broom)
+library(knitr)
+
+grip <- read_csv("grip_strength_data.csv")
+
+# Preview the data
+head(grip, 8) |> kable(digits = 2)
+```
+
+## Importing and Exploring the Data {.smaller}
+
+```{r}
+#| label: grip-import-output
+#| echo: false
+#| eval: true
+
+library(tidyverse)
+library(broom)
+library(knitr)
+
+grip <- read_csv("grip_strength_data.csv")
+
+# Preview the data
+head(grip, 8) |> kable(digits = 2)
+```
+
+## Summary Statistics of the Data {.smaller}
+
+```{r}
+#| label: grip-summary-code
+#| echo: true
+#| eval: false
+
+summary(grip[, c("grip_strength_kg", "bmp2_cream_mg_ml", "exercise_hrs_week")])
+```
+
+\
+\
+
+```{r}
+#| label: grip-summary-output
+#| echo: false
+#| eval: true
+
+summary(grip[, c("grip_strength_kg", "bmp2_cream_mg_ml", "exercise_hrs_week")]) 
+```
+
+## Grip Strength \~ BMP2 Cream {.smaller}
+
+We hypothesize that BMP2 cream concentration is positively associated with grip strength. The model is:
+
+$$\text{grip_strength}_i = \beta_0 + \beta_1 \cdot \text{bmp2_cream}_i + \epsilon_i$$
+
+## Grip Strength \~ BMP2 Cream {.smaller}
+
+```{r}
+#| label: lm-bmp2-code
+#| echo: true
+#| eval: false
+
+lm_bmp2 <- lm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
+summary(lm_bmp2)
+```
+
+The `summary()` output gives us the estimated coefficients, their standard errors, t-statistics, and p-values, plus the overall model $R^2$ and F-test.
+
+## Grip Strength \~ BMP2 Cream {.smaller}
+
+```{r}
+#| label: lm-bmp2-output
+#| echo: false
+#| eval: true
+
+lm_bmp2 <- lm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
+summary(lm_bmp2)
+```
+
+## Interpreting the BMP2 Model Output {.smaller}
+
+```{r}
+#| label: lm-bmp2-tidy-code
+#| echo: true
+#| eval: false
+
+# Coefficient-level summary
+tidy(lm_bmp2) |> kable(digits = 4)
+
+# Model-level summary
+glance(lm_bmp2) |> kable(digits = 4)
+```
+
+The `broom` package provides two useful functions: `tidy()` extracts coefficient-level information (estimates, standard errors, test statistics, and p-values), while `glance()` extracts model-level summaries ($R^2$, AIC, BIC, etc.).
+
+\
+\
+
+```{r}
+#| label: lm-bmp2-tidy-output
+#| echo: false
+#| eval: true
+
+tidy(lm_bmp2) |> kable(digits = 4)
+```
+
+# Visualizing Model Fits with ggplot2 {background-color="#2c3e50"}
+
+## Why ggplot2 for Model Visualization? {.smaller}
+
+-   Base R `plot()` and `abline()` work for quick diagnostics.
+
+-   However, `ggplot2` provides publication-quality graphics with better control over aesthetics, annotations, and layering.
+
+-   For presenting results in papers and talks, `ggplot2` is the standard in modern statistics.
+
+-   Key advantages include built-in support for confidence intervals via `geom_smooth()`, faceting for multiple models, and consistent theming.
+
+## Visualizing Grip Strength \~ BMP2 Cream {.smaller}
+
+```{r}
+#| label: ggplot-bmp2-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+library(ggplot2)
+
+ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
+  labs(
+    x = "BMP2 Cream Concentration (mg/ml)",
+    y = "Grip Strength (kg)",
+    title = "Grip Strength vs. BMP2 Cream Concentration",
+    subtitle = paste0("Linear fit: R² = ", round(summary(lm_bmp2)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Visualizing Grip Strength \~ BMP2 Cream {.smaller}
+
+```{r}
+#| label: ggplot-bmp2-code
+#| echo: true
+#| eval: false
+
+ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+              fill = "firebrick", alpha = 0.2) +
+  labs(
+    x = "BMP2 Cream Concentration (mg/ml)",
+    y = "Grip Strength (kg)",
+    title = "Grip Strength vs. BMP2 Cream Concentration",
+    subtitle = paste0("Linear fit: R² = ", round(summary(lm_bmp2)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+`geom_smooth(method = "lm", se = TRUE)` adds the fitted regression line with a 95% confidence interval ribbon for the mean response.
+
+# Exercise Hours
+
+## Grip Strength \~ Exercise Hours {.smaller}
+
+Now we test whether hours of exercise per week predict grip strength:
+
+$$\text{grip_strength}_i = \beta_0 + \beta_1 \cdot \text{exercise_hrs}_i + \epsilon_i$$
+
+\
+\
+
+```{r}
+#| label: lm-exercise-code
+#| echo: true
+#| eval: false
+
+lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
+summary(lm_exercise)
+```
+
+## Grip Strength \~ Exercise Hours {.smaller}
+
+```{r}
+#| label: lm-exercise-output
+#| echo: false
+#| eval: true
+
+lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
+summary(lm_exercise)
+```
+
+## Interpreting the Model Output {.smaller}
+
+```{r}
+#| label: lm-exercise-tidy-output
+#| echo: false
+#| eval: true
+
+tidy(lm_exercise) |> kable(digits = 4)
+```
+
+```{r}
+#| label: lm-exercise-glance-output
+#| echo: false
+#| eval: true
+
+glance(lm_exercise) |> kable(digits = 4)
+```
+
+\
+
+-   Notice that the exercise model has a much lower $R^2$ than the BMP2 model.
+-   This suggests that exercise hours alone explain very little of the variation in grip strength.
+-   But we should check whether the relationship might be nonlinear before concluding.
+
+## Visualizing Grip Strength \~ Exercise Hours {.smaller}
+
+```{r}
+#| label: ggplot-exercise-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
+  labs(
+    x = "Exercise (hours/week)",
+    y = "Grip Strength (kg)",
+    title = "Grip Strength vs. Exercise Hours",
+    subtitle = paste0("Linear fit: R² = ", round(summary(lm_exercise)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Visualizing Grip Strength \~ Exercise Hours {.smaller}
+
+```{r}
+#| label: ggplot-exercise-code
+#| echo: true
+#| eval: false
+
+ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+              fill = "firebrick", alpha = 0.2) +
+  labs(
+    x = "Exercise (hours/week)",
+    y = "Grip Strength (kg)",
+    title = "Grip Strength vs. Exercise Hours",
+    subtitle = paste0("Linear fit: R² = ", round(summary(lm_exercise)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Comparing Both Fits Side by Side {.smaller}
+
+```{r}
+#| label: ggplot-both-output
+#| echo: false
+#| eval: true
+#| fig-width: 12
+#| fig-height: 5
+
+library(patchwork)
+
+p1 <- ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
+  labs(x = "BMP2 Cream (mg/ml)", y = "Grip Strength (kg)", 
+       title = "Model 1: BMP2 Cream") +
+  theme_minimal(base_size = 13)
+
+p2 <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
+  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)", 
+       title = "Model 2: Exercise Hours") +
+  theme_minimal(base_size = 13)
+
+p1 + p2
+```
+
+## Comparing Both Fits — Code {.smaller}
+
+```{r}
+#| label: ggplot-both-code
+#| echo: true
+#| eval: false
+
+library(patchwork)
+
+p1 <- ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
+  labs(x = "BMP2 Cream (mg/ml)", y = "Grip Strength (kg)", 
+       title = "Model 1: BMP2 Cream") +
+  theme_minimal(base_size = 13)
+
+p2 <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
+  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)", 
+       title = "Model 2: Exercise Hours") +
+  theme_minimal(base_size = 13)
+
+p1 + p2  # patchwork combines plots side-by-side
+```
+
+------------------------------------------------------------------------
+
+# Other R Packages for Fitting Linear Models {background-color="#2c3e50"}
+
+## Using aov() for ANOVA-Style Output {.smaller}
+
+-   The `aov()` function fits the same underlying model as `lm()`, but presents the results in an analysis of variance (ANOVA) table format.
+-   This is useful when you want to focus on the partitioning of variance rather than individual coefficient estimates.
+
+```{r}
+#| label: aov-bmp2-code
+#| echo: true
+#| eval: false
+
+# aov() gives ANOVA table output for the same model
+aov_bmp2 <- aov(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
+summary(aov_bmp2)
+```
+
+\
+\
+
+```{r}
+#| label: aov-bmp2-output
+#| echo: false
+#| eval: true
+
+aov_bmp2 <- aov(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
+summary(aov_bmp2)
+```
+
+\
+\
+
+-   The ANOVA table decomposes variance into the model sum of squares ($SS_{Model}$) and residual sum of squares ($SS_{Error}$).
+-   It also tests whether the model explains a significant proportion of variance via the F-statistic.
+
+
+## Using anova() to Compare Models {.smaller}
+
+The `anova()` function can also be applied to `lm` objects directly, and it is especially useful for comparing nested models:
+
+```{r}
+#| label: anova-lm-code
+#| echo: true
+#| eval: false
+
+# ANOVA table from an lm object
+anova(lm_bmp2)
+```
+
+\
+
+```{r}
+#| label: anova-lm-output
+#| echo: false
+#| eval: true
+
+# ANOVA table from an lm object
+anova(lm_bmp2)
+```
+
+## Overview of R Packages for Linear Models {.smaller}
+
+R provides a rich ecosystem of packages for fitting models of increasing complexity:
+
+| Package / Function | Use Case | Key Feature |
+|:--------------------|:----------------------|:---------------------------|
+| `lm()` | Simple/multiple linear regression | Coefficient estimates, $R^2$, F-test |
+| `aov()` | ANOVA-style linear models | Variance partitioning, F-table |
+| `glm()` | Generalized linear models | Non-normal response (logistic, Poisson) |
+| `lme4::lmer()` | Linear mixed-effects models | Random effects for nested/grouped data |
+| `nlme::lme()` | Linear mixed-effects models | Flexible correlation structures |
+| `MASS::rlm()` | Robust linear regression | Resistant to outliers |
+| `mgcv::gam()` | Generalized additive models | Smooth nonlinear relationships |
+
+## Fitting with glm() {.smaller}
+
+The `glm()` function fits generalized linear models. With the default `family = gaussian`, it is equivalent to `lm()`:
+
+```{r}
+#| label: glm-bmp2-code
+#| echo: true
+#| eval: false
+
+# glm() with family = gaussian is equivalent to lm()
+glm_bmp2 <- glm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip, family = gaussian)
+summary(glm_bmp2)
+```
+
+\
+
+```{r}
+#| label: glm-bmp2-output
+#| echo: false
+#| eval: true
+
+glm_bmp2 <- glm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip, family = gaussian)
+summary(glm_bmp2)
+```
+
+## Fitting with glm() {.smaller}
+
+-   The advantage of `glm()` is that it generalizes to non-normal responses by changing the `family` argument
+-   `binomial` for logistic regression
+-   `poisson` for count data
+-   We will use this later in the course.
+
+## How to report linear model statistics {.smaller}
+
+- Say what you found, and then put the statistics in parentheses.
+- Support the finding with the statistics, not the other way around.
+- Remember to include magnitude and direction of the finding.
+- Also, reference the figure that shows the relationship.
+\
+\
+\
+
+::: callout-note
+We found that topical application of a cream containing the signaling molecule bone morphogenetic protein 2 (bmp-2) significantly increased the grip strength of patients in a clinical trial ($F_{1,198} = 272.7; p<2e^{-16}; R^2 = 0.58$), Specifically, an increase of 1mg/ml of bmp-2 was correlated with an increase of 1.64 kg of grip strength (Fig. 1)
+:::
+
+________________________
 
 # Residual Analysis {background-color="#2c3e50"}
 
-## Assumptions of Linear Models {.smaller}
+## Why Residual Analysis? {.smaller}
 
--   Independent errors (residuals)
--   Equal variance of residuals (homoscedasticity)
--   Normally-distributed residuals
+- Fitting a linear model is only the first step. 
+- Before we trust the model's coefficient estimates, p-values, and confidence intervals, we must verify that the **assumptions** underlying the model are reasonably met. 
+- If assumptions are violated, the standard errors and p-values may be unreliable, and our conclusions could be misleading.
+- Residual analysis is the primary diagnostic tool for checking these assumptions. 
+- By examining patterns in the residuals ($e_i = y_i - \hat{y}_i$), we can detect violations that aren't obvious from the raw data alone.
 
-::: callout-note
-Robustness improves with large sample sizes and balanced designs.
-:::
+## Assumptions of Linear Regression {.smaller}
+
+Linear regression makes four key assumptions, often remembered by the acronym **LINE**:
+
+- **L — Linearity**: The relationship between $x$ and $y$ is linear. The expected value of $y$ is a straight-line function of $x$.
+
+- **I — Independence**: The residuals are independent of each other. Knowing one residual gives no information about another. Violations often occur with time series or spatially structured data.
+
+- **N — Normality**: The residuals follow a normal distribution at each value of $x$: $\epsilon_i \sim N(0, \sigma^2)$. This assumption is most important for small sample sizes; with large $n$, the Central Limit Theorem makes inference robust to moderate departures.
+
+- **E — Equal variance (Homoscedasticity)**: The variance of the residuals is constant across all values of $x$: $\text{Var}(\epsilon_i) = \sigma^2$ for all $i$. When variance changes with $x$ (heteroscedasticity), standard errors become biased.
+
+## Visualizing the Assumptions {.smaller}
+
+The figure below illustrates what the conditional distributions of $y$ should look like at each value of $x$ under a well-specified linear model: each distribution is normal, centered on the regression line, and has equal spread.
+
+![](images/week05_31_regression_conditional_distributions.jpeg){fig-align="center" width="80%"}
+
 
 
 ## Spotting Assumption Violations {.smaller}
@@ -389,22 +828,28 @@ Robustness improves with large sample sizes and balanced designs.
 
 ![](images/week05_34_residual_patterns_heteroscedasticity.jpeg){fig-align="center" width="90%"}
 
-## Spotting Assumption Violations {.smaller}
+## Common Residual Patterns and Causes {.smaller}
 
-![](images/week05_35_penalizing_model_complexity.jpeg){fig-align="center" width="90%"}
+Understanding what different residual patterns mean helps you decide how to fix model problems:
 
+- **Funnel shape** (variance increases with fitted values): Heteroscedasticity. Consider a variance-stabilizing transformation (e.g., log) or use weighted least squares.
 
-## Leverage and Influence {.smaller}
+- **Curved pattern** (U-shape or arch): The relationship is nonlinear. Consider adding polynomial terms (e.g., $x^2$) or using a different model.
 
--   **Leverage**: How much of an outlier in x-space
--   **Residual**: How much of an outlier in y-space
--   **Cook's D**: Overall influence on fitted model
+- **Clusters or groups**: There may be a missing categorical variable or subgroup structure in the data (recall Simpson's Paradox).
 
-::: callout-warning
-Cook's D ≥ 1 indicates highly influential observations.
-:::
+- **Systematic pattern over time/order**: Autocorrelation among residuals. Consider time-series models or including a time covariate.
 
+## What Each Residual Plot Tells You {.smaller}
 
+The standard `plot(lm_object)` in R produces four diagnostic plots. Each one targets a specific assumption:
+
+| Plot | Name | What It Checks | What to Look For |
+|:----------|:---------------|:------------------|:---------------------|
+| 1 | Residuals vs. Fitted | Linearity & equal variance | No pattern; random scatter around 0 |
+| 2 | Normal Q-Q | Normality of residuals | Points follow the diagonal line |
+| 3 | Scale-Location | Homoscedasticity | Flat trend line; no fan shape |
+| 4 | Residuals vs. Leverage | Influential observations | No points beyond Cook's distance lines |
 
 ## Residual Diagnostic Plots {.smaller}
 
@@ -419,7 +864,8 @@ par(mfrow = c(2, 2))
 plot(my_lm)
 ```
 
-## Residual Diagnostic Plots Code {.smaller}
+\
+\
 
 ```{r}
 #| label: resid-plots-code
@@ -429,7 +875,6 @@ plot(my_lm)
 par(mfrow = c(2, 2))
 plot(my_lm)
 ```
-
 
 ## Using ggfortify for Diagnostics {.smaller}
 
@@ -444,7 +889,7 @@ library(ggfortify)
 autoplot(my_lm, which = 1:4, ncol = 2)
 ```
 
-## Using ggfortify for Diagnostics Code {.smaller}
+\
 
 ```{r}
 #| label: ggfortify-diag-code
@@ -455,121 +900,692 @@ library(ggfortify)
 autoplot(my_lm, which = 1:4, ncol = 2)
 ```
 
-_________________
 
-# Model I vs Model II Regression {background-color="#2c3e50"}
+## Outlier Leverage and Influence {.smaller}
 
-## When to Use Model II Regression {.smaller}
+![](images/week05_35_penalizing_model_complexity.jpeg){fig-align="center" width="90%"}
 
-**Model I (OLS) Regression:**
+## Outlier Leverage and Influence {.smaller}
 
--   Assumes predictor X is measured **without error**
--   Y contains all the measurement error
--   Standard `lm()` in R
+-   **Leverage**: How much of an outlier in x-space
+-   **Residual**: How much of an outlier in y-space
+-   **Cook's D**: Overall influence on fitted model
 
-**Model II Regression:**
+- A point with high leverage doesn't necessarily distort the model — only if it also has a large residual. 
+- Cook's distance combines both: it measures how much all the fitted values would change if that single observation were removed.
 
--   Both X and Y have **measurement error**
--   Neither variable is controlled/fixed
--   Use when both variables are random measurements
-
-::: callout-note
-Use Model II when both X and Y are biological measurements (e.g., body size vs organ size, two gene expression levels).
-:::
-
-## Model II Regression Methods {.smaller}
-
-| Method | Abbreviation | Description |
-|:-----------------------|:-----------------------|:-----------------------|
-| **Major Axis** | MA | Minimizes perpendicular distances |
-| **Standard Major Axis** | SMA | Geometric mean regression |
-| **Ranged Major Axis** | RMA | Accounts for range differences |
-| **Ordinary Least Squares** | OLS | Standard regression (for comparison) |
-
-
-## Types of Linear Regression {.smaller}
-
-Not all regression is created equal! The choice depends on **measurement error**:
-
-![Model I (OLS) vs Model II regression types](images/week05_40_model_types_ols_ma_rma.jpeg){fig-align="center" width="80%"}
-
-## Regression Type Examples {.smaller}
-
-![Comparison of OLS (Type I) and Type II regression methods](images/week05_41_regression_type_examples.jpeg){fig-align="center" width="90%"}
-
-## When to Use Each Model Type {.smaller}
-
-![Guidelines for choosing between OLS, MA, and RMA regression](images/week05_42_when_to_use_model_types.jpeg){fig-align="center" width="90%"}
-
-
-## Model II Regression with lmodel2 {.smaller}
-
-```{r}
-#| eval: false
-#| echo: true
-
-library(lmodel2)
-
-# Model II regression when both X and Y have measurement error
-# Example: comparing two measurement methods
-mod2 <- lmodel2(Y ~ X, data = mydata, range.y = "relative", range.x = "relative")
-
-# Returns OLS, MA, SMA (RMA), and ranged major axis results
-summary(mod2)
-plot(mod2)
-```
-
-::: callout-note
-Use Model II regression when: - Both variables have measurement error - Neither variable is experimentally controlled - You're comparing methods or studying allometry
+::: callout-warning
+Cook's D ≥ 1 indicates highly influential observations, and a rough rule of thumb is 4/n. Investigate these points — they may be data entry errors, measurement problems, or genuinely unusual cases.
 :::
 
 
-## Model II Regression in R {.smaller}
+
+------------------------------------------------------------------------
+
+# Residual Plots for the Grip Strength Models {background-color="#2c3e50"}
+
+## BMP2 Model {.smaller}
+
+- The residuals vs. fitted values plot is our primary tool for checking linearity and homoscedasticity. 
+- If the model is well-specified, we expect to see a random cloud of points centered around zero with no systematic pattern.
 
 ```{r}
-#| label: model2-regression
-#| eval: false
+#| label: resid-bmp2-code
 #| echo: true
+#| eval: false
 
-# Install and load lmodel2 package
-# install.packages("lmodel2")
-library(lmodel2)
+bmp2_diag <- data.frame(
+  fitted = fitted(lm_bmp2),
+  residuals = residuals(lm_bmp2)
+)
 
-# Fit Model II regression
-model2_result <- lmodel2(y ~ x, data = mydata)
-
-# View results - provides OLS, MA, and SMA estimates
-model2_result
-
-# Plot with different regression lines
-plot(mydata$x, mydata$y, pch = 19)
-abline(model2_result$regression.results[2, 2],  # MA intercept
-       model2_result$regression.results[2, 3],  # MA slope
-       col = "blue", lty = 2)
-abline(model2_result$regression.results[3, 2],  # SMA intercept
-       model2_result$regression.results[3, 3],  # SMA slope
-       col = "red", lty = 3)
+ggplot(bmp2_diag, aes(x = fitted, y = residuals)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkorange", linewidth = 1) +
+  labs(
+    x = "Fitted Values (ŷ)",
+    y = "Residuals (y - ŷ)",
+    title = "Residuals vs. Fitted — BMP2 Model"
+  ) +
+  theme_minimal(base_size = 14)
 ```
 
-## Choosing Between Model I and II {.smaller}
+## BMP2 Model {.smaller}
+
+```{r}
+#| label: resid-bmp2-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+bmp2_diag <- data.frame(
+  fitted = fitted(lm_bmp2),
+  residuals = residuals(lm_bmp2)
+)
+
+ggplot(bmp2_diag, aes(x = fitted, y = residuals)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkorange", linewidth = 1) +
+  labs(
+    x = "Fitted Values (ŷ)",
+    y = "Residuals (y - ŷ)",
+    title = "Residuals vs. Fitted — BMP2 Model"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+
+- The loess smoother (orange line) helps visualize any systematic trend. 
+- If it stays close to zero across the range of fitted values, linearity is satisfied.
+
+## Exercise Model {.smaller}
+
+```{r}
+#| label: resid-exercise-code
+#| echo: true
+#| eval: false
+
+exercise_diag <- data.frame(
+  fitted = fitted(lm_exercise),
+  residuals = residuals(lm_exercise)
+)
+
+ggplot(exercise_diag, aes(x = fitted, y = residuals)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "purple", linewidth = 1) +
+  labs(
+    x = "Fitted Values (ŷ)",
+    y = "Residuals (y - ŷ)",
+    title = "Residuals vs. Fitted — Exercise Model (Linear)"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Exercise Model {.smaller}
+
+```{r}
+#| label: resid-exercise-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+exercise_diag <- data.frame(
+  fitted = fitted(lm_exercise),
+  residuals = residuals(lm_exercise)
+)
+
+ggplot(exercise_diag, aes(x = fitted, y = residuals)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "purple", linewidth = 1) +
+  labs(
+    x = "Fitted Values (ŷ)",
+    y = "Residuals (y - ŷ)",
+    title = "Residuals vs. Fitted — Exercise Model (Linear)"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+
+::: callout-important
+Look carefully at the loess smoother — does it show curvature? If the residuals show a systematic curved pattern, this suggests a nonlinear relationship that a straight line cannot capture.
+:::
+
+## Full Diagnostic Panel: BMP2 Model {.smaller}
+
+```{r}
+#| label: ggfortify-bmp2-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 7
+
+autoplot(lm_bmp2, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+\
+
+```{r}
+#| label: ggfortify-bmp2-code
+#| echo: true
+#| eval: false
+
+autoplot(lm_bmp2, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+## Full Diagnostic Panel: Exercise Model {.smaller}
+
+```{r}
+#| label: ggfortify-exercise-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 7
+
+autoplot(lm_exercise, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+\
+
+```{r}
+#| label: ggfortify-exercise-code
+#| echo: true
+#| eval: false
+
+autoplot(lm_exercise, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+------------------------------------------------------------------------
+
+# Identifying and Removing Outliers {background-color="#2c3e50"}
+
+## Fibroblast Cell Culture BMP/Sox9 Experiment {.smaller}
+
+- A colleague has shared data from a cell culture experiment measuring BMP4 and SOX9 gene expression (relative expression units from qPCR). 
+- They want to model BMP4 expression as a function of SOX9 expression across 80 samples.
+
+- However, they suspect there may be some **data entry errors** and **outliers** in the dataset. 
+- Your job is to fit a linear model, use diagnostic plots to identify the problematic observations, decide which to remove, and then refit the model.
+
+- Download the file `cell_culture_expression.csv` and move through the slides
+
+## Types of Outliers to Watch For {.smaller}
+
+Before we dive in, recall the different ways an observation can be unusual:
+
+- **Data entry errors**: Values that are off by an order of magnitude (e.g., someone typed 165 instead of 16.5). These are unambiguously wrong and should be corrected or removed.
+
+- **High leverage points**: Observations with extreme predictor ($x$) values. They have outsized *potential* to influence the fit, but may not actually distort it if they fall near the regression line.
+
+- **High residual points**: Observations far from the fitted line in the $y$ direction but with typical $x$ values. These inflate the residual variance but may not drastically shift the slope.
+
+- **High influence points**: The most dangerous — observations with *both* high leverage and a large residual. These can pull the entire regression line toward them, distorting slope and intercept estimates. Cook's distance captures this combined effect.
+
+## Import and Plot — Code {.smaller}
+
+```{r}
+#| label: outlier-import-code
+#| echo: true
+#| eval: false
+
+expr <- read_csv("cell_culture_expression.csv")
+
+ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
+  geom_text(aes(label = sample_id), size = 2.2, nudge_y = 2, color = "gray40",
+            check_overlap = TRUE) +
+  labs(
+    x = "SOX9 Expression (relative units)",
+    y = "BMP4 Expression (relative units)",
+    title = "BMP4 vs. SOX9 Expression — Raw Data"
+  ) +
+  theme_minimal(base_size = 14)
+```
 
 ::: callout-tip
-## Decision Guide
-
-Use **Model I (OLS)** when:
-
--   X is controlled/manipulated experimentally
--   X is measured with negligible error
--   Goal is prediction of Y from X
-
-Use **Model II (SMA/MA)** when:
-
--   Both variables are random biological measurements
--   Both have comparable measurement error
--   Goal is to describe the functional relationship
+Always label your points with sample IDs when looking for outliers — you need to know *which* observations to investigate!
 :::
 
+## Import and Plot the Raw Data {.smaller}
 
+```{r}
+#| label: outlier-import-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+expr <- read_csv("cell_culture_expression.csv")
+
+ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
+  geom_text(aes(label = sample_id), size = 2.2, nudge_y = 2, color = "gray40",
+            check_overlap = TRUE) +
+  labs(
+    x = "SOX9 Expression (relative units)",
+    y = "BMP4 Expression (relative units)",
+    title = "BMP4 vs. SOX9 Expression — Raw Data"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+
+
+## Fit the Initial Model {.smaller}
+
+
+
+```{r}
+#| label: outlier-lm-raw-code
+#| echo: true
+#| eval: false
+
+lm_expr_raw <- lm(bmp4_expression ~ sox9_expression, data = expr)
+tidy(lm_expr_raw) |> kable(digits = 4)
+glance(lm_expr_raw) |> kable(digits = 4)
+```
+
+\
+
+
+```{r}
+#| label: outlier-lm-raw-output
+#| echo: false
+#| eval: true
+
+lm_expr_raw <- lm(bmp4_expression ~ sox9_expression, data = expr)
+tidy(lm_expr_raw) |> kable(digits = 4)
+```
+
+\
+
+```{r}
+#| label: outlier-lm-raw-glance-output
+#| echo: false
+#| eval: true
+
+glance(lm_expr_raw) |> kable(digits = 4)
+```
+
+\
+
+- Notice that the $R^2$ is lower than we might expect for a direct regulatory relationship. 
+- Some of the unexplained variance is likely due to the outliers pulling the fit.
+
+## Visualize the Fit — Code {.smaller}
+
+```{r}
+#| label: outlier-fit-raw-code
+#| echo: true
+#| eval: false
+
+ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+              fill = "firebrick", alpha = 0.2) +
+  labs(
+    x = "SOX9 Expression (relative units)",
+    y = "BMP4 Expression (relative units)",
+    title = "Linear Fit with Outliers Present",
+    subtitle = paste0("R² = ", round(summary(lm_expr_raw)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+
+## Visualize the Fit with Outliers Present {.smaller}
+
+```{r}
+#| label: outlier-fit-raw-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
+  labs(
+    x = "SOX9 Expression (relative units)",
+    y = "BMP4 Expression (relative units)",
+    title = "Linear Fit with Outliers Present",
+    subtitle = paste0("R² = ", round(summary(lm_expr_raw)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+
+
+## Diagnostic Plots to Identify Outliers {.smaller}
+```{r}
+#| label: outlier-diag-code
+#| echo: true
+#| eval: false
+
+autoplot(lm_expr_raw, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+- Examine the four panels. Which observations are flagged by R with their row numbers? 
+- Pay attention to the Residuals vs. Leverage plot — points near or beyond the Cook's distance contour lines are the most influential.
+
+
+## Diagnostic Plots to Identify Outliers {.smaller}
+
+```{r}
+#| label: outlier-diag-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 7
+
+autoplot(lm_expr_raw, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+
+
+## Cook's Distance {.smaller}
+
+- We can extract Cook's distance values and identify the most influential observations programmatically.
+- A common threshold for Cook's distance is $4/n$. Values exceeding this warrant closer inspection. 
+- Values approaching or exceeding 1 are almost certainly problematic.
+
+\
+\
+
+```{r}
+#| label: outlier-cooks-output
+#| echo: false
+#| eval: true
+
+expr_diag <- expr |>
+  mutate(
+    cooks_d = cooks.distance(lm_expr_raw),
+    leverage = hatvalues(lm_expr_raw),
+    std_resid = rstandard(lm_expr_raw)
+  )
+
+# Flag observations with Cook's D > 4/n (common threshold)
+threshold <- 4 / nrow(expr)
+
+expr_diag |>
+  filter(cooks_d > threshold) |>
+  select(sample_id, bmp4_expression, sox9_expression, std_resid, leverage, cooks_d) |>
+  arrange(desc(cooks_d)) |>
+  kable(digits = 4)
+```
+
+## Cook's Distance — Code {.smaller}
+
+```{r}
+#| label: outlier-cooks-code
+#| echo: true
+#| eval: false
+
+expr_diag <- expr |>
+  mutate(
+    cooks_d = cooks.distance(lm_expr_raw),
+    leverage = hatvalues(lm_expr_raw),
+    std_resid = rstandard(lm_expr_raw)
+  )
+
+# Flag observations with Cook's D > 4/n (common threshold)
+threshold <- 4 / nrow(expr)
+
+expr_diag |>
+  filter(cooks_d > threshold) |>
+  select(sample_id, bmp4_expression, sox9_expression, std_resid, leverage, cooks_d) |>
+  arrange(desc(cooks_d)) |>
+  kable(digits = 4)
+```
+
+
+
+## Visualizing Cook's Distance {.smaller}
+
+```{r}
+#| label: outlier-cooks-plot-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+expr_diag <- expr_diag |>
+  mutate(row_num = row_number())
+
+ggplot(expr_diag, aes(x = row_num, y = cooks_d)) +
+  geom_col(fill = ifelse(expr_diag$cooks_d > threshold, "firebrick", "steelblue"),
+           alpha = 0.7) +
+  geom_hline(yintercept = threshold, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_text(data = expr_diag |> filter(cooks_d > threshold),
+            aes(label = sample_id), size = 2.8, nudge_y = 0.01, angle = 45) +
+  labs(
+    x = "Observation Index",
+    y = "Cook's Distance",
+    title = "Cook's Distance for Each Observation",
+    subtitle = paste0("Dashed line = 4/n threshold (", round(threshold, 4), ")")
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+## Visualizing Cook's Distance — Code {.smaller}
+
+```{r}
+#| label: outlier-cooks-plot-code
+#| echo: true
+#| eval: false
+
+expr_diag <- expr_diag |>
+  mutate(row_num = row_number())
+
+threshold <- 4 / nrow(expr)
+
+ggplot(expr_diag, aes(x = row_num, y = cooks_d)) +
+  geom_col(fill = ifelse(expr_diag$cooks_d > threshold, "firebrick", "steelblue"),
+           alpha = 0.7) +
+  geom_hline(yintercept = threshold, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_text(data = expr_diag |> filter(cooks_d > threshold),
+            aes(label = sample_id), size = 2.8, nudge_y = 0.01, angle = 45) +
+  labs(
+    x = "Observation Index",
+    y = "Cook's Distance",
+    title = "Cook's Distance for Each Observation",
+    subtitle = paste0("Dashed line = 4/n threshold (", round(threshold, 4), ")")
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+## Interpreting What We Found {.smaller}
+
+Look at the flagged observations and think about what kind of outlier each one is:
+
+- **SC012** and **SC055**: BMP4 values around 100–165 when the rest of the data is in the 0–50 range. These are almost certainly **data entry errors** — values off by an order of magnitude (someone forgot a decimal point). These should be removed or corrected.
+
+- **SC037**: SOX9 value around 28 when the rest of the data is in the 0.5–8 range. Another likely **data entry error** with the same order-of-magnitude pattern.
+
+- **SC060**: High SOX9 (13.8) but very low BMP4 (8.5). This is a **high influence point** — extreme in x-space *and* far from the expected trend. It pulls the regression line down at the right end.
+
+- **SC045**: Moderate SOX9 (4.2) but very high BMP4 (25.5). A **high residual point** — not extreme in x-space, but far above the fitted line.
+
+::: callout-important
+Data entry errors should always be corrected or removed. For other outliers, the decision is more nuanced — document your reasoning!
+:::
+
+## Remove the Problematic Observations {.smaller}
+
+- We will remove the three clear data entry errors (SC012, SC037, SC055) and the high influence point (SC060). 
+- We keep SC045 for now — it has a large residual but isn't clearly erroneous, and it doesn't have enough leverage to distort the fit badly.
+
+```{r}
+#| label: outlier-remove-code
+#| echo: true
+#| eval: false
+
+# Remove data entry errors and the high influence point
+remove_ids <- c("SC012", "SC037", "SC055", "SC060")
+
+expr_clean <- expr |>
+  filter(!sample_id %in% remove_ids)
+
+cat("Original observations:", nrow(expr), "\n")
+cat("Removed:", length(remove_ids), "observations\n")
+cat("Remaining observations:", nrow(expr_clean), "\n")
+```
+
+\
+
+```{r}
+#| label: outlier-remove-output
+#| echo: false
+#| eval: true
+
+# Remove data entry errors and the high influence point
+remove_ids <- c("SC012", "SC037", "SC055", "SC060")
+
+expr_clean <- expr |>
+  filter(!sample_id %in% remove_ids)
+
+cat("Original observations:", nrow(expr), "\n")
+cat("Removed:", length(remove_ids), "observations:", paste(remove_ids, collapse = ", "), "\n")
+cat("Remaining observations:", nrow(expr_clean), "\n")
+```
+
+::: callout-note
+Always document which observations you removed and why. Never silently drop data points — your methods section should describe this.
+:::
+
+## Refit the Model on Clean Data {.smaller}
+```{r}
+#| label: outlier-refit-code
+#| echo: true
+#| eval: false
+
+lm_expr_clean <- lm(bmp4_expression ~ sox9_expression, data = expr_clean)
+tidy(lm_expr_clean) |> kable(digits = 4)
+glance(lm_expr_clean) |> kable(digits = 4)
+```
+
+\
+
+```{r}
+#| label: outlier-refit-output
+#| echo: false
+#| eval: true
+
+lm_expr_clean <- lm(bmp4_expression ~ sox9_expression, data = expr_clean)
+tidy(lm_expr_clean) |> kable(digits = 4)
+```
+
+\
+
+```{r}
+#| label: outlier-refit-glance-output
+#| echo: false
+#| eval: true
+
+glance(lm_expr_clean) |> kable(digits = 4)
+```
+
+\
+
+- Compare the $R^2$ before and after cleaning. 
+- The relationship between SOX9 and BMP4 should now be much clearer, and the coefficient estimates more trustworthy.
+
+
+
+
+
+## Compare Fits — Before and After {.smaller}
+
+```{r}
+#| label: outlier-compare-output
+#| echo: false
+#| eval: true
+#| fig-width: 12
+#| fig-height: 5
+
+p_raw <- ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_point(data = expr |> filter(sample_id %in% remove_ids),
+             color = "firebrick", size = 3, shape = 1, stroke = 1.5) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.15) +
+  labs(x = "SOX9 Expression", y = "BMP4 Expression",
+       title = "Before: With Outliers",
+       subtitle = paste0("R² = ", round(summary(lm_expr_raw)$r.squared, 3))) +
+  theme_minimal(base_size = 13)
+
+p_clean <- ggplot(expr_clean, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.15) +
+  labs(x = "SOX9 Expression", y = "BMP4 Expression",
+       title = "After: Outliers Removed",
+       subtitle = paste0("R² = ", round(summary(lm_expr_clean)$r.squared, 3))) +
+  theme_minimal(base_size = 13)
+
+p_raw + p_clean
+```
+
+## Compare Fits — Code {.smaller}
+
+```{r}
+#| label: outlier-compare-code
+#| echo: true
+#| eval: false
+
+p_raw <- ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_point(data = expr |> filter(sample_id %in% remove_ids),
+             color = "firebrick", size = 3, shape = 1, stroke = 1.5) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+              fill = "firebrick", alpha = 0.15) +
+  labs(x = "SOX9 Expression", y = "BMP4 Expression",
+       title = "Before: With Outliers",
+       subtitle = paste0("R² = ", round(summary(lm_expr_raw)$r.squared, 3))) +
+  theme_minimal(base_size = 13)
+
+p_clean <- ggplot(expr_clean, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "darkgreen", 
+              fill = "darkgreen", alpha = 0.15) +
+  labs(x = "SOX9 Expression", y = "BMP4 Expression",
+       title = "After: Outliers Removed",
+       subtitle = paste0("R² = ", round(summary(lm_expr_clean)$r.squared, 3))) +
+  theme_minimal(base_size = 13)
+
+p_raw + p_clean
+```
+
+## Residual Diagnostics on Clean Data {.smaller}
+
+```{r}
+#| label: outlier-resid-clean-code
+#| echo: true
+#| eval: false
+
+autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+
+```{r}
+#| label: outlier-resid-clean-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 7
+
+autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+
+## Outlier Exercise Summary {.smaller}
+
+::: callout-tip
+## What We Learned
+
+1.  **Always visualize your data first.** A simple scatterplot with labeled points would have immediately revealed the order-of-magnitude entry errors.
+
+2.  **Use multiple diagnostic tools.** Cook's distance, leverage, and standardized residuals each capture different aspects of "outlierness."
+
+3.  **Distinguish error from biology.** Data entry errors (10x values) are unambiguously wrong. Biological outliers require more thought — they could represent real variation, subpopulations, or experimental artifacts.
+
+4.  **Document everything.** Record which observations you removed, why, and how the results changed. Transparency is essential for reproducibility.
+
+5.  **Outlier removal can dramatically improve** $R^2$ **and coefficient estimates**, but it must be justified by evidence, not by a desire for better-looking results.
+:::
+
+_______________________________
 
 # The Eugenics History of Statistics
 
@@ -669,3 +1685,426 @@ knitr::include_graphics("images/IMAGES2.017.jpeg")
 -   See also
     -   "The Gene" by Siddhartha Mukherjee
     -   "Control" by Adam Rutherford
+
+
+------------------------------------------------------------------------
+
+# Polynomial Regression: When Linear Isn't Enough {background-color="#2c3e50"}
+
+## Motivation for Polynomial Regression {.smaller}
+
+The residual plots for the exercise model may suggest curvature — the loess smoother deviates from zero in a systematic way. This is a signal that the true relationship between exercise hours and grip strength may be nonlinear.
+
+A polynomial regression extends the linear model by adding powers of $x$ as additional predictors. For a quadratic (degree 2) polynomial:
+
+$$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i$$
+
+This is still a **linear model** in the statistical sense (the parameters $\beta$ enter linearly), but the relationship between $y$ and $x$ is now curved. A quadratic term can capture a U-shape or inverted-U pattern that a straight line would miss.
+
+## Fitting a Polynomial Model: Grip Strength \~ Exercise {.smaller}
+
+In R, we use `poly(x, degree)` inside the `lm()` formula, or equivalently `I(x^2)`:
+
+```{r}
+#| label: poly-exercise-output
+#| echo: false
+#| eval: true
+
+lm_exercise_poly <- lm(grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE), data = grip)
+summary(lm_exercise_poly)
+```
+
+## Fitting a Polynomial Model — Code {.smaller}
+
+```{r}
+#| label: poly-exercise-code
+#| echo: true
+#| eval: false
+
+# Fit quadratic polynomial: grip_strength ~ exercise + exercise^2
+lm_exercise_poly <- lm(grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE), 
+                        data = grip)
+summary(lm_exercise_poly)
+```
+
+The `raw = TRUE` argument means R uses the raw polynomial terms ($x$ and $x^2$) rather than orthogonal polynomials, making the coefficients directly interpretable.
+
+## Interpreting the Polynomial Model {.smaller}
+
+```{r}
+#| label: poly-exercise-tidy-output
+#| echo: false
+#| eval: true
+
+tidy(lm_exercise_poly) |> kable(digits = 4)
+```
+
+\
+
+```{r}
+#| label: poly-exercise-glance-output
+#| echo: false
+#| eval: true
+
+glance(lm_exercise_poly) |> kable(digits = 4)
+```
+
+\
+
+Compare the $R^2$ from this polynomial model with the linear exercise model. If the quadratic term is significant and $R^2$ improves meaningfully, the curvilinear fit is more appropriate.
+
+## Interpreting the Polynomial Model — Code {.smaller}
+
+```{r}
+#| label: poly-exercise-tidy-code
+#| echo: true
+#| eval: false
+
+tidy(lm_exercise_poly) |> kable(digits = 4)
+glance(lm_exercise_poly) |> kable(digits = 4)
+```
+
+## Comparing Linear vs. Polynomial Fit {.smaller}
+
+We can formally compare the linear and polynomial models using `anova()`, which tests whether the additional quadratic term significantly improves the fit:
+
+```{r}
+#| label: anova-compare-output
+#| echo: false
+#| eval: true
+
+anova(lm_exercise, lm_exercise_poly)
+```
+
+## Comparing Linear vs. Polynomial Fit — Code {.smaller}
+
+```{r}
+#| label: anova-compare-code
+#| echo: true
+#| eval: false
+
+# Compare nested models: linear vs. quadratic
+anova(lm_exercise, lm_exercise_poly)
+```
+
+A significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone.
+
+## Visualizing the Polynomial Fit {.smaller}
+
+```{r}
+#| label: ggplot-poly-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+              se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.2) +
+  labs(
+    x = "Exercise (hours/week)",
+    y = "Grip Strength (kg)",
+    title = "Grip Strength vs. Exercise Hours — Polynomial Fit",
+    subtitle = paste0("Quadratic fit: R² = ", round(summary(lm_exercise_poly)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Visualizing the Polynomial Fit — Code {.smaller}
+
+```{r}
+#| label: ggplot-poly-code
+#| echo: true
+#| eval: false
+
+ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+              se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.2) +
+  labs(
+    x = "Exercise (hours/week)",
+    y = "Grip Strength (kg)",
+    title = "Grip Strength vs. Exercise Hours — Polynomial Fit",
+    subtitle = paste0("Quadratic fit: R² = ", 
+                      round(summary(lm_exercise_poly)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Linear vs. Polynomial: Side by Side {.smaller}
+
+```{r}
+#| label: ggplot-compare-fits-output
+#| echo: false
+#| eval: true
+#| fig-width: 12
+#| fig-height: 5
+
+p_lin <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
+  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
+       title = "Linear Fit",
+       subtitle = paste0("R² = ", round(summary(lm_exercise)$r.squared, 3))) +
+  theme_minimal(base_size = 13)
+
+p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+              se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.2) +
+  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
+       title = "Quadratic Fit",
+       subtitle = paste0("R² = ", round(summary(lm_exercise_poly)$r.squared, 3))) +
+  theme_minimal(base_size = 13)
+
+p_lin + p_poly
+```
+
+## Linear vs. Polynomial: Side by Side — Code {.smaller}
+
+```{r}
+#| label: ggplot-compare-fits-code
+#| echo: true
+#| eval: false
+
+p_lin <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+              fill = "firebrick", alpha = 0.2) +
+  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
+       title = "Linear Fit",
+       subtitle = paste0("R² = ", round(summary(lm_exercise)$r.squared, 3))) +
+  theme_minimal(base_size = 13)
+
+p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+              se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.2) +
+  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
+       title = "Quadratic Fit",
+       subtitle = paste0("R² = ", round(summary(lm_exercise_poly)$r.squared, 3))) +
+  theme_minimal(base_size = 13)
+
+p_lin + p_poly
+```
+
+## Residuals: Linear vs. Polynomial Exercise Model {.smaller}
+
+Now we compare the residual plots to see whether the polynomial model resolves the curvature issue:
+
+```{r}
+#| label: resid-compare-output
+#| echo: false
+#| eval: true
+#| fig-width: 12
+#| fig-height: 5
+
+lin_diag <- data.frame(
+  fitted = fitted(lm_exercise),
+  residuals = residuals(lm_exercise),
+  model = "Linear"
+)
+
+poly_diag <- data.frame(
+  fitted = fitted(lm_exercise_poly),
+  residuals = residuals(lm_exercise_poly),
+  model = "Quadratic"
+)
+
+both_diag <- rbind(lin_diag, poly_diag)
+
+ggplot(both_diag, aes(x = fitted, y = residuals)) +
+  geom_point(alpha = 0.5, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkorange", linewidth = 1) +
+  facet_wrap(~ model, scales = "free_x") +
+  labs(
+    x = "Fitted Values (ŷ)",
+    y = "Residuals (y - ŷ)",
+    title = "Residuals vs. Fitted — Linear vs. Quadratic Exercise Model"
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+## Residuals: Linear vs. Polynomial — Code {.smaller}
+
+```{r}
+#| label: resid-compare-code
+#| echo: true
+#| eval: false
+
+lin_diag <- data.frame(
+  fitted = fitted(lm_exercise),
+  residuals = residuals(lm_exercise),
+  model = "Linear"
+)
+
+poly_diag <- data.frame(
+  fitted = fitted(lm_exercise_poly),
+  residuals = residuals(lm_exercise_poly),
+  model = "Quadratic"
+)
+
+both_diag <- rbind(lin_diag, poly_diag)
+
+ggplot(both_diag, aes(x = fitted, y = residuals)) +
+  geom_point(alpha = 0.5, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkorange", linewidth = 1) +
+  facet_wrap(~ model, scales = "free_x") +
+  labs(x = "Fitted Values (ŷ)", y = "Residuals (y - ŷ)",
+       title = "Residuals vs. Fitted — Linear vs. Quadratic Exercise Model") +
+  theme_minimal(base_size = 13)
+```
+
+## Full Diagnostics: Polynomial Exercise Model {.smaller}
+
+```{r}
+#| label: ggfortify-poly-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 7
+
+autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+## Full Diagnostics: Polynomial Exercise Model — Code {.smaller}
+
+```{r}
+#| label: ggfortify-poly-code
+#| echo: true
+#| eval: false
+
+autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+
+## Key Takeaways: Model Diagnostics {.smaller}
+
+::: callout-tip
+## Summary
+
+1.  **Always plot residuals** after fitting a model. The summary statistics ($R^2$, p-values) alone are not sufficient.
+
+2.  A poor residual pattern does not mean your data are bad — it means **your model needs improvement**. Consider transformations, polynomial terms, or different model families.
+
+3.  The BMP2 cream model shows a clear linear relationship with well-behaved residuals.
+
+4.  The exercise model shows that forcing a linear fit on a potentially nonlinear relationship produces misleading residuals. Adding a quadratic term can resolve this.
+
+5.  **Model selection is iterative**: fit, diagnose, improve, repeat.
+:::
+
+------------------------------------------------------------------------
+
+# Model I vs Model II Regression {background-color="#2c3e50"}
+
+## When to Use Model II Regression {.smaller}
+
+**Model I (OLS) Regression:**
+
+-   Assumes predictor X is measured **without error**
+-   Y contains all the measurement error
+-   Standard `lm()` in R
+
+**Model II Regression:**
+
+-   Both X and Y have **measurement error**
+-   Neither variable is controlled/fixed
+-   Use when both variables are random measurements
+
+::: callout-note
+Use Model II when both X and Y are biological measurements (e.g., body size vs organ size, two gene expression levels).
+:::
+
+## Model II Regression Methods {.smaller}
+
+| Method | Abbreviation | Description |
+|:-----------------------|:-----------------------|:-----------------------|
+| **Major Axis** | MA | Minimizes perpendicular distances |
+| **Standard Major Axis** | SMA | Geometric mean regression |
+| **Ranged Major Axis** | RMA | Accounts for range differences |
+| **Ordinary Least Squares** | OLS | Standard regression (for comparison) |
+
+## Types of Linear Regression {.smaller}
+
+Not all regression is created equal! The choice depends on **measurement error**:
+
+![Model I (OLS) vs Model II regression types](images/week05_40_model_types_ols_ma_rma.jpeg){fig-align="center" width="80%"}
+
+## Regression Type Examples {.smaller}
+
+![Comparison of OLS (Type I) and Type II regression methods](images/week05_41_regression_type_examples.jpeg){fig-align="center" width="90%"}
+
+## When to Use Each Model Type {.smaller}
+
+![Guidelines for choosing between OLS, MA, and RMA regression](images/week05_42_when_to_use_model_types.jpeg){fig-align="center" width="90%"}
+
+## Model II Regression with lmodel2 {.smaller}
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(lmodel2)
+
+# Model II regression when both X and Y have measurement error
+# Example: comparing two measurement methods
+mod2 <- lmodel2(Y ~ X, data = mydata, range.y = "relative", range.x = "relative")
+
+# Returns OLS, MA, SMA (RMA), and ranged major axis results
+summary(mod2)
+plot(mod2)
+```
+
+::: callout-note
+Use Model II regression when: - Both variables have measurement error - Neither variable is experimentally controlled - You're comparing methods or studying allometry
+:::
+
+## Model II Regression in R {.smaller}
+
+```{r}
+#| label: model2-regression
+#| eval: false
+#| echo: true
+
+# Install and load lmodel2 package
+# install.packages("lmodel2")
+library(lmodel2)
+
+# Fit Model II regression
+model2_result <- lmodel2(y ~ x, data = mydata)
+
+# View results - provides OLS, MA, and SMA estimates
+model2_result
+
+# Plot with different regression lines
+plot(mydata$x, mydata$y, pch = 19)
+abline(model2_result$regression.results[2, 2],  # MA intercept
+       model2_result$regression.results[2, 3],  # MA slope
+       col = "blue", lty = 2)
+abline(model2_result$regression.results[3, 2],  # SMA intercept
+       model2_result$regression.results[3, 3],  # SMA slope
+       col = "red", lty = 3)
+```
+
+## Choosing Between Model I and II {.smaller}
+
+::: callout-tip
+## Decision Guide
+
+Use **Model I (OLS)** when:
+
+-   X is controlled/manipulated experimentally
+-   X is measured with negligible error
+-   Goal is prediction of Y from X
+
+Use **Model II (SMA/MA)** when:
+
+-   Both variables are random biological measurements
+-   Both have comparable measurement error
+-   Goal is to describe the functional relationship
+:::
