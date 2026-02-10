@@ -29,3 +29,7 @@ title: "Lectures"
 [Lecture_4](Lecture_Folder/Week4.qmd)
 
 [Lecture_5](Lecture_Folder/Week5.qmd)
+
+[Lecture_6](Lecture_Folder/Week6.qmd)
+
+[Lecture_6_new_style](Lecture_Folder/Week6_new_style.qmd)
