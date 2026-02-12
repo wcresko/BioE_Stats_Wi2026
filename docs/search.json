@@ -116,7 +116,7 @@
     "href": "Lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Quarto Templates for Class Notes\nQuarto_Template\nQuarto_Template_in_Text\n\n\nDatasets for in Class Exercises\nStickleback_RNAseq_Data_Set\nKnee_Injury_Data_Set\nGrip_Strength_Data_Set\nCell_Culture_Data\n\n\nLectures\nLecture_1\nLecture_2\nLecture_3\nLecture_4\nLecture_5\nLecture_6\nLecture_6_new_style"
+    "text": "Quarto Templates for Class Notes\nQuarto_Template\nQuarto_Template_in_Text\n\n\nDatasets for in Class Exercises\nStickleback_RNAseq_Data_Set\nKnee_Injury_Data_Set\nGrip_Strength_Data_Set\nCell_Culture_Data\nZebrafish_Development\n\n\nLectures\nLecture_1\nLecture_2\nLecture_3\nLecture_4\nLecture_5\nLecture_6"
   },
   {
     "objectID": "Policies.html",
@@ -2783,7 +2783,7 @@
     "href": "Homework.html",
     "title": "Homeworks",
     "section": "",
-    "text": "Homework Directions\nHomework 1\nHomework 2\n\n\n\nData Sets for Homeworks\nbone_healing.tsv\nflu.tsv\nigf.tsv\nknee_injury.csv\nRNAseq_microbiome.csv"
+    "text": "Homework Directions\nHomework 1\nHomework 2\nHomework 3\n\n\n\nData Sets for Homeworks\nbone_healing.tsv\nflu.tsv\nigf.tsv\nknee_injury.csv\nRNAseq_microbiome.csv"
   },
   {
     "objectID": "about.html",
@@ -4071,7 +4071,7 @@
     "href": "Lecture_Folder/Week6.html",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "",
-    "text": "Eugenics history of statistical analysis\nPolynomial Regression\nType 1 and Type 2 Regression\nAnalysis of Variance (ANOVA)\nSingle factor ANOVA\nPlanned & post hoc comparisons\nAnalysis of Covariance (ANCOVA)\n\n\nReadings: Chapters 25-27\n\n\n\n\n# Install new packages (run once)\ninstall.packages(\"car\")\ninstall.packages(\"lmodel2\")\ninstall.packages(\"patchwork\")\ninstall.packages(\"ggfortify\")\n\n# Load packages\nlibrary(tidyverse)    # Data manipulation & visualization\nlibrary(knitr)        # Formatted tables with kable()\nlibrary(broom)        # Tidy model output (tidy, glance)\nlibrary(car)          # Companion to Applied Regression (Type II/III SS, Levene's test)\nlibrary(pwr)          # Power analysis (from Week 4)\nlibrary(emmeans)      # Estimated marginal means & pairwise comparisons\nlibrary(lmodel2)      # Model II regression\nlibrary(patchwork)    # Combine multiple plots side by side\nlibrary(ggfortify)    # Diagnostic plots for lm objects (autoplot)\n\nBuilt-in datasets used this week:\n\niris (Iris plant data),\nPlantGrowth (plant weight by treatment)\n\nOther datasets used this week:\n\ngrip_strength_data.csv\ncell_culture_expression.csv"
+    "text": "Eugenics history of statistical analysis\nPolynomial Regression\nType 1 and Type 2 Regression\nAnalysis of Variance (ANOVA)\nSingle factor ANOVA\nPlanned & post hoc comparisons\nAnalysis of Covariance (ANCOVA)\n\n\nReadings: Chapters 25-27\n\n\n\n\n# Install new packages (run once)\ninstall.packages(\"car\")\ninstall.packages(\"lmodel2\")\ninstall.packages(\"patchwork\")\ninstall.packages(\"ggfortify\")\n\n# Load packages\nlibrary(tidyverse)    # Data manipulation & visualization\nlibrary(knitr)        # Formatted tables with kable()\nlibrary(broom)        # Tidy model output (tidy, glance)\nlibrary(car)          # Companion to Applied Regression (Type II/III SS, Levene's test)\nlibrary(pwr)          # Power analysis (from Week 4)\nlibrary(emmeans)      # Estimated marginal means & pairwise comparisons\nlibrary(lmodel2)      # Model II regression\nlibrary(patchwork)    # Combine multiple plots side by side\nlibrary(ggfortify)    # Diagnostic plots for lm objects (autoplot)\n\nBuilt-in datasets used this week:\n\niris (Iris plant data),\nPlantGrowth (plant weight by treatment)\n\nOther datasets used this week:\n\ngrip_strength_data.csv\ncell_culture_expression.csv\n\n\n\n\nPull together all of the activities that you performed on your own data that you’ve chosen to analyze and put it into one complete Markdown document that can be rendered.\nIn addition to packaging these previous analyses together, you can also perform any additional visualizations and analyses that make sense. Lastly, add some interpretive writing that explains the nature of your data, the types of analyses you performed at each step, your outcomes or findings from each, and the conclusions that you might draw from each finding.\nThe overall goal is to create something like a report to share with a collaborator or your PI, or should your work be far enough along the skeleton of a manuscript that can submitted for subsequent publication."
   },
   {
     "objectID": "Lecture_Folder/Week6.html#week-6-topics",
@@ -4176,21 +4176,21 @@
     "href": "Lecture_Folder/Week6.html#motivation-for-polynomial-regression",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Motivation for Polynomial Regression",
-    "text": "Motivation for Polynomial Regression\n\nWe now return to the grip strength dataset from last week.\nWhen we fit a simple linear regression of grip strength on exercise hours, the residual plots suggested curvature — the loess smoother deviated from zero in a systematic way.\nThis is a signal that the true relationship between exercise hours and grip strength may be nonlinear.\nA polynomial regression extends the linear model by adding powers of \\(x\\) as additional predictors. For a quadratic (degree 2) polynomial:\n\n\\[y_i = \\beta_0 + \\beta_1 x_i + \\beta_2 x_i^2 + \\epsilon_i\\]\n\nThis is still a linear model in the statistical sense (the parameters \\(\\beta\\) enter linearly), but the relationship between \\(y\\) and \\(x\\) is now curved.\nA quadratic term can capture a U-shape or inverted-U pattern that a straight line would miss."
+    "text": "Motivation for Polynomial Regression\n\nWe now return to the grip strength dataset from last week.\nWhen we fit a simple linear regression of grip strength on exercise hours, the residual plots suggested curvature — the loess smoother deviated from zero in a systematic way.\nThis is a signal that the true relationship between exercise hours and grip strength may be nonlinear.\nA polynomial regression extends the linear model by adding powers of \\(x\\) as additional predictors. For a quadratic (degree 2) polynomial:\n\n\nEquationLaTeX\n\n\n\\[y_i = \\beta_0 + \\beta_1 x_i + \\beta_2 x_i^2 + \\epsilon_i\\]\n\n\ny_i = \\beta_0 + \\beta_1 x_i + \\beta_2 x_i^2 + \\epsilon_i\n\n\n\n\nThis is still a linear model in the statistical sense (the parameters \\(\\beta\\) enter linearly), but the relationship between \\(y\\) and \\(x\\) is now curved.\nA quadratic term can capture a U-shape or inverted-U pattern that a straight line would miss."
   },
   {
     "objectID": "Lecture_Folder/Week6.html#import-the-data-and-fit-linear-model",
     "href": "Lecture_Folder/Week6.html#import-the-data-and-fit-linear-model",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Import the Data and Fit Linear Model",
-    "text": "Import the Data and Fit Linear Model\n\nlibrary(tidyverse)\nlibrary(broom)\nlibrary(knitr)\n\ngrip &lt;- read_csv(\"grip_strength_data.csv\")\n\n# Fit linear model for later comparison\nlm_exercise &lt;- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)"
+    "text": "Import the Data and Fit Linear Model\n\nOutputCode\n\n\n\n\n\n\nlibrary(tidyverse)\nlibrary(broom)\nlibrary(knitr)\n\ngrip &lt;- read_csv(\"grip_strength_data.csv\")\n\n# Fit linear model for later comparison\nlm_exercise &lt;- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#in-r-we-use-polyx-degree-inside-the-lm-formula",
     "href": "Lecture_Folder/Week6.html#in-r-we-use-polyx-degree-inside-the-lm-formula",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "In R, we use poly(x, degree) inside the lm() formula:",
-    "text": "In R, we use poly(x, degree) inside the lm() formula:\n\n\n\nCall:\nlm(formula = grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE), \n    data = grip)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-13.9075  -3.8397   0.2455   4.2645  11.5638 \n\nCoefficients:\n                                        Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)                             31.93561    1.05629  30.234  &lt; 2e-16\npoly(exercise_hrs_week, 2, raw = TRUE)1  2.21049    0.24837   8.900 3.66e-16\npoly(exercise_hrs_week, 2, raw = TRUE)2 -0.11333    0.01235  -9.176  &lt; 2e-16\n                                           \n(Intercept)                             ***\npoly(exercise_hrs_week, 2, raw = TRUE)1 ***\npoly(exercise_hrs_week, 2, raw = TRUE)2 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 5.34 on 197 degrees of freedom\nMultiple R-squared:  0.2995,    Adjusted R-squared:  0.2924 \nF-statistic: 42.11 on 2 and 197 DF,  p-value: 5.921e-16"
+    "text": "In R, we use poly(x, degree) inside the lm() formula:\n\nOutputCode\n\n\n\n\n\nCall:\nlm(formula = grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE), \n    data = grip)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-13.9075  -3.8397   0.2455   4.2645  11.5638 \n\nCoefficients:\n                                        Estimate Std. Error t value Pr(&gt;|t|)\n(Intercept)                             31.93561    1.05629  30.234  &lt; 2e-16\npoly(exercise_hrs_week, 2, raw = TRUE)1  2.21049    0.24837   8.900 3.66e-16\npoly(exercise_hrs_week, 2, raw = TRUE)2 -0.11333    0.01235  -9.176  &lt; 2e-16\n                                           \n(Intercept)                             ***\npoly(exercise_hrs_week, 2, raw = TRUE)1 ***\npoly(exercise_hrs_week, 2, raw = TRUE)2 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 5.34 on 197 degrees of freedom\nMultiple R-squared:  0.2995,    Adjusted R-squared:  0.2924 \nF-statistic: 42.11 on 2 and 197 DF,  p-value: 5.921e-16\n\n\n\n\n\n# Fit linear model for comparison\nlm_exercise &lt;- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)\n\n# Fit quadratic polynomial: grip_strength ~ exercise + exercise^2\nlm_exercise_poly &lt;- lm(grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE), \n                        data = grip)\nsummary(lm_exercise_poly)\n\nThe raw = TRUE argument means R uses the raw polynomial terms (\\(x\\) and \\(x^2\\)) rather than orthogonal polynomials, making the coefficients directly interpretable."
   },
   {
     "objectID": "Lecture_Folder/Week6.html#fitting-a-polynomial-model-code",
@@ -4204,7 +4204,7 @@
     "href": "Lecture_Folder/Week6.html#interpreting-the-polynomial-model",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Interpreting the Polynomial Model",
-    "text": "Interpreting the Polynomial Model\n\nThe tidy() output shows three coefficients: the intercept (\\(\\beta_0\\)), the linear term (\\(\\beta_1\\)), and the quadratic term (\\(\\beta_2\\)).\nIf the p-value for the quadratic term is significant, it confirms that the curved relationship is real and not just noise.\n\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n31.9356\n1.0563\n30.2338\n0\n\n\npoly(exercise_hrs_week, 2, raw = TRUE)1\n2.2105\n0.2484\n8.9000\n0\n\n\npoly(exercise_hrs_week, 2, raw = TRUE)2\n-0.1133\n0.0123\n-9.1764\n0\n\n\n\n\n\n\n\n\n\nThe glance() output gives us the overall model fit. Compare this \\(R^2\\) with the linear model — does adding the quadratic term meaningfully improve the fit?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nr.squared\nadj.r.squared\nsigma\nstatistic\np.value\ndf\nlogLik\nAIC\nBIC\ndeviance\ndf.residual\nnobs\n\n\n\n\n0.2995\n0.2924\n5.3401\n42.1149\n0\n2\n-617.3264\n1242.653\n1255.846\n5617.848\n197\n200"
+    "text": "Interpreting the Polynomial Model\n\nThe tidy() output shows three coefficients: the intercept (\\(\\beta_0\\)), the linear term (\\(\\beta_1\\)), and the quadratic term (\\(\\beta_2\\)).\nIf the p-value for the quadratic term is significant, it confirms that the curved relationship is real and not just noise.\n\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n31.9356\n1.0563\n30.2338\n0\n\n\npoly(exercise_hrs_week, 2, raw = TRUE)1\n2.2105\n0.2484\n8.9000\n0\n\n\npoly(exercise_hrs_week, 2, raw = TRUE)2\n-0.1133\n0.0123\n-9.1764\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nr.squared\nadj.r.squared\nsigma\nstatistic\np.value\ndf\nlogLik\nAIC\nBIC\ndeviance\ndf.residual\nnobs\n\n\n\n\n0.2995\n0.2924\n5.3401\n42.1149\n0\n2\n-617.3264\n1242.653\n1255.846\n5617.848\n197\n200\n\n\n\n\n\n\n\n\ntidy(lm_exercise_poly) |&gt; kable(digits = 4)\nglance(lm_exercise_poly) |&gt; kable(digits = 4)\n\n\n\n\n\n\n\n\nThe glance() output gives us the overall model fit. Compare this \\(R^2\\) with the linear model — does adding the quadratic term meaningfully improve the fit?"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#interpreting-the-polynomial-model-code",
@@ -4218,7 +4218,7 @@
     "href": "Lecture_Folder/Week6.html#comparing-linear-vs.-polynomial-fit",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Comparing Linear vs. Polynomial Fit",
-    "text": "Comparing Linear vs. Polynomial Fit\n\nWe can formally compare the linear and polynomial models using anova(), which performs an F-test of nested models.\nBecause the linear model is a special case of the polynomial model (with \\(\\beta_2 = 0\\)), we can test whether the additional quadratic term significantly improves the fit.\n\n\n\nAnalysis of Variance Table\n\nModel 1: grip_strength_kg ~ exercise_hrs_week\nModel 2: grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE)\n  Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    \n1    198 8019.2                                  \n2    197 5617.8  1    2401.3 84.207 &lt; 2.2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\nA significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone.\nThis is conceptually similar to the model comparison approach we will use in ANOVA later today."
+    "text": "Comparing Linear vs. Polynomial Fit\n\nWe can formally compare the linear and polynomial models using anova(), which performs an F-test of nested models.\nBecause the linear model is a special case of the polynomial model (with \\(\\beta_2 = 0\\)), we can test whether the additional quadratic term significantly improves the fit.\n\n\nOutputCode\n\n\n\n\nAnalysis of Variance Table\n\nModel 1: grip_strength_kg ~ exercise_hrs_week\nModel 2: grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE)\n  Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    \n1    198 8019.2                                  \n2    197 5617.8  1    2401.3 84.207 &lt; 2.2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\n\n\n# Compare nested models: linear vs. quadratic\nanova(lm_exercise, lm_exercise_poly)\n\n\n\n\n\nA significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone.\nThis is conceptually similar to the model comparison approach we will use in ANOVA later today."
   },
   {
     "objectID": "Lecture_Folder/Week6.html#comparing-linear-vs.-polynomial-fit-code",
@@ -4232,7 +4232,7 @@
     "href": "Lecture_Folder/Week6.html#visualizing-the-polynomial-fit",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Visualizing the Polynomial Fit",
-    "text": "Visualizing the Polynomial Fit"
+    "text": "Visualizing the Polynomial Fit\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", formula = y ~ poly(x, 2), \n              se = TRUE, color = \"darkgreen\", fill = \"darkgreen\", alpha = 0.2) +\n  labs(\n    x = \"Exercise (hours/week)\",\n    y = \"Grip Strength (kg)\",\n    title = \"Grip Strength vs. Exercise Hours — Polynomial Fit\",\n    subtitle = paste0(\"Quadratic fit: R² = \", \n                      round(summary(lm_exercise_poly)$r.squared, 3))\n  ) +\n  theme_minimal(base_size = 14)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#visualizing-the-polynomial-fit-code",
@@ -4246,7 +4246,7 @@
     "href": "Lecture_Folder/Week6.html#linear-vs.-polynomial-side-by-side",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Linear vs. Polynomial: Side by Side",
-    "text": "Linear vs. Polynomial: Side by Side"
+    "text": "Linear vs. Polynomial: Side by Side\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(patchwork)\n\np_lin &lt;- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", se = TRUE, color = \"firebrick\", \n              fill = \"firebrick\", alpha = 0.2) +\n  labs(x = \"Exercise (hours/week)\", y = \"Grip Strength (kg)\",\n       title = \"Linear Fit\",\n       subtitle = paste0(\"R² = \", round(summary(lm_exercise)$r.squared, 3))) +\n  theme_minimal(base_size = 13)\n\np_poly &lt;- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +\n  geom_point(color = \"darkorange\", alpha = 0.6, size = 2) +\n  geom_smooth(method = \"lm\", formula = y ~ poly(x, 2), \n              se = TRUE, color = \"darkgreen\", fill = \"darkgreen\", alpha = 0.2) +\n  labs(x = \"Exercise (hours/week)\", y = \"Grip Strength (kg)\",\n       title = \"Quadratic Fit\",\n       subtitle = paste0(\"R² = \", round(summary(lm_exercise_poly)$r.squared, 3))) +\n  theme_minimal(base_size = 13)\n\np_lin + p_poly"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#linear-vs.-polynomial-side-by-side-code",
@@ -4260,7 +4260,7 @@
     "href": "Lecture_Folder/Week6.html#residuals-linear-vs.-polynomial-exercise-model",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Residuals: Linear vs. Polynomial Exercise Model",
-    "text": "Residuals: Linear vs. Polynomial Exercise Model\nNow we compare the residual plots to see whether the polynomial model resolves the curvature issue:"
+    "text": "Residuals: Linear vs. Polynomial Exercise Model\nNow we compare the residual plots to see whether the polynomial model resolves the curvature issue:\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlin_diag &lt;- data.frame(\n  fitted = fitted(lm_exercise),\n  residuals = residuals(lm_exercise),\n  model = \"Linear\"\n)\n\npoly_diag &lt;- data.frame(\n  fitted = fitted(lm_exercise_poly),\n  residuals = residuals(lm_exercise_poly),\n  model = \"Quadratic\"\n)\n\nboth_diag &lt;- rbind(lin_diag, poly_diag)\n\nggplot(both_diag, aes(x = fitted, y = residuals)) +\n  geom_point(alpha = 0.5, size = 2) +\n  geom_hline(yintercept = 0, linetype = \"dashed\", color = \"red\", linewidth = 0.8) +\n  geom_smooth(method = \"loess\", se = FALSE, color = \"darkorange\", linewidth = 1) +\n  facet_wrap(~ model, scales = \"free_x\") +\n  labs(x = \"Fitted Values (ŷ)\", y = \"Residuals (y - ŷ)\",\n       title = \"Residuals vs. Fitted — Linear vs. Quadratic Exercise Model\") +\n  theme_minimal(base_size = 13)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#residuals-linear-vs.-polynomial-code",
@@ -4274,7 +4274,7 @@
     "href": "Lecture_Folder/Week6.html#full-diagnostics",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Full Diagnostics:",
-    "text": "Full Diagnostics:\n\nThe autoplot() function from ggfortify produces four standard diagnostic plots: Residuals vs. Fitted, Normal Q-Q, Scale-Location, and Cook’s Distance.\nTogether these help assess whether the model assumptions of linearity, normality, and constant variance are met."
+    "text": "Full Diagnostics:\n\nThe autoplot() function from ggfortify produces four standard diagnostic plots: Residuals vs. Fitted, Normal Q-Q, Scale-Location, and Cook’s Distance.\nTogether these help assess whether the model assumptions of linearity, normality, and constant variance are met.\n\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nautoplot(lm_exercise_poly, which = 1:4, ncol = 2) +\n  theme_minimal(base_size = 12)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#full-diagnostics-code",
@@ -4316,14 +4316,14 @@
     "href": "Lecture_Folder/Week6.html#example-bmp4-vs.-sox9-expression",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Example: BMP4 vs. SOX9 Expression",
-    "text": "Example: BMP4 vs. SOX9 Expression\n\nTo illustrate the difference between Model I and Model II regression, we will use the gene expression data from the cell culture experiment we analyzed last week.\nRecall that this dataset contains BMP4 and SOX9 expression from 80 stem cell cultures measured by qPCR.\nBecause both measurements come from the same assay and neither variable was experimentally controlled, both have comparable measurement error — making this a natural candidate for Model II regression.\nBut first, we need to deal with the outliers we identified last week.\n\n\ncell_raw &lt;- read_csv(\"cell_culture_expression.csv\")"
+    "text": "Example: BMP4 vs. SOX9 Expression\n\nTo illustrate the difference between Model I and Model II regression, we will use the gene expression data from the cell culture experiment we analyzed last week.\nRecall that this dataset contains BMP4 and SOX9 expression from 80 stem cell cultures measured by qPCR.\nBecause both measurements come from the same assay and neither variable was experimentally controlled, both have comparable measurement error — making this a natural candidate for Model II regression.\nBut first, we need to deal with the outliers we identified last week.\n\n\nOutputCode\n\n\n\n\n\n\ncell_raw &lt;- read_csv(\"cell_culture_expression.csv\")"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#recall-outliers-in-the-cell-culture-data",
     "href": "Lecture_Folder/Week6.html#recall-outliers-in-the-cell-culture-data",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Recall: Outliers in the Cell Culture Data",
-    "text": "Recall: Outliers in the Cell Culture Data\n\nLast week we used Cook’s distance and diagnostic plots to identify problematic observations in this dataset.\nLet’s quickly revisit the raw data to remind ourselves what we found."
+    "text": "Recall: Outliers in the Cell Culture Data\n\nLast week we used Cook’s distance and diagnostic plots to identify problematic observations in this dataset.\nLet’s quickly revisit the raw data to remind ourselves what we found.\n\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(cell_raw, aes(x = bmp4_expression, y = sox9_expression)) +\n  geom_point(color = \"steelblue\", alpha = 0.7, size = 2.5) +\n  geom_text(aes(label = sample_id), size = 2.2, nudge_y = 0.5, color = \"gray40\",\n            check_overlap = TRUE) +\n  labs(x = \"BMP4 Expression\", y = \"SOX9 Expression\",\n       title = \"BMP4 vs. SOX9 Expression — Raw Data with Sample IDs\") +\n  theme_minimal(base_size = 14)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#recall-outliers-in-the-cell-culture-data-code",
@@ -4337,7 +4337,7 @@
     "href": "Lecture_Folder/Week6.html#remove-outliers-identified-last-week",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Remove Outliers Identified Last Week",
-    "text": "Remove Outliers Identified Last Week\nFrom our Week 5 analysis, we identified four problematic observations using Cook’s distance:\n\nSC012 and SC055: BMP4 values of ~100–165 when the bulk of the data is 0–50 — likely data entry errors (misplaced decimal)\nSC037: SOX9 value of ~28 when the rest is 0.5–8 — another likely data entry error\nSC060: High leverage and high residual — a high influence point pulling the regression line\n\n\n\nOriginal observations: 80 \n\n\nRemoved: 4 observations: SC012, SC037, SC055, SC060 \n\n\nRemaining observations: 76"
+    "text": "Remove Outliers Identified Last Week\nFrom our Week 5 analysis, we identified four problematic observations using Cook’s distance:\n\nSC012 and SC055: BMP4 values of ~100–165 when the bulk of the data is 0–50 — likely data entry errors (misplaced decimal)\nSC037: SOX9 value of ~28 when the rest is 0.5–8 — another likely data entry error\nSC060: High leverage and high residual — a high influence point pulling the regression line\n\n\nOutputCode\n\n\n\n\nOriginal observations: 80 \n\n\nRemoved: 4 observations: SC012, SC037, SC055, SC060 \n\n\nRemaining observations: 76 \n\n\n\n\n\n# Remove data entry errors and the high influence point identified in Week 5\nremove_ids &lt;- c(\"SC012\", \"SC037\", \"SC055\", \"SC060\")\n\ncell &lt;- cell_raw |&gt;\n  filter(!sample_id %in% remove_ids)\n\ncat(\"Original observations:\", nrow(cell_raw), \"\\n\")\ncat(\"Removed:\", length(remove_ids), \"observations:\", paste(remove_ids, collapse = \", \"), \"\\n\")\ncat(\"Remaining observations:\", nrow(cell), \"\\n\")\n\n\n\n\n\n\n\nImportant\n\n\n\nAlways clean your data before fitting models. Outliers — especially data entry errors — can distort both OLS and Model II regression estimates. We documented our reasoning for these removals last week."
   },
   {
     "objectID": "Lecture_Folder/Week6.html#remove-outliers-code",
@@ -4351,7 +4351,7 @@
     "href": "Lecture_Folder/Week6.html#visualizing-the-cleaned-data",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Visualizing the Cleaned Data",
-    "text": "Visualizing the Cleaned Data\nWith the outliers removed, the relationship between BMP4 and SOX9 expression is much clearer. Now we can meaningfully compare Model I and Model II regression approaches."
+    "text": "Visualizing the Cleaned Data\nWith the outliers removed, the relationship between BMP4 and SOX9 expression is much clearer. Now we can meaningfully compare Model I and Model II regression approaches.\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(cell, aes(x = bmp4_expression, y = sox9_expression)) +\n  geom_point(color = \"steelblue\", alpha = 0.7, size = 2) +\n  labs(x = \"BMP4 Expression\", y = \"SOX9 Expression\",\n       title = \"BMP4 vs. SOX9 Expression — Cleaned Data\") +\n  theme_minimal(base_size = 14)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#visualizing-the-cleaned-data-code",
@@ -4365,7 +4365,7 @@
     "href": "Lecture_Folder/Week6.html#model-i-ols-fit-for-comparison",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Model I (OLS) Fit for Comparison",
-    "text": "Model I (OLS) Fit for Comparison\n\nFirst, let’s fit the standard OLS regression on the cleaned data.\nRemember that this approach assumes all measurement error is in Y (SOX9) and none in X (BMP4) — an assumption we know is incorrect here.\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n0.1698\n0.2139\n0.7937\n0.4299\n\n\nbmp4_expression\n0.3920\n0.0181\n21.6034\n0.0000\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nr.squared\nadj.r.squared\nsigma\nstatistic\np.value\ndf\nlogLik\nAIC\nBIC\ndeviance\ndf.residual\nnobs\n\n\n\n\n0.8631\n0.8613\n0.9654\n466.707\n0\n1\n-104.1533\n214.3065\n221.2987\n68.9742\n74\n76"
+    "text": "Model I (OLS) Fit for Comparison\n\nFirst, let’s fit the standard OLS regression on the cleaned data.\nRemember that this approach assumes all measurement error is in Y (SOX9) and none in X (BMP4) — an assumption we know is incorrect here.\n\n\nOutputCode\n\n\n\n\n\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n0.1698\n0.2139\n0.7937\n0.4299\n\n\nbmp4_expression\n0.3920\n0.0181\n21.6034\n0.0000\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nr.squared\nadj.r.squared\nsigma\nstatistic\np.value\ndf\nlogLik\nAIC\nBIC\ndeviance\ndf.residual\nnobs\n\n\n\n\n0.8631\n0.8613\n0.9654\n466.707\n0\n1\n-104.1533\n214.3065\n221.2987\n68.9742\n74\n76\n\n\n\n\n\n\n\n\nlm_cell &lt;- lm(sox9_expression ~ bmp4_expression, data = cell)\ntidy(lm_cell) |&gt; kable(digits = 4)\nglance(lm_cell) |&gt; kable(digits = 4)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#model-i-ols-fit-code",
@@ -4379,7 +4379,7 @@
     "href": "Lecture_Folder/Week6.html#model-ii-regression-with-lmodel2",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Model II Regression with lmodel2",
-    "text": "Model II Regression with lmodel2\nNow let’s fit the Model II regression using the lmodel2 package. This function returns results for OLS, MA, SMA, and RMA all at once, so we can directly compare how each method estimates the slope.\n\n\n\nModel II regression\n\nCall: lmodel2(formula = sox9_expression ~ bmp4_expression, data = cell,\nrange.y = \"relative\", range.x = \"relative\", nperm = 999)\n\nn = 76   r = 0.9290544   r-square = 0.8631421 \nParametric P-values:   2-tailed = 1.093694e-33    1-tailed = 5.468468e-34 \nAngle between the two OLS regression lines = 3.020447 degrees\n\nPermutation tests of OLS, MA, RMA slopes: 1-tailed, tail corresponding to sign\nA permutation test of r is equivalent to a permutation test of the OLS slope\nP-perm for SMA = NA because the SMA slope cannot be tested\n\nRegression results\n  Method   Intercept     Slope Angle (degrees) P-perm (1-tailed)\n1    OLS  0.16980581 0.3920434        21.40733             0.001\n2     MA  0.08472485 0.4004786        21.82505             0.001\n3    SMA -0.13215515 0.4219810        22.87882                NA\n4    RMA -0.11776471 0.4205543        22.80940             0.001\n\nConfidence intervals\n  Method 2.5%-Intercept 97.5%-Intercept 2.5%-Slope 97.5%-Slope\n1    OLS     -0.2564666       0.5960782  0.3558841   0.4282026\n2     MA     -0.2928409       0.4527806  0.3639880   0.4379121\n3    SMA     -0.5124665       0.2169613  0.3873682   0.4596867\n4    RMA     -0.5274273       0.2573957  0.3833593   0.4611700\n\nEigenvalues: 43.66211 0.7948586 \n\nH statistic used for computing C.I. of MA: 0.001013275"
+    "text": "Model II Regression with lmodel2\nNow let’s fit the Model II regression using the lmodel2 package. This function returns results for OLS, MA, SMA, and RMA all at once, so we can directly compare how each method estimates the slope.\n\nOutputCode\n\n\n\n\n\nModel II regression\n\nCall: lmodel2(formula = sox9_expression ~ bmp4_expression, data = cell,\nrange.y = \"relative\", range.x = \"relative\", nperm = 999)\n\nn = 76   r = 0.9290544   r-square = 0.8631421 \nParametric P-values:   2-tailed = 1.093694e-33    1-tailed = 5.468468e-34 \nAngle between the two OLS regression lines = 3.020447 degrees\n\nPermutation tests of OLS, MA, RMA slopes: 1-tailed, tail corresponding to sign\nA permutation test of r is equivalent to a permutation test of the OLS slope\nP-perm for SMA = NA because the SMA slope cannot be tested\n\nRegression results\n  Method   Intercept     Slope Angle (degrees) P-perm (1-tailed)\n1    OLS  0.16980581 0.3920434        21.40733             0.001\n2     MA  0.08472485 0.4004786        21.82505             0.001\n3    SMA -0.13215515 0.4219810        22.87882                NA\n4    RMA -0.11776471 0.4205543        22.80940             0.001\n\nConfidence intervals\n  Method 2.5%-Intercept 97.5%-Intercept 2.5%-Slope 97.5%-Slope\n1    OLS     -0.2564666       0.5960782  0.3558841   0.4282026\n2     MA     -0.2928409       0.4527806  0.3639880   0.4379121\n3    SMA     -0.5124665       0.2169613  0.3873682   0.4596867\n4    RMA     -0.5274273       0.2573957  0.3833593   0.4611700\n\nEigenvalues: 43.66211 0.7948586 \n\nH statistic used for computing C.I. of MA: 0.001013275 \n\n\n\n\n\nlibrary(lmodel2)\n\n# Model II regression: both variables have measurement error\nmod2_cell &lt;- lmodel2(sox9_expression ~ bmp4_expression, data = cell, \n                      range.y = \"relative\", range.x = \"relative\", nperm = 999)\nmod2_cell\n\n\nrange.y = \"relative\" and range.x = \"relative\" tell lmodel2 to use the relative ranges of X and Y when computing the RMA regression\nnperm = 999 runs a permutation test for the slope"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#model-ii-regression-code",
@@ -4393,7 +4393,7 @@
     "href": "Lecture_Folder/Week6.html#comparing-ols-vs.-model-ii",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Comparing OLS vs. Model II",
-    "text": "Comparing OLS vs. Model II\n\nThe plot below overlays the OLS (Model I) line with the Major Axis and SMA (Model II) lines.\nNotice how the Model II slopes are steeper than OLS — this is expected because OLS underestimates the true slope when X has measurement error."
+    "text": "Comparing OLS vs. Model II\n\nThe plot below overlays the OLS (Model I) line with the Major Axis and SMA (Model II) lines.\nNotice how the Model II slopes are steeper than OLS — this is expected because OLS underestimates the true slope when X has measurement error.\n\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Extract regression coefficients from lmodel2 results\nreg_results &lt;- mod2_cell$regression.results\n\nggplot(cell, aes(x = bmp4_expression, y = sox9_expression)) +\n  geom_point(color = \"gray40\", alpha = 0.6, size = 2) +\n  geom_abline(intercept = reg_results[1, 2], slope = reg_results[1, 3],\n              color = \"firebrick\", linewidth = 1, linetype = \"solid\") +\n  geom_abline(intercept = reg_results[2, 2], slope = reg_results[2, 3],\n              color = \"blue\", linewidth = 1, linetype = \"dashed\") +\n  geom_abline(intercept = reg_results[3, 2], slope = reg_results[3, 3],\n              color = \"darkgreen\", linewidth = 1, linetype = \"dotdash\") +\n  labs(x = \"BMP4 Expression\", y = \"SOX9 Expression\",\n       title = \"Comparing Regression Methods: OLS vs. Model II (Cleaned Data)\",\n       subtitle = \"Red = OLS, Blue = Major Axis, Green = SMA\") +\n  theme_minimal(base_size = 14)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#comparing-regression-lines-code",
@@ -4435,14 +4435,14 @@
     "href": "Lecture_Folder/Week6.html#anova-vs.-regression-equations",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "ANOVA vs. Regression — Equations",
-    "text": "ANOVA vs. Regression — Equations\nRegression (continuous predictor):\n\\[y_i = \\beta_0 + \\beta_1 x_i + \\beta_2 x_i^2 + \\varepsilon_i\\]\nANOVA (categorical predictor with \\(p\\) groups):\n\\[y_{ij} = \\mu + \\alpha_i x_{ij} + \\varepsilon_{ij}\\]\nOr equivalently, with separate indicator variables for each group:\n\\[y_{ij} = \\mu + \\alpha_1 x_{1j} + \\alpha_2 x_{2j} + \\alpha_3 x_{3j} + \\varepsilon_{ij}\\]\n\n\\(\\mu\\) is the overall mean (analogous to the intercept)\n\\(\\alpha_i\\) is the effect of treatment group \\(i\\) (analogous to the slope)\n\\(\\varepsilon_{ij}\\) is the residual error for observation \\(j\\) in group \\(i\\)"
+    "text": "ANOVA vs. Regression — Equations\nRegression (continuous predictor):\n\nEquationLaTeX\n\n\n\\[y_i = \\beta_0 + \\beta_1 x_i + \\beta_2 x_i^2 + \\varepsilon_i\\]\n\n\ny_i = \\beta_0 + \\beta_1 x_i + \\beta_2 x_i^2 + \\varepsilon_i\n\n\n\nANOVA (categorical predictor with \\(p\\) groups):\n\nEquationLaTeX\n\n\n\\[y_{ij} = \\mu + \\alpha_i x_{ij} + \\varepsilon_{ij}\\]\n\n\ny_{ij} = \\mu + \\alpha_i x_{ij} + \\varepsilon_{ij}\n\n\n\nOr equivalently, with separate indicator variables for each group:\n\nEquationLaTeX\n\n\n\\[y_{ij} = \\mu + \\alpha_1 x_{1j} + \\alpha_2 x_{2j} + \\alpha_3 x_{3j} + \\varepsilon_{ij}\\]\n\n\ny_{ij} = \\mu + \\alpha_1 x_{1j} + \\alpha_2 x_{2j} + \\alpha_3 x_{3j} + \\varepsilon_{ij}\n\n\n\n\n\\(\\mu\\) is the overall mean (analogous to the intercept)\n\\(\\alpha_i\\) is the effect of treatment group \\(i\\) (analogous to the slope)\n\\(\\varepsilon_{ij}\\) is the residual error for observation \\(j\\) in group \\(i\\)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#full-vs.-reduced-model-equations",
     "href": "Lecture_Folder/Week6.html#full-vs.-reduced-model-equations",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Full vs. Reduced Model — Equations",
-    "text": "Full vs. Reduced Model — Equations\nANOVA works by comparing two models:\nFull model (\\(H_A\\)) — each group has its own mean:\n\\[y_{ij} = \\mu + \\alpha_i + \\varepsilon_{ij}\\]\n\n\\(\\mu\\) = overall mean (similar to intercept)\n\\(\\alpha_i\\) = effect of treatment \\(i\\) (similar to slope)\n\nReduced model (\\(H_0\\)) — all groups share the same mean:\n\\[y_{ij} = \\mu + \\varepsilon_{ij}\\]\n\nIf the full model fits significantly better than the reduced model, we reject \\(H_0\\) and conclude that at least one group differs"
+    "text": "Full vs. Reduced Model — Equations\nANOVA works by comparing two models:\nFull model (\\(H_A\\)) — each group has its own mean:\n\nEquationLaTeX\n\n\n\\[y_{ij} = \\mu + \\alpha_i + \\varepsilon_{ij}\\]\n\n\ny_{ij} = \\mu + \\alpha_i + \\varepsilon_{ij}\n\n\n\n\n\\(\\mu\\) = overall mean (similar to intercept)\n\\(\\alpha_i\\) = effect of treatment \\(i\\) (similar to slope)\n\nReduced model (\\(H_0\\)) — all groups share the same mean:\n\nEquationLaTeX\n\n\n\\[y_{ij} = \\mu + \\varepsilon_{ij}\\]\n\n\ny_{ij} = \\mu + \\varepsilon_{ij}\n\n\n\n\nIf the full model fits significantly better than the reduced model, we reject \\(H_0\\) and conclude that at least one group differs"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#anova-table",
@@ -4456,7 +4456,7 @@
     "href": "Lecture_Folder/Week6.html#anova-table-equations",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "ANOVA Table — Equations",
-    "text": "ANOVA Table — Equations\n\n\n\n\n\n\n\n\n\nSource\nSS\ndf\nMS\n\n\n\n\nBetween groups\n\\(\\displaystyle\\sum_{i=1}^{p} n_i(\\bar{y}_i - \\bar{y})^2\\)\n\\(p - 1\\)\n\\(\\dfrac{SS_{between}}{p - 1}\\)\n\n\nResidual (within)\n\\(\\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{n_i} (y_{ij} - \\bar{y}_i)^2\\)\n\\(\\displaystyle\\sum_{i=1}^{p} n_i - p\\)\n\\(\\dfrac{SS_{within}}{\\sum n_i - p}\\)\n\n\nTotal\n\\(\\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{n_i} (y_{ij} - \\bar{y})^2\\)\n\\(\\displaystyle\\sum_{i=1}^{p} n_i - 1\\)\n\n\n\n\n\\[F = \\frac{MS_{groups}}{MS_{residuals}}\\]\n\n\\(MS_{groups}\\) = variance explained by groupings\n\\(MS_{residuals}\\) = variance unexplained by groupings\nLarge F → groups explain much more variance than random noise"
+    "text": "ANOVA Table — Equations\n\n\n\n\n\n\n\n\n\nSource\nSS\ndf\nMS\n\n\n\n\nBetween groups\n\\(\\displaystyle\\sum_{i=1}^{p} n_i(\\bar{y}_i - \\bar{y})^2\\)\n\\(p - 1\\)\n\\(\\dfrac{SS_{between}}{p - 1}\\)\n\n\nResidual (within)\n\\(\\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{n_i} (y_{ij} - \\bar{y}_i)^2\\)\n\\(\\displaystyle\\sum_{i=1}^{p} n_i - p\\)\n\\(\\dfrac{SS_{within}}{\\sum n_i - p}\\)\n\n\nTotal\n\\(\\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{n_i} (y_{ij} - \\bar{y})^2\\)\n\\(\\displaystyle\\sum_{i=1}^{p} n_i - 1\\)\n\n\n\n\n\nEquationLaTeX\n\n\n\\[F = \\frac{MS_{groups}}{MS_{residuals}}\\]\n\n\nF = \\frac{MS_{groups}}{MS_{residuals}}\n\n\n\n\n\\(MS_{groups}\\) = variance explained by groupings\n\\(MS_{residuals}\\) = variance unexplained by groupings\nLarge F → groups explain much more variance than random noise"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#variance-partitioning-key-concepts",
@@ -4477,7 +4477,7 @@
     "href": "Lecture_Folder/Week6.html#an-example---irises-1",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "An Example - Irises",
-    "text": "An Example - Irises"
+    "text": "An Example - Irises\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nstripchart(iris$Sepal.Length ~ iris$Species, vertical=T, method=\"jitter\",\n           ylab=\"sepal length\", xlab=\"species\", pch=19, cex=0.5)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#iris-stripchart-code",
@@ -4491,7 +4491,7 @@
     "href": "Lecture_Folder/Week6.html#anova-hypotheses",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "ANOVA Hypotheses",
-    "text": "ANOVA Hypotheses\n\\[H_0: \\mu_1 = \\mu_2 = \\mu_3 = ... = \\mu_k\\]\n\\[H_A: \\text{At least one group mean differs}\\]\n\nNote that \\(H_A\\) does not say “all means differ” — it only says at least one is different\nA significant ANOVA result tells us the groups are not all the same, but it does not tell us which groups differ — we need post-hoc tests for that"
+    "text": "ANOVA Hypotheses\n\nEquationLaTeX\n\n\n\\[H_0: \\mu_1 = \\mu_2 = \\mu_3 = ... = \\mu_k\\]\n\n\nH_0: \\mu_1 = \\mu_2 = \\mu_3 = ... = \\mu_k\n\n\n\n\nEquationLaTeX\n\n\n\\[H_A: \\text{At least one group mean differs}\\]\n\n\nH_A: \\text{At least one group mean differs}\n\n\n\n\nNote that \\(H_A\\) does not say “all means differ” — it only says at least one is different\nA significant ANOVA result tells us the groups are not all the same, but it does not tell us which groups differ — we need post-hoc tests for that"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#assumptions-of-anova",
@@ -4505,7 +4505,7 @@
     "href": "Lecture_Folder/Week6.html#checking-assumptions",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Checking Assumptions",
-    "text": "Checking Assumptions"
+    "text": "Checking Assumptions\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nset &lt;- subset(iris, Species ==\"setosa\")\nvers &lt;- subset(iris, Species ==\"versicolor\")\nvir &lt;- subset(iris, Species==\"virginica\")\n\npar(mfrow = c(1, 3))\nhist(set$Sepal.Length, main = \"I. setosa\")\nhist(vers$Sepal.Length, main = \"I. versicolor\")\nhist(vir$Sepal.Length, main=\"I. virginica\")"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#checking-assumptions-code",
@@ -4519,21 +4519,21 @@
     "href": "Lecture_Folder/Week6.html#testing-homogeneity-of-variance",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Testing Homogeneity of Variance",
-    "text": "Testing Homogeneity of Variance\n\nLevene’s test formally tests whether group variances are equal\nA non-significant result (p &gt; 0.05) means we can proceed with standard ANOVA\n\n\n# Levene's test from the car package\ncar::leveneTest(Sepal.Length ~ Species, data = iris)\n\nLevene's Test for Homogeneity of Variance (center = median)\n       Df F value   Pr(&gt;F)   \ngroup   2  6.3527 0.002259 **\n      147                    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\nHere, p = 0.0021 suggests unequal variances — but ANOVA is robust to this with equal sample sizes (n = 50 per species), so we proceed"
+    "text": "Testing Homogeneity of Variance\n\nLevene’s test formally tests whether group variances are equal\nA non-significant result (p &gt; 0.05) means we can proceed with standard ANOVA\n\n\nOutputCode\n\n\n\n\nLevene's Test for Homogeneity of Variance (center = median)\n       Df F value   Pr(&gt;F)   \ngroup   2  6.3527 0.002259 **\n      147                    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\n\n\n# Levene's test from the car package\ncar::leveneTest(Sepal.Length ~ Species, data = iris)\n\n\n\n\n\nHere, p = 0.0021 suggests unequal variances — but ANOVA is robust to this with equal sample sizes (n = 50 per species), so we proceed"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#anova-in-r",
     "href": "Lecture_Folder/Week6.html#anova-in-r",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "ANOVA in R",
-    "text": "ANOVA in R\n\nR provides two equivalent ways to run a one-way ANOVA: aov() and lm() followed by anova()\nThe aov() function is needed for TukeyHSD(), while lm() works better with emmeans and broom\n\n\niris_aov &lt;- aov(Sepal.Length ~ Species, iris)\nanova(iris_aov)\n\nAnalysis of Variance Table\n\nResponse: Sepal.Length\n           Df Sum Sq Mean Sq F value    Pr(&gt;F)    \nSpecies     2 63.212  31.606  119.26 &lt; 2.2e-16 ***\nResiduals 147 38.956   0.265                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nWould report as: \\(F_{2, 147} = 119.26; p &lt; 2.2 \\times 10^{-16}\\)\n\nThis tells us the species differ significantly in sepal length, but not which species differ from which — for that we need post-hoc tests"
+    "text": "ANOVA in R\n\nR provides two equivalent ways to run a one-way ANOVA: aov() and lm() followed by anova()\nThe aov() function is needed for TukeyHSD(), while lm() works better with emmeans and broom\n\n\nOutputCode\n\n\n\n\nAnalysis of Variance Table\n\nResponse: Sepal.Length\n           Df Sum Sq Mean Sq F value    Pr(&gt;F)    \nSpecies     2 63.212  31.606  119.26 &lt; 2.2e-16 ***\nResiduals 147 38.956   0.265                      \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\n\n\niris_aov &lt;- aov(Sepal.Length ~ Species, iris)\nanova(iris_aov)\n\n\n\n\nWould report as: \\(F_{2, 147} = 119.26; p &lt; 2.2 \\times 10^{-16}\\)\n\nThis tells us the species differ significantly in sepal length, but not which species differ from which — for that we need post-hoc tests"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#visualizing-anova-results",
     "href": "Lecture_Folder/Week6.html#visualizing-anova-results",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Visualizing ANOVA Results",
-    "text": "Visualizing ANOVA Results"
+    "text": "Visualizing ANOVA Results\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(iris, aes(x = Species, y = Sepal.Length, fill = Species)) +\n  geom_boxplot(alpha = 0.7) +\n  geom_jitter(width = 0.2, alpha = 0.5) +\n  stat_summary(fun = mean, geom = \"point\", shape = 20, size = 3, color = \"red\") +\n  theme_minimal() +\n  theme(legend.position = \"none\")"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#visualizing-anova-results-code",
@@ -4547,7 +4547,7 @@
     "href": "Lecture_Folder/Week6.html#anova-as-linear-model",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "ANOVA as Linear Model",
-    "text": "ANOVA as Linear Model\n\nWhen we fit ANOVA with lm(), R creates dummy variables automatically\nThe intercept is the mean of the reference group (first factor level, alphabetically)\nEach coefficient is the difference between that group’s mean and the reference group mean\n\n\n\n\nANOVA as Linear Model: Coefficients\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n5.006\n0.0728\n68.7616\n0\n\n\nSpeciesversicolor\n0.930\n0.1030\n9.0328\n0\n\n\nSpeciesvirginica\n1.582\n0.1030\n15.3655\n0\n\n\n\n\n\n\nHere, (Intercept) = mean sepal length for I. setosa\nSpeciesversicolor = how much longer I. versicolor sepals are compared to I. setosa\nSpeciesvirginica = how much longer I. virginica sepals are compared to I. setosa"
+    "text": "ANOVA as Linear Model\n\nWhen we fit ANOVA with lm(), R creates dummy variables automatically\nThe intercept is the mean of the reference group (first factor level, alphabetically)\nEach coefficient is the difference between that group’s mean and the reference group mean\n\n\nOutputCode\n\n\n\n\n\nANOVA as Linear Model: Coefficients\n\n\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\n\n(Intercept)\n5.006\n0.0728\n68.7616\n0\n\n\nSpeciesversicolor\n0.930\n0.1030\n9.0328\n0\n\n\nSpeciesvirginica\n1.582\n0.1030\n15.3655\n0\n\n\n\n\n\n\n\n\n# Fit linear model\niris_lm &lt;- lm(Sepal.Length ~ Species, data = iris)\n\n# Tidy output with broom\ntidy(iris_lm) |&gt;\n  kable(digits = 4, caption = \"ANOVA as Linear Model: Coefficients\")\n\n# ANOVA table\nanova(iris_lm) |&gt;\n  tidy() |&gt;\n  kable(digits = 4, caption = \"ANOVA Table\")\n\n\n\n\n\nHere, (Intercept) = mean sepal length for I. setosa\nSpeciesversicolor = how much longer I. versicolor sepals are compared to I. setosa\nSpeciesvirginica = how much longer I. virginica sepals are compared to I. setosa"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#anova-as-linear-model-code",
@@ -4568,7 +4568,7 @@
     "href": "Lecture_Folder/Week6.html#the-multiple-comparison-problem",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "The Multiple Comparison Problem",
-    "text": "The Multiple Comparison Problem\n\nANOVA tells us that at least one group mean differs — but with \\(k\\) groups, there are \\(\\binom{k}{2} = \\frac{k(k-1)}{2}\\) possible pairwise comparisons\nWith 3 species, that’s 3 comparisons; with 5 groups, it’s 10; with 10 groups, it’s 45\nEach test at \\(\\alpha = 0.05\\) has a 5% false positive rate. Running many tests inflates the family-wise error rate — the probability of at least one false positive across all tests\nFor 10 independent tests: \\(1 - (1 - 0.05)^{10} = 0.40\\), so a 40% chance of at least one false positive!\nPost-hoc methods control for this by adjusting p-values or confidence intervals"
+    "text": "The Multiple Comparison Problem\n\nANOVA tells us that at least one group mean differs\nBut with \\(k\\) groups, there are \\(\\binom{k}{2} = \\frac{k(k-1)}{2}\\) possible pairwise comparisons\nWith 3 species, that’s 3 comparisons; with 5 groups, it’s 10; with 10 groups, it’s 45\nEach test at \\(\\alpha = 0.05\\) has a 5% false positive rate. Running many tests inflates the family-wise error rate — the probability of at least one false positive across all tests\nFor 10 independent tests: \\(1 - (1 - 0.05)^{10} = 0.40\\), so a 40% chance of at least one false positive!\nPost-hoc methods control for this by adjusting p-values or confidence intervals"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#post-hoc-comparisons-1",
@@ -4582,21 +4582,21 @@
     "href": "Lecture_Folder/Week6.html#tukeys-honestly-significant-difference-hsd",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Tukey’s Honestly Significant Difference (HSD)",
-    "text": "Tukey’s Honestly Significant Difference (HSD)\n\nTukey’s HSD compares all pairs of group means while controlling the family-wise Type I error rate at \\(\\alpha\\)\nIt computes a critical difference: if the observed difference between two means exceeds this value, the difference is significant\nThe critical value depends on the studentized range distribution \\(q\\):\n\n\\[\\text{HSD} = q_{\\alpha, k, N-k} \\cdot \\sqrt{\\frac{MS_{within}}{n}}\\]\n\n\\(k\\) = number of groups, \\(N\\) = total sample size, \\(n\\) = observations per group\nAssumes balanced designs (equal \\(n\\) per group) — for unbalanced designs, use the Tukey-Kramer modification or emmeans"
+    "text": "Tukey’s Honestly Significant Difference (HSD)\n\nTukey’s HSD compares all pairs of group means while controlling the family-wise Type I error rate at \\(\\alpha\\)\nIt computes a critical difference: if the observed difference between two means exceeds this value, the difference is significant\nThe critical value depends on the studentized range distribution \\(q\\):\n\n\nEquationLaTeX\n\n\n\\[\\text{HSD} = q_{\\alpha, k, N-k} \\cdot \\sqrt{\\frac{MS_{within}}{n}}\\]\n\n\n\\text{HSD} = q_{\\alpha, k, N-k} \\cdot \\sqrt{\\frac{MS_{within}}{n}}\n\n\n\n\n\\(k\\) = number of groups, \\(N\\) = total sample size, \\(n\\) = observations per group\nAssumes balanced designs (equal \\(n\\) per group) — for unbalanced designs, use the Tukey-Kramer modification or emmeans"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#tukeys-hsd-in-r",
     "href": "Lecture_Folder/Week6.html#tukeys-hsd-in-r",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Tukey’s HSD in R",
-    "text": "Tukey’s HSD in R\n\nTukeyHSD(iris_aov)\n\n  Tukey multiple comparisons of means\n    95% family-wise confidence level\n\nFit: aov(formula = Sepal.Length ~ Species, data = iris)\n\n$Species\n                      diff       lwr       upr p adj\nversicolor-setosa    0.930 0.6862273 1.1737727     0\nvirginica-setosa     1.582 1.3382273 1.8257727     0\nvirginica-versicolor 0.652 0.4082273 0.8957727     0"
+    "text": "Tukey’s HSD in R\n\nOutputCode\n\n\n\n\n  Tukey multiple comparisons of means\n    95% family-wise confidence level\n\nFit: aov(formula = Sepal.Length ~ Species, data = iris)\n\n$Species\n                      diff       lwr       upr p adj\nversicolor-setosa    0.930 0.6862273 1.1737727     0\nvirginica-setosa     1.582 1.3382273 1.8257727     0\nvirginica-versicolor 0.652 0.4082273 0.8957727     0\n\n\n\n\n\nTukeyHSD(iris_aov)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#interpreting-tukeys-hsd-output",
     "href": "Lecture_Folder/Week6.html#interpreting-tukeys-hsd-output",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Interpreting Tukey’s HSD Output",
-    "text": "Interpreting Tukey’s HSD Output\n\ndiff = difference between group means\nlwr and upr = 95% confidence interval for the difference\np adj = adjusted p-value controlling family-wise error rate\nIf the confidence interval does not include zero, the difference is significant\nAll three pairwise comparisons are significant here — every species differs from every other species in sepal length"
+    "text": "Interpreting Tukey’s HSD Output\n\ndiff = difference between group means\nlwr and upr = 95% confidence interval for the difference\np adj = adjusted p-value controlling family-wise error rate\nIf the confidence interval does not include zero, the difference is significant\nAll three pairwise comparisons are significant here — every species differs from every other species in sepal length\n\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Base R plot of Tukey HSD confidence intervals\n# Intervals that don't cross zero are significant\nplot(TukeyHSD(iris_aov))"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#tukeys-hsd-plot-code",
@@ -4631,7 +4631,7 @@
     "href": "Lecture_Folder/Week6.html#estimated-marginal-means",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Estimated Marginal Means",
-    "text": "Estimated Marginal Means\n\nMarginal means are model-predicted means averaged over other factors\nFor a one-way ANOVA these are identical to the group means, but for factorial designs they account for the imbalance across factor levels\n\n\n\n Species    emmean     SE  df lower.CL upper.CL\n setosa       5.01 0.0728 147     4.86     5.15\n versicolor   5.94 0.0728 147     5.79     6.08\n virginica    6.59 0.0728 147     6.44     6.73\n\nConfidence level used: 0.95"
+    "text": "Estimated Marginal Means\n\nMarginal means are model-predicted means averaged over other factors\nFor a one-way ANOVA these are identical to the group means, but for factorial designs they account for the imbalance across factor levels\n\n\nOutputCode\n\n\n\n\n Species    emmean     SE  df lower.CL upper.CL\n setosa       5.01 0.0728 147     4.86     5.15\n versicolor   5.94 0.0728 147     5.79     6.08\n virginica    6.59 0.0728 147     6.44     6.73\n\nConfidence level used: 0.95 \n\n\n\n\n\n# Fit ANOVA model\niris_lm &lt;- lm(Sepal.Length ~ Species, data = iris)\n\n# Get estimated marginal means\niris_emm &lt;- emmeans(iris_lm, ~ Species)\niris_emm"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#estimated-marginal-means-code",
@@ -4645,7 +4645,7 @@
     "href": "Lecture_Folder/Week6.html#pairwise-comparisons-with-emmeans",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Pairwise Comparisons with emmeans",
-    "text": "Pairwise Comparisons with emmeans\n\npairs() performs all pairwise comparisons, with Tukey adjustment by default — equivalent to TukeyHSD() but works with any model\n\n\n\n contrast               estimate    SE  df t.ratio p.value\n setosa - versicolor      -0.930 0.103 147  -9.033 &lt;0.0001\n setosa - virginica       -1.582 0.103 147 -15.366 &lt;0.0001\n versicolor - virginica   -0.652 0.103 147  -6.333 &lt;0.0001\n\nP value adjustment: tukey method for comparing a family of 3 estimates"
+    "text": "Pairwise Comparisons with emmeans\n\npairs() performs all pairwise comparisons, with Tukey adjustment by default — equivalent to TukeyHSD() but works with any model\n\n\nOutputCode\n\n\n\n\n contrast               estimate    SE  df t.ratio p.value\n setosa - versicolor      -0.930 0.103 147  -9.033 &lt;0.0001\n setosa - virginica       -1.582 0.103 147 -15.366 &lt;0.0001\n versicolor - virginica   -0.652 0.103 147  -6.333 &lt;0.0001\n\nP value adjustment: tukey method for comparing a family of 3 estimates \n\n\n\n\n\n# All pairwise comparisons with Tukey adjustment (default)\npairs(iris_emm)\n\n# Alternative adjustment methods\npairs(iris_emm, adjust = \"bonferroni\")  # Bonferroni correction\npairs(iris_emm, adjust = \"fdr\")         # Benjamini-Hochberg (less conservative)\npairs(iris_emm, adjust = \"none\")        # No adjustment (use with caution)\n\n\nThe adjust argument controls how p-values are corrected for multiple comparisons\nTukey is the standard default; Bonferroni is more conservative; FDR controls the false discovery rate rather than family-wise error"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#pairwise-comparisons-code",
@@ -4659,7 +4659,7 @@
     "href": "Lecture_Folder/Week6.html#custom-contrasts-with-emmeans",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Custom Contrasts with emmeans",
-    "text": "Custom Contrasts with emmeans\nDefine specific comparisons of scientific interest:\n\n# Compare setosa vs. average of versicolor and virginica\ncontrast(iris_emm, method = list(\n  \"setosa vs others\" = c(1, -0.5, -0.5)\n))\n\n contrast         estimate     SE  df t.ratio p.value\n setosa vs others    -1.26 0.0892 147 -14.086 &lt;0.0001"
+    "text": "Custom Contrasts with emmeans\nDefine specific comparisons of scientific interest:\n\nOutputCode\n\n\n\n\n contrast         estimate     SE  df t.ratio p.value\n setosa vs others    -1.26 0.0892 147 -14.086 &lt;0.0001\n\n\n\n\n\n# Compare setosa vs. average of versicolor and virginica\ncontrast(iris_emm, method = list(\n  \"setosa vs others\" = c(1, -0.5, -0.5)\n))"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#emmeans-with-factorial-designs",
@@ -4680,7 +4680,7 @@
     "href": "Lecture_Folder/Week6.html#visualizing-emmeans-results",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Visualizing emmeans Results",
-    "text": "Visualizing emmeans Results"
+    "text": "Visualizing emmeans Results\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Plot with confidence intervals\nplot(iris_emm, comparisons = TRUE) +\n  labs(title = \"Estimated Marginal Means with 95% CIs\",\n       subtitle = \"Non-overlapping arrows indicate significant differences\")"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#visualizing-emmeans-results-code",
@@ -4701,14 +4701,14 @@
     "href": "Lecture_Folder/Week6.html#r-exercise-anova-with-effect-sizes",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "R Exercise: ANOVA with Effect Sizes",
-    "text": "R Exercise: ANOVA with Effect Sizes\n\n\n\n\n\n\nExercise\n\n\n\nUsing the PlantGrowth dataset:\n\nPerform one-way ANOVA comparing weight across treatment groups\nRun Tukey HSD post-hoc test\nCalculate eta-squared and omega-squared\nInterpret the results including effect size\n\n\n# Starter code\ndata(PlantGrowth)\nstr(PlantGrowth)\nboxplot(weight ~ group, data = PlantGrowth)\n\n# Your analysis here..."
+    "text": "R Exercise: ANOVA with Effect Sizes\n\n\n\n\n\n\nExercise\n\n\n\nUsing either the Drerio or the Stickle dataset:\n\nPerform one-way ANOVA some continuous variable across treatment groups\nRun Tukey HSD post-hoc test\nRun emmeans post-hoc test\nInterpret the results including effect size"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#including-categorical-variables-in-regression",
     "href": "Lecture_Folder/Week6.html#including-categorical-variables-in-regression",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Including Categorical Variables in Regression",
-    "text": "Including Categorical Variables in Regression\n\nSo far we’ve treated regression (continuous predictor) and ANOVA (categorical predictor) as separate tools\nBut many biological questions involve both kinds of predictors simultaneously\nAnalysis of Covariance (ANCOVA) combines:\n\nContinuous predictor (covariate) — like temperature or body size\nCategorical predictor (factor) — like species or treatment\n\n\nUse dummy variables to encode categorical information:\n\\[x_{species} = \\begin{cases} 0 & \\text{for Species A} \\\\ 1 & \\text{for Species B} \\end{cases}\\]"
+    "text": "Including Categorical Variables in Regression\n\nSo far we’ve treated regression (continuous predictor) and ANOVA (categorical predictor) as separate tools\nBut many biological questions involve both kinds of predictors simultaneously\nAnalysis of Covariance (ANCOVA) combines:\n\nContinuous predictor (covariate) — like temperature or body size\nCategorical predictor (factor) — like species or treatment\n\n\nUse dummy variables to encode categorical information:\n\nEquationLaTeX\n\n\n\\[x_{species} = \\begin{cases} 0 & \\text{for Species A} \\\\ 1 & \\text{for Species B} \\end{cases}\\]\n\n\nx_{species} = \\begin{cases} 0 & \\text{for Species A} \\\\ 1 & \\text{for Species B} \\end{cases}"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#statistical-models-in-r",
@@ -4722,14 +4722,14 @@
     "href": "Lecture_Folder/Week6.html#parallel-slopes-additive-model",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Parallel Slopes (Additive) Model",
-    "text": "Parallel Slopes (Additive) Model\nWhen there’s no interaction, each group has the same slope but different intercepts:\n\\[y = \\beta_0 + \\beta_1 x_{continuous} + \\beta_2 x_{categorical}\\]\n\n# Parallel slopes model (additive)\nlm(response ~ continuous_var + factor_var, data = mydata)\n\n\nThe + in the formula means “additive” — the effect of the covariate is the same in every group\nThis produces parallel regression lines for each group"
+    "text": "Parallel Slopes (Additive) Model\nWhen there’s no interaction, each group has the same slope but different intercepts:\n\nEquationLaTeX\n\n\n\\[y = \\beta_0 + \\beta_1 x_{i,continuous} + \\beta_2 x_{i,categorical} + \\epsilon_i\\]\n\n\ny = \\beta_0 + \\beta_1 x_{i,continuous} + \\beta_2 x_{i,categorical} + \\epsilon_i\n\n\n\n\n# Parallel slopes model (additive)\nlm(response ~ continuous_var + factor_var, data = mydata)\n\n\nThe + in the formula means “additive” — the effect of the covariate is the same in every group\nThis produces parallel regression lines for each group"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#interaction-model",
     "href": "Lecture_Folder/Week6.html#interaction-model",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Interaction Model",
-    "text": "Interaction Model\nWhen the relationship differs between groups, add an interaction term:\n\\[y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\beta_3 (x_1 \\times x_2)\\]\n\n# Model with interaction (different slopes)\nlm(response ~ continuous_var * factor_var, data = mydata)\n\n# Equivalent to:\nlm(response ~ continuous_var + factor_var + continuous_var:factor_var,\n   data = mydata)\n\n\nThe * in the formula expands to main effects plus interaction\nThe interaction term allows different slopes for each group"
+    "text": "Interaction Model\nWhen the relationship differs between groups, add an interaction term:\n\nEquationLaTeX\n\n\n\\[y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\beta_3 (x_1 \\times x_2)+ \\epsilon_i\\]\n\n\ny = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\beta_3 (x_1 \\times x_2)+ \\epsilon_i\n\n\n\n\n# Model with interaction (different slopes)\nlm(response ~ continuous_var * factor_var, data = mydata)\n\n# Equivalent to:\nlm(response ~ continuous_var + factor_var + continuous_var:factor_var,\n   data = mydata)\n\n\nThe * in the formula expands to main effects plus interaction\nThe interaction term allows different slopes for each group"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#interpreting-ancova-output",
@@ -4757,7 +4757,7 @@
     "href": "Lecture_Folder/Week6.html#visualizing-ancova-models",
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Visualizing ANCOVA Models",
-    "text": "Visualizing ANCOVA Models"
+    "text": "Visualizing ANCOVA Models\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Simulated data for two groups\nset.seed(42)\nx &lt;- rep(seq(1, 10, length.out = 20), 2)\ngroup &lt;- rep(c(\"A\", \"B\"), each = 20)\ny &lt;- ifelse(group == \"A\", 2 + 0.8*x, 5 + 0.8*x) + rnorm(40, 0, 0.8)\ndf &lt;- data.frame(x, y, group)\n\n# Plot parallel slopes\nplot(x, y, col = ifelse(group == \"A\", \"blue\", \"red\"), pch = 19,\n     main = \"Parallel Slopes Model\")\nabline(2, 0.8, col = \"blue\", lwd = 2)\nabline(5, 0.8, col = \"red\", lwd = 2)\nlegend(\"bottomright\", c(\"Group A\", \"Group B\"), col = c(\"blue\", \"red\"), pch = 19)"
   },
   {
     "objectID": "Lecture_Folder/Week6.html#visualizing-ancova-models-code",
@@ -4765,5 +4765,54 @@
     "title": "Statistics for Bioengineering - Week 6",
     "section": "Visualizing ANCOVA Models Code",
     "text": "Visualizing ANCOVA Models Code\n\n# Simulated data for two groups\nset.seed(42)\nx &lt;- rep(seq(1, 10, length.out = 20), 2)\ngroup &lt;- rep(c(\"A\", \"B\"), each = 20)\ny &lt;- ifelse(group == \"A\", 2 + 0.8*x, 5 + 0.8*x) + rnorm(40, 0, 0.8)\ndf &lt;- data.frame(x, y, group)\n\n# Plot parallel slopes\nplot(x, y, col = ifelse(group == \"A\", \"blue\", \"red\"), pch = 19,\n     main = \"Parallel Slopes Model\")\nabline(2, 0.8, col = \"blue\", lwd = 2)\nabline(5, 0.8, col = \"red\", lwd = 2)\nlegend(\"bottomright\", c(\"Group A\", \"Group B\"), col = c(\"blue\", \"red\"), pch = 19)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week6.html#term-project",
+    "href": "Lecture_Folder/Week6.html#term-project",
+    "title": "Statistics for Bioengineering - Week 6",
+    "section": "",
+    "text": "Pull together all of the activities that you performed on your own data that you’ve chosen to analyze and put it into one complete Markdown document that can be rendered.\nIn addition to packaging these previous analyses together, you can also perform any additional visualizations and analyses that make sense. Lastly, add some interpretive writing that explains the nature of your data, the types of analyses you performed at each step, your outcomes or findings from each, and the conclusions that you might draw from each finding.\nThe overall goal is to create something like a report to share with a collaborator or your PI, or should your work be far enough along the skeleton of a manuscript that can submitted for subsequent publication."
+  },
+  {
+    "objectID": "Lecture_Folder/Week6.html#on-your-own-anova",
+    "href": "Lecture_Folder/Week6.html#on-your-own-anova",
+    "title": "Statistics for Bioengineering - Week 6",
+    "section": "On Your Own ANOVA",
+    "text": "On Your Own ANOVA\n\nTake a look at the dataset Drerio_development.csv\nYou will find a mixture of categorical and continuous variables.\nCreate a linear regression model that relates length to age. Do the same thing for weight and age\nNow create an ANOVA model that asks whether condition affects weight. How about length\nRepeat the above analyses using the Stickle_RNAseq.tsv data set"
+  },
+  {
+    "objectID": "Homework_Folder/HW3_2026.html",
+    "href": "Homework_Folder/HW3_2026.html",
+    "title": "BioE_Stats_2026_HW3",
+    "section": "",
+    "text": "Assignment: Your task is to use R and Quarto Markdown to write a short report including the tasks listed below. You will work with simulated data that you create, as well as a new dataset studying the mechanical properties of 3D-printed bone scaffolds (scaffold_mechanics.csv). At the beginning of the Quarto file include a data dictionary for each of the variables in the dataset (as best you can tell what they are), and be sure to load all of the packages at the beginning. You will need to use tidyverse tools for data wrangling, ggplot2 for visualization, and the modeling and post-hoc packages introduced in Weeks 4–6.\nDue: Submit your work via Canvas by the end of the day (midnight) on Thursday, February 19th. Please submit both the Quarto .qmd file and the resulting html or pdf file. You can work with other members of class, but I expect each of you to construct and run all of the scripts yourself.\n\n\n\n\nA research group in the Knight Campus is developing 3D-printed bone scaffolds using polycaprolactone (PCL). They fabricated 60 scaffolds with varying porosity (percent void volume, ranging from 30–80%) and measured each scaffold’s compressive strength (in MPa) and cell viability (percentage of live cells after 7 days of culture).\n\nSimulate the dataset. Generate 60 observations where porosity is drawn from a uniform distribution between 30 and 80. Generate compressive_strength as a function of porosity with the relationship: \\(strength = 45 - 0.4 \\times porosity + \\epsilon\\), where \\(\\epsilon \\sim N(0, 3)\\). Generate cell_viability as: \\(viability = 40 + 0.5 \\times porosity + \\epsilon\\), where \\(\\epsilon \\sim N(0, 5)\\). Combine these into a data frame called scaffold.\nExplore the relationships visually. Create two scatter plots — one of compressive strength vs. porosity and one of cell viability vs. porosity. Add a linear regression line to each. Briefly describe what you see.\nCalculate Pearson correlations between porosity and each response variable. Test whether each correlation is statistically significant using cor.test(). Interpret the strength and direction of each relationship.\nCalculate the Spearman rank correlation for the same two pairs. Compare these values to the Pearson correlations and briefly explain when you would prefer Spearman over Pearson.\nFit a simple linear model of compressive strength as a function of porosity using lm(). Use tidy() and glance() from the broom package to extract the coefficients and model summary. Interpret the slope, intercept, \\(R^2\\), and p-value in the context of scaffold engineering.\nCreate a residual plot (residuals vs. fitted values) for your linear model and a Normal Q-Q plot of the residuals. Assess whether the assumptions of linearity, constant variance, and normality appear to be met.\n\n\n\n\n\nFor this exercise, you will continue using the scaffold data from Exercise 3.1, but you will add some problematic observations and explore polynomial regression.\n\nIntroduce outliers. Add three observations to your scaffold data frame with the following values. These represent data entry errors or instrument malfunctions:\n\nObservation 61: porosity = 50, compressive_strength = 5, cell_viability = 90\nObservation 62: porosity = 45, compressive_strength = 60, cell_viability = 55\nObservation 63: porosity = 90, compressive_strength = 15, cell_viability = 85\n\nRefit the linear model of compressive strength vs. porosity using the contaminated dataset. Use autoplot() from ggfortify to generate the four standard diagnostic plots (Residuals vs. Fitted, Normal Q-Q, Scale-Location, and Cook’s Distance). Identify which observations are flagged as problematic and explain why.\nUse Cook’s distance to identify influential points. Which observations have Cook’s distance greater than \\(4/n\\)? Remove them and refit the model. Compare the \\(R^2\\) and coefficients before and after removal.\nFit a polynomial regression. Using the cleaned dataset (outliers removed), fit a quadratic model of compressive strength as a function of porosity using poly(porosity, 2, raw = TRUE). Use anova() to compare the linear and quadratic models. Is the quadratic term justified?\nVisualize both fits. Create a side-by-side plot (using patchwork) showing the linear fit and the quadratic fit on the cleaned data. Include the \\(R^2\\) value in each plot subtitle.\n\n\n\n\n\nUse a dataset that you are working with for your term project (or one of the class datasets like Drerio_development_complete.csv or Stickle_RNAseq.tsv).\n\n\n\nPick one continuous response variable and one continuous predictor. Fit a simple linear model, produce diagnostic plots, and interpret the results (slope, \\(R^2\\), residual patterns).\nWrite a short paragraph summarizing your findings. What did you learn about your data? Were the model assumptions met? What would you do differently or explore next?"
+  },
+  {
+    "objectID": "Homework_Folder/HW3_2026.html#directions",
+    "href": "Homework_Folder/HW3_2026.html#directions",
+    "title": "BioE_Stats_2026_HW3",
+    "section": "",
+    "text": "Assignment: Your task is to use R and Quarto Markdown to write a short report including the tasks listed below. You will work with simulated data that you create, as well as a new dataset studying the mechanical properties of 3D-printed bone scaffolds (scaffold_mechanics.csv). At the beginning of the Quarto file include a data dictionary for each of the variables in the dataset (as best you can tell what they are), and be sure to load all of the packages at the beginning. You will need to use tidyverse tools for data wrangling, ggplot2 for visualization, and the modeling and post-hoc packages introduced in Weeks 4–6.\nDue: Submit your work via Canvas by the end of the day (midnight) on Thursday, February 19th. Please submit both the Quarto .qmd file and the resulting html or pdf file. You can work with other members of class, but I expect each of you to construct and run all of the scripts yourself."
+  },
+  {
+    "objectID": "Homework_Folder/HW3_2026.html#exercise-3.1-correlation-and-simple-linear-regression",
+    "href": "Homework_Folder/HW3_2026.html#exercise-3.1-correlation-and-simple-linear-regression",
+    "title": "BioE_Stats_2026_HW3",
+    "section": "",
+    "text": "A research group in the Knight Campus is developing 3D-printed bone scaffolds using polycaprolactone (PCL). They fabricated 60 scaffolds with varying porosity (percent void volume, ranging from 30–80%) and measured each scaffold’s compressive strength (in MPa) and cell viability (percentage of live cells after 7 days of culture).\n\nSimulate the dataset. Generate 60 observations where porosity is drawn from a uniform distribution between 30 and 80. Generate compressive_strength as a function of porosity with the relationship: \\(strength = 45 - 0.4 \\times porosity + \\epsilon\\), where \\(\\epsilon \\sim N(0, 3)\\). Generate cell_viability as: \\(viability = 40 + 0.5 \\times porosity + \\epsilon\\), where \\(\\epsilon \\sim N(0, 5)\\). Combine these into a data frame called scaffold.\nExplore the relationships visually. Create two scatter plots — one of compressive strength vs. porosity and one of cell viability vs. porosity. Add a linear regression line to each. Briefly describe what you see.\nCalculate Pearson correlations between porosity and each response variable. Test whether each correlation is statistically significant using cor.test(). Interpret the strength and direction of each relationship.\nCalculate the Spearman rank correlation for the same two pairs. Compare these values to the Pearson correlations and briefly explain when you would prefer Spearman over Pearson.\nFit a simple linear model of compressive strength as a function of porosity using lm(). Use tidy() and glance() from the broom package to extract the coefficients and model summary. Interpret the slope, intercept, \\(R^2\\), and p-value in the context of scaffold engineering.\nCreate a residual plot (residuals vs. fitted values) for your linear model and a Normal Q-Q plot of the residuals. Assess whether the assumptions of linearity, constant variance, and normality appear to be met."
+  },
+  {
+    "objectID": "Homework_Folder/HW3_2026.html#exercise-3.2-model-diagnostics-outliers-and-polynomial-regression",
+    "href": "Homework_Folder/HW3_2026.html#exercise-3.2-model-diagnostics-outliers-and-polynomial-regression",
+    "title": "BioE_Stats_2026_HW3",
+    "section": "",
+    "text": "For this exercise, you will continue using the scaffold data from Exercise 3.1, but you will add some problematic observations and explore polynomial regression.\n\nIntroduce outliers. Add three observations to your scaffold data frame with the following values. These represent data entry errors or instrument malfunctions:\n\nObservation 61: porosity = 50, compressive_strength = 5, cell_viability = 90\nObservation 62: porosity = 45, compressive_strength = 60, cell_viability = 55\nObservation 63: porosity = 90, compressive_strength = 15, cell_viability = 85\n\nRefit the linear model of compressive strength vs. porosity using the contaminated dataset. Use autoplot() from ggfortify to generate the four standard diagnostic plots (Residuals vs. Fitted, Normal Q-Q, Scale-Location, and Cook’s Distance). Identify which observations are flagged as problematic and explain why.\nUse Cook’s distance to identify influential points. Which observations have Cook’s distance greater than \\(4/n\\)? Remove them and refit the model. Compare the \\(R^2\\) and coefficients before and after removal.\nFit a polynomial regression. Using the cleaned dataset (outliers removed), fit a quadratic model of compressive strength as a function of porosity using poly(porosity, 2, raw = TRUE). Use anova() to compare the linear and quadratic models. Is the quadratic term justified?\nVisualize both fits. Create a side-by-side plot (using patchwork) showing the linear fit and the quadratic fit on the cleaned data. Include the \\(R^2\\) value in each plot subtitle."
+  },
+  {
+    "objectID": "Homework_Folder/HW3_2026.html#exercise-3.3-apply-it-to-your-own-data",
+    "href": "Homework_Folder/HW3_2026.html#exercise-3.3-apply-it-to-your-own-data",
+    "title": "BioE_Stats_2026_HW3",
+    "section": "",
+    "text": "Use a dataset that you are working with for your term project (or one of the class datasets like Drerio_development_complete.csv or Stickle_RNAseq.tsv).\n\n\n\nPick one continuous response variable and one continuous predictor. Fit a simple linear model, produce diagnostic plots, and interpret the results (slope, \\(R^2\\), residual patterns).\nWrite a short paragraph summarizing your findings. What did you learn about your data? Were the model assumptions met? What would you do differently or explore next?"
   }
 ]

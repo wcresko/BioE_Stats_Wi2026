@@ -98,6 +98,14 @@ library(ggfortify)    # Diagnostic plots for lm objects (autoplot)
 -   `grip_strength_data.csv`
 -   `cell_culture_expression.csv`
 
+## Term Project
+
+Pull together all of the activities that you performed on your own data that you've chosen to analyze and put it into one complete Markdown document that can be rendered.
+
+In addition to packaging these previous analyses together, you can also perform any additional visualizations and analyses that make sense. Lastly, add some interpretive writing that explains the nature of your data, the types of analyses you performed at each step, your outcomes or findings from each, and the conclusions that you might draw from each finding.
+
+The overall goal is to create something like a report to share with a collaborator or your PI, or should your work be far enough along the skeleton of a manuscript that can submitted for subsequent publication.
+
 # The Eugenics History of Statistics {background-color="#2c3e50"}
 
 ## Galton's parent-offspring regression {.smaller}
@@ -188,7 +196,7 @@ library(ggfortify)    # Diagnostic plots for lm objects (autoplot)
     -   "The Gene" by Siddhartha Mukherjee
     -   "Control" by Adam Rutherford
 
-______________
+------------------------------------------------------------------------
 
 # Polynomial Regression {background-color="#2c3e50"}
 
@@ -202,7 +210,17 @@ ______________
 
 -   A polynomial regression extends the linear model by adding powers of $x$ as additional predictors. For a quadratic (degree 2) polynomial:
 
+::: panel-tabset
+### Equation
+
 $$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i
+```
+:::
 
 -   This is still a **linear model** in the statistical sense (the parameters $\beta$ enter linearly), but the relationship between $y$ and $x$ is now curved.
 
@@ -210,9 +228,12 @@ $$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i$$
 
 ## Import the Data and Fit Linear Model {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: grip-import-code
-#| echo: true
+#| echo: false
 #| eval: true
 
 library(tidyverse)
@@ -226,7 +247,29 @@ lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
 
 ```
 
+### Code
+
+```{r}
+#| label: grip-import-code-show
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+library(broom)
+library(knitr)
+
+grip <- read_csv("grip_strength_data.csv")
+
+# Fit linear model for later comparison
+lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
+
+```
+:::
+
 ## In R, we use `poly(x, degree)` inside the `lm()` formula: {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: poly-exercise-output
@@ -237,7 +280,7 @@ lm_exercise_poly <- lm(grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE)
 summary(lm_exercise_poly)
 ```
 
-## Fitting a Polynomial Model — Code {.smaller}
+### Code
 
 ```{r}
 #| label: poly-exercise-code
@@ -254,12 +297,16 @@ summary(lm_exercise_poly)
 ```
 
 The `raw = TRUE` argument means R uses the raw polynomial terms ($x$ and $x^2$) rather than orthogonal polynomials, making the coefficients directly interpretable.
+:::
 
 ## Interpreting the Polynomial Model {.smaller}
 
 -   The `tidy()` output shows three coefficients: the intercept ($\beta_0$), the linear term ($\beta_1$), and the quadratic term ($\beta_2$).
 
 -   If the p-value for the quadratic term is significant, it confirms that the curved relationship is real and not just noise.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: poly-exercise-tidy-output
@@ -269,11 +316,6 @@ The `raw = TRUE` argument means R uses the raw polynomial terms ($x$ and $x^2$) 
 tidy(lm_exercise_poly) |> kable(digits = 4)
 ```
 
-\
-\
-
--   The `glance()` output gives us the overall model fit. Compare this $R^2$ with the linear model — does adding the quadratic term meaningfully improve the fit?
-
 ```{r}
 #| label: poly-exercise-glance-output
 #| echo: false
@@ -282,7 +324,7 @@ tidy(lm_exercise_poly) |> kable(digits = 4)
 glance(lm_exercise_poly) |> kable(digits = 4)
 ```
 
-## Interpreting the Polynomial Model — Code {.smaller}
+### Code
 
 ```{r}
 #| label: poly-exercise-tidy-code
@@ -292,12 +334,21 @@ glance(lm_exercise_poly) |> kable(digits = 4)
 tidy(lm_exercise_poly) |> kable(digits = 4)
 glance(lm_exercise_poly) |> kable(digits = 4)
 ```
+:::
+
+\
+\
+
+-   The `glance()` output gives us the overall model fit. Compare this $R^2$ with the linear model — does adding the quadratic term meaningfully improve the fit?
 
 ## Comparing Linear vs. Polynomial Fit {.smaller}
 
 -   We can formally compare the linear and polynomial models using `anova()`, which performs an **F-test** of nested models.
 
 -   Because the linear model is a special case of the polynomial model (with $\beta_2 = 0$), we can test whether the additional quadratic term significantly improves the fit.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: anova-compare-output
@@ -307,11 +358,7 @@ glance(lm_exercise_poly) |> kable(digits = 4)
 anova(lm_exercise, lm_exercise_poly)
 ```
 
--   A significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone.
-
--   This is conceptually similar to the model comparison approach we will use in ANOVA later today.
-
-## Comparing Linear vs. Polynomial Fit — Code {.smaller}
+### Code
 
 ```{r}
 #| label: anova-compare-code
@@ -321,8 +368,16 @@ anova(lm_exercise, lm_exercise_poly)
 # Compare nested models: linear vs. quadratic
 anova(lm_exercise, lm_exercise_poly)
 ```
+:::
+
+-   A significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone.
+
+-   This is conceptually similar to the model comparison approach we will use in ANOVA later today.
 
 ## Visualizing the Polynomial Fit {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggplot-poly-output
@@ -344,7 +399,7 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   theme_minimal(base_size = 14)
 ```
 
-## Visualizing the Polynomial Fit — Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-poly-code
@@ -364,8 +419,12 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   ) +
   theme_minimal(base_size = 14)
 ```
+:::
 
 ## Linear vs. Polynomial: Side by Side {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggplot-compare-fits-output
@@ -396,7 +455,7 @@ p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 p_lin + p_poly
 ```
 
-## Linear vs. Polynomial: Side by Side — Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-compare-fits-code
@@ -425,10 +484,14 @@ p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 
 p_lin + p_poly
 ```
+:::
 
 ## Residuals: Linear vs. Polynomial Exercise Model {.smaller}
 
 Now we compare the residual plots to see whether the polynomial model resolves the curvature issue:
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: resid-compare-output
@@ -464,7 +527,7 @@ ggplot(both_diag, aes(x = fitted, y = residuals)) +
   theme_minimal(base_size = 13)
 ```
 
-## Residuals: Linear vs. Polynomial — Code {.smaller}
+### Code
 
 ```{r}
 #| label: resid-compare-code
@@ -494,12 +557,16 @@ ggplot(both_diag, aes(x = fitted, y = residuals)) +
        title = "Residuals vs. Fitted — Linear vs. Quadratic Exercise Model") +
   theme_minimal(base_size = 13)
 ```
+:::
 
 ## Full Diagnostics: {.smaller}
 
 -   The `autoplot()` function from `ggfortify` produces four standard diagnostic plots: Residuals vs. Fitted, Normal Q-Q, Scale-Location, and Cook's Distance.
 
 -   Together these help assess whether the model assumptions of linearity, normality, and constant variance are met.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggfortify-poly-output
@@ -512,7 +579,7 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-## Full Diagnostics: Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggfortify-poly-code
@@ -524,6 +591,7 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
 ```
 
 ------------------------------------------------------------------------
+:::
 
 # Model I vs Model II Regression {background-color="#2c3e50"}
 
@@ -568,19 +636,36 @@ The key insight is that OLS minimizes vertical distances (residuals in Y only), 
 
 -   But first, we need to deal with the outliers we identified last week.
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: cell-import
-#| echo: true
+#| echo: false
 #| eval: true
 
 cell_raw <- read_csv("cell_culture_expression.csv")
 ```
+
+### Code
+
+```{r}
+#| label: cell-import-show
+#| echo: true
+#| eval: false
+
+cell_raw <- read_csv("cell_culture_expression.csv")
+```
+:::
 
 ## Recall: Outliers in the Cell Culture Data {.smaller}
 
 -   Last week we used Cook's distance and diagnostic plots to identify problematic observations in this dataset.
 
 -   Let's quickly revisit the raw data to remind ourselves what we found.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: cell-raw-scatter-output
@@ -598,7 +683,7 @@ ggplot(cell_raw, aes(x = bmp4_expression, y = sox9_expression)) +
   theme_minimal(base_size = 14)
 ```
 
-## Recall: Outliers in the Cell Culture Data — Code {.smaller}
+### Code
 
 ```{r}
 #| label: cell-raw-scatter-code
@@ -613,6 +698,7 @@ ggplot(cell_raw, aes(x = bmp4_expression, y = sox9_expression)) +
        title = "BMP4 vs. SOX9 Expression — Raw Data with Sample IDs") +
   theme_minimal(base_size = 14)
 ```
+:::
 
 ## Remove Outliers Identified Last Week {.smaller}
 
@@ -621,6 +707,9 @@ From our Week 5 analysis, we identified four problematic observations using Cook
 -   **SC012** and **SC055**: BMP4 values of \~100–165 when the bulk of the data is 0–50 — likely data entry errors (misplaced decimal)
 -   **SC037**: SOX9 value of \~28 when the rest is 0.5–8 — another likely data entry error
 -   **SC060**: High leverage *and* high residual — a high influence point pulling the regression line
+
+:::: panel-tabset
+### Output
 
 ```{r}
 #| label: cell-remove-output
@@ -637,7 +726,7 @@ cat("Removed:", length(remove_ids), "observations:", paste(remove_ids, collapse 
 cat("Remaining observations:", nrow(cell), "\n")
 ```
 
-## Remove Outliers — Code {.smaller}
+### Code
 
 ```{r}
 #| label: cell-remove-code
@@ -658,10 +747,14 @@ cat("Remaining observations:", nrow(cell), "\n")
 ::: callout-important
 Always clean your data before fitting models. Outliers — especially data entry errors — can distort both OLS and Model II regression estimates. We documented our reasoning for these removals last week.
 :::
+::::
 
 ## Visualizing the Cleaned Data {.smaller}
 
 With the outliers removed, the relationship between BMP4 and SOX9 expression is much clearer. Now we can meaningfully compare Model I and Model II regression approaches.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: cell-scatter-output
@@ -677,7 +770,7 @@ ggplot(cell, aes(x = bmp4_expression, y = sox9_expression)) +
   theme_minimal(base_size = 14)
 ```
 
-## Visualizing the Cleaned Data — Code {.smaller}
+### Code
 
 ```{r}
 #| label: cell-scatter-code
@@ -690,11 +783,15 @@ ggplot(cell, aes(x = bmp4_expression, y = sox9_expression)) +
        title = "BMP4 vs. SOX9 Expression — Cleaned Data") +
   theme_minimal(base_size = 14)
 ```
+:::
 
 ## Model I (OLS) Fit for Comparison {.smaller}
 
-- First, let's fit the standard OLS regression on the cleaned data. 
-- Remember that this approach assumes all measurement error is in Y (SOX9) and none in X (BMP4) — an assumption we know is incorrect here.
+-   First, let's fit the standard OLS regression on the cleaned data.
+-   Remember that this approach assumes all measurement error is in Y (SOX9) and none in X (BMP4) — an assumption we know is incorrect here.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: cell-ols-output
@@ -705,10 +802,6 @@ lm_cell <- lm(sox9_expression ~ bmp4_expression, data = cell)
 tidy(lm_cell) |> kable(digits = 4)
 ```
 
-\
-\
-\
-
 ```{r}
 #| label: cell-ols-glance
 #| echo: false
@@ -717,7 +810,7 @@ tidy(lm_cell) |> kable(digits = 4)
 glance(lm_cell) |> kable(digits = 4)
 ```
 
-## Model I (OLS) Fit — Code {.smaller}
+### Code
 
 ```{r}
 #| label: cell-ols-code
@@ -728,10 +821,14 @@ lm_cell <- lm(sox9_expression ~ bmp4_expression, data = cell)
 tidy(lm_cell) |> kable(digits = 4)
 glance(lm_cell) |> kable(digits = 4)
 ```
+:::
 
 ## Model II Regression with lmodel2 {.smaller}
 
 Now let's fit the Model II regression using the `lmodel2` package. This function returns results for OLS, MA, SMA, and RMA all at once, so we can directly compare how each method estimates the slope.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: cell-model2-output
@@ -743,7 +840,7 @@ mod2_cell <- lmodel2(sox9_expression ~ bmp4_expression, data = cell,
 mod2_cell
 ```
 
-## Model II Regression — Code {.smaller}
+### Code
 
 ```{r}
 #| label: cell-model2-code
@@ -760,11 +857,15 @@ mod2_cell
 
 -   `range.y = "relative"` and `range.x = "relative"` tell `lmodel2` to use the relative ranges of X and Y when computing the RMA regression
 -   `nperm = 999` runs a permutation test for the slope
+:::
 
 ## Comparing OLS vs. Model II {.smaller}
 
-- The plot below overlays the OLS (Model I) line with the Major Axis and SMA (Model II) lines. 
-- Notice how the Model II slopes are **steeper** than OLS — this is expected because OLS underestimates the true slope when X has measurement error.
+-   The plot below overlays the OLS (Model I) line with the Major Axis and SMA (Model II) lines.
+-   Notice how the Model II slopes are **steeper** than OLS — this is expected because OLS underestimates the true slope when X has measurement error.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: cell-compare-plot-output
@@ -790,7 +891,7 @@ ggplot(cell, aes(x = bmp4_expression, y = sox9_expression)) +
   theme_minimal(base_size = 14)
 ```
 
-## Comparing Regression Lines — Code {.smaller}
+### Code
 
 ```{r}
 #| label: cell-compare-plot-code
@@ -813,6 +914,7 @@ ggplot(cell, aes(x = bmp4_expression, y = sox9_expression)) +
        subtitle = "Red = OLS, Blue = Major Axis, Green = SMA") +
   theme_minimal(base_size = 14)
 ```
+:::
 
 ## Choosing Between Model I and II {.smaller}
 
@@ -836,8 +938,6 @@ Use **Model II (SMA/MA)** when:
 
 -   For the BMP4/SOX9 expression data, both come from the same assay with comparable error, so Model II is the better choice.
 
-
-
 ## Key Takeaways: Regression Models {.smaller}
 
 ::: callout-tip
@@ -860,7 +960,7 @@ Use **Model II (SMA/MA)** when:
 
 -   That is the domain of ANOVA.
 
-______________________
+------------------------------------------------------------------------
 
 # ANOVA Fundamentals {background-color="#2c3e50"}
 
@@ -876,7 +976,7 @@ ______________________
 ## ANOVA is Really Just Regression {.smaller}
 
 -   ANOVA and regression are both special cases of the **general linear model**
--   In regression, the predictor $x$ is continuous 
+-   In regression, the predictor $x$ is continuous
 -   In ANOVA, the predictor is categorical (encoded with dummy variables)
 -   The math is identical — we are still minimizing the sum of squared residuals
 
@@ -884,15 +984,45 @@ ______________________
 
 **Regression** (continuous predictor):
 
+::: panel-tabset
+### Equation
+
 $$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \varepsilon_i$$
+
+### LaTeX
+
+``` text
+y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \varepsilon_i
+```
+:::
 
 **ANOVA** (categorical predictor with $p$ groups):
 
+::: panel-tabset
+### Equation
+
 $$y_{ij} = \mu + \alpha_i x_{ij} + \varepsilon_{ij}$$
+
+### LaTeX
+
+``` text
+y_{ij} = \mu + \alpha_i x_{ij} + \varepsilon_{ij}
+```
+:::
 
 Or equivalently, with separate indicator variables for each group:
 
+::: panel-tabset
+### Equation
+
 $$y_{ij} = \mu + \alpha_1 x_{1j} + \alpha_2 x_{2j} + \alpha_3 x_{3j} + \varepsilon_{ij}$$
+
+### LaTeX
+
+``` text
+y_{ij} = \mu + \alpha_1 x_{1j} + \alpha_2 x_{2j} + \alpha_3 x_{3j} + \varepsilon_{ij}
+```
+:::
 
 -   $\mu$ is the overall mean (analogous to the intercept)
 -   $\alpha_i$ is the effect of treatment group $i$ (analogous to the slope)
@@ -904,14 +1034,34 @@ ANOVA works by comparing two models:
 
 **Full model** ($H_A$) — each group has its own mean:
 
+::: panel-tabset
+### Equation
+
 $$y_{ij} = \mu + \alpha_i + \varepsilon_{ij}$$
+
+### LaTeX
+
+``` text
+y_{ij} = \mu + \alpha_i + \varepsilon_{ij}
+```
+:::
 
 -   $\mu$ = overall mean (similar to intercept)
 -   $\alpha_i$ = effect of treatment $i$ (similar to slope)
 
 **Reduced model** ($H_0$) — all groups share the same mean:
 
+::: panel-tabset
+### Equation
+
 $$y_{ij} = \mu + \varepsilon_{ij}$$
+
+### LaTeX
+
+``` text
+y_{ij} = \mu + \varepsilon_{ij}
+```
+:::
 
 -   If the full model fits significantly better than the reduced model, we reject $H_0$ and conclude that at least one group differs
 
@@ -922,17 +1072,26 @@ $$y_{ij} = \mu + \varepsilon_{ij}$$
 ## ANOVA Table — Equations {.smaller}
 
 | Source | SS | df | MS |
-|:---|:---|:---|:---|
+|:-----------------|:-----------------|:-----------------|:-----------------|
 | Between groups | $\displaystyle\sum_{i=1}^{p} n_i(\bar{y}_i - \bar{y})^2$ | $p - 1$ | $\dfrac{SS_{between}}{p - 1}$ |
 | Residual (within) | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{n_i} (y_{ij} - \bar{y}_i)^2$ | $\displaystyle\sum_{i=1}^{p} n_i - p$ | $\dfrac{SS_{within}}{\sum n_i - p}$ |
-| Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{n_i} (y_{ij} - \bar{y})^2$ | $\displaystyle\sum_{i=1}^{p} n_i - 1$ | |
+| Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{n_i} (y_{ij} - \bar{y})^2$ | $\displaystyle\sum_{i=1}^{p} n_i - 1$ |  |
+
+::: panel-tabset
+### Equation
 
 $$F = \frac{MS_{groups}}{MS_{residuals}}$$
+
+### LaTeX
+
+``` text
+F = \frac{MS_{groups}}{MS_{residuals}}
+```
+:::
 
 -   $MS_{groups}$ = variance **explained** by groupings
 -   $MS_{residuals}$ = variance **unexplained** by groupings
 -   Large F → groups explain much more variance than random noise
-
 
 ## Variance Partitioning — Key Concepts {.smaller}
 
@@ -952,6 +1111,9 @@ $$F = \frac{MS_{groups}}{MS_{residuals}}$$
 
 ## An Example - Irises {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: iris-stripchart-output
 #| echo: false
@@ -963,7 +1125,7 @@ stripchart(iris$Sepal.Length ~ iris$Species, vertical=T, method="jitter",
            ylab="sepal length", xlab="species", pch=19, cex=0.5)
 ```
 
-## Iris Stripchart Code {.smaller}
+### Code
 
 ```{r}
 #| label: iris-stripchart-code
@@ -973,12 +1135,33 @@ stripchart(iris$Sepal.Length ~ iris$Species, vertical=T, method="jitter",
 stripchart(iris$Sepal.Length ~ iris$Species, vertical=T, method="jitter",
            ylab="sepal length", xlab="species", pch=19, cex=0.5)
 ```
+:::
 
 ## ANOVA Hypotheses {.smaller}
 
+::: panel-tabset
+### Equation
+
 $$H_0: \mu_1 = \mu_2 = \mu_3 = ... = \mu_k$$
 
+### LaTeX
+
+``` text
+H_0: \mu_1 = \mu_2 = \mu_3 = ... = \mu_k
+```
+:::
+
+::: panel-tabset
+### Equation
+
 $$H_A: \text{At least one group mean differs}$$
+
+### LaTeX
+
+``` text
+H_A: \text{At least one group mean differs}
+```
+:::
 
 -   Note that $H_A$ does **not** say "all means differ" — it only says at least one is different
 -   A significant ANOVA result tells us the groups are not all the same, but it does not tell us **which** groups differ — we need post-hoc tests for that
@@ -989,7 +1172,7 @@ $$H_A: \text{At least one group mean differs}$$
     -   ANOVA is robust to moderate departures from normality, especially with large or equal sample sizes
 2.  **Homogeneity of variance**: Variances approximately equal across groups
     -   Test with Levene's test (`car::leveneTest()`) or Bartlett's test
-    -   Violated when the largest group variance is more than ~4× the smallest
+    -   Violated when the largest group variance is more than \~4× the smallest
 3.  **Independence**: Observations within and between groups are independent
     -   This is a design issue, not something you can test statistically
 
@@ -998,6 +1181,9 @@ If normality is severely violated, use the nonparametric **Kruskal-Wallis test**
 :::
 
 ## Checking Assumptions {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: anova-assumptions-output
@@ -1016,7 +1202,7 @@ hist(vers$Sepal.Length, main = "I. versicolor")
 hist(vir$Sepal.Length, main="I. virginica")
 ```
 
-## Checking Assumptions Code {.smaller}
+### Code
 
 ```{r}
 #| label: anova-assumptions-code
@@ -1032,42 +1218,76 @@ hist(set$Sepal.Length, main = "I. setosa")
 hist(vers$Sepal.Length, main = "I. versicolor")
 hist(vir$Sepal.Length, main="I. virginica")
 ```
+:::
 
 ## Testing Homogeneity of Variance {.smaller}
 
 -   Levene's test formally tests whether group variances are equal
--   A non-significant result (p > 0.05) means we can proceed with standard ANOVA
+-   A non-significant result (p \> 0.05) means we can proceed with standard ANOVA
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: levene-test
-#| echo: true
+#| echo: false
 #| eval: true
 
 # Levene's test from the car package
 car::leveneTest(Sepal.Length ~ Species, data = iris)
 ```
 
--   Here, p = 0.0021 suggests unequal variances 
-—   but ANOVA is robust to this with equal sample sizes (n = 50 per species), so we proceed
+### Code
+
+```{r}
+#| label: levene-test-show
+#| echo: true
+#| eval: false
+
+# Levene's test from the car package
+car::leveneTest(Sepal.Length ~ Species, data = iris)
+```
+:::
+
+-   Here, p = 0.0021 suggests unequal variances — but ANOVA is robust to this with equal sample sizes (n = 50 per species), so we proceed
 
 ## ANOVA in R {.smaller}
 
 -   R provides two equivalent ways to run a one-way ANOVA: `aov()` and `lm()` followed by `anova()`
 -   The `aov()` function is needed for `TukeyHSD()`, while `lm()` works better with `emmeans` and `broom`
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: iris-anova
-#| echo: true
+#| echo: false
+#| eval: true
 
 iris_aov <- aov(Sepal.Length ~ Species, iris)
 anova(iris_aov)
 ```
+
+### Code
+
+```{r}
+#| label: iris-anova-show
+#| echo: true
+#| eval: false
+
+iris_aov <- aov(Sepal.Length ~ Species, iris)
+anova(iris_aov)
+```
+:::
 
 Would report as: $F_{2, 147} = 119.26; p < 2.2 \times 10^{-16}$
 
 -   This tells us the species differ significantly in sepal length, but not **which** species differ from which — for that we need post-hoc tests
 
 ## Visualizing ANOVA Results {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: anova-plot-output
@@ -1084,7 +1304,7 @@ ggplot(iris, aes(x = Species, y = Sepal.Length, fill = Species)) +
   theme(legend.position = "none")
 ```
 
-## Visualizing ANOVA Results Code {.smaller}
+### Code
 
 ```{r}
 #| label: anova-plot-code
@@ -1098,12 +1318,16 @@ ggplot(iris, aes(x = Species, y = Sepal.Length, fill = Species)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
+:::
 
 ## ANOVA as Linear Model {.smaller}
 
 -   When we fit ANOVA with `lm()`, R creates **dummy variables** automatically
 -   The intercept is the mean of the **reference group** (first factor level, alphabetically)
 -   Each coefficient is the **difference** between that group's mean and the reference group mean
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: anova-lm-output
@@ -1115,11 +1339,7 @@ tidy(iris_lm) |>
   kable(digits = 4, caption = "ANOVA as Linear Model: Coefficients")
 ```
 
--   Here, `(Intercept)` = mean sepal length for *I. setosa*
--   `Speciesversicolor` = how much longer *I. versicolor* sepals are compared to *I. setosa*
--   `Speciesvirginica` = how much longer *I. virginica* sepals are compared to *I. setosa*
-
-## ANOVA as Linear Model Code {.smaller}
+### Code
 
 ```{r}
 #| label: anova-lm-code
@@ -1138,6 +1358,11 @@ anova(iris_lm) |>
   tidy() |>
   kable(digits = 4, caption = "ANOVA Table")
 ```
+:::
+
+-   Here, `(Intercept)` = mean sepal length for *I. setosa*
+-   `Speciesversicolor` = how much longer *I. versicolor* sepals are compared to *I. setosa*
+-   `Speciesvirginica` = how much longer *I. virginica* sepals are compared to *I. setosa*
 
 ## ANOVA Table {.smaller}
 
@@ -1151,11 +1376,24 @@ anova(iris_lm) |>
   kable(digits = 4, caption = "ANOVA Table")
 ```
 
+## On Your Own ANOVA {.smaller}
+
+-   Take a look at the dataset `Drerio_development.csv`
+
+-   You will find a mixture of categorical and continuous variables.
+
+-   Create a linear regression model that relates `length` to `age`. Do the same thing for `weight` and `age`
+
+-   Now create an ANOVA model that asks whether `condition` affects `weight`. How about `length`
+
+-   Repeat the above analyses using the `Stickle_RNAseq.tsv` data set
+
 # Post-Hoc Comparisons {background-color="#2c3e50"}
 
 ## The Multiple Comparison Problem {.smaller}
 
--   ANOVA tells us that at least one group mean differs — but with $k$ groups, there are $\binom{k}{2} = \frac{k(k-1)}{2}$ possible pairwise comparisons
+-   ANOVA tells us that at least one group mean differs
+-   But with $k$ groups, there are $\binom{k}{2} = \frac{k(k-1)}{2}$ possible pairwise comparisons
 -   With 3 species, that's 3 comparisons; with 5 groups, it's 10; with 10 groups, it's 45
 -   Each test at $\alpha = 0.05$ has a 5% false positive rate. Running many tests inflates the **family-wise error rate** — the probability of at least one false positive across all tests
 -   For 10 independent tests: $1 - (1 - 0.05)^{10} = 0.40$, so a 40% chance of at least one false positive!
@@ -1168,7 +1406,7 @@ anova(iris_lm) |>
 -   Several methods available, each with different trade-offs:
 
 | Method | Description | When to Use |
-|:---|:---|:---|
+|:-----------------------|:-----------------------|:-----------------------|
 | **Tukey HSD** | All pairwise comparisons, controls family-wise error | Default choice for balanced designs |
 | **Bonferroni** | Divides $\alpha$ by number of tests | Conservative; few planned comparisons |
 | **Dunnett** | Compares each group to a control | Treatment vs. control designs |
@@ -1180,19 +1418,44 @@ anova(iris_lm) |>
 -   It computes a critical difference: if the observed difference between two means exceeds this value, the difference is significant
 -   The critical value depends on the **studentized range distribution** $q$:
 
+::: panel-tabset
+### Equation
+
 $$\text{HSD} = q_{\alpha, k, N-k} \cdot \sqrt{\frac{MS_{within}}{n}}$$
+
+### LaTeX
+
+``` text
+\text{HSD} = q_{\alpha, k, N-k} \cdot \sqrt{\frac{MS_{within}}{n}}
+```
+:::
 
 -   $k$ = number of groups, $N$ = total sample size, $n$ = observations per group
 -   Assumes balanced designs (equal $n$ per group) — for unbalanced designs, use the Tukey-Kramer modification or `emmeans`
 
 ## Tukey's HSD in R {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: tukey-hsd
-#| echo: true
+#| echo: false
+#| eval: true
 
 TukeyHSD(iris_aov)
 ```
+
+### Code
+
+```{r}
+#| label: tukey-hsd-show
+#| echo: true
+#| eval: false
+
+TukeyHSD(iris_aov)
+```
+:::
 
 ## Interpreting Tukey's HSD Output {.smaller}
 
@@ -1201,6 +1464,9 @@ TukeyHSD(iris_aov)
 -   `p adj` = adjusted p-value controlling family-wise error rate
 -   If the confidence interval does not include zero, the difference is significant
 -   All three pairwise comparisons are significant here — every species differs from every other species in sepal length
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: tukey-hsd-plot-output
@@ -1212,7 +1478,7 @@ TukeyHSD(iris_aov)
 plot(TukeyHSD(iris_aov), las = 1, cex.axis = 0.8)
 ```
 
-## Tukey's HSD Plot — Code {.smaller}
+### Code
 
 ```{r}
 #| label: tukey-hsd-plot-code
@@ -1223,44 +1489,7 @@ plot(TukeyHSD(iris_aov), las = 1, cex.axis = 0.8)
 # Intervals that don't cross zero are significant
 plot(TukeyHSD(iris_aov))
 ```
-
-## Planned Contrasts {.smaller}
-
-**A priori comparisons** — decided before seeing the data:
-
--   Specified when the experiment was designed, based on scientific hypotheses
--   Must be few in number (typically $\leq k-1$ orthogonal contrasts)
--   More powerful than post-hoc tests because they don't require correction for all possible comparisons
--   Each contrast is a linear combination of group means that sums to zero
-
-| Null Hypothesis | Group_1 | Group_2 | Group_3 | Group_4 |
-|:----------------|:-------:|:-------:|:-------:|:-------:|
-| $\mu_1 = \mu_2$ |    1    |   -1    |    0    |    0    |
-| $\mu_1 = \mu_3$ |    1    |    0    |   -1    |    0    |
-| $\mu_3 = \mu_4$ |    0    |    0    |   -1    |    1    |
-
-## Planned Contrasts in R {.smaller}
-
-```{r}
-#| eval: false
-#| echo: true
-
-RNAseq_Data <- read.table("Stickle_RNAseq.tsv", header=T, sep='')
-RNAseq_Data$Geno.Micro <- factor(RNAseq_Data$Geno.Micro)
-
-contrast_matrix <- matrix(c(
-  -1, 1, 0, 0,
-  -1, 0, 1, 0
-), ncol = 2)
-
-colnames(contrast_matrix) <- c("level1_vs_level2", "level1_vs_level3")
-rownames(contrast_matrix) <- levels(RNAseq_Data$Geno.Micro)
-
-contrasts(RNAseq_Data$Geno.Micro) <- contrast_matrix
-
-RNA_model <- aov(Gene10 ~ Geno.Micro, data = RNAseq_Data)
-summary.lm(RNA_model)
-```
+:::
 
 ## The emmeans Package {.smaller}
 
@@ -1289,6 +1518,9 @@ library(emmeans)
 -   Marginal means are model-predicted means averaged over other factors
 -   For a one-way ANOVA these are identical to the group means, but for factorial designs they account for the imbalance across factor levels
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: emmeans-basic-output
 #| echo: false
@@ -1302,7 +1534,7 @@ iris_emm <- emmeans(iris_lm, ~ Species)
 iris_emm
 ```
 
-## Estimated Marginal Means Code {.smaller}
+### Code
 
 ```{r}
 #| label: emmeans-basic-code
@@ -1316,10 +1548,14 @@ iris_lm <- lm(Sepal.Length ~ Species, data = iris)
 iris_emm <- emmeans(iris_lm, ~ Species)
 iris_emm
 ```
+:::
 
 ## Pairwise Comparisons with emmeans {.smaller}
 
 -   `pairs()` performs all pairwise comparisons, with Tukey adjustment by default — equivalent to `TukeyHSD()` but works with any model
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: emmeans-pairs-output
@@ -1330,7 +1566,7 @@ iris_emm
 pairs(iris_emm)
 ```
 
-## Pairwise Comparisons Code {.smaller}
+### Code
 
 ```{r}
 #| label: emmeans-pairs-code
@@ -1348,14 +1584,18 @@ pairs(iris_emm, adjust = "none")        # No adjustment (use with caution)
 
 -   The `adjust` argument controls how p-values are corrected for multiple comparisons
 -   Tukey is the standard default; Bonferroni is more conservative; FDR controls the false discovery rate rather than family-wise error
+:::
 
 ## Custom Contrasts with emmeans {.smaller}
 
 Define specific comparisons of scientific interest:
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: emmeans-contrast
-#| echo: true
+#| echo: false
 #| eval: true
 
 # Compare setosa vs. average of versicolor and virginica
@@ -1364,42 +1604,24 @@ contrast(iris_emm, method = list(
 ))
 ```
 
-## emmeans with Factorial Designs {.smaller}
-
--   For multi-factor experiments, emmeans handles interactions elegantly
--   The `ToothGrowth` dataset measures tooth length in guinea pigs given vitamin C by two delivery methods (OJ or VC) at three doses
+### Code
 
 ```{r}
-#| label: emmeans-factorial
+#| label: emmeans-contrast-show
 #| echo: true
-#| eval: true
+#| eval: false
 
-# Two-factor example with ToothGrowth data
-ToothGrowth$dose <- factor(ToothGrowth$dose)  # Convert to factor for factorial ANOVA
-tooth_lm <- lm(len ~ supp * dose, data = ToothGrowth)
-
-# Marginal means for supplement type
-emmeans(tooth_lm, ~ supp)
+# Compare setosa vs. average of versicolor and virginica
+contrast(iris_emm, method = list(
+  "setosa vs others" = c(1, -0.5, -0.5)
+))
 ```
-
-## Simple Effects Analysis {.smaller}
-
--   Simple effects test one factor **within** each level of another factor
--   This answers: "Does the supplement type matter at each dose level?"
-
-```{r}
-#| label: emmeans-simple-effects
-#| echo: true
-#| eval: true
-
-# Effect of supplement at each dose level
-tooth_emm <- emmeans(tooth_lm, ~ supp | dose)
-pairs(tooth_emm)
-```
-
--   At low doses, OJ may outperform VC; at high doses the difference may disappear — this is an interaction
+:::
 
 ## Visualizing emmeans Results {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: emmeans-plot-output
@@ -1414,7 +1636,7 @@ plot(iris_emm, comparisons = TRUE) +
        subtitle = "Non-overlapping arrows indicate significant differences")
 ```
 
-## Visualizing emmeans Results Code {.smaller}
+### Code
 
 ```{r}
 #| label: emmeans-plot-code
@@ -1426,6 +1648,7 @@ plot(iris_emm, comparisons = TRUE) +
   labs(title = "Estimated Marginal Means with 95% CIs",
        subtitle = "Non-overlapping arrows indicate significant differences")
 ```
+:::
 
 ## emmeans vs. TukeyHSD {.smaller}
 
@@ -1444,35 +1667,22 @@ plot(iris_emm, comparisons = TRUE) +
 Use **emmeans** as your default for post-hoc comparisons. It's more flexible, works with more model types, and produces cleaner output.
 :::
 
-
 ## R Exercise: ANOVA with Effect Sizes {.smaller}
 
 ::: callout-tip
 ## Exercise
 
-Using the `PlantGrowth` dataset:
+Using either the `Drerio` or the `Stickle` dataset:
 
-1.  Perform one-way ANOVA comparing weight across treatment groups
+1.  Perform one-way ANOVA some continuous variable across treatment groups
 2.  Run Tukey HSD post-hoc test
-3.  Calculate eta-squared and omega-squared
+3.  Run emmeans post-hoc test
 4.  Interpret the results including effect size
-
-```{r}
-#| eval: false
-#| echo: true
-
-# Starter code
-data(PlantGrowth)
-str(PlantGrowth)
-boxplot(weight ~ group, data = PlantGrowth)
-
-# Your analysis here...
-```
 :::
 
 ------------------------------------------------------------------------
 
-# ANCOVA: Combining Regression and ANOVA {background-color="#2c3e50"}
+# ANCOVA: Combining Regression and ANOVA in a `Mixed Model`{background-color="#2c3e50"}
 
 ## Including Categorical Variables in Regression {.smaller}
 
@@ -1484,17 +1694,33 @@ boxplot(weight ~ group, data = PlantGrowth)
 
 Use **dummy variables** to encode categorical information:
 
+::: panel-tabset
+### Equation
+
 $$x_{species} = \begin{cases} 0 & \text{for Species A} \\ 1 & \text{for Species B} \end{cases}$$
 
-## Statistical Models in R {.smaller}
+### LaTeX
 
-![](images/week05_43_statistical_models_in_r.jpeg){fig-align="center" width="75%"}
+``` text
+x_{species} = \begin{cases} 0 & \text{for Species A} \\ 1 & \text{for Species B} \end{cases}
+```
+:::
 
 ## Parallel Slopes (Additive) Model {.smaller}
 
 When there's no interaction, each group has the **same slope** but **different intercepts**:
 
-$$y = \beta_0 + \beta_1 x_{continuous} + \beta_2 x_{categorical}$$
+::: panel-tabset
+### Equation
+
+$$y = \beta_0 + \beta_1 x_{i,continuous} + \beta_2 x_{i,categorical} + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y = \beta_0 + \beta_1 x_{i,continuous} + \beta_2 x_{i,categorical} + \epsilon_i
+```
+:::
 
 ```{r}
 #| eval: false
@@ -1511,7 +1737,17 @@ lm(response ~ continuous_var + factor_var, data = mydata)
 
 When the relationship **differs between groups**, add an **interaction term**:
 
-$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2)$$
+::: panel-tabset
+### Equation
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2)+ \epsilon_i$$
+
+### LaTeX
+
+``` text
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2)+ \epsilon_i
+```
+:::
 
 ```{r}
 #| eval: false
@@ -1560,10 +1796,12 @@ Test whether interaction term is significant. If not, use the simpler parallel s
 ## Dangers of Extrapolation {.smaller}
 
 -   All regression models (including ANCOVA) are only valid **within the range of the observed data**
--   Polynomial models are especially dangerous to extrapolate 
-—   They can produce wildly unrealistic predictions outside the data range
+-   Polynomial models are especially dangerous to extrapolate — They can produce wildly unrealistic predictions outside the data range
 
 ## Visualizing ANCOVA Models {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ancova-viz-output
@@ -1587,7 +1825,7 @@ abline(5, 0.8, col = "red", lwd = 2)
 legend("bottomright", c("Group A", "Group B"), col = c("blue", "red"), pch = 19)
 ```
 
-## Visualizing ANCOVA Models Code {.smaller}
+### Code
 
 ```{r}
 #| label: ancova-viz-code
@@ -1608,7 +1846,4 @@ abline(2, 0.8, col = "blue", lwd = 2)
 abline(5, 0.8, col = "red", lwd = 2)
 legend("bottomright", c("Group A", "Group B"), col = c("blue", "red"), pch = 19)
 ```
-
-------------------------------------------------------------------------
-
-#  {background-color="#2c3e50"}
+:::

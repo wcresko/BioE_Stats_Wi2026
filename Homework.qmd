@@ -8,6 +8,8 @@ title: "Homeworks"
 
 [Homework 2](Homework_Folder/HW2_2026.qmd)
 
+[Homework 3](Homework_Folder/HW3_2026.qmd)
+
 ------------------------------------------------------------------------
 
 ### Data Sets for Homeworks

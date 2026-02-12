@@ -10,13 +10,15 @@ title: "Lectures"
 
 ### Datasets for in Class Exercises
 
-[Stickleback_RNAseq_Data_Set](Lecture_Folder/Week1_Stickle_RNAseq.tsv)
+[Stickleback_RNAseq_Data_Set](Lecture_Folder/Stickle_RNAseq.tsv)
 
 [Knee_Injury_Data_Set](Lecture_Folder/knee_injury.csv)
 
 [Grip_Strength_Data_Set](Lecture_Folder/grip_strength.csv)
 
 [Cell_Culture_Data](Lecture_Folder/cell_culture_expression.csv)
+
+[Zebrafish_Development](Lecture_Folder/Drerio_development.csv)
 
 ### Lectures
 
@@ -31,5 +33,3 @@ title: "Lectures"
 [Lecture_5](Lecture_Folder/Week5.qmd)
 
 [Lecture_6](Lecture_Folder/Week6.qmd)
-
-[Lecture_6_new_style](Lecture_Folder/Week6_new_style.qmd)
