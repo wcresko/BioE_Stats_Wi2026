@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-# Correlation, Linear Models, ANOVA, and ANCOVA
+# Correlation and Linear Models
 
 ## Directions
 
