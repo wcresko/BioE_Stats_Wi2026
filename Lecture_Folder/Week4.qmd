@@ -89,7 +89,17 @@ library(pwr)          # Power analysis for study design
 
 If $Z_1, Z_2, ..., Z_k$ are independent standard normal variables:
 
+:::: panel-tabset
+### Equation
+
 $$\chi^2_k = \sum_{i=1}^k Z_i^2$$
+
+### LaTeX
+
+``` text
+\chi^2_k = \sum_{i=1}^k Z_i^2
+```
+:::
 
 **Properties:**
 
@@ -99,6 +109,9 @@ $$\chi^2_k = \sum_{i=1}^k Z_i^2$$
 -   Right-skewed
 
 ## Chi-Square Distribution {.smaller}
+
+:::: panel-tabset
+### Output
 
 ```{r}
 #| label: chi-square-plot-output
@@ -119,7 +132,7 @@ for(i in 2:4) {
 legend("topright", paste("df =", df_vals), col = colors, lwd = 2)
 ```
 
-## Chi-Square Distribution Code {.smaller}
+### Code
 
 ```{r}
 #| label: chi-square-plot-code
@@ -137,10 +150,21 @@ for(i in 2:4) {
 }
 legend("topright", paste("df =", df_vals), col = colors, lwd = 2)
 ```
+:::
 
 ## Chi-Square Test Statistic {.smaller}
 
+:::: panel-tabset
+### Equation
+
 $$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}$$
+
+### LaTeX
+
+``` text
+\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
+```
+:::
 
 Where:
 
@@ -165,9 +189,13 @@ Degrees of freedom: $df = k - 1$ (goodness-of-fit)
 
 Tests whether observed frequencies match expected proportions.
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| label: gof-test
-#| echo: true
+#| label: gof-test-output
+#| echo: false
+#| eval: true
 
 # Mendelian 3:1 ratio
 observed <- c(Dominant = 72, Recessive = 28)
@@ -176,11 +204,30 @@ expected_probs <- c(0.75, 0.25)
 chisq.test(x = observed, p = expected_probs)
 ```
 
-## Goodness-of-Fit: Dice Example {.smaller}
+### Code
 
 ```{r}
-#| label: dice-gof
+#| label: gof-test-code
 #| echo: true
+#| eval: false
+
+# Mendelian 3:1 ratio
+observed <- c(Dominant = 72, Recessive = 28)
+expected_probs <- c(0.75, 0.25)
+
+chisq.test(x = observed, p = expected_probs)
+```
+:::
+
+## Goodness-of-Fit: Dice Example {.smaller}
+
+:::: panel-tabset
+### Output
+
+```{r}
+#| label: dice-gof-output
+#| echo: false
+#| eval: true
 
 # Rolling a six-sided die 60 times
 observed <- c(8, 9, 10, 12, 11, 10)
@@ -189,13 +236,32 @@ expected_probs <- rep(1/6, 6)
 chisq.test(x = observed, p = expected_probs)
 ```
 
+### Code
+
+```{r}
+#| label: dice-gof-code
+#| echo: true
+#| eval: false
+
+# Rolling a six-sided die 60 times
+observed <- c(8, 9, 10, 12, 11, 10)
+expected_probs <- rep(1/6, 6)
+
+chisq.test(x = observed, p = expected_probs)
+```
+:::
+
 ## Test of Independence {.smaller}
 
 Tests whether two categorical variables are related.
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| label: independence-test
-#| echo: true
+#| label: independence-test-output
+#| echo: false
+#| eval: true
 
 # Create contingency table
 tbl <- matrix(c(50, 10, 20, 40), nrow = 2, byrow = TRUE)
@@ -205,7 +271,26 @@ colnames(tbl) <- c("Outcome1", "Outcome2")
 chisq.test(tbl)
 ```
 
+### Code
+
+```{r}
+#| label: independence-test-code
+#| echo: true
+#| eval: false
+
+# Create contingency table
+tbl <- matrix(c(50, 10, 20, 40), nrow = 2, byrow = TRUE)
+rownames(tbl) <- c("Group1", "Group2")
+colnames(tbl) <- c("Outcome1", "Outcome2")
+
+chisq.test(tbl)
+```
+:::
+
 ## Mosaic Plot {.smaller}
+
+:::: panel-tabset
+### Output
 
 ```{r}
 #| label: mosaic-plot-output
@@ -221,7 +306,7 @@ mosaicplot(tbl,
            color = TRUE)
 ```
 
-## Mosaic Plot Code {.smaller}
+### Code
 
 ```{r}
 #| label: mosaic-plot-code
@@ -234,12 +319,23 @@ mosaicplot(tbl,
            ylab = "Outcome",
            color = TRUE)
 ```
+:::
 
 ## Cramér's V {.smaller}
 
 Effect size for chi-square test:
 
+:::: panel-tabset
+### Equation
+
 $$V = \sqrt{\frac{\chi^2}{n(k-1)}}$$
+
+### LaTeX
+
+``` text
+V = \sqrt{\frac{\chi^2}{n(k-1)}}
+```
+:::
 
 | V   | Interpretation |
 |:----|:---------------|
@@ -249,9 +345,13 @@ $$V = \sqrt{\frac{\chi^2}{n(k-1)}}$$
 
 ## Calculating Cramér's V in R {.smaller}
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| label: cramers-v
-#| echo: true
+#| label: cramers-v-output
+#| echo: false
+#| eval: true
 
 # Chi-square test of independence
 test <- chisq.test(tbl)
@@ -271,6 +371,32 @@ cramers_v <- sqrt(chisq_val / (n * (k - 1)))
 cat("Cramér's V:", round(cramers_v, 3))
 ```
 
+### Code
+
+```{r}
+#| label: cramers-v-code
+#| echo: true
+#| eval: false
+
+# Chi-square test of independence
+test <- chisq.test(tbl)
+
+# Extract test statistic
+chisq_val <- test$statistic
+
+# Total number of observations
+n <- sum(tbl)
+
+# Minimum of (rows, columns) for Cramér's V formula
+k <- min(nrow(tbl), ncol(tbl))
+
+# Cramér's V calculation
+cramers_v <- sqrt(chisq_val / (n * (k - 1)))
+
+cat("Cramér's V:", round(cramers_v, 3))
+```
+:::
+
 ## Fisher's Exact Test {.smaller}
 
 Use when:
@@ -278,9 +404,13 @@ Use when:
 -   Sample sizes are small
 -   Expected frequencies \< 5
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| label: fisher-test
-#| echo: true
+#| label: fisher-test-output
+#| echo: false
+#| eval: true
 
 beverage_table <- matrix(c(8, 2, 1, 9), nrow = 2, byrow = TRUE)
 rownames(beverage_table) <- c("American", "English")
@@ -288,6 +418,21 @@ colnames(beverage_table) <- c("Coffee", "Tea")
 
 fisher.test(beverage_table)
 ```
+
+### Code
+
+```{r}
+#| label: fisher-test-code
+#| echo: true
+#| eval: false
+
+beverage_table <- matrix(c(8, 2, 1, 9), nrow = 2, byrow = TRUE)
+rownames(beverage_table) <- c("American", "English")
+colnames(beverage_table) <- c("Coffee", "Tea")
+
+fisher.test(beverage_table)
+```
+:::
 
 ## Odds Ratios {.smaller}
 
@@ -397,11 +542,31 @@ bacteria <- matrix(c(45, 15, 30, 30, 20, 40),
 
 **Covariance** Measures how two variables vary together:
 
+:::: panel-tabset
+### Equation
+
 $$Cov(X,Y) = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{n-1}$$
+
+### LaTeX
+
+``` text
+Cov(X,Y) = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{n-1}
+```
+:::
 
 **Correlation** does the same thing but is a standardized covariance (ranges from -1 to 1):
 
+:::: panel-tabset
+### Equation
+
 $$r = \frac{Cov(X,Y)}{s_x \cdot s_y}$$
+
+### LaTeX
+
+``` text
+r = \frac{Cov(X,Y)}{s_x \cdot s_y}
+```
+:::
 
 -   Positive: variables increase together
 -   Negative: one increases as other decreases
@@ -412,6 +577,9 @@ $$r = \frac{Cov(X,Y)}{s_x \cdot s_y}$$
 ![](images/week05_11_week8_correlation.jpg){fig-align="center" width="60%"}
 
 ## Visualizing Different Correlations in R {.smaller}
+
+:::: panel-tabset
+### Output
 
 ```{r}
 #| label: fig-correlation-examples-figure
@@ -441,7 +609,7 @@ for(r in correlations) {
 }
 ```
 
-## Visualizing Different Correlations in R {.smaller}
+### Code
 
 ```{r}
 #| label: fig-correlation-examples-code
@@ -470,18 +638,35 @@ for(r in correlations) {
   abline(lm(y ~ x, d), col = "red", lwd = 2)
 }
 ```
+:::
 
 ## Calculating Correlations in R {.smaller}
 
 ### Pearson Correlation Value
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| label: cor-example-1
-#| echo: true
+#| label: cor-example-1-output
+#| echo: false
+#| eval: true
 
 # Using built-in mtcars dataset
 cor(mtcars$mpg, mtcars$wt)  # Pearson correlation
 ```
+
+### Code
+
+```{r}
+#| label: cor-example-1-code
+#| echo: true
+#| eval: false
+
+# Using built-in mtcars dataset
+cor(mtcars$mpg, mtcars$wt)  # Pearson correlation
+```
+:::
 
 \
 \
@@ -489,13 +674,29 @@ cor(mtcars$mpg, mtcars$wt)  # Pearson correlation
 
 ### Pearson Product-Moment Test of Correlation
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| label: cor-example-2
-#| echo: true
+#| label: cor-example-2-output
+#| echo: false
+#| eval: true
 
 # Test significance
 cor.test(mtcars$mpg, mtcars$wt)
 ```
+
+### Code
+
+```{r}
+#| label: cor-example-2-code
+#| echo: true
+#| eval: false
+
+# Test significance
+cor.test(mtcars$mpg, mtcars$wt)
+```
+:::
 
 ## Parametric vs. Nonparametric Correlation {.smaller}
 
@@ -521,6 +722,9 @@ All four datasets have identical: mean of x (9), variance of x (11), mean of y (
 
 ## In-Class Demo: Anscombe's Quartet in R {.smaller}
 
+:::: panel-tabset
+### Output
+
 ```{r}
 #| label: anscombe-output
 #| echo: false
@@ -540,7 +744,7 @@ for(i in 1:4) {
 }
 ```
 
-## Anscombe's Quartet Code {.smaller}
+### Code
 
 ```{r}
 #| label: anscombe-code
@@ -564,6 +768,7 @@ for(i in 1:4) {
   abline(lm(y ~ x), col = "red", lwd = 2)
 }
 ```
+:::
 
 ::: callout-warning
 **Always visualize your data!** Summary statistics can hide important patterns.
@@ -575,7 +780,17 @@ for(i in 1:4) {
 
 ## What is a Linear Model?
 
+:::: panel-tabset
+### Equation
+
 $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+```
+:::
 
 -   $\beta_0$: intercept
 -   $\beta_1$: slope
@@ -637,6 +852,9 @@ summary(my_lm)
 
 ## Linear Regression Example {.smaller}
 
+:::: panel-tabset
+### Output
+
 ```{r}
 #| label: lm-example-output
 #| echo: false
@@ -653,7 +871,7 @@ plot(x, y, pch = 19, col = "steelblue")
 abline(my_lm, col = "red", lwd = 2)
 ```
 
-## Linear Regression Example Code {.smaller}
+### Code
 
 ```{r}
 #| label: lm-example-code
@@ -668,3 +886,4 @@ my_lm <- lm(y ~ x)
 plot(x, y, pch = 19, col = "steelblue")
 abline(my_lm, col = "red", lwd = 2)
 ```
+:::

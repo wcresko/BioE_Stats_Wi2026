@@ -1,9 +1,9 @@
 ---
 title: "Statistics for Bioengineering - Week 2"
 author: "Bill Cresko"
-format: 
+format:
   revealjs:
-    footer: BioE_Stats_2026 - Knight Campus 
+    footer: BioE_Stats_2026 - Knight Campus
     transition: fade
     transition-speed: slow
     theme: default
@@ -245,6 +245,9 @@ More info: <https://ggplot2.tidyverse.org/>
 
 ## Scatterplots {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: ggplot-scatter-output
 #| echo: false
@@ -256,7 +259,7 @@ ggplot(mpg, aes(displ, hwy, color = class)) +
   geom_point(size = 4, alpha = 0.6)
 ```
 
-## Scatterplots Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-scatter-code
@@ -266,12 +269,16 @@ ggplot(mpg, aes(displ, hwy, color = class)) +
 ggplot(mpg, aes(displ, hwy, color = class)) +
   geom_point(size = 4, alpha = 0.6)
 ```
+:::
 
 ## Boxplots {.smaller}
 
 ![](images/week02_28_boxplot.jpeg){fig-align="center" width="90%"}
 
 ## Boxplots {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggplot-boxplot-output
@@ -286,7 +293,7 @@ ggplot(mpg, aes(manufacturer, hwy, colour = class)) +
   theme(axis.text.x = element_text(angle = 45, hjust=1))
 ```
 
-## Boxplots Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-boxplot-code
@@ -298,6 +305,7 @@ ggplot(mpg, aes(manufacturer, hwy, colour = class)) +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust=1))
 ```
+:::
 
 ## Common ggplot Geoms {.smaller}
 
@@ -311,6 +319,9 @@ ggplot(mpg, aes(manufacturer, hwy, colour = class)) +
 | `geom_smooth()`    | Trend lines  | Two continuous          |
 
 ## Combining Geoms {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: combine-geoms-output
@@ -326,7 +337,7 @@ ggplot(data=mpg, aes(x=displ, y=hwy)) +
        caption = "Data from fueleconomy.gov")
 ```
 
-## Combining Geoms Code {.smaller}
+### Code
 
 ```{r}
 #| label: combine-geoms-code
@@ -339,8 +350,12 @@ ggplot(data=mpg, aes(x=displ, y=hwy)) +
   labs(title = "Fuel efficiency decreases with engine size",
        caption = "Data from fueleconomy.gov")
 ```
+:::
 
 ## Faceting {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: facet-example-output
@@ -354,7 +369,7 @@ ggplot(data=mpg) +
   facet_wrap(~class, nrow=2)
 ```
 
-## Faceting Code {.smaller}
+### Code
 
 ```{r}
 #| label: facet-example-code
@@ -365,8 +380,12 @@ ggplot(data=mpg) +
   geom_point(mapping=aes(x=displ, y=hwy)) +
   facet_wrap(~class, nrow=2)
 ```
+:::
 
 ## Three-Dimensional Data {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: 3d-contour-output
@@ -382,7 +401,7 @@ ggplot(d, aes(x=a, y=b)) +
   theme_minimal()
 ```
 
-## Three-Dimensional Data Code {.smaller}
+### Code
 
 ```{r}
 #| label: 3d-contour-code
@@ -395,6 +414,7 @@ ggplot(d, aes(x=a, y=b)) +
   geom_density2d_filled() +
   theme_minimal()
 ```
+:::
 
 ## Choosing the Right Plot
 
@@ -540,9 +560,33 @@ Probabilities of a sample space **always sum to 1.0**
 
 ## Probability Rules {.smaller}
 
-**'And' rule (multiplication):** $$Pr(X \text{ and } Y) = Pr(X) \times Pr(Y)$$
+**'And' rule (multiplication):**
 
-**'Or' rule (addition):** $$Pr(X \text{ or } Y) = Pr(X) + Pr(Y)$$
+::: panel-tabset
+### Equation
+
+$$Pr(X \text{ and } Y) = Pr(X) \times Pr(Y)$$
+
+### LaTeX
+
+``` text
+Pr(X \text{ and } Y) = Pr(X) \times Pr(Y)
+```
+:::
+
+**'Or' rule (addition):**
+
+::: panel-tabset
+### Equation
+
+$$Pr(X \text{ or } Y) = Pr(X) + Pr(Y)$$
+
+### LaTeX
+
+``` text
+Pr(X \text{ or } Y) = Pr(X) + Pr(Y)
+```
+:::
 
 ::: callout-note
 The 'and' rule assumes independent events. For non-independent events, we need conditional probabilities.
@@ -550,27 +594,77 @@ The 'and' rule assumes independent events. For non-independent events, we need c
 
 ## Joint and Conditional Probability {.smaller}
 
-**Joint probability (independent events):** $$Pr(X,Y) = Pr(X) \times Pr(Y)$$
+**Joint probability (independent events):**
 
-**Conditional probability (independent):** $$Pr(Y|X) = Pr(Y) \text{ and } Pr(X|Y) = Pr(X)$$
+::: panel-tabset
+### Equation
 
-**Conditional probability (non-independent):** $$Pr(Y|X) \neq Pr(Y) \text{ and } Pr(X|Y) \neq Pr(X)$$
+$$Pr(X,Y) = Pr(X) \times Pr(Y)$$
+
+### LaTeX
+
+``` text
+Pr(X,Y) = Pr(X) \times Pr(Y)
+```
+:::
+
+**Conditional probability (independent):**
+
+$$Pr(Y|X) = Pr(Y) \text{ and } Pr(X|Y) = Pr(X)$$
+
+**Conditional probability (non-independent):**
+
+$$Pr(Y|X) \neq Pr(Y) \text{ and } Pr(X|Y) \neq Pr(X)$$
 
 ## Likelihood vs. Probability {.smaller}
 
 -   **Probability**: proportion of times an event would occur over many trials
 -   **Likelihood**: conditional probability of a parameter value given data
 
+::: panel-tabset
+### Equation
+
 $$L[\text{parameter}|\text{data}] = Pr[\text{data}|\text{parameter}]$$
+
+### LaTeX
+
+``` text
+L[\text{parameter}|\text{data}] = Pr[\text{data}|\text{parameter}]
+```
+:::
 
 -   **Maximum likelihood**: highest value of the likelihood function
 -   **Bayesian estimate**: uses prior distribution to update posterior distribution
 
 ## Moments of Distributions {.smaller}
 
-**1st moment (mean/expectation):** $$E[X] = \sum_{\text{all x}}xP(X=x) = \mu$$
+**1st moment (mean/expectation):**
 
-**2nd moment (variance):** $$Var(X) = E[(X-\mu)^2] = \sigma^2$$
+::: panel-tabset
+### Equation
+
+$$E[X] = \sum_{\text{all x}}xP(X=x) = \mu$$
+
+### LaTeX
+
+``` text
+E[X] = \sum_{\text{all x}}xP(X=x) = \mu
+```
+:::
+
+**2nd moment (variance):**
+
+::: panel-tabset
+### Equation
+
+$$Var(X) = E[(X-\mu)^2] = \sigma^2$$
+
+### LaTeX
+
+``` text
+Var(X) = E[(X-\mu)^2] = \sigma^2
+```
+:::
 
 **Standard deviation:** $$SD = \sqrt{\sigma^2} = \sigma$$
 
@@ -579,6 +673,9 @@ Higher moments include skewness (3rd) and kurtosis (4th).
 # Discrete Probability Distributions {background-color="#2c3e50"}
 
 ## PMF, PDF, and CDF in R {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: fig-pmf-pdf-cdf-output
@@ -611,7 +708,7 @@ plot(x_cont, pnorm(x_cont), type = "l", lwd = 2, col = "forestgreen",
 abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 ```
 
-## PMF, PDF, and CDF Code {.smaller}
+### Code
 
 ```{r}
 #| label: fig-pmf-pdf-cdf-code
@@ -640,6 +737,7 @@ plot(x_cont, pnorm(x_cont), type = "l", lwd = 2, col = "forestgreen",
      main = "CDF: Normal(0, 1)", xlab = "x", ylab = "F(x) = P(X ≤ x)")
 abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 ```
+:::
 
 ## Common moments of distributions
 
@@ -669,6 +767,9 @@ Probabilities always sum to 1: $p + q = 1$
 
 ## Let's Simulate Coin Flips {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: coin-flip-output
 #| echo: false
@@ -681,7 +782,7 @@ flips <- sample(coin, prob = c(0.5, 0.5), size = 100, replace = TRUE)
 barplot(table(flips), col = c("steelblue", "coral"))
 ```
 
-## Coin Flip Code {.smaller}
+### Code
 
 ```{r}
 #| label: coin-flip-code
@@ -692,10 +793,14 @@ coin <- c("heads", "tails")
 flips <- sample(coin, prob = c(0.5, 0.5), size = 100, replace = TRUE)
 barplot(table(flips), col = c("steelblue", "coral"))
 ```
+:::
 
 ## In-Class Demo: Law of Large Numbers with Coin Flips {.smaller}
 
 Watch how the proportion of heads converges to 0.5 as we flip more coins:
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: lln-coins-output
@@ -723,7 +828,7 @@ for(n in c(1, 8, 16, 32, 400, 1000)) {
 }
 ```
 
-## LLN Coin Flips Code {.smaller}
+### Code
 
 ```{r}
 #| label: lln-coins-code
@@ -748,6 +853,7 @@ for(n in c(1, 8, 16, 32, 400, 1000)) {
   abline(h = 0.5, lty = 2, col = "gray")
 }
 ```
+:::
 
 ::: callout-tip
 As sample size increases, observed proportions converge to true probability (0.5).
@@ -755,12 +861,16 @@ As sample size increases, observed proportions converge to true probability (0.5
 
 ## Law of Large Numbers in R {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: fig-lln
+#| label: fig-lln-output
 #| fig-cap: "Sample means converge to population mean as sample size increases"
 #| fig-width: 9
 #| fig-height: 4
-#| echo: true
+#| echo: false
+#| eval: true
 
 # Simulate cumulative means from a Normal(10, 2) population
 set.seed(123)
@@ -776,11 +886,43 @@ legend("topright", c("Cumulative Mean", "True Mean (μ = 10)"),
        col = c("steelblue", "red"), lwd = 2, lty = c(1, 2))
 ```
 
+### Code
+
+```{r}
+#| label: fig-lln-code
+#| echo: true
+#| eval: false
+
+# Simulate cumulative means from a Normal(10, 2) population
+set.seed(123)
+n <- 1000
+samples <- rnorm(n, mean = 10, sd = 2)
+cumulative_means <- cumsum(samples) / 1:n
+
+plot(1:n, cumulative_means, type = "l", col = "steelblue", lwd = 2,
+     xlab = "Sample Size (n)", ylab = "Cumulative Mean",
+     main = "Law of Large Numbers: Mean Converges to μ = 10")
+abline(h = 10, col = "red", lwd = 2, lty = 2)
+legend("topright", c("Cumulative Mean", "True Mean (μ = 10)"),
+       col = c("steelblue", "red"), lwd = 2, lty = c(1, 2))
+```
+:::
+
 ## Binomial Distribution {.smaller}
 
 Results from combining several independent Bernoulli events.
 
+::: panel-tabset
+### Equation
+
 $$\large f(k) = {n \choose k} p^{k} (1-p)^{n-k}$$
+
+### LaTeX
+
+``` text
+\large f(k) = {n \choose k} p^{k} (1-p)^{n-k}
+```
+:::
 
 Where:
 
@@ -793,6 +935,9 @@ Where:
 ![](images/week02_76_bell_shaped_histogram.jpeg){fig-align="center" width="100%"}
 
 ## Creating a Binomial Distributions {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: binom-test-output
@@ -807,7 +952,7 @@ plot(0:10, dbinom(x = 0:10, size = 10, prob = 0.5),
      xlab = "Number of Successes", ylab = "Probability")
 ```
 
-## Binomial Distribution Code {.smaller}
+### Code
 
 ```{r}
 #| label: binom-test-code
@@ -822,12 +967,23 @@ plot(0:10, dbinom(x = 0:10, size = 10, prob = 0.5),
      type = "h", lwd = 3, col = "steelblue",
      xlab = "Number of Successes", ylab = "Probability")
 ```
+:::
 
 ## Poisson Distribution {.smaller}
 
 For discrete counts (e.g., snails per plot, neuron firings per second).
 
+::: panel-tabset
+### Equation
+
 $$Pr(Y=r) = \frac{e^{-\lambda}\lambda^r}{r!}$$
+
+### LaTeX
+
+``` text
+Pr(Y=r) = \frac{e^{-\lambda}\lambda^r}{r!}
+```
+:::
 
 ::: callout-note
 The Poisson is a single-parameter distribution: $\mu = \sigma^2 = \lambda$
@@ -849,6 +1005,9 @@ Variables with variance \> mean are called "overdispersed" (common in RNA-seq da
 
 ## Creating Poisson Distributions {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: pois-test-output
 #| echo: false
@@ -862,7 +1021,7 @@ plot(0:15, dpois(x = 0:15, lambda = 3),
      xlab = "Count", ylab = "Probability")
 ```
 
-## Poisson Distribution Code {.smaller}
+### Code
 
 ```{r}
 #| label: pois-test-code
@@ -877,6 +1036,7 @@ plot(0:15, dpois(x = 0:15, lambda = 3),
      type = "h", lwd = 3, col = "darkgreen",
      xlab = "Count", ylab = "Probability")
 ```
+:::
 
 ## Geometric Distribution {.smaller}
 
@@ -916,6 +1076,9 @@ All outcomes equally probable.
 
 $$E[X] = \frac{(a+b)}{2}$$
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: unif-dist-output
 #| echo: false
@@ -928,7 +1091,7 @@ plot(x, dunif(x, 0, 10), type = "l", lwd = 2, col = "purple",
      ylab = "Density", main = "Uniform Distribution (0, 10)")
 ```
 
-## Uniform Distribution Code {.smaller}
+### Code
 
 ```{r}
 #| label: unif-dist-code
@@ -939,10 +1102,21 @@ x <- seq(0, 10, 0.1)
 plot(x, dunif(x, 0, 10), type = "l", lwd = 2, col = "purple",
      ylab = "Density", main = "Uniform Distribution (0, 10)")
 ```
+:::
 
 ## Exponential Distribution {.smaller}
 
+::: panel-tabset
+### Equation
+
 $$f(x)=\lambda e^{-\lambda x}$$
+
+### LaTeX
+
+``` text
+f(x)=\lambda e^{-\lambda x}
+```
+:::
 
 -   $E[X] = \frac{1}{\lambda}$
 -   $Var(X) = \frac{1}{\lambda^2}$
@@ -950,6 +1124,9 @@ $$f(x)=\lambda e^{-\lambda x}$$
 **Example:** If λ equals the instantaneous death rate, the lifespan follows an exponential distribution.
 
 ## Exponential Distribution {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: exp-dist-output
@@ -963,7 +1140,7 @@ plot(x, dexp(x, rate = 0.1), type = "l", lwd = 2, col = "red",
      ylab = "Density", main = "Exponential Distribution (λ = 0.1)")
 ```
 
-## Exponential Distribution Code {.smaller}
+### Code
 
 ```{r}
 #| label: exp-dist-code
@@ -974,6 +1151,7 @@ x <- seq(0, 50, 0.5)
 plot(x, dexp(x, rate = 0.1), type = "l", lwd = 2, col = "red",
      ylab = "Density", main = "Exponential Distribution (λ = 0.1)")
 ```
+:::
 
 ## Gamma Distribution {.smaller}
 
@@ -990,7 +1168,17 @@ $$f(x) = \frac{\lambda^r x^{r-1} e^{-\lambda x}}{(r-1)!}$$
 
 ## Normal (Gaussian) Distribution {.smaller}
 
+::: panel-tabset
+### Equation
+
 $$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \, \mathrm{e}^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
+
+### LaTeX
+
+``` text
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \, \mathrm{e}^{-\frac{(x - \mu)^2}{2\sigma^2}}
+```
+:::
 
 Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
 
@@ -1018,7 +1206,17 @@ Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
 
 Standardize variables to mean = 0, SD = 1:
 
+::: panel-tabset
+### Equation
+
 $$\huge z_i = \frac{(x_i - \bar{x})}{s}$$
+
+### LaTeX
+
+``` text
+\huge z_i = \frac{(x_i - \bar{x})}{s}
+```
+:::
 
 This is the **standard normal distribution**.
 
@@ -1066,6 +1264,9 @@ The CLT tells us that the sampling distribution of the mean approaches normal as
 
 ## Visualizing the Central Limit Theorem {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: fig-clt-figure
 #| fig-cap: "CLT: Sample means become normal even from non-normal populations"
@@ -1101,7 +1302,7 @@ for(n in c(5, 30, 100)) {
 }
 ```
 
-## Visualizing the Central Limit Theorem {.smaller}
+### Code
 
 ```{r}
 #| label: fig-clt-code
@@ -1137,12 +1338,16 @@ for(n in c(5, 30, 100)) {
        col = "coral", border = "white", xlab = "Mean", breaks = 25)
 }
 ```
+:::
 
 ## CLT in Quantitative Genetics {.smaller}
 
 **Why are complex traits normally distributed?**
 
 Simulate a trait controlled by 5 genes, each with additive effects:
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: clt-genetics-output
@@ -1177,7 +1382,7 @@ hist(phenotype_continuous, col = "coral", border = "white",
      xlab = "Phenotype Value", breaks = 20)
 ```
 
-## CLT Quantitative Genetics Code {.smaller}
+### Code
 
 ```{r}
 #| label: clt-genetics-code
@@ -1209,6 +1414,7 @@ hist(phenotype_continuous, col = "coral", border = "white",
      main = "With Environmental Variation",
      xlab = "Phenotype Value", breaks = 20)
 ```
+:::
 
 ::: callout-note
 This is why quantitative traits (height, weight, blood pressure) are approximately normal!
@@ -1220,7 +1426,7 @@ This is why quantitative traits (height, weight, blood pressure) are approximate
 
 ![](images/week02_88_population_vs_sampling_distribution.jpeg){fig-align="center" width="100%"}
 
-## 
+##
 
 ![](images/week02_91_sampling_distribution_of_means.jpeg){fig-align="center" width="100%"}
 
@@ -1228,13 +1434,23 @@ This is why quantitative traits (height, weight, blood pressure) are approximate
 
 ![](images/week02_90_population_vs_single_sample.jpeg){fig-align="center" width="90%"}
 
-## 
+##
 
 ![](images/week02_92_standard_error_confidence_interval.jpeg){fig-align="center" width="100%"}
 
 ## Standard Error of the Mean {.smaller}
 
+::: panel-tabset
+### Equation
+
 $$\huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}$$
+
+### LaTeX
+
+``` text
+\huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}
+```
+:::
 
 ::: callout-note
 -   SEM is NOT the standard deviation of the original distribution
@@ -1243,9 +1459,13 @@ $$\huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}$$
 
 ## Calculating SEM {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: sem-calc
-#| echo: true
+#| label: sem-calc-output
+#| echo: false
+#| eval: true
 
 set.seed(32)
 true_pop <- rnorm(n = 1000, mean = 2, sd = 5)
@@ -1261,20 +1481,62 @@ sem_50 <- sd(apply(samps_50, 2, mean)) / sqrt(50)
 cat("SEM (n=5):", round(sem_5, 4), "\nSEM (n=50):", round(sem_50, 4))
 ```
 
+### Code
+
+```{r}
+#| label: sem-calc-code
+#| echo: true
+#| eval: false
+
+set.seed(32)
+true_pop <- rnorm(n = 1000, mean = 2, sd = 5)
+
+# Small sample
+samps_5 <- replicate(n = 50, sample(true_pop, size = 5))
+sem_5 <- sd(apply(samps_5, 2, mean)) / sqrt(50)
+
+# Larger sample
+samps_50 <- replicate(n = 50, sample(true_pop, size = 50))
+sem_50 <- sd(apply(samps_50, 2, mean)) / sqrt(50)
+
+cat("SEM (n=5):", round(sem_5, 4), "\nSEM (n=50):", round(sem_50, 4))
+```
+:::
+
 ## Confidence Intervals {.smaller}
 
 A confidence interval is a range of values about a parameter estimate such that we are X% certain the true population parameter lies within.
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: conf-int
-#| echo: true
+#| label: conf-int-output
+#| echo: false
+#| eval: true
 
 # 95% CI using t.test
 sample_data <- rnorm(30, mean = 10, sd = 2)
 t.test(sample_data)$conf.int
 ```
 
+### Code
+
+```{r}
+#| label: conf-int-code
+#| echo: true
+#| eval: false
+
+# 95% CI using t.test
+sample_data <- rnorm(30, mean = 10, sd = 2)
+t.test(sample_data)$conf.int
+```
+:::
+
 ## Visualizing What "95% Confidence" Means {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: fig-ci-demo-code
@@ -1309,7 +1571,7 @@ legend("topright", c(paste(sum(contains_true), "contain μ"),
        paste(sum(!contains_true), "miss μ")), col = c("steelblue", "red"), lwd = 2)
 ```
 
-## Visualizing What "95% Confidence" Means {.smaller}
+### Code
 
 ```{r}
 #| label: fig-ci-demo-figure
@@ -1343,9 +1605,20 @@ for(i in 1:n_samples) {
 legend("topright", c(paste(sum(contains_true), "contain μ"),
        paste(sum(!contains_true), "miss μ")), col = c("steelblue", "red"), lwd = 2)
 ```
+:::
 
 ## Coefficient of Variation {.smaller}
 
 To compare standard deviations across populations with different means:
 
+::: panel-tabset
+### Equation
+
 $$CV = \frac{s}{\bar{x}} \times 100\%$$
+
+### LaTeX
+
+``` text
+CV = \frac{s}{\bar{x}} \times 100\%
+```
+:::

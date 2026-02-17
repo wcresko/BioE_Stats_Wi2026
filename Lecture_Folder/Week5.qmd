@@ -71,7 +71,17 @@ library(knitr)
 
 An ordinary linear model describes the relationship between a continuous response variable $y$ and one or more predictor variables $x$. In its simplest form with one predictor, the model is:
 
+::: panel-tabset
+### Equation
+
 $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+```
+:::
 
 where:
 
@@ -82,6 +92,9 @@ where:
 The goal of fitting a linear model is to estimate $\beta_0$ and $\beta_1$ from our data.
 
 ## Simple Linear Regression Example {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: lm-example-output
@@ -101,7 +114,7 @@ plot(x, y, pch = 19, col = "steelblue")
 abline(my_lm, col = "red", lwd = 2)
 ```
 
-## Linear Regression Example Code {.smaller}
+### Code
 
 ```{r}
 #| label: lm-example-code
@@ -118,6 +131,7 @@ my_lm <- lm(y ~ x)
 plot(x, y, pch = 19, col = "steelblue")
 abline(my_lm, col = "red", lwd = 2)
 ```
+:::
 
 ## 
 
@@ -133,7 +147,18 @@ abline(my_lm, col = "red", lwd = 2)
 
 ## Hypothesis Tests in Regression {.smaller}
 
+::: panel-tabset
+### Equation
+
 $$H_0: \beta_1 = 0 \quad \text{(no relationship)}$$ $$H_A: \beta_1 \neq 0 \quad \text{(relationship exists)}$$
+
+### LaTeX
+
+``` text
+H_0: \beta_1 = 0 \quad \text{(no relationship)}
+H_A: \beta_1 \neq 0 \quad \text{(relationship exists)}
+```
+:::
 
 Compares:
 
@@ -148,21 +173,61 @@ Compares:
 | $SS_{Model}$ | Variability explained by model |
 | $SS_{Error}$ | Unexplained variability        |
 
+::: panel-tabset
+### Equation
+
 $$SS_{Total} = SS_{Model} + SS_{Error}$$
+
+### LaTeX
+
+``` text
+SS_{Total} = SS_{Model} + SS_{Error}
+```
+:::
 
 ## The Loss Function: Minimizing Error {.smaller}
 
 Linear regression finds the line of best fit by minimizing the **sum of squared errors (SSE)**. For each observation, the residual is the difference between the observed and predicted value:
 
+::: panel-tabset
+### Equation
+
 $$e_i = y_i - \hat{y}_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)$$
+
+### LaTeX
+
+``` text
+e_i = y_i - \hat{y}_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)
+```
+:::
 
 The SSE is the total squared deviation of all observations from the fitted line:
 
+::: panel-tabset
+### Equation
+
 $$SSE = \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+### LaTeX
+
+``` text
+SSE = \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+```
+:::
 
 The **mean squared error (MSE)** normalizes by degrees of freedom:
 
+::: panel-tabset
+### Equation
+
 $$MSE = \frac{SSE}{n - p}$$
+
+### LaTeX
+
+``` text
+MSE = \frac{SSE}{n - p}
+```
+:::
 
 where $p$ is the number of parameters estimated (2 for simple linear regression: intercept and slope). Ordinary Least Squares (OLS) is the method that finds the values of $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize the SSE.
 
@@ -172,7 +237,17 @@ where $p$ is the number of parameters estimated (2 for simple linear regression:
 
 ## R² as Measure of Fit (\~ effect size)
 
+::: panel-tabset
+### Equation
+
 $$R^2 = \frac{SS_{Model}}{SS_{Total}} = 1 - \frac{SS_{Error}}{SS_{Total}}$$
+
+### LaTeX
+
+``` text
+R^2 = \frac{SS_{Model}}{SS_{Total}} = 1 - \frac{SS_{Error}}{SS_{Total}}
+```
+:::
 
 $R^2$ is the proportion of variance in Y explained by X. It ranges from 0 (model explains none of the variance) to 1 (model explains all of the variance). For simple linear regression, $R^2$ equals the square of the Pearson correlation coefficient $r$.
 
@@ -247,6 +322,9 @@ A trend that appears in groups can disappear or reverse when groups are combined
 
 ## In-Class Demo: Simpson's Paradox with Iris Data {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: simpsons-paradox-output
 #| echo: false
@@ -275,7 +353,7 @@ for(i in 1:3) {
 legend("topleft", levels(iris$Species), col = colors, pch = 19, cex = 0.8)
 ```
 
-## Simpson's Paradox Code {.smaller}
+### Code
 
 ```{r}
 #| label: simpsons-paradox-code
@@ -303,6 +381,7 @@ for(i in 1:3) {
 }
 legend("topleft", levels(iris$Species), col = colors, pch = 19, cex = 0.8)
 ```
+:::
 
 ::: callout-important
 The overall negative trend reverses to positive within each species — a classic confounding variable problem!
@@ -326,15 +405,45 @@ The overall negative trend reverses to positive within each species — a classi
 
 Linear regression finds the line of best fit by minimizing the **sum of squared errors (SSE)**. For each observation, the residual is the difference between the observed and predicted value:
 
+::: panel-tabset
+### Equation
+
 $$e_i = y_i - \hat{y}_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)$$
+
+### LaTeX
+
+``` text
+e_i = y_i - \hat{y}_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)
+```
+:::
 
 The SSE is the total squared deviation of all observations from the fitted line:
 
+::: panel-tabset
+### Equation
+
 $$SSE = \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+### LaTeX
+
+``` text
+SSE = \sum_{i=1}^{n} e_i^2 = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+```
+:::
 
 The **mean squared error (MSE)** normalizes by degrees of freedom:
 
+::: panel-tabset
+### Equation
+
 $$MSE = \frac{SSE}{n - p}$$
+
+### LaTeX
+
+``` text
+MSE = \frac{SSE}{n - p}
+```
+:::
 
 where $p$ is the number of parameters estimated (2 for simple linear regression: intercept and slope). Ordinary Least Squares (OLS) is the method that finds the values of $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize the SSE.
 
@@ -347,22 +456,8 @@ where $p$ is the number of parameters estimated (2 for simple linear regression:
 
 ## Importing and Exploring the Data {.smaller}
 
-```{r}
-#| label: grip-import-code
-#| echo: true
-#| eval: false
-
-library(tidyverse)
-library(broom)
-library(knitr)
-
-grip <- read_csv("grip_strength_data.csv")
-
-# Preview the data
-head(grip, 8) |> kable(digits = 2)
-```
-
-## Importing and Exploring the Data {.smaller}
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: grip-import-output
@@ -379,7 +474,38 @@ grip <- read_csv("grip_strength_data.csv")
 head(grip, 8) |> kable(digits = 2)
 ```
 
+### Code
+
+```{r}
+#| label: grip-import-code
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+library(broom)
+library(knitr)
+
+grip <- read_csv("grip_strength_data.csv")
+
+# Preview the data
+head(grip, 8) |> kable(digits = 2)
+```
+:::
+
 ## Summary Statistics of the Data {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: grip-summary-output
+#| echo: false
+#| eval: true
+
+summary(grip[, c("grip_strength_kg", "bmp2_cream_mg_ml", "exercise_hrs_week")])
+```
+
+### Code
 
 ```{r}
 #| label: grip-summary-code
@@ -388,17 +514,7 @@ head(grip, 8) |> kable(digits = 2)
 
 summary(grip[, c("grip_strength_kg", "bmp2_cream_mg_ml", "exercise_hrs_week")])
 ```
-
-\
-\
-
-```{r}
-#| label: grip-summary-output
-#| echo: false
-#| eval: true
-
-summary(grip[, c("grip_strength_kg", "bmp2_cream_mg_ml", "exercise_hrs_week")]) 
-```
+:::
 
 ## Grip Strength \~ BMP2 Cream {.smaller}
 
@@ -408,18 +524,10 @@ $$\text{grip_strength}_i = \beta_0 + \beta_1 \cdot \text{bmp2_cream}_i + \epsilo
 
 ## Grip Strength \~ BMP2 Cream {.smaller}
 
-```{r}
-#| label: lm-bmp2-code
-#| echo: true
-#| eval: false
-
-lm_bmp2 <- lm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
-summary(lm_bmp2)
-```
-
 The `summary()` output gives us the estimated coefficients, their standard errors, t-statistics, and p-values, plus the overall model $R^2$ and F-test.
 
-## Grip Strength \~ BMP2 Cream {.smaller}
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: lm-bmp2-output
@@ -430,7 +538,34 @@ lm_bmp2 <- lm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
 summary(lm_bmp2)
 ```
 
+### Code
+
+```{r}
+#| label: lm-bmp2-code
+#| echo: true
+#| eval: false
+
+lm_bmp2 <- lm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
+summary(lm_bmp2)
+```
+:::
+
 ## Interpreting the BMP2 Model Output {.smaller}
+
+The `broom` package provides two useful functions: `tidy()` extracts coefficient-level information (estimates, standard errors, test statistics, and p-values), while `glance()` extracts model-level summaries ($R^2$, AIC, BIC, etc.).
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: lm-bmp2-tidy-output
+#| echo: false
+#| eval: true
+
+tidy(lm_bmp2) |> kable(digits = 4)
+```
+
+### Code
 
 ```{r}
 #| label: lm-bmp2-tidy-code
@@ -443,19 +578,7 @@ tidy(lm_bmp2) |> kable(digits = 4)
 # Model-level summary
 glance(lm_bmp2) |> kable(digits = 4)
 ```
-
-The `broom` package provides two useful functions: `tidy()` extracts coefficient-level information (estimates, standard errors, test statistics, and p-values), while `glance()` extracts model-level summaries ($R^2$, AIC, BIC, etc.).
-
-\
-\
-
-```{r}
-#| label: lm-bmp2-tidy-output
-#| echo: false
-#| eval: true
-
-tidy(lm_bmp2) |> kable(digits = 4)
-```
+:::
 
 # Visualizing Model Fits with ggplot2 {background-color="#2c3e50"}
 
@@ -470,6 +593,11 @@ tidy(lm_bmp2) |> kable(digits = 4)
 -   Key advantages include built-in support for confidence intervals via `geom_smooth()`, faceting for multiple models, and consistent theming.
 
 ## Visualizing Grip Strength \~ BMP2 Cream {.smaller}
+
+`geom_smooth(method = "lm", se = TRUE)` adds the fitted regression line with a 95% confidence interval ribbon for the mean response.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggplot-bmp2-output
@@ -492,7 +620,7 @@ ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
   theme_minimal(base_size = 14)
 ```
 
-## Visualizing Grip Strength \~ BMP2 Cream {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-bmp2-code
@@ -501,7 +629,7 @@ ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
 
 ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
   geom_point(color = "steelblue", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick",
               fill = "firebrick", alpha = 0.2) +
   labs(
     x = "BMP2 Cream Concentration (mg/ml)",
@@ -511,8 +639,7 @@ ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
   ) +
   theme_minimal(base_size = 14)
 ```
-
-`geom_smooth(method = "lm", se = TRUE)` adds the fitted regression line with a 95% confidence interval ribbon for the mean response.
+:::
 
 # Exercise Hours
 
@@ -522,19 +649,8 @@ Now we test whether hours of exercise per week predict grip strength:
 
 $$\text{grip_strength}_i = \beta_0 + \beta_1 \cdot \text{exercise_hrs}_i + \epsilon_i$$
 
-\
-\
-
-```{r}
-#| label: lm-exercise-code
-#| echo: true
-#| eval: false
-
-lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
-summary(lm_exercise)
-```
-
-## Grip Strength \~ Exercise Hours {.smaller}
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: lm-exercise-output
@@ -544,6 +660,18 @@ summary(lm_exercise)
 lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
 summary(lm_exercise)
 ```
+
+### Code
+
+```{r}
+#| label: lm-exercise-code
+#| echo: true
+#| eval: false
+
+lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
+summary(lm_exercise)
+```
+:::
 
 ## Interpreting the Model Output {.smaller}
 
@@ -571,6 +699,9 @@ glance(lm_exercise) |> kable(digits = 4)
 
 ## Visualizing Grip Strength \~ Exercise Hours {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: ggplot-exercise-output
 #| echo: false
@@ -590,7 +721,7 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   theme_minimal(base_size = 14)
 ```
 
-## Visualizing Grip Strength \~ Exercise Hours {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-exercise-code
@@ -599,7 +730,7 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 
 ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   geom_point(color = "darkorange", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick",
               fill = "firebrick", alpha = 0.2) +
   labs(
     x = "Exercise (hours/week)",
@@ -609,8 +740,12 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   ) +
   theme_minimal(base_size = 14)
 ```
+:::
 
 ## Comparing Both Fits Side by Side {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggplot-both-output
@@ -624,21 +759,21 @@ library(patchwork)
 p1 <- ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
   geom_point(color = "steelblue", alpha = 0.6, size = 2) +
   geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
-  labs(x = "BMP2 Cream (mg/ml)", y = "Grip Strength (kg)", 
+  labs(x = "BMP2 Cream (mg/ml)", y = "Grip Strength (kg)",
        title = "Model 1: BMP2 Cream") +
   theme_minimal(base_size = 13)
 
 p2 <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   geom_point(color = "darkorange", alpha = 0.6, size = 2) +
   geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
-  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)", 
+  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
        title = "Model 2: Exercise Hours") +
   theme_minimal(base_size = 13)
 
 p1 + p2
 ```
 
-## Comparing Both Fits — Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-both-code
@@ -650,19 +785,20 @@ library(patchwork)
 p1 <- ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
   geom_point(color = "steelblue", alpha = 0.6, size = 2) +
   geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
-  labs(x = "BMP2 Cream (mg/ml)", y = "Grip Strength (kg)", 
+  labs(x = "BMP2 Cream (mg/ml)", y = "Grip Strength (kg)",
        title = "Model 1: BMP2 Cream") +
   theme_minimal(base_size = 13)
 
 p2 <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   geom_point(color = "darkorange", alpha = 0.6, size = 2) +
   geom_smooth(method = "lm", se = TRUE, color = "firebrick", fill = "firebrick", alpha = 0.2) +
-  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)", 
+  labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
        title = "Model 2: Exercise Hours") +
   theme_minimal(base_size = 13)
 
 p1 + p2  # patchwork combines plots side-by-side
 ```
+:::
 
 ------------------------------------------------------------------------
 
@@ -673,18 +809,8 @@ p1 + p2  # patchwork combines plots side-by-side
 -   The `aov()` function fits the same underlying model as `lm()`, but presents the results in an analysis of variance (ANOVA) table format.
 -   This is useful when you want to focus on the partitioning of variance rather than individual coefficient estimates.
 
-```{r}
-#| label: aov-bmp2-code
-#| echo: true
-#| eval: false
-
-# aov() gives ANOVA table output for the same model
-aov_bmp2 <- aov(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
-summary(aov_bmp2)
-```
-
-\
-\
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: aov-bmp2-output
@@ -695,8 +821,18 @@ aov_bmp2 <- aov(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
 summary(aov_bmp2)
 ```
 
-\
-\
+### Code
+
+```{r}
+#| label: aov-bmp2-code
+#| echo: true
+#| eval: false
+
+# aov() gives ANOVA table output for the same model
+aov_bmp2 <- aov(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip)
+summary(aov_bmp2)
+```
+:::
 
 -   The ANOVA table decomposes variance into the model sum of squares ($SS_{Model}$) and residual sum of squares ($SS_{Error}$).
 -   It also tests whether the model explains a significant proportion of variance via the F-statistic.
@@ -705,16 +841,8 @@ summary(aov_bmp2)
 
 The `anova()` function can also be applied to `lm` objects directly, and it is especially useful for comparing nested models:
 
-```{r}
-#| label: anova-lm-code
-#| echo: true
-#| eval: false
-
-# ANOVA table from an lm object
-anova(lm_bmp2)
-```
-
-\
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: anova-lm-output
@@ -724,6 +852,18 @@ anova(lm_bmp2)
 # ANOVA table from an lm object
 anova(lm_bmp2)
 ```
+
+### Code
+
+```{r}
+#| label: anova-lm-code
+#| echo: true
+#| eval: false
+
+# ANOVA table from an lm object
+anova(lm_bmp2)
+```
+:::
 
 ## Overview of R Packages for Linear Models {.smaller}
 
@@ -743,17 +883,8 @@ R provides a rich ecosystem of packages for fitting models of increasing complex
 
 The `glm()` function fits generalized linear models. With the default `family = gaussian`, it is equivalent to `lm()`:
 
-```{r}
-#| label: glm-bmp2-code
-#| echo: true
-#| eval: false
-
-# glm() with family = gaussian is equivalent to lm()
-glm_bmp2 <- glm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip, family = gaussian)
-summary(glm_bmp2)
-```
-
-\
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: glm-bmp2-output
@@ -763,6 +894,19 @@ summary(glm_bmp2)
 glm_bmp2 <- glm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip, family = gaussian)
 summary(glm_bmp2)
 ```
+
+### Code
+
+```{r}
+#| label: glm-bmp2-code
+#| echo: true
+#| eval: false
+
+# glm() with family = gaussian is equivalent to lm()
+glm_bmp2 <- glm(grip_strength_kg ~ bmp2_cream_mg_ml, data = grip, family = gaussian)
+summary(glm_bmp2)
+```
+:::
 
 ## Fitting with glm() {.smaller}
 
@@ -851,6 +995,9 @@ The standard `plot(lm_object)` in R produces four diagnostic plots. Each one tar
 
 ## Residual Diagnostic Plots {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: resid-plots-output
 #| echo: false
@@ -862,8 +1009,7 @@ par(mfrow = c(2, 2))
 plot(my_lm)
 ```
 
-\
-\
+### Code
 
 ```{r}
 #| label: resid-plots-code
@@ -873,8 +1019,12 @@ plot(my_lm)
 par(mfrow = c(2, 2))
 plot(my_lm)
 ```
+:::
 
 ## Using ggfortify for Diagnostics {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggfortify-diag-output
@@ -887,7 +1037,7 @@ library(ggfortify)
 autoplot(my_lm, which = 1:4, ncol = 2)
 ```
 
-\
+### Code
 
 ```{r}
 #| label: ggfortify-diag-code
@@ -897,6 +1047,7 @@ autoplot(my_lm, which = 1:4, ncol = 2)
 library(ggfortify)
 autoplot(my_lm, which = 1:4, ncol = 2)
 ```
+:::
 
 ## Outlier Leverage and Influence {.smaller}
 
@@ -927,29 +1078,8 @@ Cook's D ≥ 1 indicates highly influential observations, and a rough rule of th
 -   The residuals vs. fitted values plot is our primary tool for checking linearity and homoscedasticity.
 -   If the model is well-specified, we expect to see a random cloud of points centered around zero with no systematic pattern.
 
-```{r}
-#| label: resid-bmp2-code
-#| echo: true
-#| eval: false
-
-bmp2_diag <- data.frame(
-  fitted = fitted(lm_bmp2),
-  residuals = residuals(lm_bmp2)
-)
-
-ggplot(bmp2_diag, aes(x = fitted, y = residuals)) +
-  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
-  geom_smooth(method = "loess", se = FALSE, color = "darkorange", linewidth = 1) +
-  labs(
-    x = "Fitted Values (ŷ)",
-    y = "Residuals (y - ŷ)",
-    title = "Residuals vs. Fitted — BMP2 Model"
-  ) +
-  theme_minimal(base_size = 14)
-```
-
-## BMP2 Model {.smaller}
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: resid-bmp2-output
@@ -975,34 +1105,38 @@ ggplot(bmp2_diag, aes(x = fitted, y = residuals)) +
   theme_minimal(base_size = 14)
 ```
 
+### Code
+
+```{r}
+#| label: resid-bmp2-code
+#| echo: true
+#| eval: false
+
+bmp2_diag <- data.frame(
+  fitted = fitted(lm_bmp2),
+  residuals = residuals(lm_bmp2)
+)
+
+ggplot(bmp2_diag, aes(x = fitted, y = residuals)) +
+  geom_point(color = "steelblue", alpha = 0.6, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkorange", linewidth = 1) +
+  labs(
+    x = "Fitted Values (ŷ)",
+    y = "Residuals (y - ŷ)",
+    title = "Residuals vs. Fitted — BMP2 Model"
+  ) +
+  theme_minimal(base_size = 14)
+```
+:::
+
 -   The loess smoother (orange line) helps visualize any systematic trend.
 -   If it stays close to zero across the range of fitted values, linearity is satisfied.
 
 ## Exercise Model {.smaller}
 
-```{r}
-#| label: resid-exercise-code
-#| echo: true
-#| eval: false
-
-exercise_diag <- data.frame(
-  fitted = fitted(lm_exercise),
-  residuals = residuals(lm_exercise)
-)
-
-ggplot(exercise_diag, aes(x = fitted, y = residuals)) +
-  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
-  geom_smooth(method = "loess", se = FALSE, color = "purple", linewidth = 1) +
-  labs(
-    x = "Fitted Values (ŷ)",
-    y = "Residuals (y - ŷ)",
-    title = "Residuals vs. Fitted — Exercise Model (Linear)"
-  ) +
-  theme_minimal(base_size = 14)
-```
-
-## Exercise Model {.smaller}
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: resid-exercise-output
@@ -1028,11 +1162,39 @@ ggplot(exercise_diag, aes(x = fitted, y = residuals)) +
   theme_minimal(base_size = 14)
 ```
 
+### Code
+
+```{r}
+#| label: resid-exercise-code
+#| echo: true
+#| eval: false
+
+exercise_diag <- data.frame(
+  fitted = fitted(lm_exercise),
+  residuals = residuals(lm_exercise)
+)
+
+ggplot(exercise_diag, aes(x = fitted, y = residuals)) +
+  geom_point(color = "darkorange", alpha = 0.6, size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", linewidth = 0.8) +
+  geom_smooth(method = "loess", se = FALSE, color = "purple", linewidth = 1) +
+  labs(
+    x = "Fitted Values (ŷ)",
+    y = "Residuals (y - ŷ)",
+    title = "Residuals vs. Fitted — Exercise Model (Linear)"
+  ) +
+  theme_minimal(base_size = 14)
+```
+:::
+
 ::: callout-important
 Look carefully at the loess smoother — does it show curvature? If the residuals show a systematic curved pattern, this suggests a nonlinear relationship that a straight line cannot capture.
 :::
 
 ## Full Diagnostic Panel: BMP2 Model {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggfortify-bmp2-output
@@ -1045,7 +1207,7 @@ autoplot(lm_bmp2, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-\
+### Code
 
 ```{r}
 #| label: ggfortify-bmp2-code
@@ -1055,8 +1217,12 @@ autoplot(lm_bmp2, which = 1:4, ncol = 2) +
 autoplot(lm_bmp2, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
+:::
 
 ## Full Diagnostic Panel: Exercise Model {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggfortify-exercise-output
@@ -1069,7 +1235,7 @@ autoplot(lm_exercise, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-\
+### Code
 
 ```{r}
 #| label: ggfortify-exercise-code
@@ -1079,6 +1245,7 @@ autoplot(lm_exercise, which = 1:4, ncol = 2) +
 autoplot(lm_exercise, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
+:::
 
 ------------------------------------------------------------------------
 
@@ -1108,32 +1275,14 @@ Before we dive in, recall the different ways an observation can be unusual:
 
 -   **High influence points**: The most dangerous — observations with *both* high leverage and a large residual. These can pull the entire regression line toward them, distorting slope and intercept estimates. Cook's distance captures this combined effect.
 
-## Import and Plot — Code {.smaller}
-
-```{r}
-#| label: outlier-import-code
-#| echo: true
-#| eval: false
-
-expr <- read_csv("cell_culture_expression.csv")
-
-ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
-  geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
-  geom_text(aes(label = sample_id), size = 2.2, nudge_y = 2, color = "gray40",
-            check_overlap = TRUE) +
-  labs(
-    x = "SOX9 Expression (relative units)",
-    y = "BMP4 Expression (relative units)",
-    title = "BMP4 vs. SOX9 Expression — Raw Data"
-  ) +
-  theme_minimal(base_size = 14)
-```
+## Import and Plot the Raw Data {.smaller}
 
 ::: callout-tip
 Always label your points with sample IDs when looking for outliers — you need to know *which* observations to investigate!
 :::
 
-## Import and Plot the Raw Data {.smaller}
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-import-output
@@ -1156,19 +1305,35 @@ ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
   theme_minimal(base_size = 14)
 ```
 
-## Fit the Initial Model {.smaller}
+### Code
 
 ```{r}
-#| label: outlier-lm-raw-code
+#| label: outlier-import-code
 #| echo: true
 #| eval: false
 
-lm_expr_raw <- lm(bmp4_expression ~ sox9_expression, data = expr)
-tidy(lm_expr_raw) |> kable(digits = 4)
-glance(lm_expr_raw) |> kable(digits = 4)
-```
+expr <- read_csv("cell_culture_expression.csv")
 
-\
+ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
+  geom_text(aes(label = sample_id), size = 2.2, nudge_y = 2, color = "gray40",
+            check_overlap = TRUE) +
+  labs(
+    x = "SOX9 Expression (relative units)",
+    y = "BMP4 Expression (relative units)",
+    title = "BMP4 vs. SOX9 Expression — Raw Data"
+  ) +
+  theme_minimal(base_size = 14)
+```
+:::
+
+## Fit the Initial Model {.smaller}
+
+-   Notice that the $R^2$ is lower than we might expect for a direct regulatory relationship.
+-   Some of the unexplained variance is likely due to the outliers pulling the fit.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-lm-raw-output
@@ -1189,32 +1354,23 @@ tidy(lm_expr_raw) |> kable(digits = 4)
 glance(lm_expr_raw) |> kable(digits = 4)
 ```
 
-\
-
--   Notice that the $R^2$ is lower than we might expect for a direct regulatory relationship.
--   Some of the unexplained variance is likely due to the outliers pulling the fit.
-
-## Visualize the Fit — Code {.smaller}
+### Code
 
 ```{r}
-#| label: outlier-fit-raw-code
+#| label: outlier-lm-raw-code
 #| echo: true
 #| eval: false
 
-ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
-  geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
-  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
-              fill = "firebrick", alpha = 0.2) +
-  labs(
-    x = "SOX9 Expression (relative units)",
-    y = "BMP4 Expression (relative units)",
-    title = "Linear Fit with Outliers Present",
-    subtitle = paste0("R² = ", round(summary(lm_expr_raw)$r.squared, 3))
-  ) +
-  theme_minimal(base_size = 14)
+lm_expr_raw <- lm(bmp4_expression ~ sox9_expression, data = expr)
+tidy(lm_expr_raw) |> kable(digits = 4)
+glance(lm_expr_raw) |> kable(digits = 4)
 ```
+:::
 
 ## Visualize the Fit with Outliers Present {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-fit-raw-output
@@ -1235,21 +1391,34 @@ ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
   theme_minimal(base_size = 14)
 ```
 
-## Diagnostic Plots to Identify Outliers {.smaller}
+### Code
 
 ```{r}
-#| label: outlier-diag-code
+#| label: outlier-fit-raw-code
 #| echo: true
 #| eval: false
 
-autoplot(lm_expr_raw, which = 1:4, ncol = 2) +
-  theme_minimal(base_size = 12)
+ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
+  geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick",
+              fill = "firebrick", alpha = 0.2) +
+  labs(
+    x = "SOX9 Expression (relative units)",
+    y = "BMP4 Expression (relative units)",
+    title = "Linear Fit with Outliers Present",
+    subtitle = paste0("R² = ", round(summary(lm_expr_raw)$r.squared, 3))
+  ) +
+  theme_minimal(base_size = 14)
 ```
+:::
+
+## Diagnostic Plots to Identify Outliers {.smaller}
 
 -   Examine the four panels. Which observations are flagged by R with their row numbers?
 -   Pay attention to the Residuals vs. Leverage plot — points near or beyond the Cook's distance contour lines are the most influential.
 
-## Diagnostic Plots to Identify Outliers {.smaller}
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-diag-output
@@ -1262,14 +1431,26 @@ autoplot(lm_expr_raw, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
+### Code
+
+```{r}
+#| label: outlier-diag-code
+#| echo: true
+#| eval: false
+
+autoplot(lm_expr_raw, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+:::
+
 ## Cook's Distance {.smaller}
 
 -   We can extract Cook's distance values and identify the most influential observations programmatically.
 -   A common threshold for Cook's distance is $4/n$. Values exceeding this warrant closer inspection.
 -   Values approaching or exceeding 1 are almost certainly problematic.
 
-\
-\
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-cooks-output
@@ -1293,7 +1474,7 @@ expr_diag |>
   kable(digits = 4)
 ```
 
-## Cook's Distance — Code {.smaller}
+### Code
 
 ```{r}
 #| label: outlier-cooks-code
@@ -1316,8 +1497,12 @@ expr_diag |>
   arrange(desc(cooks_d)) |>
   kable(digits = 4)
 ```
+:::
 
 ## Visualizing Cook's Distance {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-cooks-plot-output
@@ -1344,7 +1529,7 @@ ggplot(expr_diag, aes(x = row_num, y = cooks_d)) +
   theme_minimal(base_size = 13)
 ```
 
-## Visualizing Cook's Distance — Code {.smaller}
+### Code
 
 ```{r}
 #| label: outlier-cooks-plot-code
@@ -1370,6 +1555,7 @@ ggplot(expr_diag, aes(x = row_num, y = cooks_d)) +
   ) +
   theme_minimal(base_size = 13)
 ```
+:::
 
 ## Interpreting What We Found {.smaller}
 
@@ -1392,23 +1578,8 @@ Data entry errors should always be corrected or removed. For other outliers, the
 -   We will remove the three clear data entry errors (SC012, SC037, SC055) and the high influence point (SC060).
 -   We keep SC045 for now — it has a large residual but isn't clearly erroneous, and it doesn't have enough leverage to distort the fit badly.
 
-```{r}
-#| label: outlier-remove-code
-#| echo: true
-#| eval: false
-
-# Remove data entry errors and the high influence point
-remove_ids <- c("SC012", "SC037", "SC055", "SC060")
-
-expr_clean <- expr |>
-  filter(!sample_id %in% remove_ids)
-
-cat("Original observations:", nrow(expr), "\n")
-cat("Removed:", length(remove_ids), "observations\n")
-cat("Remaining observations:", nrow(expr_clean), "\n")
-```
-
-\
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-remove-output
@@ -1426,23 +1597,36 @@ cat("Removed:", length(remove_ids), "observations:", paste(remove_ids, collapse 
 cat("Remaining observations:", nrow(expr_clean), "\n")
 ```
 
+### Code
+
+```{r}
+#| label: outlier-remove-code
+#| echo: true
+#| eval: false
+
+# Remove data entry errors and the high influence point
+remove_ids <- c("SC012", "SC037", "SC055", "SC060")
+
+expr_clean <- expr |>
+  filter(!sample_id %in% remove_ids)
+
+cat("Original observations:", nrow(expr), "\n")
+cat("Removed:", length(remove_ids), "observations\n")
+cat("Remaining observations:", nrow(expr_clean), "\n")
+```
+:::
+
 ::: callout-note
 Always document which observations you removed and why. Never silently drop data points — your methods section should describe this.
 :::
 
 ## Refit the Model on Clean Data {.smaller}
 
-```{r}
-#| label: outlier-refit-code
-#| echo: true
-#| eval: false
+-   Compare the $R^2$ before and after cleaning.
+-   The relationship between SOX9 and BMP4 should now be much clearer, and the coefficient estimates more trustworthy.
 
-lm_expr_clean <- lm(bmp4_expression ~ sox9_expression, data = expr_clean)
-tidy(lm_expr_clean) |> kable(digits = 4)
-glance(lm_expr_clean) |> kable(digits = 4)
-```
-
-\
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-refit-output
@@ -1463,12 +1647,23 @@ tidy(lm_expr_clean) |> kable(digits = 4)
 glance(lm_expr_clean) |> kable(digits = 4)
 ```
 
-\
+### Code
 
--   Compare the $R^2$ before and after cleaning.
--   The relationship between SOX9 and BMP4 should now be much clearer, and the coefficient estimates more trustworthy.
+```{r}
+#| label: outlier-refit-code
+#| echo: true
+#| eval: false
+
+lm_expr_clean <- lm(bmp4_expression ~ sox9_expression, data = expr_clean)
+tidy(lm_expr_clean) |> kable(digits = 4)
+glance(lm_expr_clean) |> kable(digits = 4)
+```
+:::
 
 ## Compare Fits — Before and After {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-compare-output
@@ -1498,7 +1693,7 @@ p_clean <- ggplot(expr_clean, aes(x = sox9_expression, y = bmp4_expression)) +
 p_raw + p_clean
 ```
 
-## Compare Fits — Code {.smaller}
+### Code
 
 ```{r}
 #| label: outlier-compare-code
@@ -1509,7 +1704,7 @@ p_raw <- ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
   geom_point(color = "steelblue", alpha = 0.6, size = 2) +
   geom_point(data = expr |> filter(sample_id %in% remove_ids),
              color = "firebrick", size = 3, shape = 1, stroke = 1.5) +
-  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick",
               fill = "firebrick", alpha = 0.15) +
   labs(x = "SOX9 Expression", y = "BMP4 Expression",
        title = "Before: With Outliers",
@@ -1518,7 +1713,7 @@ p_raw <- ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
 
 p_clean <- ggplot(expr_clean, aes(x = sox9_expression, y = bmp4_expression)) +
   geom_point(color = "steelblue", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", se = TRUE, color = "darkgreen", 
+  geom_smooth(method = "lm", se = TRUE, color = "darkgreen",
               fill = "darkgreen", alpha = 0.15) +
   labs(x = "SOX9 Expression", y = "BMP4 Expression",
        title = "After: Outliers Removed",
@@ -1527,17 +1722,12 @@ p_clean <- ggplot(expr_clean, aes(x = sox9_expression, y = bmp4_expression)) +
 
 p_raw + p_clean
 ```
+:::
 
 ## Residual Diagnostics on Clean Data {.smaller}
 
-```{r}
-#| label: outlier-resid-clean-code
-#| echo: true
-#| eval: false
-
-autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
-  theme_minimal(base_size = 12)
-```
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: outlier-resid-clean-output
@@ -1549,6 +1739,18 @@ autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
 autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
+
+### Code
+
+```{r}
+#| label: outlier-resid-clean-code
+#| echo: true
+#| eval: false
+
+autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
+  theme_minimal(base_size = 12)
+```
+:::
 
 ## Outlier Exercise Summary {.smaller}
 
@@ -1677,7 +1879,17 @@ The residual plots for the exercise model may suggest curvature — the loess sm
 
 A polynomial regression extends the linear model by adding powers of $x$ as additional predictors. For a quadratic (degree 2) polynomial:
 
+::: panel-tabset
+### Equation
+
 $$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i
+```
+:::
 
 This is still a **linear model** in the statistical sense (the parameters $\beta$ enter linearly), but the relationship between $y$ and $x$ is now curved. A quadratic term can capture a U-shape or inverted-U pattern that a straight line would miss.
 
@@ -1686,6 +1898,11 @@ This is still a **linear model** in the statistical sense (the parameters $\beta
 ![Power and polynomial relationships in regressionFitting a Polynomial Model: Grip Strength \~ Exercise](images/week10_30_power_polynomial_relationships.jpeg){alt="Power and polynomial relationships in regression" fig-align="center" width="90%"}
 
 In R, we use `poly(x, degree)` inside the `lm()` formula, or equivalently `I(x^2)`:
+
+The `raw = TRUE` argument means R uses the raw polynomial terms ($x$ and $x^2$) rather than orthogonal polynomials, making the coefficients directly interpretable.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: poly-exercise-output
@@ -1696,7 +1913,7 @@ lm_exercise_poly <- lm(grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE)
 summary(lm_exercise_poly)
 ```
 
-## Fitting a Polynomial Model — Code {.smaller}
+### Code
 
 ```{r}
 #| label: poly-exercise-code
@@ -1704,14 +1921,18 @@ summary(lm_exercise_poly)
 #| eval: false
 
 # Fit quadratic polynomial: grip_strength ~ exercise + exercise^2
-lm_exercise_poly <- lm(grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE), 
+lm_exercise_poly <- lm(grip_strength_kg ~ poly(exercise_hrs_week, 2, raw = TRUE),
                         data = grip)
 summary(lm_exercise_poly)
 ```
-
-The `raw = TRUE` argument means R uses the raw polynomial terms ($x$ and $x^2$) rather than orthogonal polynomials, making the coefficients directly interpretable.
+:::
 
 ## Interpreting the Polynomial Model {.smaller}
+
+Compare the $R^2$ from this polynomial model with the linear exercise model. If the quadratic term is significant and $R^2$ improves meaningfully, the curvilinear fit is more appropriate.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: poly-exercise-tidy-output
@@ -1731,11 +1952,7 @@ tidy(lm_exercise_poly) |> kable(digits = 4)
 glance(lm_exercise_poly) |> kable(digits = 4)
 ```
 
-\
-
-Compare the $R^2$ from this polynomial model with the linear exercise model. If the quadratic term is significant and $R^2$ improves meaningfully, the curvilinear fit is more appropriate.
-
-## Interpreting the Polynomial Model — Code {.smaller}
+### Code
 
 ```{r}
 #| label: poly-exercise-tidy-code
@@ -1745,10 +1962,16 @@ Compare the $R^2$ from this polynomial model with the linear exercise model. If 
 tidy(lm_exercise_poly) |> kable(digits = 4)
 glance(lm_exercise_poly) |> kable(digits = 4)
 ```
+:::
 
 ## Comparing Linear vs. Polynomial Fit {.smaller}
 
 We can formally compare the linear and polynomial models using `anova()`, which tests whether the additional quadratic term significantly improves the fit:
+
+A significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone.
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: anova-compare-output
@@ -1758,7 +1981,7 @@ We can formally compare the linear and polynomial models using `anova()`, which 
 anova(lm_exercise, lm_exercise_poly)
 ```
 
-## Comparing Linear vs. Polynomial Fit — Code {.smaller}
+### Code
 
 ```{r}
 #| label: anova-compare-code
@@ -1768,10 +1991,12 @@ anova(lm_exercise, lm_exercise_poly)
 # Compare nested models: linear vs. quadratic
 anova(lm_exercise, lm_exercise_poly)
 ```
-
-A significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone.
+:::
 
 ## Visualizing the Polynomial Fit {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggplot-poly-output
@@ -1782,7 +2007,7 @@ A significant p-value here means the quadratic term explains a statistically sig
 
 ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   geom_point(color = "darkorange", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2),
               se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.2) +
   labs(
     x = "Exercise (hours/week)",
@@ -1793,7 +2018,7 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   theme_minimal(base_size = 14)
 ```
 
-## Visualizing the Polynomial Fit — Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-poly-code
@@ -1802,19 +2027,23 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 
 ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   geom_point(color = "darkorange", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2),
               se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.2) +
   labs(
     x = "Exercise (hours/week)",
     y = "Grip Strength (kg)",
     title = "Grip Strength vs. Exercise Hours — Polynomial Fit",
-    subtitle = paste0("Quadratic fit: R² = ", 
+    subtitle = paste0("Quadratic fit: R² = ",
                       round(summary(lm_exercise_poly)$r.squared, 3))
   ) +
   theme_minimal(base_size = 14)
 ```
+:::
 
 ## Linear vs. Polynomial: Side by Side {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggplot-compare-fits-output
@@ -1833,7 +2062,7 @@ p_lin <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 
 p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   geom_point(color = "darkorange", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2),
               se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.2) +
   labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
        title = "Quadratic Fit",
@@ -1843,7 +2072,7 @@ p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 p_lin + p_poly
 ```
 
-## Linear vs. Polynomial: Side by Side — Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggplot-compare-fits-code
@@ -1852,7 +2081,7 @@ p_lin + p_poly
 
 p_lin <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   geom_point(color = "darkorange", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", se = TRUE, color = "firebrick", 
+  geom_smooth(method = "lm", se = TRUE, color = "firebrick",
               fill = "firebrick", alpha = 0.2) +
   labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
        title = "Linear Fit",
@@ -1861,7 +2090,7 @@ p_lin <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 
 p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   geom_point(color = "darkorange", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2),
               se = TRUE, color = "darkgreen", fill = "darkgreen", alpha = 0.2) +
   labs(x = "Exercise (hours/week)", y = "Grip Strength (kg)",
        title = "Quadratic Fit",
@@ -1870,10 +2099,14 @@ p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 
 p_lin + p_poly
 ```
+:::
 
 ## Residuals: Linear vs. Polynomial Exercise Model {.smaller}
 
 Now we compare the residual plots to see whether the polynomial model resolves the curvature issue:
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: resid-compare-output
@@ -1909,7 +2142,7 @@ ggplot(both_diag, aes(x = fitted, y = residuals)) +
   theme_minimal(base_size = 13)
 ```
 
-## Residuals: Linear vs. Polynomial — Code {.smaller}
+### Code
 
 ```{r}
 #| label: resid-compare-code
@@ -1939,8 +2172,12 @@ ggplot(both_diag, aes(x = fitted, y = residuals)) +
        title = "Residuals vs. Fitted — Linear vs. Quadratic Exercise Model") +
   theme_minimal(base_size = 13)
 ```
+:::
 
 ## Full Diagnostics: Polynomial Exercise Model {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: ggfortify-poly-output
@@ -1953,7 +2190,7 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-## Full Diagnostics: Polynomial Exercise Model — Code {.smaller}
+### Code
 
 ```{r}
 #| label: ggfortify-poly-code
@@ -1963,6 +2200,7 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
 autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
+:::
 
 ##  {.smaller}
 
