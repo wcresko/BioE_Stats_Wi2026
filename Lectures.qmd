@@ -22,14 +22,14 @@ title: "Lectures"
 
 ### Lectures
 
-[Lecture_1](Lecture_Folder/Week1.qmd)
+[Lecture_1](Lecture_Folder/Week1.html)
 
-[Lecture_2](Lecture_Folder/Week2.qmd)
+[Lecture_2](Lecture_Folder/Week2.html)
 
-[Lecture_3](Lecture_Folder/Week3.qmd)
+[Lecture_3](Lecture_Folder/Week3.html)
 
-[Lecture_4](Lecture_Folder/Week4.qmd)
+[Lecture_4](Lecture_Folder/Week4.html)
 
-[Lecture_5](Lecture_Folder/Week5.qmd)
+[Lecture_5](Lecture_Folder/Week5.html)
 
-[Lecture_6](Lecture_Folder/Week6.qmd)
+[Lecture_6](Lecture_Folder/Week6.html)

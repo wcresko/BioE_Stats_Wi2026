@@ -30,8 +30,5 @@ format:
     css: styles.css
     toc: true
     embed-resources: true
-  revealjs:
-    theme: default
-    embed-resources: true
 
 editor: visual
