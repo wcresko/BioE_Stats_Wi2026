@@ -2315,7 +2315,7 @@ lines(x, x^0.5, lwd = 2, lty = 2)
 lines(x, x^(-1), lwd = 2, lty = 3)
 axis(1); axis(2)
 text(4, 22, expression(beta > 1), cex = 1.1)
-text(4, 2.5, expression(0 < beta < 1), cex = 1.1)
+text(4, 2.5, expression(0 < beta~"<"~ 1), cex = 1.1)
 text(4, 0.5, expression(beta < 0), cex = 1.1)
 ```
 :::
