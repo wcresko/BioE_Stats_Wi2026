@@ -67,7 +67,7 @@ set.seed(2026)
 **HW4 Due this week**
 :::
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ::: panel-tabset
 ### Install
@@ -103,11 +103,11 @@ library(pwr)          # Power analysis
 
 # Statistical Learning Overview {background-color="#2c3e50"}
 
-## General Steps for Machine Learning {.smaller}
+## General Steps for Machine Learning
 
 ![Machine learning workflow from data collection to deployment](images/week09_22_ml_workflow_steps.pdf){fig-align="center" width="90%"}
 
-## What is Statistical Learning? {.smaller}
+## What is Statistical Learning?
 
 -   A set of tools for **understanding data** through models
 -   **Supervised learning**: predict an outcome from predictors (requires labeled data)
@@ -118,7 +118,7 @@ library(pwr)          # Power analysis
 | Supervised   | Predict Y from X    | Regression, classification |
 | Unsupervised | Find structure in X | Clustering, PCA            |
 
-## Machine Learning Steps {.smaller}
+## Machine Learning Steps
 
 ![The ML workflow from data to predictions](images/week09_05_the_ml_workflow_from_data_to_p.jpg){fig-align="center" width="90%"}
 
@@ -126,7 +126,7 @@ library(pwr)          # Power analysis
 
 # The Overfitting Problem {background-color="#2c3e50"}
 
-## Overfitting vs. Underfitting {.smaller}
+## Overfitting vs. Underfitting
 
 ::::::: columns
 :::: {.column width="50%"}
@@ -152,7 +152,7 @@ library(pwr)          # Power analysis
 ::::
 :::::::
 
-## Bias-Variance Tradeoff {.smaller}
+## Bias-Variance Tradeoff
 
 ::: panel-tabset
 ### Equation
@@ -172,7 +172,7 @@ $$\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
 
 ![Bias-variance tradeoff](images/week09_04_bias_variance_tradeoff_visuali.jpeg){fig-align="center" width="70%"}
 
-## DRAFT: Bias-Variance Tradeoff {.smaller}
+## DRAFT: Bias-Variance Tradeoff
 
 ```{r}
 #| echo: false
@@ -226,7 +226,7 @@ mtext("← Underfitting", side = 1, line = 2, adj = 0.1, cex = 1.1)
 mtext("Overfitting →", side = 1, line = 2, adj = 0.9, cex = 1.1)
 ```
 
-## In-Class Demo: Overfitting in Action {.smaller}
+## In-Class Demo: Overfitting in Action
 
 ::: panel-tabset
 ### Output
@@ -300,7 +300,7 @@ abline(a = 6, b = -0.5, col = "blue", lwd = 2, lty = 2)
 
 # Cross-Validation {background-color="#2c3e50"}
 
-## What is Cross-Validation? {.smaller}
+## What is Cross-Validation?
 
 -   Assess model performance on **unseen data**
 -   Reduce overfitting by testing generalization
@@ -308,15 +308,15 @@ abline(a = 6, b = -0.5, col = "blue", lwd = 2, lty = 2)
 
 ![](images/week09_06_crossvalidation1.png){fig-align="center" width="70%"}
 
-## Training vs Testing Data {.smaller}
+## Training vs Testing Data
 
 ![](images/week09_07_crossvalidation2.png){fig-align="center" width="80%"}
 
-## Overfitting Problem {.smaller}
+## Overfitting Problem
 
 ![](images/week09_08_crossvalidation3.png){fig-align="center" width="80%"}
 
-## K-Fold CV Concept {.smaller}
+## K-Fold CV Concept
 
 **Process:**
 
@@ -328,23 +328,23 @@ abline(a = 6, b = -0.5, col = "blue", lwd = 2, lty = 2)
 
 ![](images/week09_09_crossvalidation4.png){fig-align="center" width="80%"}
 
-## K-Fold Cross-Validation Illustration {.smaller}
+## K-Fold Cross-Validation Illustration
 
 ![](images/week09_10_crossvalidation5.png){fig-align="center" width="80%"}
 
-## CV Results Comparison {.smaller}
+## CV Results Comparison
 
 ![](images/week09_11_crossvalidation6.png){fig-align="center" width="80%"}
 
-## Model Selection with CV {.smaller}
+## Model Selection with CV
 
 ![](images/week09_12_crossvalidation7.png){fig-align="center" width="80%"}
 
-## CV Summary {.smaller}
+## CV Summary
 
 ![](images/week09_13_crossvalidation8.png){fig-align="center" width="80%"}
 
-## K-Fold Cross-Validation in R {.smaller}
+## K-Fold Cross-Validation in R
 
 ::: panel-tabset
 ### Output
@@ -387,7 +387,7 @@ cat("10-fold CV MSE:", round(cv_result$delta[1], 4))
 ```
 :::
 
-## Choosing K {.smaller}
+## Choosing K
 
 | K      | Description           | Properties                       |
 |:-------|:----------------------|:---------------------------------|
@@ -395,7 +395,7 @@ cat("10-fold CV MSE:", round(cv_result$delta[1], 4))
 | K = 10 | 10-fold CV            | Most popular default             |
 | K = n  | Leave-one-out (LOOCV) | Maximum training data, expensive |
 
-## CV for Polynomial Degree Selection {.smaller}
+## CV for Polynomial Degree Selection
 
 ::: panel-tabset
 ### Output
@@ -479,7 +479,7 @@ cat("Optimal degree:", which.min(cv_errors))
 
 # Introduction to Bayesian Statistics {background-color="#2c3e50"}
 
-## Frequentist vs. Bayesian {.smaller}
+## Frequentist vs. Bayesian
 
 **Frequentist (what we've learned so far):**
 
@@ -495,7 +495,7 @@ cat("Optimal degree:", which.min(cv_errors))
 -   Credible intervals: "95% probability the parameter is in this range"
 -   Focus on **posterior distributions**
 
-## Bayes' Theorem Review {.smaller}
+## Bayes' Theorem Review
 
 ::: panel-tabset
 ### Equation
@@ -518,7 +518,7 @@ P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}
 -   The posterior is a compromise between the prior and the data
 :::
 
-## Bayesian Estimation: Coin Flip Example {.smaller}
+## Bayesian Estimation: Coin Flip Example
 
 ::: panel-tabset
 ### Output
@@ -569,7 +569,7 @@ abline(v = qbeta(c(0.025, 0.975), 9, 5), lty = 2, col = "red")
 ```
 :::
 
-## Credible Intervals {.smaller}
+## Credible Intervals
 
 ::: panel-tabset
 ### Output
@@ -603,7 +603,7 @@ cat("95% Credible Interval:", round(credible_interval, 3))
 ```
 :::
 
-## Bayesian Linear Regression Concept {.smaller}
+## Bayesian Linear Regression Concept
 
 ::: panel-tabset
 ### Output
@@ -645,7 +645,7 @@ abline(v = mean(beta1_samples), col = "darkblue", lwd = 2)
 ```
 :::
 
-## When to Use Bayesian Methods {.smaller}
+## When to Use Bayesian Methods
 
 ::: callout-tip
 ## Consider Bayesian When:
@@ -663,7 +663,7 @@ abline(v = mean(beta1_samples), col = "darkblue", lwd = 2)
 -   **brms**: Flexible Bayesian models
 -   **BayesFactor**: Bayesian hypothesis testing
 
-## Bayesian Regression in Practice {.smaller}
+## Bayesian Regression in Practice
 
 ::: panel-tabset
 ### Code
@@ -730,7 +730,7 @@ cat("P(Sepal.Length > 0) =",
 
 # K-Nearest Neighbors (KNN) {background-color="#2c3e50"}
 
-## What is KNN? {.smaller}
+## What is KNN?
 
 KNN is a **lazy learning** algorithm that makes predictions based on the k nearest neighbors in the feature space.
 
@@ -739,11 +739,11 @@ KNN is a **lazy learning** algorithm that makes predictions based on the k neare
 -   Used for both classification and regression
 -   "Tell me who your neighbors are, and I'll tell you who you are"
 
-## KNN and Overfitting {.smaller}
+## KNN and Overfitting
 
 ![](images/week09_15_knn_1_overfit_1.jpg){fig-align="center" width="80%"}
 
-## DRAFT: KNN Overfitting — Train vs Test {.smaller}
+## DRAFT: KNN Overfitting — Train vs Test
 
 ```{r}
 #| echo: false
@@ -796,14 +796,14 @@ contour(grid_x1, grid_x2, matrix(as.numeric(pred_grid), 100, 100),
 
 Choosing the right value of k is crucial: k too small → overfitting; k too large → underfitting.
 
-## KNN Algorithm Steps {.smaller}
+## KNN Algorithm Steps
 
 1.  **Choose** the number of neighbors (k)
 2.  **Calculate** distance between the query point and all training points
 3.  **Sort** distances and identify k nearest neighbors
 4.  **Classify** based on majority vote (classification) or average (regression)
 
-## Distance Metrics for KNN {.smaller}
+## Distance Metrics for KNN
 
 ::: panel-tabset
 ### Equations
@@ -825,7 +825,7 @@ d_{Minkowski} = \left(\sum_{l=1}^{p}|x_{il} - x_{jl}|^q\right)^{1/q}
 ```
 :::
 
-## KNN Classification in R {.smaller}
+## KNN Classification in R
 
 ::: panel-tabset
 ### Code
@@ -874,7 +874,7 @@ plot(knn_model)
 ```
 :::
 
-## KNN Pros and Cons {.smaller}
+## KNN Pros and Cons
 
 **Advantages:** Simple to understand, no assumptions about data distribution, works well with small datasets, naturally handles multi-class problems
 
@@ -884,7 +884,7 @@ plot(knn_model)
 Always **standardize features** before applying KNN — otherwise variables measured on larger scales will dominate the distance calculations.
 :::
 
-## Complete KNN Workflow {.smaller}
+## Complete KNN Workflow
 
 ::: panel-tabset
 ### Code
@@ -956,7 +956,7 @@ for (k in c(1, 7, 25)) {
 
 # Support Vector Machines (SVM) {background-color="#2c3e50"}
 
-## What are Support Vector Machines? {.smaller}
+## What are Support Vector Machines?
 
 SVMs find the optimal **hyperplane** (decision boundary) that separates classes with the **maximum margin**.
 
@@ -965,7 +965,7 @@ SVMs find the optimal **hyperplane** (decision boundary) that separates classes 
 -   **Margin**: Distance between the hyperplane and the nearest points
 -   **Maximum Margin**: SVM finds the hyperplane with the largest margin
 
-## Mathematical Foundation {.smaller}
+## Mathematical Foundation
 
 ::: panel-tabset
 ### Equation
@@ -990,7 +990,7 @@ Subject to: $y_i(w^T x_i + b) \geq 1 - \xi_i$ and $\xi_i \geq 0$
 -   $\xi_i$: slack variables (allow some misclassification for soft-margin SVM)
 :::
 
-## The Kernel Trick {.smaller}
+## The Kernel Trick
 
 **Problem**: What if data is not linearly separable?
 
@@ -1002,13 +1002,13 @@ Subject to: $y_i(w^T x_i + b) \geq 1 - \xi_i$ and $\xi_i \geq 0$
 -   **Polynomial**: $K(x_i, x_j) = (x_i^T x_j + 1)^d$
 -   **RBF (Radial Basis Function)**: $K(x_i, x_j) = \exp(-\gamma ||x_i - x_j||^2)$
 
-## Kernel Trick Visualization {.smaller}
+## Kernel Trick Visualization
 
 ![](images/week09_17_kernel_animation.gif){fig-align="center" width="80%"}
 
 The kernel trick maps data to a higher-dimensional space where it becomes linearly separable.
 
-## SVM in R {.smaller}
+## SVM in R
 
 ::: panel-tabset
 ### Code
@@ -1056,7 +1056,7 @@ print(tune_result$best.parameters)
 ```
 :::
 
-## SVM vs Other Algorithms {.smaller}
+## SVM vs Other Algorithms
 
 | Algorithm | Best For | Pros | Cons |
 |:---|:---|:---|:---|
@@ -1064,7 +1064,7 @@ print(tune_result$best.parameters)
 | **Random Forest** | General purpose, large data | Fast, interpretable | Can overfit |
 | **KNN** | Small datasets | Simple, no training | Slow at prediction |
 
-## SVM Decision Boundaries by Kernel {.smaller}
+## SVM Decision Boundaries by Kernel
 
 ::: panel-tabset
 ### Output
@@ -1150,7 +1150,7 @@ for (kern in c("linear", "polynomial", "radial")) {
 
 # Hierarchical Clustering {background-color="#2c3e50"}
 
-## What is Hierarchical Clustering? {.smaller}
+## What is Hierarchical Clustering?
 
 Creates a tree-like structure (**dendrogram**) of nested clusters.
 
@@ -1159,11 +1159,11 @@ Creates a tree-like structure (**dendrogram**) of nested clusters.
 1.  **Agglomerative (Bottom-up):** Start with each point as its own cluster, merge closest clusters iteratively
 2.  **Divisive (Top-down):** Start with all points in one cluster, split iteratively
 
-## Dendrogram Example {.smaller}
+## Dendrogram Example
 
 ![](images/week09_16_dendrogram_2_1.jpg){fig-align="center" width="80%"}
 
-## DRAFT: Hierarchical Clustering Dendrogram {.smaller}
+## DRAFT: Hierarchical Clustering Dendrogram
 
 ```{r}
 #| echo: false
@@ -1191,7 +1191,7 @@ plot(hc, main = "Cluster Dendrogram", xlab = "", sub = "",
 
 Cut the tree at different heights to get different numbers of clusters.
 
-## Linkage Methods {.smaller}
+## Linkage Methods
 
 ::: panel-tabset
 ### Equations
@@ -1215,7 +1215,7 @@ d_{average}(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum \sum d(x, y)
 ```
 :::
 
-## Hierarchical Clustering in R {.smaller}
+## Hierarchical Clustering in R
 
 ::: panel-tabset
 ### Code
@@ -1256,7 +1256,7 @@ rect.dendrogram(dend, k = 3, border = "red")
 ```
 :::
 
-## Silhouette Analysis and Cophenetic Correlation {.smaller}
+## Silhouette Analysis and Cophenetic Correlation
 
 ::: panel-tabset
 ### Silhouette
@@ -1295,7 +1295,7 @@ cat("Cophenetic correlation:", round(coph_corr, 3))
 ```
 :::
 
-## Clustered Heatmap {.smaller}
+## Clustered Heatmap
 
 Clustered heatmaps are ubiquitous in genomics and bioengineering — they show both the data and the hierarchical clustering simultaneously.
 
@@ -1358,7 +1358,7 @@ pheatmap(iris_mat,
 
 # K-Means Clustering {background-color="#2c3e50"}
 
-## What is K-Means? {.smaller}
+## What is K-Means?
 
 K-means partitions data into **k clusters** by minimizing within-cluster variance:
 
@@ -1383,7 +1383,7 @@ Where $\mu_j$ is the centroid of cluster $C_j$.
 ```
 :::
 
-## K-Means in R {.smaller}
+## K-Means in R
 
 ::: panel-tabset
 ### Output
@@ -1449,7 +1449,7 @@ table(Cluster = km_fit$cluster, True = iris$Species)
 ```
 :::
 
-## K-Means vs. Hierarchical Clustering {.smaller}
+## K-Means vs. Hierarchical Clustering
 
 | Feature             | K-Means               | Hierarchical          |
 |:--------------------|:----------------------|:----------------------|
@@ -1463,7 +1463,7 @@ table(Cluster = km_fit$cluster, True = iris$Species)
 Use the **elbow method** or **silhouette scores** to choose k for k-means. Consider running both methods and comparing results for robustness.
 :::
 
-## R Exercise: Statistical Learning {.smaller}
+## R Exercise: Statistical Learning
 
 ::: callout-tip
 ## Exercise

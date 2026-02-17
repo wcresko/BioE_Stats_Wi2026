@@ -67,7 +67,7 @@ set.seed(2026)
 **HW4 Due next week**
 :::
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ::: panel-tabset
 ### Install
@@ -98,11 +98,11 @@ library(splines)      # Spline basis functions
 
 **Datasets from packages:** `lung` (survival package — lung cancer survival data), `mtcars` (built-in)
 
-## Correlation in Mixed Models {.smaller}
+## Correlation in Mixed Models
 
 ![Understanding correlation structures in hierarchical data](images/week05_11_week8_correlation.jpg){fig-align="center" width="85%"}
 
-## DRAFT: Covariance vs Correlation {.smaller}
+## DRAFT: Covariance vs Correlation
 
 ```{r}
 #| echo: false
@@ -164,7 +164,7 @@ legend("bottomright", bty = "n", cex = 1.1,
 
 # Generalized Linear Models {background-color="#2c3e50"}
 
-## What is a GLM? {.smaller}
+## What is a GLM?
 
 GLMs extend linear models to handle response variables that are not normally distributed. Use when standard linear model assumptions are violated:
 
@@ -177,7 +177,7 @@ GLMs extend linear models to handle response variables that are not normally dis
 2.  **Systematic component**: linear combination of predictors ($\beta_0 + \beta_1 x_1 + \ldots$)
 3.  **Link function**: connects the random and systematic components
 
-## GLM Families {.smaller}
+## GLM Families
 
 | Family   | Link Function | Use For             | Example                  |
 |:---------|:--------------|:--------------------|:-------------------------|
@@ -186,14 +186,14 @@ GLMs extend linear models to handle response variables that are not normally dis
 | Poisson  | log           | Count data          | Number of colonies       |
 | Gamma    | inverse       | Positive continuous | Reaction times           |
 
-## GLM Assumptions {.smaller}
+## GLM Assumptions
 
 -   **Independence** of observations
 -   No overly **influential observations**
 -   **Linearity** between predictors and the link function (not between predictors and raw response)
 -   **Appropriate dispersion** (variance matches the assumed distribution)
 
-## GLM in R {.smaller}
+## GLM in R
 
 ::: panel-tabset
 ### Code
@@ -222,7 +222,7 @@ glm(count ~ x1 + x2, family = poisson, data = mydata)
 -   Large drop from null to residual deviance → better model fit
 :::
 
-## GLM Diagnostics {.smaller}
+## GLM Diagnostics
 
 ::: panel-tabset
 ### Code
@@ -264,7 +264,7 @@ The **DHARMa** package creates simulated residuals that work for any GLM family:
 
 # Logistic Regression {background-color="#2c3e50"}
 
-## What is Logistic Regression? {.smaller}
+## What is Logistic Regression?
 
 -   Classification algorithm for **binary outcomes** (0/1, yes/no, survived/died)
 -   Uses the **logit** link function to map outputs between 0 and 1
@@ -281,7 +281,7 @@ P(y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}
 ```
 :::
 
-## The Logistic Function {.smaller}
+## The Logistic Function
 
 ::: panel-tabset
 ### Output
@@ -311,7 +311,7 @@ abline(h = 0.5, lty = 2, col = "gray")
 ```
 :::
 
-## Odds and Log-Odds {.smaller}
+## Odds and Log-Odds
 
 ::: panel-tabset
 ### Equations
@@ -333,7 +333,7 @@ abline(h = 0.5, lty = 2, col = "gray")
 ```
 :::
 
-## Logistic Regression in R {.smaller}
+## Logistic Regression in R
 
 ::: panel-tabset
 ### Output
@@ -361,7 +361,7 @@ summary(model)
 ```
 :::
 
-## Interpreting Coefficients {.smaller}
+## Interpreting Coefficients
 
 Coefficients are in **log-odds** — exponentiate to get odds ratios:
 
@@ -387,7 +387,7 @@ exp(coef(model))
 
 $\exp(\beta_1)$ is the **multiplicative change in odds** for a 1-unit increase in the predictor. For example, if $\exp(\beta_1) = 1.35$, a one-unit increase in mpg multiplies the odds of manual transmission by 1.35 (a 35% increase).
 
-## Bioengineering Example: Predicting Implant Failure {.smaller}
+## Bioengineering Example: Predicting Implant Failure
 
 ::: panel-tabset
 ### Code
@@ -427,7 +427,7 @@ exp(confint(implant_glm))
 -   Report odds ratios with 95% CIs for each predictor
 :::
 
-## ROC Curve and AUC {.smaller}
+## ROC Curve and AUC
 
 ::: panel-tabset
 ### Output
@@ -504,7 +504,7 @@ table(Predicted = pred_class, Actual = implant_data$failure)
 ```
 :::
 
-## Model Evaluation Metrics {.smaller}
+## Model Evaluation Metrics
 
 | Metric        | Formula                                                     |
 |:--------------|:------------------------------------------------------------|
@@ -513,7 +513,7 @@ table(Predicted = pred_class, Actual = implant_data$failure)
 | **Recall**    | $TP / (TP + FN)$                                            |
 | **F1 Score**  | $2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}$ |
 
-## Confusion Matrix {.smaller}
+## Confusion Matrix
 
 |                     | Predicted Positive  | Predicted Negative  |
 |---------------------|---------------------|---------------------|
@@ -524,7 +524,7 @@ table(Predicted = pred_class, Actual = implant_data$failure)
 
 # Poisson Regression {background-color="#2c3e50"}
 
-## What is Poisson Regression? {.smaller}
+## What is Poisson Regression?
 
 Models **count data** where the response variable represents the number of times an event occurs:
 
@@ -542,7 +542,7 @@ $$\log(\lambda_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}$$
 
 Assumes Poisson distribution: **Mean = Variance = λ**
 
-## Poisson Regression in R {.smaller}
+## Poisson Regression in R
 
 ::: panel-tabset
 ### Code
@@ -580,7 +580,7 @@ model_nb <- glm.nb(count ~ x1 + x2, data = mydata)
 ```
 :::
 
-## Poisson Worked Example: Colony Counts {.smaller}
+## Poisson Worked Example: Colony Counts
 
 ::: panel-tabset
 ### Output
@@ -659,7 +659,7 @@ exp(confint(pois_model))
 ```
 :::
 
-## Poisson vs. Quasi-Poisson vs. Negative Binomial {.smaller}
+## Poisson vs. Quasi-Poisson vs. Negative Binomial
 
 | Model | Dispersion | Use When | R Function |
 |:---|:---|:---|:---|
@@ -675,7 +675,7 @@ Always check overdispersion first. If the dispersion parameter is close to 1, st
 
 # Regularization Methods {background-color="#2c3e50"}
 
-## Why Regularization? {.smaller}
+## Why Regularization?
 
 Standard linear regression struggles when:
 
@@ -685,7 +685,7 @@ Standard linear regression struggles when:
 
 **Solution**: Add a penalty term that **shrinks coefficients toward zero**, trading a small amount of bias for a large reduction in variance.
 
-## Ridge Regression (L2 Penalty) {.smaller}
+## Ridge Regression (L2 Penalty)
 
 ::: panel-tabset
 ### Equation
@@ -707,7 +707,7 @@ $$\hat{\beta}_{ridge} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta
 -   As λ → 0: approaches OLS; as λ → ∞: coefficients → 0
 :::
 
-## Lasso Regression (L1 Penalty) {.smaller}
+## Lasso Regression (L1 Penalty)
 
 ::: panel-tabset
 ### Equation
@@ -728,7 +728,7 @@ $$\hat{\beta}_{lasso} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta
 -   Produces **sparse models** — useful when you believe many predictors are irrelevant
 :::
 
-## Elastic Net {.smaller}
+## Elastic Net
 
 Combines Ridge and Lasso penalties:
 
@@ -748,7 +748,7 @@ $$\hat{\beta}_{elastic} = \arg\min_{\beta} \left[ RSS + \lambda \left( \alpha \s
 -   Variable selection like Lasso + handles correlated features like Ridge
 -   Often the best default choice
 
-## Regularization in R {.smaller}
+## Regularization in R
 
 ::: panel-tabset
 ### Code
@@ -780,13 +780,13 @@ elastic_cv <- cv.glmnet(X_train, y_train, alpha = 0.5, nfolds = 10)
 | **Elastic Net** | Groups of correlated predictors; best of both worlds    |
 :::
 
-## Geometric Interpretation {.smaller}
+## Geometric Interpretation
 
 -   **Ridge** constraint region: circle/sphere (smooth boundary) → coefficients shrink continuously
 -   **Lasso** constraint region: diamond/polytope (corners at axes) → coefficients can be exactly zero at the corners
 -   The intersection of the elliptical RSS contours with the constraint region determines the solution
 
-## Visualizing Regularization Paths {.smaller}
+## Visualizing Regularization Paths
 
 ::: panel-tabset
 ### Code
@@ -813,7 +813,7 @@ plot(lasso_path, xvar = "lambda", main = "Lasso Regression Path")
 -   Cross-validation selects the optimal λ
 :::
 
-## Regularization Worked Example: Biomaterial Properties {.smaller}
+## Regularization Worked Example: Biomaterial Properties
 
 ::: panel-tabset
 ### Code
@@ -885,7 +885,7 @@ legend("topright", "lambda.min", lty = 2, col = "red", cex = 0.8)
 
 # Splines for Non-Linear Relationships {background-color="#2c3e50"}
 
-## What are Splines? {.smaller}
+## What are Splines?
 
 Splines are **piecewise polynomials** that create smooth curves by fitting different polynomial segments between data points.
 
@@ -896,7 +896,7 @@ Splines are **piecewise polynomials** that create smooth curves by fitting diffe
 -   **Penalized Splines (P-splines)**: Combine B-spline basis with penalties
 -   **Thin Plate Splines**: Extend to multiple dimensions for spatial data
 
-## Splines in R {.smaller}
+## Splines in R
 
 ::: panel-tabset
 ### Code
@@ -927,13 +927,13 @@ model_tp <- gam(z ~ s(x, y, bs = "tp"), data = spatial_data)
 -   Cross-validation (`cv = TRUE`) selects the optimal smoothing parameter
 :::
 
-## LOESS Smoothing {.smaller}
+## LOESS Smoothing
 
 LOESS (Locally Estimated Scatterplot Smoothing) fits local polynomial regressions at each point:
 
 ![](images/week08_03_loess_1.jpg){fig-align="center" width="80%"}
 
-## DRAFT: LOESS Concept — Local Weighted Regression {.smaller}
+## DRAFT: LOESS Concept — Local Weighted Regression
 
 ```{r}
 #| echo: false
@@ -978,17 +978,17 @@ for (x0 in focal_pts) {
 }
 ```
 
-## LOESS Animation {.smaller}
+## LOESS Animation
 
 ![](images/week08_04_loess_animation.gif){fig-align="center" width="80%"}
 
-## LOESS with Different Spans {.smaller}
+## LOESS with Different Spans
 
 The span parameter controls the smoothness — smaller values create more flexible fits:
 
 ![](images/week08_05_loess_multi_span_animation.gif){fig-align="center" width="80%"}
 
-## Comparing Fitting Approaches {.smaller}
+## Comparing Fitting Approaches
 
 ::: panel-tabset
 ### Output
@@ -1074,7 +1074,7 @@ lines(m4, col = "purple", lwd = 2)
 
 # Survival Analysis {background-color="#2c3e50"}
 
-## What is Survival Analysis? {.smaller}
+## What is Survival Analysis?
 
 **Time-to-event analysis** — studying the time until an event occurs:
 
@@ -1089,7 +1089,7 @@ lines(m4, col = "purple", lwd = 2)
 -   **Non-normal data**: Time data is typically right-skewed
 -   **Hazard rates**: Instantaneous risk of the event at any given time
 
-## Censoring in Survival Data {.smaller}
+## Censoring in Survival Data
 
 ::: panel-tabset
 ### Output
@@ -1146,7 +1146,7 @@ legend("topright", c("Event (X)", "Censored (O)"),
 ```
 :::
 
-## The Survival and Hazard Functions {.smaller}
+## The Survival and Hazard Functions
 
 ::: panel-tabset
 ### Equations
@@ -1168,7 +1168,7 @@ h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\De
 ```
 :::
 
-## Kaplan-Meier Estimator {.smaller}
+## Kaplan-Meier Estimator
 
 The **product-limit estimator** for the survival function:
 
@@ -1199,7 +1199,7 @@ abline(h = 0.5, lty = 2, col = "red")
 ```
 :::
 
-## Kaplan-Meier Curves {.smaller}
+## Kaplan-Meier Curves
 
 ::: panel-tabset
 ### Output
@@ -1241,7 +1241,7 @@ legend("topright", c("Survival curve", "95% CI", "Median survival"),
 ```
 :::
 
-## Comparing Survival Curves {.smaller}
+## Comparing Survival Curves
 
 ::: panel-tabset
 ### Output
@@ -1275,7 +1275,7 @@ legend("topright", c("Male", "Female"), col = c("steelblue", "coral"), lwd = 2)
 ```
 :::
 
-## Log-Rank Test {.smaller}
+## Log-Rank Test
 
 Tests whether survival curves differ significantly between groups:
 
@@ -1300,7 +1300,7 @@ survdiff(Surv(time, status) ~ sex, data = lung)
 ```
 :::
 
-## Cox Proportional Hazards Model {.smaller}
+## Cox Proportional Hazards Model
 
 **Semi-parametric model** relating covariates to hazard:
 
@@ -1322,7 +1322,7 @@ summary(cox_model)
 ```
 :::
 
-## Interpreting Hazard Ratios {.smaller}
+## Interpreting Hazard Ratios
 
 ::: panel-tabset
 ### Output
@@ -1352,7 +1352,7 @@ exp(cbind(HR = coef(cox_model), confint(cox_model)))
 -   Example: HR for sex = 0.59 means females have 41% lower hazard than males
 :::
 
-## Checking Proportional Hazards Assumption {.smaller}
+## Checking Proportional Hazards Assumption
 
 ::: panel-tabset
 ### Output
@@ -1387,7 +1387,7 @@ abline(h = 0, col = "red", lty = 2)
 ```
 :::
 
-## Bioengineering Example: Scaffold Degradation {.smaller}
+## Bioengineering Example: Scaffold Degradation
 
 ::: panel-tabset
 ### Output
@@ -1459,7 +1459,7 @@ In this bioengineering context:
 -   A higher HR means faster degradation
 :::
 
-## R Exercise: Logistic Regression {.smaller}
+## R Exercise: Logistic Regression
 
 ::: callout-tip
 ## Exercise

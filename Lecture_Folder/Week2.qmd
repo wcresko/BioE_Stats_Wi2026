@@ -63,7 +63,7 @@ set.seed(2026)
 **Readings:** Chapters 9-15
 :::
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ```{r}
 #| label: week2-packages-install
@@ -84,7 +84,7 @@ library(nycflights13) # NYC flights data for dplyr examples
 
 # Exploratory Data Analysis {background-color="#2c3e50"}
 
-## What is EDA? {.smaller}
+## What is EDA?
 
 -   First step in any data analysis
 -   Understand structure and patterns in your data
@@ -97,7 +97,7 @@ library(nycflights13) # NYC flights data for dplyr examples
 
 # Data Wrangling with Tidyverse {background-color="#2c3e50"}
 
-## Tidyverse Family of Packages {.smaller}
+## Tidyverse Family of Packages
 
 ![Tidyverse packages overview](images/week02_10_tidyverse_packages.jpeg){#fig-week2-tidyverse fig-align="center" width="90%"}
 
@@ -109,11 +109,11 @@ library(nycflights13) # NYC flights data for dplyr examples
 library(tidyverse)
 ```
 
-## A tibble - a tidyverse dataframe {.smaller}
+## A tibble - a tidyverse dataframe
 
 ![](images/week02_11_mpg_tibble_variable_definitions.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: A tibble - mpg dataset {.smaller}
+## DRAFT: A tibble - mpg dataset
 
 ::: panel-tabset
 ### Output
@@ -143,15 +143,15 @@ mpg
 | `class` | "Type" of car |
 :::
 
-## A tibble - a tidyverse dataframe {.smaller}
+## A tibble - a tidyverse dataframe
 
 ![](images/week02_12_tidy_data_variables_observations.jpeg){fig-align="center" width="90%"}
 
-## Types of variables in a tibble {.smaller}
+## Types of variables in a tibble
 
 ![dplyr functions](images/week02_13_r_vector_types_hierarchy.jpeg){#fig-week2-dplyr-functions fig-align="center" width="90%"}
 
-## Key dplyr Verbs {.smaller}
+## Key dplyr Verbs
 
 -   `dpylr` is a package in the `tidyverse` that gives you functions (aka verbs) to wrangle data.
 
@@ -163,7 +163,7 @@ mpg
 | `mutate()`    | Create new columns     | `mutate(df, z = x + y)`         |
 | `summarise()` | Collapse to summary    | `summarise(df, mean = mean(x))` |
 
-## Filter, Arrange, and Select {.smaller}
+## Filter, Arrange, and Select
 
 ```{r}
 #| label: week2-filter-arrange-select
@@ -182,7 +182,7 @@ select(flights, year, month, day)
 
 ![](images/week02_14_boolean_set_operations_venn.jpeg){fig-align="center" width="50%"}
 
-## Conditional Operators {.smaller}
+## Conditional Operators
 
 | Operator  | Meaning                 |
 |:----------|:------------------------|
@@ -195,7 +195,7 @@ select(flights, year, month, day)
 | `|`       | OR operator             |
 | `%in%`    | Belongs to set          |
 
-## Mutate and Transmute {.smaller}
+## Mutate and Transmute
 
 ```{r}
 #| label: week2-mutate-example
@@ -217,7 +217,7 @@ flights |>
   )
 ```
 
-## Group By and Summarise {.smaller}
+## Group By and Summarise
 
 ```{r}
 #| label: week2-groupby-summarise
@@ -235,7 +235,7 @@ summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
 Aggregation functions return NA if any input value is NA. Use `na.rm = TRUE` to remove missing values.
 :::
 
-## Other Useful dplyr Functions {.smaller}
+## Other Useful dplyr Functions
 
 | Function     | Purpose                  |
 |:-------------|:-------------------------|
@@ -244,7 +244,7 @@ Aggregation functions return NA if any input value is NA. Use `na.rm = TRUE` to 
 | `count()`    | Count observations       |
 | `distinct()` | Unique observations      |
 
-## R Exercise: Data Wrangling {.smaller}
+## R Exercise: Data Wrangling
 
 ::: callout-tip
 ## Exercise
@@ -258,7 +258,7 @@ Aggregation functions return NA if any input value is NA. Use `na.rm = TRUE` to 
 
 # Data Visualization with `ggplot2` {background-color="#2c3e50"}
 
-## Introduction to `ggplot2` {.smaller}
+## Introduction to `ggplot2`
 
 -   Part of the `tidyverse` suite of packages
 -   GG stands for "Grammar of Graphics"
@@ -273,7 +273,7 @@ More info: <https://ggplot2.tidyverse.org/>
 
 ![](images/week02_27_grammar_of_graphics_layers.jpeg){fig-align="center" width="90%"}
 
-## Scatterplots {.smaller}
+## Scatterplots
 
 ::: panel-tabset
 ### Output
@@ -301,11 +301,11 @@ ggplot(mpg, aes(displ, hwy, color = class)) +
 ```
 :::
 
-## Boxplots {.smaller}
+## Boxplots
 
 ![](images/week02_28_boxplot.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Boxplot Anatomy with Normal Distribution {.smaller}
+## DRAFT: Boxplot Anatomy with Normal Distribution
 
 ```{r}
 #| echo: false
@@ -379,7 +379,7 @@ text(lower_whisker, max(y) * 1.1, expression(-2.698*sigma), cex = 0.9)
 text(upper_whisker, max(y) * 1.1, expression(2.698*sigma), cex = 0.9)
 ```
 
-## Boxplots {.smaller}
+## Boxplots
 
 ::: panel-tabset
 ### Output
@@ -411,7 +411,7 @@ ggplot(mpg, aes(manufacturer, hwy, colour = class)) +
 ```
 :::
 
-## Common ggplot Geoms {.smaller}
+## Common ggplot Geoms
 
 | Geom               | Purpose      | Data Type               |
 |:-------------------|:-------------|:------------------------|
@@ -422,7 +422,7 @@ ggplot(mpg, aes(manufacturer, hwy, colour = class)) +
 | `geom_boxplot()`   | Boxplots     | Continuous by category  |
 | `geom_smooth()`    | Trend lines  | Two continuous          |
 
-## Combining Geoms {.smaller}
+## Combining Geoms
 
 ::: panel-tabset
 ### Output
@@ -456,7 +456,7 @@ ggplot(data=mpg, aes(x=displ, y=hwy)) +
 ```
 :::
 
-## Faceting {.smaller}
+## Faceting
 
 ::: panel-tabset
 ### Output
@@ -486,7 +486,7 @@ ggplot(data=mpg) +
 ```
 :::
 
-## Three-Dimensional Data {.smaller}
+## Three-Dimensional Data
 
 ::: panel-tabset
 ### Output
@@ -524,7 +524,7 @@ ggplot(d, aes(x=a, y=b)) +
 
 ![](images/week02_33_flow_chart_for_choosing_data_v.jpeg){fig-align="center" width="90%"}
 
-## R Exercise: Data Visualization {.smaller}
+## R Exercise: Data Visualization
 
 ::: callout-tip
 ## Exercise
@@ -538,7 +538,7 @@ ggplot(d, aes(x=a, y=b)) +
 
 # Best Practices in Data Visualization {background-color="#2c3e50"}
 
-## Good, Bad, and Ugly {.smaller}
+## Good, Bad, and Ugly
 
 ![A ticker tape parade of confusion](images/week02_34_bad_ticker_tape_parade_of_data.jpeg){fig-align="center" width="75%"}
 
@@ -546,15 +546,15 @@ ggplot(d, aes(x=a, y=b)) +
 
 ![](images/week02_35_bad_a_line_to_no_understanding.jpeg){fig-align="center" width="75%"}
 
-## Wack a mole {.smaller}
+## Wack a mole
 
 ![](images/week02_48_displaying_temporal_patterns.jpeg){fig-align="center" width="80%"}
 
-## Disk of disinformation {.smaller}
+## Disk of disinformation
 
 ![](images/week02_46_choosing_appropriate_bin_width.jpeg){fig-align="center" width="80%"}
 
-## Steaming pie chart mess {.smaller}
+## Steaming pie chart mess
 
 ![](images/week02_47_relationships_between_variable.jpeg){fig-align="center" width="80%"}
 
@@ -562,15 +562,15 @@ ggplot(d, aes(x=a, y=b)) +
 
 ![](images/week02_36_bad_a_bake_sale_of_pie_charts.jpeg){fig-align="center" width="75%"}
 
-##  {.smaller}
+## 
 
 ![Minard's map of Napoleon's Russian campaign - Edward Tufte](images/week02_37_minards_map_of_napoleons_russi.jpeg){fig-align="center" width="80%"}
 
-##  {.smaller}
+## 
 
 ![Modern recreation of Minard-style data visualization](images/week02_38_modern_recreation_of_minard_st.jpeg){fig-align="center" width="80%"}
 
-## Principles of Effective Display {.smaller}
+## Principles of Effective Display
 
 > "Graphical excellence is that which gives to the viewer the greatest number of ideas in the shortest time with the least ink in the smallest space"
 >
@@ -582,19 +582,19 @@ ggplot(d, aes(x=a, y=b)) +
 -   Draw graphical elements clearly, minimizing clutter
 -   Make displays easy to interpret
 
-## "Above All Else Show the Data" {.smaller}
+## "Above All Else Show the Data"
 
 ![](images/week02_39_tufte_1983.jpeg){#fig-align="center" width="80%"}
 
-## "Maximize the Data to Ink Ratio" {.smaller}
+## "Maximize the Data to Ink Ratio"
 
 ![The Economist 2006](images/week02_40_the_economist_2006.jpeg){fig-align="center" width="80%"}
 
-## Represent Magnitudes Honestly {.smaller}
+## Represent Magnitudes Honestly
 
 ![Rattenborg et al. 1999 Nature](images/week02_41_rattenborg_et_al_1999_nature.jpeg){fig-align="center" width="70%"}
 
-## How NOT to Make a Figure {.smaller}
+## How NOT to Make a Figure
 
 ::::: columns
 ::: {.column width="50%"}
@@ -610,7 +610,7 @@ ggplot(d, aes(x=a, y=b)) +
 
 # Parameters and Statistics {background-color="#2c3e50"}
 
-## Population vs. Sample {.smaller}
+## Population vs. Sample
 
 | Concept    | Population           | Sample               |
 |:-----------|:---------------------|:---------------------|
@@ -622,7 +622,7 @@ ggplot(d, aes(x=a, y=b)) +
 We use sample statistics to **estimate** population parameters
 :::
 
-## Accuracy vs. Precision {.smaller}
+## Accuracy vs. Precision
 
 ![](images/week02_52_precision_vs_accuracy_target.jpeg){fig-align="center" width="50%"}
 
@@ -631,7 +631,7 @@ We use sample statistics to **estimate** population parameters
 -   **Replication** quantifies variation
 -   **Randomization** avoids bias
 
-## Stochastic Processes in Statistics {.smaller}
+## Stochastic Processes in Statistics
 
 -   We often want to know truths about the world, but can only estimate them
 -   Uncertainty in those estimates is a given
@@ -639,7 +639,7 @@ We use sample statistics to **estimate** population parameters
 -   Random variables are products of stochastic processes
 -   Expectations are based on theoretical probability distributions
 
-## Two Interpretations of Probability {.smaller}
+## Two Interpretations of Probability
 
 **Frequency interpretation:**
 
@@ -649,7 +649,7 @@ We use sample statistics to **estimate** population parameters
 
 "A probability statement expresses the opinion of some individual regarding how certain an event is to occur."
 
-## Random Variables and Probability {.smaller}
+## Random Variables and Probability
 
 -   **Probability** is the expression of belief in some future outcome
 -   A **random variable** can take on different values with different probabilities
@@ -662,7 +662,7 @@ We use sample statistics to **estimate** population parameters
 Probabilities of a sample space **always sum to 1.0**
 :::
 
-## Probability Rules {.smaller}
+## Probability Rules
 
 **'And' rule (multiplication):**
 
@@ -696,7 +696,7 @@ Pr(X \text{ or } Y) = Pr(X) + Pr(Y)
 The 'and' rule assumes independent events. For non-independent events, we need conditional probabilities.
 :::
 
-## Joint and Conditional Probability {.smaller}
+## Joint and Conditional Probability
 
 **Joint probability (independent events):**
 
@@ -720,7 +720,7 @@ $$Pr(Y|X) = Pr(Y) \text{ and } Pr(X|Y) = Pr(X)$$
 
 $$Pr(Y|X) \neq Pr(Y) \text{ and } Pr(X|Y) \neq Pr(X)$$
 
-## Likelihood vs. Probability {.smaller}
+## Likelihood vs. Probability
 
 -   **Probability**: proportion of times an event would occur over many trials
 -   **Likelihood**: conditional probability of a parameter value given data
@@ -740,7 +740,7 @@ L[\text{parameter}|\text{data}] = Pr[\text{data}|\text{parameter}]
 -   **Maximum likelihood**: highest value of the likelihood function
 -   **Bayesian estimate**: uses prior distribution to update posterior distribution
 
-## Moments of Distributions {.smaller}
+## Moments of Distributions
 
 **1st moment (mean/expectation):**
 
@@ -776,7 +776,7 @@ Higher moments include skewness (3rd) and kurtosis (4th).
 
 # Discrete Probability Distributions {background-color="#2c3e50"}
 
-## PMF, PDF, and CDF in R {.smaller}
+## PMF, PDF, and CDF in R
 
 ::: panel-tabset
 ### Output
@@ -847,7 +847,7 @@ abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 
 ![](images/week02_80_population_sample_statistics_table.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Common moments of distributions {.smaller}
+## DRAFT: Common moments of distributions
 
 **Table 2.1** Common population parameters and sample statistics
 
@@ -864,15 +864,15 @@ abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 
 # Common Probability Distributions
 
-## A Bernouli Trial {.smaller}
+## A Bernouli Trial
 
 ![](images/week02_74_coin_flip_probability.jpeg){fig-align="center" width="60%"}
 
-## Probability of Independent Events {.smaller}
+## Probability of Independent Events
 
 ![](images/week02_75_card_deck_probability_union.jpeg){fig-align="center" width="100%"}
 
-## Bernoulli Distribution {.smaller}
+## Bernoulli Distribution
 
 Describes the expected outcome of a single event with probability $p$.
 
@@ -884,7 +884,7 @@ $$Pr(X=\text{Tails}) = \frac{1}{2} = 0.5 = 1 - p = q$$
 
 Probabilities always sum to 1: $p + q = 1$
 
-## Let's Simulate Coin Flips {.smaller}
+## Let's Simulate Coin Flips
 
 ::: panel-tabset
 ### Output
@@ -914,7 +914,7 @@ barplot(table(flips), col = c("steelblue", "coral"))
 ```
 :::
 
-## In-Class Demo: Law of Large Numbers with Coin Flips {.smaller}
+## In-Class Demo: Law of Large Numbers with Coin Flips
 
 Watch how the proportion of heads converges to 0.5 as we flip more coins:
 
@@ -978,7 +978,7 @@ for(n in c(1, 8, 16, 32, 400, 1000)) {
 As sample size increases, observed proportions converge to true probability (0.5).
 :::
 
-## Law of Large Numbers in R {.smaller}
+## Law of Large Numbers in R
 
 ::: panel-tabset
 ### Output
@@ -1027,7 +1027,7 @@ legend("topright", c("Cumulative Mean", "True Mean (μ = 10)"),
 ```
 :::
 
-## Binomial Distribution {.smaller}
+## Binomial Distribution
 
 Results from combining several independent Bernoulli events.
 
@@ -1049,11 +1049,11 @@ Where:
 -   $k$ = number of successes
 -   $p$ = probability of success
 
-## Binomial Distribution {.smaller}
+## Binomial Distribution
 
 ![](images/week02_76_bell_shaped_histogram.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Binomial Distribution - Bell Shape {.smaller}
+## DRAFT: Binomial Distribution - Bell Shape
 
 ```{r}
 #| echo: false
@@ -1072,7 +1072,7 @@ barplot(probs, names.arg = x, col = "white", border = "black",
         main = "", las = 1, space = 0)
 ```
 
-## Creating a Binomial Distributions {.smaller}
+## Creating a Binomial Distributions
 
 ::: panel-tabset
 ### Output
@@ -1107,7 +1107,7 @@ plot(0:10, dbinom(x = 0:10, size = 10, prob = 0.5),
 ```
 :::
 
-## Poisson Distribution {.smaller}
+## Poisson Distribution
 
 For discrete counts (e.g., snails per plot, neuron firings per second).
 
@@ -1129,7 +1129,7 @@ The Poisson is a single-parameter distribution: $\mu = \sigma^2 = \lambda$
 Variables with variance \> mean are called "overdispersed" (common in RNA-seq data).
 :::
 
-## Poisson Distribution Examples {.smaller}
+## Poisson Distribution Examples
 
 ::::: columns
 ::: {.column width="50%"}
@@ -1141,7 +1141,7 @@ Variables with variance \> mean are called "overdispersed" (common in RNA-seq da
 :::
 :::::
 
-## DRAFT: Poisson Distribution Examples {.smaller}
+## DRAFT: Poisson Distribution Examples
 
 ::::: columns
 ::: {.column width="50%"}
@@ -1198,7 +1198,7 @@ legend("topright", legend = paste("λ =", lambdas),
 :::
 :::::
 
-## Creating Poisson Distributions {.smaller}
+## Creating Poisson Distributions
 
 ::: panel-tabset
 ### Output
@@ -1233,7 +1233,7 @@ plot(0:15, dpois(x = 0:15, lambda = 3),
 ```
 :::
 
-## Geometric Distribution {.smaller}
+## Geometric Distribution
 
 Probability of observing $k$ trials before the first success:
 
@@ -1244,7 +1244,7 @@ $$P(X=k)=(1-p)^{k-1}p$$
 
 **Example:** If extinction probability is 0.1 per year, expected time to extinction?
 
-## Negative Binomial Distribution {.smaller}
+## Negative Binomial Distribution
 
 Probability of the $r^{th}$ success on the $k^{th}$ trial:
 
@@ -1255,7 +1255,7 @@ $$P(X=k)=\binom{k-1}{r-1}p^{r}(1-p)^{k-r}$$
 
 # Continuous Probability Distributions {background-color="#2c3e50"}
 
-## Continuous Probability Distributions {.smaller}
+## Continuous Probability Distributions
 
 $$P(a\leq X \leq b) = \int_{a}^{b} f(x) dx$$
 
@@ -1265,7 +1265,7 @@ $$\int_{-\infty}^{\infty} f(x) dx = 1$$
 
 **Expectation:** $$E[X] = \int_{-\infty}^{\infty} xf(x) dx$$
 
-## Uniform Distribution {.smaller}
+## Uniform Distribution
 
 All outcomes equally probable.
 
@@ -1299,7 +1299,7 @@ plot(x, dunif(x, 0, 10), type = "l", lwd = 2, col = "purple",
 ```
 :::
 
-## Exponential Distribution {.smaller}
+## Exponential Distribution
 
 ::: panel-tabset
 ### Equation
@@ -1318,7 +1318,7 @@ f(x)=\lambda e^{-\lambda x}
 
 **Example:** If λ equals the instantaneous death rate, the lifespan follows an exponential distribution.
 
-## Exponential Distribution {.smaller}
+## Exponential Distribution
 
 ::: panel-tabset
 ### Output
@@ -1348,7 +1348,7 @@ plot(x, dexp(x, rate = 0.1), type = "l", lwd = 2, col = "red",
 ```
 :::
 
-## Gamma Distribution {.smaller}
+## Gamma Distribution
 
 Waiting time until the $r^{th}$ event at rate $\lambda$:
 
@@ -1361,7 +1361,7 @@ $$f(x) = \frac{\lambda^r x^{r-1} e^{-\lambda x}}{(r-1)!}$$
 
 # The Normal or Gaussian Distribution
 
-## Normal (Gaussian) Distribution {.smaller}
+## Normal (Gaussian) Distribution
 
 ::: panel-tabset
 ### Equation
@@ -1381,7 +1381,7 @@ Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
 
 ![](images/week02_79_normal_distribution_68_95_99.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Normal Distribution - 68-95-99.7 Rule {.smaller}
+## DRAFT: Normal Distribution - 68-95-99.7 Rule
 
 ```{r}
 #| echo: false
@@ -1428,11 +1428,11 @@ arrows(-3, 0.48, 3, 0.48, code = 3, length = 0.1, lwd = 2)
 text(0, 0.50, "99.7%", cex = 1.5, font = 2)
 ```
 
-## Normal Distribution {.smaller}
+## Normal Distribution
 
 ![](images/week02_81_normal_distributions_varying_params.jpeg){fig-align="center" width="50%"}
 
-## DRAFT: Normal Distributions - Varying Parameters {.smaller}
+## DRAFT: Normal Distributions - Varying Parameters
 
 ```{r}
 #| echo: false
@@ -1478,15 +1478,15 @@ text(50, max(y3) * 0.7, expression(sigma * " = 3"), cex = 1.2)
 mtext(expression(mu * " = 50"), side = 1, line = 2.5, cex = 1)
 ```
 
-## Why is the Normal Distribution Special? {.smaller}
+## Why is the Normal Distribution Special?
 
 ![](images/week02_82_living_histogram_height.jpeg){fig-align="center" width="100%"}
 
-## Why Normal is Special in Biology {.smaller}
+## Why Normal is Special in Biology
 
 ![](images/week02_83_galton_regression_to_mean.jpeg){fig-align="center" width="70%"}
 
-## DRAFT: Galton's Regression to the Mean {.smaller}
+## DRAFT: Galton's Regression to the Mean
 
 ```{r}
 #| echo: false
@@ -1528,11 +1528,11 @@ abline(a = 0, b = 1, lwd = 2, lty = 2)
 text(64, 72, "y = 29.4 + 0.57x", cex = 1.1)
 ```
 
-## Why Normal is Special in Biology {.smaller}
+## Why Normal is Special in Biology
 
 ![](images/week02_84_birth_data_visualization_art.jpeg){fig-align="center" width="100%"}
 
-## Z-Scores of Normal distributions {.smaller}
+## Z-Scores of Normal distributions
 
 Standardize variables to mean = 0, SD = 1:
 
@@ -1552,7 +1552,7 @@ This is the **standard normal distribution**.
 
 # Sampling from distributions in R
 
-## Distribution Functions in R {.smaller}
+## Distribution Functions in R
 
 | Prefix | Function                 | Example              |
 |:-------|:-------------------------|:---------------------|
@@ -1565,7 +1565,7 @@ Works for: `binom`, `pois`, `exp`, `norm`, `geom`, `nbinom`, `unif`, `gamma`
 
 # Estimates and Confidence Intervals {background-color="#2c3e50"}
 
-## Parameter Estimation {.smaller}
+## Parameter Estimation
 
 -   Estimation infers population parameters from sample data
 -   Sample estimates rarely equal population parameters exactly
@@ -1576,7 +1576,7 @@ Works for: `binom`, `pois`, `exp`, `norm`, `geom`, `nbinom`, `unif`, `gamma`
 NO ESTIMATE IS USEFUL WITHOUT A STANDARD ERROR!
 :::
 
-## Estimation Approaches {.smaller}
+## Estimation Approaches
 
 | Approach | Description |
 |:---|:---|
@@ -1586,13 +1586,13 @@ NO ESTIMATE IS USEFUL WITHOUT A STANDARD ERROR!
 | **Maximum Likelihood** | Model-based estimates with confidence |
 | **Bayesian** | Incorporates prior information |
 
-## The Central Limit Theorem {.smaller}
+## The Central Limit Theorem
 
 For most data, we can't determine sampling distributions empirically.
 
 The CLT tells us that the sampling distribution of the mean approaches normal as sample size increases, regardless of the underlying distribution.
 
-## Visualizing the Central Limit Theorem {.smaller}
+## Visualizing the Central Limit Theorem
 
 ::: panel-tabset
 ### Output
@@ -1670,7 +1670,7 @@ for(n in c(5, 30, 100)) {
 ```
 :::
 
-## CLT in Quantitative Genetics {.smaller}
+## CLT in Quantitative Genetics
 
 **Why are complex traits normally distributed?**
 
@@ -1752,11 +1752,11 @@ This is why quantitative traits (height, weight, blood pressure) are approximate
 
 # Sampling variation of a parameter estimate
 
-## Sampling Variation of a Parameter {.smaller}
+## Sampling Variation of a Parameter
 
 ![](images/week02_88_population_vs_sampling_distribution.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Population vs Sampling Distribution {.smaller}
+## DRAFT: Population vs Sampling Distribution
 
 ```{r}
 #| echo: false
@@ -1794,7 +1794,7 @@ hist(sample_means, breaks = 40,
 
 ![](images/week02_91_sampling_distribution_of_means.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Sampling Distribution of Means {.smaller}
+## DRAFT: Sampling Distribution of Means
 
 ```{r}
 #| echo: false
@@ -1832,11 +1832,11 @@ mtext("Distribution of estimates of the\nmean from multiple samples",
       adj = 0.5)
 ```
 
-## Estimation and Confidence Intervals {.smaller}
+## Estimation and Confidence Intervals
 
 ![](images/week02_90_population_vs_single_sample.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Population vs Single Sample {.smaller}
+## DRAFT: Population vs Single Sample
 
 ```{r}
 #| echo: false
@@ -1883,7 +1883,7 @@ mtext("Distribution from\nOne sample of\n100 genes",
 
 ![](images/week02_92_standard_error_confidence_interval.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Standard Error and Confidence Intervals {.smaller}
+## DRAFT: Standard Error and Confidence Intervals
 
 ```{r}
 #| echo: false
@@ -1949,7 +1949,7 @@ text(3200, 35, "Therefore, lines extending\n2 standard errors outward\nfrom the 
      cex = 0.85)
 ```
 
-## Standard Error of the Mean {.smaller}
+## Standard Error of the Mean
 
 ::: panel-tabset
 ### Equation
@@ -1968,7 +1968,7 @@ $$\huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}$$
 -   SEM decreases as sample size increases
 :::
 
-## Calculating SEM {.smaller}
+## Calculating SEM
 
 ::: panel-tabset
 ### Output
@@ -2014,7 +2014,7 @@ cat("SEM (n=5):", round(sem_5, 4), "\nSEM (n=50):", round(sem_50, 4))
 ```
 :::
 
-## Confidence Intervals {.smaller}
+## Confidence Intervals
 
 A confidence interval is a range of values about a parameter estimate such that we are X% certain the true population parameter lies within.
 
@@ -2044,7 +2044,7 @@ t.test(sample_data)$conf.int
 ```
 :::
 
-## Visualizing What "95% Confidence" Means {.smaller}
+## Visualizing What "95% Confidence" Means
 
 ::: panel-tabset
 ### Output
@@ -2118,7 +2118,7 @@ legend("topright", c(paste(sum(contains_true), "contain μ"),
 ```
 :::
 
-## Coefficient of Variation {.smaller}
+## Coefficient of Variation
 
 To compare standard deviations across populations with different means:
 

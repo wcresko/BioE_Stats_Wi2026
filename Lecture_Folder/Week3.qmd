@@ -66,7 +66,7 @@ set.seed(2026)
 **HW1 Due this week**
 :::
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ```{r}
 #| eval: false
@@ -86,7 +86,7 @@ The `boot` package provides tools for bootstrap resampling and confidence interv
 
 # Hypothesis Testing Fundamentals {background-color="#2c3e50"}
 
-## What is a Hypothesis? {.smaller}
+## What is a Hypothesis?
 
 -   A statement of belief about the world
 -   Requires a **critical test** to accept/reject
@@ -96,7 +96,7 @@ The `boot` package provides tools for bootstrap resampling and confidence interv
 -   $H_A$: **Alternative hypothesis** — there is an effect/difference
 :::
 
-## Example Hypotheses {.smaller}
+## Example Hypotheses
 
 $H_0$: The amino acid substitution **does not change** the catalytic rate
 
@@ -113,11 +113,11 @@ $H_A$: The substitution **increases** the catalytic rate
 $H_A$: The substitution **decreases** the catalytic rate
 :::
 
-## Null and Alternative Hypotheses {.smaller}
+## Null and Alternative Hypotheses
 
 ![](images/week03_01_null_alt_hypothesis_distributions.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Null and Alternative Hypotheses {.smaller}
+## DRAFT: Null and Alternative Hypotheses
 
 ```{r}
 #| echo: false
@@ -147,7 +147,7 @@ axis(1)
 
 ![](images/week03_02_effect_size_overlap_distributions.jpeg){fig-align="center" width="60%"}
 
-## DRAFT: Effect Size and Distribution Overlap {.smaller}
+## DRAFT: Effect Size and Distribution Overlap
 
 ```{r}
 #| echo: false
@@ -174,18 +174,18 @@ lines(x, dnorm(x, 6, 2), lwd = 3, col = "blue")
 abline(v = c(2, 6), lwd = 2)
 ```
 
-## Type I and Type II Errors {.smaller}
+## Type I and Type II Errors
 
 ![](images/week03_03_type_i_ii_error_matrix.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Type I and Type II Errors {.smaller}
+## DRAFT: Type I and Type II Errors
 
 |  | **Reject $H_0$** | **Retain $H_0$** |
 |:---|:---|:---|
 | **Effect exists** | Correct decision: Effect detected | Type II error ($\beta$): Effect not detected |
 | **No effect** | Type I error ($\alpha$): Effect detected; none exists | Correct decision: No effect detected; none exists |
 
-## Components of Hypothesis Testing {.smaller}
+## Components of Hypothesis Testing
 
 | Term | Definition |
 |:-----------------------------------|:-----------------------------------|
@@ -194,13 +194,13 @@ abline(v = c(2, 6), lwd = 2)
 | **β** | Probability of making a type 2 error - accepting a false null |
 | **Power** | Probability of rejecting a false null (1 - β) |
 
-## Why $\alpha$ = 0.05? {.smaller}
+## Why $\alpha$ = 0.05?
 
 ![](images/week03_04_fisher_significance_excerpt.jpeg){fig-align="center" width="90%"}
 
-# Statistical Sampling Distributions {.smaller}
+# Statistical Sampling Distributions
 
-## Statistical Sampling Distributions {.smaller}
+## Statistical Sampling Distributions
 
 -   When we want to perform a particular hypothesis test, we need to use a statistical test.
 -   These statistics are built upon sampling distributions, and they themselves have distributions
@@ -210,11 +210,11 @@ abline(v = c(2, 6), lwd = 2)
 -   A small probability - or p-value - means that it was very unlikely to occur.
 -   If it is small than our critical value $\alpha$ we reject the null and accept the alternative
 
-## Statistical Sampling Distributions {.smaller}
+## Statistical Sampling Distributions
 
 ![](images/week03_05_statistical_distributions_z_t_chi_f.jpeg){fig-align="center" width="70%"}
 
-## DRAFT: Statistical Sampling Distributions {.smaller}
+## DRAFT: Statistical Sampling Distributions
 
 ```{r}
 #| echo: false
@@ -268,11 +268,11 @@ text(0.7, 0.75, "c", col = "blue", cex = 1.2)
 text(1, 0.95, "d", col = "darkgreen", cex = 1.2)
 ```
 
-## Statistical Null Distributions and p-Values {.smaller}
+## Statistical Null Distributions and p-Values
 
 ![Understanding p-values and null distributions](images/week03_12_understanding_p_values_and_nul.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Understanding p-Values {.smaller}
+## DRAFT: Understanding p-Values
 
 ```{r}
 #| echo: false
@@ -310,7 +310,7 @@ text(-3, 0.38, expression("Needed to calculate\n" * italic(P) * "-value for test
 
 # T-Tests {background-color="#2c3e50"}
 
-## The t-Distribution {.smaller}
+## The t-Distribution
 
 ::: panel-tabset
 ### Equation
@@ -330,7 +330,7 @@ $$\large t = \frac{(\bar{y}_1-\bar{y}_2)}{s_{\bar{y}_1-\bar{y}_2}}$$
 -   BUT sampling variation will create `a distribution of t-values`
 -   Shape depends on degrees of freedom (e.g. how much data)
 
-## Visualizing the t-Distribution in R {.smaller}
+## Visualizing the t-Distribution in R
 
 ::: panel-tabset
 ### Output
@@ -383,11 +383,11 @@ legend("topright", c("Normal", paste("df =", df_values)),
 ```
 :::
 
-## One-Tailed Test {.smaller}
+## One-Tailed Test
 
 ![](images/week03_09_one_tailed_critical_region.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: One-Tailed Test {.smaller}
+## DRAFT: One-Tailed Test
 
 ```{r}
 #| echo: false
@@ -414,11 +414,11 @@ arrows(tc + 0.5, 0.08, tc + 0.2, 0.02, length = 0.1, lwd = 2)
 text(tc + 0.8, 0.10, expression(alpha == 0.05), cex = 1.3)
 ```
 
-## Two-Tailed Test {.smaller}
+## Two-Tailed Test
 
 ![Critical regions in a two-tailed hypothesis test](images/week03_10_critical_regions_in_a_two_tail.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Two-Tailed Test {.smaller}
+## DRAFT: Two-Tailed Test
 
 ```{r}
 #| echo: false
@@ -453,7 +453,7 @@ arrows(tc + 0.5, 0.08, tc + 0.2, 0.02, length = 0.1, lwd = 2)
 text(tc + 0.8, 0.10, expression(alpha == 0.025), cex = 1.2)
 ```
 
-## Visualizing Critical Regions in R {.smaller}
+## Visualizing Critical Regions in R
 
 ::: panel-tabset
 ### Output
@@ -522,7 +522,7 @@ abline(v = c(-crit_2, crit_2), lty = 2, col = "red")
 ```
 :::
 
-## Assumptions of Parametric t-Tests {.smaller}
+## Assumptions of Parametric t-Tests
 
 -   Normally distributed errors in the populations
 -   Equal variances (for two-sample t-test)
@@ -532,7 +532,7 @@ abline(v = c(-crit_2, crit_2), lty = 2, col = "red")
 If assumptions are violated, use nonparametric tests or randomization.
 :::
 
-## Checking Normality with QQ Plots {.smaller}
+## Checking Normality with QQ Plots
 
 A **Quantile-Quantile (QQ) plot** compares your data's distribution to a theoretical (often normal) distribution.
 
@@ -543,7 +543,7 @@ A **Quantile-Quantile (QQ) plot** compares your data's distribution to a theoret
 -   S-shaped curve → heavy or light tails
 -   Curved pattern → skewness
 
-## Checking Normality with QQ Plots {.smaller}
+## Checking Normality with QQ Plots
 
 ::: panel-tabset
 ### Output
@@ -601,7 +601,7 @@ qqline(heavy_tail, col = "red", lwd = 2)
 ```
 :::
 
-## QQ Plots in R {.smaller}
+## QQ Plots in R
 
 ```{r}
 #| label: qq-basic-code
@@ -617,7 +617,7 @@ library(car)
 qqPlot(my_data)  # Includes confidence envelope
 ```
 
-## Interpreting QQ Plot Patterns for Normal Distribution {.smaller}
+## Interpreting QQ Plot Patterns for Normal Distribution
 
 | Pattern | Interpretation | Example Data |
 |:-----------------------|:-----------------------|:-----------------------|
@@ -628,7 +628,7 @@ qqPlot(my_data)  # Includes confidence envelope
 | Concave down | Left skew | Ceiling effects |
 | Single outlying points | Individual outliers | Measurement errors |
 
-## Formal Normality Tests {.smaller}
+## Formal Normality Tests
 
 While QQ plots are preferred for visual assessment, formal tests exist:
 
@@ -670,7 +670,7 @@ shapiro.test(normal_sample)
 
 # T-tests
 
-## One-Sample t-Test {.smaller}
+## One-Sample t-Test
 
 Tests whether sample mean differs from a hypothesized value:
 
@@ -698,7 +698,7 @@ t.test(sample_data, mu = 10)
 ```
 :::
 
-## Two-Sample t-Test {.smaller}
+## Two-Sample t-Test
 
 ::: panel-tabset
 ### Output
@@ -730,7 +730,7 @@ t.test(pop1, pop2)
 ```
 :::
 
-## Paired t-Test {.smaller}
+## Paired t-Test
 
 For matched or repeated measurements:
 
@@ -762,7 +762,7 @@ t.test(before, after, paired = TRUE)
 ```
 :::
 
-## In-Class Practice: T-test on real data {.smaller}
+## In-Class Practice: T-test on real data
 
 -   Let's practice on the datasets you've downloaded
 -   Create a QQ plot to check assumptions
@@ -770,7 +770,7 @@ t.test(before, after, paired = TRUE)
 -   Perform both a one-tail and two-tail test
 -   Write out the null and alternative hypotheses for each of these tests
 
-## Sample Size and Statistical Significance {.smaller}
+## Sample Size and Statistical Significance
 
 With large enough N, even tiny effects become "significant":
 
@@ -824,7 +824,7 @@ Statistical significance ≠ practical significance. Always report effect sizes!
 
 # Simulation in Statistics
 
-## Why Simulate? {.smaller}
+## Why Simulate?
 
 -   Understand sampling distributions
 -   Validate statistical methods
@@ -833,11 +833,11 @@ Statistical significance ≠ practical significance. Always report effect sizes!
 
 # Bootstrapping {background-color="#2c3e50"}
 
-## Etymology of "Bootstrap" {.smaller}
+## Etymology of "Bootstrap"
 
 ![](images/week09_18_baron_munchausen_bootstrap.jpeg){fig-align="center" width="100%"}
 
-## Why Bootstrap? {.smaller}
+## Why Bootstrap?
 
 -   Most estimates (not just the mean) lack simple SE formulas
 -   Bootstrap is a **nonparametric** approach
@@ -849,7 +849,7 @@ Statistical significance ≠ practical significance. Always report effect sizes!
 Means, proportions, correlations, regression coefficients, medians, eigenvalues, and more!
 :::
 
-## Bootstrap Steps {.smaller}
+## Bootstrap Steps
 
 1.  Take a random sample **with replacement** from your data
 2.  Calculate the estimate from the bootstrap sample
@@ -858,7 +858,7 @@ Means, proportions, correlations, regression coefficients, medians, eigenvalues,
 
 The result is the **bootstrap standard error**.
 
-## Bootstrap Example {.smaller}
+## Bootstrap Example
 
 ::: panel-tabset
 ### Output
@@ -900,7 +900,7 @@ abline(v = quantile(boot_means, c(0.025, 0.975)), col = "red", lwd = 2)
 ```
 :::
 
-## Bootstrap Confidence Intervals {.smaller}
+## Bootstrap Confidence Intervals
 
 ::: panel-tabset
 ### Output
@@ -930,7 +930,7 @@ The 2.5th and 97.5th percentiles provide a 95% confidence interval without norma
 
 # Loops in R {background-color="#2c3e50"}
 
-## For Loops {.smaller}
+## For Loops
 
 ```{r}
 #| label: for-loop
@@ -941,7 +941,7 @@ for (i in 1:5) {
 }
 ```
 
-## While Loops {.smaller}
+## While Loops
 
 ```{r}
 #| label: while-loop
@@ -954,7 +954,7 @@ while (i < 5) {
 }
 ```
 
-## If-Else Statements {.smaller}
+## If-Else Statements
 
 ```{r}
 #| label: if-else
@@ -973,11 +973,11 @@ cat("Bought", n_milk, "cartons of milk")
 
 A programmer's partner says: "Buy milk, and if they have eggs, get six." The programmer returns with 6 cartons of milk.Permutation testing to create empirical null distributions
 
-## Permutation Test Example {.smaller}
+## Permutation Test Example
 
 ![](images/week03_14_permutation_null_distribution.jpeg){fig-align="center" width="40%"}
 
-## DRAFT: Permutation Null Distribution {.smaller}
+## DRAFT: Permutation Null Distribution
 
 ```{r}
 #| echo: false
@@ -1011,7 +1011,7 @@ text(obs_diff + 0.1, max(h$counts) * 0.9, round(obs_diff, 3),
      cex = 1.1, adj = 0)
 ```
 
-## Creating Empirical Null Distributions {.smaller}
+## Creating Empirical Null Distributions
 
 ::: panel-tabset
 ### Output
@@ -1063,7 +1063,7 @@ abline(v = t_obs, col = "red", lwd = 2)
 ```
 :::
 
-## Calculating Empirical p-Value {.smaller}
+## Calculating Empirical p-Value
 
 ::: panel-tabset
 ### Output
@@ -1091,7 +1091,7 @@ cat("Empirical p-value:", p_value)
 
 # Experimental Design Principles
 
-## What is an Experimental Study? {.smaller}
+## What is an Experimental Study?
 
 -   In an **experimental study** the researcher assigns treatments to units
 -   In an **observational study** nature does the assigning
@@ -1099,7 +1099,7 @@ cat("Empirical p-value:", p_value)
 -   Randomization **minimizes the influence of confounding variables**
 -   Allows us to infer **cause and effect**
 
-## Clinical Trials {.smaller}
+## Clinical Trials
 
 -   Gold standard of experimental designs
 -   Two or more treatments assigned to human subjects
@@ -1114,11 +1114,11 @@ cat("Empirical p-value:", p_value)
 -   Balance
 -   Blocking
 
-## Clinical Trial Example {.smaller}
+## Clinical Trial Example
 
 ![](images/week02_97_clinical_trial_data_table.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Clinical Trial Example {.smaller}
+## DRAFT: Clinical Trial Example
 
 |  | **Nonoxynol-9** |  | **Placebo** |  |
 |:---------|:---:|:---:|:---:|:---:|
@@ -1131,13 +1131,13 @@ cat("Empirical p-value:", p_value)
 | Hat Yai 3 | 56 | 5 | 59 | 0 |
 | **Total** | **376** | **59** | **389** | **45** |
 
-## Simultaneous Control Group {.smaller}
+## Simultaneous Control Group
 
 -   Placebo or currently accepted treatment
 -   Control subjects should be perturbed similarly to treated subjects
 -   "Sham operation" example in surgical studies
 
-## Randomization {.smaller}
+## Randomization
 
 -   Breaks association between confounding variables and treatment
 -   Ensures variation from confounding variables is similar across groups
@@ -1148,7 +1148,7 @@ cat("Empirical p-value:", p_value)
 -   Randomized block design
 -   Matched pair design
 
-## Random Sampling Approaches {.smaller}
+## Random Sampling Approaches
 
 -   **Simple random sample** - every sample has equal probability
 -   **Stratified sample** - divided into groups, then random sample from each
@@ -1156,7 +1156,7 @@ cat("Empirical p-value:", p_value)
 -   **Multistage sampling** - combines the above approaches
 -   **Systematic sample** - predetermined pattern (e.g., every 20th person)
 
-## Blinding {.smaller}
+## Blinding
 
 -   **Single-blind:** Subjects unaware of treatment
 -   **Double-blind:** Both subjects and researchers unaware
@@ -1165,7 +1165,7 @@ cat("Empirical p-value:", p_value)
 Studies without double-blinding exaggerate treatment effects by 16% on average (Jüni et al. 2001)
 :::
 
-## Replication and Balance {.smaller}
+## Replication and Balance
 
 **Replication:**
 
@@ -1179,13 +1179,13 @@ Studies without double-blinding exaggerate treatment effects by 16% on average (
 
 ![](images/week02_98_pooled_standard_error_formula.jpeg){fig-align="center" width="80%"}
 
-## DRAFT: Pooled Standard Error Formula {.smaller}
+## DRAFT: Pooled Standard Error Formula
 
 $$\huge s_{\bar{y}_1 - \bar{y}_2} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}$$
 
 When $n_1 = n_2$, this simplifies and gives the smallest standard error — this is why **balanced designs** are preferred.
 
-## Types of Replication {.smaller}
+## Types of Replication
 
 Understanding the distinction between replication types is **critical** for valid statistical inference:
 
@@ -1201,7 +1201,7 @@ Understanding the distinction between replication types is **critical** for vali
 Treating technical replicates or pseudo-replicates as biological replicates inflates sample size and leads to false positives!
 :::
 
-## Biological vs. Technical Replication {.smaller}
+## Biological vs. Technical Replication
 
 ```{r}
 #| label: replication-diagram-2
@@ -1237,7 +1237,7 @@ boxplot(value ~ treatment, data = tech_reps, col = c("lightblue", "coral"),
 text(1.5, 17, "True n=3, NOT n=9!", cex = 0.9, col = "red")
 ```
 
-## Pseudo-Replication: A Common Pitfall {.smaller}
+## Pseudo-Replication: A Common Pitfall
 
 **Definition:** Using observations that are not independent as if they were independent replicates.
 
@@ -1256,7 +1256,7 @@ text(1.5, 17, "True n=3, NOT n=9!", cex = 0.9, col = "red")
 
 # Effect Sizes {background-color="#2c3e50"}
 
-## Why Effect Sizes Matter {.smaller}
+## Why Effect Sizes Matter
 
 **Statistical significance ≠ Practical significance**
 
@@ -1271,7 +1271,7 @@ text(1.5, 17, "True n=3, NOT n=9!", cex = 0.9, col = "red")
 A study with n=10,000 might find p \< 0.001 for a difference of 0.1 points on a 100-point scale. Statistically significant? Yes. Practically meaningful? Probably not.
 :::
 
-## Cohen's d for t-Tests {.smaller}
+## Cohen's d for t-Tests
 
 **Standardized mean difference:**
 
@@ -1297,7 +1297,7 @@ Where: $s_{pooled} = \sqrt{\frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}}$
 | 0.5     | Medium effect  |
 | 0.8     | Large effect   |
 
-## Calculating Cohen's d in R {.smaller}
+## Calculating Cohen's d in R
 
 ::: panel-tabset
 ### Output
@@ -1351,7 +1351,7 @@ cat("p-value:", format(t_result$p.value, digits = 4))
 ```
 :::
 
-## Visualizing Effect Sizes {.smaller}
+## Visualizing Effect Sizes
 
 ::: panel-tabset
 ### Output
@@ -1411,7 +1411,7 @@ lines(x, dnorm(x, 0.8, 1), lwd = 2, col = "coral")
 ```
 :::
 
-## Effect Sizes for Correlations {.smaller}
+## Effect Sizes for Correlations
 
 Correlation coefficient **r** is itself an effect size:
 
@@ -1427,7 +1427,7 @@ Correlation coefficient **r** is itself an effect size:
 -   r = 0.3 → r² = 0.09 → only 9% of variance explained
 -   More intuitive for interpretation
 
-## Confidence Intervals for Effect Sizes {.smaller}
+## Confidence Intervals for Effect Sizes
 
 ::: panel-tabset
 ### Output
@@ -1499,7 +1499,7 @@ cat("Cohen's d =", round(boot_d$t0, 2),
 ```
 :::
 
-## Reporting Effect Sizes {.smaller}
+## Reporting Effect Sizes
 
 ::: callout-tip
 ## Best Practice Reporting
@@ -1517,7 +1517,7 @@ cat("Cohen's d =", round(boot_d$t0, 2),
 
 # Multiple Testing Corrections {background-color="#2c3e50"}
 
-## When Does Multiple Testing Apply? {.smaller}
+## When Does Multiple Testing Apply?
 
 **Common scenarios requiring correction:**
 
@@ -1530,7 +1530,7 @@ cat("Cohen's d =", round(boot_d$t0, 2),
 
 **The key question:** Are you making multiple statistical inferences that collectively address a related family of questions?
 
-## What Is NOT Multiple Testing? {.smaller}
+## What Is NOT Multiple Testing?
 
 **These situations generally don't require correction:**
 
@@ -1547,7 +1547,7 @@ cat("Cohen's d =", round(boot_d$t0, 2),
 When in doubt, ask: "Could I have cherry-picked a significant result from many attempts?"
 :::
 
-## The Multiple Testing Problem {.smaller}
+## The Multiple Testing Problem
 
 When conducting multiple hypothesis tests, the probability of at least one Type I error increases dramatically.
 
@@ -1575,7 +1575,7 @@ Where $k$ is the number of tests performed.
 | 20        | 0.64            |
 | 100       | 0.99            |
 
-## Bonferroni Correction {.smaller}
+## Bonferroni Correction
 
 The simplest and most conservative correction:
 
@@ -1601,7 +1601,7 @@ p_{adjusted} = p \times k
 
 **Cons:** Very conservative, may miss true effects (increased Type II error)
 
-## Holm Correction (Step-Down) {.smaller}
+## Holm Correction (Step-Down)
 
 A less conservative alternative that maintains FWER control:
 
@@ -1617,7 +1617,7 @@ A less conservative alternative that maintains FWER control:
 | 2    | 0.030      | 2          | 0.060      |
 | 3    | 0.040      | 1          | 0.040      |
 
-## Benjamini-Hochberg Correction (FDR) {.smaller}
+## Benjamini-Hochberg Correction (FDR)
 
 Controls the **False Discovery Rate** — the expected proportion of false positives among rejected hypotheses.
 
@@ -1639,7 +1639,7 @@ Controls the **False Discovery Rate** — the expected proportion of false posit
 
 **Why use FDR?** Ideal for high-dimensional data (genomics, proteomics) where some false positives are acceptable in exchange for greater power.
 
-## Choosing a Correction Method {.smaller}
+## Choosing a Correction Method
 
 | Method | Controls | Stringency | Use When |
 |------------------|------------------|------------------|------------------|
@@ -1651,7 +1651,7 @@ Controls the **False Discovery Rate** — the expected proportion of false posit
 **Data Dredging Warning:** Running many tests to find "something significant" inflates false positives. Always correct for multiple comparisons and report how many tests were conducted!
 :::
 
-## Multiple Testing in R {.smaller}
+## Multiple Testing in R
 
 ::: panel-tabset
 ### Output

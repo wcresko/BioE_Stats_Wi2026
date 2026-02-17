@@ -63,7 +63,7 @@ set.seed(2026)
 **Readings:** Chapters 1-8, Appendix A1
 :::
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ```{r}
 #| label: week1-packages-install
@@ -100,7 +100,7 @@ Welcome to the course! This term we will build your skills in statistical thinki
 -   Prepare you for more advanced statistics and programming
 :::
 
-## What Will You Learn? {.smaller}
+## What Will You Learn?
 
 ::: incremental
 -   Read and write code in Unix and R
@@ -130,7 +130,7 @@ Welcome to the course! This term we will build your skills in statistical thinki
 
 ![](images/week01_05_historical_craftsmanship.jpeg){fig-align="center" width="100%"}
 
-## Class Logistics {.smaller}
+## Class Logistics
 
 **Schedule:** Tuesdays and Thursdays, 4:00pm - 5:50pm in KC107
 
@@ -141,7 +141,7 @@ Most of class time will be hands-on coding practice.
 -   Weeks 2-9: Coding and statistics homework
 -   Week 11: Final coding project designing scripts for your research
 
-## Required Materials {.smaller}
+## Required Materials
 
 -   Access to a laptop running Windows, MacOS, or Linux
 -   Announcements and assignments posted on Canvas
@@ -165,7 +165,7 @@ Most of class time will be hands-on coding practice.
 
 # Why Statistics & Coding? {background-color="#2c3e50"}
 
-## Why Do We Need Statistics? {.smaller}
+## Why Do We Need Statistics?
 
 **The Problem:** We almost never know the world perfectly, but still need to draw conclusions or make decisions. We estimate parameters from samples and test hypotheses using data.
 
@@ -183,7 +183,7 @@ Most of class time will be hands-on coding practice.
 We need a firm understanding of probability, sampling, and distributions.
 :::
 
-## Why Do We Need Coding? {.smaller}
+## Why Do We Need Coding?
 
 ::: incremental
 -   Incredibly fast and powerful for repeated actions
@@ -200,7 +200,7 @@ We need a firm understanding of probability, sampling, and distributions.
 :::
 ::::
 
-## Coding vs. Scripting {.smaller}
+## Coding vs. Scripting
 
 | Type | Description | Examples | Speed | Flexibility |
 |:---|:---|:---|:---|:---|
@@ -211,7 +211,7 @@ We need a firm understanding of probability, sampling, and distributions.
 The distinction has become fuzzy—most modern pipelines combine both approaches.
 :::
 
-## Programming Languages {.smaller}
+## Programming Languages
 
 Programming languages are called *languages* for a reason:
 
@@ -235,7 +235,7 @@ Computers are literal! You must use explicit, pre-defined phrases to tell your c
 -   R and RStudio work on any platform
 :::
 
-## Installing R and RStudio {.smaller}
+## Installing R and RStudio
 
 **R Installation:**
 
@@ -252,7 +252,7 @@ Computers are literal! You must use explicit, pre-defined phrases to tell your c
 
 ![RStudio interface screenshot](images/week01_37_rstudio_screenshot.jpg){fig-align="center" width="75%"}
 
-## Accessing the Shell {.smaller}
+## Accessing the Shell
 
 -   **Mac users**: Open the "Terminal" app or use 'iTerm2'
 -   **Linux users**: Open one of several "Terminal" apps
@@ -263,7 +263,7 @@ Computers are literal! You must use explicit, pre-defined phrases to tell your c
 See the next slides for WSL2 installation
 :::
 
-## Accessing the Shell — Windows {.smaller}
+## Accessing the Shell — Windows
 
 **Installation Steps:**
 
@@ -275,7 +275,7 @@ See the next slides for WSL2 installation
 
 **Alternative:** Type `wsl --install -d ubuntu` on PowerShell to do steps 3-5 at once
 
-## Accessing the Shell — Windows {.smaller}
+## Accessing the Shell — Windows
 
 -   Open `Ubuntu` and set up a username and password (doesn't need to match Windows login)
 -   Note that this is the `Ubuntu` Linux operating system that you installed, not the Windows Powershell
@@ -288,21 +288,21 @@ See the next slides for WSL2 installation
 
 ![](images/week01_15_w1_code.jpeg){fig-align="center" width="90%"}
 
-## What is Unix? {.smaller}
+## What is Unix?
 
 -   A scripting language developed in 1969, released in 1973
 -   Serves as the base language for many programs and computers
 -   Linux is an open-source version of the same language
 -   Runs Apple OSX Macs, Linux Workstations, Google Android, Virtual Machines....
 
-## What is a Shell? {.smaller background-image="images/week01_16_w1_shell.jpeg" background-opacity="0.3"}
+## What is a Shell? {background-image="images/week01_16_w1_shell.jpeg" background-opacity="0.3"}
 
 -   The 'shell' is a program that takes commands and gives them to the operating system
 -   The most common is `Bash`, but also `Tsh` and `Zsh`
 -   `Bash` acts as the shell in Macs and Linux
 -   You access the `bash` shell via a terminal window
 
-## The Mac Terminal {.smaller}
+## The Mac Terminal
 
 ::: {layout-ncol="2"}
 ![](images/week01_32_macterminal_1.jpg){width="90%"}
@@ -310,11 +310,11 @@ See the next slides for WSL2 installation
 ![](images/week01_33_macterminal_2.jpg){width="90%"}
 :::
 
-## Terminal Within RStudio {.smaller}
+## Terminal Within RStudio
 
 ![](images/week01_34_terminal_window_showing_direct.jpg){fig-align="center" width="80%"}
 
-## Shell Command Structure {.smaller}
+## Shell Command Structure
 
 ![](images/week01_18_w1_shell_command.jpeg){fig-align="center" width="60%"}
 
@@ -335,7 +335,7 @@ See the next slides for WSL2 installation
 
 ![](images/week01_22_w1_navigate.jpeg){fig-align="center" width="90%"}
 
-## How is a Computer Organized? {.smaller}
+## How is a Computer Organized?
 
 -   System of directories (folders) and files
 -   `/` = the root directory, which holds all other directories
@@ -368,25 +368,25 @@ See the next slides for WSL2 installation
 
 ![](images/week01_29_unix_dotdot_navigation.jpeg){fig-align="center" width="90%"}
 
-## Relative and Absolute Paths {.smaller}
+## Relative and Absolute Paths
 
 ![](images/week01_12_statistical_concepts_preview.jpeg){fig-align="center" width="90%"}
 
-## Relative and Absolute Paths {.smaller}
+## Relative and Absolute Paths
 
 ![](images/week01_13_data_analysis_workflow.jpeg){fig-align="center" width="90%"}
 
-## Relative and Absolute Paths {.smaller}
+## Relative and Absolute Paths
 
 ![](images/week01_14_course_roadmap.jpeg){fig-align="center" width="90%"}
 
 # Navigating the file system and working with files using Shell Commands
 
-## Navigating the File System {.smaller}
+## Navigating the File System
 
 ![](images/week01_36_finding_your_way_around.jpeg){fig-align="center" width="70%"}
 
-## Common Navigation Commands {.smaller}
+## Common Navigation Commands
 
 | Command | Description | Common Options |
 |:---|:---|:---|
@@ -394,7 +394,7 @@ See the next slides for WSL2 installation
 | `ls` | List directories and files | `-F`, `-l`, `-r`, `-S`, `-t` |
 | `cd` | Change directory | `..` (up one level), `-` (previous) |
 
-## Common File Commands {.smaller}
+## Common File Commands
 
 | Command         | Function                       |
 |:----------------|:-------------------------------|
@@ -407,7 +407,7 @@ See the next slides for WSL2 installation
 | `cat`           | Reading/concatenating files    |
 | `head`, `tail`  | View beginning or end of files |
 
-## Naming Conventions {.smaller}
+## Naming Conventions
 
 -   Avoid spaces in file names
 -   Don't start with a `–`
@@ -420,7 +420,7 @@ See the next slides for WSL2 installation
 It will delete files you say to delete and override files with duplicate names!
 :::
 
-## Getting Help {.smaller}
+## Getting Help
 
 **Manual pages:**
 
@@ -431,7 +431,7 @@ It will delete files you say to delete and override files with duplicate names!
 
 -   Stack Overflow, GitHub discussions, official documentation
 
-## Exercise {.smaller}
+## Exercise
 
 ::: callout-tip
 ## Exercise
@@ -446,7 +446,7 @@ It will delete files you say to delete and override files with duplicate names!
 
 # R and RStudio {background-color="#2c3e50"}
 
-## Why use R? {.smaller}
+## Why use R?
 
 ![](images/week01_40_week2_rpirate.jpeg){fig-align="center" width="60%"}
 
@@ -457,7 +457,7 @@ It will delete files you say to delete and override files with duplicate names!
 -   Embed analyses in dynamic documents using Quarto
 -   Lots of online help available
 
-## R Resources {.smaller}
+## R Resources
 
 | Resource           | URL                                            |
 |:-------------------|:-----------------------------------------------|
@@ -480,7 +480,7 @@ When you get an error, paste it into Google—someone else has had the same prob
 `R` is the programming language, `RStudio` is the Integrated Developer Environment (IDE) to let you write scripts in `R` (and other languages like `Python` and `C++`)
 :::
 
-##  {.smaller}
+## 
 
 ![](images/week01_38_rstudio.jpeg){fig-align="center" width="80%"}
 
@@ -495,7 +495,7 @@ When you get an error, paste it into Google—someone else has had the same prob
 Customize layout in Tools → Global Options → Pane Layout
 :::
 
-## Installing and Loading Packages {.smaller}
+## Installing and Loading Packages
 
 R's power comes from community-contributed packages:
 
@@ -515,7 +515,7 @@ library(tidyverse)
 Also install via RStudio: Tools → Install Packages
 :::
 
-## The Tidyverse Ecosystem {.smaller}
+## The Tidyverse Ecosystem
 
 | Package   | Purpose                                               |
 |:----------|:------------------------------------------------------|
@@ -542,7 +542,7 @@ Loading `tidyverse` loads all of these at once!
 Always comment your code! Future you will thank present you.
 :::
 
-## Basic Math in R {.smaller}
+## Basic Math in R
 
 -   Commands submitted through terminal, console, or scripts
 -   Anything following `#` is a comment
@@ -556,7 +556,7 @@ Always comment your code! Future you will thank present you.
 (4+3*2^2)
 ```
 
-## Assigning Variables {.smaller}
+## Assigning Variables
 
 -   Use the `<-` operator
 -   Names must begin with a letter
@@ -574,7 +574,7 @@ y-2
 
 These do **not** work: `3y <- 3` or `3*y <- 3`
 
-## Arithmetic and Functions {.smaller}
+## Arithmetic and Functions
 
 ```{r}
 #| label: week1-arithmetic-basic
@@ -599,7 +599,7 @@ z <- (x*y)^2
 print(z)
 ```
 
-## Common Data Types {.smaller}
+## Common Data Types
 
 | Statistical Term       | Description                       | R Type            |
 |:-----------------------|:----------------------------------|:------------------|
@@ -615,7 +615,7 @@ print(z)
 Use `class()` or `str()` to check data types
 :::
 
-## Strings {.smaller}
+## Strings
 
 -   Characters need quotation marks
 -   `c()` stands for `concatenate`
@@ -630,7 +630,7 @@ z <- c(x,y)
 print(z)
 ```
 
-## Factors {.smaller}
+## Factors
 
 -   Sometimes we want to treat characters as units for calculations
 -   These are called `factors`—important for statistical analyses comparing groups
@@ -645,7 +645,7 @@ z_factor <- as.factor(z)
 print(z_factor)
 ```
 
-## Data Type Coercion {.smaller}
+## Data Type Coercion
 
 Convert between data types using `as.*` functions:
 
@@ -673,7 +673,7 @@ x <- c(2,3,4,2,1,2,4,5,10,8,9)
 print(x)
 ```
 
-## Creating Vectors {.smaller}
+## Creating Vectors
 
 Use functions like `seq` and `sample`:
 
@@ -694,7 +694,7 @@ seq_square <- (seq_2)^2
 print(seq_square)
 ```
 
-## Basic Statistics Functions on Vectors {.smaller}
+## Basic Statistics Functions on Vectors
 
 | Function               | Description                      |
 |:-----------------------|:---------------------------------|
@@ -710,7 +710,7 @@ print(seq_square)
 All of these can function on vectors which are assigned to a variable (e.g. x above)
 :::
 
-## Logical Operators {.smaller}
+## Logical Operators
 
 | Operator | Meaning           | Example             |
 |:---------|:------------------|:--------------------|
@@ -731,7 +731,7 @@ x > 10
 x[x > 10]
 ```
 
-## Handling Missing Data (NA) {.smaller}
+## Handling Missing Data (NA)
 
 | Task               | Code                  | Result            |
 |:-------------------|:----------------------|:------------------|
@@ -744,7 +744,7 @@ x[x > 10]
 Always use `is.na()` to check for missing values, never `== NA`
 :::
 
-## Special Numeric Values {.smaller}
+## Special Numeric Values
 
 | Value  | Meaning                       | Example       |
 |:-------|:------------------------------|:--------------|
@@ -755,7 +755,7 @@ Always use `is.na()` to check for missing values, never `== NA`
 
 Test with: `is.na()`, `is.nan()`, `is.infinite()`, `is.finite()`
 
-## Getting Help in R {.smaller}
+## Getting Help in R
 
 | Command                 | Description             |
 |:------------------------|:------------------------|
@@ -764,7 +764,7 @@ Test with: `is.na()`, `is.nan()`, `is.infinite()`, `is.finite()`
 | `help.search("mean")`   | Search all help pages   |
 | `args(mean)`            | Show function arguments |
 
-## Working Directory {.smaller}
+## Working Directory
 
 | Task                    | Code                       |
 |:------------------------|:---------------------------|
@@ -776,7 +776,7 @@ Test with: `is.na()`, `is.nan()`, `is.infinite()`, `is.finite()`
 RStudio Projects (File → New Project) automatically set your working directory
 :::
 
-## Common R Errors {.smaller}
+## Common R Errors
 
 | Error Message | Meaning | Fix |
 |:---|:---|:---|
@@ -791,7 +791,7 @@ Read error messages from the bottom up—the last line tells you what went wrong
 
 # A few examples of basic R code
 
-## Drawing Samples from Distributions {.smaller}
+## Drawing Samples from Distributions
 
 ::: panel-tabset
 ### Output
@@ -821,7 +821,7 @@ plot(x, y, pch = 20, col = rgb(0, 0, 1, 0.3))
 ```
 :::
 
-## Histograms {.smaller}
+## Histograms
 
 ::: panel-tabset
 ### Output
@@ -849,7 +849,7 @@ hist(x, col = "steelblue", border = "white", main = "Normal Distribution")
 ```
 :::
 
-## Density Curves {.smaller}
+## Density Curves
 
 ::: panel-tabset
 ### Output
@@ -879,7 +879,7 @@ curve(dnorm(x, 0, 100), xlim = c(-500,500), add=TRUE, col='Red', lwd=2)
 ```
 :::
 
-## Binomial Distribution {.smaller}
+## Binomial Distribution
 
 ::: panel-tabset
 ### Output
@@ -907,7 +907,7 @@ hist(heads, col = "coral", border = "white")
 ```
 :::
 
-## Multiple Plots {.smaller}
+## Multiple Plots
 
 Use `par(mfrow=c(rows, cols))` to create composite figures:
 
@@ -957,7 +957,7 @@ plot((seq_1)^2, xlab="time", ylab ="p in pop 1", type = "l", col = 'orange', lwd
 
 ![](images/week01_44_stickleback_experiment.jpeg){fig-align="center" width="100%"}
 
-## What is Tidy Data? {.smaller}
+## What is Tidy Data?
 
 | Term | Definition | Example |
 |:---|:---|:---|
@@ -967,7 +967,7 @@ plot((seq_1)^2, xlab="time", ylab ="p in pop 1", type = "l", col = 'orange', lwd
 | *Sample* | The (representative) subset of the population that are observed | A small quantity of milk collected from 15 captive female koalas^a^ |
 | *Variable* | A set of measurements of the same type that comprise the sample. The characteristic that differs (varies) from observation to observation | The protein content of koala milk. |
 
-## What is Tidy Data? {.smaller}
+## What is Tidy Data?
 
 Different formats may be appropriate for different applications, but one is particularly convenient for data science: **tidy data**.
 
@@ -981,7 +981,7 @@ Different formats may be appropriate for different applications, but one is part
 
 New observations can easily be added as rows, and new variables as columns.
 
-## Tidy Data Set Rules of Thumb {.smaller}
+## Tidy Data Set Rules of Thumb
 
 -   Store data in nonproprietary formats (plain ASCII text / flat files)
 -   Keep an uncorrected file when doing analyses
@@ -995,7 +995,7 @@ New observations can easily be added as rows, and new variables as columns.
 -   Data sets are read into R, but the original file isn't altered
 -   Any modifications to the file can be read out to a new file with a different name
 
-## Creating an Example Data Frame {.smaller}
+## Creating an Example Data Frame
 
 ```{r}
 #| label: week1-dataframe-example
@@ -1015,7 +1015,7 @@ mydata |>
 
 # Importing data
 
-## Common File Formats {.smaller}
+## Common File Formats
 
 | Format          | Extension      | Separator | Notes                         |
 |:----------------|:---------------|:----------|:------------------------------|
@@ -1028,7 +1028,7 @@ mydata |>
 Always check imported data with `head()`, `str()`, or `View()`
 :::
 
-## Genomic Data Formats {.smaller}
+## Genomic Data Formats
 
 | Format  | Extension       | Description                       |
 |:--------|:----------------|:----------------------------------|
@@ -1042,7 +1042,7 @@ Always check imported data with `head()`, `str()`, or `View()`
 Most bioinformatics programs work with FASTQ data
 :::
 
-## Reading and Writing Data {.smaller}
+## Reading and Writing Data
 
 **Reading:**
 
@@ -1070,7 +1070,7 @@ Most bioinformatics programs work with FASTQ data
 -   Read the data file into R and analyze it
 :::
 
-## Transcriptomic Data Analysis {.smaller}
+## Transcriptomic Data Analysis
 
 ```{r}
 #| label: week1-rnaseq-analysis-code
@@ -1092,7 +1092,7 @@ boxplot(RNAseq_Data$ENSGACG00000000003 ~ RNAseq_Data$Treatment,
 
 # Reproducible Research with Quarto {background-color="#2c3e50"}
 
-## Why Reproducible Research? {.smaller}
+## Why Reproducible Research?
 
 **For Science:**
 
@@ -1116,19 +1116,19 @@ Many published findings cannot be reproduced. Quarto helps by embedding analysis
 
 ![](images/week01_07_statistical_thinking_in_action.jpeg){fig-align="center" width="90%"}
 
-## The Importance of Organization {.smaller}
+## The Importance of Organization
 
 ![](images/week01_50_messy_lab.jpg){fig-align="center" width="80%"}
 
 Keeping your data, code, and analyses organized is crucial for reproducibility.
 
-## Lab Notebook Example {.smaller}
+## Lab Notebook Example
 
 ![](images/week01_51_electronic_lab_notebook_for_re.png){width="80%"}
 
 # Quarto is a scientific organization and publishing system
 
-## What is Quarto? {.smaller}
+## What is Quarto?
 
 -   Open-source scientific and technical publishing system
 -   Combines code + text + outputs in a single document
@@ -1142,7 +1142,7 @@ Keeping your data, code, and analyses organized is crucial for reproducibility.
 Reproducibility, documentation, multiple output formats
 :::
 
-## Quarto Document Structure {.smaller}
+## Quarto Document Structure
 
 **1. YAML Header - which has global options for rendering**
 
@@ -1162,7 +1162,7 @@ format: html
 This will render to your choice of document (e.g. html, pdf, word, etc) and you have many different options for formatting the output, including the code evaluation
 :::
 
-## Markdown Basics {.smaller}
+## Markdown Basics
 
 **Text Formatting**
 
@@ -1178,7 +1178,7 @@ This will render to your choice of document (e.g. html, pdf, word, etc) and you 
 
 `1.` for numbered
 
-## Code Chunk {.smaller}
+## Code Chunk
 
 -   You embed code into chunks that look like this:
 
@@ -1200,7 +1200,7 @@ gene_expression <- tibble(
 \```
 ```
 
-## Code Chunk Options {.smaller}
+## Code Chunk Options
 
 Quarto uses `#|` (hash pipe) for chunk options:
 
@@ -1215,7 +1215,7 @@ Quarto uses `#|` (hash pipe) for chunk options:
 
 Note that these go into the beginning of each code chunk
 
-## Including Images {.smaller}
+## Including Images
 
 **Basic image:**
 
@@ -1229,7 +1229,7 @@ Note that these go into the beginning of each code chunk
 ![Caption](images/your_image.png){fig-align="center" width="70%"}
 ```
 
-## Equations {.smaller}
+## Equations
 
 **Inline math:**
 
@@ -1249,7 +1249,7 @@ $$\iint\limits_{a}^{b} f(x,y) \, dx \, dy$$
 ```
 :::
 
-## Example: Biological Data Analysis {.smaller}
+## Example: Biological Data Analysis
 
 ```{r}
 #| label: bio-example-setup
@@ -1267,7 +1267,7 @@ gene_expression <- tibble(
 )
 ```
 
-## View the Data {.smaller}
+## View the Data
 
 ```{r}
 #| label: tbl-gene-data
@@ -1278,7 +1278,7 @@ gene_expression |>
   kable(digits = 1)
 ```
 
-## Summary Statistics {.smaller}
+## Summary Statistics
 
 ```{r}
 #| label: tbl-summary-stats
@@ -1296,39 +1296,39 @@ gene_expression |>
   kable(digits = 1)
 ```
 
-## The Pipe Operator {.smaller}
+## The Pipe Operator
 
 ![The pipe operator Mario meme](images/week02_15_w1_mario.jpeg){#fig-week2-pipe-mario fig-align="center" width="70%"}
 
 Pipes connect operations together, passing output from one function to the next.
 
-## This is Not a Pipe {.smaller}
+## This is Not a Pipe
 
 ![This is not a pipe - Magritte](images/week02_16_w1_magritte.jpeg){#fig-week2-magritte fig-align="center" width="60%"}
 
 The R pipe (`|>` or `%>%`) is a way to chain operations - but remember, the map is not the territory!
 
-## Pipe Workflow - Step 1 {.smaller}
+## Pipe Workflow - Step 1
 
 ![Pipe workflow step 1](images/week02_17_w1_pipes_1.jpeg){#fig-week2-pipes-1 fig-align="center" width="90%"}
 
-## Pipe Workflow - Step 2 {.smaller}
+## Pipe Workflow - Step 2
 
 ![Pipe workflow step 2](images/week02_18_w1_pipes_2.jpeg){#fig-week2-pipes-2 fig-align="center" width="90%"}
 
-## Pipe Workflow - Step 3 {.smaller}
+## Pipe Workflow - Step 3
 
 ![Pipe workflow step 3](images/week02_19_w1_pipes_3.jpeg){#fig-week2-pipes-3 fig-align="center" width="90%"}
 
-## Pipe Workflow - Step 4 {.smaller}
+## Pipe Workflow - Step 4
 
 ![Pipe workflow step 4](images/week02_20_w1_pipes_4.jpeg){#fig-week2-pipes-4 fig-align="center" width="90%"}
 
-## Pipe Workflow - Step 5 {.smaller}
+## Pipe Workflow - Step 5
 
 ![Pipe workflow step 5](images/week02_21_w1_pipes_5.jpeg){#fig-week2-pipes-5 fig-align="center" width="90%"}
 
-## Visualization {.smaller}
+## Visualization
 
 ::: panel-tabset
 ### Output
@@ -1367,7 +1367,7 @@ ggplot(gene_expression, aes(x = treatment, y = gene_BRCA1, fill = treatment)) +
 ```
 :::
 
-## Statistical Test {.smaller}
+## Statistical Test
 
 ::: panel-tabset
 ### Output
@@ -1401,7 +1401,7 @@ tidy(anova_result) |>
 The p-value indicates whether there are significant differences between groups.
 :::
 
-## Cross-Referencing {.smaller}
+## Cross-Referencing
 
 This allows all elements within a Quarto document to be referenced from within the text, and then whenever you render the references are all updated automatically.
 
@@ -1412,7 +1412,7 @@ This allows all elements within a Quarto document to be referenced from within t
 | Equations | `{#eq-name}`     | `@eq-name`       |
 | Sections  | `{#sec-name}`    | `@sec-name`      |
 
-## Rendering output Formats {.smaller}
+## Rendering output Formats
 
 Quarto can `render` to many formats:
 
