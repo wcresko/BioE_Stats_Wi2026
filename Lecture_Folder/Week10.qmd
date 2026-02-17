@@ -115,21 +115,180 @@ library(randomForest)   # Random forests
 
 ![](images/week10_02_3d_multivariate_data_cloud.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: 3D Multivariate Data Cloud {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 6
+
+# Simulate correlated 3D data
+set.seed(42)
+n <- 500
+# Correlated data: elongated ellipsoid
+z1 <- rnorm(n)
+z2 <- rnorm(n) * 0.6
+z3 <- rnorm(n) * 0.3
+
+# Rotate to create correlation structure
+x <- z1 + 0.5 * z2
+y <- 0.3 * z1 + z2 + 0.2 * z3
+z <- 0.1 * z1 + 0.2 * z2 + z3
+
+# 3D scatter plot using persp-like approach
+par(mar = c(1, 1, 2, 1))
+# Sort by depth for 3D effect
+order_idx <- order(z)
+
+# Simple perspective projection
+theta <- 30; phi <- 20
+theta_r <- theta * pi / 180
+phi_r <- phi * pi / 180
+
+x_proj <- x * cos(theta_r) - y * sin(theta_r)
+y_proj <- -(x * sin(theta_r) + y * cos(theta_r)) * sin(phi_r) + z * cos(phi_r)
+
+plot(x_proj[order_idx], y_proj[order_idx], pch = 16, cex = 0.5, col = "red",
+     xlab = "", ylab = "", main = "Multivariate Data in 3D",
+     axes = FALSE, cex.main = 1.5)
+box()
+```
+
 ## Multivariate Approach {.smaller}
 
 ![](images/week10_03_pca_matrix_transformation_diagram.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: PCA Matrix Transformation {.smaller}
+
+**The PCA pipeline transforms data through matrix operations:**
+
+::::: columns
+::: {.column width="33%"}
+**(a) Original Data Matrix**
+
+|         | $v_1$ | $v_2$ | $\ldots$ | $v_k$ |
+|:--------|:------|:------|:---------|:------|
+| $O_1$   |       |       |          |       |
+| $O_2$   |       |       |          |       |
+| $O_3$   |       |       |          |       |
+| $\vdots$|       |       |          |       |
+| $O_n$   |       |       |          |       |
+
+*Objects × Variables*
+*Observational data*
+:::
+
+::: {.column width="33%"}
+**(b) Correlation Matrix**
+
+|         | $v_1$ | $v_2$ | $\ldots$ | $v_k$ |
+|:--------|:------|:------|:---------|:------|
+| $v_1$   |       |       |          |       |
+| $v_2$   |       |       |          |       |
+| $\vdots$|       |       |          |       |
+| $v_k$   |       |       |          |       |
+
+*Variables × Variables*
+*Correlation coefficients*
+:::
+
+::: {.column width="33%"}
+**(c) Factor Matrix**
+
+|         | $F_1$ | $F_2$ | $\ldots$ | $F_m$ |
+|:--------|:------|:------|:---------|:------|
+| $v_1$   |       |       |          |       |
+| $v_2$   |       |       |          |       |
+| $\vdots$|       |       |          |       |
+| $v_k$   |       |       |          |       |
+
+*Variables × Factors*
+*Factor loadings*
+:::
+:::::
+
+**Original data matrix → Correlation matrix → Factor matrix**
 
 ## Multivariate Methods Overview {.smaller}
 
 ![](images/week10_04_data_correlation_distance_matrices.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Data → Correlation and Distance Matrices {.smaller}
+
+::::: columns
+::: {.column width="33%"}
+**Data Matrix** (Objects × Variables)
+
+|         | 1       | 2       | 3       |
+|:--------|:--------|:--------|:--------|
+| 1       | $y_{11}$| $y_{12}$| $y_{13}$|
+| 2       | $y_{21}$| $y_{22}$| $y_{23}$|
+| 3       | $y_{31}$| $y_{32}$| $y_{33}$|
+:::
+
+::: {.column width="33%"}
+**↗ Correlation Matrix** (Variables × Variables)
+
+|   | 1       | 2       | 3       |
+|:--|:--------|:--------|:--------|
+| 1 | 1       | $r_{12}$| $r_{13}$|
+| 2 | $r_{21}$| 1       | $r_{23}$|
+| 3 | $r_{31}$| $r_{32}$| 1       |
+:::
+
+::: {.column width="33%"}
+**↘ Distance Matrix** (Objects × Objects)
+
+|   | 1       | 2       | 3       |
+|:--|:--------|:--------|:--------|
+| 1 | 0       | $d_{12}$| $d_{13}$|
+| 2 | $d_{21}$| 0       | $d_{23}$|
+| 3 | $d_{31}$| $d_{32}$| 0       |
+:::
+:::::
+
+- **Correlation matrix** → used for PCA, factor analysis (relationships among *variables*)
+- **Distance matrix** → used for clustering, ordination (relationships among *objects*)
+
 ## Variance-Covariance and Eigenvalues {.smaller}
 
 ![](images/week10_05_pca_scree_plot_eigenvalues.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: PCA Scree Plot {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 6
+
+# Simulated eigenvalues that decay
+eigenvalues <- c(3.5, 2.5, 1.2, 0.95, 0.78, 0.7, 0.65, 0.4, 0.12, 0.1, 0.08, 0.02)
+
+par(mar = c(5, 5, 3, 2))
+plot(1:length(eigenvalues), eigenvalues, type = "b",
+     pch = 16, cex = 2, lwd = 1.5,
+     xlab = "Component", ylab = "Eigenvalue",
+     main = "Scree Plot",
+     xlim = c(0, 12), ylim = c(0, 4),
+     cex.lab = 1.4, cex.main = 1.5, cex.axis = 1.2)
+```
+
 ## Dissimilarity and Distance {.smaller}
 
 ![](images/week10_06_dissimilarity_distance_formulas.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Dissimilarity / Distance Formulas {.smaller}
+
+| Dissimilarity | Equation |
+|:--------------|:---------|
+| **Minkowski** | $\left(\displaystyle\sum_{j=1}^{p} \lvert y_{1j} - y_{2j} \rvert^{\lambda}\right)^{1/\lambda}$ |
+| **Euclidean** ($\lambda = 2$) | $\sqrt{\displaystyle\sum_{j=1}^{p}(y_{1j} - y_{2j})^2}$ |
+| **City block / Manhattan** ($\lambda = 1$) | $\displaystyle\sum_{j=1}^{p}\lvert y_{1j} - y_{2j}\rvert$ |
+| **Canberra** | $\dfrac{1}{p-q}\displaystyle\sum_{j=1}^{p}\dfrac{\lvert y_{1j} - y_{2j}\rvert}{y_{1j} + y_{2j}}$ |
+| **Bray–Curtis** | $\dfrac{\displaystyle\sum_{j=1}^{p}\lvert y_{1j} - y_{2j}\rvert}{\displaystyle\sum_{j=1}^{p}(y_{1j} + y_{2j})}$ |
+| **Chi-square** | $\sqrt{\displaystyle\sum_{j=1}^{p}\dfrac{\left(y_{1j}\dfrac{\sum y_{1j} - y_{2j}}{\sum y_{2j}}\right)^2}{\sum y_j}}$ |
 
 ## Handling Missing Data in Multivariate Analysis {.smaller}
 
