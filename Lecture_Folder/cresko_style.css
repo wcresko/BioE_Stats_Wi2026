@@ -9,9 +9,9 @@
  *   - Slides with no header: no underline appears
  */
 
-/* ── Global base font — smaller text on every slide ────────────── */
+/* ── Global base font — sized for presenting ───────────────────── */
 .reveal .slides {
-  font-size: 0.6em;
+  font-size: 0.7em;
 }
 
 /* ── Slide headers (## Title) ──────────────────────────────────── */
@@ -43,7 +43,7 @@
 /* Quarto uses #title-slide (ID) and .title (class on h1)          */
 .reveal #title-slide,
 .reveal section.title-slide {
-  font-size: 1.6em;           /* counteract the global 0.6em shrink */
+  font-size: 1.4em;           /* counteract the global 0.7em shrink */
 }
 
 .reveal #title-slide h1,
