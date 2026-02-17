@@ -865,28 +865,28 @@
     "href": "Lecture_Folder/Week7.html#week-7-topics",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "Week 7 Topics",
-    "text": "Week 7 Topics\n\nFinish ANCOVA\nMultiple linear regression\nModel selection (AIC, BIC, Mallow’s Cp)\nStatistical power\nMultifactor ANOVA\nFactorial & nested designs\nRandom effects & repeated measures\n\nReadings: Chapter 28\nHW3 Due this week"
+    "text": "Week 7 Topics\n\nFinish ANCOVA (with post-hoc analysis using emmeans)\nMultifactor ANOVA\nFactorial & nested designs (with post-hoc analysis)\nRandom effects & repeated measures\nMultiple linear regression\nModel selection: AIC, BIC, Mallow’s Cp, and worked example\n\nReadings: Chapter 28\nHW3 Due this week"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#packages-for-this-week",
     "href": "Lecture_Folder/Week7.html#packages-for-this-week",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "Packages for This Week",
-    "text": "Packages for This Week\n\nInstallLoad\n\n\n\n# Install new packages (run once)\ninstall.packages(c(\"nlme\", \"car\", \"pwr\", \"leaps\"))\n\n\n\n\n# Load packages\nlibrary(tidyverse)    # Data manipulation & visualization\nlibrary(car)          # Type II/III SS, VIF, assumption testing\nlibrary(nlme)         # Linear mixed-effects models\nlibrary(pwr)          # Power analysis\nlibrary(leaps)        # All-subsets regression\nlibrary(broom)        # Tidy model output\nlibrary(emmeans)      # Estimated marginal means\n\n\n\n\nBuilt-in datasets used this week: ToothGrowth (vitamin C effects on tooth growth)"
+    "text": "Packages for This Week\n\nInstallLoad\n\n\n\n# Install new packages (run once)\ninstall.packages(c(\"nlme\", \"car\", \"pwr\", \"leaps\",\n                   \"patchwork\", \"GGally\", \"ggfortify\"))\n\n\n\n\n# Load packages\nlibrary(tidyverse)    # Data manipulation & visualization\nlibrary(car)          # Type II/III SS, VIF, assumption testing\nlibrary(nlme)         # Linear mixed-effects models\nlibrary(pwr)          # Power analysis\nlibrary(leaps)        # All-subsets regression\nlibrary(broom)        # Tidy model output\nlibrary(emmeans)      # Estimated marginal means\nlibrary(patchwork)    # Combining ggplots\nlibrary(GGally)       # ggpairs scatterplot matrices\nlibrary(ggfortify)    # ggplot2 diagnostic plots for lm"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#datasets-for-this-week",
+    "href": "Lecture_Folder/Week7.html#datasets-for-this-week",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Datasets for This Week",
+    "text": "Datasets for This Week\nBuilt-in datasets: ToothGrowth (vitamin C effects on guinea pig tooth growth)\nCourse datasets (download from Canvas):\n\n\n\n\n\n\n\n\nFile\nAnalysis\nDescription\n\n\n\n\nhydrogel_drug_release.csv\nANCOVA\nDrug release from hydrogel scaffolds by polymer type\n\n\nnanofiber_tensile_strength.csv\nNested ANOVA\nTensile strength of nanofiber scaffolds across batches\n\n\ncell_proliferation_assay.csv\nFactorial ANOVA\nStem cell proliferation by substrate stiffness and growth factor\n\n\nimplant_degradation.csv\nRepeated Measures\nBiodegradable implant mass loss over time by coating type\n\n\nRNAseq_lip.tsv\nMultiple regression\nGene expression and lipid content"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#ancova-review",
     "href": "Lecture_Folder/Week7.html#ancova-review",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "ANCOVA Review",
-    "text": "ANCOVA Review\nLast week we introduced Analysis of Covariance (ANCOVA), which combines:\n\nContinuous predictor (covariate) — like body mass or temperature\nCategorical predictor (factor) — like species or treatment\n\nThis week we continue with the biological motivations, interpretation, and assumptions."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#ancova-brain-size-and-body-mass",
-    "href": "Lecture_Folder/Week7.html#ancova-brain-size-and-body-mass",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: Brain Size and Body Mass",
-    "text": "ANCOVA: Brain Size and Body Mass"
+    "text": "ANCOVA Review\nLast week we introduced Analysis of Covariance (ANCOVA), which combines:\n\nContinuous predictor (covariate) — like body mass or temperature\nCategorical predictor (factor) — like species or treatment\n\nThis week we continue with the biological motivations, interpretation, and assumptions.\n\nANCOVA increases statistical power by reducing unexplained variance — the covariate “absorbs” variation that would otherwise inflate the residual error term\nThe adjusted group means account for differences in the covariate, providing a fairer comparison between groups"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#ancova-neanderthal-vs.-modern-human",
@@ -896,123 +896,32 @@
     "text": "ANCOVA: Neanderthal vs. Modern Human"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#ancova-brain-body-mass-regression",
-    "href": "Lecture_Folder/Week7.html#ancova-brain-body-mass-regression",
+    "objectID": "Lecture_Folder/Week7.html#brain-body-mass-regression",
+    "href": "Lecture_Folder/Week7.html#brain-body-mass-regression",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: Brain-Body Mass Regression",
-    "text": "ANCOVA: Brain-Body Mass Regression"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-brain-body-mass-regression",
-    "href": "Lecture_Folder/Week7.html#draft-brain-body-mass-regression",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Brain-Body Mass Regression",
-    "text": "DRAFT: Brain-Body Mass Regression"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#ancova-anova-vs.-covariate-adjustment",
-    "href": "Lecture_Folder/Week7.html#ancova-anova-vs.-covariate-adjustment",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: ANOVA vs. Covariate Adjustment",
-    "text": "ANCOVA: ANOVA vs. Covariate Adjustment"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-anova-vs-ancova-comparison",
-    "href": "Lecture_Folder/Week7.html#draft-anova-vs-ancova-comparison",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: ANOVA vs ANCOVA Comparison",
-    "text": "DRAFT: ANOVA vs ANCOVA Comparison"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#ancova-adjusted-means",
-    "href": "Lecture_Folder/Week7.html#ancova-adjusted-means",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: Adjusted Means",
-    "text": "ANCOVA: Adjusted Means"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-ancova-adjusted-means",
-    "href": "Lecture_Folder/Week7.html#draft-ancova-adjusted-means",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: ANCOVA Adjusted Means",
-    "text": "DRAFT: ANCOVA Adjusted Means\nThe ANCOVA model:\n\\[y_{ij} = \\mu + \\alpha_i + \\beta(x_{ij} - \\bar{x}) + \\varepsilon_{ij}\\]\nAdjusted means are computed at the overall mean of the covariate:\n\\[\\bar{y}_{i(adj)} = \\bar{y}_i - \\hat{\\beta}(\\bar{x}_i - \\bar{x})\\]\n\nThe key insight: by adjusting for the covariate, we can compare groups at the same value of the continuous predictor, removing confounding variation."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#ancova-multiple-covariates",
-    "href": "Lecture_Folder/Week7.html#ancova-multiple-covariates",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: Multiple Covariates",
-    "text": "ANCOVA: Multiple Covariates"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-ancova-with-multiple-covariates",
-    "href": "Lecture_Folder/Week7.html#draft-ancova-with-multiple-covariates",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: ANCOVA with Multiple Covariates",
-    "text": "DRAFT: ANCOVA with Multiple Covariates\nLinear model:\n\\[y_{ij} = \\mu + \\alpha_i + \\beta_1(x_{1ij} - \\bar{x}_1) + \\beta_2(x_{2ij} - \\bar{x}_2) + \\varepsilon_{ij}\\]\nAdjusted mean:\n\\[\\bar{y}_{i(adj)} = \\bar{y}_i - \\hat{\\beta}_1(\\bar{x}_{1i} - \\bar{x}_1) - \\hat{\\beta}_2(\\bar{x}_{2i} - \\bar{x}_2)\\]"
+    "section": "Brain-Body Mass Regression",
+    "text": "Brain-Body Mass Regression\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Simulated Neanderthal vs. H. sapiens data\nset.seed(42)\nn &lt;- 30\nspecies_data &lt;- tibble(\n  species = rep(c(\"H. sapiens\", \"Neanderthal\"), each = n),\n  body_mass = c(rnorm(n, 70, 10), rnorm(n, 80, 12))\n) %&gt;%\n  mutate(brain_size = ifelse(species == \"H. sapiens\",\n                              900 + 8 * body_mass + rnorm(n(), 0, 50),\n                              850 + 8 * body_mass + rnorm(n(), 0, 50)))\n\n# Parallel slopes visualization\nggplot(species_data, aes(x = body_mass, y = brain_size,\n                          color = species, shape = species)) +\n  geom_point(size = 2.5, alpha = 0.7) +\n  geom_smooth(method = \"lm\", se = FALSE, linewidth = 1.2) +\n  scale_color_manual(values = c(\"steelblue\", \"firebrick\")) +\n  labs(title = \"brain ~ mass + species\",\n       x = \"Body mass (kg)\", y = \"Brain size (cc)\")\n\n\n\n\nLeft panel (additive model): Both species have the same slope relating body mass to brain size, but Neanderthals have a different intercept — the lines are parallel\nRight panel (interaction model): The slopes are allowed to differ between species — if the interaction is not significant, the parallel model is preferred\nThe key ANCOVA question: after controlling for body mass, do the species differ in brain size?"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#ancova-null-hypotheses",
     "href": "Lecture_Folder/Week7.html#ancova-null-hypotheses",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: Null Hypotheses",
-    "text": "ANCOVA: Null Hypotheses"
+    "section": "ANCOVA Null Hypotheses",
+    "text": "ANCOVA Null Hypotheses\n\nEquationsLaTeX\n\n\nFor the categorical factor (e.g., species):\n\\[H_0: \\mu_{1(adj)} = \\mu_{2(adj)} = \\ldots = \\mu_{p(adj)}\\]\nAll adjusted group means are equal (after accounting for the covariate).\nFor the covariate (e.g., body mass):\n\\[H_0: \\beta = 0\\]\nThe covariate has no linear relationship with the response.\n\n\nH_0: \\mu_{1(adj)} = \\mu_{2(adj)} = \\ldots = \\mu_{p(adj)}\nH_0: \\beta = 0"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#draft-ancova-null-hypotheses",
-    "href": "Lecture_Folder/Week7.html#draft-ancova-null-hypotheses",
+    "objectID": "Lecture_Folder/Week7.html#ancova-f-ratio-table",
+    "href": "Lecture_Folder/Week7.html#ancova-f-ratio-table",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: ANCOVA Null Hypotheses",
-    "text": "DRAFT: ANCOVA Null Hypotheses\nFor the categorical factor (e.g., species):\n\\[H_0: \\mu_{1(adj)} = \\mu_{2(adj)} = \\ldots = \\mu_{p(adj)}\\]\nAll adjusted group means are equal (after accounting for the covariate).\nFor the covariate (e.g., body mass):\n\\[H_0: \\beta = 0\\]\nThe covariate has no linear relationship with the response."
+    "section": "ANCOVA F-Ratio Table",
+    "text": "ANCOVA F-Ratio Table\n\n\n\n\n\n\n\n\n\nSource\ndf\nMS\nF-ratio\n\n\n\n\nFactor A\n\\(p - 1\\)\n\\(MS_A\\)\n\\(MS_A / MS_{Residual}\\)\n\n\nCovariate\n1\n\\(MS_{Covariate}\\)\n\\(MS_{Cov} / MS_{Residual}\\)\n\n\nResidual\n\\(N - p - 1\\)\n\\(MS_{Residual}\\)\n\n\n\n\n\nThe covariate consumes 1 df from the residual, reducing the error term\nIf the covariate is strongly related to the response, \\(MS_{Residual}\\) drops substantially, increasing power for the factor test\nThis is why ANCOVA is more powerful than one-way ANOVA when the covariate is correlated with the response"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#ancova-f-ratio-table-and-collinearity",
-    "href": "Lecture_Folder/Week7.html#ancova-f-ratio-table-and-collinearity",
+    "objectID": "Lecture_Folder/Week7.html#homogeneous-vs.-heterogeneous-slopes",
+    "href": "Lecture_Folder/Week7.html#homogeneous-vs.-heterogeneous-slopes",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: F-Ratio Table and Collinearity",
-    "text": "ANCOVA: F-Ratio Table and Collinearity"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-ancova-f-ratio-table",
-    "href": "Lecture_Folder/Week7.html#draft-ancova-f-ratio-table",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: ANCOVA F-Ratio Table",
-    "text": "DRAFT: ANCOVA F-Ratio Table\n\n\n\n\n\n\n\n\n\nSource\ndf\nMS\nF-ratio\n\n\n\n\nFactor A\n\\(p - 1\\)\n\\(MS_A\\)\n\\(MS_A / MS_{Residual}\\)\n\n\nCovariate\n1\n\\(MS_{Covariate}\\)\n\\(MS_{Cov} / MS_{Residual}\\)\n\n\nResidual\n\\(N - p - 1\\)\n\\(MS_{Residual}\\)\n\n\n\n\n\n\n\n\n\n\nCollinearity in ANCOVA\n\n\nIf the covariate and the factor are correlated (e.g., body mass differs between species), the order in which terms enter the model matters. Use Type II or Type III sums of squares from the car package to handle this properly."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#ancova-heterogeneous-slopes",
-    "href": "Lecture_Folder/Week7.html#ancova-heterogeneous-slopes",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: Heterogeneous Slopes",
-    "text": "ANCOVA: Heterogeneous Slopes"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-heterogeneous-slopes",
-    "href": "Lecture_Folder/Week7.html#draft-heterogeneous-slopes",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Heterogeneous Slopes",
-    "text": "DRAFT: Heterogeneous Slopes\n\nWhen slopes differ between groups, the interaction between the covariate and the factor is significant — this is a violation of the parallel slopes assumption."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#parallel-slopes-additive-model",
-    "href": "Lecture_Folder/Week7.html#parallel-slopes-additive-model",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Parallel Slopes (Additive) Model",
-    "text": "Parallel Slopes (Additive) Model\nWhen there is no interaction, each group has the same slope but different intercepts:\n\nEquationLaTeX\n\n\n\\[y = \\beta_0 + \\beta_1 x_{continuous} + \\beta_2 x_{categorical} + \\epsilon_i\\]\n\n\ny = \\beta_0 + \\beta_1 x_{continuous} + \\beta_2 x_{categorical} + \\epsilon_i\n\n\n\n\n# Parallel slopes model (additive)\nlm(response ~ continuous_var + factor_var, data = mydata)\n\n\nThe + means “additive” — the effect of the covariate is the same in every group\nThis produces parallel regression lines"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#interaction-model",
-    "href": "Lecture_Folder/Week7.html#interaction-model",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Interaction Model",
-    "text": "Interaction Model\nWhen the relationship differs between groups, add an interaction term:\n\nEquationLaTeX\n\n\n\\[y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\beta_3 (x_1 \\times x_2) + \\epsilon_i\\]\n\n\ny = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\beta_3 (x_1 \\times x_2) + \\epsilon_i\n\n\n\n\n# Model with interaction (different slopes)\nlm(response ~ continuous_var * factor_var, data = mydata)\n\n# Equivalent to:\nlm(response ~ continuous_var + factor_var + continuous_var:factor_var,\n   data = mydata)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#interpreting-ancova-output",
-    "href": "Lecture_Folder/Week7.html#interpreting-ancova-output",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Interpreting ANCOVA Output",
-    "text": "Interpreting ANCOVA Output\n\nCodeInterpretation\n\n\n\n# Example with crickets data\nlm(rate ~ temp + species, data = crickets)\n\n# Output interpretation:\n# (Intercept)      - baseline intercept for reference level\n# temp             - slope (same for all groups)\n# speciesO.niveus  - difference in intercept from reference\n\n\n\n\nThe categorical variable coefficient represents the offset from the reference group\nThis is the same dummy variable encoding that lm() uses for ANOVA\nThe only difference from pure ANOVA is the inclusion of a continuous predictor"
+    "section": "Homogeneous vs. Heterogeneous Slopes",
+    "text": "Homogeneous vs. Heterogeneous Slopes\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Demonstrating slope homogeneity assumption\nset.seed(42)\nn &lt;- 25\n\n# Homogeneous: same slope (1.5), different intercepts\nhomo_a &lt;- tibble(group = \"A\", x = rnorm(n, 5, 2)) %&gt;%\n  mutate(y = 2 + 1.5 * x + rnorm(n(), 0, 1))\nhomo_b &lt;- tibble(group = \"B\", x = rnorm(n, 5, 2)) %&gt;%\n  mutate(y = 5 + 1.5 * x + rnorm(n(), 0, 1))\n\n# Heterogeneous: different slopes (0.5 vs 2.5)\nhet_a &lt;- tibble(group = \"A\", x = rnorm(n, 5, 2)) %&gt;%\n  mutate(y = 2 + 0.5 * x + rnorm(n(), 0, 1))\nhet_b &lt;- tibble(group = \"B\", x = rnorm(n, 5, 2)) %&gt;%\n  mutate(y = 1 + 2.5 * x + rnorm(n(), 0, 1))\n\nggplot(bind_rows(homo_a, homo_b), aes(x, y, color = group)) +\n  geom_point() + geom_smooth(method = \"lm\", se = FALSE)\n\n\n\n\nWhen slopes differ between groups, the interaction between the covariate and the factor is significant — this is a violation of the parallel slopes assumption. In this case, the interaction model is more appropriate than the additive model."
   },
   {
     "objectID": "Lecture_Folder/Week7.html#parallel-vs.-interaction-when-to-use",
@@ -1022,25 +931,375 @@
     "text": "Parallel vs. Interaction: When to Use\n\n\n\n\n\n\n\n\nModel\nUse When\nR Formula\n\n\n\n\nParallel Slopes\nEffect of covariate is same across groups\ny ~ x + group\n\n\nInteraction\nEffect of covariate differs by group\ny ~ x * group\n\n\n\n\n\n\n\n\n\nTip\n\n\nAlways start with the interaction model. Test whether the interaction term is significant. If not, drop it and use the simpler parallel slopes model (parsimony principle)."
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#ancova-type-iiiii-sums-of-squares",
-    "href": "Lecture_Folder/Week7.html#ancova-type-iiiii-sums-of-squares",
+    "objectID": "Lecture_Folder/Week7.html#parallel-slopes-additive-model",
+    "href": "Lecture_Folder/Week7.html#parallel-slopes-additive-model",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "ANCOVA: Type II/III Sums of Squares",
-    "text": "ANCOVA: Type II/III Sums of Squares\n\nCodeWhen to Use\n\n\n\nlibrary(car)\n\n# Type II SS — tests each term after adjusting for all others\n# (appropriate when no significant interaction)\nAnova(lm(y ~ covariate + factor, data = mydata), type = \"II\")\n\n# Type III SS — tests each term after adjusting for all others\n# including interaction (appropriate when interaction is present)\nAnova(lm(y ~ covariate * factor, data = mydata), type = \"III\")\n\n\n\n\n\n\n\n\n\n\n\nSS Type\nUse When\nNotes\n\n\n\n\nType I\nBalanced designs, order matters\nDefault in anova()\n\n\nType II\nUnbalanced, no interaction\nDefault in car::Anova()\n\n\nType III\nUnbalanced, interaction present\nRequires contr.sum coding"
+    "section": "Parallel Slopes (Additive) Model",
+    "text": "Parallel Slopes (Additive) Model\nWhen there is no interaction, each group has the same slope but different intercepts:\n\nEquationLaTeX\n\n\n\\[y = \\beta_0 + \\beta_1 x_{continuous} + \\beta_2 x_{categorical} + \\epsilon_i\\]\n\n\ny = \\beta_0 + \\beta_1 x_{continuous} + \\beta_2 x_{categorical} + \\epsilon_i\n\n\n\n\n# Parallel slopes model (additive)\nlm(response ~ continuous_var + factor_var, data = mydata)\n\n\nThe + means “additive” — the effect of the covariate is the same in every group\nThis produces parallel regression lines with different y-intercepts"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#visualizing-ancova-models",
-    "href": "Lecture_Folder/Week7.html#visualizing-ancova-models",
+    "objectID": "Lecture_Folder/Week7.html#non-parallel-slopes-interaction-model",
+    "href": "Lecture_Folder/Week7.html#non-parallel-slopes-interaction-model",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "Visualizing ANCOVA Models",
-    "text": "Visualizing ANCOVA Models\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npar(mfrow = c(1, 2))\n\n# Parallel slopes\nplot(x, y, col = ifelse(group == \"A\", \"steelblue\", \"coral\"), pch = 19,\n     main = \"Parallel Slopes Model\")\nabline(2, 0.8, col = \"steelblue\", lwd = 2)\nabline(5, 0.8, col = \"coral\", lwd = 2)\nlegend(\"bottomright\", c(\"Group A\", \"Group B\"),\n       col = c(\"steelblue\", \"coral\"), pch = 19)\n\n# Interaction model (different slopes)\nplot(x, y2, col = ifelse(group == \"A\", \"steelblue\", \"coral\"), pch = 19,\n     main = \"Interaction Model (Different Slopes)\")\nabline(2, 0.5, col = \"steelblue\", lwd = 2)\nabline(5, 1.2, col = \"coral\", lwd = 2)"
+    "section": "Non-parallel Slopes (Interaction) Model",
+    "text": "Non-parallel Slopes (Interaction) Model\nWhen the relationship differs between groups, add an interaction term:\n\nEquationLaTeX\n\n\n\\[y = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\beta_3 (x_1 \\times x_2) + \\epsilon_i\\]\n\n\ny = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2 + \\beta_3 (x_1 \\times x_2) + \\epsilon_i\n\n\n\n\n# Model with interaction (different slopes)\nlm(response ~ continuous_var * factor_var, data = mydata)\n\n# Equivalent to:\nlm(response ~ continuous_var + factor_var + continuous_var:factor_var, data = mydata)\n\n\nThe * operator automatically includes both main effects and their interaction\nA significant interaction means the slope of the covariate differs between groups"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#dangers-of-extrapolation",
-    "href": "Lecture_Folder/Week7.html#dangers-of-extrapolation",
+    "objectID": "Lecture_Folder/Week7.html#interpreting-ancova-output",
+    "href": "Lecture_Folder/Week7.html#interpreting-ancova-output",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "Dangers of Extrapolation",
-    "text": "Dangers of Extrapolation\nAll regression models (including ANCOVA) are only valid within the range of the observed data:\n\nPolynomial models are especially dangerous to extrapolate — they can produce wildly unrealistic predictions outside the data range\nEven linear ANCOVA predictions become unreliable far from the observed covariate values\nAlways report the range of your covariates alongside your model\n\n\n\n\n\n\n\nRule of Thumb\n\n\nNever predict beyond the range of your observed data unless you have strong theoretical justification for the extrapolation."
+    "section": "Interpreting ANCOVA Output",
+    "text": "Interpreting ANCOVA Output\n\nCodeInterpretation\n\n\n\n# Example with crickets data\nlm(rate ~ temp + species, data = crickets)\n\n# Output interpretation:\n# (Intercept)      - baseline intercept for reference level\n# temp             - slope (same for all groups)\n# speciesO.niveus  - difference in intercept from reference\n\n\n\n\nThe categorical variable coefficient represents the offset from the reference group\nThis is the same dummy variable encoding that lm() uses for ANOVA\nThe only difference from pure ANOVA is the inclusion of a continuous predictor\nUse summary() to see individual coefficients; use car::Anova() with type = \"II\" for the overall ANOVA table with proper sums of squares"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#hydrogel-drug-release-dataset",
+    "href": "Lecture_Folder/Week7.html#hydrogel-drug-release-dataset",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Hydrogel Drug Release Dataset",
+    "text": "Hydrogel Drug Release Dataset\nScenario: Researchers are testing how polymer type (PEG, Alginate, Chitosan) affects cumulative drug release from hydrogel scaffolds, with crosslink density as a covariate. The relationship between crosslink density and release rate is expected to differ by polymer.\n\n\n\n\n\n\n\n\nVariable\nType\nDescription\n\n\n\n\npolymer\nCategorical (3 levels)\nHydrogel polymer type: PEG, Alginate, Chitosan\n\n\ncrosslink_density\nContinuous\nCrosslink density of the hydrogel (mol/L, range 2–12)\n\n\ncumulative_release_pct\nContinuous (response)\nCumulative drug release after 24 hours (%)\n\n\n\n\nn = 75 (25 per polymer type)\nThe interaction model is expected to be the best fit because the three polymers have different degradation mechanisms"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#ancova-worked-example-loading-and-exploring",
+    "href": "Lecture_Folder/Week7.html#ancova-worked-example-loading-and-exploring",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "ANCOVA Worked Example: Loading and Exploring",
+    "text": "ANCOVA Worked Example: Loading and Exploring\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Load the hydrogel dataset\nhydrogel &lt;- read.csv(\"data/hydrogel_drug_release.csv\")\n\n# Explore the data\nstr(hydrogel)\nsummary(hydrogel)\n\n# Visualize: do the slopes look different?\nggplot(hydrogel, aes(x = crosslink_density, y = cumulative_release_pct,\n                      color = polymer, shape = polymer)) +\n  geom_point(size = 2.5, alpha = 0.7) +\n  geom_smooth(method = \"lm\", se = TRUE, alpha = 0.15) +\n  scale_color_brewer(palette = \"Set1\") +\n  labs(title = \"Drug Release vs. Crosslink Density by Polymer\",\n       x = \"Crosslink Density (mol/L)\",\n       y = \"Cumulative Release (%)\")\n\n\n\n\nThe three polymer types clearly show different slopes — Chitosan has the steepest negative relationship with crosslink density while Alginate is nearly flat\nThis visual pattern suggests the interaction model will be more appropriate than the parallel slopes model\nAll three polymers show decreasing release with increasing crosslink density, but the rate of decrease differs substantially"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#ancova-worked-example-fitting-and-comparing-models",
+    "href": "Lecture_Folder/Week7.html#ancova-worked-example-fitting-and-comparing-models",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "ANCOVA Worked Example: Fitting and Comparing Models",
+    "text": "ANCOVA Worked Example: Fitting and Comparing Models\n\nCodeInterpretation\n\n\n\n# Step 1: Fit the interaction model\nancova_interaction &lt;- lm(cumulative_release_pct ~ crosslink_density * polymer,\n                          data = hydrogel)\n\n# Step 2: Fit the parallel slopes (additive) model\nancova_additive &lt;- lm(cumulative_release_pct ~ crosslink_density + polymer,\n                       data = hydrogel)\n\n# Step 3: Compare models — is the interaction significant?\nanova(ancova_additive, ancova_interaction)\n\n# Step 4: Examine the interaction model\nsummary(ancova_interaction)\n\n# Step 5: Type II ANOVA table\ncar::Anova(ancova_interaction, type = \"II\")\n\n\n\n\nThe anova() comparison tests whether the interaction terms significantly improve the model (F-test on the additional parameters)\nIf the interaction is significant (p &lt; 0.05), use the interaction model — the effect of crosslink density on drug release depends on polymer type\nThe summary() output gives you the slope for the reference polymer (Alginate) and the slope differences for the other polymers\nEach polymer’s actual slope = reference slope + its interaction coefficient"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#ancova-post-hoc-adjusted-means-with-emmeans",
+    "href": "Lecture_Folder/Week7.html#ancova-post-hoc-adjusted-means-with-emmeans",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "ANCOVA Post-Hoc: Adjusted Means with emmeans",
+    "text": "ANCOVA Post-Hoc: Adjusted Means with emmeans\nWhen the interaction is significant, we want to compare the adjusted group means — the predicted drug release for each polymer at the mean crosslink density:\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(emmeans)\n\n# Estimated marginal means at mean crosslink density\nancova_emm &lt;- emmeans(ancova_interaction, ~ polymer)\nsummary(ancova_emm)\n\n# Pairwise comparisons (Tukey-adjusted)\npairs(ancova_emm)\n\n# Visualize with CLD (compact letter display)\nplot(ancova_emm, comparisons = TRUE) +\n  labs(x = \"Adjusted Cumulative Release (%)\",\n       y = \"Polymer Type\")\n\n# emtrends: compare slopes across groups\nemtrends(ancova_interaction, pairwise ~ polymer,\n         var = \"crosslink_density\")\n\n\n\n\nemmeans() computes the predicted response for each polymer at the mean value of the covariate — this gives a fair comparison by holding crosslink density constant\npairs() performs Tukey-adjusted pairwise comparisons of these adjusted means\nemtrends() compares the slopes across polymer types — this directly tests whether the rate of change in drug release per unit of crosslink density differs between polymers\nWhen the interaction is significant, the emtrends() output is often more informative than the adjusted means, because the group differences depend on where along the covariate you evaluate them"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#why-multifactor-designs",
+    "href": "Lecture_Folder/Week7.html#why-multifactor-designs",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Why Multifactor Designs?",
+    "text": "Why Multifactor Designs?\nSingle-factor designs can only test one variable at a time. In bioengineering experiments, multiple factors often operate simultaneously:\n\nScaffold material × growth factor concentration\nTemperature × pH × incubation time\nDevice geometry × surface coating\n\nMultifactor designs allow us to test main effects of each factor and their interactions — whether the effect of one factor depends on the level of another.\n\nFactorial designs: all combinations of factor levels are present (crossed)\nNested designs: levels of one factor are unique to levels of another (hierarchical)\nMixed models: incorporate both fixed and random effects"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#fixed-vs.-random-effects",
+    "href": "Lecture_Folder/Week7.html#fixed-vs.-random-effects",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Fixed vs. Random Effects",
+    "text": "Fixed vs. Random Effects\nFixed effects:\n\nGroups are predetermined, of direct interest, repeatable\nExamples: medical treatments, predetermined doses, habitat types\nWe want to estimate specific group means\n\nRandom effects:\n\nGroups randomly sampled from a larger population\nExamples: families, subjects measured repeatedly, blocks, batches\nVariance among groups is of interest, not specific group means\nThe distinction matters because it changes which error term is used in the F-ratio — using the wrong one leads to incorrect p-values\nIf your groups could be replaced by a different random sample and you’d still be answering the same question, they are random"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#when-to-use-random-effects",
+    "href": "Lecture_Folder/Week7.html#when-to-use-random-effects",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "When to Use Random Effects",
+    "text": "When to Use Random Effects\n\nNested sampling designs (individuals within populations)\nSubplots within plots\nReplicates grouped spatially or temporally (blocks, batches)\nRelated individuals (families, litters)\nRepeated measures on the same subjects\n\n\n\n\n\n\n\nNote\n\n\nA good rule of thumb: if you are interested in the specific levels of a factor, it is fixed. If you are interested in the variability among levels drawn from a larger population, it is random."
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#random-effects-hypothesis",
+    "href": "Lecture_Folder/Week7.html#random-effects-hypothesis",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Random Effects Hypothesis",
+    "text": "Random Effects Hypothesis\n\nEquationLaTeX\n\n\n\\[H_0: \\sigma^2_\\alpha = 0 \\qquad H_A: \\sigma^2_\\alpha \\neq 0\\]\n\n\nH_0: \\sigma^2_\\alpha = 0\nH_A: \\sigma^2_\\alpha \\neq 0\n\n\n\nWe are testing whether the variance component for the random effect is zero — i.e., whether there is meaningful variation among the randomly sampled groups.\n\nUnlike fixed effects where we test for differences among specific group means, here we test whether the variance across groups is greater than zero\nA significant result means the grouping structure explains meaningful variation in the response"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#random-effects-in-r",
+    "href": "Lecture_Folder/Week7.html#random-effects-in-r",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Random Effects in R",
+    "text": "Random Effects in R\n\nCodeKey Points\n\n\n\nlibrary(nlme)\n\n# Random effect model\nmicro_model_random_effect &lt;- lme(\n  fixed  = Gene202 ~ 1,\n  random = ~1 | Geno.Micro,\n  data   = stickle_micro\n)\n\nsummary(micro_model_random_effect)\n\n\n\n\nIn R, lm() assumes all effects are fixed\nFor random effects, use lme() from the nlme package or lmer() from lme4\nThe ~1 | group syntax specifies a random intercept for each level of group\nThe output reports variance components rather than group means"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#random-effects-bioengineering-example",
+    "href": "Lecture_Folder/Week7.html#random-effects-bioengineering-example",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Random Effects: Bioengineering Example",
+    "text": "Random Effects: Bioengineering Example\nMeasuring cell viability across multiple wells within multiple plates within multiple experiments:\n\nCodeInterpreting Variance Components\n\n\n\n# Simulated hierarchical data: cells → wells → plates → experiments\nset.seed(42)\nn_exp &lt;- 3; n_plate &lt;- 4; n_well &lt;- 6\nexperiment &lt;- rep(1:n_exp, each = n_plate * n_well)\nplate      &lt;- rep(rep(1:n_plate, each = n_well), n_exp)\n\n# Generate data with variance at each level\nexp_effect   &lt;- rnorm(n_exp, 0, 5)[experiment]\nplate_effect &lt;- rnorm(n_exp * n_plate, 0, 3)[interaction(experiment, plate)]\nviability    &lt;- 75 + exp_effect + plate_effect +\n                rnorm(n_exp * n_plate * n_well, 0, 2)\n\ncell_data &lt;- data.frame(\n  viability, experiment = factor(experiment),\n  plate = factor(plate)\n)\n\n# Fit nested random effects model\nlibrary(nlme)\nnested_model &lt;- lme(viability ~ 1,\n                    random = ~1 | experiment/plate,\n                    data = cell_data)\nsummary(nested_model)\n\n# Extract variance components\nVarCorr(nested_model)\n\n\n\nThe output from VarCorr() shows:\n\nExperiment variance: variation between experimental runs\nPlate-within-experiment variance: variation between plates within a run\nResidual variance: well-to-well variation within plates\nICC (Intraclass Correlation) = group variance / total variance\n\nThe ICC tells you what proportion of total variability is attributable to each level of the hierarchy. A high experiment ICC means most variability comes from run-to-run differences — potentially a quality control concern."
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#what-is-an-interaction",
+    "href": "Lecture_Folder/Week7.html#what-is-an-interaction",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "What is an Interaction?",
+    "text": "What is an Interaction?\nAn interaction means the effect of one variable on the response depends on the state of another variable.\n\n\nIn the presence of a significant interaction, the main effects alone are insufficient to describe the results\nYou must describe the effect of each factor at each level of the other factor"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#interaction-plot-patterns",
+    "href": "Lecture_Folder/Week7.html#interaction-plot-patterns",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Interaction Plot Patterns",
+    "text": "Interaction Plot Patterns\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Creating interaction plots with ggplot2\n# Key visual cues:\n# - Parallel lines = no interaction\n# - Crossing lines = strong (crossover) interaction\n# - Fan-shaped lines = ordinal interaction\n# - Overlapping flat lines = no effects at all\n\nggplot(data, aes(x = factor_A, y = response,\n                  color = factor_B, group = factor_B)) +\n  geom_point(size = 3) +\n  geom_line(linewidth = 1.2) +\n  labs(y = \"Response\")\n\n\n\n\n(a) No interaction: Lines are parallel — both temperature and fertilizer have independent additive effects\n(b) Crossing interaction: Lines cross — fertilizer helps in cold but hurts in hot conditions (or vice versa). The effect of one factor reverses depending on the other\n(c) Fan-shaped interaction: Fertilizer has a larger effect in hot conditions — the magnitude of one factor’s effect depends on the other\n(d) No effects: Both lines are flat and overlapping — neither factor matters"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#pesticide-predator-interaction",
+    "href": "Lecture_Folder/Week7.html#pesticide-predator-interaction",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Pesticide × Predator Interaction",
+    "text": "Pesticide × Predator Interaction\n\nOutputInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWithout predators, the pesticide has a modest effect on survival (75% → 65%)\nWith predators, the pesticide has a dramatic effect (70% → 30%)\nThe pesticide removes the natural predators’ prey alternatives, making predation pressure worse — a synergistic interaction\nThis is a fan-shaped (ordinal) interaction: the direction of the pesticide effect is the same in both conditions, but the magnitude differs greatly"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#factorial-vs.-nested-designs",
+    "href": "Lecture_Folder/Week7.html#factorial-vs.-nested-designs",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Factorial vs. Nested Designs",
+    "text": "Factorial vs. Nested Designs\nFactorial designs:\n\nAll pairwise combinations of factor levels are present\nCan assess interactions between factors\nExample: Drug dose × Exercise regimen\n\nNested designs:\n\nHierarchical structure — levels of one factor occur within levels of another\nNo interaction terms (levels are unique to each group)\nOften contain random effects\nExample: Cells within wells within plates\nThe key distinction: in a factorial design, every level of A occurs with every level of B; in a nested design, the levels of B are unique to each level of A"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#two-factor-factorial-model",
+    "href": "Lecture_Folder/Week7.html#two-factor-factorial-model",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Two-Factor Factorial Model",
+    "text": "Two-Factor Factorial Model\n\nEquationLaTeX\n\n\n\\[y_{ijk} = \\mu + \\underbrace{\\alpha_i + \\beta_j}_{\\text{Main Effects}} + \\underbrace{(\\alpha\\beta)_{ij}}_{\\text{Two-way interaction}} + \\varepsilon_{ijk}\\]\nwhere:\n\n\\(\\mu\\) = grand mean\n\\(\\alpha_i\\) = effect of level \\(i\\) of factor A\n\\(\\beta_j\\) = effect of level \\(j\\) of factor B\n\\((\\alpha\\beta)_{ij}\\) = interaction effect of A level \\(i\\) and B level \\(j\\)\n\\(\\varepsilon_{ijk}\\) = random error for replicate \\(k\\)\n\n\n\ny_{ijk} = \\mu + \\alpha_i + \\beta_j + (\\alpha\\beta)_{ij} + \\varepsilon_{ijk}"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#three-factor-factorial-model",
+    "href": "Lecture_Folder/Week7.html#three-factor-factorial-model",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Three-Factor Factorial Model",
+    "text": "Three-Factor Factorial Model\n\nEquationComponentsLaTeX\n\n\n\\[y_{ijkl} = \\mu + \\underbrace{\\alpha_i + \\beta_j + \\gamma_k}_{\\text{Main Effects}} + \\underbrace{(\\alpha\\beta)_{ij} + (\\alpha\\gamma)_{ik} + (\\beta\\gamma)_{jk}}_{\\text{Two-way interactions}} + \\underbrace{(\\alpha\\beta\\gamma)_{ijk}}_{\\text{Three-way}} + \\varepsilon_{ijkl}\\]\n\n\n\n\n\n\n\n\n\nTerm\nMeaning\n\n\n\n\n\\(\\alpha_i, \\beta_j, \\gamma_k\\)\nMain effects of factors A, B, C\n\n\n\\((\\alpha\\beta)_{ij}, (\\alpha\\gamma)_{ik}, (\\beta\\gamma)_{jk}\\)\nTwo-way interaction effects\n\n\n\\((\\alpha\\beta\\gamma)_{ijk}\\)\nThree-way interaction effect\n\n\n\\(\\varepsilon_{ijkl}\\)\nRandom error for replicate \\(l\\)\n\n\n\n\n\ny_{ijkl} = \\mu + \\alpha_i + \\beta_j + \\gamma_k\n  + (\\alpha\\beta)_{ij} + (\\alpha\\gamma)_{ik} + (\\beta\\gamma)_{jk}\n  + (\\alpha\\beta\\gamma)_{ijk} + \\varepsilon_{ijkl}\n\n\n\n\nThe number of terms grows rapidly — a 3-factor model has 7 terms (3 main + 3 two-way + 1 three-way)\nHigher-order interactions become increasingly difficult to interpret biologically"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#factorial-design-sizes",
+    "href": "Lecture_Folder/Week7.html#factorial-design-sizes",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Factorial Design Sizes",
+    "text": "Factorial Design Sizes\nFor 2 levels per factor:\n\n\n\nFactors\nDesign\nCombinations\nObservations (N = 6 replicates)\n\n\n\n\n2\n2×2\n4\n24\n\n\n3\n2×2×2\n8\n48\n\n\n4\n2×2×2×2\n16\n96\n\n\n\n\nFormulaLaTeX\n\n\n\\[\\text{Total \\# of observations} = N \\cdot 2^p\\]\nwhere \\(N\\) = replicates per cell, \\(p\\) = number of factors\n\n\n\\text{Total number of observations} = N \\cdot 2^p\n\n\n\n\nThe total number of cells grows exponentially — a 2×3×4 design has 24 cells\nBudget and feasibility constrain factorial designs; fractional factorials can help when full designs are too large"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#factorial-anova-null-hypotheses-fixed-effects",
+    "href": "Lecture_Folder/Week7.html#factorial-anova-null-hypotheses-fixed-effects",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Factorial ANOVA Null Hypotheses — Fixed Effects",
+    "text": "Factorial ANOVA Null Hypotheses — Fixed Effects\n\nEquationsLaTeX\n\n\nFactor A:\n\\[H_0(A): \\mu_1 = \\mu_2 = \\cdots = \\mu_i = \\mu\\]\n\\[H_0(A): \\alpha_1 = \\alpha_2 = \\cdots = \\alpha_i = 0\\]\nFactor B:\n\\[H_0(B): \\mu_1 = \\mu_2 = \\cdots = \\mu_j = \\mu\\]\nA:B Interaction:\n\\[H_0(AB): \\mu_{ij} = \\mu_i + \\mu_j - \\mu\\]\n(i.e., the cell mean equals what we’d expect from the marginal means alone — no interaction)\n\n\nH_0(A): \\alpha_1 = \\alpha_2 = \\cdots = \\alpha_i = 0\nH_0(B): \\mu_1 = \\mu_2 = \\cdots = \\mu_j = \\mu\nH_0(AB): \\mu_{ij} = \\mu_i + \\mu_j - \\mu"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#factorial-anova-null-hypotheses-random-effects",
+    "href": "Lecture_Folder/Week7.html#factorial-anova-null-hypotheses-random-effects",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Factorial ANOVA Null Hypotheses — Random Effects",
+    "text": "Factorial ANOVA Null Hypotheses — Random Effects\n\nEquationsLaTeX\n\n\nFactor A:\n\\[H_0(A): \\sigma^2_\\alpha = 0 \\quad \\text{(population variance equals zero)}\\]\nThere is no added variance due to all possible levels of A.\nFactor B:\n\\[H_0(B): \\sigma^2_\\beta = 0 \\quad \\text{(population variance equals zero)}\\]\nThere is no added variance due to all possible levels of B.\nA:B Interaction:\n\\[H_0(AB): \\sigma^2_{\\alpha\\beta} = 0 \\quad \\text{(population variance equals zero)}\\]\n\n\nH_0(A): \\sigma^2_\\alpha = 0\nH_0(B): \\sigma^2_\\beta = 0\nH_0(AB): \\sigma^2_{\\alpha\\beta} = 0"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#anova-table-for-two-factor-crossed-model",
+    "href": "Lecture_Folder/Week7.html#anova-table-for-two-factor-crossed-model",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "ANOVA Table for Two-Factor Crossed Model",
+    "text": "ANOVA Table for Two-Factor Crossed Model\n\n\n\n\n\n\n\n\n\nSource\nSS\ndf\nMS\n\n\n\n\nA\n\\(nq \\displaystyle\\sum_{i=1}^{p}(\\bar{y}_{i} - \\bar{y})^2\\)\n\\(p - 1\\)\n\\(\\dfrac{SS_A}{p - 1}\\)\n\n\nB\n\\(np \\displaystyle\\sum_{j=1}^{q}(\\bar{y}_{j} - \\bar{y})^2\\)\n\\(q - 1\\)\n\\(\\dfrac{SS_B}{q - 1}\\)\n\n\nAB\n\\(n \\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{q}(\\bar{y}_{ij} - \\bar{y}_{i} - \\bar{y}_{j} + \\bar{y})^2\\)\n\\((p-1)(q-1)\\)\n\\(\\dfrac{SS_{AB}}{(p-1)(q-1)}\\)\n\n\nResidual\n\\(\\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{q}\\sum_{k=1}^{n}(y_{ijk} - \\bar{y}_{ij})^2\\)\n\\(pq(n-1)\\)\n\\(\\dfrac{SS_{Residual}}{pq(n-1)}\\)\n\n\nTotal\n\\(\\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{q}\\sum_{k=1}^{n}(y_{ijk} - \\bar{y})^2\\)\n\\(pqn - 1\\)\n\n\n\n\n\nThe interaction SS captures variability in cell means that cannot be explained by the row and column marginal means alone"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#f-ratios-for-fixed-random-and-mixed-models",
+    "href": "Lecture_Folder/Week7.html#f-ratios-for-fixed-random-and-mixed-models",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "F-Ratios for Fixed, Random, and Mixed Models",
+    "text": "F-Ratios for Fixed, Random, and Mixed Models\n\n\n\n\n\n\n\n\n\nSource\nA and B fixed\nA and B random\nA fixed, B random\n\n\n\n\nA\n\\(\\dfrac{MS_A}{MS_{Residual}}\\)\n\\(\\dfrac{MS_A}{MS_{AB}}\\)\n\\(\\dfrac{MS_A}{MS_{AB}}\\)\n\n\nB\n\\(\\dfrac{MS_B}{MS_{Residual}}\\)\n\\(\\dfrac{MS_B}{MS_{AB}}\\)\n\\(\\dfrac{MS_B}{MS_{Residual}}\\)\n\n\nAB\n\\(\\dfrac{MS_{AB}}{MS_{Residual}}\\)\n\\(\\dfrac{MS_{AB}}{MS_{Residual}}\\)\n\\(\\dfrac{MS_{AB}}{MS_{Residual}}\\)\n\n\n\n\n\n\n\n\n\nNote\n\n\nThe choice of denominator for the F-ratio depends on whether each factor is fixed or random. When a factor is random, its interaction with the other factor must be used as the error term for testing the other factor’s main effect. Getting this wrong leads to inflated Type I error rates."
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#factorial-anova-in-r",
+    "href": "Lecture_Folder/Week7.html#factorial-anova-in-r",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Factorial ANOVA in R",
+    "text": "Factorial ANOVA in R\n\nCodeInterpretation\n\n\n\nrna_data &lt;- read.table(\"data/Stickle_RNAseq.tsv\",\n                        header = TRUE, sep = \"\\t\")\n\ngene       &lt;- rna_data$Gene100\nmicrobiota &lt;- rna_data$Microbiota\ngenotype   &lt;- rna_data$Genotype\n\n# Multiplicative model (with interaction)\nmodel_interaction &lt;- aov(gene ~ microbiota * genotype)\n\n# Additive model (no interaction)\nmodel_additive &lt;- aov(gene ~ microbiota + genotype)\n\nsummary(model_interaction)\nsummary(model_additive)\n\n\n\n\nIf the interaction term is significant, the effect of one factor depends on the level of the other — interpret simple effects, not main effects\nIf the interaction is not significant, interpret the main effects directly\nAlways check the interaction first before interpreting main effects\nUse interaction.plot() or ggplot2 to visualize the pattern before running the ANOVA"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#r-exercise-factorial-anova-with-toothgrowth",
+    "href": "Lecture_Folder/Week7.html#r-exercise-factorial-anova-with-toothgrowth",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "R Exercise: Factorial ANOVA with ToothGrowth",
+    "text": "R Exercise: Factorial ANOVA with ToothGrowth\n\n\n\n\n\n\nExercise\n\n\nUsing the ToothGrowth dataset (tooth growth in guinea pigs):\n\nExamine the structure: supp (supplement type) × dose (dose level)\nCreate an interaction plot\nPerform two-way ANOVA\nTest for interaction effect\nIf significant interaction, perform simple effects analysis\n\n\n# Starter code\ndata(ToothGrowth)\nToothGrowth$dose &lt;- factor(ToothGrowth$dose)\n\n# Interaction plot\ninteraction.plot(ToothGrowth$dose, ToothGrowth$supp, ToothGrowth$len)\n\n# Two-way ANOVA\ntooth_aov &lt;- aov(len ~ supp * dose, data = ToothGrowth)\n\n# Your analysis here..."
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#cell-proliferation-assay-dataset",
+    "href": "Lecture_Folder/Week7.html#cell-proliferation-assay-dataset",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Cell Proliferation Assay Dataset",
+    "text": "Cell Proliferation Assay Dataset\nScenario: A 3×2 factorial experiment testing the effect of substrate stiffness (Soft 1 kPa, Medium 10 kPa, Stiff 50 kPa) and growth factor supplementation (Control vs. FGF2) on mesenchymal stem cell proliferation.\n\n\n\n\n\n\n\n\nVariable\nType\nDescription\n\n\n\n\nstiffness\nCategorical (3 levels)\nSubstrate stiffness: Soft_1kPa, Medium_10kPa, Stiff_50kPa\n\n\ngrowth_factor\nCategorical (2 levels)\nGrowth factor treatment: Control, FGF2\n\n\nproliferation_fold_change\nContinuous (response)\nCell proliferation as fold-change from baseline\n\n\n\n\nn = 60 (10 replicates per cell of the 3×2 design)\nA significant interaction is expected: FGF2 boosts proliferation more on medium stiffness substrates than on soft or stiff substrates"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#factorial-anova-worked-example-visualization",
+    "href": "Lecture_Folder/Week7.html#factorial-anova-worked-example-visualization",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Factorial ANOVA Worked Example: Visualization",
+    "text": "Factorial ANOVA Worked Example: Visualization\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Load and prepare data\ncell_data &lt;- read.csv(\"data/cell_proliferation_assay.csv\")\ncell_data$stiffness &lt;- factor(cell_data$stiffness,\n                               levels = c(\"Soft_1kPa\", \"Medium_10kPa\", \"Stiff_50kPa\"))\n\n# Two-way ANOVA with interaction\ncell_aov &lt;- aov(proliferation_fold_change ~ stiffness * growth_factor,\n                data = cell_data)\nsummary(cell_aov)\n\n# Interaction plot\ncell_summary &lt;- cell_data %&gt;%\n  group_by(stiffness, growth_factor) %&gt;%\n  summarize(mean_prolif = mean(proliferation_fold_change),\n            se = sd(proliferation_fold_change) / sqrt(n()))\n\nggplot(cell_summary, aes(x = stiffness, y = mean_prolif,\n                          color = growth_factor, group = growth_factor)) +\n  geom_point(size = 4) + geom_line(linewidth = 1.3) +\n  geom_errorbar(aes(ymin = mean_prolif - se, ymax = mean_prolif + se),\n                width = 0.15) +\n  scale_color_manual(values = c(\"gray50\", \"darkorange\")) +\n  labs(title = \"MSC Proliferation: Stiffness x Growth Factor\",\n       x = \"Substrate Stiffness\", y = \"Proliferation (fold-change)\")\n\n# Post-hoc: simple effects of growth factor at each stiffness\nemmeans(cell_aov, pairwise ~ growth_factor | stiffness)\n\n\n\n\nThe non-parallel lines in the interaction plot indicate a stiffness × growth factor interaction\nFGF2 dramatically increases proliferation on medium-stiffness substrates (~10 kPa), which mimics the native stiffness of many soft tissues\nOn very soft or very stiff substrates, FGF2 has a much smaller effect — the cells may be limited by mechanical signaling\nPost-hoc comparisons with emmeans let you test the FGF2 effect at each stiffness level separately"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#factorial-post-hoc-simple-effects-with-emmeans",
+    "href": "Lecture_Folder/Week7.html#factorial-post-hoc-simple-effects-with-emmeans",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Factorial Post-Hoc: Simple Effects with emmeans",
+    "text": "Factorial Post-Hoc: Simple Effects with emmeans\nWhen a significant interaction is present, main effects alone don’t tell the full story. We use emmeans to examine simple effects — the effect of one factor at each level of the other:\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(emmeans)\n\n# Cell means (estimated marginal means for all combinations)\ncell_emm &lt;- emmeans(cell_aov, ~ stiffness * growth_factor)\nsummary(cell_emm)\n\n# Simple effects: FGF2 vs Control at each stiffness level\nsimple_fx &lt;- emmeans(cell_aov, pairwise ~ growth_factor | stiffness)\nsimple_fx$contrasts   # p-values for each comparison\n\n# Simple effects the other direction: stiffness at each GF level\nemmeans(cell_aov, pairwise ~ stiffness | growth_factor)\n\n# Visualize\nplot(simple_fx$emmeans, comparisons = TRUE) +\n  labs(x = \"Proliferation (fold-change)\")\n\n\n\n\nThe pairwise ~ growth_factor | stiffness syntax asks: “compare FGF2 vs. Control separately at each stiffness level”\nOn Medium (10 kPa) substrates, FGF2 produces a large, significant increase in proliferation\nOn Soft (1 kPa) and Stiff (50 kPa) substrates, the FGF2 effect is smaller and may not reach significance\nThis is the hallmark of an interaction: the treatment effect depends on the experimental context\nThe emmeans output also provides Tukey-adjusted p-values to control for multiple comparisons"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-design",
+    "href": "Lecture_Folder/Week7.html#nested-design",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested Design",
+    "text": "Nested Design\n\nFactors are hierarchical within one another\nSources of variance are hierarchical\nNo interaction terms (in completely nested designs)\n\nExample: Students within classrooms within schools\n\nCodeInterpretation\n\n\n\n# Nested ANOVA using aov\nmodel_nested &lt;- aov(y ~ A + B %in% A, data = mydata)\n\n# Using lme for random nested effects\nmodel_nested_random &lt;- lme(y ~ A, random = ~1 | A/B, data = mydata)\n\nsummary(model_nested_random)\n\n\n\n\nThe %in% notation means “B is nested within A”\nThe ~1 | A/B random effects specification means “random intercepts for B nested within A”\nNested designs arise when the levels of one factor are unique to each level of another (e.g., specific cell lines unique to each lab, or batches unique to each fabrication method)\nThe critical difference from factorial: you cannot test for an A×B interaction because the levels of B do not repeat across levels of A"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-analysis-walking-stick-insect",
+    "href": "Lecture_Folder/Week7.html#nested-analysis-walking-stick-insect",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested Analysis: Walking Stick Insect",
+    "text": "Nested Analysis: Walking Stick Insect"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-design-within-individual-measurements",
+    "href": "Lecture_Folder/Week7.html#nested-design-within-individual-measurements",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested Design: Within-Individual Measurements",
+    "text": "Nested Design: Within-Individual Measurements"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#femur-length-variation-within-individuals",
+    "href": "Lecture_Folder/Week7.html#femur-length-variation-within-individuals",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Femur Length Variation Within Individuals",
+    "text": "Femur Length Variation Within Individuals\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Two measurements per individual — nested design\n# Measurements are nested within individuals\nfemur_df &lt;- tibble(\n  individual = rep(1:25, 2),\n  measurement = rep(c(\"M1\", \"M2\"), each = 25),\n  femur_length = c(m1, m2)\n)\n\nggplot(femur_df, aes(x = individual, y = femur_length)) +\n  geom_line(aes(group = individual), color = \"gray50\") +\n  geom_point(aes(color = measurement), size = 2) +\n  labs(x = \"Individual\", y = \"Femur Length (mm)\")\n\n\n\n\nThe vertical segments connecting paired measurements show within-individual variation (measurement error)\nThe spread across the x-axis shows among-individual variation (biological variation)\nA nested ANOVA partitions the total variance into these two components\nIf among-individual variance &gt;&gt; within-individual variance, your measurements are reliable (high repeatability)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-anova-model",
+    "href": "Lecture_Folder/Week7.html#nested-anova-model",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested ANOVA Model",
+    "text": "Nested ANOVA Model"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-anova-table",
+    "href": "Lecture_Folder/Week7.html#nested-anova-table",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested ANOVA Table",
+    "text": "Nested ANOVA Table\n\n\n\n\n\n\n\n\n\n\nSource\nSS\ndf\nMS\nF\n\n\n\n\nAmong groups (A)\n\\(SS_A\\)\n\\(p - 1\\)\n\\(MS_A\\)\n\\(MS_A / MS_{B(A)}\\)\n\n\nAmong subgroups B(A)\n\\(SS_{B(A)}\\)\n\\(p(q - 1)\\)\n\\(MS_{B(A)}\\)\n\\(MS_{B(A)} / MS_{Residual}\\)\n\n\nResidual\n\\(SS_{Residual}\\)\n\\(pq(n - 1)\\)\n\\(MS_{Residual}\\)\n\n\n\nTotal\n\\(SS_{Total}\\)\n\\(pqn - 1\\)\n\n\n\n\n\n\nThe key feature: factor A is tested against \\(MS_{B(A)}\\) (the subgroup MS), not against \\(MS_{Residual}\\)\nThis is because the subgroups introduce an additional source of variation that must be accounted for when testing the main factor"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#sum-of-squares-decomposition",
+    "href": "Lecture_Folder/Week7.html#sum-of-squares-decomposition",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Sum of Squares Decomposition",
+    "text": "Sum of Squares Decomposition"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-model-equations",
+    "href": "Lecture_Folder/Week7.html#nested-model-equations",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested Model Equations",
+    "text": "Nested Model Equations\n\nEquationsLaTeX\n\n\nOne level of nesting:\n\\[y_{ijk} = \\mu + \\alpha_i + \\beta_{j(i)} + \\varepsilon_{ijk}\\]\nwhere \\(\\alpha_i\\) is the effect of group \\(i\\) and \\(\\beta_{j(i)}\\) is the effect of subgroup \\(j\\) nested within group \\(i\\).\nTwo levels of nesting:\n\\[y_{ijkl} = \\mu + \\alpha_i + \\beta_{j(i)} + \\gamma_{k(ij)} + \\varepsilon_{ijkl}\\]\n\n\n% One level of nesting\ny_{ijk} = \\mu + \\alpha_i + \\beta_{j(i)} + \\varepsilon_{ijk}\n\n% Two levels of nesting\ny_{ijkl} = \\mu + \\alpha_i + \\beta_{j(i)} + \\gamma_{k(ij)} + \\varepsilon_{ijkl}\n\n\n\n\nThe parenthetical subscript notation \\(\\beta_{j(i)}\\) reads as “the effect of subgroup \\(j\\) nested within group \\(i\\)”\nEach additional nesting level adds a variance component and consumes degrees of freedom"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#understanding-degrees-of-freedom",
+    "href": "Lecture_Folder/Week7.html#understanding-degrees-of-freedom",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Understanding Degrees of Freedom",
+    "text": "Understanding Degrees of Freedom\n\nDOF in statistical models"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#hypotheses-in-nested-designs",
+    "href": "Lecture_Folder/Week7.html#hypotheses-in-nested-designs",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Hypotheses in Nested Designs",
+    "text": "Hypotheses in Nested Designs\n\nFixed Effects (Main Factor)Random EffectsLaTeX\n\n\n\\[H_0(A): \\mu_1 = \\mu_2 = \\ldots = \\mu_i = \\mu \\quad \\text{(in terms of pop. means)}\\]\n\\[H_0(A): \\alpha_1 = \\alpha_2 = \\ldots = \\alpha_i = 0 \\quad \\text{(in terms of effects on the grand mean)}\\]\n\n\n\\[H_0(A): \\sigma^2_\\alpha = 0\\]\n“No added variance due to all possible levels of A”\n\\[H_0(B): \\sigma^2_\\beta = 0\\]\n“No added variance due to all possible levels of B within all possible levels of A”\n\n\n% Fixed effects\nH_0(A): \\mu_1 = \\mu_2 = \\ldots = \\mu_i = \\mu\nH_0(A): \\alpha_1 = \\alpha_2 = \\ldots = \\alpha_i = 0\n\n% Random effects\nH_0(A): \\sigma^2_\\alpha = 0\nH_0(B): \\sigma^2_\\beta = 0"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-anova-f-ratio-formulas",
+    "href": "Lecture_Folder/Week7.html#nested-anova-f-ratio-formulas",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested ANOVA F-Ratio Formulas",
+    "text": "Nested ANOVA F-Ratio Formulas\n\n\n\n\n\n\n\n\n\n\nSource\nSS formula\ndf\nMS\nF\n\n\n\n\nA\n\\(qn\\sum(\\bar{y}_{i..} - \\bar{y}_{...})^2\\)\n\\(p - 1\\)\n\\(SS_A / (p-1)\\)\n\\(MS_A / MS_{B(A)}\\)\n\n\nB(A)\n\\(n\\sum\\sum(\\bar{y}_{ij.} - \\bar{y}_{i..})^2\\)\n\\(p(q - 1)\\)\n\\(SS_{B(A)} / [p(q-1)]\\)\n\\(MS_{B(A)} / MS_{Res}\\)\n\n\nResidual\n\\(\\sum\\sum\\sum(y_{ijk} - \\bar{y}_{ij.})^2\\)\n\\(pq(n - 1)\\)\n\\(SS_{Res} / [pq(n-1)]\\)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-anova-r-syntax-reference",
+    "href": "Lecture_Folder/Week7.html#nested-anova-r-syntax-reference",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested ANOVA: R Syntax Reference",
+    "text": "Nested ANOVA: R Syntax Reference"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-anova-in-r",
+    "href": "Lecture_Folder/Week7.html#nested-anova-in-r",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested ANOVA in R",
+    "text": "Nested ANOVA in R\n\n\n\n\n\n\n\nDesign\nR syntax\n\n\n\n\nA fixed, B nested in A\naov(y ~ A + B %in% A) or aov(y ~ A/B)\n\n\nA fixed, B random nested in A\naov(y ~ A + Error(B %in% A))\n\n\nUnbalanced nested design\nUse lmer() from lme4: lmer(y ~ A + (1|A:B))\n\n\n\n\nThe %in% and / notations are equivalent for specifying nesting in aov()\nFor unbalanced designs or when random effects are important, use lme() or lmer() for more reliable inference"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nanofiber-scaffold-tensile-strength-dataset",
+    "href": "Lecture_Folder/Week7.html#nanofiber-scaffold-tensile-strength-dataset",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nanofiber Scaffold Tensile Strength Dataset",
+    "text": "Nanofiber Scaffold Tensile Strength Dataset\nScenario: Researchers measure tensile strength of electrospun nanofiber scaffolds. Three fabrication methods (Aligned, Random, Core-Shell) each produce multiple batches, and multiple specimens are tested per batch. Batches are nested within methods.\n\n\n\n\n\n\n\n\nVariable\nType\nDescription\n\n\n\n\nfabrication_method\nCategorical (3 levels)\nElectrospinning technique: Aligned, Random, Core-Shell\n\n\nbatch\nCategorical (4 per method)\nProduction batch ID, nested within method\n\n\nspecimen\nInteger\nSpecimen number within each batch (1–5)\n\n\ntensile_strength_MPa\nContinuous (response)\nTensile strength in megapascals\n\n\n\n\nn = 60 (3 methods × 4 batches × 5 specimens)\nBatches are nested within fabrication method — each batch belongs to exactly one method\nBoth among-method and batch-to-batch variation are of interest"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#nested-anova-worked-example-visualization",
+    "href": "Lecture_Folder/Week7.html#nested-anova-worked-example-visualization",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Nested ANOVA Worked Example: Visualization",
+    "text": "Nested ANOVA Worked Example: Visualization\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Load nanofiber data\nnanofiber &lt;- read.csv(\"data/nanofiber_tensile_strength.csv\")\nnanofiber$fabrication_method &lt;- factor(nanofiber$fabrication_method,\n    levels = c(\"Aligned\", \"Random\", \"Core-Shell\"))\n\n# Visualize nested structure\nggplot(nanofiber, aes(x = batch, y = tensile_strength_MPa,\n                       fill = fabrication_method)) +\n  geom_boxplot(alpha = 0.6) +\n  geom_jitter(width = 0.15, size = 1.5, alpha = 0.5) +\n  scale_fill_brewer(palette = \"Set2\") +\n  labs(title = \"Tensile Strength by Method and Batch\",\n       x = \"Batch (nested within method)\",\n       y = \"Tensile Strength (MPa)\")\n\n# Nested ANOVA: batch is nested within method\nnested_aov &lt;- aov(tensile_strength_MPa ~ fabrication_method +\n                    batch %in% fabrication_method,\n                  data = nanofiber)\nsummary(nested_aov)\n\n# Mixed model approach (batch as random)\nlibrary(nlme)\nnested_lme &lt;- lme(tensile_strength_MPa ~ fabrication_method,\n                   random = ~1 | fabrication_method/batch,\n                   data = nanofiber)\nsummary(nested_lme)\nVarCorr(nested_lme)\n\n\n\n\nThe boxplot reveals both among-method differences (Aligned tends to be strongest) and batch-to-batch variation within each method\nThe nested ANOVA separates these two sources of variance: is the between-method variation significant relative to batch-to-batch variation?\nThe mixed model (lme) treats batch as random and reports variance components — useful for assessing manufacturing consistency\nLarge batch-to-batch variance relative to within-batch variance suggests the fabrication process needs tighter quality control"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#what-are-repeated-measures",
+    "href": "Lecture_Folder/Week7.html#what-are-repeated-measures",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "What are Repeated Measures?",
+    "text": "What are Repeated Measures?\nMeasurements taken on the same subjects at multiple:\n\nTime points (longitudinal studies)\nConditions (within-subjects design)\nLocations (spatial sampling)\n\nAdvantages: Controls for individual differences, requires fewer subjects, more statistical power\nChallenge: Observations are not independent — standard ANOVA assumes independence\n\nRepeated measures are a special case of nested data: observations are nested within subjects\nIgnoring the correlation structure leads to inflated Type I error rates"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#repeated-measures-anova",
+    "href": "Lecture_Folder/Week7.html#repeated-measures-anova",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Repeated Measures ANOVA",
+    "text": "Repeated Measures ANOVA\nSphericity Assumption:\n\nVariances of differences between all pairs of conditions must be equal\nOften violated in practice\n\nMauchly’s Test: Tests the sphericity assumption\n\np &lt; 0.05 → sphericity is violated → apply correction (Greenhouse-Geisser or Huynh-Feldt)\nGreenhouse-Geisser is more conservative (lower Type I error); Huynh-Feldt is less conservative but can be liberal with small samples\nThe modern alternative is to use linear mixed models, which handle the correlation structure directly"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#repeated-measures-in-r",
+    "href": "Lecture_Folder/Week7.html#repeated-measures-in-r",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Repeated Measures in R",
+    "text": "Repeated Measures in R\n\nOutputCodeInterpretation\n\n\n\n\n\nError: subject\n          Df Sum Sq Mean Sq F value Pr(&gt;F)\nResiduals  9   1572   174.7               \n\nError: subject:time\n          Df Sum Sq Mean Sq F value Pr(&gt;F)\ntime       2   41.5   20.75   0.429  0.657\nResiduals 18  869.9   48.33               \n\n\n\n\n\n# Create repeated measures data\nset.seed(42)\nsubject &lt;- factor(rep(1:10, each = 3))\ntime &lt;- factor(rep(c(\"Pre\", \"Mid\", \"Post\"), 10))\nscore &lt;- c(\n  rnorm(10, 50, 5),   # Pre\n  rnorm(10, 55, 5),   # Mid\n  rnorm(10, 62, 5)    # Post\n) + rep(rnorm(10, 0, 8), each = 3)  # Subject random effect\n\nrm_data &lt;- data.frame(subject, time, score)\n\n# Repeated measures ANOVA\nrm_aov &lt;- aov(score ~ time + Error(subject/time), data = rm_data)\nsummary(rm_aov)\n\n\n\n\nThe Error(subject/time) term tells R that time is measured within subject\nThe output has two strata: subject (between-subjects) and subject:time (within-subjects)\nThe F-test for time in the within-subjects stratum tests whether scores change across time points"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#mixed-models-for-repeated-measures",
+    "href": "Lecture_Folder/Week7.html#mixed-models-for-repeated-measures",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Mixed Models for Repeated Measures",
+    "text": "Mixed Models for Repeated Measures\nThe modern approach uses linear mixed models, which are more flexible and handle missing data gracefully:\n\nOutputCodeInterpretation\n\n\n\n\nLinear mixed-effects model fit by REML\n  Data: rm_data \n       AIC      BIC    logLik\n  209.8032 216.2823 -99.90158\n\nRandom effects:\n Formula: ~1 | subject\n        (Intercept) Residual\nStdDev:    6.490461 6.951932\n\nFixed effects:  score ~ time \n               Value Std.Error DF   t-value p-value\n(Intercept) 53.52105  3.007581 18 17.795381  0.0000\ntimePost     0.75925  3.108999 18  0.244211  0.8098\ntimePre     -2.02729  3.108999 18 -0.652073  0.5226\n Correlation: \n         (Intr) timPst\ntimePost -0.517       \ntimePre  -0.517  0.500\n\nStandardized Within-Group Residuals:\n       Min         Q1        Med         Q3        Max \n-2.1518214 -0.4729270  0.1209759  0.6958689  1.0357408 \n\nNumber of Observations: 30\nNumber of Groups: 10 \n\n\n\n\n\nlibrary(nlme)\n\n# Mixed model with random intercept for subject\nrm_mixed &lt;- lme(score ~ time, random = ~1 | subject, data = rm_data)\nsummary(rm_mixed)\n\n# Random slope model (if rate of change varies by subject)\nrm_mixed2 &lt;- lme(score ~ time, random = ~time | subject, data = rm_data)\n\n\n\n\nThe random intercept ~1 | subject accounts for the fact that some subjects start higher or lower than average\nThe fixed effect of time tells you the average change across time points\nAdvantages over traditional RM-ANOVA: handles missing data, unequal spacing, and does not require sphericity"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#visualizing-repeated-measures",
+    "href": "Lecture_Folder/Week7.html#visualizing-repeated-measures",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Visualizing Repeated Measures",
+    "text": "Visualizing Repeated Measures\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nrm_summary &lt;- rm_data %&gt;%\n  group_by(time) %&gt;%\n  summarize(mean_score = mean(score),\n            se = sd(score)/sqrt(n()))\n\nggplot(rm_data, aes(x = time, y = score, group = subject)) +\n  geom_line(alpha = 0.3, color = \"gray50\") +\n  geom_point(alpha = 0.3) +\n  geom_line(data = rm_summary,\n            aes(x = time, y = mean_score, group = 1),\n            color = \"steelblue\", linewidth = 1.5) +\n  geom_point(data = rm_summary,\n             aes(x = time, y = mean_score, group = 1),\n             color = \"steelblue\", size = 3) +\n  geom_errorbar(data = rm_summary,\n                aes(x = time, y = mean_score,\n                    ymin = mean_score - se,\n                    ymax = mean_score + se, group = 1),\n                width = 0.1, color = \"steelblue\") +\n  labs(title = \"Spaghetti Plot with Group Mean +/- SE\",\n       x = \"Time Point\", y = \"Score\")\n\n\n\n\nThe gray “spaghetti” lines show individual subject trajectories — the parallelism tells you whether subjects change at similar rates\nThe blue line with error bars shows the group mean trend\nWide spread of gray lines = large between-subject variability (the random effect)\nConsistent upward trend = significant time effect"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#implant-degradation-dataset",
+    "href": "Lecture_Folder/Week7.html#implant-degradation-dataset",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "Implant Degradation Dataset",
+    "text": "Implant Degradation Dataset\nScenario: Researchers are tracking the degradation of biodegradable implants over 12 weeks. Three coating types (PLGA, PCL, PLA-PEG) are applied to implant specimens, and mass remaining is measured at Weeks 0, 4, 8, and 12. Each specimen is measured repeatedly — a classic repeated measures design.\n\n\n\n\n\n\n\n\nVariable\nType\nDescription\n\n\n\n\nspecimen_id\nCategorical (15 levels)\nUnique implant specimen identifier (S01–S15)\n\n\ncoating\nCategorical (3 levels)\nPolymer coating: PLGA, PCL, PLA-PEG\n\n\nweek\nNumeric (4 time points)\nMeasurement time: 0, 4, 8, 12 weeks post-implantation\n\n\nmass_remaining_pct\nContinuous (response)\nPercent of original implant mass remaining\n\n\n\n\nn = 60 (15 specimens × 4 time points)\n5 specimens per coating type, each measured at all 4 time points\nPLGA degrades fastest; PCL is slowest — the coating × time interaction is expected to be significant"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#rm-worked-example-visualization",
+    "href": "Lecture_Folder/Week7.html#rm-worked-example-visualization",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "RM Worked Example: Visualization",
+    "text": "RM Worked Example: Visualization\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Load the implant degradation dataset\nimplant &lt;- read.csv(\"data/implant_degradation.csv\")\nimplant$coating &lt;- factor(implant$coating,\n                           levels = c(\"PLGA\", \"PLA-PEG\", \"PCL\"))\n\n# Spaghetti plot with group means\nimplant_summary &lt;- implant %&gt;%\n  group_by(coating, week) %&gt;%\n  summarize(mean_mass = mean(mass_remaining_pct),\n            se = sd(mass_remaining_pct) / sqrt(n()))\n\nggplot(implant, aes(x = week, y = mass_remaining_pct,\n                     color = coating, group = specimen_id)) +\n  geom_line(alpha = 0.25) +\n  geom_point(alpha = 0.3) +\n  geom_line(data = implant_summary,\n            aes(y = mean_mass, group = coating), linewidth = 1.5) +\n  geom_errorbar(data = implant_summary,\n                aes(y = mean_mass,\n                    ymin = mean_mass - se, ymax = mean_mass + se,\n                    group = coating),\n                width = 0.4) +\n  scale_color_brewer(palette = \"Set1\") +\n  labs(title = \"Implant Degradation by Coating Type\",\n       x = \"Week\", y = \"Mass Remaining (%)\")\n\n\n\n\nEach thin line traces an individual specimen’s degradation over time\nThe bold lines show the group mean trajectory for each coating\nPLGA degrades fastest (steepest decline), PCL slowest, and PLA-PEG is intermediate\nThe different slopes indicate a coating × time interaction — the rate of mass loss depends on the coating type\nWithin each coating group, the individual trajectories are roughly parallel, suggesting a random-intercept model (specimens differ in starting mass but degrade at similar rates)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#rm-worked-example-mixed-model-analysis",
+    "href": "Lecture_Folder/Week7.html#rm-worked-example-mixed-model-analysis",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "RM Worked Example: Mixed Model Analysis",
+    "text": "RM Worked Example: Mixed Model Analysis\n\nOutputCodeInterpretation\n\n\n\n\n             numDF denDF   F-value p-value\n(Intercept)      1    42 13785.497  &lt;.0001\ncoating          2    12    13.953   7e-04\nweek             1    42  1431.788  &lt;.0001\ncoating:week     2    42   120.761  &lt;.0001\n\n\n\n\n\nlibrary(nlme)\n\n# Mixed model: coating × week with random intercept per specimen\nimplant_lme &lt;- lme(mass_remaining_pct ~ coating * week,\n                    random = ~1 | specimen_id,\n                    data = implant)\n\n# ANOVA table for fixed effects\nanova(implant_lme)\n\n# Full model summary (coefficients, variance components)\nsummary(implant_lme)\n\n# Variance components\nVarCorr(implant_lme)\n\n\n\n\nThe coating:week interaction tests whether degradation rates differ across coatings — a significant interaction confirms the visual pattern\nThe random = ~1 | specimen_id accounts for the fact that repeated measurements on the same specimen are not independent\nThe VarCorr() output shows how much variability is between specimens vs. within specimens (measurement error)\nThe coating main effect tests whether the coatings differ in mean mass remaining (averaged across time); the week main effect tests whether mass changes over time (averaged across coatings)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week7.html#rm-worked-example-post-hoc-with-emmeans",
+    "href": "Lecture_Folder/Week7.html#rm-worked-example-post-hoc-with-emmeans",
+    "title": "Statistics for Bioengineering - Week 7",
+    "section": "RM Worked Example: Post-Hoc with emmeans",
+    "text": "RM Worked Example: Post-Hoc with emmeans\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(emmeans)\n\n# Compare degradation rates (slopes) across coatings\nimplant_trends &lt;- emtrends(implant_lme, pairwise ~ coating, var = \"week\")\n\n# View the estimated slopes\nimplant_trends$emtrends\n\n# Pairwise comparisons of slopes\nimplant_trends$contrasts\n\n# Estimated marginal means at specific time points\nemmeans(implant_lme, pairwise ~ coating | week,\n        at = list(week = c(0, 4, 8, 12)))\n\n\n\n\nemtrends() estimates the degradation rate (slope: % mass lost per week) for each coating and compares them with Tukey-adjusted pairwise tests\nAll slopes are negative (mass is decreasing), but PLGA has the steepest decline — it degrades roughly 3× faster than PCL\nThe pairwise contrasts tell you which coating pairs have significantly different degradation rates\nThe emmeans() call at specific time points shows you the predicted mass remaining at each week — useful for answering practical questions like “when does PLGA lose 50% of its mass?”"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#why-multiple-regression",
@@ -1057,18 +1316,11 @@
     "text": "Additive and Multiplicative Models\nAdditive model — each predictor contributes independently:\n\nEquationLaTeX\n\n\n\\[y_i = \\beta_0 + \\beta_1 x_{i1} + \\beta_2 x_{i2} + \\ldots + \\beta_j x_{ij} + \\epsilon_i\\]\n\n\ny_i = \\beta_0 + \\beta_1 x_{i1} + \\beta_2 x_{i2} + \\ldots + \\beta_j x_{ij} + \\epsilon_i\n\n\n\nMultiplicative model — includes an interaction between two predictors:\n\nEquationLaTeX\n\n\n\\[y_i = \\beta_0 + \\beta_1 x_{i1} + \\beta_2 x_{i2} + \\beta_3 x_{i1} x_{i2} + \\epsilon_i\\]\n\n\ny_i = \\beta_0 + \\beta_1 x_{i1} + \\beta_2 x_{i2} + \\beta_3 x_{i1} x_{i2} + \\epsilon_i"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#additive-vs.-multiplicative-models",
-    "href": "Lecture_Folder/Week7.html#additive-vs.-multiplicative-models",
+    "objectID": "Lecture_Folder/Week7.html#additive-vs.-multiplicative-response-surfaces",
+    "href": "Lecture_Folder/Week7.html#additive-vs.-multiplicative-response-surfaces",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "Additive vs. Multiplicative Models",
-    "text": "Additive vs. Multiplicative Models"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-additive-vs.-multiplicative-response-surfaces",
-    "href": "Lecture_Folder/Week7.html#draft-additive-vs.-multiplicative-response-surfaces",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Additive vs. Multiplicative Response Surfaces",
-    "text": "DRAFT: Additive vs. Multiplicative Response Surfaces"
+    "section": "Additive vs. Multiplicative Response Surfaces",
+    "text": "Additive vs. Multiplicative Response Surfaces\n\n\nThe additive model produces a flat plane — the effect of X1 is the same at every value of X2\nThe multiplicative model produces a twisted (warped) surface — the slope of X1 changes as X2 changes, reflecting the interaction"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#r-example-multiple-regression-with-2-predictors",
@@ -1099,18 +1351,18 @@
     "text": "Checking for Multicollinearity"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#draft-scatterplot-matrix-for-collinearity",
-    "href": "Lecture_Folder/Week7.html#draft-scatterplot-matrix-for-collinearity",
+    "objectID": "Lecture_Folder/Week7.html#scatterplot-matrix-for-collinearity",
+    "href": "Lecture_Folder/Week7.html#scatterplot-matrix-for-collinearity",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Scatterplot Matrix for Collinearity",
-    "text": "DRAFT: Scatterplot Matrix for Collinearity\n\n\nCodeInterpretation\n\n\n\nlibrary(car)\n\n# Visual check with scatterplot matrix\nscatterplotMatrix(~ var1 + var2 + var3, diag = \"boxplot\")\n\n# Variance Inflation Factor (VIF)\nmodel &lt;- lm(y ~ g1 + g2 + g3)\nvif(model)\n\n# Tolerance = 1/VIF (values &lt; 0.1 indicate severe collinearity)\n1 / vif(model)\n\n\n\n\n\n\nVIF Value\nInterpretation\n\n\n\n\n1\nNo collinearity\n\n\n1–5\nModerate (usually acceptable)\n\n\n5–10\nHigh (investigate further)\n\n\n&gt; 10\nSevere (remedial action needed)"
+    "section": "Scatterplot Matrix for Collinearity",
+    "text": "Scatterplot Matrix for Collinearity\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(car)\n\n# Scatterplot matrix\nlibrary(GGally)\nggpairs(env_data)\n\n# Variance Inflation Factor (VIF)\nmodel &lt;- lm(y ~ g1 + g2 + g3)\nvif(model)\n\n# Tolerance = 1/VIF (values &lt; 0.1 indicate severe collinearity)\n1 / vif(model)\n\n\n\n\n\n\nVIF Value\nInterpretation\n\n\n\n\n1\nNo collinearity\n\n\n1–5\nModerate (usually acceptable)\n\n\n5–10\nHigh (investigate further)\n\n\n&gt; 10\nSevere (remedial action needed)\n\n\n\n\nThe correlation panel (upper triangle) shows pairwise correlations between predictors\nHigh pairwise correlations (|r| &gt; 0.7) are a warning sign, but VIF captures multicollinearity from combinations of predictors"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#r-example-three-variable-regression",
     "href": "Lecture_Folder/Week7.html#r-example-three-variable-regression",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "R Example: Three-Variable Regression",
-    "text": "R Example: Three-Variable Regression\n\nCodeQuestions\n\n\n\nRNAseq_Data &lt;- read.table('data/RNAseq_lip.tsv', header = TRUE, sep = '\\t')\ny  &lt;- RNAseq_Data$Lipid_Conc\ng1 &lt;- RNAseq_Data$Gene01\ng2 &lt;- RNAseq_Data$Gene02\ng3 &lt;- RNAseq_Data$Gene03\n\n# Three-predictor model\nRNAseq3_lm &lt;- lm(y ~ g1 + g2 + g3)\nsummary(RNAseq3_lm)\nplot(RNAseq3_lm)\n\n# Scatterplot matrices\nlibrary(car)\nscatterplotMatrix(~ g1 + g2 + g3, diag = \"boxplot\")\nscatterplotMatrix(~ y + g1 + g2 + g3, diag = \"boxplot\")\n\n# Tolerance calculations (1 - R²)\n1 / vif(lm(y ~ g1 + g2 + g3))\n\n\n\n\nIs there any evidence for multicollinearity?\nTry running a simple regression of y ~ g3 alone — how does the slope estimate for Gene03 compare to the partial slope estimate from the full model?\nWhat does a change in slope estimate tell you about confounding?"
+    "text": "R Example: Three-Variable Regression\n\nCodeQuestions\n\n\n\nRNAseq_Data &lt;- read.table('data/RNAseq_lip.tsv', header = TRUE, sep = '\\t')\ny  &lt;- RNAseq_Data$Lipid_Conc\ng1 &lt;- RNAseq_Data$Gene01\ng2 &lt;- RNAseq_Data$Gene02\ng3 &lt;- RNAseq_Data$Gene03\n\n# Three-predictor model\nRNAseq3_lm &lt;- lm(y ~ g1 + g2 + g3)\nsummary(RNAseq3_lm)\nplot(RNAseq3_lm)\n\n# Check for multicollinearity\nlibrary(car)\nvif(lm(y ~ g1 + g2 + g3))\n\n# Tolerance calculations (1 / VIF)\n1 / vif(lm(y ~ g1 + g2 + g3))\n\n\n\n\nIs there any evidence for multicollinearity?\nTry running a simple regression of y ~ g3 alone — how does the slope estimate for Gene03 compare to the partial slope estimate from the full model?\nWhat does a change in slope estimate tell you about confounding?"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#bioengineering-example-scaffold-properties-and-tissue-growth",
@@ -1124,21 +1376,21 @@
     "href": "Lecture_Folder/Week7.html#diagnostic-plots-for-multiple-regression",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "Diagnostic Plots for Multiple Regression",
-    "text": "Diagnostic Plots for Multiple Regression\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Standard diagnostic plots\npar(mfrow = c(2, 2))\nplot(scaffold_lm)\n\n# Using ggfortify for prettier diagnostics\nlibrary(ggfortify)\nautoplot(scaffold_lm, which = 1:4) + theme_minimal()\n\n# Cook's distance — identify influential observations\ncooks_d &lt;- cooks.distance(scaffold_lm)\nplot(cooks_d, type = \"h\", main = \"Cook's Distance\",\n     ylab = \"Cook's Distance\", xlab = \"Observation\")\nabline(h = 4 / n, col = \"red\", lty = 2)\n\n\n\n\nResiduals vs Fitted: look for non-linearity (curved pattern) or heteroscedasticity (funnel shape)\nQ-Q Plot: points should follow the diagonal line; deviations indicate non-normality\nScale-Location: check for constant variance (flat trend line)\nResiduals vs Leverage: Cook’s distance &gt; 4/n flags influential points"
+    "text": "Diagnostic Plots for Multiple Regression\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Using ggfortify for ggplot2-style diagnostics\nlibrary(ggfortify)\nautoplot(scaffold_lm, which = 1:4) + theme_minimal()\n\n# Cook's distance — identify influential observations\ncooks_d &lt;- cooks.distance(scaffold_lm)\nn &lt;- nrow(scaffold_data)\n\nggplot(tibble(obs = 1:n, cooks = cooks_d), aes(x = obs, y = cooks)) +\n  geom_col(fill = \"steelblue\") +\n  geom_hline(yintercept = 4/n, color = \"red\", linetype = \"dashed\") +\n  labs(title = \"Cook's Distance\", x = \"Observation\", y = \"Cook's D\")\n\n\n\n\nResiduals vs Fitted: look for non-linearity (curved pattern) or heteroscedasticity (funnel shape)\nQ-Q Plot: points should follow the diagonal line; deviations indicate non-normality\nScale-Location: check for constant variance (flat trend line)\nResiduals vs Leverage: Cook’s distance &gt; 4/n flags influential points"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#partial-regression-plots",
     "href": "Lecture_Folder/Week7.html#partial-regression-plots",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "Partial Regression Plots",
-    "text": "Partial Regression Plots\nPartial regression (added-variable) plots show the effect of each predictor after adjusting for all others:\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(car)\n\n# Added-variable plots (partial regression plots)\navPlots(scaffold_lm)\n\n# Each plot shows the relationship between one predictor\n# and the response, holding all other predictors constant.\n# The slope of each line equals the partial regression coefficient."
+    "text": "Partial Regression Plots\nPartial regression (added-variable) plots show the effect of each predictor after adjusting for all others:\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(car)\n\n# Added-variable plots (partial regression plots)\navPlots(scaffold_lm)\n\n# Each plot shows the relationship between one predictor\n# and the response, holding all other predictors constant.\n# The slope of each line equals the partial regression coefficient.\n\n\n\n\nEach panel shows the unique (partial) contribution of one predictor after removing the effects of all other predictors\nA strong linear pattern means the predictor adds explanatory power beyond the others\nA flat pattern means the predictor adds little after accounting for the rest\nThe slope in each partial plot equals the corresponding regression coefficient in the full model"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#the-problem-of-model-complexity",
     "href": "Lecture_Folder/Week7.html#the-problem-of-model-complexity",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "The Problem of Model Complexity",
-    "text": "The Problem of Model Complexity\n\nHow do we decide the complexity of a polynomial: straight line, quadratic, cubic, …?\nWhich variables should we keep or discard when building a multiple regression model?\nHow do we select from candidate models representing different biological processes?\n\n\n\n\n\n\n\nPrinciple of Parsimony\n\n\n“Models should be pared down until they are minimal and adequate” — Crawley 2007\nIf two or more models fit the data almost equally well, prefer the simpler model."
+    "text": "The Problem of Model Complexity\n\nHow do we decide the complexity of a polynomial: straight line, quadratic, cubic, …?\nWhich variables should we keep or discard when building a multiple regression model?\nHow do we select from candidate models representing different biological processes?\n\n\n\n\n\n\n\nPrinciple of Parsimony\n\n\n“Models should be pared down until they are minimal and adequate” — Crawley 2007\nIf two or more models fit the data almost equally well, prefer the simpler model.\n\n\n\n\nMore parameters always improve fit to the training data but can worsen prediction on new data — this is overfitting"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#overfitting-with-polynomials",
@@ -1148,46 +1400,32 @@
     "text": "Overfitting with Polynomials\n\nThe log-likelihood and \\(R^2\\) always increase with more parameters — but this does not mean the model is better!"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#draft-beetle-wing-vs-horn-data",
-    "href": "Lecture_Folder/Week7.html#draft-beetle-wing-vs-horn-data",
+    "objectID": "Lecture_Folder/Week7.html#beetle-wing-vs.-horn-data",
+    "href": "Lecture_Folder/Week7.html#beetle-wing-vs.-horn-data",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Beetle Wing vs Horn Data",
-    "text": "DRAFT: Beetle Wing vs Horn Data"
+    "section": "Beetle Wing vs. Horn Data",
+    "text": "Beetle Wing vs. Horn Data\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nset.seed(2001)\nwing &lt;- runif(20, -45, 25)\nhorn &lt;- -0.002 * wing + rnorm(20, 0, 0.05)\nbeetle_data &lt;- tibble(wing = wing, horn = horn)\n\nggplot(beetle_data, aes(x = wing, y = horn)) +\n  geom_point(size = 3, color = \"steelblue\") +\n  labs(x = \"Relative Wing Length\", y = \"Relative Horn Length\")"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#the-progression-of-polynomial-fits",
-    "href": "Lecture_Folder/Week7.html#the-progression-of-polynomial-fits",
+    "objectID": "Lecture_Folder/Week7.html#linear-and-quadratic-fits",
+    "href": "Lecture_Folder/Week7.html#linear-and-quadratic-fits",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "The Progression of Polynomial Fits",
-    "text": "The Progression of Polynomial Fits\n\n\n\n\n\nLinear fit\n\n\n\n\n\n\nQuadratic fit"
+    "section": "Linear and Quadratic Fits",
+    "text": "Linear and Quadratic Fits\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Linear fit\nggplot(beetle_data, aes(x = wing, y = horn)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", formula = y ~ x)\n\n# Quadratic fit\nggplot(beetle_data, aes(x = wing, y = horn)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", formula = y ~ poly(x, 2))"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#draft-linear-and-quadratic-fits",
-    "href": "Lecture_Folder/Week7.html#draft-linear-and-quadratic-fits",
+    "objectID": "Lecture_Folder/Week7.html#higher-order-polynomial-fits",
+    "href": "Lecture_Folder/Week7.html#higher-order-polynomial-fits",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Linear and Quadratic Fits",
-    "text": "DRAFT: Linear and Quadratic Fits"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#higher-order-polynomials-and-overfitting",
-    "href": "Lecture_Folder/Week7.html#higher-order-polynomials-and-overfitting",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Higher-Order Polynomials and Overfitting",
-    "text": "Higher-Order Polynomials and Overfitting\n\n\n\n\n\nDegree 5 polynomial\n\n\n\n\n\n\nDegree 10 polynomial\n\n\n\nAs polynomial degree increases, the model fits the training data ever more closely — but becomes useless for prediction on new data."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-higher-order-polynomial-fits",
-    "href": "Lecture_Folder/Week7.html#draft-higher-order-polynomial-fits",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Higher-Order Polynomial Fits",
-    "text": "DRAFT: Higher-Order Polynomial Fits"
+    "section": "Higher-Order Polynomial Fits",
+    "text": "Higher-Order Polynomial Fits\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Degree 5 polynomial\nggplot(beetle_data, aes(x = wing, y = horn)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", formula = y ~ poly(x, 5), se = FALSE) +\n  labs(title = \"Degree 5 Polynomial\")\n\n# Degree 10 polynomial — clearly overfitting!\nggplot(beetle_data, aes(x = wing, y = horn)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", formula = y ~ poly(x, 10), se = FALSE) +\n  labs(title = \"Degree 10 Polynomial\")\n\n\n\n\nThe linear model captures the general trend with minimal complexity\nHigher-degree polynomials chase individual data points — this is overfitting\nAn overfit model has high R-sq on the training data but predicts poorly on new data\nModel selection criteria (AIC, BIC, Cp) penalize complexity to guard against this"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#model-selection-criteria",
     "href": "Lecture_Folder/Week7.html#model-selection-criteria",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "Model Selection Criteria",
-    "text": "Model Selection Criteria\n\n\n\n\n\n\n\n\nCriterion\nDescription\nSelection Rule\n\n\n\n\nMSresiduals\nMean unexplained variation\nLowest value = best fit\n\n\nAdjusted R²\nProportion of variance explained, penalized for # terms\nLarger = better fit\n\n\nMallow’s Cp\nComparison to full model\nLowest value, or closest to p\n\n\nAIC\nLikelihood penalized by number of parameters\nSmaller = more parsimonious\n\n\nBIC\nLike AIC but heavier penalty for complexity\nSmaller = more parsimonious\n\n\n\n\n\n\n\n\n\nTip\n\n\nAs a rule of thumb, if the difference between two AIC values (ΔAIC) is greater than 2, the lower AIC represents a meaningfully better model."
+    "text": "Model Selection Criteria\n\n\n\n\n\n\n\n\nCriterion\nDescription\nSelection Rule\n\n\n\n\nMSresiduals\nMean unexplained variation\nLowest value = best fit\n\n\nAdjusted R-sq\nProportion of variance explained, penalized for # terms\nLarger = better fit\n\n\nMallow’s Cp\nComparison to full model\nLowest value, or closest to p\n\n\nAIC\nLikelihood penalized by number of parameters\nSmaller = more parsimonious\n\n\nBIC\nLike AIC but heavier penalty for complexity\nSmaller = more parsimonious\n\n\n\n\n\n\n\n\n\nTip\n\n\nAs a rule of thumb, if the difference between two AIC values (delta-AIC) is greater than 2, the lower AIC represents a meaningfully better model."
   },
   {
     "objectID": "Lecture_Folder/Week7.html#mallows-cp-and-all-subsets-regression",
@@ -1197,501 +1435,39 @@
     "text": "Mallow’s Cp and All-Subsets Regression"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#draft-mallows-cp-formula",
-    "href": "Lecture_Folder/Week7.html#draft-mallows-cp-formula",
+    "objectID": "Lecture_Folder/Week7.html#mallows-cp-formula",
+    "href": "Lecture_Folder/Week7.html#mallows-cp-formula",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Mallow’s Cp Formula",
-    "text": "DRAFT: Mallow’s Cp Formula\n\nEquationLaTeX\n\n\n\\[C_p = \\frac{SS_{\\text{error}}}{\\hat{\\sigma}^2} - n + 2p\\]\nwhere:\n\n\n\n\n\n\n\nSymbol\nMeaning\n\n\n\n\n\\(SS_{\\text{error}}\\)\nError sum of squares for the model with \\(p\\) predictors (incl. intercept)\n\n\n\\(\\hat{\\sigma}^2\\)\nError mean square of full model (e.g., all predictors)\n\n\n\\(n\\)\nSample size\n\n\n\\(p\\)\nNumber of predictors (including intercept)\n\n\n\n\n\\(C_p\\) estimates mean square prediction error (related to AIC)\n\\(2p\\): a penalty for including too many predictors — a feature shared with all other model selection criteria\n\n\n\nC_p = \\frac{SS_{\\text{error}}}{\\hat{\\sigma}^2} - n + 2p\n\n\n\n\nCodeKey Points\n\n\n\nlibrary(leaps)\n\n# All subsets regression\nall_subsets &lt;- regsubsets(y ~ g1 + g2 + g3 + g4, data = RNAseq_Data)\nsummary(all_subsets)\n\n# Plot Cp, BIC, adjusted R²\npar(mfrow = c(1, 3))\nplot(all_subsets, scale = \"Cp\")\nplot(all_subsets, scale = \"bic\")\nplot(all_subsets, scale = \"adjr2\")\n\n\n\n\nFor prediction: All models with Cp &lt; p predict about equally well\nFor explanation: If numerous models fit equally well, it is difficult to deduce which predictor “explains” the response\nGeneral caveat: “Regression is not causation” — an experiment is needed for causal explanation"
+    "section": "Mallow’s Cp Formula",
+    "text": "Mallow’s Cp Formula\n\nEquationLaTeX\n\n\n\\[C_p = \\frac{SS_{\\text{error}}}{\\hat{\\sigma}^2} - n + 2p\\]\nwhere:\n\n\n\n\n\n\n\nSymbol\nMeaning\n\n\n\n\n\\(SS_{\\text{error}}\\)\nError sum of squares for the model with \\(p\\) predictors (incl. intercept)\n\n\n\\(\\hat{\\sigma}^2\\)\nError mean square of full model (e.g., all predictors)\n\n\n\\(n\\)\nSample size\n\n\n\\(p\\)\nNumber of predictors (including intercept)\n\n\n\n\n\\(C_p\\) estimates mean square prediction error (related to AIC)\n\\(2p\\): a penalty for including too many predictors — a feature shared with all other model selection criteria\n\n\n\nC_p = \\frac{SS_{\\text{error}}}{\\hat{\\sigma}^2} - n + 2p\n\n\n\n\nCodeKey Points\n\n\n\nlibrary(leaps)\n\n# All subsets regression\nall_subsets &lt;- regsubsets(y ~ g1 + g2 + g3 + g4, data = RNAseq_Data)\nsummary(all_subsets)\n\n# Plot Cp, BIC, adjusted R-sq\npar(mfrow = c(1, 3))\nplot(all_subsets, scale = \"Cp\")\nplot(all_subsets, scale = \"bic\")\nplot(all_subsets, scale = \"adjr2\")\n\n\n\n\nFor prediction: All models with Cp &lt; p predict about equally well\nFor explanation: If numerous models fit equally well, it is difficult to deduce which predictor “explains” the response\nGeneral caveat: “Regression is not causation” — an experiment is needed for causal explanation"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#nested-vs.-non-nested-models",
     "href": "Lecture_Folder/Week7.html#nested-vs.-non-nested-models",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "Nested vs. Non-Nested Models",
-    "text": "Nested vs. Non-Nested Models\n\nNested (reduced vs. full): One model is a special case of the other — can compare with F-test or likelihood ratio test\nNon-nested: Models contain different sets of variables — compare with AIC or BIC\n\n\nCodeInterpretation\n\n\n\n# Compare nested models with F-test\nmodel_reduced &lt;- lm(y ~ g1 + g2)\nmodel_full    &lt;- lm(y ~ g1 + g2 + g3)\nanova(model_reduced, model_full)\n\n# Compare non-nested models with AIC\nAIC(model_a, model_b, model_c)\nBIC(model_a, model_b, model_c)\n\n\n\n\nF-test p &lt; 0.05 → the fuller model is significantly better\nLower AIC/BIC → more parsimonious model\nBIC penalizes complexity more heavily than AIC"
+    "text": "Nested vs. Non-Nested Models\n\nNested (reduced vs. full): One model is a special case of the other — can compare with F-test or likelihood ratio test\nNon-nested: Models contain different sets of variables — compare with AIC or BIC\n\n\nCodeInterpretation\n\n\n\n# Compare nested models with F-test\nmodel_reduced &lt;- lm(y ~ g1 + g2)\nmodel_full    &lt;- lm(y ~ g1 + g2 + g3)\nanova(model_reduced, model_full)\n\n# Compare non-nested models with AIC\nAIC(model_a, model_b, model_c)\nBIC(model_a, model_b, model_c)\n\n\n\n\nF-test p &lt; 0.05 → the fuller model is significantly better\nLower AIC/BIC → more parsimonious model\nBIC penalizes complexity more heavily than AIC, favoring simpler models especially with large sample sizes\nWhen AIC and BIC disagree, consider the scientific context — is prediction or explanation your primary goal?"
   },
   {
     "objectID": "Lecture_Folder/Week7.html#stepwise-model-selection-in-r",
     "href": "Lecture_Folder/Week7.html#stepwise-model-selection-in-r",
     "title": "Statistics for Bioengineering - Week 7",
     "section": "Stepwise Model Selection in R",
-    "text": "Stepwise Model Selection in R\n\nCodeKey Points\n\n\n\n# Start with a full model\nfull_model &lt;- lm(tissue_growth ~ porosity * stiffness * seeding_dens,\n                 data = scaffold_data)\n\n# Forward stepwise selection (start from intercept-only)\nnull_model &lt;- lm(tissue_growth ~ 1, data = scaffold_data)\nforward_model &lt;- step(null_model,\n                      scope = list(lower = null_model, upper = full_model),\n                      direction = \"forward\", trace = 1)\n\n# Backward elimination (start from full model)\nbackward_model &lt;- step(full_model, direction = \"backward\", trace = 1)\n\n# Both directions\nboth_model &lt;- step(null_model,\n                   scope = list(lower = null_model, upper = full_model),\n                   direction = \"both\", trace = 1)\n\n# Compare final models\nAIC(forward_model, backward_model, both_model)\nBIC(forward_model, backward_model, both_model)\n\n\n\n\nstep() uses AIC by default; add k = log(n) for BIC-based selection\nForward selection can miss important combinations\nBackward elimination can fail when p &gt; n\n“Both” direction is generally most robust\nStepwise methods can overfit — always validate with cross-validation"
+    "text": "Stepwise Model Selection in R\n\nCodeKey Points\n\n\n\n# Start with a full model\nfull_model &lt;- lm(tissue_growth ~ porosity * stiffness * seeding_dens,\n                 data = scaffold_data)\n\n# Forward stepwise selection (start from intercept-only)\nnull_model &lt;- lm(tissue_growth ~ 1, data = scaffold_data)\nforward_model &lt;- step(null_model,\n                      scope = list(lower = null_model, upper = full_model),\n                      direction = \"forward\", trace = 1)\n\n# Backward elimination (start from full model)\nbackward_model &lt;- step(full_model, direction = \"backward\", trace = 1)\n\n# Both directions\nboth_model &lt;- step(null_model,\n                   scope = list(lower = null_model, upper = full_model),\n                   direction = \"both\", trace = 1)\n\n# Compare final models\nAIC(forward_model, backward_model, both_model)\nBIC(forward_model, backward_model, both_model)\n\n\n\n\nstep() uses AIC by default; add k = log(n) for BIC-based selection\nForward selection can miss important combinations\nBackward elimination can fail when p &gt; n\n“Both” direction is generally most robust\nStepwise methods can overfit — always validate with cross-validation or hold-out data"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#what-is-power",
-    "href": "Lecture_Folder/Week7.html#what-is-power",
+    "objectID": "Lecture_Folder/Week7.html#worked-example-model-selection-for-scaffold-data",
+    "href": "Lecture_Folder/Week7.html#worked-example-model-selection-for-scaffold-data",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "What is Power?",
-    "text": "What is Power?\nPower is the probability of correctly rejecting a false null hypothesis (i.e., detecting a real effect when one exists).\n\nEquationLaTeX\n\n\n\\[\\text{Power} \\propto \\frac{(\\text{Effect Size})(\\alpha)(\\sqrt{n})}{\\sigma}\\]\n\n\n\\text{Power} \\propto \\frac{(\\text{Effect Size})(\\alpha)(\\sqrt{n})}{\\sigma}\n\n\n\n\nHelps interpret failure to reject the null — was the test underpowered?\nTarget: typically 80% power (β = 0.20)"
+    "section": "Worked Example: Model Selection for Scaffold Data",
+    "text": "Worked Example: Model Selection for Scaffold Data\nLet’s apply model selection to the scaffold tissue growth data, comparing candidate models with different predictor combinations:\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Define candidate models\nm1 &lt;- lm(tissue_growth ~ porosity, data = scaffold_data)\nm2 &lt;- lm(tissue_growth ~ porosity + stiffness, data = scaffold_data)\nm3 &lt;- lm(tissue_growth ~ porosity + stiffness + seeding_dens,\n          data = scaffold_data)\nm4 &lt;- lm(tissue_growth ~ porosity * stiffness, data = scaffold_data)\nm5 &lt;- lm(tissue_growth ~ porosity * stiffness + seeding_dens,\n          data = scaffold_data)\n\n# Compare with AIC and BIC\nAIC(m1, m2, m3, m4, m5)\nBIC(m1, m2, m3, m4, m5)\n\n# Compare nested models with F-test\nanova(m2, m4)  # Does the interaction improve the model?\nanova(m4, m5)  # Does seeding density add anything beyond porosity*stiffness?\n\n# Adjusted R-squared comparison\nsapply(list(m1, m2, m3, m4, m5),\n       function(m) summary(m)$adj.r.squared)\n\n\n\n\nThe interaction model (porosity * stiffness) has the lowest AIC and BIC, indicating it captures an important feature of the data: the effect of porosity on tissue growth depends on scaffold stiffness\nAdding seeding density to the interaction model (m5) does not meaningfully improve AIC/BIC — it adds complexity without benefit\nThe F-test comparing m2 to m4 confirms the interaction is significant; comparing m4 to m5 shows seeding density is not needed\nBoth AIC and BIC agree on the best model — this is strong evidence for parsimony"
   },
   {
-    "objectID": "Lecture_Folder/Week7.html#power-overview",
-    "href": "Lecture_Folder/Week7.html#power-overview",
+    "objectID": "Lecture_Folder/Week7.html#worked-example-backward-elimination-on-scaffold-data",
+    "href": "Lecture_Folder/Week7.html#worked-example-backward-elimination-on-scaffold-data",
     "title": "Statistics for Bioengineering - Week 7",
-    "section": "Power Overview",
-    "text": "Power Overview\n\nStatistical power and Type II error"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-statistical-power-and-type-ii-error",
-    "href": "Lecture_Folder/Week7.html#draft-statistical-power-and-type-ii-error",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Statistical Power and Type II Error",
-    "text": "DRAFT: Statistical Power and Type II Error\n\n\n\n\n\n\n\n\n\nReject \\(H_0\\)\nRetain \\(H_0\\)\n\n\n\n\nEffect exists\nCorrect decision — Effect detected (Power = \\(1-\\beta\\))\nType II error — Effect not detected (\\(\\beta\\))\n\n\nNo effect\nType I error — Effect detected; none exists (\\(\\alpha\\))\nCorrect decision — No effect detected\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nPower = probability of correctly rejecting \\(H_0\\) when the effect is real\nWe want Power \\(\\geq 0.80\\) (i.e., \\(\\beta \\leq 0.20\\))\nIncreasing sample size, effect size, or \\(\\alpha\\) increases power"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#key-components-of-power",
-    "href": "Lecture_Folder/Week7.html#key-components-of-power",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Key Components of Power",
-    "text": "Key Components of Power\n\n\n\nComponent\nDescription\n\n\n\n\nEffect Size (ES)\nMagnitude of difference to detect\n\n\nStandard Deviation (σ)\nVariability within groups\n\n\nSample Size (n)\nNumber of observations\n\n\nSignificance Level (α)\nUsually 0.05\n\n\nPower (1 − β)\nUsually 0.80\n\n\n\n\nKey questions in power analysis"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-power-vs-effect-size-and-sample-size",
-    "href": "Lecture_Folder/Week7.html#draft-power-vs-effect-size-and-sample-size",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Power vs Effect Size and Sample Size",
-    "text": "DRAFT: Power vs Effect Size and Sample Size"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#cohens-d",
-    "href": "Lecture_Folder/Week7.html#cohens-d",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Cohen’s d",
-    "text": "Cohen’s d\nEffect size between two group means expressed in standard deviation units:\n\nEquationLaTeX\n\n\n\\[d = \\frac{\\bar{x}_1 - \\bar{x}_2}{s_{pooled}}\\]\n\n\nd = \\frac{\\bar{x}_1 - \\bar{x}_2}{s_{pooled}}\n\n\n\n\n\n\nd\nInterpretation\n\n\n\n\n0.2\nSmall effect\n\n\n0.5\nMedium effect\n\n\n0.8\nLarge effect"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#power-analysis-in-r",
-    "href": "Lecture_Folder/Week7.html#power-analysis-in-r",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Power Analysis in R",
-    "text": "Power Analysis in R\n\nOutputCode\n\n\n\n\nRequired n per group: 64\n\n\n\n\n\nlibrary(pwr)\n\n# Calculate required sample size for 80% power\nsample_size &lt;- pwr.t.test(\n  d = 0.5,\n  sig.level = 0.05,\n  power = 0.80,\n  type = \"two.sample\"\n)\n\ncat(\"Required n per group:\", ceiling(sample_size$n))"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#power-curve",
-    "href": "Lecture_Folder/Week7.html#power-curve",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Power Curve",
-    "text": "Power Curve\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\neffect_sizes &lt;- seq(0.2, 1.0, by = 0.1)\npower_values &lt;- sapply(effect_sizes, function(d) {\n  pwr.t.test(d = d, n = 50, sig.level = 0.05, type = \"two.sample\")$power\n})\n\nplot(effect_sizes, power_values, type = \"b\", pch = 19, col = \"steelblue\",\n     xlab = \"Effect Size (Cohen's d)\", ylab = \"Power\", ylim = c(0, 1))\nabline(h = 0.8, lty = 2, col = \"red\")"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#sample-size-curve",
-    "href": "Lecture_Folder/Week7.html#sample-size-curve",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Sample Size Curve",
-    "text": "Sample Size Curve\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsample_sizes &lt;- seq(10, 200, by = 10)\npower_by_n &lt;- sapply(sample_sizes, function(n) {\n  pwr.t.test(d = 0.5, n = n, sig.level = 0.05, type = \"two.sample\")$power\n})\n\nplot(sample_sizes, power_by_n, type = \"b\", pch = 19, col = \"darkgreen\",\n     xlab = \"Sample Size per Group\", ylab = \"Power\", ylim = c(0, 1))\nabline(h = 0.8, lty = 2, col = \"red\")"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#bootstrap-power-analysis",
-    "href": "Lecture_Folder/Week7.html#bootstrap-power-analysis",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Bootstrap Power Analysis",
-    "text": "Bootstrap Power Analysis\nWhen parametric assumptions may not hold, use simulation-based power analysis:\n\nCodeKey Points\n\n\n\n# Step 1: Simulate true populations\nsenior &lt;- rpois(5000, lambda = 10)\nfresh  &lt;- rpois(5000, lambda = 12)\n\n# Step 2: Draw samples and test\nsample_s &lt;- sample(senior, size = 10, replace = FALSE)\nsample_f &lt;- sample(fresh, size = 10, replace = FALSE)\nt.test(sample_f, sample_s)\n\n# Step 3: Replicate many times\nsamps_s &lt;- replicate(n = 100, sample(senior, size = 10))\nsamps_f &lt;- replicate(n = 100, sample(fresh, size = 10))\n\n# Calculate power\ntests &lt;- data.frame(result = numeric(100))\nfor (i in 1:100) {\n  tests$result[i] &lt;- t.test(samps_s[, i], samps_f[, i])$p.value\n}\npower &lt;- sum(tests$result &lt; 0.05) / 100\ncat(\"Estimated power:\", power)\n\n\n\n\nThis approach works for any distribution (Poisson, skewed, etc.)\nIncrease the number of replicates (e.g., 1000+) for stable estimates\nCan modify sample sizes, effect sizes, or distributions to explore scenarios"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#power-analysis-for-anova",
-    "href": "Lecture_Folder/Week7.html#power-analysis-for-anova",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Power Analysis for ANOVA",
-    "text": "Power Analysis for ANOVA\n\nCodeCohen’s f\n\n\n\nlibrary(pwr)\n\n# Parameters for one-way ANOVA\neffect_size_anova &lt;- 0.25  # Cohen's f (medium)\nalpha_anova &lt;- 0.05\npower_anova &lt;- 0.8\n\n# Calculate required sample size per group\nsample_size_anova &lt;- pwr.anova.test(\n  k = 3,                    # Number of groups\n  f = effect_size_anova,\n  sig.level = alpha_anova,\n  power = power_anova\n)$n\n\ncat(\"Sample Size per group for ANOVA:\", ceiling(sample_size_anova))\n\n\n\nCohen’s f measures effect size in ANOVA:\n\n\n\nf\nInterpretation\n\n\n\n\n0.10\nSmall effect\n\n\n0.25\nMedium effect\n\n\n0.40\nLarge effect\n\n\n\nCohen’s f = √(variance between groups / variance within groups)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#power-example-bone-scaffold-experiment",
-    "href": "Lecture_Folder/Week7.html#power-example-bone-scaffold-experiment",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Power Example: Bone Scaffold Experiment",
-    "text": "Power Example: Bone Scaffold Experiment\nA bioengineering lab needs to determine how many bone scaffolds to test to detect a 15% difference in compressive strength between two scaffold designs.\n\nCodeKey Takeaway\n\n\n\n# Known from pilot data:\n# Mean compressive strength: 50 MPa\n# Standard deviation: 8 MPa\n# Desired detectable difference: 15% = 7.5 MPa\n\neffect_size_d &lt;- 7.5 / 8  # Cohen's d = 0.94\n\nscaffold_power &lt;- pwr.t.test(\n  d = effect_size_d,\n  sig.level = 0.05,\n  power = 0.80,\n  type = \"two.sample\"\n)\n\ncat(\"Required scaffolds per group:\", ceiling(scaffold_power$n))\ncat(\"\\nEffect size (Cohen's d):\", round(effect_size_d, 2))\n\n\n\n\nWith a large effect size (d ≈ 0.94), we need relatively few samples\nIf the expected difference were only 5% (3.75 MPa, d ≈ 0.47), sample size would roughly quadruple\nAlways conduct a power analysis before running your experiment"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#power-for-factorial-anova",
-    "href": "Lecture_Folder/Week7.html#power-for-factorial-anova",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Power for Factorial ANOVA",
-    "text": "Power for Factorial ANOVA\n\nCodeTip\n\n\n\nlibrary(pwr)\n\n# Power for a 2×3 factorial design\n# (e.g., 2 scaffold materials × 3 growth factor concentrations)\npwr.anova.test(\n  k = 6,           # Total number of cells (2 × 3)\n  f = 0.30,        # Medium-large effect\n  sig.level = 0.05,\n  power = 0.80\n)\n\n# For interaction effects specifically:\n# Interactions are typically harder to detect\n# Use a smaller f value or plan for more samples\npwr.anova.test(\n  k = 6,\n  f = 0.20,        # Small-medium for interaction\n  sig.level = 0.05,\n  power = 0.80\n)\n\n\n\nInteractions typically have smaller effect sizes than main effects. Budget extra samples if detecting interactions is important to your study."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#multifactor-designs-introduction",
-    "href": "Lecture_Folder/Week7.html#multifactor-designs-introduction",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Multifactor Designs Introduction",
-    "text": "Multifactor Designs Introduction"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#types-of-factors",
-    "href": "Lecture_Folder/Week7.html#types-of-factors",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Types of Factors",
-    "text": "Types of Factors"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-femur-length-variation-within-individuals",
-    "href": "Lecture_Folder/Week7.html#draft-femur-length-variation-within-individuals",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Femur Length Variation Within Individuals",
-    "text": "DRAFT: Femur Length Variation Within Individuals"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#factor-levels",
-    "href": "Lecture_Folder/Week7.html#factor-levels",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Factor Levels",
-    "text": "Factor Levels"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#multifactor-anova-model",
-    "href": "Lecture_Folder/Week7.html#multifactor-anova-model",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Multifactor ANOVA Model",
-    "text": "Multifactor ANOVA Model"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-nested-anova-table",
-    "href": "Lecture_Folder/Week7.html#draft-nested-anova-table",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Nested ANOVA Table",
-    "text": "DRAFT: Nested ANOVA Table\n\n\n\n\n\n\n\n\n\n\nSource\nSS\ndf\nMS\nF\n\n\n\n\nAmong groups (A)\n\\(SS_A\\)\n\\(p - 1\\)\n\\(MS_A\\)\n\\(MS_A / MS_{B(A)}\\)\n\n\nAmong subgroups B(A)\n\\(SS_{B(A)}\\)\n\\(p(q - 1)\\)\n\\(MS_{B(A)}\\)\n\\(MS_{B(A)} / MS_{Residual}\\)\n\n\nResidual\n\\(SS_{Residual}\\)\n\\(pq(n - 1)\\)\n\\(MS_{Residual}\\)\n\n\n\nTotal\n\\(SS_{Total}\\)\n\\(pqn - 1\\)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#sum-of-squares-decomposition",
-    "href": "Lecture_Folder/Week7.html#sum-of-squares-decomposition",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Sum of Squares Decomposition",
-    "text": "Sum of Squares Decomposition"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-nested-design-hierarchy",
-    "href": "Lecture_Folder/Week7.html#draft-nested-design-hierarchy",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Nested Design Hierarchy",
-    "text": "DRAFT: Nested Design Hierarchy\n                    Main Factor \"A\" (e.g. Treatment)\n                 ┌──────────────┴──────────────┐\n                A₁ (μ₁)                       Aᵢ (μᵢ)\n         ┌──────┼──────┐              ┌──────┼──────┐\n      B₁₍₁₎  B₂₍₁₎  Bⱼ₍₁₎       B₁₍ᵢ₎  B₂₍ᵢ₎  Bⱼ₍ᵢ₎\n      (μ₁₍₁₎)(μ₂₍₁₎)(μⱼ₍₁₎)     (μ₁₍ᵢ₎)(μ₂₍ᵢ₎)(μⱼ₍ᵢ₎)\n       │                                            │\n    y₁₍₁₍₁₎₎                                   y₁₍ⱼ₍ᵢ₎₎\n    y₂₍₁₍₁₎₎     Sub-replicates               y₂₍ⱼ₍ᵢ₎₎\n    yₖ₍₁₍₁₎₎     for each site                 yₖ₍ⱼ₍ᵢ₎₎\n\\[y_{k(j(i))} = y_{ijk}\\]\nobservation \\(k\\) within Site \\(j\\) within Treatment \\(i\\)\nNested Factor “B” (e.g. Site) — levels of B are unique to each level of A"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#multifactor-anova-table",
-    "href": "Lecture_Folder/Week7.html#multifactor-anova-table",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Multifactor ANOVA Table",
-    "text": "Multifactor ANOVA Table"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-nested-model-equations",
-    "href": "Lecture_Folder/Week7.html#draft-nested-model-equations",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Nested Model Equations",
-    "text": "DRAFT: Nested Model Equations\nOne level of nesting:\n\\[y_{ijk} = \\mu + \\alpha_i + \\beta_{j(i)} + \\varepsilon_{ijk}\\]\nwhere \\(\\alpha_i\\) is the effect of group \\(i\\) and \\(\\beta_{j(i)}\\) is the effect of subgroup \\(j\\) nested within group \\(i\\).\nTwo levels of nesting:\n\\[y_{ijkl} = \\mu + \\alpha_i + \\beta_{j(i)} + \\gamma_{k(ij)} + \\varepsilon_{ijkl}\\]"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#understanding-degrees-of-freedom",
-    "href": "Lecture_Folder/Week7.html#understanding-degrees-of-freedom",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Understanding Degrees of Freedom",
-    "text": "Understanding Degrees of Freedom\n\nDOF in statistical models"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-hypotheses-in-nested-designs",
-    "href": "Lecture_Folder/Week7.html#draft-hypotheses-in-nested-designs",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Hypotheses in Nested Designs",
-    "text": "DRAFT: Hypotheses in Nested Designs\n\nFixed Effects (Main Factor)Random EffectsLaTeX\n\n\n\\[H_0(A): \\mu_1 = \\mu_2 = \\ldots = \\mu_i = \\mu \\quad \\text{(in terms of pop. means)}\\]\n\\[H_0(A): \\alpha_1 = \\alpha_2 = \\ldots = \\alpha_i = 0 \\quad \\text{(in terms of effects on the grand mean)}\\]\n\n\n\\[H_0(A): \\sigma^2_\\alpha = 0\\]\n“No added variance due to all possible levels of A”\n\\[H_0(B): \\sigma^2_\\beta = 0\\]\n“No added variance due to all possible levels of B within all possible levels of A”\n\n\n% Fixed effects\nH_0(A): \\mu_1 = \\mu_2 = \\ldots = \\mu_i = \\mu\nH_0(A): \\alpha_1 = \\alpha_2 = \\ldots = \\alpha_i = 0\n\n% Random effects\nH_0(A): \\sigma^2_\\alpha = 0\nH_0(B): \\sigma^2_\\beta = 0\n\n\n\n\nIntuition behind degrees of freedom"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#calculating-f-ratios",
-    "href": "Lecture_Folder/Week7.html#calculating-f-ratios",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Calculating F-Ratios",
-    "text": "Calculating F-Ratios"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-nested-anova-f-ratio-formulas",
-    "href": "Lecture_Folder/Week7.html#draft-nested-anova-f-ratio-formulas",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Nested ANOVA F-Ratio Formulas",
-    "text": "DRAFT: Nested ANOVA F-Ratio Formulas\n\n\n\n\n\n\n\n\n\n\nSource\nSS formula\ndf\nMS\nF\n\n\n\n\nA\n\\(qn\\sum(\\bar{y}_{i..} - \\bar{y}_{...})^2\\)\n\\(p - 1\\)\n\\(SS_A / (p-1)\\)\n\\(MS_A / MS_{B(A)}\\)\n\n\nB(A)\n\\(n\\sum\\sum(\\bar{y}_{ij.} - \\bar{y}_{i..})^2\\)\n\\(p(q - 1)\\)\n\\(SS_{B(A)} / [p(q-1)]\\)\n\\(MS_{B(A)} / MS_{Res}\\)\n\n\nResidual\n\\(\\sum\\sum\\sum(y_{ijk} - \\bar{y}_{ij.})^2\\)\n\\(pq(n - 1)\\)\n\\(SS_{Res} / [pq(n-1)]\\)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#multifactor-example",
-    "href": "Lecture_Folder/Week7.html#multifactor-example",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Multifactor Example",
-    "text": "Multifactor Example"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-nested-anova-in-r",
-    "href": "Lecture_Folder/Week7.html#draft-nested-anova-in-r",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Nested ANOVA in R",
-    "text": "DRAFT: Nested ANOVA in R\n\n\n\n\n\n\n\nDesign\nR syntax\n\n\n\n\nA fixed, B nested in A\naov(y ~ A + B %in% A) or aov(y ~ A/B)\n\n\nA fixed, B random nested in A\naov(y ~ A + Error(B %in% A))\n\n\nUnbalanced nested design\nUse lmer() from lme4: lmer(y ~ A + (1|A:B))"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#multifactor-anova-results",
-    "href": "Lecture_Folder/Week7.html#multifactor-anova-results",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Multifactor ANOVA Results",
-    "text": "Multifactor ANOVA Results"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#interactions",
-    "href": "Lecture_Folder/Week7.html#interactions",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Interactions",
-    "text": "Interactions\nAn interaction means the effect of one variable on the response depends on the state of another variable."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-interaction-plot-patterns",
-    "href": "Lecture_Folder/Week7.html#draft-interaction-plot-patterns",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Interaction Plot Patterns",
-    "text": "DRAFT: Interaction Plot Patterns"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#visualizing-interactions",
-    "href": "Lecture_Folder/Week7.html#visualizing-interactions",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Visualizing Interactions",
-    "text": "Visualizing Interactions"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#interaction-interpretation",
-    "href": "Lecture_Folder/Week7.html#interaction-interpretation",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Interaction Interpretation",
-    "text": "Interaction Interpretation"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-pesticide-predator-interaction",
-    "href": "Lecture_Folder/Week7.html#draft-pesticide-predator-interaction",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Pesticide × Predator Interaction",
-    "text": "DRAFT: Pesticide × Predator Interaction"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#factorial-vs.-nested-designs",
-    "href": "Lecture_Folder/Week7.html#factorial-vs.-nested-designs",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Factorial vs. Nested Designs",
-    "text": "Factorial vs. Nested Designs\nFactorial designs:\n\nAll pairwise combinations of factor levels are present\nCan assess interactions between factors\nExample: Drug dose × Exercise regimen\n\nNested designs:\n\nHierarchical structure — levels of one factor occur within levels of another\nNo interaction terms (levels are unique to each group)\nOften contain random effects\nExample: Cells within wells within plates"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#two-factor-factorial-design",
-    "href": "Lecture_Folder/Week7.html#two-factor-factorial-design",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Two-Factor Factorial Design",
-    "text": "Two-Factor Factorial Design"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-two-factor-factorial-model",
-    "href": "Lecture_Folder/Week7.html#draft-two-factor-factorial-model",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Two-Factor Factorial Model",
-    "text": "DRAFT: Two-Factor Factorial Model\n\nEquationLaTeX\n\n\n\\[\\huge y_{ijk} = \\mu + \\underbrace{\\alpha_i + \\beta_j}_{\\text{Main Effects}} + \\underbrace{(\\alpha\\beta)_{ij}}_{\\text{Two-way interaction}} + \\varepsilon_{ijk}\\]\nwhere:\n\n\\(\\mu\\) = grand mean\n\\(\\alpha_i\\) = effect of level \\(i\\) of factor A\n\\(\\beta_j\\) = effect of level \\(j\\) of factor B\n\\((\\alpha\\beta)_{ij}\\) = interaction effect of A level \\(i\\) and B level \\(j\\)\n\\(\\varepsilon_{ijk}\\) = random error for replicate \\(k\\)\n\n\n\ny_{ijk} = \\mu + \\alpha_i + \\beta_j + (\\alpha\\beta)_{ij} + \\varepsilon_{ijk}"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#three-factor-factorial-design",
-    "href": "Lecture_Folder/Week7.html#three-factor-factorial-design",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Three-Factor Factorial Design",
-    "text": "Three-Factor Factorial Design\n\nThree-way factorial layout"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-three-factor-factorial-model",
-    "href": "Lecture_Folder/Week7.html#draft-three-factor-factorial-model",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Three-Factor Factorial Model",
-    "text": "DRAFT: Three-Factor Factorial Model\n\nEquationComponentsLaTeX\n\n\n\\[y_{ijkl} = \\mu + \\underbrace{\\alpha_i + \\beta_j + \\gamma_k}_{\\text{Main Effects}} + \\underbrace{(\\alpha\\beta)_{ij} + (\\alpha\\gamma)_{ik} + (\\beta\\gamma)_{jk}}_{\\text{Two-way interactions}} + \\underbrace{(\\alpha\\beta\\gamma)_{ijk}}_{\\text{Three-way interaction}} + \\varepsilon_{ijkl}\\]\n\n\n\n\n\n\n\n\n\nTerm\nMeaning\n\n\n\n\n\\(\\alpha_i, \\beta_j, \\gamma_k\\)\nMain effects of factors A, B, C\n\n\n\\((\\alpha\\beta)_{ij}, (\\alpha\\gamma)_{ik}, (\\beta\\gamma)_{jk}\\)\nTwo-way interaction effects\n\n\n\\((\\alpha\\beta\\gamma)_{ijk}\\)\nThree-way interaction effect\n\n\n\\(\\varepsilon_{ijkl}\\)\nRandom error for replicate \\(l\\)\n\n\n\n\n\ny_{ijkl} = \\mu + \\alpha_i + \\beta_j + \\gamma_k + (\\alpha\\beta)_{ij} + (\\alpha\\gamma)_{ik} + (\\beta\\gamma)_{jk} + (\\alpha\\beta\\gamma)_{ijk} + \\varepsilon_{ijkl}"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#higher-order-interactions",
-    "href": "Lecture_Folder/Week7.html#higher-order-interactions",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Higher-Order Interactions",
-    "text": "Higher-Order Interactions\n\nInterpreting three-way interactions"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-factorial-design-sizes",
-    "href": "Lecture_Folder/Week7.html#draft-factorial-design-sizes",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Factorial Design Sizes",
-    "text": "DRAFT: Factorial Design Sizes\nFor 2 levels per factor:\n\n\n\nFactors\nDesign\nCombinations\nObservations (N = 6 replicates)\n\n\n\n\n2\n2×2\n4\n24\n\n\n3\n2×2×2\n8\n48\n\n\n4\n2×2×2×2\n16\n96\n\n\n\n\nFormulaLaTeX\n\n\n\\[\\text{Total \\# of observations} = N \\cdot 2^p\\]\nwhere \\(N\\) = replicates per cell, \\(p\\) = number of factors\n\n\n\\text{Total \\# of observations} = N \\cdot 2^p"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#complete-factorial-model",
-    "href": "Lecture_Folder/Week7.html#complete-factorial-model",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Complete Factorial Model",
-    "text": "Complete Factorial Model\n\nFull model with all interaction terms"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-two-factor-cell-and-marginal-means-table-9.7",
-    "href": "Lecture_Folder/Week7.html#draft-two-factor-cell-and-marginal-means-table-9.7",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Two-Factor Cell and Marginal Means (Table 9.7)",
-    "text": "DRAFT: Two-Factor Cell and Marginal Means (Table 9.7)\nGeneral notation — population means \\(\\mu_{ij}\\) for a two-factor design:\n\n\n\n\n\n\n\n\n\n\n\n\n\\(B_1\\)\n\\(B_2\\)\n\\(\\ldots\\)\n\\(B_j\\)\nMarginal means A\n\n\n\n\n\\(A_1\\)\n\\(\\mu_{11}\\)\n\\(\\mu_{12}\\)\n\\(\\ldots\\)\n\\(\\mu_{1j}\\)\n\\(\\mu_{i=1}\\)\n\n\n\\(A_2\\)\n\\(\\mu_{21}\\)\n\\(\\mu_{22}\\)\n\\(\\ldots\\)\n\\(\\mu_{2j}\\)\n\\(\\mu_{i=2}\\)\n\n\n\\(A_i\\)\n\\(\\mu_{i1}\\)\n\\(\\mu_{i2}\\)\n\\(\\ldots\\)\n\\(\\mu_{ij}\\)\n\\(\\mu_{i}\\)\n\n\nMarginal B\n\\(\\mu_{j=1}\\)\n\\(\\mu_{j=2}\\)\n\\(\\ldots\\)\n\\(\\mu_{j}\\)\nGrand mean \\(\\mu\\)\n\n\n\nExample: Limpet density (A) × Season (B) — 4×2 Factorial (Quinn 1988)\n\n\n\n\n\n\n\n\n\nFactor A (Density)\n\\(B_1\\) Spring\n\\(B_2\\) Summer\nMarginal A\n\n\n\n\n\\(A_1\\) (8)\n\\(\\bar{y}_{11}\\) = 2.417\n\\(\\bar{y}_{12}\\) = 1.833\n\\(\\bar{y}_{i=1}\\) = 2.125\n\n\n\\(A_2\\) (15)\n\\(\\bar{y}_{21}\\) = 2.177\n\\(\\bar{y}_{22}\\) = 1.178\n\\(\\bar{y}_{i=2}\\) = 1.677\n\n\n\\(A_3\\) (30)\n\\(\\bar{y}_{31}\\) = 1.565\n\\(\\bar{y}_{32}\\) = 0.811\n\\(\\bar{y}_{i=3}\\) = 1.188\n\n\n\\(A_4\\) (45)\n\\(\\bar{y}_{41}\\) = 1.200\n\\(\\bar{y}_{42}\\) = 0.593\n\\(\\bar{y}_{i=4}\\) = 0.896\n\n\nMarginal B\n\\(\\bar{y}_{j=1}\\) = 1.840\n\\(\\bar{y}_{j=2}\\) = 1.104\n\\(\\bar{y}\\) = 1.472"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#factorial-anova-fixed-effects",
-    "href": "Lecture_Folder/Week7.html#factorial-anova-fixed-effects",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Factorial ANOVA — Fixed Effects",
-    "text": "Factorial ANOVA — Fixed Effects"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-factorial-anova-null-hypotheses-fixed-effects",
-    "href": "Lecture_Folder/Week7.html#draft-factorial-anova-null-hypotheses-fixed-effects",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Factorial ANOVA Null Hypotheses — Fixed Effects",
-    "text": "DRAFT: Factorial ANOVA Null Hypotheses — Fixed Effects\n\nEquationsLaTeX\n\n\nFactor A:\n\\[H_0(A): \\mu_1 = \\mu_2 = \\cdots = \\mu_i = \\mu\\]\n\\[H_0(A): \\alpha_1 = \\alpha_2 = \\cdots = \\alpha_i = 0\\]\nFactor B:\n\\[H_0(B): \\mu_1 = \\mu_2 = \\cdots = \\mu_j = \\mu\\]\nA:B Interaction:\n\\[H_0(AB): \\mu_{ij} = \\mu_i + \\mu_j - \\mu\\]\n(i.e., the cell mean equals what we’d expect from the marginal means alone — no interaction)\n\n\nH_0(A): \\mu_1 = \\mu_2 = \\cdots = \\mu_i = \\mu\nH_0(A): \\alpha_1 = \\alpha_2 = \\cdots = \\alpha_i = 0\nH_0(B): \\mu_1 = \\mu_2 = \\cdots = \\mu_j = \\mu\nH_0(AB): \\mu_{ij} = \\mu_i + \\mu_j - \\mu"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#factorial-anova-random-effects",
-    "href": "Lecture_Folder/Week7.html#factorial-anova-random-effects",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Factorial ANOVA — Random Effects",
-    "text": "Factorial ANOVA — Random Effects"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-factorial-anova-null-hypotheses-random-effects",
-    "href": "Lecture_Folder/Week7.html#draft-factorial-anova-null-hypotheses-random-effects",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Factorial ANOVA Null Hypotheses — Random Effects",
-    "text": "DRAFT: Factorial ANOVA Null Hypotheses — Random Effects\n\nEquationsLaTeX\n\n\nFactor A:\n\\[H_0(A): \\sigma^2_\\alpha = 0 \\quad \\text{(population variance equals zero)}\\]\nThere is no added variance due to all possible levels of A.\nFactor B:\n\\[H_0(B): \\sigma^2_\\beta = 0 \\quad \\text{(population variance equals zero)}\\]\nThere is no added variance due to all possible levels of B.\nA:B Interaction:\n\\[H_0(AB): \\sigma^2_{\\alpha\\beta} = 0 \\quad \\text{(population variance equals zero)}\\]\n\n\nH_0(A): \\sigma^2_\\alpha = 0\nH_0(B): \\sigma^2_\\beta = 0\nH_0(AB): \\sigma^2_{\\alpha\\beta} = 0"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#mean-squares-for-factorial-model",
-    "href": "Lecture_Folder/Week7.html#mean-squares-for-factorial-model",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Mean Squares for Factorial Model",
-    "text": "Mean Squares for Factorial Model"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-anova-table-for-two-factor-crossed-model-table-9.8",
-    "href": "Lecture_Folder/Week7.html#draft-anova-table-for-two-factor-crossed-model-table-9.8",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: ANOVA Table for Two-Factor Crossed Model (Table 9.8)",
-    "text": "DRAFT: ANOVA Table for Two-Factor Crossed Model (Table 9.8)\n\n\n\n\n\n\n\n\n\nSource\nSS\ndf\nMS\n\n\n\n\nA\n\\(nq \\displaystyle\\sum_{i=1}^{p}(\\bar{y}_{i} - \\bar{y})^2\\)\n\\(p - 1\\)\n\\(\\dfrac{SS_A}{p - 1}\\)\n\n\nB\n\\(np \\displaystyle\\sum_{j=1}^{q}(\\bar{y}_{j} - \\bar{y})^2\\)\n\\(q - 1\\)\n\\(\\dfrac{SS_B}{q - 1}\\)\n\n\nAB\n\\(n \\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{q}(\\bar{y}_{ij} - \\bar{y}_{i} - \\bar{y}_{j} + \\bar{y})^2\\)\n\\((p-1)(q-1)\\)\n\\(\\dfrac{SS_{AB}}{(p-1)(q-1)}\\)\n\n\nResidual\n\\(\\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{q}\\sum_{k=1}^{n}(y_{ijk} - \\bar{y}_{ij})^2\\)\n\\(pq(n-1)\\)\n\\(\\dfrac{SS_{Residual}}{pq(n-1)}\\)\n\n\nTotal\n\\(\\displaystyle\\sum_{i=1}^{p}\\sum_{j=1}^{q}\\sum_{k=1}^{n}(y_{ijk} - \\bar{y})^2\\)\n\\(pqn - 1\\)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#f-ratios-for-factorial-model",
-    "href": "Lecture_Folder/Week7.html#f-ratios-for-factorial-model",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "F-Ratios for Factorial Model",
-    "text": "F-Ratios for Factorial Model"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-f-ratios-for-fixed-random-and-mixed-models",
-    "href": "Lecture_Folder/Week7.html#draft-f-ratios-for-fixed-random-and-mixed-models",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: F-Ratios for Fixed, Random, and Mixed Models",
-    "text": "DRAFT: F-Ratios for Fixed, Random, and Mixed Models\n\n\n\n\n\n\n\n\n\n\nSource\nA and B fixed\nA and B random\nA fixed, B random (Restricted)\nA fixed, B random (Unrestricted)\n\n\n\n\nA\n\\(\\dfrac{MS_A}{MS_{Residual}}\\)\n\\(\\dfrac{MS_A}{MS_{AB}}\\)\n\\(\\dfrac{MS_A}{MS_{AB}}\\)\n\\(\\dfrac{MS_A}{MS_{AB}}\\)\n\n\nB\n\\(\\dfrac{MS_B}{MS_{Residual}}\\)\n\\(\\dfrac{MS_B}{MS_{AB}}\\)\n\\(\\dfrac{MS_B}{MS_{Residual}}\\)\n\\(\\dfrac{MS_B}{MS_{AB}}\\)\n\n\nAB\n\\(\\dfrac{MS_{AB}}{MS_{Residual}}\\)\n\\(\\dfrac{MS_{AB}}{MS_{Residual}}\\)\n\\(\\dfrac{MS_{AB}}{MS_{Residual}}\\)\n\\(\\dfrac{MS_{AB}}{MS_{Residual}}\\)\n\n\n\n\n\n\n\n\n\nNote\n\n\nThe choice of denominator for the F-ratio depends on whether each factor is fixed or random. When a factor is random, its interaction with the other factor must be used as the error term for testing the other factor’s main effect."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#interpretation-of-results",
-    "href": "Lecture_Folder/Week7.html#interpretation-of-results",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Interpretation of Results",
-    "text": "Interpretation of Results"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#draft-interpreting-significant-terms",
-    "href": "Lecture_Folder/Week7.html#draft-interpreting-significant-terms",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "DRAFT: Interpreting Significant Terms",
-    "text": "DRAFT: Interpreting Significant Terms\n\nModelWhen All Terms Are SignificantLaTeX\n\n\n\\[y_{ijk} = \\mu + \\alpha_i + \\beta_j + (\\alpha\\beta)_{ij} + \\varepsilon_{ijk}\\]\n\nFactor 1 is temperature\nFactor 2 is fertilizer\n\n\n\nIf all terms in the model are significant — now what?\n\nStart with the interaction — if \\((\\alpha\\beta)_{ij}\\) is significant, the effect of one factor depends on the level of the other\nMain effects are hard to interpret alone when interaction is present\nExamine simple effects — the effect of one factor at each level of the other\nUse interaction plots to visualize patterns\nPerform post-hoc comparisons within each level of the other factor\n\n\n\ny_{ijk} = \\mu + \\alpha_i + \\beta_j + (\\alpha\\beta)_{ij} + \\varepsilon_{ijk}"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#factorial-anova-in-r",
-    "href": "Lecture_Folder/Week7.html#factorial-anova-in-r",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Factorial ANOVA in R",
-    "text": "Factorial ANOVA in R\n\nCodeInterpretation\n\n\n\nrna_data &lt;- read.table(\"data/Stickle_RNAseq.tsv\", header = TRUE, sep = \"\\t\")\n\ngene       &lt;- rna_data$Gene100\nmicrobiota &lt;- rna_data$Microbiota\ngenotype   &lt;- rna_data$Genotype\n\n# Multiplicative model (with interaction)\nmodel_interaction &lt;- aov(gene ~ microbiota * genotype)\n\n# Additive model (no interaction)\nmodel_additive &lt;- aov(gene ~ microbiota + genotype)\n\nsummary(model_interaction)\nsummary(model_additive)\n\n\n\n\nIf the interaction term is significant, the effect of one factor depends on the level of the other\nIf the interaction is not significant, interpret the main effects directly\nAlways check the interaction first before interpreting main effects"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#fixed-vs.-random-effects",
-    "href": "Lecture_Folder/Week7.html#fixed-vs.-random-effects",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Fixed vs. Random Effects",
-    "text": "Fixed vs. Random Effects\nFixed effects:\n\nGroups are predetermined, of direct interest, repeatable\nExamples: medical treatments, predetermined doses, habitat types\nWe want to estimate specific group means\n\nRandom effects:\n\nGroups randomly sampled from a larger population\nExamples: families, subjects measured repeatedly, blocks, batches\nVariance among groups is of interest, not specific group means"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#when-to-use-random-effects",
-    "href": "Lecture_Folder/Week7.html#when-to-use-random-effects",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "When to Use Random Effects",
-    "text": "When to Use Random Effects\n\nNested sampling designs (individuals within populations)\nSubplots within plots\nReplicates grouped spatially or temporally (blocks, batches)\nRelated individuals (families, litters)\nRepeated measures on the same subjects"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#random-effects-hypothesis",
-    "href": "Lecture_Folder/Week7.html#random-effects-hypothesis",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Random Effects Hypothesis",
-    "text": "Random Effects Hypothesis\n\nEquationLaTeX\n\n\n\\[H_0: \\sigma^2_\\alpha = 0\\] \\[H_A: \\sigma^2_\\alpha \\neq 0\\]\n\n\nH_0: \\sigma^2_\\alpha = 0\nH_A: \\sigma^2_\\alpha \\neq 0\n\n\n\nWe are testing whether the variance component for the random effect is zero — i.e., whether there is meaningful variation among the randomly sampled groups."
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#random-effects-in-r",
-    "href": "Lecture_Folder/Week7.html#random-effects-in-r",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Random Effects in R",
-    "text": "Random Effects in R\n\nCodeKey Points\n\n\n\nlibrary(nlme)\n\n# Random effect model\nmicro_model_random_effect &lt;- lme(\n  fixed  = Gene202 ~ 1,\n  random = ~1 | Geno.Micro,\n  data   = stickle_micro\n)\n\nsummary(micro_model_random_effect)\n\n\n\n\nIn R, lm() assumes all effects are fixed\nFor random effects, use lme() from the nlme package or lmer() from lme4\nThe ~1 | group syntax specifies a random intercept for each level of group"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#random-effects-bioengineering-example",
-    "href": "Lecture_Folder/Week7.html#random-effects-bioengineering-example",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Random Effects: Bioengineering Example",
-    "text": "Random Effects: Bioengineering Example\nMeasuring cell viability across multiple wells within multiple plates within multiple experiments:\n\nCodeInterpreting Variance Components\n\n\n\n# Simulated hierarchical data: cells → wells → plates → experiments\nset.seed(42)\nn_exp &lt;- 3; n_plate &lt;- 4; n_well &lt;- 6\nexperiment &lt;- rep(1:n_exp, each = n_plate * n_well)\nplate      &lt;- rep(rep(1:n_plate, each = n_well), n_exp)\nwell       &lt;- rep(1:n_well, n_exp * n_plate)\n\n# Generate data with variance at each level\nexp_effect   &lt;- rnorm(n_exp, 0, 5)[experiment]\nplate_effect &lt;- rnorm(n_exp * n_plate, 0, 3)[interaction(experiment, plate)]\nviability    &lt;- 75 + exp_effect + plate_effect + rnorm(n_exp * n_plate * n_well, 0, 2)\n\ncell_data &lt;- data.frame(\n  viability, experiment = factor(experiment),\n  plate = factor(plate), well = factor(well)\n)\n\n# Fit nested random effects model\nlibrary(nlme)\nnested_model &lt;- lme(viability ~ 1,\n                    random = ~1 | experiment/plate,\n                    data = cell_data)\nsummary(nested_model)\n\n# Extract variance components\nVarCorr(nested_model)\n\n\n\nThe output from VarCorr() shows:\n\nExperiment variance: variation between experimental runs\nPlate-within-experiment variance: variation between plates within a run\nResidual variance: well-to-well variation within plates\nICC (Intraclass Correlation) = group variance / total variance"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#nested-design",
-    "href": "Lecture_Folder/Week7.html#nested-design",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Nested Design",
-    "text": "Nested Design\n\nFactors are hierarchical within one another\nSources of variance are hierarchical\nNo interaction terms (in completely nested designs)\n\nExample: Students within classrooms within schools\n\nCodeInterpretation\n\n\n\n# Nested ANOVA using aov\nmodel_nested &lt;- aov(y ~ A + B %in% A, data = mydata)\n\n# Using lme for random nested effects\nmodel_nested_random &lt;- lme(y ~ A, random = ~1 | A/B, data = mydata)\n\nsummary(model_nested_random)\n\n\n\n\nThe %in% notation means “B is nested within A”\nThe ~1 | A/B random effects specification means “random intercepts for B nested within A”\nNested designs arise when the levels of one factor are unique to each level of another (e.g., specific cell lines unique to each lab)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#what-are-repeated-measures",
-    "href": "Lecture_Folder/Week7.html#what-are-repeated-measures",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "What are Repeated Measures?",
-    "text": "What are Repeated Measures?\nMeasurements taken on the same subjects at multiple:\n\nTime points (longitudinal studies)\nConditions (within-subjects design)\nLocations (spatial sampling)\n\nAdvantages: Controls for individual differences, requires fewer subjects, more statistical power\nChallenge: Observations are not independent — standard ANOVA assumes independence"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#repeated-measures-anova",
-    "href": "Lecture_Folder/Week7.html#repeated-measures-anova",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Repeated Measures ANOVA",
-    "text": "Repeated Measures ANOVA\nSphericity Assumption:\n\nVariances of differences between all pairs of conditions must be equal\nOften violated in practice\n\nMauchly’s Test: Tests the sphericity assumption\n\np &lt; 0.05 → sphericity is violated → apply correction (Greenhouse-Geisser or Huynh-Feldt)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#repeated-measures-in-r",
-    "href": "Lecture_Folder/Week7.html#repeated-measures-in-r",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Repeated Measures in R",
-    "text": "Repeated Measures in R\n\nOutputCode\n\n\n\n\n\nError: subject\n          Df Sum Sq Mean Sq F value Pr(&gt;F)\nResiduals  9   1572   174.7               \n\nError: subject:time\n          Df Sum Sq Mean Sq F value Pr(&gt;F)\ntime       2   41.5   20.75   0.429  0.657\nResiduals 18  869.9   48.33               \n\n\n\n\n\n# Create repeated measures data\nset.seed(42)\nsubject &lt;- factor(rep(1:10, each = 3))\ntime &lt;- factor(rep(c(\"Pre\", \"Mid\", \"Post\"), 10))\nscore &lt;- c(\n  rnorm(10, 50, 5),   # Pre\n  rnorm(10, 55, 5),   # Mid\n  rnorm(10, 62, 5)    # Post\n) + rep(rnorm(10, 0, 8), each = 3)  # Subject random effect\n\nrm_data &lt;- data.frame(subject, time, score)\n\n# Repeated measures ANOVA\nrm_aov &lt;- aov(score ~ time + Error(subject/time), data = rm_data)\nsummary(rm_aov)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#mixed-models-for-repeated-measures",
-    "href": "Lecture_Folder/Week7.html#mixed-models-for-repeated-measures",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Mixed Models for Repeated Measures",
-    "text": "Mixed Models for Repeated Measures\nThe modern approach uses linear mixed models, which are more flexible and handle missing data gracefully:\n\nOutputCode\n\n\n\n\nLinear mixed-effects model fit by REML\n  Data: rm_data \n       AIC      BIC    logLik\n  209.8032 216.2823 -99.90158\n\nRandom effects:\n Formula: ~1 | subject\n        (Intercept) Residual\nStdDev:    6.490461 6.951932\n\nFixed effects:  score ~ time \n               Value Std.Error DF   t-value p-value\n(Intercept) 53.52105  3.007581 18 17.795381  0.0000\ntimePost     0.75925  3.108999 18  0.244211  0.8098\ntimePre     -2.02729  3.108999 18 -0.652073  0.5226\n Correlation: \n         (Intr) timPst\ntimePost -0.517       \ntimePre  -0.517  0.500\n\nStandardized Within-Group Residuals:\n       Min         Q1        Med         Q3        Max \n-2.1518214 -0.4729270  0.1209759  0.6958689  1.0357408 \n\nNumber of Observations: 30\nNumber of Groups: 10 \n\n\n\n\n\nlibrary(nlme)\n\n# Mixed model with random intercept for subject\nrm_mixed &lt;- lme(score ~ time, random = ~1 | subject, data = rm_data)\nsummary(rm_mixed)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#visualizing-repeated-measures",
-    "href": "Lecture_Folder/Week7.html#visualizing-repeated-measures",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Visualizing Repeated Measures",
-    "text": "Visualizing Repeated Measures\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npar(mfrow = c(1, 2))\n\n# Spaghetti plot (individual trajectories)\ninteraction.plot(rm_data$time, rm_data$subject, rm_data$score,\n                 xlab = \"Time\", ylab = \"Score\", legend = FALSE,\n                 main = \"Individual Trajectories\", col = \"gray\")\n\n# Group means with error bars\nmeans &lt;- tapply(rm_data$score, rm_data$time, mean)\nsds &lt;- tapply(rm_data$score, rm_data$time, sd)\nn &lt;- 10\nses &lt;- sds / sqrt(n)\n\nbarplot(means, ylim = c(0, max(means) + max(ses) * 2),\n        main = \"Group Means ± SE\", ylab = \"Score\")\narrows(x0 = c(0.7, 1.9, 3.1), y0 = means - ses,\n       y1 = means + ses, angle = 90, code = 3, length = 0.1)"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#repeated-measures-ggplot-visualization",
-    "href": "Lecture_Folder/Week7.html#repeated-measures-ggplot-visualization",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "Repeated Measures: ggplot Visualization",
-    "text": "Repeated Measures: ggplot Visualization\n\nOutputCode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(ggplot2)\n\nrm_summary &lt;- rm_data %&gt;%\n  group_by(time) %&gt;%\n  summarize(mean_score = mean(score), se = sd(score)/sqrt(n()))\n\nggplot(rm_data, aes(x = time, y = score, group = subject)) +\n  geom_line(alpha = 0.3, color = \"gray50\") +\n  geom_point(alpha = 0.3) +\n  geom_line(data = rm_summary,\n            aes(x = time, y = mean_score, group = 1),\n            color = \"steelblue\", linewidth = 1.5) +\n  geom_point(data = rm_summary,\n             aes(x = time, y = mean_score, group = 1),\n             color = \"steelblue\", size = 3) +\n  geom_errorbar(data = rm_summary,\n                aes(x = time, y = mean_score,\n                    ymin = mean_score - se,\n                    ymax = mean_score + se, group = 1),\n                width = 0.1, color = \"steelblue\") +\n  labs(title = \"Spaghetti Plot with Group Mean ± SE\",\n       x = \"Time Point\", y = \"Score\") +\n  theme_minimal()"
-  },
-  {
-    "objectID": "Lecture_Folder/Week7.html#r-exercise-factorial-anova",
-    "href": "Lecture_Folder/Week7.html#r-exercise-factorial-anova",
-    "title": "Statistics for Bioengineering - Week 7",
-    "section": "R Exercise: Factorial ANOVA",
-    "text": "R Exercise: Factorial ANOVA\n\n\n\n\n\n\nExercise\n\n\nUsing the ToothGrowth dataset (tooth growth in guinea pigs):\n\nExamine the structure: supp (supplement type) × dose (dose level)\nCreate an interaction plot\nPerform two-way ANOVA\nTest for interaction effect\nIf significant interaction, perform simple effects analysis\n\n\n# Starter code\ndata(ToothGrowth)\nToothGrowth$dose &lt;- factor(ToothGrowth$dose)\n\n# Interaction plot\ninteraction.plot(ToothGrowth$dose, ToothGrowth$supp, ToothGrowth$len)\n\n# Two-way ANOVA\ntooth_aov &lt;- aov(len ~ supp * dose, data = ToothGrowth)\n\n# Your analysis here..."
+    "section": "Worked Example: Backward Elimination on Scaffold Data",
+    "text": "Worked Example: Backward Elimination on Scaffold Data\n\nOutputCodeInterpretation\n\n\n\n\nStart:  AIC=252.19\ntissue_growth ~ porosity * stiffness * seeding_dens\n\n                                  Df Sum of Sq    RSS    AIC\n- porosity:stiffness:seeding_dens  1    10.687 3084.8 250.39\n&lt;none&gt;                                         3074.1 252.19\n\nStep:  AIC=250.39\ntissue_growth ~ porosity + stiffness + seeding_dens + porosity:stiffness + \n    porosity:seeding_dens + stiffness:seeding_dens\n\n                         Df Sum of Sq    RSS    AIC\n- porosity:seeding_dens   1    19.903 3104.7 248.78\n- porosity:stiffness      1    34.411 3119.2 249.06\n- stiffness:seeding_dens  1    90.684 3175.5 250.13\n&lt;none&gt;                                3084.8 250.39\n\nStep:  AIC=248.78\ntissue_growth ~ porosity + stiffness + seeding_dens + porosity:stiffness + \n    stiffness:seeding_dens\n\n                         Df Sum of Sq    RSS    AIC\n- porosity:stiffness      1    29.524 3134.3 247.35\n- stiffness:seeding_dens  1    88.962 3193.7 248.47\n&lt;none&gt;                                3104.7 248.78\n\nStep:  AIC=247.35\ntissue_growth ~ porosity + stiffness + seeding_dens + stiffness:seeding_dens\n\n                         Df Sum of Sq     RSS    AIC\n&lt;none&gt;                                 3134.3 247.35\n- stiffness:seeding_dens  1     108.5  3242.7 247.39\n- porosity                1   10534.8 13669.0 333.71\n\n\n\n\n\n# Start with the full model (all main effects + interactions)\nfull_model &lt;- lm(tissue_growth ~ porosity * stiffness * seeding_dens,\n                  data = scaffold_data)\n\n# Backward elimination: remove terms one at a time\nbackward_model &lt;- step(full_model, direction = \"backward\", trace = 1)\n\n# Examine the final model\nsummary(backward_model)\n\n# Compare full vs selected model\nanova(backward_model, full_model)\nAIC(full_model, backward_model)\n\n\n\n\nBackward elimination starts with all 7 terms (3 main + 3 two-way + 1 three-way) and removes the least important term at each step\nAt each step, step() drops the term whose removal causes the smallest increase in AIC — if no removal improves AIC, the algorithm stops\nThe trace output shows the AIC at each step, so you can see how the model simplifies\nThe final model should converge on porosity * stiffness — confirming what we found in the manual comparison\nAlways inspect the final model’s summary() and diagnostics before accepting the result"
   },
   {
     "objectID": "Lecture_Folder/Week2.html#week-2-topics",
@@ -5905,7 +5681,7 @@
     "href": "Lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "Quarto Templates for Class Notes\nQuarto_Template\nQuarto_Template_in_Text\n\n\nDatasets for in Class Exercises\nStickleback_RNAseq_Data_Set\nKnee_Injury_Data_Set\nGrip_Strength_Data_Set\nCell_Culture_Data\nZebrafish_Development\n\n\nLectures\nLecture_1\nLecture_2\nLecture_3\nLecture_4\nLecture_5\nLecture_6"
+    "text": "Quarto Templates for Class Notes\nQuarto_Template\nQuarto_Template_in_Text\n\n\nDatasets for in Class Exercises\nStickleback_RNAseq_Data_Set\nKnee_Injury_Data_Set\nGrip_Strength_Data_Set\nCell_Culture_Data\nZebrafish_Development\nHydrogel Drug Release\nNanofiber tensile strength\nCell Proliferation Assay\nImplant Degredataion\n\n\nLectures\nLecture_1\nLecture_2\nLecture_3\nLecture_4\nLecture_5\nLecture_6\nLecture_7"
   },
   {
     "objectID": "Syllabus.html",

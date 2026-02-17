@@ -2241,7 +2241,7 @@ library(GGally)
 ggpairs(env_data,
         upper = list(continuous = wrap("cor", size = 5)),
         lower = list(continuous = wrap("points", alpha = 0.5, size = 1.5)),
-        diag = list(continuous = wrap("boxDensity"))) +
+        diag = list(continuous = wrap("densityDiag", alpha = 0.4))) +
   labs(title = "Scatterplot Matrix for Collinearity Assessment") +
   theme_minimal(base_size = 12)
 ```
