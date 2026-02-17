@@ -281,11 +281,11 @@ The covariate has no linear relationship with the response.
 
 ## DRAFT: ANCOVA F-Ratio Table {.smaller}
 
-| Source | df | MS | F-ratio |
-|:---|:---|:---|:---|
-| Factor A | $p - 1$ | $MS_A$ | $MS_A / MS_{Residual}$ |
-| Covariate | 1 | $MS_{Covariate}$ | $MS_{Cov} / MS_{Residual}$ |
-| Residual | $N - p - 1$ | $MS_{Residual}$ | |
+| Source    | df          | MS               | F-ratio                    |
+|:----------|:------------|:-----------------|:---------------------------|
+| Factor A  | $p - 1$     | $MS_A$           | $MS_A / MS_{Residual}$     |
+| Covariate | 1           | $MS_{Covariate}$ | $MS_{Cov} / MS_{Residual}$ |
+| Residual  | $N - p - 1$ | $MS_{Residual}$  |                            |
 
 ::: callout-warning
 ## Collinearity in ANCOVA
@@ -1069,14 +1069,14 @@ $$C_p = \frac{SS_{\text{error}}}{\hat{\sigma}^2} - n + 2p$$
 where:
 
 | Symbol | Meaning |
-|:-------|:--------|
+|:---|:---|
 | $SS_{\text{error}}$ | Error sum of squares for the model with $p$ predictors (incl. intercept) |
 | $\hat{\sigma}^2$ | Error mean square of full model (e.g., all predictors) |
 | $n$ | Sample size |
 | $p$ | Number of predictors (including intercept) |
 
-- $C_p$ estimates **mean square prediction error** (related to AIC)
-- $2p$: a penalty for including too many predictors — a feature shared with all other model selection criteria
+-   $C_p$ estimates **mean square prediction error** (related to AIC)
+-   $2p$: a penalty for including too many predictors — a feature shared with all other model selection criteria
 
 ### LaTeX
 
@@ -1211,15 +1211,15 @@ $$\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}$$
 
 ## DRAFT: Statistical Power and Type II Error {.smaller}
 
-|                         | **Reject $H_0$**                             | **Retain $H_0$**                              |
-|:------------------------|:----------------------------------------------|:-----------------------------------------------|
-| **Effect exists**       | Correct decision — Effect detected (Power = $1-\beta$) | **Type II error** — Effect not detected ($\beta$) |
-| **No effect**           | **Type I error** — Effect detected; none exists ($\alpha$) | Correct decision — No effect detected          |
+|   | **Reject** $H_0$ | **Retain** $H_0$ |
+|:---|:---|:---|
+| **Effect exists** | Correct decision — Effect detected (Power = $1-\beta$) | **Type II error** — Effect not detected ($\beta$) |
+| **No effect** | **Type I error** — Effect detected; none exists ($\alpha$) | Correct decision — No effect detected |
 
 ::: callout-note
-- **Power** = probability of correctly rejecting $H_0$ when the effect is real
-- We want Power $\geq 0.80$ (i.e., $\beta \leq 0.20$)
-- Increasing sample size, effect size, or $\alpha$ increases power
+-   **Power** = probability of correctly rejecting $H_0$ when the effect is real
+-   We want Power $\geq 0.80$ (i.e., $\beta \leq 0.20$)
+-   Increasing sample size, effect size, or $\alpha$ increases power
 :::
 
 ## Key Components of Power {.smaller}
@@ -1609,7 +1609,6 @@ points(1:n_individuals, m2, pch = 16, cex = 1.2)
 segments(1:n_individuals, m1, 1:n_individuals, m2, lwd = 1.5)
 ```
 
-
 ## Factor Levels {.smaller}
 
 ![](images/week07_03_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
@@ -1624,8 +1623,8 @@ segments(1:n_individuals, m1, 1:n_individuals, m2, lwd = 1.5)
 |:---|:---|:---|:---|:---|
 | Among groups (A) | $SS_A$ | $p - 1$ | $MS_A$ | $MS_A / MS_{B(A)}$ |
 | Among subgroups B(A) | $SS_{B(A)}$ | $p(q - 1)$ | $MS_{B(A)}$ | $MS_{B(A)} / MS_{Residual}$ |
-| Residual | $SS_{Residual}$ | $pq(n - 1)$ | $MS_{Residual}$ | |
-| **Total** | $SS_{Total}$ | $pqn - 1$ | | |
+| Residual | $SS_{Residual}$ | $pq(n - 1)$ | $MS_{Residual}$ |  |
+| **Total** | $SS_{Total}$ | $pqn - 1$ |  |  |
 
 ## Sum of Squares Decomposition {.smaller}
 
@@ -1633,7 +1632,7 @@ segments(1:n_individuals, m1, 1:n_individuals, m2, lwd = 1.5)
 
 ## DRAFT: Nested Design Hierarchy {.smaller}
 
-```
+```         
                     Main Factor "A" (e.g. Treatment)
                  ┌──────────────┴──────────────┐
                 A₁ (μ₁)                       Aᵢ (μᵢ)
@@ -1651,7 +1650,6 @@ $$y_{k(j(i))} = y_{ijk}$$
 **observation** $k$ **within Site** $j$ **within Treatment** $i$
 
 Nested Factor "B" (e.g. Site) — levels of B are **unique** to each level of A
-
 
 ## Multifactor ANOVA Table {.smaller}
 
@@ -1717,7 +1715,7 @@ H_0(B): \sigma^2_\beta = 0
 |:---|:---|:---|:---|:---|
 | A | $qn\sum(\bar{y}_{i..} - \bar{y}_{...})^2$ | $p - 1$ | $SS_A / (p-1)$ | $MS_A / MS_{B(A)}$ |
 | B(A) | $n\sum\sum(\bar{y}_{ij.} - \bar{y}_{i..})^2$ | $p(q - 1)$ | $SS_{B(A)} / [p(q-1)]$ | $MS_{B(A)} / MS_{Res}$ |
-| Residual | $\sum\sum\sum(y_{ijk} - \bar{y}_{ij.})^2$ | $pq(n - 1)$ | $SS_{Res} / [pq(n-1)]$ | |
+| Residual | $\sum\sum\sum(y_{ijk} - \bar{y}_{ij.})^2$ | $pq(n - 1)$ | $SS_{Res} / [pq(n-1)]$ |  |
 
 ## Multifactor Example {.smaller}
 
@@ -1838,11 +1836,11 @@ $$\huge y_{ijk} = \mu + \underbrace{\alpha_i + \beta_j}_{\text{Main Effects}} + 
 
 where:
 
-- $\mu$ = grand mean
-- $\alpha_i$ = effect of level $i$ of factor A
-- $\beta_j$ = effect of level $j$ of factor B
-- $(\alpha\beta)_{ij}$ = interaction effect of A level $i$ and B level $j$
-- $\varepsilon_{ijk}$ = random error for replicate $k$
+-   $\mu$ = grand mean
+-   $\alpha_i$ = effect of level $i$ of factor A
+-   $\beta_j$ = effect of level $j$ of factor B
+-   $(\alpha\beta)_{ij}$ = interaction effect of A level $i$ and B level $j$
+-   $\varepsilon_{ijk}$ = random error for replicate $k$
 
 ### LaTeX
 
@@ -1865,7 +1863,7 @@ $$y_{ijkl} = \mu + \underbrace{\alpha_i + \beta_j + \gamma_k}_{\text{Main Effect
 ### Components
 
 | Term | Meaning |
-|:-----|:--------|
+|:---|:---|
 | $\alpha_i, \beta_j, \gamma_k$ | Main effects of factors A, B, C |
 | $(\alpha\beta)_{ij}, (\alpha\gamma)_{ik}, (\beta\gamma)_{jk}$ | Two-way interaction effects |
 | $(\alpha\beta\gamma)_{ijk}$ | Three-way interaction effect |
@@ -1886,11 +1884,11 @@ y_{ijkl} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha\beta)_{ij} + (\alpha\ga
 
 **For 2 levels per factor:**
 
-| Factors | Design | Combinations | Observations (*N* = 6 replicates) |
-|:--------|:-------|:-------------|:----------------------------------|
-| 2       | 2×2    | 4            | 24                                |
-| 3       | 2×2×2  | 8            | 48                                |
-| 4       | 2×2×2×2| 16           | 96                                |
+| Factors | Design  | Combinations | Observations (*N* = 6 replicates) |
+|:--------|:--------|:-------------|:----------------------------------|
+| 2       | 2×2     | 4            | 24                                |
+| 3       | 2×2×2   | 8            | 48                                |
+| 4       | 2×2×2×2 | 16           | 96                                |
 
 ::: panel-tabset
 ### Formula
@@ -1914,22 +1912,22 @@ where $N$ = replicates per cell, $p$ = number of factors
 
 **General notation** — population means $\mu_{ij}$ for a two-factor design:
 
-|              | $B_1$      | $B_2$      | $\ldots$ | $B_j$      | Marginal means A |
-|:-------------|:-----------|:-----------|:---------|:-----------|:-----------------|
-| $A_1$        | $\mu_{11}$ | $\mu_{12}$ | $\ldots$ | $\mu_{1j}$ | $\mu_{i=1}$      |
-| $A_2$        | $\mu_{21}$ | $\mu_{22}$ | $\ldots$ | $\mu_{2j}$ | $\mu_{i=2}$      |
-| $A_i$        | $\mu_{i1}$ | $\mu_{i2}$ | $\ldots$ | $\mu_{ij}$ | $\mu_{i}$        |
-| Marginal B   | $\mu_{j=1}$| $\mu_{j=2}$| $\ldots$ | $\mu_{j}$  | Grand mean $\mu$  |
+|            | $B_1$       | $B_2$       | $\ldots$ | $B_j$      | Marginal means A |
+|:-----------|:------------|:------------|:---------|:-----------|:-----------------|
+| $A_1$      | $\mu_{11}$  | $\mu_{12}$  | $\ldots$ | $\mu_{1j}$ | $\mu_{i=1}$      |
+| $A_2$      | $\mu_{21}$  | $\mu_{22}$  | $\ldots$ | $\mu_{2j}$ | $\mu_{i=2}$      |
+| $A_i$      | $\mu_{i1}$  | $\mu_{i2}$  | $\ldots$ | $\mu_{ij}$ | $\mu_{i}$        |
+| Marginal B | $\mu_{j=1}$ | $\mu_{j=2}$ | $\ldots$ | $\mu_{j}$  | Grand mean $\mu$ |
 
 **Example: Limpet density (A) × Season (B) — 4×2 Factorial** (Quinn 1988)
 
 | Factor A (Density) | $B_1$ Spring | $B_2$ Summer | Marginal A |
-|:-------------------|:-------------|:-------------|:-----------|
-| $A_1$ (8)          | $\bar{y}_{11}$ = 2.417 | $\bar{y}_{12}$ = 1.833 | $\bar{y}_{i=1}$ = 2.125 |
-| $A_2$ (15)         | $\bar{y}_{21}$ = 2.177 | $\bar{y}_{22}$ = 1.178 | $\bar{y}_{i=2}$ = 1.677 |
-| $A_3$ (30)         | $\bar{y}_{31}$ = 1.565 | $\bar{y}_{32}$ = 0.811 | $\bar{y}_{i=3}$ = 1.188 |
-| $A_4$ (45)         | $\bar{y}_{41}$ = 1.200 | $\bar{y}_{42}$ = 0.593 | $\bar{y}_{i=4}$ = 0.896 |
-| **Marginal B**     | $\bar{y}_{j=1}$ = 1.840 | $\bar{y}_{j=2}$ = 1.104 | $\bar{y}$ = 1.472 |
+|:---|:---|:---|:---|
+| $A_1$ (8) | $\bar{y}_{11}$ = 2.417 | $\bar{y}_{12}$ = 1.833 | $\bar{y}_{i=1}$ = 2.125 |
+| $A_2$ (15) | $\bar{y}_{21}$ = 2.177 | $\bar{y}_{22}$ = 1.178 | $\bar{y}_{i=2}$ = 1.677 |
+| $A_3$ (30) | $\bar{y}_{31}$ = 1.565 | $\bar{y}_{32}$ = 0.811 | $\bar{y}_{i=3}$ = 1.188 |
+| $A_4$ (45) | $\bar{y}_{41}$ = 1.200 | $\bar{y}_{42}$ = 0.593 | $\bar{y}_{i=4}$ = 0.896 |
+| **Marginal B** | $\bar{y}_{j=1}$ = 1.840 | $\bar{y}_{j=2}$ = 1.104 | $\bar{y}$ = 1.472 |
 
 ## Factorial ANOVA — Fixed Effects {.smaller}
 
@@ -2007,12 +2005,12 @@ H_0(AB): \sigma^2_{\alpha\beta} = 0
 ## DRAFT: ANOVA Table for Two-Factor Crossed Model (Table 9.8) {.smaller}
 
 | Source | SS | df | MS |
-|:-------|:---|:---|:---|
+|:---|:---|:---|:---|
 | A | $nq \displaystyle\sum_{i=1}^{p}(\bar{y}_{i} - \bar{y})^2$ | $p - 1$ | $\dfrac{SS_A}{p - 1}$ |
 | B | $np \displaystyle\sum_{j=1}^{q}(\bar{y}_{j} - \bar{y})^2$ | $q - 1$ | $\dfrac{SS_B}{q - 1}$ |
 | AB | $n \displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}(\bar{y}_{ij} - \bar{y}_{i} - \bar{y}_{j} + \bar{y})^2$ | $(p-1)(q-1)$ | $\dfrac{SS_{AB}}{(p-1)(q-1)}$ |
 | Residual | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{ij})^2$ | $pq(n-1)$ | $\dfrac{SS_{Residual}}{pq(n-1)}$ |
-| Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y})^2$ | $pqn - 1$ | |
+| Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y})^2$ | $pqn - 1$ |  |
 
 ## F-Ratios for Factorial Model {.smaller}
 
@@ -2021,7 +2019,7 @@ H_0(AB): \sigma^2_{\alpha\beta} = 0
 ## DRAFT: F-Ratios for Fixed, Random, and Mixed Models {.smaller}
 
 | Source | A and B fixed | A and B random | A fixed, B random (Restricted) | A fixed, B random (Unrestricted) |
-|:-------|:--------------|:---------------|:-------------------------------|:---------------------------------|
+|:---|:---|:---|:---|:---|
 | A | $\dfrac{MS_A}{MS_{Residual}}$ | $\dfrac{MS_A}{MS_{AB}}$ | $\dfrac{MS_A}{MS_{AB}}$ | $\dfrac{MS_A}{MS_{AB}}$ |
 | B | $\dfrac{MS_B}{MS_{Residual}}$ | $\dfrac{MS_B}{MS_{AB}}$ | $\dfrac{MS_B}{MS_{Residual}}$ | $\dfrac{MS_B}{MS_{AB}}$ |
 | AB | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ |
@@ -2041,18 +2039,18 @@ The choice of denominator for the F-ratio depends on whether each factor is fixe
 
 $$y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$
 
-- Factor 1 is **temperature**
-- Factor 2 is **fertilizer**
+-   Factor 1 is **temperature**
+-   Factor 2 is **fertilizer**
 
 ### When All Terms Are Significant
 
 If all terms in the model are significant — now what?
 
-1. **Start with the interaction** — if $(\alpha\beta)_{ij}$ is significant, the effect of one factor depends on the level of the other
-2. **Main effects are hard to interpret alone** when interaction is present
-3. Examine **simple effects** — the effect of one factor at each level of the other
-4. Use **interaction plots** to visualize patterns
-5. Perform **post-hoc comparisons** within each level of the other factor
+1.  **Start with the interaction** — if $(\alpha\beta)_{ij}$ is significant, the effect of one factor depends on the level of the other
+2.  **Main effects are hard to interpret alone** when interaction is present
+3.  Examine **simple effects** — the effect of one factor at each level of the other
+4.  Use **interaction plots** to visualize patterns
+5.  Perform **post-hoc comparisons** within each level of the other factor
 
 ### LaTeX
 
@@ -2517,4 +2515,3 @@ tooth_aov <- aov(len ~ supp * dose, data = ToothGrowth)
 :::
 
 ------------------------------------------------------------------------
-
