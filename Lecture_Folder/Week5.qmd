@@ -137,13 +137,118 @@ abline(my_lm, col = "red", lwd = 2)
 
 ![](images/week05_26_residuals_least_squares_diagram.jpeg){fig-align="center" width="90%"}
 
-## 
+## DRAFT: Residuals and Least Squares {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 6
+
+set.seed(42)
+x <- c(2, 3, 3.5, 5, 5.5)
+y <- c(2, 4.5, 3, 5.5, 4.5)
+fit <- lm(y ~ x)
+pred <- predict(fit)
+x_bar <- mean(x); y_bar <- mean(y)
+
+plot(x, y, pch = 16, cex = 2, xlim = c(0, 7), ylim = c(0, 7),
+     xlab = "X", ylab = "Y", las = 1, cex.lab = 1.5)
+abline(fit, lwd = 3)
+
+# Show residual for point 4
+i <- 4
+segments(x[i], pred[i], x[i], y[i], lwd = 3, col = "black")
+rect(x[i] - 0.15, pred[i], x[i] + 0.15, pred[i] + 0.15, border = "black", lwd = 2)
+text(x[i] + 0.6, y[i], bquote(y[i]), cex = 1.4, font = 3)
+text(x[i] + 0.6, pred[i], bquote(hat(y)[i]), cex = 1.4, font = 3)
+text(x[i] - 1.2, (y[i] + pred[i]) / 2,
+     bquote(y[i] - hat(y)[i] == "residual"), cex = 1.1, font = 3)
+
+# Show x_bar, y_bar
+abline(h = y_bar, lty = 2, col = "gray50")
+abline(v = x_bar, lty = 2, col = "gray50")
+text(x_bar, 0.3, expression(bar(x)), cex = 1.3, font = 3)
+text(0.3, y_bar, expression(bar(y)), cex = 1.3, font = 3)
+
+# Label regression line
+text(6.2, predict(fit, newdata = data.frame(x = 6.2)) + 0.5,
+     "least squares\nregression\nline", cex = 1.0, adj = 0)
+text(x[i] + 0.3, pred[i] - 0.3, expression("predicted Y-value for " * x[i]),
+     cex = 0.9, adj = 0)
+```
+
+##
 
 ![](images/week05_31_regression_conditional_distributions.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Regression Conditional Distributions {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 6
+
+# Show regression line with normal distributions at two x values
+plot(NULL, xlim = c(0, 10), ylim = c(0, 12),
+     xlab = "X", ylab = "Y", las = 1, cex.lab = 1.5, axes = FALSE)
+axis(1, at = c(3, 7), labels = c(expression(x[1]), expression(x[2])), cex.axis = 1.3)
+axis(2, labels = FALSE)
+
+# Regression line
+abline(a = 2, b = 1, lwd = 3)
+# Confidence band
+abline(a = 0.5, b = 1, lwd = 1, lty = 1)
+abline(a = 3.5, b = 1, lwd = 1, lty = 1)
+
+# Normal distributions at x1 = 3 and x2 = 7
+for (xi in c(3, 7)) {
+  mu_y <- 2 + xi
+  y_seq <- seq(mu_y - 3, mu_y + 3, length.out = 100)
+  dens <- dnorm(y_seq, mean = mu_y, sd = 1)
+  lines(xi + dens * 4, y_seq, lwd = 2)
+  points(xi, mu_y, pch = 16, cex = 1.5)
+}
+text(3.5, 5, expression(mu[y[1]]), cex = 1.3)
+text(7.5, 9, expression(mu[y[2]]), cex = 1.3)
+text(2, 10, expression(mu[y[i]] == beta[0] + beta[1] * x[i]),
+     cex = 1.3)
+```
 
 ## Hypothesis Tests in Regression {.smaller}
 
 ![](images/week05_28_reduced_vs_full_model_residuals.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Reduced vs Full Model Residuals {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+set.seed(42)
+x <- seq(0.1, 1.4, length.out = 15)
+y <- 3.2 - 0.7 * x + rnorm(15, 0, 0.4)
+
+par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
+
+# Reduced model (mean only)
+plot(x, y, pch = 16, col = "red", cex = 1.5,
+     xlab = "Predator body mass (kg)", ylab = "Captures",
+     main = "Reduced Model", ylim = c(1, 4.2), las = 1)
+abline(h = mean(y), lwd = 2)
+segments(x, mean(y), x, y, lwd = 1)
+
+# Full model (regression)
+plot(x, y, pch = 16, col = "red", cex = 1.5,
+     xlab = "Predator body mass (kg)", ylab = "Captures",
+     main = "Full Model", ylim = c(1, 4.2), las = 1)
+fit <- lm(y ~ x)
+abline(fit, lwd = 2)
+segments(x, predict(fit), x, y, lwd = 1)
+```
 
 ## Hypothesis Tests in Regression {.smaller}
 
@@ -235,6 +340,33 @@ where $p$ is the number of parameters estimated (2 for simple linear regression:
 
 ![](images/week05_29_f_ratio_f_distribution_hypothesis.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: F-Ratio and the F-Distribution {.smaller}
+
+$$\text{F-ratio} = \frac{\text{Explained}}{\text{Unexplained}} = \frac{MS_{groups}}{MS_{residual}}$$
+
+**Ratio of standardized sources of variation**
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 4
+
+x <- seq(0.01, 6, length.out = 500)
+plot(x, df(x, df1 = 3, df2 = 20), type = "l", lwd = 3,
+     xlab = "", ylab = "", axes = FALSE,
+     ylim = c(0, 0.8))
+axis(1, at = 0:5, cex.axis = 1.3)
+
+# Mark observed F value
+abline(v = 4.2, col = "blue", lwd = 3)
+arrows(4.2, 0.35, 4.2, 0.02, col = "blue", lwd = 3, length = 0.15)
+
+text(2, 0.5, "F-distribution\n(Distribution of all possible\nexpected F-ratios when the\nH₀ is true)", cex = 1.0)
+text(4.8, 0.45, "If it would be rare to observe\nthe level of variation explained\nby our model, relative to the\nnull distribution, we reject\nthe null hypothesis",
+     cex = 0.85, col = "blue", font = 2)
+```
+
 ## R² as Measure of Fit (\~ effect size)
 
 ::: panel-tabset
@@ -316,9 +448,65 @@ A trend that appears in groups can disappear or reverse when groups are combined
 
 ![](images/week05_14_simpsons_paradox_1.jpg){fig-align="center" width="80%"}
 
+## DRAFT: Simpson's Paradox {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+library(ggplot2)
+set.seed(42)
+groups <- 5
+n_per <- 100
+z <- rep(1:groups, each = n_per)
+x <- z * 2.5 + rnorm(groups * n_per, 0, 1.2)
+y <- -0.7 * x + z * 4 + rnorm(groups * n_per, 0, 1)
+
+df <- data.frame(x = x, y = y, z = factor(z))
+
+ggplot(df, aes(x, y)) +
+  geom_point(alpha = 0.5, color = "gray40") +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linewidth = 1) +
+  labs(title = paste("Correlation =", round(cor(x, y), 2)),
+       x = "x", y = "y") +
+  theme_bw(base_size = 16) +
+  theme(plot.title = element_text(face = "bold", size = 18))
+```
+
 ## Simpson's Paradox Explained {.smaller}
 
 ![](images/week05_15_simpsons_paradox_explained_1.jpg){fig-align="center" width="80%"}
+
+## DRAFT: Simpson's Paradox Explained {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+library(ggplot2)
+set.seed(42)
+groups <- 5
+n_per <- 100
+z <- rep(1:groups, each = n_per)
+x <- z * 2.5 + rnorm(groups * n_per, 0, 1.2)
+y <- -0.7 * x + z * 4 + rnorm(groups * n_per, 0, 1)
+
+df <- data.frame(x = x, y = y, z = factor(z))
+cors <- sapply(split(df, df$z), function(d) round(cor(d$x, d$y), 2))
+
+ggplot(df, aes(x, y, color = z)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
+  labs(title = paste("Correlations =", paste(cors, collapse = " ")),
+       x = "x", y = "y") +
+  scale_color_brewer(palette = "Set1", labels = paste("z =", 1:5)) +
+  theme_bw(base_size = 16) +
+  theme(plot.title = element_text(face = "bold", size = 16))
+```
 
 ## In-Class Demo: Simpson's Paradox with Iris Data {.smaller}
 
@@ -962,13 +1150,119 @@ The figure below illustrates what the conditional distributions of $y$ should lo
 
 ![](images/week05_32_regression_residual_plots_homoscedasticity.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Homoscedasticity vs Heteroscedasticity {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+
+set.seed(42)
+n <- 20
+x_good <- runif(n, 1, 10)
+y_good <- 2 + 1.5 * x_good + rnorm(n, 0, 1.5)
+fit_good <- lm(y_good ~ x_good)
+
+# (a) Good fit - scatter with line
+plot(x_good, y_good, pch = 1, cex = 1.5, xlab = "X", ylab = "Y",
+     main = "(a)", las = 1)
+abline(fit_good, lwd = 2)
+
+# (b) Good residuals
+plot(fitted(fit_good), residuals(fit_good), pch = 1, cex = 1.5,
+     xlab = "Predicted Y", ylab = "Residual", main = "(b)", las = 1)
+abline(h = 0, lty = 2)
+
+# (c) Heteroscedastic fit
+x_het <- runif(n, 1, 10)
+y_het <- 2 + 1.5 * x_het + rnorm(n, 0, x_het * 0.5)
+fit_het <- lm(y_het ~ x_het)
+plot(x_het, y_het, pch = 1, cex = 1.5, xlab = "X", ylab = "Y",
+     main = "(c)", las = 1)
+abline(fit_het, lwd = 2)
+
+# (d) Heteroscedastic residuals (funnel)
+plot(fitted(fit_het), residuals(fit_het), pch = 1, cex = 1.5,
+     xlab = "Predicted Y", ylab = "Residual", main = "(d)", las = 1)
+abline(h = 0, lty = 2)
+```
+
 ## Spotting Assumption Violations {.smaller}
 
 ![](images/week05_33_anscombes_quartet_regression_lines.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Anscombe's Quartet {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+library(datasets)
+par(mfrow = c(2, 2), mar = c(4, 4, 2, 1))
+
+for (i in 1:4) {
+  xi <- anscombe[[paste0("x", i)]]
+  yi <- anscombe[[paste0("y", i)]]
+  plot(xi, yi, pch = 16, cex = 1.8, col = "darkorange",
+       xlab = bquote(x[.(i)]), ylab = bquote(y[.(i)]),
+       xlim = c(3, 19), ylim = c(3, 13), las = 1)
+  abline(lm(yi ~ xi), col = "steelblue", lwd = 2)
+}
+```
+
+All four datasets have nearly identical summary statistics ($\bar{x}=9$, $\bar{y} \approx 7.5$, $r \approx 0.82$, same regression line) but very different patterns.
+
 ## Spotting Assumption Violations {.smaller}
 
 ![](images/week05_34_residual_patterns_heteroscedasticity.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Residual Patterns {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+
+# (a) Homoscedastic - good
+set.seed(1)
+x <- 1:50
+resid_a <- rnorm(50, 0, 1)
+plot(x, resid_a, pch = 1, xlab = "Predicted Y", ylab = "Residuals",
+     main = "(a) Homoscedastic", ylim = c(-4, 4), las = 1)
+abline(h = 0, lty = 2)
+lines(c(1, 50), c(2, 2), lwd = 2)
+lines(c(1, 50), c(-2, -2), lwd = 2)
+
+# (b) Fan shape - increasing variance
+resid_b <- rnorm(50, 0, x * 0.08)
+plot(x, resid_b, pch = 1, xlab = "Predicted Y", ylab = "Residuals",
+     main = "(b) Funnel (heteroscedastic)", ylim = c(-4, 4), las = 1)
+abline(h = 0, lty = 2)
+lines(x, x * 0.08 * 2, lwd = 2)
+lines(x, -x * 0.08 * 2, lwd = 2)
+
+# (c) Linear trend in residuals
+resid_c <- rnorm(50, 0, 0.5) + (x - 25) * 0.06
+plot(x, resid_c, pch = 1, xlab = "Predicted Y", ylab = "Residuals",
+     main = "(c) Linear trend", ylim = c(-4, 4), las = 1)
+abline(h = 0, lty = 2)
+abline(lm(resid_c ~ x), lwd = 2)
+
+# (d) Curved pattern
+resid_d <- rnorm(50, 0, 0.5) + sin(x / 8) * 2
+plot(x, resid_d, pch = 1, xlab = "Predicted Y", ylab = "Residuals",
+     main = "(d) Curvilinear", ylim = c(-4, 4), las = 1)
+abline(h = 0, lty = 2)
+lines(x, sin(x / 8) * 2, lwd = 2)
+```
 
 ## Common Residual Patterns and Causes {.smaller}
 
@@ -1052,6 +1346,45 @@ autoplot(my_lm, which = 1:4, ncol = 2)
 ## Outlier Leverage and Influence {.smaller}
 
 ![](images/week05_35_penalizing_model_complexity.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Outlier Leverage and Influence {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 6
+
+set.seed(42)
+x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+y <- c(0.5, 1, 1.8, 2.3, 3.5, 4, 4.2, 5, 5.5, 6.5)
+
+# Outlier points
+x_all <- c(x, 3, 9)
+y_all <- c(y, 5, 2)
+
+plot(x_all, y_all, pch = c(rep(1, 10), 16, 16), cex = c(rep(1.5, 10), 2.5, 2.5),
+     col = c(rep("black", 10), "gray50", "gray20"),
+     xlab = "X", ylab = "Y", las = 1, xlim = c(0, 11), ylim = c(0, 8))
+
+# Fit 1: original data
+fit1 <- lm(y ~ x)
+abline(fit1, lwd = 2, lty = 1)
+
+# Fit 2: with high-leverage non-influential outlier
+fit2 <- lm(y_all[c(1:10, 11)] ~ x_all[c(1:10, 11)])
+abline(fit2, lwd = 2, lty = 4)
+
+# Fit 3: with high-leverage influential outlier
+fit3 <- lm(y_all[c(1:10, 12)] ~ x_all[c(1:10, 12)])
+abline(fit3, lwd = 2, lty = 2)
+
+legend("topleft",
+       c("1: Original fit", "2: + Low leverage outlier", "3: + High leverage outlier"),
+       lty = c(1, 4, 2), lwd = 2, cex = 0.9)
+text(3, 5.3, "2", cex = 1.5, col = "gray50", font = 2)
+text(9, 1.7, "3", cex = 1.5, col = "gray20", font = 2)
+```
 
 ## Outlier Leverage and Influence {.smaller}
 
@@ -1776,6 +2109,70 @@ autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
 
 ![](images/week05_10_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
+## DRAFT: Galton's Regression to the Mean {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+**Galton's data from 1889**
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 5
+#| fig-height: 5
+
+set.seed(1889)
+n <- 200
+parent_height <- rnorm(n, mean = 68, sd = 2)
+offspring_height <- 29.4 + 0.57 * parent_height + rnorm(n, 0, 1.5)
+
+parent_r <- round(parent_height)
+offspring_r <- round(offspring_height)
+df <- data.frame(parent = parent_r, offspring = offspring_r)
+df_counts <- as.data.frame(table(df$parent, df$offspring))
+names(df_counts) <- c("parent", "offspring", "count")
+df_counts$parent <- as.numeric(as.character(df_counts$parent))
+df_counts$offspring <- as.numeric(as.character(df_counts$offspring))
+df_counts <- df_counts[df_counts$count > 0, ]
+
+plot(df_counts$parent, df_counts$offspring,
+     cex = sqrt(df_counts$count) * 1.2,
+     pch = 16, col = rgb(0.3, 0.3, 0.3, 0.7),
+     xlab = "AVERAGE HEIGHT OF PARENTS (IN)",
+     ylab = "HEIGHT OF OFFSPRING (IN)",
+     xlim = c(63, 73), ylim = c(62, 73), las = 1)
+abline(a = 29.4, b = 0.57, lwd = 2)
+abline(a = 0, b = 1, lwd = 2, lty = 2)
+```
+
+$$Y = 0.57X + 29.4$$
+:::
+
+::: {.column width="50%"}
+**Class data from 1999**
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 5
+#| fig-height: 5
+
+set.seed(1999)
+n <- 60
+mid_parent <- rnorm(n, mean = 172, sd = 8)
+offspring_cm <- 73.87 + 0.57 * mid_parent + rnorm(n, 0, 5)
+
+plot(mid_parent, offspring_cm, pch = 1, cex = 1.2,
+     col = "blue", xlab = "Midparent Height (cm)",
+     ylab = "Offspring Height (cm)",
+     xlim = c(150, 200), ylim = c(120, 200), las = 1)
+abline(lm(offspring_cm ~ mid_parent), col = "red", lwd = 2)
+```
+
+$$Y = 0.57x + 73.87$$
+:::
+:::::
+
 ## Galton as the Father of Eugenics
 
 ![](images/week6_Galton.jpeg){fig.align="center"}
@@ -1896,6 +2293,58 @@ This is still a **linear model** in the statistical sense (the parameters $\beta
 ## Power and Polynomial Relationships {.smaller}
 
 ![Power and polynomial relationships in regressionFitting a Polynomial Model: Grip Strength \~ Exercise](images/week10_30_power_polynomial_relationships.jpeg){alt="Power and polynomial relationships in regression" fig-align="center" width="90%"}
+
+## DRAFT: Power and Polynomial Relationships {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+**Power relationship:**
+
+$$y_i = \beta_0 + ax_i^{\beta_1} + \varepsilon_i$$
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 4
+#| fig-height: 3
+
+x <- seq(0.1, 5, length.out = 100)
+plot(x, x^2, type = "l", lwd = 2, xlab = "", ylab = "",
+     main = "", axes = FALSE)
+lines(x, x^0.5, lwd = 2, lty = 2)
+lines(x, x^(-1), lwd = 2, lty = 3)
+axis(1); axis(2)
+text(4, 22, expression(beta > 1), cex = 1.1)
+text(4, 2.5, expression(0 < beta < 1), cex = 1.1)
+text(4, 0.5, expression(beta < 0), cex = 1.1)
+```
+:::
+
+::: {.column width="50%"}
+**Polynomial relationship:**
+
+$$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \varepsilon_i$$
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 4
+#| fig-height: 3
+
+x <- seq(-3, 3, length.out = 100)
+plot(x, 0.5 + x - 0.5*x^2, type = "l", lwd = 2,
+     xlab = "", ylab = "", axes = FALSE)
+lines(x, 0.5 + x + 0.3*x^2 - 0.2*x^3, lwd = 2, lty = 2)
+axis(1); axis(2)
+```
+:::
+:::::
+
+**Polynomials in R:**
+```r
+lm(dv ~ iv + I(iv^2), dataset)
+lm(dv ~ poly(iv, 2), dataset)
+```
 
 In R, we use `poly(x, degree)` inside the `lm()` formula, or equivalently `I(x^2)`:
 
@@ -2210,33 +2659,174 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
 
 Data from Emlen, D.J. 2001. *Costs and the diversification of exaggerated animal structures.* Science 291: 1534-1536.
 
+## DRAFT: Beetle Horn Allometry Data {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+# Simulate beetle horn vs wing data similar to Emlen 2001
+set.seed(2001)
+wing <- seq(5, 25, length.out = 50) + rnorm(50, 0, 1)
+horn <- ifelse(wing < 15, rnorm(50, 0, 0.5),
+               0.8 * (wing - 14)^1.3 + rnorm(50, 0, 1.5))
+horn[horn < 0] <- abs(rnorm(sum(horn < 0), 0.2, 0.1))
+beetle <- data.frame(wing = wing, horn = horn)
+
+plot(beetle$wing, beetle$horn, pch = 16, cex = 1.3,
+     xlab = "Wing length (mm)", ylab = "Horn length (mm)",
+     main = "Emlen 2001: Beetle horn vs wing length", las = 1)
+```
+
 ## Linear Regression Fit {.smaller}
 
 ![Linear regression on beetle data](images/week10_32_linear_regression_beetle.jpeg){alt="Linear regression on beetle data" fig-align="center" width="90%"}
+
+## DRAFT: Linear Fit {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+plot(beetle$wing, beetle$horn, pch = 16, cex = 1.3,
+     xlab = "Wing length (mm)", ylab = "Horn length (mm)",
+     main = "Linear: y = β₀ + β₁x", las = 1)
+fit1 <- lm(horn ~ wing, data = beetle)
+abline(fit1, lwd = 2, col = "red")
+```
 
 ## Quadratic Regression Fit {.smaller}
 
 ![Quadratic (polynomial degree 2) regression](images/week10_33_quadratic_regression_beetle.jpeg){alt="Quadratic (polynomial degree 2) regression" fig-align="center" width="90%"}
 
+## DRAFT: Quadratic Fit {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+plot(beetle$wing, beetle$horn, pch = 16, cex = 1.3,
+     xlab = "Wing length (mm)", ylab = "Horn length (mm)",
+     main = "Quadratic: y = β₀ + β₁x + β₂x²", las = 1)
+fit2 <- lm(horn ~ poly(wing, 2, raw = TRUE), data = beetle)
+xseq <- seq(min(beetle$wing), max(beetle$wing), length.out = 200)
+lines(xseq, predict(fit2, newdata = data.frame(wing = xseq)),
+      lwd = 2, col = "red")
+```
+
 ## Cubic Regression Fit {.smaller}
 
 ![Cubic (polynomial degree 3) regression](images/week10_34_cubic_regression_beetle.jpeg){alt="Cubic (polynomial degree 3) regression" fig-align="center" width="90%"}
+
+## DRAFT: Cubic Fit {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+plot(beetle$wing, beetle$horn, pch = 16, cex = 1.3,
+     xlab = "Wing length (mm)", ylab = "Horn length (mm)",
+     main = "Cubic: y = β₀ + β₁x + β₂x² + β₃x³", las = 1)
+fit3 <- lm(horn ~ poly(wing, 3, raw = TRUE), data = beetle)
+lines(xseq, predict(fit3, newdata = data.frame(wing = xseq)),
+      lwd = 2, col = "red")
+```
 
 ## Higher-Order Polynomials {.smaller}
 
 ![Polynomial degree 5 regression](images/week10_35_poly5_regression_beetle.jpeg){alt="Polynomial degree 5 regression" fig-align="center" width="90%"}
 
-## 
+## DRAFT: Degree 5 Polynomial {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+plot(beetle$wing, beetle$horn, pch = 16, cex = 1.3,
+     xlab = "Wing length (mm)", ylab = "Horn length (mm)",
+     main = "Polynomial degree 5", las = 1)
+fit5 <- lm(horn ~ poly(wing, 5, raw = TRUE), data = beetle)
+lines(xseq, predict(fit5, newdata = data.frame(wing = xseq)),
+      lwd = 2, col = "red")
+```
+
+##
 
 ![Polynomial degree 10 regression - overfitting!](images/week10_36_poly10_regression_beetle.jpeg){alt="Polynomial degree 10 regression - overfitting!" fig-align="center" width="90%"}
+
+## DRAFT: Degree 10 Polynomial - Overfitting! {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+plot(beetle$wing, beetle$horn, pch = 16, cex = 1.3,
+     xlab = "Wing length (mm)", ylab = "Horn length (mm)",
+     main = "Polynomial degree 10 — OVERFITTING", las = 1)
+fit10 <- lm(horn ~ poly(wing, 10, raw = TRUE), data = beetle)
+lines(xseq, predict(fit10, newdata = data.frame(wing = xseq)),
+      lwd = 2, col = "red")
+```
 
 ## Model Selection Visualization {.smaller}
 
 ![Log-likelihood and R² vs polynomial degree](images/week10_37_model_selection_plots.jpeg){alt="Log-likelihood and R² vs polynomial degree" fig-align="center" width="90%"}
 
+## DRAFT: Model Selection - Log-Likelihood and R² {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+degrees <- 1:10
+loglik <- sapply(degrees, function(d) {
+  fit <- lm(horn ~ poly(wing, d, raw = TRUE), data = beetle)
+  logLik(fit)
+})
+r2 <- sapply(degrees, function(d) {
+  fit <- lm(horn ~ poly(wing, d, raw = TRUE), data = beetle)
+  summary(fit)$r.squared
+})
+
+par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
+plot(degrees, loglik, type = "b", pch = 16, cex = 1.5,
+     xlab = "Polynomial degree", ylab = "Log-likelihood",
+     main = "Log-likelihood vs. Degree", las = 1)
+plot(degrees, r2, type = "b", pch = 16, cex = 1.5,
+     xlab = "Polynomial degree", ylab = expression(R^2),
+     main = expression(R^2 * " vs. Degree"), las = 1)
+```
+
 ## Mallow's Cp Statistic {.smaller}
 
 ![Cp statistic for model selectionKey Takeaways: Model Diagnostics](images/week10_38_cp_statistic_formula.jpeg){alt="Cp statistic for model selection" fig-align="center" width="90%"}
+
+## DRAFT: Mallow's Cp Statistic {.smaller}
+
+$$C_p = \frac{SS_{res,p}}{MS_{res,full}} - n + 2p$$
+
+where:
+
+- $SS_{res,p}$ = residual sum of squares for model with $p$ parameters
+- $MS_{res,full}$ = residual mean square from the full model
+- $n$ = sample size
+- $p$ = number of parameters in the candidate model
+
+A model with $C_p \approx p$ fits well without overfitting. Models with $C_p \gg p$ underfit; those with minimum $C_p$ are preferred.
 
 ::: callout-tip
 ## Summary
@@ -2289,13 +2879,98 @@ Not all regression is created equal! The choice depends on **measurement error**
 
 ![Model I (OLS) vs Model II regression types](images/week05_40_model_types_ols_ma_rma.jpeg){fig-align="center" width="80%"}
 
+## DRAFT: Model I vs Model II Regression {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 6
+
+set.seed(42)
+x <- rnorm(2, c(3, 8), c(0.5, 0.5))
+y <- rnorm(2, c(3, 8), c(0.5, 0.5))
+
+plot(x, y, pch = 15, cex = 2, xlim = c(0, 10), ylim = c(0, 10),
+     xlab = "X", ylab = "Y", las = 1, main = "")
+# OLS: vertical distance [1]
+abline(a = 0.5, b = 0.9, lwd = 2)
+segments(x[2], y[2], x[2], 0.5 + 0.9 * x[2], lwd = 2, lty = 1)
+text(x[2] - 0.5, (y[2] + 0.5 + 0.9 * x[2]) / 2, "1", cex = 1.5, col = "blue")
+
+# MA: perpendicular distance [2]
+text(x[2] + 1, y[2] + 0.5, "3", cex = 1.5, col = "darkgreen")
+
+# RMA: area [3]
+text(x[2] + 0.3, y[2] - 1.5, "2", cex = 1.5, col = "red")
+```
+
+**Model I** — Ordinary Least Squares (OLS) [1]: minimizes vertical distances
+
+**Model II** — Major axis (MA) [2]: minimizes perpendicular distances; Reduced Major Axis (RMA) [3]: minimizes area of triangles
+
 ## Regression Type Examples {.smaller}
 
 ![Comparison of OLS (Type I) and Type II regression methods](images/week05_41_regression_type_examples.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: OLS, MA, and RMA Comparison {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+set.seed(42)
+n <- 20
+x <- runif(n, 10, 90)
+y <- 0.1 * x + rnorm(n, 0, 1)
+
+par(mfrow = c(1, 4), mar = c(4, 4, 3, 1))
+
+# (a) OLS Y on X
+plot(x, y, pch = 16, cex = 1.2, xlab = "X units", ylab = "Y units",
+     main = "(a) OLS Y against X", cex.main = 0.9, las = 1, xlim = c(0, 100), ylim = c(-2, 12))
+fit_ols <- lm(y ~ x)
+abline(fit_ols, lwd = 2)
+segments(x, fitted(fit_ols), x, y, lwd = 0.5)
+
+# (b) MA
+plot(x, y, pch = 16, cex = 1.2, xlab = "X units", ylab = "Y units",
+     main = "(b) MA", cex.main = 0.9, las = 1, xlim = c(0, 100), ylim = c(-2, 12))
+# MA: perpendicular projection
+sx <- sd(x); sy <- sd(y)
+slope_ma <- (sy^2 - sx^2 + sqrt((sy^2 - sx^2)^2 + 4 * cov(x,y)^2)) / (2 * cov(x,y))
+int_ma <- mean(y) - slope_ma * mean(x)
+abline(a = int_ma, b = slope_ma, lwd = 2)
+
+# (c) Ranged MA
+plot(x, y, pch = 16, cex = 1.2, xlab = "X units", ylab = "Y units",
+     main = "(c) Ranged MA", cex.main = 0.9, las = 1, xlim = c(0, 100), ylim = c(-2, 12))
+abline(a = int_ma, b = slope_ma, lwd = 2)
+
+# (d) RMA
+plot(x, y, pch = 16, cex = 1.2, xlab = "X units", ylab = "Y units",
+     main = "(d) RMA", cex.main = 0.9, las = 1, xlim = c(0, 100), ylim = c(-2, 12))
+slope_rma <- sign(cor(x, y)) * sy / sx
+int_rma <- mean(y) - slope_rma * mean(x)
+abline(a = int_rma, b = slope_rma, lwd = 2)
+```
+
 ## When to Use Each Model Type {.smaller}
 
 ![Guidelines for choosing between OLS, MA, and RMA regression](images/week05_42_when_to_use_model_types.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: When to Use Each Regression Type {.smaller}
+
+| | **Method** | **When to use** | **Example** |
+|:---|:---|:---|:---|
+| **Model I** | **OLS** | No (or very little) error in x variable | Time points, temperature set by experimenter |
+| **Model II** | **Major Axis (MA)** | Equal error in both y and x (same units or dimensionless) | X and Y are both ratios; interested in estimating slope |
+| | **Ranged MA** | Error in both y and x (different units/scales), no outliers | Height in cm and length in tenths of grams |
+| | **Reduced MA (RMA, SMA)** | Error in both y and x (different scales), significant correlation | X and Y are different scales, robust to outliers |
+
+*Table 8.1 (pg. 175) in the Logan text. See also Legendre's Model II Regression Guide, 2013.*
 
 ## Model II Regression with lmodel2 {.smaller}
 
