@@ -442,7 +442,7 @@
   <meta name="generator" content="quarto-1.7.30">
 
   <meta name="author" content="Bill Cresko">
-  <title>Statistics for Bioengineering - Week 4</title>
+  <title>BioEngineering Statistics Winter 2026 – Statistics for Bioengineering - Week 4</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -1180,14 +1180,14 @@ Bill Cresko
 <section id="packages-for-this-week" class="slide level2 smaller">
 <h2>Packages for This Week</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href></a><span class="co"># Install new packages (run once)</span></span>
-<span id="cb1-2"><a href></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;epitools&quot;</span>, <span class="st">&quot;DescTools&quot;</span>, <span class="st">&quot;pwr&quot;</span>))</span>
-<span id="cb1-3"><a href></a></span>
-<span id="cb1-4"><a href></a><span class="co"># Load packages</span></span>
-<span id="cb1-5"><a href></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation &amp; visualization</span></span>
-<span id="cb1-6"><a href></a><span class="fu">library</span>(epitools)     <span class="co"># Epidemiological tools (odds ratios, risk ratios)</span></span>
-<span id="cb1-7"><a href></a><span class="fu">library</span>(DescTools)    <span class="co"># Descriptive statistics &amp; tests (G-test, Cramer&#39;s V)</span></span>
-<span id="cb1-8"><a href></a><span class="fu">library</span>(pwr)          <span class="co"># Power analysis for study design</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Install new packages (run once)</span></span>
+<span id="cb1-2"><a></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;epitools&quot;</span>, <span class="st">&quot;DescTools&quot;</span>, <span class="st">&quot;pwr&quot;</span>))</span>
+<span id="cb1-3"><a></a></span>
+<span id="cb1-4"><a></a><span class="co"># Load packages</span></span>
+<span id="cb1-5"><a></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation &amp; visualization</span></span>
+<span id="cb1-6"><a></a><span class="fu">library</span>(epitools)     <span class="co"># Epidemiological tools (odds ratios, risk ratios)</span></span>
+<span id="cb1-7"><a></a><span class="fu">library</span>(DescTools)    <span class="co"># Descriptive statistics &amp; tests (G-test, Cramer&#39;s V)</span></span>
+<span id="cb1-8"><a></a><span class="fu">library</span>(pwr)          <span class="co"># Power analysis for study design</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -1218,7 +1218,7 @@ Bill Cresko
 <p><span class="math display">\[\chi^2_k = \sum_{i=1}^k Z_i^2\]</span></p>
 </div>
 <div id="tabset-1-2">
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href></a>\chi^2_k = \sum_{i=1}^k Z_i^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>\chi^2_k = \sum_{i=1}^k Z_i^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1248,16 +1248,16 @@ Bill Cresko
 </div>
 <div id="tabset-2-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href></a>df_vals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>)</span>
-<span id="cb3-2"><a href></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb3-3"><a href></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;purple&quot;</span>)</span>
-<span id="cb3-4"><a href></a></span>
-<span id="cb3-5"><a href></a><span class="fu">plot</span>(x, <span class="fu">dchisq</span>(x, <span class="at">df =</span> <span class="dv">1</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> colors[<span class="dv">1</span>],</span>
-<span id="cb3-6"><a href></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Chi-square Distribution&quot;</span>)</span>
-<span id="cb3-7"><a href></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>) {</span>
-<span id="cb3-8"><a href></a>  <span class="fu">lines</span>(x, <span class="fu">dchisq</span>(x, <span class="at">df =</span> df_vals[i]), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> colors[i])</span>
-<span id="cb3-9"><a href></a>}</span>
-<span id="cb3-10"><a href></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">paste</span>(<span class="st">&quot;df =&quot;</span>, df_vals), <span class="at">col =</span> colors, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>df_vals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>)</span>
+<span id="cb3-2"><a></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb3-3"><a></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;purple&quot;</span>)</span>
+<span id="cb3-4"><a></a></span>
+<span id="cb3-5"><a></a><span class="fu">plot</span>(x, <span class="fu">dchisq</span>(x, <span class="at">df =</span> <span class="dv">1</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> colors[<span class="dv">1</span>],</span>
+<span id="cb3-6"><a></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Chi-square Distribution&quot;</span>)</span>
+<span id="cb3-7"><a></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb3-8"><a></a>  <span class="fu">lines</span>(x, <span class="fu">dchisq</span>(x, <span class="at">df =</span> df_vals[i]), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> colors[i])</span>
+<span id="cb3-9"><a></a>}</span>
+<span id="cb3-10"><a></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">paste</span>(<span class="st">&quot;df =&quot;</span>, df_vals), <span class="at">col =</span> colors, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1272,7 +1272,7 @@ Bill Cresko
 <p><span class="math display">\[\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}\]</span></p>
 </div>
 <div id="tabset-3-2">
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href></a>\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a></a>\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1318,11 +1318,11 @@ X-squared = 0.48, df = 1, p-value = 0.4884</code></pre>
 </div>
 <div id="tabset-4-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href></a><span class="co"># Mendelian 3:1 ratio</span></span>
-<span id="cb6-2"><a href></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Dominant =</span> <span class="dv">72</span>, <span class="at">Recessive =</span> <span class="dv">28</span>)</span>
-<span id="cb6-3"><a href></a>expected_probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="fl">0.25</span>)</span>
-<span id="cb6-4"><a href></a></span>
-<span id="cb6-5"><a href></a><span class="fu">chisq.test</span>(<span class="at">x =</span> observed, <span class="at">p =</span> expected_probs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># Mendelian 3:1 ratio</span></span>
+<span id="cb6-2"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Dominant =</span> <span class="dv">72</span>, <span class="at">Recessive =</span> <span class="dv">28</span>)</span>
+<span id="cb6-3"><a></a>expected_probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="fl">0.25</span>)</span>
+<span id="cb6-4"><a></a></span>
+<span id="cb6-5"><a></a><span class="fu">chisq.test</span>(<span class="at">x =</span> observed, <span class="at">p =</span> expected_probs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1346,11 +1346,11 @@ X-squared = 1, df = 5, p-value = 0.9626</code></pre>
 </div>
 <div id="tabset-5-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href></a><span class="co"># Rolling a six-sided die 60 times</span></span>
-<span id="cb8-2"><a href></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">10</span>)</span>
-<span id="cb8-3"><a href></a>expected_probs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>)</span>
-<span id="cb8-4"><a href></a></span>
-<span id="cb8-5"><a href></a><span class="fu">chisq.test</span>(<span class="at">x =</span> observed, <span class="at">p =</span> expected_probs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="co"># Rolling a six-sided die 60 times</span></span>
+<span id="cb8-2"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">10</span>)</span>
+<span id="cb8-3"><a></a>expected_probs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb8-4"><a></a></span>
+<span id="cb8-5"><a></a><span class="fu">chisq.test</span>(<span class="at">x =</span> observed, <span class="at">p =</span> expected_probs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1375,12 +1375,12 @@ X-squared = 28.834, df = 1, p-value = 7.884e-08</code></pre>
 </div>
 <div id="tabset-6-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href></a><span class="co"># Create contingency table</span></span>
-<span id="cb10-2"><a href></a>tbl <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-3"><a href></a><span class="fu">rownames</span>(tbl) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Group1&quot;</span>, <span class="st">&quot;Group2&quot;</span>)</span>
-<span id="cb10-4"><a href></a><span class="fu">colnames</span>(tbl) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Outcome1&quot;</span>, <span class="st">&quot;Outcome2&quot;</span>)</span>
-<span id="cb10-5"><a href></a></span>
-<span id="cb10-6"><a href></a><span class="fu">chisq.test</span>(tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="co"># Create contingency table</span></span>
+<span id="cb10-2"><a></a>tbl <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-3"><a></a><span class="fu">rownames</span>(tbl) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Group1&quot;</span>, <span class="st">&quot;Group2&quot;</span>)</span>
+<span id="cb10-4"><a></a><span class="fu">colnames</span>(tbl) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Outcome1&quot;</span>, <span class="st">&quot;Outcome2&quot;</span>)</span>
+<span id="cb10-5"><a></a></span>
+<span id="cb10-6"><a></a><span class="fu">chisq.test</span>(tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1404,11 +1404,11 @@ X-squared = 28.834, df = 1, p-value = 7.884e-08</code></pre>
 </div>
 <div id="tabset-7-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href></a><span class="fu">mosaicplot</span>(tbl,</span>
-<span id="cb11-2"><a href></a>           <span class="at">main =</span> <span class="st">&quot;Mosaic Plot of Contingency Table&quot;</span>,</span>
-<span id="cb11-3"><a href></a>           <span class="at">xlab =</span> <span class="st">&quot;Group&quot;</span>,</span>
-<span id="cb11-4"><a href></a>           <span class="at">ylab =</span> <span class="st">&quot;Outcome&quot;</span>,</span>
-<span id="cb11-5"><a href></a>           <span class="at">color =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">mosaicplot</span>(tbl,</span>
+<span id="cb11-2"><a></a>           <span class="at">main =</span> <span class="st">&quot;Mosaic Plot of Contingency Table&quot;</span>,</span>
+<span id="cb11-3"><a></a>           <span class="at">xlab =</span> <span class="st">&quot;Group&quot;</span>,</span>
+<span id="cb11-4"><a></a>           <span class="at">ylab =</span> <span class="st">&quot;Outcome&quot;</span>,</span>
+<span id="cb11-5"><a></a>           <span class="at">color =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1424,7 +1424,7 @@ X-squared = 28.834, df = 1, p-value = 7.884e-08</code></pre>
 <p><span class="math display">\[V = \sqrt{\frac{\chi^2}{n(k-1)}}\]</span></p>
 </div>
 <div id="tabset-8-2">
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a href></a>V = \sqrt{\frac{\chi^2}{n(k-1)}}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a></a>V = \sqrt{\frac{\chi^2}{n(k-1)}}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1465,22 +1465,22 @@ X-squared = 28.834, df = 1, p-value = 7.884e-08</code></pre>
 </div>
 <div id="tabset-9-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href></a><span class="co"># Chi-square test of independence</span></span>
-<span id="cb14-2"><a href></a>test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tbl)</span>
-<span id="cb14-3"><a href></a></span>
-<span id="cb14-4"><a href></a><span class="co"># Extract test statistic</span></span>
-<span id="cb14-5"><a href></a>chisq_val <span class="ot">&lt;-</span> test<span class="sc">$</span>statistic</span>
-<span id="cb14-6"><a href></a></span>
-<span id="cb14-7"><a href></a><span class="co"># Total number of observations</span></span>
-<span id="cb14-8"><a href></a>n <span class="ot">&lt;-</span> <span class="fu">sum</span>(tbl)</span>
-<span id="cb14-9"><a href></a></span>
-<span id="cb14-10"><a href></a><span class="co"># Minimum of (rows, columns) for Cramér&#39;s V formula</span></span>
-<span id="cb14-11"><a href></a>k <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">nrow</span>(tbl), <span class="fu">ncol</span>(tbl))</span>
-<span id="cb14-12"><a href></a></span>
-<span id="cb14-13"><a href></a><span class="co"># Cramér&#39;s V calculation</span></span>
-<span id="cb14-14"><a href></a>cramers_v <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(chisq_val <span class="sc">/</span> (n <span class="sc">*</span> (k <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb14-15"><a href></a></span>
-<span id="cb14-16"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Cramér&#39;s V:&quot;</span>, <span class="fu">round</span>(cramers_v, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="co"># Chi-square test of independence</span></span>
+<span id="cb14-2"><a></a>test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tbl)</span>
+<span id="cb14-3"><a></a></span>
+<span id="cb14-4"><a></a><span class="co"># Extract test statistic</span></span>
+<span id="cb14-5"><a></a>chisq_val <span class="ot">&lt;-</span> test<span class="sc">$</span>statistic</span>
+<span id="cb14-6"><a></a></span>
+<span id="cb14-7"><a></a><span class="co"># Total number of observations</span></span>
+<span id="cb14-8"><a></a>n <span class="ot">&lt;-</span> <span class="fu">sum</span>(tbl)</span>
+<span id="cb14-9"><a></a></span>
+<span id="cb14-10"><a></a><span class="co"># Minimum of (rows, columns) for Cramér&#39;s V formula</span></span>
+<span id="cb14-11"><a></a>k <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">nrow</span>(tbl), <span class="fu">ncol</span>(tbl))</span>
+<span id="cb14-12"><a></a></span>
+<span id="cb14-13"><a></a><span class="co"># Cramér&#39;s V calculation</span></span>
+<span id="cb14-14"><a></a>cramers_v <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(chisq_val <span class="sc">/</span> (n <span class="sc">*</span> (k <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb14-15"><a></a></span>
+<span id="cb14-16"><a></a><span class="fu">cat</span>(<span class="st">&quot;Cramér&#39;s V:&quot;</span>, <span class="fu">round</span>(cramers_v, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1515,11 +1515,11 @@ odds ratio
 </div>
 <div id="tabset-10-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href></a>beverage_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">9</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-2"><a href></a><span class="fu">rownames</span>(beverage_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;American&quot;</span>, <span class="st">&quot;English&quot;</span>)</span>
-<span id="cb16-3"><a href></a><span class="fu">colnames</span>(beverage_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Coffee&quot;</span>, <span class="st">&quot;Tea&quot;</span>)</span>
-<span id="cb16-4"><a href></a></span>
-<span id="cb16-5"><a href></a><span class="fu">fisher.test</span>(beverage_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>beverage_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">9</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-2"><a></a><span class="fu">rownames</span>(beverage_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;American&quot;</span>, <span class="st">&quot;English&quot;</span>)</span>
+<span id="cb16-3"><a></a><span class="fu">colnames</span>(beverage_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Coffee&quot;</span>, <span class="st">&quot;Tea&quot;</span>)</span>
+<span id="cb16-4"><a></a></span>
+<span id="cb16-5"><a></a><span class="fu">fisher.test</span>(beverage_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1556,17 +1556,17 @@ odds ratio
 <section id="calculating-odds-ratio-in-r" class="slide level2 smaller">
 <h2>Calculating Odds Ratio in R</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href></a><span class="co"># Fisher&#39;s test returns odds ratio automatically</span></span>
-<span id="cb17-2"><a href></a>fisher_result <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(beverage_table)</span>
-<span id="cb17-3"><a href></a>fisher_result<span class="sc">$</span>estimate  <span class="co"># Odds ratio</span></span>
-<span id="cb17-4"><a href></a></span>
-<span id="cb17-5"><a href></a><span class="co"># 95% confidence interval for odds ratio</span></span>
-<span id="cb17-6"><a href></a>fisher_result<span class="sc">$</span>conf.int</span>
-<span id="cb17-7"><a href></a></span>
-<span id="cb17-8"><a href></a><span class="co"># For larger tables, can use epitools package</span></span>
-<span id="cb17-9"><a href></a><span class="co"># install.packages(&quot;epitools&quot;)</span></span>
-<span id="cb17-10"><a href></a><span class="fu">library</span>(epitools)</span>
-<span id="cb17-11"><a href></a><span class="fu">oddsratio</span>(beverage_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="co"># Fisher&#39;s test returns odds ratio automatically</span></span>
+<span id="cb17-2"><a></a>fisher_result <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(beverage_table)</span>
+<span id="cb17-3"><a></a>fisher_result<span class="sc">$</span>estimate  <span class="co"># Odds ratio</span></span>
+<span id="cb17-4"><a></a></span>
+<span id="cb17-5"><a></a><span class="co"># 95% confidence interval for odds ratio</span></span>
+<span id="cb17-6"><a></a>fisher_result<span class="sc">$</span>conf.int</span>
+<span id="cb17-7"><a></a></span>
+<span id="cb17-8"><a></a><span class="co"># For larger tables, can use epitools package</span></span>
+<span id="cb17-9"><a></a><span class="co"># install.packages(&quot;epitools&quot;)</span></span>
+<span id="cb17-10"><a></a><span class="fu">library</span>(epitools)</span>
+<span id="cb17-11"><a></a><span class="fu">oddsratio</span>(beverage_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="g-test-log-likelihood-ratio-test" class="slide level2 smaller">
@@ -1578,15 +1578,15 @@ odds ratio
 <li>Follows chi-square distribution</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href></a><span class="fu">library</span>(DescTools)</span>
-<span id="cb18-2"><a href></a></span>
-<span id="cb18-3"><a href></a><span class="co"># G-test for goodness of fit</span></span>
-<span id="cb18-4"><a href></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">161</span>, <span class="dv">38</span>, <span class="dv">53</span>, <span class="dv">6</span>)</span>
-<span id="cb18-5"><a href></a>expected_ratio <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span><span class="sc">/</span><span class="dv">16</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">16</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">16</span>)</span>
-<span id="cb18-6"><a href></a><span class="fu">GTest</span>(observed, <span class="at">p =</span> expected_ratio)</span>
-<span id="cb18-7"><a href></a></span>
-<span id="cb18-8"><a href></a><span class="co"># G-test for independence</span></span>
-<span id="cb18-9"><a href></a><span class="fu">GTest</span>(contingency_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a><span class="co"># G-test for goodness of fit</span></span>
+<span id="cb18-4"><a></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">161</span>, <span class="dv">38</span>, <span class="dv">53</span>, <span class="dv">6</span>)</span>
+<span id="cb18-5"><a></a>expected_ratio <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span><span class="sc">/</span><span class="dv">16</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">16</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">16</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">16</span>)</span>
+<span id="cb18-6"><a></a><span class="fu">GTest</span>(observed, <span class="at">p =</span> expected_ratio)</span>
+<span id="cb18-7"><a></a></span>
+<span id="cb18-8"><a></a><span class="co"># G-test for independence</span></span>
+<span id="cb18-9"><a></a><span class="fu">GTest</span>(contingency_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="r-exercise-chi-square-and-contingency-analysis" class="slide level2 smaller">
@@ -1634,14 +1634,14 @@ odds ratio
 <li>Interpret: Is treatment associated with clearance?</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href></a><span class="co"># Starter code</span></span>
-<span id="cb19-2"><a href></a>bacteria <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">40</span>),</span>
-<span id="cb19-3"><a href></a>                   <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb19-4"><a href></a>                   <span class="at">dimnames =</span> <span class="fu">list</span>(</span>
-<span id="cb19-5"><a href></a>                     <span class="at">Treatment =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Control&quot;</span>),</span>
-<span id="cb19-6"><a href></a>                     <span class="at">Outcome =</span> <span class="fu">c</span>(<span class="st">&quot;Cleared&quot;</span>, <span class="st">&quot;Not Cleared&quot;</span>)))</span>
-<span id="cb19-7"><a href></a></span>
-<span id="cb19-8"><a href></a><span class="co"># Your analysis here...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="co"># Starter code</span></span>
+<span id="cb19-2"><a></a>bacteria <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">40</span>),</span>
+<span id="cb19-3"><a></a>                   <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-4"><a></a>                   <span class="at">dimnames =</span> <span class="fu">list</span>(</span>
+<span id="cb19-5"><a></a>                     <span class="at">Treatment =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Control&quot;</span>),</span>
+<span id="cb19-6"><a></a>                     <span class="at">Outcome =</span> <span class="fu">c</span>(<span class="st">&quot;Cleared&quot;</span>, <span class="st">&quot;Not Cleared&quot;</span>)))</span>
+<span id="cb19-7"><a></a></span>
+<span id="cb19-8"><a></a><span class="co"># Your analysis here...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1671,7 +1671,7 @@ odds ratio
 <p><span class="math display">\[Cov(X,Y) = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{n-1}\]</span></p>
 </div>
 <div id="tabset-11-2">
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a href></a>Cov(X,Y) = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{n-1}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a></a>Cov(X,Y) = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{n-1}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1683,7 +1683,7 @@ odds ratio
 <p><span class="math display">\[r = \frac{Cov(X,Y)}{s_x \cdot s_y}\]</span></p>
 </div>
 <div id="tabset-12-2">
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a href></a>r = \frac{Cov(X,Y)}{s_x \cdot s_y}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a></a>r = \frac{Cov(X,Y)}{s_x \cdot s_y}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1720,24 +1720,24 @@ Figure 1: Different correlation strengths and directions
 </div>
 <div id="tabset-13-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span>
-<span id="cb22-2"><a href></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb22-3"><a href></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb22-4"><a href></a></span>
-<span id="cb22-5"><a href></a><span class="co"># Function to generate correlated data</span></span>
-<span id="cb22-6"><a href></a>make_corr_data <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">n =</span> <span class="dv">100</span>) {</span>
-<span id="cb22-7"><a href></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb22-8"><a href></a>  y <span class="ot">&lt;-</span> r <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> r<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb22-9"><a href></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
-<span id="cb22-10"><a href></a>}</span>
-<span id="cb22-11"><a href></a></span>
-<span id="cb22-12"><a href></a>correlations <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.9</span>, <span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.9</span>)</span>
-<span id="cb22-13"><a href></a><span class="cf">for</span>(r <span class="cf">in</span> correlations) {</span>
-<span id="cb22-14"><a href></a>  d <span class="ot">&lt;-</span> <span class="fu">make_corr_data</span>(r)</span>
-<span id="cb22-15"><a href></a>  <span class="fu">plot</span>(d<span class="sc">$</span>x, d<span class="sc">$</span>y, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>),</span>
-<span id="cb22-16"><a href></a>       <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;r =&quot;</span>, r), <span class="at">xlab =</span> <span class="st">&quot;X&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Y&quot;</span>)</span>
-<span id="cb22-17"><a href></a>  <span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, d), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb22-18"><a href></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="cb22-2"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb22-3"><a></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb22-4"><a></a></span>
+<span id="cb22-5"><a></a><span class="co"># Function to generate correlated data</span></span>
+<span id="cb22-6"><a></a>make_corr_data <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">n =</span> <span class="dv">100</span>) {</span>
+<span id="cb22-7"><a></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb22-8"><a></a>  y <span class="ot">&lt;-</span> r <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> r<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb22-9"><a></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb22-10"><a></a>}</span>
+<span id="cb22-11"><a></a></span>
+<span id="cb22-12"><a></a>correlations <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.9</span>, <span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.9</span>)</span>
+<span id="cb22-13"><a></a><span class="cf">for</span>(r <span class="cf">in</span> correlations) {</span>
+<span id="cb22-14"><a></a>  d <span class="ot">&lt;-</span> <span class="fu">make_corr_data</span>(r)</span>
+<span id="cb22-15"><a></a>  <span class="fu">plot</span>(d<span class="sc">$</span>x, d<span class="sc">$</span>y, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>),</span>
+<span id="cb22-16"><a></a>       <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;r =&quot;</span>, r), <span class="at">xlab =</span> <span class="st">&quot;X&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb22-17"><a></a>  <span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, d), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb22-18"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1758,8 +1758,8 @@ Figure 1: Different correlation strengths and directions
 </div>
 <div id="tabset-14-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href></a><span class="co"># Using built-in mtcars dataset</span></span>
-<span id="cb24-2"><a href></a><span class="fu">cor</span>(mtcars<span class="sc">$</span>mpg, mtcars<span class="sc">$</span>wt)  <span class="co"># Pearson correlation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="co"># Using built-in mtcars dataset</span></span>
+<span id="cb24-2"><a></a><span class="fu">cor</span>(mtcars<span class="sc">$</span>mpg, mtcars<span class="sc">$</span>wt)  <span class="co"># Pearson correlation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1791,8 +1791,8 @@ sample estimates:
 </div>
 <div id="tabset-15-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href></a><span class="co"># Test significance</span></span>
-<span id="cb26-2"><a href></a><span class="fu">cor.test</span>(mtcars<span class="sc">$</span>mpg, mtcars<span class="sc">$</span>wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="co"># Test significance</span></span>
+<span id="cb26-2"><a></a><span class="fu">cor.test</span>(mtcars<span class="sc">$</span>mpg, mtcars<span class="sc">$</span>wt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1865,22 +1865,22 @@ sample estimates:
 </div>
 <div id="tabset-16-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href></a><span class="co"># Built-in anscombe dataset</span></span>
-<span id="cb27-2"><a href></a><span class="fu">data</span>(anscombe)</span>
-<span id="cb27-3"><a href></a></span>
-<span id="cb27-4"><a href></a><span class="co"># All four have identical summary statistics!</span></span>
-<span id="cb27-5"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Dataset 1 - cor:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(anscombe<span class="sc">$</span>x1, anscombe<span class="sc">$</span>y1), <span class="dv">3</span>),</span>
-<span id="cb27-6"><a href></a>    <span class="st">&quot;| Dataset 2 - cor:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(anscombe<span class="sc">$</span>x2, anscombe<span class="sc">$</span>y2), <span class="dv">3</span>),</span>
-<span id="cb27-7"><a href></a>    <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Dataset 3 - cor:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(anscombe<span class="sc">$</span>x3, anscombe<span class="sc">$</span>y3), <span class="dv">3</span>),</span>
-<span id="cb27-8"><a href></a>    <span class="st">&quot;| Dataset 4 - cor:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(anscombe<span class="sc">$</span>x4, anscombe<span class="sc">$</span>y4), <span class="dv">3</span>))</span>
-<span id="cb27-9"><a href></a></span>
-<span id="cb27-10"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span>
-<span id="cb27-11"><a href></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
-<span id="cb27-12"><a href></a>  x <span class="ot">&lt;-</span> anscombe[, i]; y <span class="ot">&lt;-</span> anscombe[, i <span class="sc">+</span> <span class="dv">4</span>]</span>
-<span id="cb27-13"><a href></a>  <span class="fu">plot</span>(x, y, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Dataset&quot;</span>, i),</span>
-<span id="cb27-14"><a href></a>       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">13</span>))</span>
-<span id="cb27-15"><a href></a>  <span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb27-16"><a href></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="co"># Built-in anscombe dataset</span></span>
+<span id="cb27-2"><a></a><span class="fu">data</span>(anscombe)</span>
+<span id="cb27-3"><a></a></span>
+<span id="cb27-4"><a></a><span class="co"># All four have identical summary statistics!</span></span>
+<span id="cb27-5"><a></a><span class="fu">cat</span>(<span class="st">&quot;Dataset 1 - cor:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(anscombe<span class="sc">$</span>x1, anscombe<span class="sc">$</span>y1), <span class="dv">3</span>),</span>
+<span id="cb27-6"><a></a>    <span class="st">&quot;| Dataset 2 - cor:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(anscombe<span class="sc">$</span>x2, anscombe<span class="sc">$</span>y2), <span class="dv">3</span>),</span>
+<span id="cb27-7"><a></a>    <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Dataset 3 - cor:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(anscombe<span class="sc">$</span>x3, anscombe<span class="sc">$</span>y3), <span class="dv">3</span>),</span>
+<span id="cb27-8"><a></a>    <span class="st">&quot;| Dataset 4 - cor:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(anscombe<span class="sc">$</span>x4, anscombe<span class="sc">$</span>y4), <span class="dv">3</span>))</span>
+<span id="cb27-9"><a></a></span>
+<span id="cb27-10"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="cb27-11"><a></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb27-12"><a></a>  x <span class="ot">&lt;-</span> anscombe[, i]; y <span class="ot">&lt;-</span> anscombe[, i <span class="sc">+</span> <span class="dv">4</span>]</span>
+<span id="cb27-13"><a></a>  <span class="fu">plot</span>(x, y, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Dataset&quot;</span>, i),</span>
+<span id="cb27-14"><a></a>       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">20</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">13</span>))</span>
+<span id="cb27-15"><a></a>  <span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb27-16"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1916,7 +1916,7 @@ sample estimates:
 <p><span class="math display">\[y_i = \beta_0 + \beta_1 x_i + \epsilon_i\]</span></p>
 </div>
 <div id="tabset-17-2">
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a href></a>y_i = \beta_0 + \beta_1 x_i + \epsilon_i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a></a>y_i = \beta_0 + \beta_1 x_i + \epsilon_i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1996,17 +1996,17 @@ sample estimates:
 <section id="linear-models-in-r" class="slide level2 smaller">
 <h2>Linear Models in R</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href></a><span class="co"># Include intercept (default)</span></span>
-<span id="cb29-2"><a href></a>Y <span class="sc">~</span> X</span>
-<span id="cb29-3"><a href></a>Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X</span>
-<span id="cb29-4"><a href></a></span>
-<span id="cb29-5"><a href></a><span class="co"># Exclude intercept</span></span>
-<span id="cb29-6"><a href></a>Y <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> X</span>
-<span id="cb29-7"><a href></a>Y <span class="sc">~</span> X <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb29-8"><a href></a></span>
-<span id="cb29-9"><a href></a><span class="co"># Fit and examine model</span></span>
-<span id="cb29-10"><a href></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> mydata)</span>
-<span id="cb29-11"><a href></a><span class="fu">summary</span>(my_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="co"># Include intercept (default)</span></span>
+<span id="cb29-2"><a></a>Y <span class="sc">~</span> X</span>
+<span id="cb29-3"><a></a>Y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> X</span>
+<span id="cb29-4"><a></a></span>
+<span id="cb29-5"><a></a><span class="co"># Exclude intercept</span></span>
+<span id="cb29-6"><a></a>Y <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> X</span>
+<span id="cb29-7"><a></a>Y <span class="sc">~</span> X <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb29-8"><a></a></span>
+<span id="cb29-9"><a></a><span class="co"># Fit and examine model</span></span>
+<span id="cb29-10"><a></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> mydata)</span>
+<span id="cb29-11"><a></a><span class="fu">summary</span>(my_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="linear-regression-example" class="slide level2 smaller">
@@ -2027,17 +2027,18 @@ sample estimates:
 </div>
 <div id="tabset-18-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb30-2"><a href></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb30-3"><a href></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">1.5</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb30-4"><a href></a></span>
-<span id="cb30-5"><a href></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
-<span id="cb30-6"><a href></a><span class="fu">plot</span>(x, y, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>)</span>
-<span id="cb30-7"><a href></a><span class="fu">abline</span>(my_lm, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb30-2"><a></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb30-3"><a></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">1.5</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb30-4"><a></a></span>
+<span id="cb30-5"><a></a>my_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb30-6"><a></a><span class="fu">plot</span>(x, y, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>)</span>
+<span id="cb30-7"><a></a><span class="fu">abline</span>(my_lm, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
+
 
 </section></section>
     </div>

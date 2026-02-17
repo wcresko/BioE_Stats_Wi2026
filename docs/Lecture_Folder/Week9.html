@@ -442,7 +442,7 @@
   <meta name="generator" content="quarto-1.7.30">
 
   <meta name="author" content="Bill Cresko">
-  <title>Statistics for Bioengineering - Week 9</title>
+  <title>BioEngineering Statistics Winter 2026 – Statistics for Bioengineering - Week 9</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -1187,20 +1187,20 @@ Bill Cresko
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href></a><span class="co"># Install new packages (run once)</span></span>
-<span id="cb1-2"><a href></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;caret&quot;</span>, <span class="st">&quot;cluster&quot;</span>, <span class="st">&quot;dendextend&quot;</span>, <span class="st">&quot;e1071&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Install new packages (run once)</span></span>
+<span id="cb1-2"><a></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;caret&quot;</span>, <span class="st">&quot;cluster&quot;</span>, <span class="st">&quot;dendextend&quot;</span>, <span class="st">&quot;e1071&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation &amp; visualization</span></span>
-<span id="cb2-2"><a href></a><span class="fu">library</span>(boot)         <span class="co"># Bootstrap and cross-validation</span></span>
-<span id="cb2-3"><a href></a><span class="fu">library</span>(class)        <span class="co"># K-nearest neighbors (knn)</span></span>
-<span id="cb2-4"><a href></a><span class="fu">library</span>(caret)        <span class="co"># Classification And REgression Training</span></span>
-<span id="cb2-5"><a href></a><span class="fu">library</span>(cluster)      <span class="co"># Clustering algorithms</span></span>
-<span id="cb2-6"><a href></a><span class="fu">library</span>(dendextend)   <span class="co"># Dendrogram visualization</span></span>
-<span id="cb2-7"><a href></a><span class="fu">library</span>(e1071)        <span class="co"># Support vector machines (SVM)</span></span>
-<span id="cb2-8"><a href></a><span class="fu">library</span>(pwr)          <span class="co"># Power analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation &amp; visualization</span></span>
+<span id="cb2-2"><a></a><span class="fu">library</span>(boot)         <span class="co"># Bootstrap and cross-validation</span></span>
+<span id="cb2-3"><a></a><span class="fu">library</span>(class)        <span class="co"># K-nearest neighbors (knn)</span></span>
+<span id="cb2-4"><a></a><span class="fu">library</span>(caret)        <span class="co"># Classification And REgression Training</span></span>
+<span id="cb2-5"><a></a><span class="fu">library</span>(cluster)      <span class="co"># Clustering algorithms</span></span>
+<span id="cb2-6"><a></a><span class="fu">library</span>(dendextend)   <span class="co"># Dendrogram visualization</span></span>
+<span id="cb2-7"><a></a><span class="fu">library</span>(e1071)        <span class="co"># Support vector machines (SVM)</span></span>
+<span id="cb2-8"><a></a><span class="fu">library</span>(pwr)          <span class="co"># Power analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1317,7 +1317,7 @@ Bill Cresko
 <p><span class="math display">\[\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}\]</span></p>
 </div>
 <div id="tabset-2-2">
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href></a>\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a></a>\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1350,30 +1350,30 @@ Bill Cresko
 </div>
 <div id="tabset-3-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb4-2"><a href></a>x_pop <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb4-3"><a href></a>y_pop <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> x_pop <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb4-4"><a href></a></span>
-<span id="cb4-5"><a href></a><span class="fu">set.seed</span>(<span class="dv">0</span>)</span>
-<span id="cb4-6"><a href></a>idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1000</span>, <span class="dv">25</span>)</span>
-<span id="cb4-7"><a href></a>x_samp <span class="ot">&lt;-</span> x_pop[idx]; y_samp <span class="ot">&lt;-</span> y_pop[idx]</span>
-<span id="cb4-8"><a href></a></span>
-<span id="cb4-9"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb4-10"><a href></a></span>
-<span id="cb4-11"><a href></a><span class="co"># Linear model: appropriate fit</span></span>
-<span id="cb4-12"><a href></a><span class="fu">plot</span>(x_pop, y_pop, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
-<span id="cb4-13"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Linear Model (Appropriate)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>)</span>
-<span id="cb4-14"><a href></a><span class="fu">points</span>(x_samp, y_samp, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb4-15"><a href></a><span class="fu">abline</span>(<span class="fu">lm</span>(y_samp <span class="sc">~</span> x_samp), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb4-16"><a href></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">6</span>, <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb4-17"><a href></a></span>
-<span id="cb4-18"><a href></a><span class="co"># LOESS: overfitting</span></span>
-<span id="cb4-19"><a href></a><span class="fu">plot</span>(x_pop, y_pop, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
-<span id="cb4-20"><a href></a>     <span class="at">main =</span> <span class="st">&quot;LOESS Model (Overfit)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>)</span>
-<span id="cb4-21"><a href></a><span class="fu">points</span>(x_samp, y_samp, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb4-22"><a href></a><span class="fu">lines</span>(<span class="fu">sort</span>(x_samp), <span class="fu">predict</span>(<span class="fu">loess</span>(y_samp <span class="sc">~</span> x_samp))[<span class="fu">order</span>(x_samp)],</span>
-<span id="cb4-23"><a href></a>      <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb4-24"><a href></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">6</span>, <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb4-2"><a></a>x_pop <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb4-3"><a></a>y_pop <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> x_pop <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-4"><a></a></span>
+<span id="cb4-5"><a></a><span class="fu">set.seed</span>(<span class="dv">0</span>)</span>
+<span id="cb4-6"><a></a>idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1000</span>, <span class="dv">25</span>)</span>
+<span id="cb4-7"><a></a>x_samp <span class="ot">&lt;-</span> x_pop[idx]; y_samp <span class="ot">&lt;-</span> y_pop[idx]</span>
+<span id="cb4-8"><a></a></span>
+<span id="cb4-9"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb4-10"><a></a></span>
+<span id="cb4-11"><a></a><span class="co"># Linear model: appropriate fit</span></span>
+<span id="cb4-12"><a></a><span class="fu">plot</span>(x_pop, y_pop, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb4-13"><a></a>     <span class="at">main =</span> <span class="st">&quot;Linear Model (Appropriate)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb4-14"><a></a><span class="fu">points</span>(x_samp, y_samp, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb4-15"><a></a><span class="fu">abline</span>(<span class="fu">lm</span>(y_samp <span class="sc">~</span> x_samp), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-16"><a></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">6</span>, <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb4-17"><a></a></span>
+<span id="cb4-18"><a></a><span class="co"># LOESS: overfitting</span></span>
+<span id="cb4-19"><a></a><span class="fu">plot</span>(x_pop, y_pop, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb4-20"><a></a>     <span class="at">main =</span> <span class="st">&quot;LOESS Model (Overfit)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb4-21"><a></a><span class="fu">points</span>(x_samp, y_samp, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb4-22"><a></a><span class="fu">lines</span>(<span class="fu">sort</span>(x_samp), <span class="fu">predict</span>(<span class="fu">loess</span>(y_samp <span class="sc">~</span> x_samp))[<span class="fu">order</span>(x_samp)],</span>
+<span id="cb4-23"><a></a>      <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-24"><a></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">6</span>, <span class="at">b =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1448,17 +1448,17 @@ Bill Cresko
 </div>
 <div id="tabset-4-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href></a><span class="fu">library</span>(boot)</span>
-<span id="cb6-2"><a href></a></span>
-<span id="cb6-3"><a href></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb6-4"><a href></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb6-5"><a href></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">2</span> <span class="sc">*</span> pi)</span>
-<span id="cb6-6"><a href></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.3</span>)</span>
-<span id="cb6-7"><a href></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
-<span id="cb6-8"><a href></a></span>
-<span id="cb6-9"><a href></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">data =</span> data)</span>
-<span id="cb6-10"><a href></a>cv_result <span class="ot">&lt;-</span> <span class="fu">cv.glm</span>(data, model, <span class="at">K =</span> <span class="dv">10</span>)</span>
-<span id="cb6-11"><a href></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV MSE:&quot;</span>, <span class="fu">round</span>(cv_result<span class="sc">$</span>delta[<span class="dv">1</span>], <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">library</span>(boot)</span>
+<span id="cb6-2"><a></a></span>
+<span id="cb6-3"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb6-4"><a></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb6-5"><a></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">2</span> <span class="sc">*</span> pi)</span>
+<span id="cb6-6"><a></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.3</span>)</span>
+<span id="cb6-7"><a></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb6-8"><a></a></span>
+<span id="cb6-9"><a></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">data =</span> data)</span>
+<span id="cb6-10"><a></a>cv_result <span class="ot">&lt;-</span> <span class="fu">cv.glm</span>(data, model, <span class="at">K =</span> <span class="dv">10</span>)</span>
+<span id="cb6-11"><a></a><span class="fu">cat</span>(<span class="st">&quot;10-fold CV MSE:&quot;</span>, <span class="fu">round</span>(cv_result<span class="sc">$</span>delta[<span class="dv">1</span>], <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1511,32 +1511,32 @@ Bill Cresko
 </div>
 <div id="tabset-5-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href></a><span class="co"># LOOCV to select optimal polynomial degree</span></span>
-<span id="cb7-2"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb7-3"><a href></a>n <span class="ot">&lt;-</span> <span class="dv">80</span></span>
-<span id="cb7-4"><a href></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">6</span>)</span>
-<span id="cb7-5"><a href></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>x <span class="sc">-</span> <span class="fl">0.5</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">1.5</span>)</span>
-<span id="cb7-6"><a href></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y)</span>
-<span id="cb7-7"><a href></a></span>
-<span id="cb7-8"><a href></a>cv_errors <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
-<span id="cb7-9"><a href></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb7-10"><a href></a>  cv_err <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb7-11"><a href></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
-<span id="cb7-12"><a href></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, d), <span class="at">data =</span> df[<span class="sc">-</span>i, ])</span>
-<span id="cb7-13"><a href></a>    pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, df[i, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb7-14"><a href></a>    cv_err <span class="ot">&lt;-</span> cv_err <span class="sc">+</span> (df<span class="sc">$</span>y[i] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb7-15"><a href></a>  }</span>
-<span id="cb7-16"><a href></a>  cv_errors[d] <span class="ot">&lt;-</span> cv_err <span class="sc">/</span> n</span>
-<span id="cb7-17"><a href></a>}</span>
-<span id="cb7-18"><a href></a></span>
-<span id="cb7-19"><a href></a><span class="co"># Plot CV error vs. complexity</span></span>
-<span id="cb7-20"><a href></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, cv_errors, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
-<span id="cb7-21"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Polynomial Degree&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;LOOCV MSE&quot;</span>,</span>
-<span id="cb7-22"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Cross-Validation for Model Selection&quot;</span>)</span>
-<span id="cb7-23"><a href></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">which.min</span>(cv_errors), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb7-24"><a href></a></span>
-<span id="cb7-25"><a href></a><span class="co"># The &quot;elbow&quot; shows where adding complexity stops helping</span></span>
-<span id="cb7-26"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Optimal degree:&quot;</span>, <span class="fu">which.min</span>(cv_errors))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="co"># LOOCV to select optimal polynomial degree</span></span>
+<span id="cb7-2"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb7-3"><a></a>n <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb7-4"><a></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">6</span>)</span>
+<span id="cb7-5"><a></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>x <span class="sc">-</span> <span class="fl">0.5</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">1.5</span>)</span>
+<span id="cb7-6"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y)</span>
+<span id="cb7-7"><a></a></span>
+<span id="cb7-8"><a></a>cv_errors <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
+<span id="cb7-9"><a></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb7-10"><a></a>  cv_err <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-11"><a></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb7-12"><a></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, d), <span class="at">data =</span> df[<span class="sc">-</span>i, ])</span>
+<span id="cb7-13"><a></a>    pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, df[i, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb7-14"><a></a>    cv_err <span class="ot">&lt;-</span> cv_err <span class="sc">+</span> (df<span class="sc">$</span>y[i] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb7-15"><a></a>  }</span>
+<span id="cb7-16"><a></a>  cv_errors[d] <span class="ot">&lt;-</span> cv_err <span class="sc">/</span> n</span>
+<span id="cb7-17"><a></a>}</span>
+<span id="cb7-18"><a></a></span>
+<span id="cb7-19"><a></a><span class="co"># Plot CV error vs. complexity</span></span>
+<span id="cb7-20"><a></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, cv_errors, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
+<span id="cb7-21"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Polynomial Degree&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;LOOCV MSE&quot;</span>,</span>
+<span id="cb7-22"><a></a>     <span class="at">main =</span> <span class="st">&quot;Cross-Validation for Model Selection&quot;</span>)</span>
+<span id="cb7-23"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">which.min</span>(cv_errors), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb7-24"><a></a></span>
+<span id="cb7-25"><a></a><span class="co"># The &quot;elbow&quot; shows where adding complexity stops helping</span></span>
+<span id="cb7-26"><a></a><span class="fu">cat</span>(<span class="st">&quot;Optimal degree:&quot;</span>, <span class="fu">which.min</span>(cv_errors))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-5-3">
@@ -1585,7 +1585,7 @@ Bill Cresko
 <p>Or more simply: <span class="math display">\[\text{Posterior} \propto \text{Likelihood} \times \text{Prior}\]</span></p>
 </div>
 <div id="tabset-6-2">
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href></a>P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a></a>P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-6-3">
 <ul>
@@ -1616,21 +1616,21 @@ Bill Cresko
 </div>
 <div id="tabset-7-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
-<span id="cb9-2"><a href></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb9-3"><a href></a></span>
-<span id="cb9-4"><a href></a><span class="co"># Prior: Beta(2, 2) — slight belief coin is fair</span></span>
-<span id="cb9-5"><a href></a><span class="fu">plot</span>(theta, <span class="fu">dbeta</span>(theta, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
-<span id="cb9-6"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Prior: Beta(2,2)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ (prob of heads)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>)</span>
-<span id="cb9-7"><a href></a></span>
-<span id="cb9-8"><a href></a><span class="co"># Likelihood (binomial): 7 heads out of 10 flips</span></span>
-<span id="cb9-9"><a href></a><span class="fu">plot</span>(theta, <span class="fu">dbinom</span>(<span class="dv">7</span>, <span class="dv">10</span>, theta), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>,</span>
-<span id="cb9-10"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Likelihood: 7/10 heads&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Likelihood&quot;</span>)</span>
-<span id="cb9-11"><a href></a></span>
-<span id="cb9-12"><a href></a><span class="co"># Posterior: Beta(2+7, 2+3) = Beta(9, 5)</span></span>
-<span id="cb9-13"><a href></a><span class="fu">plot</span>(theta, <span class="fu">dbeta</span>(theta, <span class="dv">9</span>, <span class="dv">5</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>,</span>
-<span id="cb9-14"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Posterior: Beta(9,5)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>)</span>
-<span id="cb9-15"><a href></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>, <span class="dv">5</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb9-2"><a></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb9-3"><a></a></span>
+<span id="cb9-4"><a></a><span class="co"># Prior: Beta(2, 2) — slight belief coin is fair</span></span>
+<span id="cb9-5"><a></a><span class="fu">plot</span>(theta, <span class="fu">dbeta</span>(theta, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
+<span id="cb9-6"><a></a>     <span class="at">main =</span> <span class="st">&quot;Prior: Beta(2,2)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ (prob of heads)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>)</span>
+<span id="cb9-7"><a></a></span>
+<span id="cb9-8"><a></a><span class="co"># Likelihood (binomial): 7 heads out of 10 flips</span></span>
+<span id="cb9-9"><a></a><span class="fu">plot</span>(theta, <span class="fu">dbinom</span>(<span class="dv">7</span>, <span class="dv">10</span>, theta), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>,</span>
+<span id="cb9-10"><a></a>     <span class="at">main =</span> <span class="st">&quot;Likelihood: 7/10 heads&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Likelihood&quot;</span>)</span>
+<span id="cb9-11"><a></a></span>
+<span id="cb9-12"><a></a><span class="co"># Posterior: Beta(2+7, 2+3) = Beta(9, 5)</span></span>
+<span id="cb9-13"><a></a><span class="fu">plot</span>(theta, <span class="fu">dbeta</span>(theta, <span class="dv">9</span>, <span class="dv">5</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>,</span>
+<span id="cb9-14"><a></a>     <span class="at">main =</span> <span class="st">&quot;Posterior: Beta(9,5)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>)</span>
+<span id="cb9-15"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>, <span class="dv">5</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1660,12 +1660,12 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 </div>
 <div id="tabset-8-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href></a><span class="co"># Posterior: Beta(9, 5)</span></span>
-<span id="cb14-2"><a href></a>posterior_mean <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">/</span> (<span class="dv">9</span> <span class="sc">+</span> <span class="dv">5</span>)</span>
-<span id="cb14-3"><a href></a>credible_interval <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>, <span class="dv">5</span>)</span>
-<span id="cb14-4"><a href></a></span>
-<span id="cb14-5"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Posterior mean:&quot;</span>, <span class="fu">round</span>(posterior_mean, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb14-6"><a href></a><span class="fu">cat</span>(<span class="st">&quot;95% Credible Interval:&quot;</span>, <span class="fu">round</span>(credible_interval, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="co"># Posterior: Beta(9, 5)</span></span>
+<span id="cb14-2"><a></a>posterior_mean <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">/</span> (<span class="dv">9</span> <span class="sc">+</span> <span class="dv">5</span>)</span>
+<span id="cb14-3"><a></a>credible_interval <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>, <span class="dv">5</span>)</span>
+<span id="cb14-4"><a></a></span>
+<span id="cb14-5"><a></a><span class="fu">cat</span>(<span class="st">&quot;Posterior mean:&quot;</span>, <span class="fu">round</span>(posterior_mean, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb14-6"><a></a><span class="fu">cat</span>(<span class="st">&quot;95% Credible Interval:&quot;</span>, <span class="fu">round</span>(credible_interval, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1689,14 +1689,14 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 </div>
 <div id="tabset-9-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb15-2"><a href></a>beta1_samples <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="fl">2.3</span>, <span class="at">sd =</span> <span class="fl">0.4</span>)</span>
-<span id="cb15-3"><a href></a></span>
-<span id="cb15-4"><a href></a><span class="fu">hist</span>(beta1_samples, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">border =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb15-5"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Posterior Distribution of Slope&quot;</span>,</span>
-<span id="cb15-6"><a href></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(beta[<span class="dv">1</span>]), <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb15-7"><a href></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">quantile</span>(beta1_samples, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb15-8"><a href></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(beta1_samples), <span class="at">col =</span> <span class="st">&quot;darkblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb15-2"><a></a>beta1_samples <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="fl">2.3</span>, <span class="at">sd =</span> <span class="fl">0.4</span>)</span>
+<span id="cb15-3"><a></a></span>
+<span id="cb15-4"><a></a><span class="fu">hist</span>(beta1_samples, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">border =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb15-5"><a></a>     <span class="at">main =</span> <span class="st">&quot;Posterior Distribution of Slope&quot;</span>,</span>
+<span id="cb15-6"><a></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(beta[<span class="dv">1</span>]), <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-7"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">quantile</span>(beta1_samples, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb15-8"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(beta1_samples), <span class="at">col =</span> <span class="st">&quot;darkblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1737,46 +1737,46 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <div class="tab-content">
 <div id="tabset-10-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href></a><span class="co"># Install: install.packages(&quot;rstanarm&quot;)</span></span>
-<span id="cb16-2"><a href></a><span class="fu">library</span>(rstanarm)</span>
-<span id="cb16-3"><a href></a></span>
-<span id="cb16-4"><a href></a><span class="co"># Frequentist linear regression</span></span>
-<span id="cb16-5"><a href></a>freq_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width,</span>
-<span id="cb16-6"><a href></a>                 <span class="at">data =</span> iris)</span>
-<span id="cb16-7"><a href></a><span class="fu">summary</span>(freq_model)</span>
-<span id="cb16-8"><a href></a></span>
-<span id="cb16-9"><a href></a><span class="co"># Bayesian equivalent — nearly identical syntax!</span></span>
-<span id="cb16-10"><a href></a>bayes_model <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(Petal.Length <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width,</span>
-<span id="cb16-11"><a href></a>                        <span class="at">data =</span> iris,</span>
-<span id="cb16-12"><a href></a>                        <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
-<span id="cb16-13"><a href></a>                        <span class="at">prior =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>),         <span class="co"># weakly informative</span></span>
-<span id="cb16-14"><a href></a>                        <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>),</span>
-<span id="cb16-15"><a href></a>                        <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">seed =</span> <span class="dv">42</span>)</span>
-<span id="cb16-16"><a href></a></span>
-<span id="cb16-17"><a href></a><span class="co"># Posterior summary</span></span>
-<span id="cb16-18"><a href></a><span class="fu">print</span>(bayes_model, <span class="at">digits =</span> <span class="dv">3</span>)</span>
-<span id="cb16-19"><a href></a></span>
-<span id="cb16-20"><a href></a><span class="co"># 95% credible intervals</span></span>
-<span id="cb16-21"><a href></a><span class="fu">posterior_interval</span>(bayes_model, <span class="at">prob =</span> <span class="fl">0.95</span>)</span>
-<span id="cb16-22"><a href></a></span>
-<span id="cb16-23"><a href></a><span class="co"># Compare to frequentist CIs</span></span>
-<span id="cb16-24"><a href></a><span class="fu">confint</span>(freq_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="co"># Install: install.packages(&quot;rstanarm&quot;)</span></span>
+<span id="cb16-2"><a></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb16-3"><a></a></span>
+<span id="cb16-4"><a></a><span class="co"># Frequentist linear regression</span></span>
+<span id="cb16-5"><a></a>freq_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Petal.Length <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width,</span>
+<span id="cb16-6"><a></a>                 <span class="at">data =</span> iris)</span>
+<span id="cb16-7"><a></a><span class="fu">summary</span>(freq_model)</span>
+<span id="cb16-8"><a></a></span>
+<span id="cb16-9"><a></a><span class="co"># Bayesian equivalent — nearly identical syntax!</span></span>
+<span id="cb16-10"><a></a>bayes_model <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(Petal.Length <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width,</span>
+<span id="cb16-11"><a></a>                        <span class="at">data =</span> iris,</span>
+<span id="cb16-12"><a></a>                        <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb16-13"><a></a>                        <span class="at">prior =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>),         <span class="co"># weakly informative</span></span>
+<span id="cb16-14"><a></a>                        <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>),</span>
+<span id="cb16-15"><a></a>                        <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">seed =</span> <span class="dv">42</span>)</span>
+<span id="cb16-16"><a></a></span>
+<span id="cb16-17"><a></a><span class="co"># Posterior summary</span></span>
+<span id="cb16-18"><a></a><span class="fu">print</span>(bayes_model, <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb16-19"><a></a></span>
+<span id="cb16-20"><a></a><span class="co"># 95% credible intervals</span></span>
+<span id="cb16-21"><a></a><span class="fu">posterior_interval</span>(bayes_model, <span class="at">prob =</span> <span class="fl">0.95</span>)</span>
+<span id="cb16-22"><a></a></span>
+<span id="cb16-23"><a></a><span class="co"># Compare to frequentist CIs</span></span>
+<span id="cb16-24"><a></a><span class="fu">confint</span>(freq_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-10-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href></a><span class="co"># Plot posterior distributions of coefficients</span></span>
-<span id="cb17-2"><a href></a><span class="fu">plot</span>(bayes_model, <span class="at">plotfun =</span> <span class="st">&quot;areas&quot;</span>, <span class="at">prob =</span> <span class="fl">0.95</span>,</span>
-<span id="cb17-3"><a href></a>     <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>))</span>
-<span id="cb17-4"><a href></a></span>
-<span id="cb17-5"><a href></a><span class="co"># Posterior predictive check: does the model generate</span></span>
-<span id="cb17-6"><a href></a><span class="co"># data that looks like the real data?</span></span>
-<span id="cb17-7"><a href></a><span class="fu">pp_check</span>(bayes_model, <span class="at">plotfun =</span> <span class="st">&quot;dens_overlay&quot;</span>, <span class="at">nreps =</span> <span class="dv">50</span>)</span>
-<span id="cb17-8"><a href></a></span>
-<span id="cb17-9"><a href></a><span class="co"># Probability that Sepal.Length effect is positive</span></span>
-<span id="cb17-10"><a href></a>posterior_draws <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(bayes_model)</span>
-<span id="cb17-11"><a href></a><span class="fu">cat</span>(<span class="st">&quot;P(Sepal.Length &gt; 0) =&quot;</span>,</span>
-<span id="cb17-12"><a href></a>    <span class="fu">mean</span>(posterior_draws<span class="sc">$</span>Sepal.Length <span class="sc">&gt;</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="co"># Plot posterior distributions of coefficients</span></span>
+<span id="cb17-2"><a></a><span class="fu">plot</span>(bayes_model, <span class="at">plotfun =</span> <span class="st">&quot;areas&quot;</span>, <span class="at">prob =</span> <span class="fl">0.95</span>,</span>
+<span id="cb17-3"><a></a>     <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>))</span>
+<span id="cb17-4"><a></a></span>
+<span id="cb17-5"><a></a><span class="co"># Posterior predictive check: does the model generate</span></span>
+<span id="cb17-6"><a></a><span class="co"># data that looks like the real data?</span></span>
+<span id="cb17-7"><a></a><span class="fu">pp_check</span>(bayes_model, <span class="at">plotfun =</span> <span class="st">&quot;dens_overlay&quot;</span>, <span class="at">nreps =</span> <span class="dv">50</span>)</span>
+<span id="cb17-8"><a></a></span>
+<span id="cb17-9"><a></a><span class="co"># Probability that Sepal.Length effect is positive</span></span>
+<span id="cb17-10"><a></a>posterior_draws <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(bayes_model)</span>
+<span id="cb17-11"><a></a><span class="fu">cat</span>(<span class="st">&quot;P(Sepal.Length &gt; 0) =&quot;</span>,</span>
+<span id="cb17-12"><a></a>    <span class="fu">mean</span>(posterior_draws<span class="sc">$</span>Sepal.Length <span class="sc">&gt;</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-10-3">
@@ -1837,11 +1837,11 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <p><strong>Minkowski Distance (generalized):</strong> <span class="math display">\[d(x_i, x_j) = \left(\sum_{l=1}^{p}|x_{il} - x_{jl}|^q\right)^{1/q}\]</span></p>
 </div>
 <div id="tabset-11-2">
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a href></a>d_{Euclidean} = \sqrt{\sum_{l=1}^{p}(x_{il} - x_{jl})^2}</span>
-<span id="cb18-2"><a href></a></span>
-<span id="cb18-3"><a href></a>d_{Manhattan} = \sum_{l=1}^{p}|x_{il} - x_{jl}|</span>
-<span id="cb18-4"><a href></a></span>
-<span id="cb18-5"><a href></a>d_{Minkowski} = \left(\sum_{l=1}^{p}|x_{il} - x_{jl}|^q\right)^{1/q}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a></a>d_{Euclidean} = \sqrt{\sum_{l=1}^{p}(x_{il} - x_{jl})^2}</span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a>d_{Manhattan} = \sum_{l=1}^{p}|x_{il} - x_{jl}|</span>
+<span id="cb18-4"><a></a></span>
+<span id="cb18-5"><a></a>d_{Minkowski} = \left(\sum_{l=1}^{p}|x_{il} - x_{jl}|^q\right)^{1/q}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1853,39 +1853,39 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <div class="tab-content">
 <div id="tabset-12-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href></a><span class="fu">library</span>(class)</span>
-<span id="cb19-2"><a href></a></span>
-<span id="cb19-3"><a href></a><span class="co"># Prepare data</span></span>
-<span id="cb19-4"><a href></a>train_features <span class="ot">&lt;-</span> train_data[, <span class="fu">c</span>(<span class="st">&quot;x1&quot;</span>, <span class="st">&quot;x2&quot;</span>)]</span>
-<span id="cb19-5"><a href></a>train_labels   <span class="ot">&lt;-</span> train_data<span class="sc">$</span>class</span>
-<span id="cb19-6"><a href></a>test_features  <span class="ot">&lt;-</span> test_data[, <span class="fu">c</span>(<span class="st">&quot;x1&quot;</span>, <span class="st">&quot;x2&quot;</span>)]</span>
-<span id="cb19-7"><a href></a></span>
-<span id="cb19-8"><a href></a><span class="co"># Apply KNN</span></span>
-<span id="cb19-9"><a href></a>k <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb19-10"><a href></a>knn_pred <span class="ot">&lt;-</span> <span class="fu">knn</span>(<span class="at">train =</span> train_features,</span>
-<span id="cb19-11"><a href></a>                <span class="at">test  =</span> test_features,</span>
-<span id="cb19-12"><a href></a>                <span class="at">cl    =</span> train_labels,</span>
-<span id="cb19-13"><a href></a>                <span class="at">k     =</span> k)</span>
-<span id="cb19-14"><a href></a></span>
-<span id="cb19-15"><a href></a><span class="co"># Calculate accuracy</span></span>
-<span id="cb19-16"><a href></a>accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(knn_pred <span class="sc">==</span> test_labels)</span>
-<span id="cb19-17"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Accuracy:&quot;</span>, accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="fu">library</span>(class)</span>
+<span id="cb19-2"><a></a></span>
+<span id="cb19-3"><a></a><span class="co"># Prepare data</span></span>
+<span id="cb19-4"><a></a>train_features <span class="ot">&lt;-</span> train_data[, <span class="fu">c</span>(<span class="st">&quot;x1&quot;</span>, <span class="st">&quot;x2&quot;</span>)]</span>
+<span id="cb19-5"><a></a>train_labels   <span class="ot">&lt;-</span> train_data<span class="sc">$</span>class</span>
+<span id="cb19-6"><a></a>test_features  <span class="ot">&lt;-</span> test_data[, <span class="fu">c</span>(<span class="st">&quot;x1&quot;</span>, <span class="st">&quot;x2&quot;</span>)]</span>
+<span id="cb19-7"><a></a></span>
+<span id="cb19-8"><a></a><span class="co"># Apply KNN</span></span>
+<span id="cb19-9"><a></a>k <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb19-10"><a></a>knn_pred <span class="ot">&lt;-</span> <span class="fu">knn</span>(<span class="at">train =</span> train_features,</span>
+<span id="cb19-11"><a></a>                <span class="at">test  =</span> test_features,</span>
+<span id="cb19-12"><a></a>                <span class="at">cl    =</span> train_labels,</span>
+<span id="cb19-13"><a></a>                <span class="at">k     =</span> k)</span>
+<span id="cb19-14"><a></a></span>
+<span id="cb19-15"><a></a><span class="co"># Calculate accuracy</span></span>
+<span id="cb19-16"><a></a>accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(knn_pred <span class="sc">==</span> test_labels)</span>
+<span id="cb19-17"><a></a><span class="fu">cat</span>(<span class="st">&quot;Accuracy:&quot;</span>, accuracy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-12-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href></a><span class="fu">library</span>(caret)</span>
-<span id="cb20-2"><a href></a></span>
-<span id="cb20-3"><a href></a><span class="co"># Cross-validation for optimal k</span></span>
-<span id="cb20-4"><a href></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="at">number =</span> <span class="dv">10</span>)</span>
-<span id="cb20-5"><a href></a></span>
-<span id="cb20-6"><a href></a>knn_model <span class="ot">&lt;-</span> <span class="fu">train</span>(class <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
-<span id="cb20-7"><a href></a>                   <span class="at">data =</span> train_data,</span>
-<span id="cb20-8"><a href></a>                   <span class="at">method =</span> <span class="st">&quot;knn&quot;</span>,</span>
-<span id="cb20-9"><a href></a>                   <span class="at">trControl =</span> ctrl,</span>
-<span id="cb20-10"><a href></a>                   <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>))</span>
-<span id="cb20-11"><a href></a></span>
-<span id="cb20-12"><a href></a><span class="fu">plot</span>(knn_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a><span class="fu">library</span>(caret)</span>
+<span id="cb20-2"><a></a></span>
+<span id="cb20-3"><a></a><span class="co"># Cross-validation for optimal k</span></span>
+<span id="cb20-4"><a></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="at">number =</span> <span class="dv">10</span>)</span>
+<span id="cb20-5"><a></a></span>
+<span id="cb20-6"><a></a>knn_model <span class="ot">&lt;-</span> <span class="fu">train</span>(class <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
+<span id="cb20-7"><a></a>                   <span class="at">data =</span> train_data,</span>
+<span id="cb20-8"><a></a>                   <span class="at">method =</span> <span class="st">&quot;knn&quot;</span>,</span>
+<span id="cb20-9"><a></a>                   <span class="at">trControl =</span> ctrl,</span>
+<span id="cb20-10"><a></a>                   <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>))</span>
+<span id="cb20-11"><a></a></span>
+<span id="cb20-12"><a></a><span class="fu">plot</span>(knn_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1916,58 +1916,58 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <div class="tab-content">
 <div id="tabset-13-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href></a><span class="co"># Step 1: Prepare and normalize data</span></span>
-<span id="cb21-2"><a href></a><span class="fu">data</span>(iris)</span>
-<span id="cb21-3"><a href></a>iris_sub <span class="ot">&lt;-</span> iris[iris<span class="sc">$</span>Species <span class="sc">!=</span> <span class="st">&quot;setosa&quot;</span>, ]  <span class="co"># 2-class problem</span></span>
-<span id="cb21-4"><a href></a>iris_sub<span class="sc">$</span>Species <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(iris_sub<span class="sc">$</span>Species)</span>
-<span id="cb21-5"><a href></a></span>
-<span id="cb21-6"><a href></a><span class="co"># Step 2: Normalize features (critical for KNN!)</span></span>
-<span id="cb21-7"><a href></a>normalize <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">min</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x))</span>
-<span id="cb21-8"><a href></a>iris_norm <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(iris_sub[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], normalize))</span>
-<span id="cb21-9"><a href></a>iris_norm<span class="sc">$</span>Species <span class="ot">&lt;-</span> iris_sub<span class="sc">$</span>Species</span>
-<span id="cb21-10"><a href></a></span>
-<span id="cb21-11"><a href></a><span class="co"># Step 3: Train/test split</span></span>
-<span id="cb21-12"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb21-13"><a href></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(iris_norm), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(iris_norm))</span>
-<span id="cb21-14"><a href></a>train <span class="ot">&lt;-</span> iris_norm[train_idx, ]</span>
-<span id="cb21-15"><a href></a>test  <span class="ot">&lt;-</span> iris_norm[<span class="sc">-</span>train_idx, ]</span>
-<span id="cb21-16"><a href></a></span>
-<span id="cb21-17"><a href></a><span class="co"># Step 4: Fit and evaluate across k values</span></span>
-<span id="cb21-18"><a href></a><span class="fu">library</span>(class)</span>
-<span id="cb21-19"><a href></a>k_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="dv">2</span>)</span>
-<span id="cb21-20"><a href></a>accuracies <span class="ot">&lt;-</span> <span class="fu">sapply</span>(k_values, <span class="cf">function</span>(k) {</span>
-<span id="cb21-21"><a href></a>  pred <span class="ot">&lt;-</span> <span class="fu">knn</span>(train[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], test[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], train<span class="sc">$</span>Species, <span class="at">k =</span> k)</span>
-<span id="cb21-22"><a href></a>  <span class="fu">mean</span>(pred <span class="sc">==</span> test<span class="sc">$</span>Species)</span>
-<span id="cb21-23"><a href></a>})</span>
-<span id="cb21-24"><a href></a>best_k <span class="ot">&lt;-</span> k_values[<span class="fu">which.max</span>(accuracies)]</span>
-<span id="cb21-25"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Best k:&quot;</span>, best_k, <span class="st">&quot;with accuracy:&quot;</span>, <span class="fu">max</span>(accuracies))</span>
-<span id="cb21-26"><a href></a></span>
-<span id="cb21-27"><a href></a><span class="co"># Step 5: Final model and confusion matrix</span></span>
-<span id="cb21-28"><a href></a>final_pred <span class="ot">&lt;-</span> <span class="fu">knn</span>(train[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], test[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], train<span class="sc">$</span>Species, <span class="at">k =</span> best_k)</span>
-<span id="cb21-29"><a href></a><span class="fu">table</span>(<span class="at">Predicted =</span> final_pred, <span class="at">Actual =</span> test<span class="sc">$</span>Species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="co"># Step 1: Prepare and normalize data</span></span>
+<span id="cb21-2"><a></a><span class="fu">data</span>(iris)</span>
+<span id="cb21-3"><a></a>iris_sub <span class="ot">&lt;-</span> iris[iris<span class="sc">$</span>Species <span class="sc">!=</span> <span class="st">&quot;setosa&quot;</span>, ]  <span class="co"># 2-class problem</span></span>
+<span id="cb21-4"><a></a>iris_sub<span class="sc">$</span>Species <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(iris_sub<span class="sc">$</span>Species)</span>
+<span id="cb21-5"><a></a></span>
+<span id="cb21-6"><a></a><span class="co"># Step 2: Normalize features (critical for KNN!)</span></span>
+<span id="cb21-7"><a></a>normalize <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">min</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x))</span>
+<span id="cb21-8"><a></a>iris_norm <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(iris_sub[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], normalize))</span>
+<span id="cb21-9"><a></a>iris_norm<span class="sc">$</span>Species <span class="ot">&lt;-</span> iris_sub<span class="sc">$</span>Species</span>
+<span id="cb21-10"><a></a></span>
+<span id="cb21-11"><a></a><span class="co"># Step 3: Train/test split</span></span>
+<span id="cb21-12"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb21-13"><a></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(iris_norm), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(iris_norm))</span>
+<span id="cb21-14"><a></a>train <span class="ot">&lt;-</span> iris_norm[train_idx, ]</span>
+<span id="cb21-15"><a></a>test  <span class="ot">&lt;-</span> iris_norm[<span class="sc">-</span>train_idx, ]</span>
+<span id="cb21-16"><a></a></span>
+<span id="cb21-17"><a></a><span class="co"># Step 4: Fit and evaluate across k values</span></span>
+<span id="cb21-18"><a></a><span class="fu">library</span>(class)</span>
+<span id="cb21-19"><a></a>k_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">25</span>, <span class="at">by =</span> <span class="dv">2</span>)</span>
+<span id="cb21-20"><a></a>accuracies <span class="ot">&lt;-</span> <span class="fu">sapply</span>(k_values, <span class="cf">function</span>(k) {</span>
+<span id="cb21-21"><a></a>  pred <span class="ot">&lt;-</span> <span class="fu">knn</span>(train[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], test[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], train<span class="sc">$</span>Species, <span class="at">k =</span> k)</span>
+<span id="cb21-22"><a></a>  <span class="fu">mean</span>(pred <span class="sc">==</span> test<span class="sc">$</span>Species)</span>
+<span id="cb21-23"><a></a>})</span>
+<span id="cb21-24"><a></a>best_k <span class="ot">&lt;-</span> k_values[<span class="fu">which.max</span>(accuracies)]</span>
+<span id="cb21-25"><a></a><span class="fu">cat</span>(<span class="st">&quot;Best k:&quot;</span>, best_k, <span class="st">&quot;with accuracy:&quot;</span>, <span class="fu">max</span>(accuracies))</span>
+<span id="cb21-26"><a></a></span>
+<span id="cb21-27"><a></a><span class="co"># Step 5: Final model and confusion matrix</span></span>
+<span id="cb21-28"><a></a>final_pred <span class="ot">&lt;-</span> <span class="fu">knn</span>(train[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], test[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], train<span class="sc">$</span>Species, <span class="at">k =</span> best_k)</span>
+<span id="cb21-29"><a></a><span class="fu">table</span>(<span class="at">Predicted =</span> final_pred, <span class="at">Actual =</span> test<span class="sc">$</span>Species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-13-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href></a><span class="co"># Visualize decision boundaries for different k values</span></span>
-<span id="cb22-2"><a href></a><span class="fu">library</span>(class)</span>
-<span id="cb22-3"><a href></a></span>
-<span id="cb22-4"><a href></a><span class="co"># Use 2 features for visualization</span></span>
-<span id="cb22-5"><a href></a>x1_range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb22-6"><a href></a>x2_range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb22-7"><a href></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x1 =</span> x1_range, <span class="at">x2 =</span> x2_range)</span>
-<span id="cb22-8"><a href></a></span>
-<span id="cb22-9"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
-<span id="cb22-10"><a href></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">25</span>)) {</span>
-<span id="cb22-11"><a href></a>  pred_grid <span class="ot">&lt;-</span> <span class="fu">knn</span>(train[, <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>], grid, train<span class="sc">$</span>Species, <span class="at">k =</span> k)</span>
-<span id="cb22-12"><a href></a>  <span class="fu">plot</span>(grid<span class="sc">$</span>x1, grid<span class="sc">$</span>x2, <span class="at">col =</span> <span class="fu">ifelse</span>(pred_grid <span class="sc">==</span> <span class="st">&quot;versicolor&quot;</span>,</span>
-<span id="cb22-13"><a href></a>       <span class="fu">rgb</span>(<span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>, <span class="fl">0.3</span>), <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>)),</span>
-<span id="cb22-14"><a href></a>       <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">cex =</span> <span class="fl">0.5</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;k =&quot;</span>, k),</span>
-<span id="cb22-15"><a href></a>       <span class="at">xlab =</span> <span class="st">&quot;Petal.Length&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Petal.Width&quot;</span>)</span>
-<span id="cb22-16"><a href></a>  <span class="fu">points</span>(train[, <span class="dv">3</span>], train[, <span class="dv">4</span>],</span>
-<span id="cb22-17"><a href></a>         <span class="at">col =</span> <span class="fu">ifelse</span>(train<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">&quot;versicolor&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>),</span>
-<span id="cb22-18"><a href></a>         <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb22-19"><a href></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="co"># Visualize decision boundaries for different k values</span></span>
+<span id="cb22-2"><a></a><span class="fu">library</span>(class)</span>
+<span id="cb22-3"><a></a></span>
+<span id="cb22-4"><a></a><span class="co"># Use 2 features for visualization</span></span>
+<span id="cb22-5"><a></a>x1_range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb22-6"><a></a>x2_range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb22-7"><a></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x1 =</span> x1_range, <span class="at">x2 =</span> x2_range)</span>
+<span id="cb22-8"><a></a></span>
+<span id="cb22-9"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb22-10"><a></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">25</span>)) {</span>
+<span id="cb22-11"><a></a>  pred_grid <span class="ot">&lt;-</span> <span class="fu">knn</span>(train[, <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>], grid, train<span class="sc">$</span>Species, <span class="at">k =</span> k)</span>
+<span id="cb22-12"><a></a>  <span class="fu">plot</span>(grid<span class="sc">$</span>x1, grid<span class="sc">$</span>x2, <span class="at">col =</span> <span class="fu">ifelse</span>(pred_grid <span class="sc">==</span> <span class="st">&quot;versicolor&quot;</span>,</span>
+<span id="cb22-13"><a></a>       <span class="fu">rgb</span>(<span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>, <span class="fl">0.3</span>), <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>)),</span>
+<span id="cb22-14"><a></a>       <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">cex =</span> <span class="fl">0.5</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;k =&quot;</span>, k),</span>
+<span id="cb22-15"><a></a>       <span class="at">xlab =</span> <span class="st">&quot;Petal.Length&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Petal.Width&quot;</span>)</span>
+<span id="cb22-16"><a></a>  <span class="fu">points</span>(train[, <span class="dv">3</span>], train[, <span class="dv">4</span>],</span>
+<span id="cb22-17"><a></a>         <span class="at">col =</span> <span class="fu">ifelse</span>(train<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">&quot;versicolor&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>),</span>
+<span id="cb22-18"><a></a>         <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb22-19"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2003,9 +2003,9 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <p>Subject to: <span class="math inline">\(y_i(w^T x_i + b) \geq 1 - \xi_i\)</span> and <span class="math inline">\(\xi_i \geq 0\)</span></p>
 </div>
 <div id="tabset-14-2">
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb23-1"><a href></a>\min \frac{1}{2}||w||^2 + C\sum_{i=1}^{n}\xi_i</span>
-<span id="cb23-2"><a href></a></span>
-<span id="cb23-3"><a href></a>\text{s.t. } y_i(w^T x_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb23-1"><a></a>\min \frac{1}{2}||w||^2 + C\sum_{i=1}^{n}\xi_i</span>
+<span id="cb23-2"><a></a></span>
+<span id="cb23-3"><a></a>\text{s.t. } y_i(w^T x_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-14-3">
 <ul>
@@ -2041,38 +2041,38 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <div class="tab-content">
 <div id="tabset-15-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href></a><span class="fu">library</span>(e1071)</span>
-<span id="cb24-2"><a href></a></span>
-<span id="cb24-3"><a href></a><span class="co"># Build linear SVM</span></span>
-<span id="cb24-4"><a href></a>svm_linear <span class="ot">&lt;-</span> <span class="fu">svm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
-<span id="cb24-5"><a href></a>                  <span class="at">data =</span> train_data,</span>
-<span id="cb24-6"><a href></a>                  <span class="at">kernel =</span> <span class="st">&quot;linear&quot;</span>,</span>
-<span id="cb24-7"><a href></a>                  <span class="at">cost =</span> <span class="dv">1</span>)</span>
-<span id="cb24-8"><a href></a></span>
-<span id="cb24-9"><a href></a><span class="co"># Build RBF SVM</span></span>
-<span id="cb24-10"><a href></a>svm_rbf <span class="ot">&lt;-</span> <span class="fu">svm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
-<span id="cb24-11"><a href></a>               <span class="at">data =</span> train_data,</span>
-<span id="cb24-12"><a href></a>               <span class="at">kernel =</span> <span class="st">&quot;radial&quot;</span>,</span>
-<span id="cb24-13"><a href></a>               <span class="at">cost =</span> <span class="dv">1</span>,</span>
-<span id="cb24-14"><a href></a>               <span class="at">gamma =</span> <span class="dv">1</span>)</span>
-<span id="cb24-15"><a href></a></span>
-<span id="cb24-16"><a href></a><span class="co"># Make predictions</span></span>
-<span id="cb24-17"><a href></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_rbf, test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="fu">library</span>(e1071)</span>
+<span id="cb24-2"><a></a></span>
+<span id="cb24-3"><a></a><span class="co"># Build linear SVM</span></span>
+<span id="cb24-4"><a></a>svm_linear <span class="ot">&lt;-</span> <span class="fu">svm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
+<span id="cb24-5"><a></a>                  <span class="at">data =</span> train_data,</span>
+<span id="cb24-6"><a></a>                  <span class="at">kernel =</span> <span class="st">&quot;linear&quot;</span>,</span>
+<span id="cb24-7"><a></a>                  <span class="at">cost =</span> <span class="dv">1</span>)</span>
+<span id="cb24-8"><a></a></span>
+<span id="cb24-9"><a></a><span class="co"># Build RBF SVM</span></span>
+<span id="cb24-10"><a></a>svm_rbf <span class="ot">&lt;-</span> <span class="fu">svm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
+<span id="cb24-11"><a></a>               <span class="at">data =</span> train_data,</span>
+<span id="cb24-12"><a></a>               <span class="at">kernel =</span> <span class="st">&quot;radial&quot;</span>,</span>
+<span id="cb24-13"><a></a>               <span class="at">cost =</span> <span class="dv">1</span>,</span>
+<span id="cb24-14"><a></a>               <span class="at">gamma =</span> <span class="dv">1</span>)</span>
+<span id="cb24-15"><a></a></span>
+<span id="cb24-16"><a></a><span class="co"># Make predictions</span></span>
+<span id="cb24-17"><a></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_rbf, test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-15-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href></a><span class="co"># Grid search for optimal parameters</span></span>
-<span id="cb25-2"><a href></a>tune_result <span class="ot">&lt;-</span> <span class="fu">tune</span>(svm,</span>
-<span id="cb25-3"><a href></a>                    y <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
-<span id="cb25-4"><a href></a>                    <span class="at">data =</span> train_data,</span>
-<span id="cb25-5"><a href></a>                    <span class="at">kernel =</span> <span class="st">&quot;radial&quot;</span>,</span>
-<span id="cb25-6"><a href></a>                    <span class="at">ranges =</span> <span class="fu">list</span>(</span>
-<span id="cb25-7"><a href></a>                      <span class="at">cost =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>),</span>
-<span id="cb25-8"><a href></a>                      <span class="at">gamma =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>)</span>
-<span id="cb25-9"><a href></a>                    ))</span>
-<span id="cb25-10"><a href></a></span>
-<span id="cb25-11"><a href></a><span class="fu">print</span>(tune_result<span class="sc">$</span>best.parameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a><span class="co"># Grid search for optimal parameters</span></span>
+<span id="cb25-2"><a></a>tune_result <span class="ot">&lt;-</span> <span class="fu">tune</span>(svm,</span>
+<span id="cb25-3"><a></a>                    y <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
+<span id="cb25-4"><a></a>                    <span class="at">data =</span> train_data,</span>
+<span id="cb25-5"><a></a>                    <span class="at">kernel =</span> <span class="st">&quot;radial&quot;</span>,</span>
+<span id="cb25-6"><a></a>                    <span class="at">ranges =</span> <span class="fu">list</span>(</span>
+<span id="cb25-7"><a></a>                      <span class="at">cost =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>),</span>
+<span id="cb25-8"><a></a>                      <span class="at">gamma =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>)</span>
+<span id="cb25-9"><a></a>                    ))</span>
+<span id="cb25-10"><a></a></span>
+<span id="cb25-11"><a></a><span class="fu">print</span>(tune_result<span class="sc">$</span>best.parameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2135,29 +2135,29 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 </div>
 <div id="tabset-16-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href></a><span class="fu">library</span>(e1071)</span>
-<span id="cb26-2"><a href></a></span>
-<span id="cb26-3"><a href></a><span class="co"># Create grid for visualization</span></span>
-<span id="cb26-4"><a href></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb26-5"><a href></a>  <span class="at">x1 =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
-<span id="cb26-6"><a href></a>  <span class="at">x2 =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb26-7"><a href></a>)</span>
-<span id="cb26-8"><a href></a></span>
-<span id="cb26-9"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
-<span id="cb26-10"><a href></a><span class="cf">for</span> (kern <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;linear&quot;</span>, <span class="st">&quot;polynomial&quot;</span>, <span class="st">&quot;radial&quot;</span>)) {</span>
-<span id="cb26-11"><a href></a>  fit <span class="ot">&lt;-</span> <span class="fu">svm</span>(class <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> svm_data,</span>
-<span id="cb26-12"><a href></a>             <span class="at">kernel =</span> kern, <span class="at">cost =</span> <span class="dv">10</span>, <span class="at">gamma =</span> <span class="fl">0.5</span>)</span>
-<span id="cb26-13"><a href></a>  pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, grid)</span>
-<span id="cb26-14"><a href></a></span>
-<span id="cb26-15"><a href></a>  <span class="fu">plot</span>(grid<span class="sc">$</span>x1, grid<span class="sc">$</span>x2,</span>
-<span id="cb26-16"><a href></a>       <span class="at">col =</span> <span class="fu">ifelse</span>(pred <span class="sc">==</span> <span class="st">&quot;A&quot;</span>,</span>
-<span id="cb26-17"><a href></a>             <span class="fu">rgb</span>(<span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>, <span class="fl">0.2</span>), <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="fl">0.2</span>)),</span>
-<span id="cb26-18"><a href></a>       <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">cex =</span> <span class="fl">0.3</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Kernel:&quot;</span>, kern),</span>
-<span id="cb26-19"><a href></a>       <span class="at">xlab =</span> <span class="st">&quot;x1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;x2&quot;</span>)</span>
-<span id="cb26-20"><a href></a>  <span class="fu">points</span>(svm_data<span class="sc">$</span>x1, svm_data<span class="sc">$</span>x2,</span>
-<span id="cb26-21"><a href></a>         <span class="at">col =</span> <span class="fu">ifelse</span>(svm_data<span class="sc">$</span>class <span class="sc">==</span> <span class="st">&quot;A&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>),</span>
-<span id="cb26-22"><a href></a>         <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.6</span>)</span>
-<span id="cb26-23"><a href></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="fu">library</span>(e1071)</span>
+<span id="cb26-2"><a></a></span>
+<span id="cb26-3"><a></a><span class="co"># Create grid for visualization</span></span>
+<span id="cb26-4"><a></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb26-5"><a></a>  <span class="at">x1 =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb26-6"><a></a>  <span class="at">x2 =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb26-7"><a></a>)</span>
+<span id="cb26-8"><a></a></span>
+<span id="cb26-9"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb26-10"><a></a><span class="cf">for</span> (kern <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;linear&quot;</span>, <span class="st">&quot;polynomial&quot;</span>, <span class="st">&quot;radial&quot;</span>)) {</span>
+<span id="cb26-11"><a></a>  fit <span class="ot">&lt;-</span> <span class="fu">svm</span>(class <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> svm_data,</span>
+<span id="cb26-12"><a></a>             <span class="at">kernel =</span> kern, <span class="at">cost =</span> <span class="dv">10</span>, <span class="at">gamma =</span> <span class="fl">0.5</span>)</span>
+<span id="cb26-13"><a></a>  pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, grid)</span>
+<span id="cb26-14"><a></a></span>
+<span id="cb26-15"><a></a>  <span class="fu">plot</span>(grid<span class="sc">$</span>x1, grid<span class="sc">$</span>x2,</span>
+<span id="cb26-16"><a></a>       <span class="at">col =</span> <span class="fu">ifelse</span>(pred <span class="sc">==</span> <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb26-17"><a></a>             <span class="fu">rgb</span>(<span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>, <span class="fl">0.2</span>), <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="fl">0.2</span>)),</span>
+<span id="cb26-18"><a></a>       <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">cex =</span> <span class="fl">0.3</span>, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Kernel:&quot;</span>, kern),</span>
+<span id="cb26-19"><a></a>       <span class="at">xlab =</span> <span class="st">&quot;x1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;x2&quot;</span>)</span>
+<span id="cb26-20"><a></a>  <span class="fu">points</span>(svm_data<span class="sc">$</span>x1, svm_data<span class="sc">$</span>x2,</span>
+<span id="cb26-21"><a></a>         <span class="at">col =</span> <span class="fu">ifelse</span>(svm_data<span class="sc">$</span>class <span class="sc">==</span> <span class="st">&quot;A&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>),</span>
+<span id="cb26-22"><a></a>         <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.6</span>)</span>
+<span id="cb26-23"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-16-3">
@@ -2208,11 +2208,11 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <p><strong>Ward’s Method:</strong> Minimizes within-cluster sum of squares</p>
 </div>
 <div id="tabset-17-2">
-<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb27-1"><a href></a>d_{single}(C_i, C_j) = \min_{x \in C_i, y \in C_j} d(x, y)</span>
-<span id="cb27-2"><a href></a></span>
-<span id="cb27-3"><a href></a>d_{complete}(C_i, C_j) = \max_{x \in C_i, y \in C_j} d(x, y)</span>
-<span id="cb27-4"><a href></a></span>
-<span id="cb27-5"><a href></a>d_{average}(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum \sum d(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb27-1"><a></a>d_{single}(C_i, C_j) = \min_{x \in C_i, y \in C_j} d(x, y)</span>
+<span id="cb27-2"><a></a></span>
+<span id="cb27-3"><a></a>d_{complete}(C_i, C_j) = \max_{x \in C_i, y \in C_j} d(x, y)</span>
+<span id="cb27-4"><a></a></span>
+<span id="cb27-5"><a></a>d_{average}(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum \sum d(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2224,31 +2224,31 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <div class="tab-content">
 <div id="tabset-18-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href></a><span class="co"># Calculate distance matrix</span></span>
-<span id="cb28-2"><a href></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">dist</span>(data, <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>)</span>
-<span id="cb28-3"><a href></a></span>
-<span id="cb28-4"><a href></a><span class="co"># Perform hierarchical clustering</span></span>
-<span id="cb28-5"><a href></a>hclust_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_matrix, <span class="at">method =</span> <span class="st">&quot;ward.D2&quot;</span>)</span>
-<span id="cb28-6"><a href></a></span>
-<span id="cb28-7"><a href></a><span class="co"># Plot dendrogram</span></span>
-<span id="cb28-8"><a href></a><span class="fu">plot</span>(hclust_ward, <span class="at">main =</span> <span class="st">&quot;Dendrogram (Ward&#39;s Method)&quot;</span>)</span>
-<span id="cb28-9"><a href></a></span>
-<span id="cb28-10"><a href></a><span class="co"># Cut tree to get clusters</span></span>
-<span id="cb28-11"><a href></a>clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_ward, <span class="at">k =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a><span class="co"># Calculate distance matrix</span></span>
+<span id="cb28-2"><a></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">dist</span>(data, <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>)</span>
+<span id="cb28-3"><a></a></span>
+<span id="cb28-4"><a></a><span class="co"># Perform hierarchical clustering</span></span>
+<span id="cb28-5"><a></a>hclust_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_matrix, <span class="at">method =</span> <span class="st">&quot;ward.D2&quot;</span>)</span>
+<span id="cb28-6"><a></a></span>
+<span id="cb28-7"><a></a><span class="co"># Plot dendrogram</span></span>
+<span id="cb28-8"><a></a><span class="fu">plot</span>(hclust_ward, <span class="at">main =</span> <span class="st">&quot;Dendrogram (Ward&#39;s Method)&quot;</span>)</span>
+<span id="cb28-9"><a></a></span>
+<span id="cb28-10"><a></a><span class="co"># Cut tree to get clusters</span></span>
+<span id="cb28-11"><a></a>clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_ward, <span class="at">k =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-18-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href></a><span class="fu">library</span>(dendextend)</span>
-<span id="cb29-2"><a href></a></span>
-<span id="cb29-3"><a href></a>dend <span class="ot">&lt;-</span> <span class="fu">as.dendrogram</span>(hclust_ward)</span>
-<span id="cb29-4"><a href></a></span>
-<span id="cb29-5"><a href></a>dend <span class="sc">%&gt;%</span></span>
-<span id="cb29-6"><a href></a>  <span class="fu">color_branches</span>(<span class="at">k =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-7"><a href></a>  <span class="fu">color_labels</span>(<span class="at">k =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-8"><a href></a>  <span class="fu">plot</span>(<span class="at">main =</span> <span class="st">&quot;Colored Dendrogram&quot;</span>)</span>
-<span id="cb29-9"><a href></a></span>
-<span id="cb29-10"><a href></a><span class="fu">rect.dendrogram</span>(dend, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">border =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="fu">library</span>(dendextend)</span>
+<span id="cb29-2"><a></a></span>
+<span id="cb29-3"><a></a>dend <span class="ot">&lt;-</span> <span class="fu">as.dendrogram</span>(hclust_ward)</span>
+<span id="cb29-4"><a></a></span>
+<span id="cb29-5"><a></a>dend <span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a></a>  <span class="fu">color_branches</span>(<span class="at">k =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a></a>  <span class="fu">color_labels</span>(<span class="at">k =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-8"><a></a>  <span class="fu">plot</span>(<span class="at">main =</span> <span class="st">&quot;Colored Dendrogram&quot;</span>)</span>
+<span id="cb29-9"><a></a></span>
+<span id="cb29-10"><a></a><span class="fu">rect.dendrogram</span>(dend, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">border =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2261,29 +2261,29 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <div class="tab-content">
 <div id="tabset-19-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href></a><span class="fu">library</span>(cluster)</span>
-<span id="cb30-2"><a href></a></span>
-<span id="cb30-3"><a href></a><span class="co"># Silhouette scores for different k</span></span>
-<span id="cb30-4"><a href></a>silhouette_scores <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">9</span>)</span>
-<span id="cb30-5"><a href></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb30-6"><a href></a>  clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_ward, <span class="at">k =</span> k)</span>
-<span id="cb30-7"><a href></a>  sil <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(clusters, dist_matrix)</span>
-<span id="cb30-8"><a href></a>  silhouette_scores[k <span class="sc">-</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">mean</span>(sil[, <span class="st">&quot;sil_width&quot;</span>])</span>
-<span id="cb30-9"><a href></a>}</span>
-<span id="cb30-10"><a href></a></span>
-<span id="cb30-11"><a href></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, silhouette_scores, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb30-12"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of Clusters&quot;</span>,</span>
-<span id="cb30-13"><a href></a>     <span class="at">ylab =</span> <span class="st">&quot;Average Silhouette Score&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a><span class="fu">library</span>(cluster)</span>
+<span id="cb30-2"><a></a></span>
+<span id="cb30-3"><a></a><span class="co"># Silhouette scores for different k</span></span>
+<span id="cb30-4"><a></a>silhouette_scores <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">9</span>)</span>
+<span id="cb30-5"><a></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb30-6"><a></a>  clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_ward, <span class="at">k =</span> k)</span>
+<span id="cb30-7"><a></a>  sil <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(clusters, dist_matrix)</span>
+<span id="cb30-8"><a></a>  silhouette_scores[k <span class="sc">-</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">mean</span>(sil[, <span class="st">&quot;sil_width&quot;</span>])</span>
+<span id="cb30-9"><a></a>}</span>
+<span id="cb30-10"><a></a></span>
+<span id="cb30-11"><a></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, silhouette_scores, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb30-12"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of Clusters&quot;</span>,</span>
+<span id="cb30-13"><a></a>     <span class="at">ylab =</span> <span class="st">&quot;Average Silhouette Score&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-19-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href></a><span class="co"># Cophenetic correlation: how well does the dendrogram</span></span>
-<span id="cb31-2"><a href></a><span class="co"># preserve original pairwise distances?</span></span>
-<span id="cb31-3"><a href></a>cophenetic_dist <span class="ot">&lt;-</span> <span class="fu">cophenetic</span>(hclust_ward)</span>
-<span id="cb31-4"><a href></a>coph_corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(dist_matrix, cophenetic_dist)</span>
-<span id="cb31-5"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Cophenetic correlation:&quot;</span>, <span class="fu">round</span>(coph_corr, <span class="dv">3</span>))</span>
-<span id="cb31-6"><a href></a><span class="co"># Values closer to 1 = better preservation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a><span class="co"># Cophenetic correlation: how well does the dendrogram</span></span>
+<span id="cb31-2"><a></a><span class="co"># preserve original pairwise distances?</span></span>
+<span id="cb31-3"><a></a>cophenetic_dist <span class="ot">&lt;-</span> <span class="fu">cophenetic</span>(hclust_ward)</span>
+<span id="cb31-4"><a></a>coph_corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(dist_matrix, cophenetic_dist)</span>
+<span id="cb31-5"><a></a><span class="fu">cat</span>(<span class="st">&quot;Cophenetic correlation:&quot;</span>, <span class="fu">round</span>(coph_corr, <span class="dv">3</span>))</span>
+<span id="cb31-6"><a></a><span class="co"># Values closer to 1 = better preservation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2308,25 +2308,25 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 </div>
 <div id="tabset-20-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href></a><span class="co"># Base R heatmap (rows and columns clustered automatically)</span></span>
-<span id="cb32-2"><a href></a>iris_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
-<span id="cb32-3"><a href></a><span class="fu">heatmap</span>(iris_mat, <span class="at">scale =</span> <span class="st">&quot;column&quot;</span>,</span>
-<span id="cb32-4"><a href></a>        <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;RdYlBu&quot;</span>),</span>
-<span id="cb32-5"><a href></a>        <span class="at">main =</span> <span class="st">&quot;Clustered Heatmap: Iris Data&quot;</span>)</span>
-<span id="cb32-6"><a href></a></span>
-<span id="cb32-7"><a href></a><span class="co"># Using pheatmap for more control</span></span>
-<span id="cb32-8"><a href></a><span class="co"># install.packages(&quot;pheatmap&quot;)</span></span>
-<span id="cb32-9"><a href></a><span class="fu">library</span>(pheatmap)</span>
-<span id="cb32-10"><a href></a>annotation_row <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Species =</span> iris<span class="sc">$</span>Species)</span>
-<span id="cb32-11"><a href></a><span class="fu">rownames</span>(annotation_row) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(iris_mat)</span>
-<span id="cb32-12"><a href></a></span>
-<span id="cb32-13"><a href></a><span class="fu">pheatmap</span>(iris_mat,</span>
-<span id="cb32-14"><a href></a>         <span class="at">scale =</span> <span class="st">&quot;column&quot;</span>,</span>
-<span id="cb32-15"><a href></a>         <span class="at">clustering_method =</span> <span class="st">&quot;ward.D2&quot;</span>,</span>
-<span id="cb32-16"><a href></a>         <span class="at">annotation_row =</span> annotation_row,</span>
-<span id="cb32-17"><a href></a>         <span class="at">show_rownames =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb32-18"><a href></a>         <span class="at">color =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;RdYlBu&quot;</span>),</span>
-<span id="cb32-19"><a href></a>         <span class="at">main =</span> <span class="st">&quot;Iris Features Clustered Heatmap&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a></a><span class="co"># Base R heatmap (rows and columns clustered automatically)</span></span>
+<span id="cb32-2"><a></a>iris_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb32-3"><a></a><span class="fu">heatmap</span>(iris_mat, <span class="at">scale =</span> <span class="st">&quot;column&quot;</span>,</span>
+<span id="cb32-4"><a></a>        <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;RdYlBu&quot;</span>),</span>
+<span id="cb32-5"><a></a>        <span class="at">main =</span> <span class="st">&quot;Clustered Heatmap: Iris Data&quot;</span>)</span>
+<span id="cb32-6"><a></a></span>
+<span id="cb32-7"><a></a><span class="co"># Using pheatmap for more control</span></span>
+<span id="cb32-8"><a></a><span class="co"># install.packages(&quot;pheatmap&quot;)</span></span>
+<span id="cb32-9"><a></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb32-10"><a></a>annotation_row <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Species =</span> iris<span class="sc">$</span>Species)</span>
+<span id="cb32-11"><a></a><span class="fu">rownames</span>(annotation_row) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(iris_mat)</span>
+<span id="cb32-12"><a></a></span>
+<span id="cb32-13"><a></a><span class="fu">pheatmap</span>(iris_mat,</span>
+<span id="cb32-14"><a></a>         <span class="at">scale =</span> <span class="st">&quot;column&quot;</span>,</span>
+<span id="cb32-15"><a></a>         <span class="at">clustering_method =</span> <span class="st">&quot;ward.D2&quot;</span>,</span>
+<span id="cb32-16"><a></a>         <span class="at">annotation_row =</span> annotation_row,</span>
+<span id="cb32-17"><a></a>         <span class="at">show_rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb32-18"><a></a>         <span class="at">color =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;RdYlBu&quot;</span>),</span>
+<span id="cb32-19"><a></a>         <span class="at">main =</span> <span class="st">&quot;Iris Features Clustered Heatmap&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-20-3">
@@ -2367,7 +2367,7 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <p>Where <span class="math inline">\(\mu_j\)</span> is the centroid of cluster <span class="math inline">\(C_j\)</span>.</p>
 </div>
 <div id="tabset-21-3">
-<div class="sourceCode" id="cb33"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb33-1"><a href></a>\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb33-1"><a></a>\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2390,28 +2390,28 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 </div>
 <div id="tabset-22-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href></a><span class="co"># Scale data first</span></span>
-<span id="cb34-2"><a href></a>iris_scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
-<span id="cb34-3"><a href></a></span>
-<span id="cb34-4"><a href></a><span class="co"># Elbow method: find optimal k</span></span>
-<span id="cb34-5"><a href></a>wss <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(k) {</span>
-<span id="cb34-6"><a href></a>  <span class="fu">kmeans</span>(iris_scaled, k, <span class="at">nstart =</span> <span class="dv">25</span>)<span class="sc">$</span>tot.withinss</span>
-<span id="cb34-7"><a href></a>})</span>
-<span id="cb34-8"><a href></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, wss, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb34-9"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;k&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Total Within-SS&quot;</span>,</span>
-<span id="cb34-10"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Elbow Method&quot;</span>)</span>
-<span id="cb34-11"><a href></a></span>
-<span id="cb34-12"><a href></a><span class="co"># Fit k-means with chosen k</span></span>
-<span id="cb34-13"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb34-14"><a href></a>km_fit <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris_scaled, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
-<span id="cb34-15"><a href></a></span>
-<span id="cb34-16"><a href></a><span class="co"># Visualize clusters</span></span>
-<span id="cb34-17"><a href></a><span class="fu">plot</span>(iris<span class="sc">$</span>Petal.Length, iris<span class="sc">$</span>Petal.Width,</span>
-<span id="cb34-18"><a href></a>     <span class="at">col =</span> km_fit<span class="sc">$</span>cluster, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb34-19"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Petal Length&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Petal Width&quot;</span>)</span>
-<span id="cb34-20"><a href></a></span>
-<span id="cb34-21"><a href></a><span class="co"># Compare k-means to true labels</span></span>
-<span id="cb34-22"><a href></a><span class="fu">table</span>(<span class="at">Cluster =</span> km_fit<span class="sc">$</span>cluster, <span class="at">True =</span> iris<span class="sc">$</span>Species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a><span class="co"># Scale data first</span></span>
+<span id="cb34-2"><a></a>iris_scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb34-3"><a></a></span>
+<span id="cb34-4"><a></a><span class="co"># Elbow method: find optimal k</span></span>
+<span id="cb34-5"><a></a>wss <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(k) {</span>
+<span id="cb34-6"><a></a>  <span class="fu">kmeans</span>(iris_scaled, k, <span class="at">nstart =</span> <span class="dv">25</span>)<span class="sc">$</span>tot.withinss</span>
+<span id="cb34-7"><a></a>})</span>
+<span id="cb34-8"><a></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, wss, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb34-9"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;k&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Total Within-SS&quot;</span>,</span>
+<span id="cb34-10"><a></a>     <span class="at">main =</span> <span class="st">&quot;Elbow Method&quot;</span>)</span>
+<span id="cb34-11"><a></a></span>
+<span id="cb34-12"><a></a><span class="co"># Fit k-means with chosen k</span></span>
+<span id="cb34-13"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb34-14"><a></a>km_fit <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris_scaled, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb34-15"><a></a></span>
+<span id="cb34-16"><a></a><span class="co"># Visualize clusters</span></span>
+<span id="cb34-17"><a></a><span class="fu">plot</span>(iris<span class="sc">$</span>Petal.Length, iris<span class="sc">$</span>Petal.Width,</span>
+<span id="cb34-18"><a></a>     <span class="at">col =</span> km_fit<span class="sc">$</span>cluster, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb34-19"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Petal Length&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Petal Width&quot;</span>)</span>
+<span id="cb34-20"><a></a></span>
+<span id="cb34-21"><a></a><span class="co"># Compare k-means to true labels</span></span>
+<span id="cb34-22"><a></a><span class="fu">table</span>(<span class="at">Cluster =</span> km_fit<span class="sc">$</span>cluster, <span class="at">True =</span> iris<span class="sc">$</span>Species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2489,21 +2489,22 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <li>Compare to an SVM classifier with RBF kernel</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href></a><span class="co"># Starter code</span></span>
-<span id="cb35-2"><a href></a><span class="fu">library</span>(class)</span>
-<span id="cb35-3"><a href></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb35-4"><a href></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(iris)</span>
-<span id="cb35-5"><a href></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, <span class="fl">0.8</span> <span class="sc">*</span> n)</span>
-<span id="cb35-6"><a href></a>train <span class="ot">&lt;-</span> iris[train_idx, ]</span>
-<span id="cb35-7"><a href></a>test  <span class="ot">&lt;-</span> iris[<span class="sc">-</span>train_idx, ]</span>
-<span id="cb35-8"><a href></a></span>
-<span id="cb35-9"><a href></a><span class="co"># Your analysis here...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a><span class="co"># Starter code</span></span>
+<span id="cb35-2"><a></a><span class="fu">library</span>(class)</span>
+<span id="cb35-3"><a></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb35-4"><a></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(iris)</span>
+<span id="cb35-5"><a></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, <span class="fl">0.8</span> <span class="sc">*</span> n)</span>
+<span id="cb35-6"><a></a>train <span class="ot">&lt;-</span> iris[train_idx, ]</span>
+<span id="cb35-7"><a></a>test  <span class="ot">&lt;-</span> iris[<span class="sc">-</span>train_idx, ]</span>
+<span id="cb35-8"><a></a></span>
+<span id="cb35-9"><a></a><span class="co"># Your analysis here...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 </section>
 <section class="slide level2">
+
 
 
 </section></section>
