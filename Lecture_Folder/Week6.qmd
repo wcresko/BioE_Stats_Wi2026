@@ -1105,7 +1105,7 @@ F = \frac{MS_{groups}}{MS_{residuals}}
 
 ## An Example - Irises {.smaller}
 
-![The classic iris dataset](images/week06_16_the_classic_iris_dataset.png){fig-align="center" width="70%"}
+![The classic iris dataset](images/week06_16_the_classic_iris_dataset.jpeg){fig-align="center" width="70%"}
 
 -   3 Different species: *Iris versicolor*, *Iris setosa*, and *Iris virginica*
 -   Length of sepal as a continuous variable

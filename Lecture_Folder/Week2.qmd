@@ -464,7 +464,7 @@ ggplot(d, aes(x=a, y=b)) +
 
 ##  {.smaller}
 
-![Modern recreation of Minard-style data visualization](images/week02_38_modern_recreation_of_minard_st.png){fig-align="center" width="80%"}
+![Modern recreation of Minard-style data visualization](images/week02_38_modern_recreation_of_minard_st.jpeg){fig-align="center" width="80%"}
 
 ## Principles of Effective Display {.smaller}
 

@@ -398,7 +398,7 @@ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1} x_{i2} + \epsil
 
 ## Additive vs. Multiplicative Models {.smaller}
 
-![](images/images_5a.006.jpeg){fig-align="center" width="100%"}
+![](images/week07_24_additive_vs_multiplicative_models.jpeg){fig-align="center" width="100%"}
 
 ## R Example: Multiple Regression with 2 Predictors {.smaller}
 
@@ -468,7 +468,7 @@ When predictors are highly correlated, coefficient estimates become unstable, st
 
 ## Checking for Multicollinearity {.smaller}
 
-![](images/images_5b.001.jpeg){fig-align="center" width="70%"}
+![](images/week07_25_multicollinearity_scatterplot_matrix.jpeg){fig-align="center" width="70%"}
 
 ::: panel-tabset
 ### Code
@@ -688,7 +688,7 @@ If two or more models fit the data almost equally well, prefer the simpler model
 
 ## Overfitting with Polynomials {.smaller}
 
-![](images/images_5b.005.jpeg){fig-align="center" width="80%"}
+![](images/week07_26_beetle_wing_horn_overfitting.jpeg){fig-align="center" width="80%"}
 
 The log-likelihood and $R^2$ always increase with more parameters — but this does not mean the model is better!
 
@@ -696,11 +696,11 @@ The log-likelihood and $R^2$ always increase with more parameters — but this d
 
 ::::: columns
 ::: {.column width="50%"}
-![Linear fit](images/images_5b.006.jpeg){fig-align="center" width="100%"}
+![Linear fit](images/week07_27_linear_fit_beetle.jpeg){fig-align="center" width="100%"}
 :::
 
 ::: {.column width="50%"}
-![Quadratic fit](images/images_5b.007.jpeg){fig-align="center" width="100%"}
+![Quadratic fit](images/week07_28_quadratic_fit_beetle.jpeg){fig-align="center" width="100%"}
 :::
 :::::
 
@@ -708,11 +708,11 @@ The log-likelihood and $R^2$ always increase with more parameters — but this d
 
 ::::: columns
 ::: {.column width="50%"}
-![Degree 5 polynomial](images/images_5b.009.jpeg){fig-align="center" width="100%"}
+![Degree 5 polynomial](images/week07_29_poly5_fit_beetle.jpeg){fig-align="center" width="100%"}
 :::
 
 ::: {.column width="50%"}
-![Degree 10 polynomial](images/images_5b.010.jpeg){fig-align="center" width="100%"}
+![Degree 10 polynomial](images/week07_30_poly10_fit_beetle.jpeg){fig-align="center" width="100%"}
 :::
 :::::
 
@@ -734,7 +734,7 @@ As a rule of thumb, if the difference between two AIC values (ΔAIC) is greater 
 
 ## Mallow's Cp and All-Subsets Regression {.smaller}
 
-![](images/images_5b.012.jpeg){fig-align="center" width="90%"}
+![](images/week07_31_mallows_cp_formula.jpeg){fig-align="center" width="90%"}
 
 ::: panel-tabset
 ### Code
