@@ -1,0 +1,1390 @@
+---
+title: "Statistics for Bioengineering - Week 8"
+author: "Bill Cresko"
+format: 
+  revealjs:
+    footer: BioE_Stats_2026 - Knight Campus 
+    transition: fade
+    transition-speed: slow
+    theme: default
+    slide-number: true
+    code-fold: false
+    code-overflow: wrap
+    code-line-numbers: true
+    highlight-style: github
+    embed-resources: true
+    css: cresko_style.css
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# Core data manipulation and visualization
+library(tidyverse)
+library(knitr)
+library(readxl)
+
+# Statistical analysis packages
+library(MASS)        # LDA, robust regression
+library(pwr)         # Power analysis
+library(boot)        # Bootstrap methods
+library(car)         # Companion to Applied Regression
+library(survival)    # Survival analysis
+library(nlme)        # Mixed effects models
+library(broom)       # Tidy model output
+library(emmeans)     # Estimated marginal means
+library(splines)     # Natural splines
+
+# Set consistent theme for all plots
+theme_set(theme_minimal(base_size = 14))
+
+# Set seed for reproducibility
+set.seed(2026)
+```
+
+# Week 8: GLMs, Regularization, and Survival Analysis {background-color="#2c3e50"}
+
+## Week 8 Topics
+
+::: incremental
+-   Generalized Linear Models (GLMs)
+-   Logistic regression
+-   Poisson regression
+-   Regularization methods (Ridge, Lasso, Elastic Net)
+-   Splines and LOESS smoothing
+-   Survival analysis
+:::
+
+::: callout-note
+**Readings:** Chapter 29
+
+**HW4 Due next week**
+:::
+
+## Packages for This Week {.smaller}
+
+::: panel-tabset
+### Install
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Install new packages (run once)
+install.packages(c("survival", "glmnet", "mgcv", "splines"))
+```
+
+### Load
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Load packages
+library(tidyverse)    # Data manipulation & visualization
+library(nlme)         # Mixed-effects models (from Week 7)
+library(survival)     # Survival analysis (Kaplan-Meier, Cox regression)
+library(glmnet)       # Regularized regression (LASSO, ridge)
+library(mgcv)         # Generalized additive models (GAMs)
+library(splines)      # Spline basis functions
+```
+:::
+
+**Datasets from packages:** `lung` (survival package — lung cancer survival data), `mtcars` (built-in)
+
+## Correlation in Mixed Models {.smaller}
+
+![Understanding correlation structures in hierarchical data](images/week05_11_week8_correlation.jpg){fig-align="center" width="85%"}
+
+------------------------------------------------------------------------
+
+# Generalized Linear Models {background-color="#2c3e50"}
+
+## What is a GLM? {.smaller}
+
+GLMs extend linear models to handle response variables that are not normally distributed. Use when standard linear model assumptions are violated:
+
+-   **Binary response** (e.g., survived/died) → logistic regression
+-   **Count response** (e.g., number of mutations) → Poisson regression
+
+**Three components of every GLM:**
+
+1.  **Random component**: probability distribution of the response variable (e.g., binomial, Poisson)
+2.  **Systematic component**: linear combination of predictors ($\beta_0 + \beta_1 x_1 + \ldots$)
+3.  **Link function**: connects the random and systematic components
+
+## GLM Families {.smaller}
+
+| Family   | Link Function | Use For             | Example                  |
+|:---------|:--------------|:--------------------|:-------------------------|
+| Gaussian | identity      | Continuous response | Standard linear model    |
+| Binomial | logit         | Binary outcomes     | Disease presence/absence |
+| Poisson  | log           | Count data          | Number of colonies       |
+| Gamma    | inverse       | Positive continuous | Reaction times           |
+
+## GLM Assumptions {.smaller}
+
+-   **Independence** of observations
+-   No overly **influential observations**
+-   **Linearity** between predictors and the link function (not between predictors and raw response)
+-   **Appropriate dispersion** (variance matches the assumed distribution)
+
+## GLM in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# General syntax
+glm(formula = y ~ x1 + x2, 
+    family = gaussian(link = "identity"),
+    data = mydata)
+
+# Binomial family for logistic regression
+glm(y ~ x1 + x2, family = binomial, data = mydata)
+
+# Poisson family for count data
+glm(count ~ x1 + x2, family = poisson, data = mydata)
+```
+
+### Deviance
+
+-   **Deviance** measures model fit in GLMs (analogous to RSS in linear regression)
+-   **Null Deviance**: from model with only intercept
+-   **Residual Deviance**: from fitted model
+-   Large drop from null to residual deviance → better model fit
+:::
+
+## GLM Diagnostics {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Fit a GLM
+model <- glm(y ~ x1 + x2, family = binomial, data = mydata)
+
+# Residual deviance plot
+plot(predict(model, type = "link"), residuals(model, type = "deviance"),
+     xlab = "Linear Predictor", ylab = "Deviance Residuals",
+     main = "GLM Deviance Residuals")
+abline(h = 0, col = "red", lty = 2)
+
+# Influential observations
+plot(cooks.distance(model), type = "h",
+     main = "Cook's Distance", ylab = "Cook's Distance")
+
+# DHARMa package for simulation-based diagnostics
+library(DHARMa)
+sim_res <- simulateResiduals(fittedModel = model, n = 1000)
+plot(sim_res)  # QQ plot + residual vs predicted
+```
+
+### DHARMa Interpretation
+
+The **DHARMa** package creates simulated residuals that work for any GLM family:
+
+-   **QQ plot**: residuals should follow the uniform distribution
+-   **Residual vs. predicted**: should show no pattern
+-   **Dispersion test**: detects over/underdispersion
+-   Works for binomial, Poisson, negative binomial, and zero-inflated models
+:::
+
+# BREAK {background-color="#e74c3c"}
+
+# Logistic Regression {background-color="#2c3e50"}
+
+## What is Logistic Regression? {.smaller}
+
+-   Classification algorithm for **binary outcomes** (0/1, yes/no, survived/died)
+-   Uses the **logit** link function to map outputs between 0 and 1
+
+::: panel-tabset
+### Equation
+
+$$P(y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}$$
+
+### LaTeX
+
+``` text
+P(y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}
+```
+:::
+
+## The Logistic Function {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: logistic-function-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+curve(1 / (1 + exp(-x)), from = -10, to = 10, col = "blue", lwd = 2,
+      ylab = "Probability", xlab = "Linear predictor (β₀ + β₁x)")
+abline(h = 0.5, lty = 2, col = "gray")
+```
+
+### Code
+
+```{r}
+#| label: logistic-function-code
+#| echo: true
+#| eval: false
+
+curve(1 / (1 + exp(-x)), from = -10, to = 10, col = "blue", lwd = 2,
+      ylab = "Probability", xlab = "Linear predictor (β₀ + β₁x)")
+abline(h = 0.5, lty = 2, col = "gray")
+```
+:::
+
+## Odds and Log-Odds {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Odds:** $$\frac{P}{1 - P}$$
+
+**Log-odds (logit):** $$\log\left(\frac{P}{1 - P}\right)$$
+
+**Model equation:** $$\log\left(\frac{P(y=1)}{1 - P(y=1)}\right) = \beta_0 + \beta_1 x$$
+
+### LaTeX
+
+``` text
+\text{Odds} = \frac{P}{1 - P}
+
+\text{Log-odds (logit)} = \log\left(\frac{P}{1 - P}\right)
+
+\text{Model:} \log\left(\frac{P(y=1)}{1 - P(y=1)}\right) = \beta_0 + \beta_1 x
+```
+:::
+
+## Logistic Regression in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+data(mtcars)
+mtcars$am <- factor(mtcars$am)
+model <- glm(am ~ mpg, data = mtcars, family = binomial)
+summary(model)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+data(mtcars)
+mtcars$am <- factor(mtcars$am)
+model <- glm(am ~ mpg, data = mtcars, family = binomial)
+summary(model)
+```
+:::
+
+## Interpreting Coefficients {.smaller}
+
+Coefficients are in **log-odds** — exponentiate to get odds ratios:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+exp(coef(model))
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+exp(coef(model))
+```
+:::
+
+$\exp(\beta_1)$ is the **multiplicative change in odds** for a 1-unit increase in the predictor. For example, if $\exp(\beta_1) = 1.35$, a one-unit increase in mpg multiplies the odds of manual transmission by 1.35 (a 35% increase).
+
+## Bioengineering Example: Predicting Implant Failure {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Simulated implant failure data
+set.seed(2026)
+n <- 150
+implant_data <- data.frame(
+  surface_roughness = rnorm(n, 1.5, 0.5),     # μm
+  coating_thickness = rnorm(n, 50, 15),         # nm
+  load_cycles       = rnorm(n, 5e6, 1e6)       # cycles
+)
+implant_data$failure <- rbinom(n, 1,
+  plogis(-3 + 1.5 * implant_data$surface_roughness -
+         0.02 * implant_data$coating_thickness +
+         0.0000003 * implant_data$load_cycles))
+
+# Fit logistic regression
+implant_glm <- glm(failure ~ surface_roughness + coating_thickness + load_cycles,
+                    family = binomial, data = implant_data)
+summary(implant_glm)
+
+# Odds ratios
+exp(coef(implant_glm))
+exp(confint(implant_glm))
+```
+
+### Interpretation
+
+-   Higher surface roughness increases odds of failure
+-   Thicker coating decreases odds of failure
+-   More load cycles increases odds of failure
+-   Report odds ratios with 95% CIs for each predictor
+:::
+
+## ROC Curve and AUC {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: roc-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+set.seed(2026)
+n <- 150
+implant_data <- data.frame(
+  surface_roughness = rnorm(n, 1.5, 0.5),
+  coating_thickness = rnorm(n, 50, 15),
+  load_cycles       = rnorm(n, 5e6, 1e6)
+)
+implant_data$failure <- rbinom(n, 1,
+  plogis(-3 + 1.5 * implant_data$surface_roughness -
+         0.02 * implant_data$coating_thickness +
+         0.0000003 * implant_data$load_cycles))
+
+implant_glm <- glm(failure ~ surface_roughness + coating_thickness + load_cycles,
+                    family = binomial, data = implant_data)
+
+# Manual ROC curve
+pred_probs <- predict(implant_glm, type = "response")
+thresholds <- seq(0, 1, by = 0.01)
+tpr <- sapply(thresholds, function(t) {
+  pred_class <- ifelse(pred_probs >= t, 1, 0)
+  sum(pred_class == 1 & implant_data$failure == 1) / sum(implant_data$failure == 1)
+})
+fpr <- sapply(thresholds, function(t) {
+  pred_class <- ifelse(pred_probs >= t, 1, 0)
+  sum(pred_class == 1 & implant_data$failure == 0) / sum(implant_data$failure == 0)
+})
+
+plot(fpr, tpr, type = "l", col = "steelblue", lwd = 2,
+     xlab = "False Positive Rate", ylab = "True Positive Rate",
+     main = "ROC Curve — Implant Failure Model")
+abline(0, 1, lty = 2, col = "gray")
+
+# Approximate AUC using trapezoidal rule
+auc <- abs(sum(diff(fpr) * (tpr[-1] + tpr[-length(tpr)])/2))
+legend("bottomright", paste("AUC ≈", round(auc, 3)), bty = "n", cex = 1.2)
+```
+
+### Code
+
+```{r}
+#| label: roc-code
+#| echo: true
+#| eval: false
+
+# Using pROC package for ROC curves
+library(pROC)
+
+pred_probs <- predict(implant_glm, type = "response")
+roc_obj <- roc(implant_data$failure, pred_probs)
+
+# Plot ROC curve
+plot(roc_obj, col = "steelblue", lwd = 2,
+     main = "ROC Curve — Implant Failure Model")
+cat("AUC:", auc(roc_obj))
+
+# Optimal threshold (Youden's J statistic)
+coords(roc_obj, "best", ret = c("threshold", "sensitivity", "specificity"))
+
+# Confusion matrix at optimal threshold
+optimal_thresh <- coords(roc_obj, "best")$threshold
+pred_class <- ifelse(pred_probs >= optimal_thresh, 1, 0)
+table(Predicted = pred_class, Actual = implant_data$failure)
+```
+:::
+
+## Model Evaluation Metrics {.smaller}
+
+| Metric        | Formula                                                     |
+|:--------------|:------------------------------------------------------------|
+| **Accuracy**  | $(TP + TN) / (TP + TN + FP + FN)$                           |
+| **Precision** | $TP / (TP + FP)$                                            |
+| **Recall**    | $TP / (TP + FN)$                                            |
+| **F1 Score**  | $2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}$ |
+
+## Confusion Matrix {.smaller}
+
+|                     | Predicted Positive  | Predicted Negative  |
+|---------------------|---------------------|---------------------|
+| **Actual Positive** | True Positive (TP)  | False Negative (FN) |
+| **Actual Negative** | False Positive (FP) | True Negative (TN)  |
+
+------------------------------------------------------------------------
+
+# Poisson Regression {background-color="#2c3e50"}
+
+## What is Poisson Regression? {.smaller}
+
+Models **count data** where the response variable represents the number of times an event occurs:
+
+::: panel-tabset
+### Equation
+
+$$\log(\lambda_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}$$
+
+### LaTeX
+
+``` text
+\log(\lambda_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}
+```
+:::
+
+Assumes Poisson distribution: **Mean = Variance = λ**
+
+## Poisson Regression in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Fit Poisson model
+model <- glm(count ~ x1 + x2, family = poisson, data = mydata)
+
+# Check for overdispersion
+dispersion <- sum(residuals(model, type = "pearson")^2) / model$df.residual
+cat("Dispersion parameter:", dispersion)
+# If >> 1, overdispersion is present
+```
+
+### Overdispersion Solutions
+
+When variance \> mean (overdispersion):
+
+-   **Quasi-Poisson**: Adjusts standard errors but keeps same coefficients
+-   **Negative Binomial**: Adds a parameter for extra-Poisson variation
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Quasi-Poisson
+model_qp <- glm(count ~ x1 + x2, family = quasipoisson, data = mydata)
+
+# Negative Binomial
+library(MASS)
+model_nb <- glm.nb(count ~ x1 + x2, data = mydata)
+```
+:::
+
+## Poisson Worked Example: Colony Counts {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: poisson-example-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+set.seed(2026)
+n <- 120
+colony_data <- data.frame(
+  coating = factor(rep(c("None", "Fibronectin", "Collagen"), each = 40)),
+  seeding = rep(seq(1000, 5000, length.out = 40), 3)
+)
+colony_data$colonies <- rpois(n, exp(
+  1.5 + 0.6 * (colony_data$coating == "Fibronectin") +
+  0.9 * (colony_data$coating == "Collagen") +
+  0.0003 * colony_data$seeding))
+
+par(mfrow = c(1, 2))
+boxplot(colonies ~ coating, data = colony_data, col = c("gray80", "lightblue", "salmon"),
+        main = "Colony Counts by Coating", ylab = "Number of Colonies")
+plot(colony_data$seeding, colony_data$colonies,
+     col = c("gray40", "steelblue", "coral")[colony_data$coating],
+     pch = 19, cex = 0.8, xlab = "Seeding Density (cells/mL)",
+     ylab = "Colony Count", main = "Colonies vs. Seeding Density")
+legend("topleft", levels(colony_data$coating),
+       col = c("gray40", "steelblue", "coral"), pch = 19, cex = 0.8)
+```
+
+### Code
+
+```{r}
+#| label: poisson-example-code
+#| echo: true
+#| eval: false
+
+# Bioengineering Poisson regression: bacterial colony counts
+# on tissue culture plates with different surface coatings
+set.seed(2026)
+n <- 120
+colony_data <- data.frame(
+  coating = factor(rep(c("None", "Fibronectin", "Collagen"), each = 40)),
+  seeding = rep(seq(1000, 5000, length.out = 40), 3)
+)
+colony_data$colonies <- rpois(n, exp(
+  1.5 + 0.6 * (colony_data$coating == "Fibronectin") +
+  0.9 * (colony_data$coating == "Collagen") +
+  0.0003 * colony_data$seeding))
+
+# Fit Poisson GLM
+pois_model <- glm(colonies ~ coating + seeding, family = poisson,
+                   data = colony_data)
+summary(pois_model)
+
+# Check overdispersion
+disp <- sum(residuals(pois_model, type = "pearson")^2) / pois_model$df.residual
+cat("Dispersion:", round(disp, 2), "\n")
+
+# If overdispersed, compare models
+if (disp > 1.5) {
+  qp_model <- glm(colonies ~ coating + seeding, family = quasipoisson,
+                   data = colony_data)
+  nb_model <- MASS::glm.nb(colonies ~ coating + seeding, data = colony_data)
+
+  cat("Poisson AIC:", AIC(pois_model), "\n")
+  cat("Neg Binom AIC:", AIC(nb_model), "\n")
+}
+
+# Exponentiate for rate ratios
+exp(coef(pois_model))
+exp(confint(pois_model))
+```
+:::
+
+## Poisson vs. Quasi-Poisson vs. Negative Binomial {.smaller}
+
+| Model | Dispersion | Use When | R Function |
+|:---|:---|:---|:---|
+| **Poisson** | φ ≈ 1 | Variance ≈ mean | `glm(..., family = poisson)` |
+| **Quasi-Poisson** | φ \> 1 | Mild overdispersion | `glm(..., family = quasipoisson)` |
+| **Neg. Binomial** | φ \>\> 1 | Severe overdispersion | `MASS::glm.nb()` |
+
+::: callout-tip
+Always check overdispersion first. If the dispersion parameter is close to 1, standard Poisson is fine. If it exceeds \~1.5, consider quasi-Poisson (same coefficients, wider CIs) or negative binomial (different model entirely).
+:::
+
+------------------------------------------------------------------------
+
+# Regularization Methods {background-color="#2c3e50"}
+
+## Why Regularization? {.smaller}
+
+Standard linear regression struggles when:
+
+-   **Multicollinearity**: Correlated predictors lead to unstable coefficient estimates
+-   **High dimensionality**: More predictors than observations (p \> n)
+-   **Overfitting**: Model fits training data too closely, poor generalization
+
+**Solution**: Add a penalty term that **shrinks coefficients toward zero**, trading a small amount of bias for a large reduction in variance.
+
+## Ridge Regression (L2 Penalty) {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$\hat{\beta}_{ridge} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \right]$$
+
+### LaTeX
+
+``` text
+\hat{\beta}_{ridge} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \right]
+```
+
+### Properties
+
+-   Penalty: $\sum \beta_j^2$ (L2 norm — sum of squared coefficients)
+-   Shrinks coefficients toward zero but **never exactly zero**
+-   Handles multicollinearity well
+-   Closed-form solution: $\hat{\beta}_{ridge} = (X^TX + \lambda I)^{-1}X^Ty$
+-   As λ → 0: approaches OLS; as λ → ∞: coefficients → 0
+:::
+
+## Lasso Regression (L1 Penalty) {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$\hat{\beta}_{lasso} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 + \lambda \sum_{j=1}^{p} |\beta_j| \right]$$
+
+### LaTeX
+
+``` text
+\hat{\beta}_{lasso} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 + \lambda \sum_{j=1}^{p} |\beta_j| \right]
+```
+
+### Properties
+
+-   Penalty: $\sum |\beta_j|$ (L1 norm — sum of absolute values)
+-   Can set coefficients **exactly to zero** → performs variable selection
+-   No closed-form solution (requires optimization)
+-   Produces **sparse models** — useful when you believe many predictors are irrelevant
+:::
+
+## Elastic Net {.smaller}
+
+Combines Ridge and Lasso penalties:
+
+::: panel-tabset
+### Equation
+
+$$\hat{\beta}_{elastic} = \arg\min_{\beta} \left[ RSS + \lambda \left( \alpha \sum |\beta_j| + (1-\alpha) \sum \beta_j^2 \right) \right]$$
+
+### LaTeX
+
+``` text
+\hat{\beta}_{elastic} = \arg\min_{\beta} \left[ RSS + \lambda \left( \alpha \sum |\beta_j| + (1-\alpha) \sum \beta_j^2 \right) \right]
+```
+:::
+
+-   α = 0: pure Ridge; α = 1: pure Lasso
+-   Variable selection like Lasso + handles correlated features like Ridge
+-   Often the best default choice
+
+## Regularization in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(glmnet)
+
+# Ridge regression (alpha = 0)
+ridge_cv <- cv.glmnet(X_train, y_train, alpha = 0, nfolds = 10)
+ridge_model <- glmnet(X_train, y_train, alpha = 0, lambda = ridge_cv$lambda.min)
+
+# Lasso regression (alpha = 1)
+lasso_cv <- cv.glmnet(X_train, y_train, alpha = 1, nfolds = 10)
+lasso_model <- glmnet(X_train, y_train, alpha = 1, lambda = lasso_cv$lambda.min)
+
+# Elastic net (alpha between 0 and 1)
+elastic_cv <- cv.glmnet(X_train, y_train, alpha = 0.5, nfolds = 10)
+```
+
+### When to Use
+
+| Method          | Use When                                                |
+|:----------------|:--------------------------------------------------------|
+| **Ridge**       | Many predictors, most relevant; multicollinearity       |
+| **Lasso**       | Feature selection important; many irrelevant predictors |
+| **Elastic Net** | Groups of correlated predictors; best of both worlds    |
+:::
+
+## Geometric Interpretation {.smaller}
+
+-   **Ridge** constraint region: circle/sphere (smooth boundary) → coefficients shrink continuously
+-   **Lasso** constraint region: diamond/polytope (corners at axes) → coefficients can be exactly zero at the corners
+-   The intersection of the elliptical RSS contours with the constraint region determines the solution
+
+## Visualizing Regularization Paths {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Fit models across range of lambda values
+ridge_path <- glmnet(X_train, y_train, alpha = 0)
+lasso_path <- glmnet(X_train, y_train, alpha = 1)
+
+# Plot coefficient paths
+par(mfrow = c(1, 2))
+plot(ridge_path, xvar = "lambda", main = "Ridge Regression Path")
+plot(lasso_path, xvar = "lambda", main = "Lasso Regression Path")
+```
+
+### Interpretation
+
+-   Each line represents one coefficient as λ changes
+-   Ridge: all coefficients shrink together toward zero
+-   Lasso: coefficients drop to exactly zero at different λ values
+-   Cross-validation selects the optimal λ
+:::
+
+## Regularization Worked Example: Biomaterial Properties {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(glmnet)
+
+# Simulated biomaterial data: 15 material properties predicting biocompatibility
+set.seed(42)
+n <- 100; p <- 15
+X <- matrix(rnorm(n * p), n, p)
+colnames(X) <- paste0("property_", 1:p)
+# Only 4 properties actually matter
+y <- 3 * X[,1] - 2 * X[,3] + 1.5 * X[,7] + 0.8 * X[,12] + rnorm(n, 0, 2)
+
+# Step 1: Scale predictors (glmnet does this by default)
+# Step 2: Split data
+set.seed(42)
+train_idx <- sample(n, 0.7 * n)
+X_train <- X[train_idx, ]; y_train <- y[train_idx]
+X_test  <- X[-train_idx, ]; y_test  <- y[-train_idx]
+
+# Step 3: Fit with cross-validation
+lasso_cv <- cv.glmnet(X_train, y_train, alpha = 1, nfolds = 10)
+ridge_cv <- cv.glmnet(X_train, y_train, alpha = 0, nfolds = 10)
+
+# Step 4: Optimal lambda
+cat("Lasso lambda.min:", lasso_cv$lambda.min, "\n")
+cat("Ridge lambda.min:", ridge_cv$lambda.min, "\n")
+
+# Step 5: Extract coefficients — which properties are selected?
+lasso_coefs <- coef(lasso_cv, s = "lambda.min")
+print(lasso_coefs)
+
+# Step 6: Compare test set performance
+lasso_pred <- predict(lasso_cv, X_test, s = "lambda.min")
+ridge_pred <- predict(ridge_cv, X_test, s = "lambda.min")
+ols_model  <- lm(y_train ~ X_train)
+ols_pred   <- cbind(1, X_test) %*% coef(ols_model)
+
+cat("Test RMSE — Lasso:", sqrt(mean((y_test - lasso_pred)^2)), "\n")
+cat("Test RMSE — Ridge:", sqrt(mean((y_test - ridge_pred)^2)), "\n")
+cat("Test RMSE — OLS:  ", sqrt(mean((y_test - ols_pred)^2)), "\n")
+```
+
+### Visualization
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Plot cross-validation curves
+par(mfrow = c(1, 2))
+plot(lasso_cv, main = "Lasso CV")
+plot(ridge_cv, main = "Ridge CV")
+
+# Coefficient path showing variable selection
+plot(glmnet(X_train, y_train, alpha = 1), xvar = "lambda",
+     main = "Lasso Coefficient Path")
+abline(v = log(lasso_cv$lambda.min), lty = 2, col = "red")
+legend("topright", "lambda.min", lty = 2, col = "red", cex = 0.8)
+```
+:::
+
+------------------------------------------------------------------------
+
+# Splines for Non-Linear Relationships {background-color="#2c3e50"}
+
+## What are Splines? {.smaller}
+
+Splines are **piecewise polynomials** that create smooth curves by fitting different polynomial segments between data points.
+
+**Types of Spline Fitting:**
+
+-   **Regression Splines**: Fit using least squares with specified knots
+-   **Smoothing Splines**: Balance data fidelity and smoothness automatically
+-   **Penalized Splines (P-splines)**: Combine B-spline basis with penalties
+-   **Thin Plate Splines**: Extend to multiple dimensions for spatial data
+
+## Splines in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Natural splines
+library(splines)
+model_ns <- lm(y ~ ns(x, df = 4), data = mydata)
+
+# Smoothing splines
+smooth_fit <- smooth.spline(x, y, cv = TRUE)
+
+# Generalized Additive Models (GAMs)
+library(mgcv)
+gam_model <- gam(y ~ s(x), data = mydata)
+
+# Thin plate spline for 2D spatial data
+model_tp <- gam(z ~ s(x, y, bs = "tp"), data = spatial_data)
+```
+
+### Key Points
+
+-   Natural splines constrain the tails to be linear (less extrapolation danger)
+-   GAMs use `s()` to automatically select the amount of smoothing
+-   Cross-validation (`cv = TRUE`) selects the optimal smoothing parameter
+:::
+
+## LOESS Smoothing {.smaller}
+
+LOESS (Locally Estimated Scatterplot Smoothing) fits local polynomial regressions at each point:
+
+![](images/week08_03_loess_1.jpg){fig-align="center" width="80%"}
+
+## LOESS Animation {.smaller}
+
+![](images/week08_04_loess_animation.gif){fig-align="center" width="80%"}
+
+## LOESS with Different Spans {.smaller}
+
+The span parameter controls the smoothness — smaller values create more flexible fits:
+
+![](images/week08_05_loess_multi_span_animation.gif){fig-align="center" width="80%"}
+
+## Comparing Fitting Approaches {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: spline-comparison-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+library(splines)
+set.seed(42)
+x <- seq(0, 10, length.out = 100)
+y <- sin(x) + 0.3 * x + rnorm(100, 0, 0.5)
+df <- data.frame(x, y)
+
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+
+# Linear
+plot(x, y, pch = 16, cex = 0.6, col = "gray60", main = "Linear Regression")
+m1 <- lm(y ~ x, data = df)
+lines(x, predict(m1), col = "steelblue", lwd = 2)
+
+# Polynomial (degree 5)
+plot(x, y, pch = 16, cex = 0.6, col = "gray60", main = "Polynomial (degree 5)")
+m2 <- lm(y ~ poly(x, 5), data = df)
+lines(x, predict(m2), col = "coral", lwd = 2)
+
+# Natural splines (df = 5)
+plot(x, y, pch = 16, cex = 0.6, col = "gray60", main = "Natural Splines (df = 5)")
+m3 <- lm(y ~ ns(x, df = 5), data = df)
+lines(x, predict(m3), col = "forestgreen", lwd = 2)
+
+# GAM with smoothing spline
+plot(x, y, pch = 16, cex = 0.6, col = "gray60", main = "GAM (Smoothing Spline)")
+m4 <- smooth.spline(x, y, cv = TRUE)
+lines(m4, col = "purple", lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: spline-comparison-code
+#| echo: true
+#| eval: false
+
+library(splines)
+par(mfrow = c(2, 2))
+
+# Linear
+m1 <- lm(y ~ x)
+plot(x, y, pch = 16, col = "gray60", main = "Linear")
+lines(x, predict(m1), col = "steelblue", lwd = 2)
+
+# Polynomial
+m2 <- lm(y ~ poly(x, 5))
+plot(x, y, pch = 16, col = "gray60", main = "Polynomial (deg 5)")
+lines(x, predict(m2), col = "coral", lwd = 2)
+
+# Natural splines
+m3 <- lm(y ~ ns(x, df = 5))
+plot(x, y, pch = 16, col = "gray60", main = "Natural Splines (df=5)")
+lines(x, predict(m3), col = "forestgreen", lwd = 2)
+
+# GAM
+m4 <- smooth.spline(x, y, cv = TRUE)
+plot(x, y, pch = 16, col = "gray60", main = "GAM")
+lines(m4, col = "purple", lwd = 2)
+```
+
+### Tradeoffs
+
+| Method          | Flexibility | Extrapolation | Interpretability |
+|:----------------|:------------|:--------------|:-----------------|
+| Linear          | Low         | Reasonable    | High             |
+| Polynomial      | Medium      | Dangerous     | Medium           |
+| Natural splines | High        | Linear tails  | Medium           |
+| GAM             | High        | Auto-tuned    | Lower            |
+:::
+
+------------------------------------------------------------------------
+
+# Survival Analysis {background-color="#2c3e50"}
+
+## What is Survival Analysis? {.smaller}
+
+**Time-to-event analysis** — studying the time until an event occurs:
+
+-   Time until death (clinical trials)
+-   Time until device failure (bioengineering)
+-   Time until cell division or apoptosis
+-   Time until disease recurrence
+
+**Key Features:**
+
+-   **Censoring**: Some subjects haven't experienced the event yet
+-   **Non-normal data**: Time data is typically right-skewed
+-   **Hazard rates**: Instantaneous risk of the event at any given time
+
+## Censoring in Survival Data {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: censoring-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 3
+
+# Visualize censoring concept
+par(mar = c(4, 4, 2, 1))
+plot(NULL, xlim = c(0, 12), ylim = c(0.5, 5.5), xlab = "Time (months)",
+     ylab = "Subject", main = "Survival Data with Censoring", yaxt = "n")
+axis(2, at = 1:5, labels = paste("Subject", 1:5), las = 1)
+
+# Subject timelines
+segments(0, 5, 3, 5, lwd = 3, col = "steelblue")
+points(3, 5, pch = 4, cex = 2, col = "red", lwd = 2)  # Event
+segments(0, 4, 8, 4, lwd = 3, col = "steelblue")
+points(8, 4, pch = 1, cex = 2, col = "darkgreen", lwd = 2)  # Censored
+segments(0, 3, 5, 3, lwd = 3, col = "steelblue")
+points(5, 3, pch = 4, cex = 2, col = "red", lwd = 2)  # Event
+segments(0, 2, 10, 2, lwd = 3, col = "steelblue")
+points(10, 2, pch = 1, cex = 2, col = "darkgreen", lwd = 2)  # Censored
+segments(0, 1, 7, 1, lwd = 3, col = "steelblue")
+points(7, 1, pch = 4, cex = 2, col = "red", lwd = 2)  # Event
+
+legend("topright", c("Event (X)", "Censored (O)"),
+       pch = c(4, 1), col = c("red", "darkgreen"), pt.lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: censoring-code
+#| echo: true
+#| eval: false
+
+par(mar = c(4, 4, 2, 1))
+plot(NULL, xlim = c(0, 12), ylim = c(0.5, 5.5), xlab = "Time (months)",
+     ylab = "Subject", main = "Survival Data with Censoring", yaxt = "n")
+axis(2, at = 1:5, labels = paste("Subject", 1:5), las = 1)
+
+segments(0, 5, 3, 5, lwd = 3, col = "steelblue")
+points(3, 5, pch = 4, cex = 2, col = "red", lwd = 2)
+segments(0, 4, 8, 4, lwd = 3, col = "steelblue")
+points(8, 4, pch = 1, cex = 2, col = "darkgreen", lwd = 2)
+# ... (additional subjects)
+
+legend("topright", c("Event (X)", "Censored (O)"),
+       pch = c(4, 1), col = c("red", "darkgreen"), pt.lwd = 2)
+```
+:::
+
+## The Survival and Hazard Functions {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Survival function:** $$S(t) = P(T > t) = \text{Probability of surviving past time } t$$
+
+-   $S(0) = 1$ (everyone alive at start)
+-   $S(t)$ decreases over time
+-   $S(\infty) = 0$ (eventually everyone experiences the event)
+
+**Hazard function:** $$h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\Delta t}$$
+
+### LaTeX
+
+``` text
+S(t) = P(T > t)
+
+h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\Delta t}
+```
+:::
+
+## Kaplan-Meier Estimator {.smaller}
+
+The **product-limit estimator** for the survival function:
+
+::: panel-tabset
+### Equation
+
+$$\hat{S}(t) = \prod_{t_i \leq t} \left(1 - \frac{d_i}{n_i}\right)$$
+
+Where $d_i$ = events at time $t_i$ and $n_i$ = number at risk before $t_i$
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(survival)
+data(lung)
+
+# Fit Kaplan-Meier model
+km_fit <- survfit(Surv(time, status) ~ 1, data = lung)
+
+# Plot survival curve
+plot(km_fit, xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Kaplan-Meier Survival Curve - Lung Cancer",
+     col = "steelblue", lwd = 2, conf.int = TRUE)
+abline(h = 0.5, lty = 2, col = "red")
+```
+:::
+
+## Kaplan-Meier Curves {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: km-curves-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+library(survival)
+data(lung)
+km_fit <- survfit(Surv(time, status) ~ 1, data = lung)
+
+plot(km_fit, xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Kaplan-Meier Survival Curve - Lung Cancer",
+     col = "steelblue", lwd = 2, conf.int = TRUE)
+abline(h = 0.5, lty = 2, col = "red")
+legend("topright", c("Survival curve", "95% CI", "Median survival"),
+       col = c("steelblue", "steelblue", "red"), lwd = c(2, 1, 1), lty = c(1, 2, 2))
+```
+
+### Code
+
+```{r}
+#| label: km-curves-code
+#| echo: true
+#| eval: false
+
+km_fit <- survfit(Surv(time, status) ~ 1, data = lung)
+
+plot(km_fit, xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Kaplan-Meier Survival Curve - Lung Cancer",
+     col = "steelblue", lwd = 2, conf.int = TRUE)
+abline(h = 0.5, lty = 2, col = "red")
+legend("topright", c("Survival curve", "95% CI", "Median survival"),
+       col = c("steelblue", "steelblue", "red"), lwd = c(2, 1, 1), lty = c(1, 2, 2))
+```
+:::
+
+## Comparing Survival Curves {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: survival-comparison-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+km_sex <- survfit(Surv(time, status) ~ sex, data = lung)
+plot(km_sex, col = c("steelblue", "coral"), lwd = 2,
+     xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Survival by Sex")
+legend("topright", c("Male", "Female"), col = c("steelblue", "coral"), lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: survival-comparison-code
+#| echo: true
+#| eval: false
+
+km_sex <- survfit(Surv(time, status) ~ sex, data = lung)
+plot(km_sex, col = c("steelblue", "coral"), lwd = 2,
+     xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Survival by Sex")
+legend("topright", c("Male", "Female"), col = c("steelblue", "coral"), lwd = 2)
+```
+:::
+
+## Log-Rank Test {.smaller}
+
+Tests whether survival curves differ significantly between groups:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+survdiff(Surv(time, status) ~ sex, data = lung)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Log-rank test comparing survival by sex
+survdiff(Surv(time, status) ~ sex, data = lung)
+```
+:::
+
+## Cox Proportional Hazards Model {.smaller}
+
+**Semi-parametric model** relating covariates to hazard:
+
+::: panel-tabset
+### Equation
+
+$$h(t \mid X) = h_0(t) \cdot \exp(\beta_1 X_1 + \beta_2 X_2 + \ldots)$$
+
+Where $h_0(t)$ is the baseline hazard and $\exp(\beta)$ is the **hazard ratio** for a 1-unit increase.
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: true
+
+cox_model <- coxph(Surv(time, status) ~ age + sex + ph.ecog, data = lung)
+summary(cox_model)
+```
+:::
+
+## Interpreting Hazard Ratios {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+exp(cbind(HR = coef(cox_model), confint(cox_model)))
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Extract hazard ratios with confidence intervals
+exp(cbind(HR = coef(cox_model), confint(cox_model)))
+```
+
+### Interpretation
+
+-   HR = 1: No effect on survival
+-   HR \> 1: Increased hazard (worse survival)
+-   HR \< 1: Decreased hazard (better survival)
+-   Example: HR for sex = 0.59 means females have 41% lower hazard than males
+:::
+
+## Checking Proportional Hazards Assumption {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: ph-assumption-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 4
+
+ph_test <- cox.zph(cox_model)
+print(ph_test)
+plot(ph_test[2], main = "Schoenfeld Residuals for Sex")
+abline(h = 0, col = "red", lty = 2)
+```
+
+### Code
+
+```{r}
+#| label: ph-assumption-code
+#| echo: true
+#| eval: false
+
+# Test proportional hazards assumption
+ph_test <- cox.zph(cox_model)
+print(ph_test)
+
+# Visual check — Schoenfeld residuals should show no trend
+plot(ph_test[2], main = "Schoenfeld Residuals for Sex")
+abline(h = 0, col = "red", lty = 2)
+```
+:::
+
+## Bioengineering Example: Scaffold Degradation {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: scaffold-survival-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+library(survival)
+set.seed(2026)
+n_scaffolds <- 90
+scaffold_surv <- data.frame(
+  material = factor(rep(c("PLGA", "PCL", "Collagen"), each = 30)),
+  time = c(rweibull(30, 2, 14), rweibull(30, 2, 28), rweibull(30, 1.5, 10)),
+  event = rbinom(n_scaffolds, 1, 0.85)
+)
+scaffold_surv$time <- pmax(scaffold_surv$time, 0.5)
+
+km_scaffold <- survfit(Surv(time, event) ~ material, data = scaffold_surv)
+plot(km_scaffold, col = c("coral", "steelblue", "forestgreen"), lwd = 2,
+     xlab = "Time (weeks)", ylab = "Proportion Intact",
+     main = "Scaffold Degradation by Material")
+legend("topright", c("Collagen", "PCL", "PLGA"),
+       col = c("coral", "steelblue", "forestgreen"), lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: scaffold-survival-code
+#| echo: true
+#| eval: false
+
+# Simulated scaffold degradation data
+set.seed(2026)
+scaffold_surv <- data.frame(
+  material = factor(rep(c("PLGA", "PCL", "Collagen"), each = 30)),
+  time = c(rweibull(30, 2, 14),    # PLGA: moderate degradation
+           rweibull(30, 2, 28),     # PCL: slow degradation
+           rweibull(30, 1.5, 10)),  # Collagen: fast degradation
+  event = rbinom(90, 1, 0.85)      # 85% observed degradation
+)
+
+# Kaplan-Meier by material
+km_scaffold <- survfit(Surv(time, event) ~ material, data = scaffold_surv)
+plot(km_scaffold, col = c("coral", "steelblue", "forestgreen"), lwd = 2,
+     xlab = "Time (weeks)", ylab = "Proportion Intact",
+     main = "Scaffold Degradation by Material")
+
+# Log-rank test
+survdiff(Surv(time, event) ~ material, data = scaffold_surv)
+
+# Cox model: which material degrades fastest?
+cox_scaffold <- coxph(Surv(time, event) ~ material, data = scaffold_surv)
+summary(cox_scaffold)
+exp(cbind(HR = coef(cox_scaffold), confint(cox_scaffold)))
+```
+
+### Interpretation
+
+In this bioengineering context:
+
+-   **Event** = scaffold degradation (loss of structural integrity)
+-   **Censored** = scaffold still intact at end of observation period
+-   **Hazard ratio** = relative rate of degradation vs. reference material
+-   A higher HR means faster degradation
+:::
+
+## R Exercise: Logistic Regression {.smaller}
+
+::: callout-tip
+## Exercise
+
+A medical researcher wants to predict diabetes using blood glucose and BMI:
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Simulated diabetes data
+set.seed(123)
+n <- 200
+glucose <- rnorm(n, 100, 20)
+bmi <- rnorm(n, 27, 5)
+prob <- 1 / (1 + exp(-(-8 + 0.05 * glucose + 0.1 * bmi)))
+diabetes <- rbinom(n, 1, prob)
+diabetes_data <- data.frame(diabetes, glucose, bmi)
+```
+
+Tasks:
+
+1.  Fit logistic regression: `diabetes ~ glucose + bmi`
+2.  Interpret the odds ratios (exponentiated coefficients)
+3.  Predict probability of diabetes for glucose = 120, BMI = 30
+4.  Create a confusion matrix and calculate accuracy
+5.  What glucose level gives 50% probability (at mean BMI)?
+:::
+
+------------------------------------------------------------------------
+
