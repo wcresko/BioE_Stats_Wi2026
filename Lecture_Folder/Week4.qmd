@@ -63,7 +63,7 @@ set.seed(2026)
 **Readings:** Chapters 18-19 **HW2 Assigned on Wednesday, due next week**
 :::
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ```{r}
 #| eval: false
@@ -85,7 +85,7 @@ library(pwr)          # Power analysis for study design
 
 # Chi-Square Tests {background-color="#2c3e50"}
 
-## The Chi-Square Distribution {.smaller}
+## The Chi-Square Distribution
 
 If $Z_1, Z_2, ..., Z_k$ are independent standard normal variables:
 
@@ -108,7 +108,7 @@ $$\chi^2_k = \sum_{i=1}^k Z_i^2$$
 -   Variance: $2k$
 -   Right-skewed
 
-## Chi-Square Distribution {.smaller}
+## Chi-Square Distribution
 
 :::: panel-tabset
 ### Output
@@ -152,7 +152,7 @@ legend("topright", paste("df =", df_vals), col = colors, lwd = 2)
 ```
 :::
 
-## Chi-Square Test Statistic {.smaller}
+## Chi-Square Test Statistic
 
 :::: panel-tabset
 ### Equation
@@ -173,19 +173,19 @@ Where:
 
 Degrees of freedom: $df = k - 1$ (goodness-of-fit)
 
-## When to Use Chi-Square Tests {.smaller}
+## When to Use Chi-Square Tests
 
 -   **Goodness-of-fit test**: Does observed data match expected proportions?
 -   **Test of independence**: Are two categorical variables related?
 -   **Test of homogeneity**: Do different groups have the same distribution?
 
-## Assumptions {.smaller}
+## Assumptions
 
 -   Data are **counts** (not percentages or proportions)
 -   Categories are **mutually exclusive**
 -   Expected count in each category **should be ≥ 5**
 
-## Goodness-of-Fit Test {.smaller}
+## Goodness-of-Fit Test
 
 Tests whether observed frequencies match expected proportions.
 
@@ -219,7 +219,7 @@ chisq.test(x = observed, p = expected_probs)
 ```
 :::
 
-## Goodness-of-Fit: Dice Example {.smaller}
+## Goodness-of-Fit: Dice Example
 
 :::: panel-tabset
 ### Output
@@ -251,7 +251,7 @@ chisq.test(x = observed, p = expected_probs)
 ```
 :::
 
-## Test of Independence {.smaller}
+## Test of Independence
 
 Tests whether two categorical variables are related.
 
@@ -287,7 +287,7 @@ chisq.test(tbl)
 ```
 :::
 
-## Mosaic Plot {.smaller}
+## Mosaic Plot
 
 :::: panel-tabset
 ### Output
@@ -321,7 +321,7 @@ mosaicplot(tbl,
 ```
 :::
 
-## Cramér's V {.smaller}
+## Cramér's V
 
 Effect size for chi-square test:
 
@@ -343,7 +343,7 @@ V = \sqrt{\frac{\chi^2}{n(k-1)}}
 | 0.3 | Medium effect  |
 | 0.5 | Large effect   |
 
-## Calculating Cramér's V in R {.smaller}
+## Calculating Cramér's V in R
 
 :::: panel-tabset
 ### Output
@@ -397,7 +397,7 @@ cat("Cramér's V:", round(cramers_v, 3))
 ```
 :::
 
-## Fisher's Exact Test {.smaller}
+## Fisher's Exact Test
 
 Use when:
 
@@ -434,7 +434,7 @@ fisher.test(beverage_table)
 ```
 :::
 
-## Odds Ratios {.smaller}
+## Odds Ratios
 
 Compares odds of an event between two groups:
 
@@ -454,7 +454,7 @@ Compares odds of an event between two groups:
 The chi-square test tells us **whether** there is a difference, but the odds ratio tells us the **effect size** - how much more likely one outcome is compared to another.
 :::
 
-## Calculating Odds Ratio in R {.smaller}
+## Calculating Odds Ratio in R
 
 ```{r}
 #| eval: false
@@ -473,7 +473,7 @@ library(epitools)
 oddsratio(beverage_table)
 ```
 
-## G-Test (Log-Likelihood Ratio Test) {.smaller}
+## G-Test (Log-Likelihood Ratio Test)
 
 An alternative to chi-square based on log-likelihood ratios:
 
@@ -496,7 +496,7 @@ GTest(observed, p = expected_ratio)
 GTest(contingency_table)
 ```
 
-## R Exercise: Chi-Square and Contingency Analysis {.smaller}
+## R Exercise: Chi-Square and Contingency Analysis
 
 ::: callout-tip
 ## Exercise
@@ -531,14 +531,14 @@ bacteria <- matrix(c(45, 15, 30, 30, 20, 40),
 
 # Relationship between two continuous variables
 
-## Covariance and Correlation {.smaller}
+## Covariance and Correlation
 
 -   Simple but useful measures of association between two or more continuous variables
 -   Covariance is the shared variance and scales with the variance of the variables
 -   Correlcation is a standardized covariance to put the values on a common scale
 -   Both are useful but suboptimal compared to linear models.
 
-## Covariance and Correlation {.smaller}
+## Covariance and Correlation
 
 **Covariance** Measures how two variables vary together:
 
@@ -572,11 +572,11 @@ r = \frac{Cov(X,Y)}{s_x \cdot s_y}
 -   Negative: one increases as other decreases
 -   Zero: no linear relationship
 
-## Covariance and Correlation {.smaller}
+## Covariance and Correlation
 
 ![](images/week05_11_week8_correlation.jpg){fig-align="center" width="60%"}
 
-## Visualizing Different Correlations in R {.smaller}
+## Visualizing Different Correlations in R
 
 :::: panel-tabset
 ### Output
@@ -640,7 +640,7 @@ for(r in correlations) {
 ```
 :::
 
-## Calculating Correlations in R {.smaller}
+## Calculating Correlations in R
 
 ### Pearson Correlation Value
 
@@ -698,7 +698,7 @@ cor.test(mtcars$mpg, mtcars$wt)
 ```
 :::
 
-## Parametric vs. Nonparametric Correlation {.smaller}
+## Parametric vs. Nonparametric Correlation
 
 | Test     | Use When                         | R Function                    |
 |:---------|:---------------------------------|:------------------------------|
@@ -708,19 +708,19 @@ cor.test(mtcars$mpg, mtcars$wt)
 
 # Challenges of only using correlation
 
-## Correlation vs. Causation {.smaller}
+## Correlation vs. Causation
 
 **Warning**: Correlation does NOT imply causation without randomization!
 
 ![](images/week05_13_divorce_versus_margarine_1.jpg){fig-align="center" width="80%"}
 
-## Anscombe's Quartet {.smaller}
+## Anscombe's Quartet
 
 ![](images/week05_25_anscombes_quartet_four_datasets.jpeg){fig-align="center" width="90%"}
 
 All four datasets have identical: mean of x (9), variance of x (11), mean of y (7.5), correlation (0.816), and regression line ($y = 3.00 + 0.50x$).
 
-## In-Class Demo: Anscombe's Quartet in R {.smaller}
+## In-Class Demo: Anscombe's Quartet in R
 
 :::: panel-tabset
 ### Output
@@ -796,7 +796,7 @@ y_i = \beta_0 + \beta_1 x_i + \epsilon_i
 -   $\beta_1$: slope
 -   $\epsilon_i$: error/residual
 
-## What is a Linear Model? {.smaller}
+## What is a Linear Model?
 
 $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 
@@ -806,15 +806,15 @@ $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 
 ![](images/week05_10_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
-##  {.smaller}
+## 
 
 ![](images/week05_24_linear_relationship_types_scatterplots.jpeg){fig-align="center" width="90%"}
 
-##  {.smaller}
+## 
 
 ![](images/week05_23_regression_slope_intercept_diagrams.jpeg){fig-align="center" width="90%"}
 
-## Many Methods Are Linear Models {.smaller}
+## Many Methods Are Linear Models
 
 -   Simple linear regression
 -   Multiple regression
@@ -822,7 +822,7 @@ $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 -   ANCOVA
 -   Repeated-measures ANOVA
 
-## Classes of Linear Models {.smaller}
+## Classes of Linear Models
 
 | Abbreviation       | Name                       | Description                  |
 |:-------------------|:---------------------------|:-----------------------------|
@@ -831,7 +831,7 @@ $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 | **Generalized LM** | Generalized Linear Model   | Non-normal response          |
 | **GAM**            | Generalized Additive Model | Non-linear relationships     |
 
-## Linear Models in R {.smaller}
+## Linear Models in R
 
 ```{r}
 #| eval: false
@@ -850,7 +850,7 @@ my_lm <- lm(Y ~ X, data = mydata)
 summary(my_lm)
 ```
 
-## Linear Regression Example {.smaller}
+## Linear Regression Example
 
 :::: panel-tabset
 ### Output

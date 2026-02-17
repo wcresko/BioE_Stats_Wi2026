@@ -69,7 +69,7 @@ set.seed(2026)
 **Readings:** Chapters 38–39
 :::
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ::: panel-tabset
 ### Install
@@ -103,7 +103,7 @@ library(randomForest)   # Random forests
 
 **Built-in datasets:** `iris` (PCA, LDA, t-SNE, UMAP examples)
 
-## Experimental Design Overview {.smaller}
+## Experimental Design Overview
 
 ![](images/week10_01_week10_experimentaldesign.jpg){fig-align="center" width="80%"}
 
@@ -111,11 +111,11 @@ library(randomForest)   # Random forests
 
 # Introduction to Multivariate Statistics {background-color="#2c3e50"}
 
-## Multivariate Data {.smaller}
+## Multivariate Data
 
 ![](images/week10_02_3d_multivariate_data_cloud.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: 3D Multivariate Data Cloud {.smaller}
+## DRAFT: 3D Multivariate Data Cloud
 
 ```{r}
 #| echo: false
@@ -155,11 +155,11 @@ plot(x_proj[order_idx], y_proj[order_idx], pch = 16, cex = 0.5, col = "red",
 box()
 ```
 
-## Multivariate Approach {.smaller}
+## Multivariate Approach
 
 ![](images/week10_03_pca_matrix_transformation_diagram.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: PCA Matrix Transformation {.smaller}
+## DRAFT: PCA Matrix Transformation
 
 **The PCA pipeline transforms data through matrix operations:**
 
@@ -210,11 +210,11 @@ box()
 
 **Original data matrix → Correlation matrix → Factor matrix**
 
-## Multivariate Methods Overview {.smaller}
+## Multivariate Methods Overview
 
 ![](images/week10_04_data_correlation_distance_matrices.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Data → Correlation and Distance Matrices {.smaller}
+## DRAFT: Data → Correlation and Distance Matrices
 
 ::::: columns
 ::: {.column width="33%"}
@@ -251,11 +251,11 @@ box()
 - **Correlation matrix** → used for PCA, factor analysis (relationships among *variables*)
 - **Distance matrix** → used for clustering, ordination (relationships among *objects*)
 
-## Variance-Covariance and Eigenvalues {.smaller}
+## Variance-Covariance and Eigenvalues
 
 ![](images/week10_05_pca_scree_plot_eigenvalues.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: PCA Scree Plot {.smaller}
+## DRAFT: PCA Scree Plot
 
 ```{r}
 #| echo: false
@@ -275,11 +275,11 @@ plot(1:length(eigenvalues), eigenvalues, type = "b",
      cex.lab = 1.4, cex.main = 1.5, cex.axis = 1.2)
 ```
 
-## Dissimilarity and Distance {.smaller}
+## Dissimilarity and Distance
 
 ![](images/week10_06_dissimilarity_distance_formulas.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Dissimilarity / Distance Formulas {.smaller}
+## DRAFT: Dissimilarity / Distance Formulas
 
 | Dissimilarity | Equation |
 |:--------------|:---------|
@@ -290,7 +290,7 @@ plot(1:length(eigenvalues), eigenvalues, type = "b",
 | **Bray–Curtis** | $\dfrac{\displaystyle\sum_{j=1}^{p}\lvert y_{1j} - y_{2j}\rvert}{\displaystyle\sum_{j=1}^{p}(y_{1j} + y_{2j})}$ |
 | **Chi-square** | $\sqrt{\displaystyle\sum_{j=1}^{p}\dfrac{\left(y_{1j}\dfrac{\sum y_{1j} - y_{2j}}{\sum y_{2j}}\right)^2}{\sum y_j}}$ |
 
-## Handling Missing Data in Multivariate Analysis {.smaller}
+## Handling Missing Data in Multivariate Analysis
 
 | Type     | Description                  | Problem Severity  |
 |:---------|:-----------------------------|:------------------|
@@ -310,7 +310,7 @@ plot(1:length(eigenvalues), eigenvalues, type = "b",
 
 # MANOVA — Multivariate Analysis of Variance {background-color="#2c3e50"}
 
-## Why Use MANOVA? {.smaller}
+## Why Use MANOVA?
 
 -   When interested in the relationship of **two or more response variables** and one or more predictor variables
 -   Tests whether **group centroids** differ across multiple variables simultaneously
@@ -328,7 +328,7 @@ H_0: \boldsymbol{\mu}_1 = \boldsymbol{\mu}_2 = \ldots = \boldsymbol{\mu}_k
 ```
 :::
 
-## MANOVA Linear Model {.smaller}
+## MANOVA Linear Model
 
 Single Factor MANOVA uses a linear combination of p response variables:
 
@@ -345,7 +345,7 @@ $$z_{ik} = c_1 y_{i1} + c_2 y_{i2} + c_3 y_{i3} + \ldots + c_p y_{ip}$$
 -   The ratio H/E is decomposed into eigenvalues and eigenvectors
 :::
 
-## MANOVA Test Statistics {.smaller}
+## MANOVA Test Statistics
 
 | Statistic              | Description               | Use When               |
 |:-----------------------|:--------------------------|:-----------------------|
@@ -354,7 +354,7 @@ $$z_{ik} = c_1 y_{i1} + c_2 y_{i2} + c_3 y_{i3} + \ldots + c_p y_{ip}$$
 | **Hotelling-Lawley**   | Most powerful             | Assumptions met        |
 | **Roy's Largest Root** | Examines first eigenvalue | Few response variables |
 
-## MANOVA in R {.smaller}
+## MANOVA in R
 
 ::: panel-tabset
 ### Output
@@ -389,7 +389,7 @@ summary.aov(iris_manova)
 ```
 :::
 
-## MANOVA Assumptions {.smaller}
+## MANOVA Assumptions
 
 1.  **Multivariate Normality** — less critical for Pillai's trace
 2.  **Homogeneity of Variance-Covariance** — test with Box's M
@@ -402,7 +402,7 @@ summary.aov(iris_manova)
 MANOVA is very sensitive to multivariate outliers. Use **Mahalanobis distance** to detect them.
 :::
 
-## Detecting Multivariate Outliers {.smaller}
+## Detecting Multivariate Outliers
 
 ::: panel-tabset
 ### Output
@@ -442,7 +442,7 @@ abline(h = qchisq(0.975, df = 4), col = "red", lwd = 2)
 ```
 :::
 
-## MANOVA Follow-Up Workflow {.smaller}
+## MANOVA Follow-Up Workflow
 
 After a significant MANOVA, determine **which variables** drive the group differences:
 
@@ -497,7 +497,7 @@ for (var in c("Sepal.Length", "Sepal.Width",
 
 # Discriminant Function Analysis (DFA / LDA) {background-color="#2c3e50"}
 
-## MANOVA vs DFA {.smaller}
+## MANOVA vs DFA
 
 | Aspect | MANOVA | DFA |
 |:---|:---|:---|
@@ -508,7 +508,7 @@ for (var in c("Sepal.Length", "Sepal.Width",
 
 Both methods use the same underlying mathematics (eigendecomposition of H/E) but for different purposes.
 
-## DFA Steps {.smaller}
+## DFA Steps
 
 1.  **Run MANOVA** to test for group differences
     -   If not significant, DFA won't be useful
@@ -520,7 +520,7 @@ Both methods use the same underlying mathematics (eigendecomposition of H/E) but
     -   Determine percentage of correct assignments
     -   Can train on one dataset and predict on new data
 
-## Linear Discriminant Analysis in R {.smaller}
+## Linear Discriminant Analysis in R
 
 ::: panel-tabset
 ### Output
@@ -554,7 +554,7 @@ iris_lda$scaling
 ```
 :::
 
-## LDA Predictions and Classification {.smaller}
+## LDA Predictions and Classification
 
 ::: panel-tabset
 ### Output
@@ -581,7 +581,7 @@ table(Predicted = iris_pred$class, Actual = iris$Species)
 ```
 :::
 
-## Visualizing Discriminant Functions {.smaller}
+## Visualizing Discriminant Functions
 
 ::: panel-tabset
 ### Output
@@ -619,7 +619,7 @@ legend("topright", levels(iris$Species),
 ```
 :::
 
-## LDA for New Predictions {.smaller}
+## LDA for New Predictions
 
 ::: panel-tabset
 ### Output
@@ -661,7 +661,7 @@ round(predict(iris_lda, new_flowers)$posterior, 3)
 ```
 :::
 
-## Logistic Regression as Classification {.smaller}
+## Logistic Regression as Classification
 
 Recall from Week 8 that logistic regression can also be used for classification. The key differences from LDA:
 
@@ -676,7 +676,7 @@ Recall from Week 8 that logistic regression can also be used for classification.
 Use LDA when you believe the predictors are approximately multivariate normal within each group. Use logistic regression when you have binary outcomes or non-normal predictors.
 :::
 
-## LDA Cross-Validation for Honest Accuracy {.smaller}
+## LDA Cross-Validation for Honest Accuracy
 
 Training and testing on the same data gives **overly optimistic** accuracy estimates. Use leave-one-out CV:
 
@@ -740,7 +740,7 @@ dotplot(results)
 
 # Principal Component Analysis (PCA) {background-color="#2c3e50"}
 
-## What is PCA? {.smaller}
+## What is PCA?
 
 -   **Dimensionality reduction** technique for continuous data
 -   Finds orthogonal directions (principal components) of **maximum variance**
@@ -756,7 +756,7 @@ dotplot(results)
 -   **Scores**: coordinates of observations in PC space
 :::
 
-## PCA in R {.smaller}
+## PCA in R
 
 ::: panel-tabset
 ### Output
@@ -783,7 +783,7 @@ summary(pca_result)
 ```
 :::
 
-## PCA Biplot {.smaller}
+## PCA Biplot
 
 ::: panel-tabset
 ### Output
@@ -809,7 +809,7 @@ biplot(pca_result, col = c("gray", "red"))
 ```
 :::
 
-## Scree Plot {.smaller}
+## Scree Plot
 
 ::: panel-tabset
 ### Output
@@ -843,7 +843,7 @@ plot(var_explained, type = "b", pch = 19,
 ```
 :::
 
-## Interpreting PCA Loadings {.smaller}
+## Interpreting PCA Loadings
 
 The loadings (rotation matrix) tell you **which original variables contribute most** to each PC:
 
@@ -903,7 +903,7 @@ heatmap(pca_result$rotation, scale = "column",
 -   PC1 often represents overall size; PC2 often represents shape contrasts
 :::
 
-## Publication-Quality PCA with ggplot2 {.smaller}
+## Publication-Quality PCA with ggplot2
 
 ::: panel-tabset
 ### Output
@@ -962,7 +962,7 @@ ggplot(pca_scores, aes(x = PC1, y = PC2, color = Species)) +
 
 # PCoA and NMDS {background-color="#2c3e50"}
 
-## PCoA — Principal Coordinates Analysis {.smaller}
+## PCoA — Principal Coordinates Analysis
 
 PCoA (also called classical multidimensional scaling) is similar to PCA but works on a **dissimilarity matrix** rather than raw data:
 
@@ -998,7 +998,7 @@ plot(pcoa_result$points, col = group_factor, pch = 19,
 -   When data are not suited for PCA (e.g., count data, presence/absence)
 :::
 
-## PCoA: Community Data Example {.smaller}
+## PCoA: Community Data Example
 
 ::: panel-tabset
 ### Output
@@ -1073,7 +1073,7 @@ cat("R² =", round(adonis_result$R2[1], 3))
 -   Check **betadisper()** for homogeneity of dispersions (analogous to Levene's test)
 :::
 
-## NMDS — Non-metric Multidimensional Scaling {.smaller}
+## NMDS — Non-metric Multidimensional Scaling
 
 **NMDS** is a form of nonparametric ordination:
 
@@ -1082,7 +1082,7 @@ cat("R² =", round(adonis_result$R2[1], 3))
 -   Excellent for ecological, expression, and phenotypic data
 -   Works well when relationships are non-linear
 
-## NMDS Algorithm {.smaller}
+## NMDS Algorithm
 
 1.  Calculate dissimilarity matrix between samples
 2.  Place points in reduced dimensional space (usually 2D)
@@ -1096,7 +1096,7 @@ cat("R² =", round(adonis_result$R2[1], 3))
 | 0.10–0.20    | Acceptable     |
 | \> 0.20      | Poor fit       |
 
-## NMDS in R with vegan {.smaller}
+## NMDS in R with vegan
 
 ::: panel-tabset
 ### Code
@@ -1132,7 +1132,7 @@ legend("topright", levels(group_factor),
 ```
 :::
 
-## PCA vs PCoA vs NMDS {.smaller}
+## PCA vs PCoA vs NMDS
 
 | Aspect | PCA | PCoA | NMDS |
 |:---|:---|:---|:---|
@@ -1145,7 +1145,7 @@ legend("topright", levels(group_factor),
 NMDS scores preserve only rank-order relationships, so they should **not** be used directly in regression or ANOVA!
 :::
 
-## NMDS: Hypothesis Testing with PERMANOVA {.smaller}
+## NMDS: Hypothesis Testing with PERMANOVA
 
 ::: panel-tabset
 ### Code
@@ -1192,7 +1192,7 @@ plot(ef, p.max = 0.05, col = "red", lwd = 2)
 
 # t-SNE and UMAP {background-color="#2c3e50"}
 
-## What is t-SNE? {.smaller}
+## What is t-SNE?
 
 **t-Distributed Stochastic Neighbor Embedding** — a non-linear dimensionality reduction method:
 
@@ -1206,7 +1206,7 @@ plot(ef, p.max = 0.05, col = "red", lwd = 2)
 | iterations    | Number of optimization steps           | 1000+          |
 | learning_rate | Step size for optimization             | 100–1000       |
 
-## t-SNE in R {.smaller}
+## t-SNE in R
 
 ::: panel-tabset
 ### Code
@@ -1238,7 +1238,7 @@ legend("topright", levels(iris$Species), col = 1:3, pch = 19)
 -   Not deterministic — run multiple times and compare
 :::
 
-## What is UMAP? {.smaller}
+## What is UMAP?
 
 **Uniform Manifold Approximation and Projection** — similar goals to t-SNE but with key advantages:
 
@@ -1253,7 +1253,7 @@ legend("topright", levels(iris$Species), col = 1:3, pch = 19)
 | min_dist     | Minimum distance between points | 0.001–0.5      |
 | n_components | Number of output dimensions     | 2–3            |
 
-## UMAP in R {.smaller}
+## UMAP in R
 
 ::: panel-tabset
 ### Code
@@ -1283,7 +1283,7 @@ legend("topright", levels(iris$Species), col = 1:3, pch = 19)
 | UMAP   | Medium | Good             | Excellent       | Mostly       |
 :::
 
-## When to Use Each Dimensionality Reduction Method {.smaller}
+## When to Use Each Dimensionality Reduction Method
 
 ::: callout-tip
 ## Recommendations
@@ -1299,7 +1299,7 @@ legend("topright", levels(iris$Species), col = 1:3, pch = 19)
 
 # Decision Trees and Random Forests {background-color="#2c3e50"}
 
-## Decision Trees {.smaller}
+## Decision Trees
 
 -   Supervised learning using tree-like decision structure
 -   Easy to interpret and visualize
@@ -1308,11 +1308,11 @@ legend("topright", levels(iris$Species), col = 1:3, pch = 19)
 
 ![Decision tree structure](images/week09_14_decision_tree_structure_illust.jpeg){fig-align="center" width="70%"}
 
-## Decision Tree Example: Injury Risk {.smaller}
+## Decision Tree Example: Injury Risk
 
 ![Bioengineering decision tree example for injury risk](images/week09_23_decision_tree_bioe_example.pdf){fig-align="center" width="85%"}
 
-## How Decision Trees Work {.smaller}
+## How Decision Trees Work
 
 1.  Start with entire dataset at root
 2.  Find best feature and split point (minimize impurity)
@@ -1320,7 +1320,7 @@ legend("topright", levels(iris$Species), col = 1:3, pch = 19)
 4.  Repeat until stopping criteria met
 5.  Assign predictions to leaf nodes
 
-## Splitting Criteria {.smaller}
+## Splitting Criteria
 
 ::: panel-tabset
 ### Equations
@@ -1342,7 +1342,7 @@ MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2
 ```
 :::
 
-## Decision Trees in R {.smaller}
+## Decision Trees in R
 
 ::: panel-tabset
 ### Code
@@ -1380,7 +1380,7 @@ pruned_tree <- prune(tree_model, cp = optimal_cp)
 ```
 :::
 
-## Decision Tree: Complete Pruning Workflow {.smaller}
+## Decision Tree: Complete Pruning Workflow
 
 ::: panel-tabset
 ### Output
@@ -1436,7 +1436,7 @@ rpart.plot(pruned_tree, type = 4, extra = 104,
 ```
 :::
 
-## Random Forests {.smaller}
+## Random Forests
 
 Address decision tree limitations through **ensemble learning**:
 
@@ -1446,7 +1446,7 @@ Address decision tree limitations through **ensemble learning**:
 
 **Advantages:** Reduces overfitting, more stable predictions, handles high-dimensional data, provides variable importance measures
 
-## Random Forests in R {.smaller}
+## Random Forests in R
 
 ::: panel-tabset
 ### Code
@@ -1478,7 +1478,7 @@ varImpPlot(rf_model, main = "Variable Importance")
 | nodesize  | Minimum terminal node size | 1 (classification)  |
 :::
 
-## Random Forest: Variable Importance {.smaller}
+## Random Forest: Variable Importance
 
 ::: panel-tabset
 ### Output
@@ -1532,7 +1532,7 @@ partial(rf_model, pred.var = "Petal.Width", plot = TRUE,
 -   Use importance to identify key drivers, not for formal hypothesis testing
 :::
 
-## ROC Curves and AUC {.smaller}
+## ROC Curves and AUC
 
 **ROC** (Receiver Operating Characteristic) curves summarize classifier performance across all thresholds:
 
@@ -1547,7 +1547,7 @@ partial(rf_model, pred.var = "Petal.Width", plot = TRUE,
 | 0.8–0.9 | Good           |
 | \> 0.9  | Excellent      |
 
-## Brief Introduction to Neural Networks {.smaller}
+## Brief Introduction to Neural Networks
 
 Neural networks extend the ideas of linear regression and classification into highly flexible models:
 
@@ -1560,7 +1560,7 @@ Neural networks extend the ideas of linear regression and classification into hi
 Neural networks are powerful but require large datasets, careful tuning, and are often "black boxes" that are difficult to interpret. For most bioengineering applications with moderate sample sizes, methods like random forests, SVM, or regularized regression are more appropriate starting points.
 :::
 
-## Simple Neural Network in R {.smaller}
+## Simple Neural Network in R
 
 ::: panel-tabset
 ### Code
@@ -1611,7 +1611,7 @@ cat("\nRandom Forest Accuracy:", round(mean(rf_pred == test$Species), 3))
 -   This is a brief introduction — take a dedicated ML course for depth
 :::
 
-## In-Class Exercise: PCA and Ordination {.smaller}
+## In-Class Exercise: PCA and Ordination
 
 ::: callout-tip
 ## Exercise
@@ -1657,7 +1657,7 @@ print(iris_pca$rotation)
 
 # Course Summary: Choosing the Right Method {background-color="#2c3e50"}
 
-## Which Method Should I Use? {.smaller}
+## Which Method Should I Use?
 
 **Start by asking these questions:**
 
@@ -1666,7 +1666,7 @@ print(iris_pca$rotation)
 3.  **How many predictors?** Few vs. many; continuous vs. categorical vs. mixed
 4.  **Sample size?** Small (n \< 30), moderate (30–200), large (200+)
 
-## Method Selection: Inference {.smaller}
+## Method Selection: Inference
 
 | Response | Predictors | Method | Week |
 |:---|:---|:---|:---|
@@ -1681,7 +1681,7 @@ print(iris_pca$rotation)
 | Time-to-event | Continuous/mixed | Cox proportional hazards | 8 |
 | Multiple continuous | Categorical | MANOVA → DFA | 10 |
 
-## Method Selection: Prediction & Exploration {.smaller}
+## Method Selection: Prediction & Exploration
 
 | Goal | Data Type | Method | Week |
 |:---|:---|:---|:---|
@@ -1694,7 +1694,7 @@ print(iris_pca$rotation)
 | Find groups | No labels | K-means, hierarchical clustering | 9 |
 | Test group differences | Distance matrix | PERMANOVA | 10 |
 
-## The Modeling Progression {.smaller}
+## The Modeling Progression
 
 How methods connect across weeks — each row builds on the previous:
 
@@ -1712,7 +1712,7 @@ How methods connect across weeks — each row builds on the previous:
 Start simple. Only increase complexity when diagnostic plots show the simpler model is inadequate.
 :::
 
-## Reporting Effect Sizes {.smaller}
+## Reporting Effect Sizes
 
 P-values tell you **whether** an effect exists; effect sizes tell you **how large** it is. Always report both.
 
@@ -1731,7 +1731,7 @@ P-values tell you **whether** an effect exists; effect sizes tell you **how larg
 "Statistical significance does not imply practical importance." A tiny effect can be highly significant with a large enough sample. Effect sizes help you assess whether the difference matters in your bioengineering application.
 :::
 
-## Reproducibility Checklist {.smaller}
+## Reproducibility Checklist
 
 For every analysis in this course and beyond:
 

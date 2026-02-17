@@ -65,7 +65,7 @@ set.seed(2026)
 
 **HW3 Due this week**
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ::: panel-tabset
 ### Install
@@ -101,7 +101,7 @@ library(emmeans)      # Estimated marginal means
 
 # Finish ANCOVA: Combining Regression and ANOVA {background-color="#2c3e50"}
 
-## ANCOVA Review {.smaller}
+## ANCOVA Review
 
 Last week we introduced **Analysis of Covariance (ANCOVA)**, which combines:
 
@@ -110,19 +110,19 @@ Last week we introduced **Analysis of Covariance (ANCOVA)**, which combines:
 
 This week we continue with the biological motivations, interpretation, and assumptions.
 
-## ANCOVA: Brain Size and Body Mass {.smaller}
+## ANCOVA: Brain Size and Body Mass
 
 ![](images/week10_11_neanderthal_human_brain_size.jpeg){fig-align="center" width="90%"}
 
-## ANCOVA: Neanderthal vs. Modern Human {.smaller}
+## ANCOVA: Neanderthal vs. Modern Human
 
 ![](images/week10_12_neanderthal_human_skulls_skeletons.jpeg){fig-align="center" width="90%"}
 
-## ANCOVA: Brain-Body Mass Regression {.smaller}
+## ANCOVA: Brain-Body Mass Regression
 
 ![](images/week10_13_ancova_brain_body_mass_regression.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Brain-Body Mass Regression {.smaller}
+## DRAFT: Brain-Body Mass Regression
 
 ```{r}
 #| echo: false
@@ -162,11 +162,11 @@ legend("topleft", c("H. sapiens", "Neanderthal"),
        pch = c(16, 17), col = c("blue", "red"))
 ```
 
-## ANCOVA: ANOVA vs. Covariate Adjustment {.smaller}
+## ANCOVA: ANOVA vs. Covariate Adjustment
 
 ![](images/week10_14_ancova_anova_vs_covariate_comparison.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: ANOVA vs ANCOVA Comparison {.smaller}
+## DRAFT: ANOVA vs ANCOVA Comparison
 
 ```{r}
 #| echo: false
@@ -205,11 +205,11 @@ legend("topleft", c("Group A", "Group B"),
        pch = 16, col = c("blue", "red"))
 ```
 
-## ANCOVA: Adjusted Means {.smaller}
+## ANCOVA: Adjusted Means
 
 ![](images/week10_15_ancova_adjusted_means_diagram.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: ANCOVA Adjusted Means {.smaller}
+## DRAFT: ANCOVA Adjusted Means
 
 The ANCOVA model:
 
@@ -243,11 +243,11 @@ legend("topleft", c("Group A", "Group B"), pch = 16, col = c("blue", "red"))
 
 The key insight: by **adjusting for the covariate**, we can compare groups at the same value of the continuous predictor, removing confounding variation.
 
-## ANCOVA: Multiple Covariates {.smaller}
+## ANCOVA: Multiple Covariates
 
 ![](images/week10_16_ancova_multiple_covariates_formula.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: ANCOVA with Multiple Covariates {.smaller}
+## DRAFT: ANCOVA with Multiple Covariates
 
 **Linear model:**
 
@@ -257,11 +257,11 @@ $$y_{ij} = \mu + \alpha_i + \beta_1(x_{1ij} - \bar{x}_1) + \beta_2(x_{2ij} - \ba
 
 $$\bar{y}_{i(adj)} = \bar{y}_i - \hat{\beta}_1(\bar{x}_{1i} - \bar{x}_1) - \hat{\beta}_2(\bar{x}_{2i} - \bar{x}_2)$$
 
-## ANCOVA: Null Hypotheses {.smaller}
+## ANCOVA: Null Hypotheses
 
 ![](images/week10_17_ancova_null_hypotheses.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: ANCOVA Null Hypotheses {.smaller}
+## DRAFT: ANCOVA Null Hypotheses
 
 **For the categorical factor (e.g., species):**
 
@@ -275,11 +275,11 @@ $$H_0: \beta = 0$$
 
 The covariate has no linear relationship with the response.
 
-## ANCOVA: F-Ratio Table and Collinearity {.smaller}
+## ANCOVA: F-Ratio Table and Collinearity
 
 ![](images/week10_18_ancova_f_ratio_table.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: ANCOVA F-Ratio Table {.smaller}
+## DRAFT: ANCOVA F-Ratio Table
 
 | Source    | df          | MS               | F-ratio                    |
 |:----------|:------------|:-----------------|:---------------------------|
@@ -293,11 +293,11 @@ The covariate has no linear relationship with the response.
 If the covariate and the factor are correlated (e.g., body mass differs between species), the order in which terms enter the model matters. Use **Type II or Type III sums of squares** from the `car` package to handle this properly.
 :::
 
-## ANCOVA: Heterogeneous Slopes {.smaller}
+## ANCOVA: Heterogeneous Slopes
 
 ![](images/week10_19_ancova_heterogeneous_slopes.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Heterogeneous Slopes {.smaller}
+## DRAFT: Heterogeneous Slopes
 
 ```{r}
 #| echo: false
@@ -332,7 +332,7 @@ abline(lm(y4 ~ x4), col = "red", lwd = 2)
 
 When slopes differ between groups, the interaction between the covariate and the factor is significant — this is a violation of the **parallel slopes assumption**.
 
-## Parallel Slopes (Additive) Model {.smaller}
+## Parallel Slopes (Additive) Model
 
 When there is no interaction, each group has the **same slope** but **different intercepts**:
 
@@ -359,7 +359,7 @@ lm(response ~ continuous_var + factor_var, data = mydata)
 -   The `+` means "additive" — the effect of the covariate is the same in every group
 -   This produces parallel regression lines
 
-## Interaction Model {.smaller}
+## Interaction Model
 
 When the relationship **differs between groups**, add an **interaction term**:
 
@@ -387,7 +387,7 @@ lm(response ~ continuous_var + factor_var + continuous_var:factor_var,
    data = mydata)
 ```
 
-## Interpreting ANCOVA Output {.smaller}
+## Interpreting ANCOVA Output
 
 ::: panel-tabset
 ### Code
@@ -412,7 +412,7 @@ lm(rate ~ temp + species, data = crickets)
 -   The only difference from pure ANOVA is the inclusion of a continuous predictor
 :::
 
-## Parallel vs. Interaction: When to Use {.smaller}
+## Parallel vs. Interaction: When to Use
 
 | Model | Use When | R Formula |
 |:---|:---|:---|
@@ -423,7 +423,7 @@ lm(rate ~ temp + species, data = crickets)
 Always start with the interaction model. Test whether the interaction term is significant. If not, drop it and use the simpler parallel slopes model (parsimony principle).
 :::
 
-## ANCOVA: Type II/III Sums of Squares {.smaller}
+## ANCOVA: Type II/III Sums of Squares
 
 ::: panel-tabset
 ### Code
@@ -452,7 +452,7 @@ Anova(lm(y ~ covariate * factor, data = mydata), type = "III")
 | **Type III** | Unbalanced, interaction present | Requires `contr.sum` coding |
 :::
 
-## Visualizing ANCOVA Models {.smaller}
+## Visualizing ANCOVA Models
 
 ::: panel-tabset
 ### Output
@@ -515,7 +515,7 @@ abline(5, 1.2, col = "coral", lwd = 2)
 ```
 :::
 
-## Dangers of Extrapolation {.smaller}
+## Dangers of Extrapolation
 
 All regression models (including ANCOVA) are only valid **within the range of the observed data**:
 
@@ -533,7 +533,7 @@ Never predict beyond the range of your observed data unless you have strong theo
 
 # Multiple Linear Regression {background-color="#2c3e50"}
 
-## Why Multiple Regression? {.smaller}
+## Why Multiple Regression?
 
 Multiple linear regression extends simple regression to include **two or more predictor variables**. The goals are:
 
@@ -542,7 +542,7 @@ Multiple linear regression extends simple regression to include **two or more pr
 -   The individual effects of each predictor on the response can be depicted by **partial regression lines**
 -   The slope of any partial regression line represents the rate of change of that predictor on the response, **holding all other predictors constant** at their means
 
-## Additive and Multiplicative Models {.smaller}
+## Additive and Multiplicative Models
 
 **Additive model** — each predictor contributes independently:
 
@@ -572,11 +572,11 @@ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1} x_{i2} + \epsil
 ```
 :::
 
-## Additive vs. Multiplicative Models {.smaller}
+## Additive vs. Multiplicative Models
 
 ![](images/week07_24_additive_vs_multiplicative_models.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Additive vs. Multiplicative Response Surfaces {.smaller}
+## DRAFT: Additive vs. Multiplicative Response Surfaces
 
 ```{r}
 #| echo: false
@@ -605,7 +605,7 @@ persp(x1, x2, z_mult, theta = 30, phi = 20,
       border = "darkred", shade = 0.1, cex.main = 1.3)
 ```
 
-## R Example: Multiple Regression with 2 Predictors {.smaller}
+## R Example: Multiple Regression with 2 Predictors
 
 Read in the RNAseq_lip.tsv and examine whether Gene01 and/or Gene02 expression levels influence lipid content.
 
@@ -634,7 +634,7 @@ summary(Mult_lm)
 -   What happens when you remove the interaction term?
 :::
 
-## Additive Model Comparison {.smaller}
+## Additive Model Comparison
 
 ::: panel-tabset
 ### Code
@@ -655,7 +655,7 @@ summary(Add_lm)
 -   Try different combinations of genes as predictors
 :::
 
-## Multiple Regression Assumptions {.smaller}
+## Multiple Regression Assumptions
 
 Multiple regression carries all the assumptions of simple regression plus an additional one:
 
@@ -671,11 +671,11 @@ Multiple regression carries all the assumptions of simple regression plus an add
 When predictors are highly correlated, coefficient estimates become unstable, standard errors inflate, and interpretation becomes unreliable. Always check for collinearity before interpreting a multiple regression model.
 :::
 
-## Checking for Multicollinearity {.smaller}
+## Checking for Multicollinearity
 
 ![](images/week07_25_multicollinearity_scatterplot_matrix.jpeg){fig-align="center" width="70%"}
 
-## DRAFT: Scatterplot Matrix for Collinearity {.smaller}
+## DRAFT: Scatterplot Matrix for Collinearity
 
 ```{r}
 #| echo: false
@@ -741,7 +741,7 @@ vif(model)
 | \> 10     | Severe (remedial action needed) |
 :::
 
-## R Example: Three-Variable Regression {.smaller}
+## R Example: Three-Variable Regression
 
 ::: panel-tabset
 ### Code
@@ -777,7 +777,7 @@ scatterplotMatrix(~ y + g1 + g2 + g3, diag = "boxplot")
 -   What does a change in slope estimate tell you about confounding?
 :::
 
-## Bioengineering Example: Scaffold Properties and Tissue Growth {.smaller}
+## Bioengineering Example: Scaffold Properties and Tissue Growth
 
 ::: panel-tabset
 ### Code
@@ -814,7 +814,7 @@ summary(scaffold_lm)
 -   What happens to the seeding density coefficient when you remove it?
 :::
 
-## Diagnostic Plots for Multiple Regression {.smaller}
+## Diagnostic Plots for Multiple Regression
 
 ::: panel-tabset
 ### Output
@@ -873,7 +873,7 @@ abline(h = 4 / n, col = "red", lty = 2)
 -   **Residuals vs Leverage**: Cook's distance \> 4/n flags influential points
 :::
 
-## Partial Regression Plots {.smaller}
+## Partial Regression Plots
 
 Partial regression (added-variable) plots show the effect of each predictor **after adjusting for all others**:
 
@@ -913,7 +913,7 @@ avPlots(scaffold_lm)
 
 # Model Selection {background-color="#2c3e50"}
 
-## The Problem of Model Complexity {.smaller}
+## The Problem of Model Complexity
 
 -   How do we decide the complexity of a polynomial: straight line, quadratic, cubic, …?
 -   Which variables should we keep or discard when building a multiple regression model?
@@ -927,13 +927,13 @@ avPlots(scaffold_lm)
 If two or more models fit the data almost equally well, prefer the simpler model.
 :::
 
-## Overfitting with Polynomials {.smaller}
+## Overfitting with Polynomials
 
 ![](images/week07_26_beetle_wing_horn_overfitting.jpeg){fig-align="center" width="80%"}
 
 The log-likelihood and $R^2$ always increase with more parameters — but this does not mean the model is better!
 
-## DRAFT: Beetle Wing vs Horn Data {.smaller}
+## DRAFT: Beetle Wing vs Horn Data
 
 ```{r}
 #| echo: false
@@ -953,7 +953,7 @@ plot(wing, horn, pch = 16, cex = 1.3,
      main = "Beetle wing length vs horn length")
 ```
 
-## The Progression of Polynomial Fits {.smaller}
+## The Progression of Polynomial Fits
 
 ::::: columns
 ::: {.column width="50%"}
@@ -965,7 +965,7 @@ plot(wing, horn, pch = 16, cex = 1.3,
 :::
 :::::
 
-## DRAFT: Linear and Quadratic Fits {.smaller}
+## DRAFT: Linear and Quadratic Fits
 
 ```{r}
 #| echo: false
@@ -995,7 +995,7 @@ x_seq <- seq(min(wing), max(wing), length.out = 200)
 lines(x_seq, predict(fit2, newdata = data.frame(wing = x_seq)), lwd = 2)
 ```
 
-## Higher-Order Polynomials and Overfitting {.smaller}
+## Higher-Order Polynomials and Overfitting
 
 ::::: columns
 ::: {.column width="50%"}
@@ -1009,7 +1009,7 @@ lines(x_seq, predict(fit2, newdata = data.frame(wing = x_seq)), lwd = 2)
 
 As polynomial degree increases, the model fits the training data ever more closely — but becomes useless for prediction on new data.
 
-## DRAFT: Higher-Order Polynomial Fits {.smaller}
+## DRAFT: Higher-Order Polynomial Fits
 
 ```{r}
 #| echo: false
@@ -1041,7 +1041,7 @@ pred10 <- predict(fit10, newdata = data.frame(wing = x_seq2))
 lines(x_seq2, pred10, lwd = 2)
 ```
 
-## Model Selection Criteria {.smaller}
+## Model Selection Criteria
 
 | Criterion | Description | Selection Rule |
 |:---|:---|:---|
@@ -1055,11 +1055,11 @@ lines(x_seq2, pred10, lwd = 2)
 As a rule of thumb, if the difference between two AIC values (ΔAIC) is greater than 2, the lower AIC represents a meaningfully better model.
 :::
 
-## Mallow's Cp and All-Subsets Regression {.smaller}
+## Mallow's Cp and All-Subsets Regression
 
 ![](images/week07_31_mallows_cp_formula.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Mallow's Cp Formula {.smaller}
+## DRAFT: Mallow's Cp Formula
 
 ::: panel-tabset
 ### Equation
@@ -1112,7 +1112,7 @@ plot(all_subsets, scale = "adjr2")
 -   **General caveat**: "Regression is not causation" — an experiment is needed for causal explanation
 :::
 
-## Nested vs. Non-Nested Models {.smaller}
+## Nested vs. Non-Nested Models
 
 -   **Nested (reduced vs. full)**: One model is a special case of the other — can compare with F-test or likelihood ratio test
 -   **Non-nested**: Models contain different sets of variables — compare with AIC or BIC
@@ -1141,7 +1141,7 @@ BIC(model_a, model_b, model_c)
 -   BIC penalizes complexity more heavily than AIC
 :::
 
-## Stepwise Model Selection in R {.smaller}
+## Stepwise Model Selection in R
 
 ::: panel-tabset
 ### Code
@@ -1186,7 +1186,7 @@ BIC(forward_model, backward_model, both_model)
 
 # Statistical Power {background-color="#2c3e50"}
 
-## What is Power? {.smaller}
+## What is Power?
 
 Power is the probability of correctly rejecting a **false** null hypothesis (i.e., detecting a real effect when one exists).
 
@@ -1205,11 +1205,11 @@ $$\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}$$
 -   Helps interpret failure to reject the null — was the test underpowered?
 -   Target: typically **80% power** (β = 0.20)
 
-## Power Overview {.smaller}
+## Power Overview
 
 ![Statistical power and Type II error](images/week09_19_statistical_power_and_type_ii.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Statistical Power and Type II Error {.smaller}
+## DRAFT: Statistical Power and Type II Error
 
 |   | **Reject** $H_0$ | **Retain** $H_0$ |
 |:---|:---|:---|
@@ -1222,7 +1222,7 @@ $$\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}$$
 -   Increasing sample size, effect size, or $\alpha$ increases power
 :::
 
-## Key Components of Power {.smaller}
+## Key Components of Power
 
 | Component                  | Description                       |
 |:---------------------------|:----------------------------------|
@@ -1234,7 +1234,7 @@ $$\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}$$
 
 ![Key questions in power analysis](images/week09_20_key_questions_in_power_analysi.jpeg){fig-align="center" width="70%"}
 
-## DRAFT: Power vs Effect Size and Sample Size {.smaller}
+## DRAFT: Power vs Effect Size and Sample Size
 
 ```{r}
 #| echo: false
@@ -1274,7 +1274,7 @@ abline(h = 25, lty = 2, col = "gray40")
 abline(v = 22, lty = 2, col = "gray40")
 ```
 
-## Cohen's d {.smaller}
+## Cohen's d
 
 Effect size between two group means expressed in standard deviation units:
 
@@ -1296,7 +1296,7 @@ d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}
 | 0.5 | Medium effect  |
 | 0.8 | Large effect   |
 
-## Power Analysis in R {.smaller}
+## Power Analysis in R
 
 ::: panel-tabset
 ### Output
@@ -1339,7 +1339,7 @@ cat("Required n per group:", ceiling(sample_size$n))
 ```
 :::
 
-## Power Curve {.smaller}
+## Power Curve
 
 ::: panel-tabset
 ### Output
@@ -1379,7 +1379,7 @@ abline(h = 0.8, lty = 2, col = "red")
 ```
 :::
 
-## Sample Size Curve {.smaller}
+## Sample Size Curve
 
 ::: panel-tabset
 ### Output
@@ -1419,7 +1419,7 @@ abline(h = 0.8, lty = 2, col = "red")
 ```
 :::
 
-## Bootstrap Power Analysis {.smaller}
+## Bootstrap Power Analysis
 
 When parametric assumptions may not hold, use simulation-based power analysis:
 
@@ -1459,7 +1459,7 @@ cat("Estimated power:", power)
 -   Can modify sample sizes, effect sizes, or distributions to explore scenarios
 :::
 
-## Power Analysis for ANOVA {.smaller}
+## Power Analysis for ANOVA
 
 ::: panel-tabset
 ### Code
@@ -1499,7 +1499,7 @@ Cohen's f measures effect size in ANOVA:
 Cohen's f = √(variance between groups / variance within groups)
 :::
 
-## Power Example: Bone Scaffold Experiment {.smaller}
+## Power Example: Bone Scaffold Experiment
 
 A bioengineering lab needs to determine how many bone scaffolds to test to detect a 15% difference in compressive strength between two scaffold designs.
 
@@ -1535,7 +1535,7 @@ cat("\nEffect size (Cohen's d):", round(effect_size_d, 2))
 -   Always conduct a power analysis **before** running your experiment
 :::
 
-## Power for Factorial ANOVA {.smaller}
+## Power for Factorial ANOVA
 
 ::: panel-tabset
 ### Code
@@ -1575,15 +1575,15 @@ Interactions typically have **smaller effect sizes** than main effects. Budget e
 
 # Multifactor ANOVA {background-color="#2c3e50"}
 
-## Multifactor Designs Introduction {.smaller}
+## Multifactor Designs Introduction
 
 ![](images/week07_01_walking_stick_insect_femur.jpeg){fig-align="center" width="90%"}
 
-## Types of Factors {.smaller}
+## Types of Factors
 
 ![](images/week07_02_walking_stick_femur_length_variation.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Femur Length Variation Within Individuals {.smaller}
+## DRAFT: Femur Length Variation Within Individuals
 
 ```{r}
 #| echo: false
@@ -1609,15 +1609,15 @@ points(1:n_individuals, m2, pch = 16, cex = 1.2)
 segments(1:n_individuals, m1, 1:n_individuals, m2, lwd = 1.5)
 ```
 
-## Factor Levels {.smaller}
+## Factor Levels
 
 ![](images/week07_03_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
 
-## Multifactor ANOVA Model {.smaller}
+## Multifactor ANOVA Model
 
 ![](images/week07_04_nested_anova_table_insects.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Nested ANOVA Table {.smaller}
+## DRAFT: Nested ANOVA Table
 
 | Source | SS | df | MS | F |
 |:---|:---|:---|:---|:---|
@@ -1626,11 +1626,11 @@ segments(1:n_individuals, m1, 1:n_individuals, m2, lwd = 1.5)
 | Residual | $SS_{Residual}$ | $pq(n - 1)$ | $MS_{Residual}$ |  |
 | **Total** | $SS_{Total}$ | $pqn - 1$ |  |  |
 
-## Sum of Squares Decomposition {.smaller}
+## Sum of Squares Decomposition
 
 ![](images/week07_05_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Nested Design Hierarchy {.smaller}
+## DRAFT: Nested Design Hierarchy
 
 ```         
                     Main Factor "A" (e.g. Treatment)
@@ -1651,11 +1651,11 @@ $$y_{k(j(i))} = y_{ijk}$$
 
 Nested Factor "B" (e.g. Site) — levels of B are **unique** to each level of A
 
-## Multifactor ANOVA Table {.smaller}
+## Multifactor ANOVA Table
 
 ![](images/week07_06_nested_model_equations_one_two_levels.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Nested Model Equations {.smaller}
+## DRAFT: Nested Model Equations
 
 **One level of nesting:**
 
@@ -1667,11 +1667,11 @@ where $\alpha_i$ is the effect of group $i$ and $\beta_{j(i)}$ is the effect of 
 
 $$y_{ijkl} = \mu + \alpha_i + \beta_{j(i)} + \gamma_{k(ij)} + \varepsilon_{ijkl}$$
 
-## Understanding Degrees of Freedom {.smaller}
+## Understanding Degrees of Freedom
 
 ![DOF in statistical models](images/week07_07_dof_in_statistical_models.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Hypotheses in Nested Designs {.smaller}
+## DRAFT: Hypotheses in Nested Designs
 
 ::: panel-tabset
 ### Fixed Effects (Main Factor)
@@ -1705,11 +1705,11 @@ H_0(B): \sigma^2_\beta = 0
 
 ![Intuition behind degrees of freedom](images/week07_08_intuition_behind_degrees_of_fr.jpeg){fig-align="center" width="80%"}
 
-## Calculating F-Ratios {.smaller}
+## Calculating F-Ratios
 
 ![](images/week07_09_nested_anova_table_formulas.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Nested ANOVA F-Ratio Formulas {.smaller}
+## DRAFT: Nested ANOVA F-Ratio Formulas
 
 | Source | SS formula | df | MS | F |
 |:---|:---|:---|:---|:---|
@@ -1717,11 +1717,11 @@ H_0(B): \sigma^2_\beta = 0
 | B(A) | $n\sum\sum(\bar{y}_{ij.} - \bar{y}_{i..})^2$ | $p(q - 1)$ | $SS_{B(A)} / [p(q-1)]$ | $MS_{B(A)} / MS_{Res}$ |
 | Residual | $\sum\sum\sum(y_{ijk} - \bar{y}_{ij.})^2$ | $pq(n - 1)$ | $SS_{Res} / [pq(n-1)]$ |  |
 
-## Multifactor Example {.smaller}
+## Multifactor Example
 
 ![](images/week07_10_nested_anova_r_syntax_table.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Nested ANOVA in R {.smaller}
+## DRAFT: Nested ANOVA in R
 
 | Design | R syntax |
 |:---|:---|
@@ -1729,17 +1729,17 @@ H_0(B): \sigma^2_\beta = 0
 | A fixed, B random nested in A | `aov(y ~ A + Error(B %in% A))` |
 | Unbalanced nested design | Use `lmer()` from `lme4`: `lmer(y ~ A + (1|A:B))` |
 
-## Multifactor ANOVA Results {.smaller}
+## Multifactor ANOVA Results
 
 ![](images/week07_11_sea_urchin_algae_experiment_design.jpeg){fig-align="center" width="90%"}
 
-## Interactions {.smaller}
+## Interactions
 
 An **interaction** means the effect of one variable on the response depends on the state of another variable.
 
 ![](images/week07_18_interaction_plots_fertilizer_temperature.jpeg){fig-align="center" width="75%"}
 
-## DRAFT: Interaction Plot Patterns {.smaller}
+## DRAFT: Interaction Plot Patterns
 
 ```{r}
 #| echo: false
@@ -1780,15 +1780,15 @@ lines(1:2, c(5, 5), type = "b", pch = 17, col = "red", lwd = 2)
 axis(1, at = 1:2, labels = temp); axis(2, las = 1)
 ```
 
-## Visualizing Interactions {.smaller}
+## Visualizing Interactions
 
 ![](images/week07_12_tadpole_photograph.jpeg){fig-align="center" width="90%"}
 
-## Interaction Interpretation {.smaller}
+## Interaction Interpretation
 
 ![](images/week07_13_pesticide_predator_survival_interaction.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Pesticide × Predator Interaction {.smaller}
+## DRAFT: Pesticide × Predator Interaction
 
 ```{r}
 #| echo: false
@@ -1808,7 +1808,7 @@ legend("topright", c("With predator", "No predator"),
 title("Interaction: Pesticide effect depends on predator presence")
 ```
 
-## Factorial vs. Nested Designs {.smaller}
+## Factorial vs. Nested Designs
 
 **Factorial designs:**
 
@@ -1823,11 +1823,11 @@ title("Interaction: Pesticide effect depends on predator presence")
 -   Often contain random effects
 -   Example: Cells within wells within plates
 
-## Two-Factor Factorial Design {.smaller}
+## Two-Factor Factorial Design
 
 ![](images/week07_14_factorial_anova_interaction_formula.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Two-Factor Factorial Model {.smaller}
+## DRAFT: Two-Factor Factorial Model
 
 ::: panel-tabset
 ### Equation
@@ -1849,11 +1849,11 @@ y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
 ```
 :::
 
-## Three-Factor Factorial Design {.smaller}
+## Three-Factor Factorial Design
 
 ![Three-way factorial layout](images/week07_15_three_way_factorial_layout.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Three-Factor Factorial Model {.smaller}
+## DRAFT: Three-Factor Factorial Model
 
 ::: panel-tabset
 ### Equation
@@ -1876,11 +1876,11 @@ y_{ijkl} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha\beta)_{ij} + (\alpha\ga
 ```
 :::
 
-## Higher-Order Interactions {.smaller}
+## Higher-Order Interactions
 
 ![Interpreting three-way interactions](images/week07_16_interpreting_three_way_interac.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Factorial Design Sizes {.smaller}
+## DRAFT: Factorial Design Sizes
 
 **For 2 levels per factor:**
 
@@ -1904,11 +1904,11 @@ where $N$ = replicates per cell, $p$ = number of factors
 ```
 :::
 
-## Complete Factorial Model {.smaller}
+## Complete Factorial Model
 
 ![Full model with all interaction terms](images/week07_17_full_model_with_all_interactio.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Two-Factor Cell and Marginal Means (Table 9.7) {.smaller}
+## DRAFT: Two-Factor Cell and Marginal Means (Table 9.7)
 
 **General notation** — population means $\mu_{ij}$ for a two-factor design:
 
@@ -1929,11 +1929,11 @@ where $N$ = replicates per cell, $p$ = number of factors
 | $A_4$ (45) | $\bar{y}_{41}$ = 1.200 | $\bar{y}_{42}$ = 0.593 | $\bar{y}_{i=4}$ = 0.896 |
 | **Marginal B** | $\bar{y}_{j=1}$ = 1.840 | $\bar{y}_{j=2}$ = 1.104 | $\bar{y}$ = 1.472 |
 
-## Factorial ANOVA — Fixed Effects {.smaller}
+## Factorial ANOVA — Fixed Effects
 
 ![](images/week07_19_factorial_anova_null_hypotheses_fixed.jpeg){fig-align="center" width="80%"}
 
-## DRAFT: Factorial ANOVA Null Hypotheses — Fixed Effects {.smaller}
+## DRAFT: Factorial ANOVA Null Hypotheses — Fixed Effects
 
 ::: panel-tabset
 ### Equations
@@ -1964,11 +1964,11 @@ H_0(AB): \mu_{ij} = \mu_i + \mu_j - \mu
 ```
 :::
 
-## Factorial ANOVA — Random Effects {.smaller}
+## Factorial ANOVA — Random Effects
 
 ![](images/week07_20_factorial_anova_null_hypotheses_random.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Factorial ANOVA Null Hypotheses — Random Effects {.smaller}
+## DRAFT: Factorial ANOVA Null Hypotheses — Random Effects
 
 ::: panel-tabset
 ### Equations
@@ -1998,11 +1998,11 @@ H_0(AB): \sigma^2_{\alpha\beta} = 0
 ```
 :::
 
-## Mean Squares for Factorial Model {.smaller}
+## Mean Squares for Factorial Model
 
 ![](images/week07_21_two_factor_crossed_anova_table.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: ANOVA Table for Two-Factor Crossed Model (Table 9.8) {.smaller}
+## DRAFT: ANOVA Table for Two-Factor Crossed Model (Table 9.8)
 
 | Source | SS | df | MS |
 |:---|:---|:---|:---|
@@ -2012,11 +2012,11 @@ H_0(AB): \sigma^2_{\alpha\beta} = 0
 | Residual | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{ij})^2$ | $pq(n-1)$ | $\dfrac{SS_{Residual}}{pq(n-1)}$ |
 | Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y})^2$ | $pqn - 1$ |  |
 
-## F-Ratios for Factorial Model {.smaller}
+## F-Ratios for Factorial Model
 
 ![](images/week07_22_f_ratio_table_fixed_random_factors.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: F-Ratios for Fixed, Random, and Mixed Models {.smaller}
+## DRAFT: F-Ratios for Fixed, Random, and Mixed Models
 
 | Source | A and B fixed | A and B random | A fixed, B random (Restricted) | A fixed, B random (Unrestricted) |
 |:---|:---|:---|:---|:---|
@@ -2028,11 +2028,11 @@ H_0(AB): \sigma^2_{\alpha\beta} = 0
 The choice of denominator for the F-ratio depends on whether each factor is fixed or random. When a factor is random, its interaction with the other factor must be used as the error term for testing the other factor's main effect.
 :::
 
-## Interpretation of Results {.smaller}
+## Interpretation of Results
 
 ![](images/week07_23_factorial_model_significant_terms.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Interpreting Significant Terms {.smaller}
+## DRAFT: Interpreting Significant Terms
 
 ::: panel-tabset
 ### Model
@@ -2059,7 +2059,7 @@ y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
 ```
 :::
 
-## Factorial ANOVA in R {.smaller}
+## Factorial ANOVA in R
 
 ::: panel-tabset
 ### Code
@@ -2095,7 +2095,7 @@ summary(model_additive)
 
 # Random Effects {background-color="#2c3e50"}
 
-## Fixed vs. Random Effects {.smaller}
+## Fixed vs. Random Effects
 
 **Fixed effects:**
 
@@ -2109,7 +2109,7 @@ summary(model_additive)
 -   Examples: families, subjects measured repeatedly, blocks, batches
 -   **Variance among groups** is of interest, not specific group means
 
-## When to Use Random Effects {.smaller}
+## When to Use Random Effects
 
 -   Nested sampling designs (individuals within populations)
 -   Subplots within plots
@@ -2117,7 +2117,7 @@ summary(model_additive)
 -   Related individuals (families, litters)
 -   Repeated measures on the same subjects
 
-## Random Effects Hypothesis {.smaller}
+## Random Effects Hypothesis
 
 ::: panel-tabset
 ### Equation
@@ -2134,7 +2134,7 @@ H_A: \sigma^2_\alpha \neq 0
 
 We are testing whether the **variance component** for the random effect is zero — i.e., whether there is meaningful variation among the randomly sampled groups.
 
-## Random Effects in R {.smaller}
+## Random Effects in R
 
 ::: panel-tabset
 ### Code
@@ -2162,7 +2162,7 @@ summary(micro_model_random_effect)
 -   The `~1 | group` syntax specifies a random intercept for each level of `group`
 :::
 
-## Random Effects: Bioengineering Example {.smaller}
+## Random Effects: Bioengineering Example
 
 Measuring cell viability across multiple wells within multiple plates within multiple experiments:
 
@@ -2215,7 +2215,7 @@ The output from `VarCorr()` shows:
 
 # Nested ANOVA {background-color="#2c3e50"}
 
-## Nested Design {.smaller}
+## Nested Design
 
 -   Factors are hierarchical within one another
 -   Sources of variance are hierarchical
@@ -2250,7 +2250,7 @@ summary(model_nested_random)
 
 # Repeated Measures Analysis {background-color="#2c3e50"}
 
-## What are Repeated Measures? {.smaller}
+## What are Repeated Measures?
 
 Measurements taken on the **same subjects** at multiple:
 
@@ -2262,7 +2262,7 @@ Measurements taken on the **same subjects** at multiple:
 
 **Challenge:** Observations are **not independent** — standard ANOVA assumes independence
 
-## Repeated Measures ANOVA {.smaller}
+## Repeated Measures ANOVA
 
 **Sphericity Assumption:**
 
@@ -2273,7 +2273,7 @@ Measurements taken on the **same subjects** at multiple:
 
 -   p \< 0.05 → sphericity is violated → apply correction (Greenhouse-Geisser or Huynh-Feldt)
 
-## Repeated Measures in R {.smaller}
+## Repeated Measures in R
 
 ::: panel-tabset
 ### Output
@@ -2325,7 +2325,7 @@ summary(rm_aov)
 ```
 :::
 
-## Mixed Models for Repeated Measures {.smaller}
+## Mixed Models for Repeated Measures
 
 The modern approach uses **linear mixed models**, which are more flexible and handle missing data gracefully:
 
@@ -2358,7 +2358,7 @@ summary(rm_mixed)
 ```
 :::
 
-## Visualizing Repeated Measures {.smaller}
+## Visualizing Repeated Measures
 
 ::: panel-tabset
 ### Output
@@ -2416,7 +2416,7 @@ arrows(x0 = c(0.7, 1.9, 3.1), y0 = means - ses,
 ```
 :::
 
-## Repeated Measures: ggplot Visualization {.smaller}
+## Repeated Measures: ggplot Visualization
 
 ::: panel-tabset
 ### Output
@@ -2483,7 +2483,7 @@ ggplot(rm_data, aes(x = time, y = score, group = subject)) +
 ```
 :::
 
-## R Exercise: Factorial ANOVA {.smaller}
+## R Exercise: Factorial ANOVA
 
 ::: callout-tip
 ## Exercise

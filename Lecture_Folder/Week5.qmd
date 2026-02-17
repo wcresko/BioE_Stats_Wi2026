@@ -39,7 +39,7 @@ editor: visual
 **HW2 Due this week - on Thursday**
 :::
 
-## Packages for This Week {.smaller}
+## Packages for This Week
 
 ```{r}
 #| eval: false
@@ -58,7 +58,7 @@ library(knitr)
 
 # Linear Models {background-color="#2c3e50"}
 
-## Classes of Linear Models {.smaller}
+## Classes of Linear Models
 
 | Abbreviation       | Name                       | Description                  |
 |:------------------|:-------------------------|:---------------------------|
@@ -67,7 +67,7 @@ library(knitr)
 | **Generalized LM** | Generalized Linear Model   | Non-normal response          |
 | **GAM**            | Generalized Additive Model | Non-linear relationships     |
 
-## What is a Ordinary Linear Model? {.smaller}
+## What is a Ordinary Linear Model?
 
 An ordinary linear model describes the relationship between a continuous response variable $y$ and one or more predictor variables $x$. In its simplest form with one predictor, the model is:
 
@@ -91,7 +91,7 @@ where:
 
 The goal of fitting a linear model is to estimate $\beta_0$ and $\beta_1$ from our data.
 
-## Simple Linear Regression Example {.smaller}
+## Simple Linear Regression Example
 
 ::: panel-tabset
 ### Output
@@ -137,7 +137,7 @@ abline(my_lm, col = "red", lwd = 2)
 
 ![](images/week05_26_residuals_least_squares_diagram.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Residuals and Least Squares {.smaller}
+## DRAFT: Residuals and Least Squares
 
 ```{r}
 #| echo: false
@@ -182,7 +182,7 @@ text(x[i] + 0.3, pred[i] - 0.3, expression("predicted Y-value for " * x[i]),
 
 ![](images/week05_31_regression_conditional_distributions.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Regression Conditional Distributions {.smaller}
+## DRAFT: Regression Conditional Distributions
 
 ```{r}
 #| echo: false
@@ -216,11 +216,11 @@ text(2, 10, expression(mu[y[i]] == beta[0] + beta[1] * x[i]),
      cex = 1.3)
 ```
 
-## Hypothesis Tests in Regression {.smaller}
+## Hypothesis Tests in Regression
 
 ![](images/week05_28_reduced_vs_full_model_residuals.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Reduced vs Full Model Residuals {.smaller}
+## DRAFT: Reduced vs Full Model Residuals
 
 ```{r}
 #| echo: false
@@ -250,7 +250,7 @@ abline(fit, lwd = 2)
 segments(x, predict(fit), x, y, lwd = 1)
 ```
 
-## Hypothesis Tests in Regression {.smaller}
+## Hypothesis Tests in Regression
 
 ::: panel-tabset
 ### Equation
@@ -290,7 +290,7 @@ SS_{Total} = SS_{Model} + SS_{Error}
 ```
 :::
 
-## The Loss Function: Minimizing Error {.smaller}
+## The Loss Function: Minimizing Error
 
 Linear regression finds the line of best fit by minimizing the **sum of squared errors (SSE)**. For each observation, the residual is the difference between the observed and predicted value:
 
@@ -336,11 +336,11 @@ MSE = \frac{SSE}{n - p}
 
 where $p$ is the number of parameters estimated (2 for simple linear regression: intercept and slope). Ordinary Least Squares (OLS) is the method that finds the values of $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize the SSE.
 
-## Hypothesis Tests in Regression {.smaller}
+## Hypothesis Tests in Regression
 
 ![](images/week05_29_f_ratio_f_distribution_hypothesis.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: F-Ratio and the F-Distribution {.smaller}
+## DRAFT: F-Ratio and the F-Distribution
 
 $$\text{F-ratio} = \frac{\text{Explained}}{\text{Unexplained}} = \frac{MS_{groups}}{MS_{residual}}$$
 
@@ -387,7 +387,7 @@ $R^2$ is the proportion of variance in Y explained by X. It ranges from 0 (model
 A high $R^2$ does not necessarily mean the model is appropriate — always check residual diagnostics!
 :::
 
-## Components of an lm Object {.smaller}
+## Components of an lm Object
 
 When you fit a model with `lm()`, R stores many useful components in the returned object:
 
@@ -404,7 +404,7 @@ When you fit a model with `lm()`, R stores many useful components in the returne
 | `qr` | QR decomposition of design matrix | — |
 | `effects` | Orthogonal effects | — |
 
-## Extracting Model Information {.smaller}
+## Extracting Model Information
 
 ```{r}
 #| label: lm-extract-1
@@ -418,7 +418,7 @@ my_lm$coefficients
 my_lm$residuals
 ```
 
-## Extracting Model Information {.smaller}
+## Extracting Model Information
 
 ```{r}
 #| label: lm-extract-3
@@ -428,7 +428,7 @@ my_lm$residuals
 confint(my_lm)
 ```
 
-## Extracting Model Information {.smaller}
+## Extracting Model Information
 
 ```{r}
 #| label: lm-extract-4
@@ -442,13 +442,13 @@ predict(my_lm, data.frame(x = c(2, 5, 8)), interval = "confidence")
 
 # Subgroups in simple linear regression
 
-## Simpson's Paradox {.smaller}
+## Simpson's Paradox
 
 A trend that appears in groups can disappear or reverse when groups are combined.
 
 ![](images/week05_14_simpsons_paradox_1.jpg){fig-align="center" width="80%"}
 
-## DRAFT: Simpson's Paradox {.smaller}
+## DRAFT: Simpson's Paradox
 
 ```{r}
 #| echo: false
@@ -475,11 +475,11 @@ ggplot(df, aes(x, y)) +
   theme(plot.title = element_text(face = "bold", size = 18))
 ```
 
-## Simpson's Paradox Explained {.smaller}
+## Simpson's Paradox Explained
 
 ![](images/week05_15_simpsons_paradox_explained_1.jpg){fig-align="center" width="80%"}
 
-## DRAFT: Simpson's Paradox Explained {.smaller}
+## DRAFT: Simpson's Paradox Explained
 
 ```{r}
 #| echo: false
@@ -508,7 +508,7 @@ ggplot(df, aes(x, y, color = z)) +
   theme(plot.title = element_text(face = "bold", size = 16))
 ```
 
-## In-Class Demo: Simpson's Paradox with Iris Data {.smaller}
+## In-Class Demo: Simpson's Paradox with Iris Data
 
 ::: panel-tabset
 ### Output
@@ -577,7 +577,7 @@ The overall negative trend reverses to positive within each species — a classi
 
 ------------------------------------------------------------------------
 
-## R Exercise: Linear Regression {.smaller}
+## R Exercise: Linear Regression
 
 -   Load the grip_strength.csv\` dataset
 -   The data set has one reponse variable and two predictor variables:
@@ -589,7 +589,7 @@ The overall negative trend reverses to positive within each species — a classi
 -   Fit a linear model with `lm()`
 -   Interpret coefficients and R²
 
-## The Loss Function: Minimizing Error {.smaller}
+## The Loss Function: Minimizing Error
 
 Linear regression finds the line of best fit by minimizing the **sum of squared errors (SSE)**. For each observation, the residual is the difference between the observed and predicted value:
 
@@ -635,14 +635,14 @@ MSE = \frac{SSE}{n - p}
 
 where $p$ is the number of parameters estimated (2 for simple linear regression: intercept and slope). Ordinary Least Squares (OLS) is the method that finds the values of $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize the SSE.
 
-## The Grip Strength Dataset {.smaller}
+## The Grip Strength Dataset
 
 -   This dataset examines whether grip strength (in kg) in patients recovering from hand injury is predicted by two continuous variables:
     -   the concentration of a BMP2 cream applied topically (mg/ml), and
     -   hours of exercise per week. We have 200 patients.
 -   We will fit separate simple linear regressions for each predictor, then explore which model is more appropriate by examining residual diagnostics.
 
-## Importing and Exploring the Data {.smaller}
+## Importing and Exploring the Data
 
 ::: panel-tabset
 ### Output
@@ -680,7 +680,7 @@ head(grip, 8) |> kable(digits = 2)
 ```
 :::
 
-## Summary Statistics of the Data {.smaller}
+## Summary Statistics of the Data
 
 ::: panel-tabset
 ### Output
@@ -704,13 +704,13 @@ summary(grip[, c("grip_strength_kg", "bmp2_cream_mg_ml", "exercise_hrs_week")])
 ```
 :::
 
-## Grip Strength \~ BMP2 Cream {.smaller}
+## Grip Strength \~ BMP2 Cream
 
 We hypothesize that BMP2 cream concentration is positively associated with grip strength. The model is:
 
 $$\text{grip_strength}_i = \beta_0 + \beta_1 \cdot \text{bmp2_cream}_i + \epsilon_i$$
 
-## Grip Strength \~ BMP2 Cream {.smaller}
+## Grip Strength \~ BMP2 Cream
 
 The `summary()` output gives us the estimated coefficients, their standard errors, t-statistics, and p-values, plus the overall model $R^2$ and F-test.
 
@@ -738,7 +738,7 @@ summary(lm_bmp2)
 ```
 :::
 
-## Interpreting the BMP2 Model Output {.smaller}
+## Interpreting the BMP2 Model Output
 
 The `broom` package provides two useful functions: `tidy()` extracts coefficient-level information (estimates, standard errors, test statistics, and p-values), while `glance()` extracts model-level summaries ($R^2$, AIC, BIC, etc.).
 
@@ -770,7 +770,7 @@ glance(lm_bmp2) |> kable(digits = 4)
 
 # Visualizing Model Fits with ggplot2 {background-color="#2c3e50"}
 
-## Why ggplot2 for Model Visualization? {.smaller}
+## Why ggplot2 for Model Visualization?
 
 -   Base R `plot()` and `abline()` work for quick diagnostics.
 
@@ -780,7 +780,7 @@ glance(lm_bmp2) |> kable(digits = 4)
 
 -   Key advantages include built-in support for confidence intervals via `geom_smooth()`, faceting for multiple models, and consistent theming.
 
-## Visualizing Grip Strength \~ BMP2 Cream {.smaller}
+## Visualizing Grip Strength \~ BMP2 Cream
 
 `geom_smooth(method = "lm", se = TRUE)` adds the fitted regression line with a 95% confidence interval ribbon for the mean response.
 
@@ -831,7 +831,7 @@ ggplot(grip, aes(x = bmp2_cream_mg_ml, y = grip_strength_kg)) +
 
 # Exercise Hours
 
-## Grip Strength \~ Exercise Hours {.smaller}
+## Grip Strength \~ Exercise Hours
 
 Now we test whether hours of exercise per week predict grip strength:
 
@@ -861,7 +861,7 @@ summary(lm_exercise)
 ```
 :::
 
-## Interpreting the Model Output {.smaller}
+## Interpreting the Model Output
 
 ```{r}
 #| label: lm-exercise-tidy-output
@@ -885,7 +885,7 @@ glance(lm_exercise) |> kable(digits = 4)
 -   This suggests that exercise hours alone explain very little of the variation in grip strength.
 -   But we should check whether the relationship might be nonlinear before concluding.
 
-## Visualizing Grip Strength \~ Exercise Hours {.smaller}
+## Visualizing Grip Strength \~ Exercise Hours
 
 ::: panel-tabset
 ### Output
@@ -930,7 +930,7 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 ```
 :::
 
-## Comparing Both Fits Side by Side {.smaller}
+## Comparing Both Fits Side by Side
 
 ::: panel-tabset
 ### Output
@@ -992,7 +992,7 @@ p1 + p2  # patchwork combines plots side-by-side
 
 # Other R Packages for Fitting Linear Models {background-color="#2c3e50"}
 
-## Using aov() for ANOVA-Style Output {.smaller}
+## Using aov() for ANOVA-Style Output
 
 -   The `aov()` function fits the same underlying model as `lm()`, but presents the results in an analysis of variance (ANOVA) table format.
 -   This is useful when you want to focus on the partitioning of variance rather than individual coefficient estimates.
@@ -1025,7 +1025,7 @@ summary(aov_bmp2)
 -   The ANOVA table decomposes variance into the model sum of squares ($SS_{Model}$) and residual sum of squares ($SS_{Error}$).
 -   It also tests whether the model explains a significant proportion of variance via the F-statistic.
 
-## Using anova() to Compare Models {.smaller}
+## Using anova() to Compare Models
 
 The `anova()` function can also be applied to `lm` objects directly, and it is especially useful for comparing nested models:
 
@@ -1053,7 +1053,7 @@ anova(lm_bmp2)
 ```
 :::
 
-## Overview of R Packages for Linear Models {.smaller}
+## Overview of R Packages for Linear Models
 
 R provides a rich ecosystem of packages for fitting models of increasing complexity:
 
@@ -1067,7 +1067,7 @@ R provides a rich ecosystem of packages for fitting models of increasing complex
 | `MASS::rlm()` | Robust linear regression | Resistant to outliers |
 | `mgcv::gam()` | Generalized additive models | Smooth nonlinear relationships |
 
-## Fitting with glm() {.smaller}
+## Fitting with glm()
 
 The `glm()` function fits generalized linear models. With the default `family = gaussian`, it is equivalent to `lm()`:
 
@@ -1096,14 +1096,14 @@ summary(glm_bmp2)
 ```
 :::
 
-## Fitting with glm() {.smaller}
+## Fitting with glm()
 
 -   The advantage of `glm()` is that it generalizes to non-normal responses by changing the `family` argument
 -   `binomial` for logistic regression
 -   `poisson` for count data
 -   We will use this later in the course.
 
-## How to report linear model statistics {.smaller}
+## How to report linear model statistics
 
 -   Say what you found, and then put the statistics in parentheses.
 -   Support the finding with the statistics, not the other way around.
@@ -1120,7 +1120,7 @@ We found that topical application of a cream containing the signaling molecule b
 
 # Residual Analysis {background-color="#2c3e50"}
 
-## Why Residual Analysis? {.smaller}
+## Why Residual Analysis?
 
 -   Fitting a linear model is only the first step.
 -   Before we trust the model's coefficient estimates, p-values, and confidence intervals, we must verify that the **assumptions** underlying the model are reasonably met.
@@ -1128,7 +1128,7 @@ We found that topical application of a cream containing the signaling molecule b
 -   Residual analysis is the primary diagnostic tool for checking these assumptions.
 -   By examining patterns in the residuals ($e_i = y_i - \hat{y}_i$), we can detect violations that aren't obvious from the raw data alone.
 
-## Assumptions of Linear Regression {.smaller}
+## Assumptions of Linear Regression
 
 Linear regression makes four key assumptions, often remembered by the acronym **LINE**:
 
@@ -1140,17 +1140,17 @@ Linear regression makes four key assumptions, often remembered by the acronym **
 
 -   **E — Equal variance (Homoscedasticity)**: The variance of the residuals is constant across all values of $x$: $\text{Var}(\epsilon_i) = \sigma^2$ for all $i$. When variance changes with $x$ (heteroscedasticity), standard errors become biased.
 
-## Visualizing the Assumptions {.smaller}
+## Visualizing the Assumptions
 
 The figure below illustrates what the conditional distributions of $y$ should look like at each value of $x$ under a well-specified linear model: each distribution is normal, centered on the regression line, and has equal spread.
 
 ![](images/week05_31_regression_conditional_distributions.jpeg){fig-align="center" width="80%"}
 
-## Spotting Assumption Violations {.smaller}
+## Spotting Assumption Violations
 
 ![](images/week05_32_regression_residual_plots_homoscedasticity.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Homoscedasticity vs Heteroscedasticity {.smaller}
+## DRAFT: Homoscedasticity vs Heteroscedasticity
 
 ```{r}
 #| echo: false
@@ -1190,11 +1190,11 @@ plot(fitted(fit_het), residuals(fit_het), pch = 1, cex = 1.5,
 abline(h = 0, lty = 2)
 ```
 
-## Spotting Assumption Violations {.smaller}
+## Spotting Assumption Violations
 
 ![](images/week05_33_anscombes_quartet_regression_lines.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Anscombe's Quartet {.smaller}
+## DRAFT: Anscombe's Quartet
 
 ```{r}
 #| echo: false
@@ -1217,11 +1217,11 @@ for (i in 1:4) {
 
 All four datasets have nearly identical summary statistics ($\bar{x}=9$, $\bar{y} \approx 7.5$, $r \approx 0.82$, same regression line) but very different patterns.
 
-## Spotting Assumption Violations {.smaller}
+## Spotting Assumption Violations
 
 ![](images/week05_34_residual_patterns_heteroscedasticity.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Residual Patterns {.smaller}
+## DRAFT: Residual Patterns
 
 ```{r}
 #| echo: false
@@ -1264,7 +1264,7 @@ abline(h = 0, lty = 2)
 lines(x, sin(x / 8) * 2, lwd = 2)
 ```
 
-## Common Residual Patterns and Causes {.smaller}
+## Common Residual Patterns and Causes
 
 Understanding what different residual patterns mean helps you decide how to fix model problems:
 
@@ -1276,7 +1276,7 @@ Understanding what different residual patterns mean helps you decide how to fix 
 
 -   **Systematic pattern over time/order**: Autocorrelation among residuals. Consider time-series models or including a time covariate.
 
-## What Each Residual Plot Tells You {.smaller}
+## What Each Residual Plot Tells You
 
 The standard `plot(lm_object)` in R produces four diagnostic plots. Each one targets a specific assumption:
 
@@ -1287,7 +1287,7 @@ The standard `plot(lm_object)` in R produces four diagnostic plots. Each one tar
 | 3 | Scale-Location | Homoscedasticity | Flat trend line; no fan shape |
 | 4 | Residuals vs. Leverage | Influential observations | No points beyond Cook's distance lines |
 
-## Residual Diagnostic Plots {.smaller}
+## Residual Diagnostic Plots
 
 ::: panel-tabset
 ### Output
@@ -1315,7 +1315,7 @@ plot(my_lm)
 ```
 :::
 
-## Using ggfortify for Diagnostics {.smaller}
+## Using ggfortify for Diagnostics
 
 ::: panel-tabset
 ### Output
@@ -1343,11 +1343,11 @@ autoplot(my_lm, which = 1:4, ncol = 2)
 ```
 :::
 
-## Outlier Leverage and Influence {.smaller}
+## Outlier Leverage and Influence
 
 ![](images/week05_35_penalizing_model_complexity.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Outlier Leverage and Influence {.smaller}
+## DRAFT: Outlier Leverage and Influence
 
 ```{r}
 #| echo: false
@@ -1386,7 +1386,7 @@ text(3, 5.3, "2", cex = 1.5, col = "gray50", font = 2)
 text(9, 1.7, "3", cex = 1.5, col = "gray20", font = 2)
 ```
 
-## Outlier Leverage and Influence {.smaller}
+## Outlier Leverage and Influence
 
 -   **Leverage**: How much of an outlier in x-space
 
@@ -1406,7 +1406,7 @@ Cook's D ≥ 1 indicates highly influential observations, and a rough rule of th
 
 # Residual Plots for the Grip Strength Models {background-color="#2c3e50"}
 
-## BMP2 Model {.smaller}
+## BMP2 Model
 
 -   The residuals vs. fitted values plot is our primary tool for checking linearity and homoscedasticity.
 -   If the model is well-specified, we expect to see a random cloud of points centered around zero with no systematic pattern.
@@ -1466,7 +1466,7 @@ ggplot(bmp2_diag, aes(x = fitted, y = residuals)) +
 -   The loess smoother (orange line) helps visualize any systematic trend.
 -   If it stays close to zero across the range of fitted values, linearity is satisfied.
 
-## Exercise Model {.smaller}
+## Exercise Model
 
 ::: panel-tabset
 ### Output
@@ -1524,7 +1524,7 @@ ggplot(exercise_diag, aes(x = fitted, y = residuals)) +
 Look carefully at the loess smoother — does it show curvature? If the residuals show a systematic curved pattern, this suggests a nonlinear relationship that a straight line cannot capture.
 :::
 
-## Full Diagnostic Panel: BMP2 Model {.smaller}
+## Full Diagnostic Panel: BMP2 Model
 
 ::: panel-tabset
 ### Output
@@ -1552,7 +1552,7 @@ autoplot(lm_bmp2, which = 1:4, ncol = 2) +
 ```
 :::
 
-## Full Diagnostic Panel: Exercise Model {.smaller}
+## Full Diagnostic Panel: Exercise Model
 
 ::: panel-tabset
 ### Output
@@ -1584,7 +1584,7 @@ autoplot(lm_exercise, which = 1:4, ncol = 2) +
 
 # Identifying and Removing Outliers {background-color="#2c3e50"}
 
-## Fibroblast Cell Culture BMP/Sox9 Experiment {.smaller}
+## Fibroblast Cell Culture BMP/Sox9 Experiment
 
 -   A colleague has shared data from a cell culture experiment measuring BMP4 and SOX9 gene expression (relative expression units from qPCR).
 
@@ -1596,7 +1596,7 @@ autoplot(lm_exercise, which = 1:4, ncol = 2) +
 
 -   Download the file `cell_culture_expression.csv` and move through the slides
 
-## Types of Outliers to Watch For {.smaller}
+## Types of Outliers to Watch For
 
 Before we dive in, recall the different ways an observation can be unusual:
 
@@ -1608,7 +1608,7 @@ Before we dive in, recall the different ways an observation can be unusual:
 
 -   **High influence points**: The most dangerous — observations with *both* high leverage and a large residual. These can pull the entire regression line toward them, distorting slope and intercept estimates. Cook's distance captures this combined effect.
 
-## Import and Plot the Raw Data {.smaller}
+## Import and Plot the Raw Data
 
 ::: callout-tip
 Always label your points with sample IDs when looking for outliers — you need to know *which* observations to investigate!
@@ -1660,7 +1660,7 @@ ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
 ```
 :::
 
-## Fit the Initial Model {.smaller}
+## Fit the Initial Model
 
 -   Notice that the $R^2$ is lower than we might expect for a direct regulatory relationship.
 -   Some of the unexplained variance is likely due to the outliers pulling the fit.
@@ -1700,7 +1700,7 @@ glance(lm_expr_raw) |> kable(digits = 4)
 ```
 :::
 
-## Visualize the Fit with Outliers Present {.smaller}
+## Visualize the Fit with Outliers Present
 
 ::: panel-tabset
 ### Output
@@ -1745,7 +1745,7 @@ ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
 ```
 :::
 
-## Diagnostic Plots to Identify Outliers {.smaller}
+## Diagnostic Plots to Identify Outliers
 
 -   Examine the four panels. Which observations are flagged by R with their row numbers?
 -   Pay attention to the Residuals vs. Leverage plot — points near or beyond the Cook's distance contour lines are the most influential.
@@ -1776,7 +1776,7 @@ autoplot(lm_expr_raw, which = 1:4, ncol = 2) +
 ```
 :::
 
-## Cook's Distance {.smaller}
+## Cook's Distance
 
 -   We can extract Cook's distance values and identify the most influential observations programmatically.
 -   A common threshold for Cook's distance is $4/n$. Values exceeding this warrant closer inspection.
@@ -1832,7 +1832,7 @@ expr_diag |>
 ```
 :::
 
-## Visualizing Cook's Distance {.smaller}
+## Visualizing Cook's Distance
 
 ::: panel-tabset
 ### Output
@@ -1890,7 +1890,7 @@ ggplot(expr_diag, aes(x = row_num, y = cooks_d)) +
 ```
 :::
 
-## Interpreting What We Found {.smaller}
+## Interpreting What We Found
 
 Look at the flagged observations and think about what kind of outlier each one is:
 
@@ -1906,7 +1906,7 @@ Look at the flagged observations and think about what kind of outlier each one i
 Data entry errors should always be corrected or removed. For other outliers, the decision is more nuanced — document your reasoning!
 :::
 
-## Remove the Problematic Observations {.smaller}
+## Remove the Problematic Observations
 
 -   We will remove the three clear data entry errors (SC012, SC037, SC055) and the high influence point (SC060).
 -   We keep SC045 for now — it has a large residual but isn't clearly erroneous, and it doesn't have enough leverage to distort the fit badly.
@@ -1953,7 +1953,7 @@ cat("Remaining observations:", nrow(expr_clean), "\n")
 Always document which observations you removed and why. Never silently drop data points — your methods section should describe this.
 :::
 
-## Refit the Model on Clean Data {.smaller}
+## Refit the Model on Clean Data
 
 -   Compare the $R^2$ before and after cleaning.
 -   The relationship between SOX9 and BMP4 should now be much clearer, and the coefficient estimates more trustworthy.
@@ -1993,7 +1993,7 @@ glance(lm_expr_clean) |> kable(digits = 4)
 ```
 :::
 
-## Compare Fits — Before and After {.smaller}
+## Compare Fits — Before and After
 
 ::: panel-tabset
 ### Output
@@ -2057,7 +2057,7 @@ p_raw + p_clean
 ```
 :::
 
-## Residual Diagnostics on Clean Data {.smaller}
+## Residual Diagnostics on Clean Data
 
 ::: panel-tabset
 ### Output
@@ -2085,7 +2085,7 @@ autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
 ```
 :::
 
-## Outlier Exercise Summary {.smaller}
+## Outlier Exercise Summary
 
 ::: callout-tip
 ## What We Learned
@@ -2105,11 +2105,11 @@ autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
 
 # The Eugenics History of Statistics
 
-## Galton's original data {.smaller}
+## Galton's original data
 
 ![](images/week05_10_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
-## DRAFT: Galton's Regression to the Mean {.smaller}
+## DRAFT: Galton's Regression to the Mean
 
 ::::: columns
 ::: {.column width="50%"}
@@ -2270,7 +2270,7 @@ knitr::include_graphics("images/IMAGES2.017.jpeg")
 
 # Polynomial Regression: When Linear Isn't Enough {background-color="#2c3e50"}
 
-## Motivation for Polynomial Regression {.smaller}
+## Motivation for Polynomial Regression
 
 The residual plots for the exercise model may suggest curvature — the loess smoother deviates from zero in a systematic way. This is a signal that the true relationship between exercise hours and grip strength may be nonlinear.
 
@@ -2290,11 +2290,11 @@ y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i
 
 This is still a **linear model** in the statistical sense (the parameters $\beta$ enter linearly), but the relationship between $y$ and $x$ is now curved. A quadratic term can capture a U-shape or inverted-U pattern that a straight line would miss.
 
-## Power and Polynomial Relationships {.smaller}
+## Power and Polynomial Relationships
 
 ![Power and polynomial relationships in regressionFitting a Polynomial Model: Grip Strength \~ Exercise](images/week10_30_power_polynomial_relationships.jpeg){alt="Power and polynomial relationships in regression" fig-align="center" width="90%"}
 
-## DRAFT: Power and Polynomial Relationships {.smaller}
+## DRAFT: Power and Polynomial Relationships
 
 ::::: columns
 ::: {.column width="50%"}
@@ -2376,7 +2376,7 @@ summary(lm_exercise_poly)
 ```
 :::
 
-## Interpreting the Polynomial Model {.smaller}
+## Interpreting the Polynomial Model
 
 Compare the $R^2$ from this polynomial model with the linear exercise model. If the quadratic term is significant and $R^2$ improves meaningfully, the curvilinear fit is more appropriate.
 
@@ -2413,7 +2413,7 @@ glance(lm_exercise_poly) |> kable(digits = 4)
 ```
 :::
 
-## Comparing Linear vs. Polynomial Fit {.smaller}
+## Comparing Linear vs. Polynomial Fit
 
 We can formally compare the linear and polynomial models using `anova()`, which tests whether the additional quadratic term significantly improves the fit:
 
@@ -2442,7 +2442,7 @@ anova(lm_exercise, lm_exercise_poly)
 ```
 :::
 
-## Visualizing the Polynomial Fit {.smaller}
+## Visualizing the Polynomial Fit
 
 ::: panel-tabset
 ### Output
@@ -2489,7 +2489,7 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 ```
 :::
 
-## Linear vs. Polynomial: Side by Side {.smaller}
+## Linear vs. Polynomial: Side by Side
 
 ::: panel-tabset
 ### Output
@@ -2550,7 +2550,7 @@ p_lin + p_poly
 ```
 :::
 
-## Residuals: Linear vs. Polynomial Exercise Model {.smaller}
+## Residuals: Linear vs. Polynomial Exercise Model
 
 Now we compare the residual plots to see whether the polynomial model resolves the curvature issue:
 
@@ -2623,7 +2623,7 @@ ggplot(both_diag, aes(x = fitted, y = residuals)) +
 ```
 :::
 
-## Full Diagnostics: Polynomial Exercise Model {.smaller}
+## Full Diagnostics: Polynomial Exercise Model
 
 ::: panel-tabset
 ### Output
@@ -2651,15 +2651,15 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
 ```
 :::
 
-##  {.smaller}
+## 
 
-## Case Study in Model Selection: Beetle Horn Allometry {.smaller}
+## Case Study in Model Selection: Beetle Horn Allometry
 
 ![Emlen 2001 beetle horn vs wing length data](images/week10_31_beetle_data_emlen_2001.jpeg){alt="Emlen 2001 beetle horn vs wing length data" fig-align="center" width="90%"}
 
 Data from Emlen, D.J. 2001. *Costs and the diversification of exaggerated animal structures.* Science 291: 1534-1536.
 
-## DRAFT: Beetle Horn Allometry Data {.smaller}
+## DRAFT: Beetle Horn Allometry Data
 
 ```{r}
 #| echo: false
@@ -2680,11 +2680,11 @@ plot(beetle$wing, beetle$horn, pch = 16, cex = 1.3,
      main = "Emlen 2001: Beetle horn vs wing length", las = 1)
 ```
 
-## Linear Regression Fit {.smaller}
+## Linear Regression Fit
 
 ![Linear regression on beetle data](images/week10_32_linear_regression_beetle.jpeg){alt="Linear regression on beetle data" fig-align="center" width="90%"}
 
-## DRAFT: Linear Fit {.smaller}
+## DRAFT: Linear Fit
 
 ```{r}
 #| echo: false
@@ -2699,11 +2699,11 @@ fit1 <- lm(horn ~ wing, data = beetle)
 abline(fit1, lwd = 2, col = "red")
 ```
 
-## Quadratic Regression Fit {.smaller}
+## Quadratic Regression Fit
 
 ![Quadratic (polynomial degree 2) regression](images/week10_33_quadratic_regression_beetle.jpeg){alt="Quadratic (polynomial degree 2) regression" fig-align="center" width="90%"}
 
-## DRAFT: Quadratic Fit {.smaller}
+## DRAFT: Quadratic Fit
 
 ```{r}
 #| echo: false
@@ -2720,11 +2720,11 @@ lines(xseq, predict(fit2, newdata = data.frame(wing = xseq)),
       lwd = 2, col = "red")
 ```
 
-## Cubic Regression Fit {.smaller}
+## Cubic Regression Fit
 
 ![Cubic (polynomial degree 3) regression](images/week10_34_cubic_regression_beetle.jpeg){alt="Cubic (polynomial degree 3) regression" fig-align="center" width="90%"}
 
-## DRAFT: Cubic Fit {.smaller}
+## DRAFT: Cubic Fit
 
 ```{r}
 #| echo: false
@@ -2740,11 +2740,11 @@ lines(xseq, predict(fit3, newdata = data.frame(wing = xseq)),
       lwd = 2, col = "red")
 ```
 
-## Higher-Order Polynomials {.smaller}
+## Higher-Order Polynomials
 
 ![Polynomial degree 5 regression](images/week10_35_poly5_regression_beetle.jpeg){alt="Polynomial degree 5 regression" fig-align="center" width="90%"}
 
-## DRAFT: Degree 5 Polynomial {.smaller}
+## DRAFT: Degree 5 Polynomial
 
 ```{r}
 #| echo: false
@@ -2764,7 +2764,7 @@ lines(xseq, predict(fit5, newdata = data.frame(wing = xseq)),
 
 ![Polynomial degree 10 regression - overfitting!](images/week10_36_poly10_regression_beetle.jpeg){alt="Polynomial degree 10 regression - overfitting!" fig-align="center" width="90%"}
 
-## DRAFT: Degree 10 Polynomial - Overfitting! {.smaller}
+## DRAFT: Degree 10 Polynomial - Overfitting!
 
 ```{r}
 #| echo: false
@@ -2780,11 +2780,11 @@ lines(xseq, predict(fit10, newdata = data.frame(wing = xseq)),
       lwd = 2, col = "red")
 ```
 
-## Model Selection Visualization {.smaller}
+## Model Selection Visualization
 
 ![Log-likelihood and R² vs polynomial degree](images/week10_37_model_selection_plots.jpeg){alt="Log-likelihood and R² vs polynomial degree" fig-align="center" width="90%"}
 
-## DRAFT: Model Selection - Log-Likelihood and R² {.smaller}
+## DRAFT: Model Selection - Log-Likelihood and R²
 
 ```{r}
 #| echo: false
@@ -2811,11 +2811,11 @@ plot(degrees, r2, type = "b", pch = 16, cex = 1.5,
      main = expression(R^2 * " vs. Degree"), las = 1)
 ```
 
-## Mallow's Cp Statistic {.smaller}
+## Mallow's Cp Statistic
 
 ![Cp statistic for model selectionKey Takeaways: Model Diagnostics](images/week10_38_cp_statistic_formula.jpeg){alt="Cp statistic for model selection" fig-align="center" width="90%"}
 
-## DRAFT: Mallow's Cp Statistic {.smaller}
+## DRAFT: Mallow's Cp Statistic
 
 $$C_p = \frac{SS_{res,p}}{MS_{res,full}} - n + 2p$$
 
@@ -2846,7 +2846,7 @@ A model with $C_p \approx p$ fits well without overfitting. Models with $C_p \gg
 
 # Model I vs Model II Regression {background-color="#2c3e50"}
 
-## When to Use Model II Regression {.smaller}
+## When to Use Model II Regression
 
 **Model I (OLS) Regression:**
 
@@ -2864,7 +2864,7 @@ A model with $C_p \approx p$ fits well without overfitting. Models with $C_p \gg
 Use Model II when both X and Y are biological measurements (e.g., body size vs organ size, two gene expression levels).
 :::
 
-## Model II Regression Methods {.smaller}
+## Model II Regression Methods
 
 | Method | Abbreviation | Description |
 |:-----------------------|:-----------------------|:-----------------------|
@@ -2873,13 +2873,13 @@ Use Model II when both X and Y are biological measurements (e.g., body size vs o
 | **Ranged Major Axis** | RMA | Accounts for range differences |
 | **Ordinary Least Squares** | OLS | Standard regression (for comparison) |
 
-## Types of Linear Regression {.smaller}
+## Types of Linear Regression
 
 Not all regression is created equal! The choice depends on **measurement error**:
 
 ![Model I (OLS) vs Model II regression types](images/week05_40_model_types_ols_ma_rma.jpeg){fig-align="center" width="80%"}
 
-## DRAFT: Model I vs Model II Regression {.smaller}
+## DRAFT: Model I vs Model II Regression
 
 ```{r}
 #| echo: false
@@ -2909,11 +2909,11 @@ text(x[2] + 0.3, y[2] - 1.5, "2", cex = 1.5, col = "red")
 
 **Model II** — Major axis (MA) [2]: minimizes perpendicular distances; Reduced Major Axis (RMA) [3]: minimizes area of triangles
 
-## Regression Type Examples {.smaller}
+## Regression Type Examples
 
 ![Comparison of OLS (Type I) and Type II regression methods](images/week05_41_regression_type_examples.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: OLS, MA, and RMA Comparison {.smaller}
+## DRAFT: OLS, MA, and RMA Comparison
 
 ```{r}
 #| echo: false
@@ -2957,11 +2957,11 @@ int_rma <- mean(y) - slope_rma * mean(x)
 abline(a = int_rma, b = slope_rma, lwd = 2)
 ```
 
-## When to Use Each Model Type {.smaller}
+## When to Use Each Model Type
 
 ![Guidelines for choosing between OLS, MA, and RMA regression](images/week05_42_when_to_use_model_types.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: When to Use Each Regression Type {.smaller}
+## DRAFT: When to Use Each Regression Type
 
 | | **Method** | **When to use** | **Example** |
 |:---|:---|:---|:---|
@@ -2972,7 +2972,7 @@ abline(a = int_rma, b = slope_rma, lwd = 2)
 
 *Table 8.1 (pg. 175) in the Logan text. See also Legendre's Model II Regression Guide, 2013.*
 
-## Model II Regression with lmodel2 {.smaller}
+## Model II Regression with lmodel2
 
 ```{r}
 #| eval: false
@@ -2993,7 +2993,7 @@ plot(mod2)
 Use Model II regression when: - Both variables have measurement error - Neither variable is experimentally controlled - You're comparing methods or studying allometry
 :::
 
-## Model II Regression in R {.smaller}
+## Model II Regression in R
 
 ```{r}
 #| label: model2-regression
@@ -3020,7 +3020,7 @@ abline(model2_result$regression.results[3, 2],  # SMA intercept
        col = "red", lty = 3)
 ```
 
-## Choosing Between Model I and II {.smaller}
+## Choosing Between Model I and II
 
 ::: callout-tip
 ## Decision Guide
