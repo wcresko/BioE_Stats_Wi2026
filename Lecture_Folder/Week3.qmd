@@ -117,13 +117,73 @@ $H_A$: The substitution **decreases** the catalytic rate
 
 ![](images/week03_01_null_alt_hypothesis_distributions.jpeg){fig-align="center" width="90%"}
 
-## 
+## DRAFT: Null and Alternative Hypotheses {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+par(mfrow = c(1, 2), mar = c(4, 1, 3, 1))
+
+# Panel (a): well-separated distributions
+x <- seq(-5, 10, length.out = 500)
+plot(x, dnorm(x, 0, 0.8), type = "l", lwd = 3, col = "orchid",
+     axes = FALSE, xlab = "Values", ylab = "", main = "(a)",
+     ylim = c(0, 0.55))
+lines(x, dnorm(x, 4, 1.2), lwd = 3, col = "steelblue")
+axis(1)
+
+# Panel (b): overlapping distributions
+plot(x, dnorm(x, 2, 1.5), type = "l", lwd = 3, col = "orchid",
+     axes = FALSE, xlab = "Values", ylab = "", main = "(b)",
+     ylim = c(0, 0.35))
+lines(x, dnorm(x, 4, 1.2), lwd = 3, col = "steelblue")
+axis(1)
+```
+
+##
 
 ![](images/week03_02_effect_size_overlap_distributions.jpeg){fig-align="center" width="60%"}
+
+## DRAFT: Effect Size and Distribution Overlap {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 8
+
+par(mfrow = c(2, 1), mar = c(3, 1, 3, 1))
+
+x <- seq(-5, 12, length.out = 500)
+
+# Panel A: small variance, clear separation
+plot(x, dnorm(x, 2, 1), type = "l", lwd = 3, col = "red",
+     axes = FALSE, xlab = "", ylab = "", main = "A",
+     ylim = c(0, 0.45), cex.main = 2)
+lines(x, dnorm(x, 6, 1), lwd = 3, col = "blue")
+abline(v = c(2, 6), lwd = 2)
+
+# Panel B: large variance, overlapping
+plot(x, dnorm(x, 2, 2), type = "l", lwd = 3, col = "red",
+     axes = FALSE, xlab = "", ylab = "", main = "B",
+     ylim = c(0, 0.25), cex.main = 2)
+lines(x, dnorm(x, 6, 2), lwd = 3, col = "blue")
+abline(v = c(2, 6), lwd = 2)
+```
 
 ## Type I and Type II Errors {.smaller}
 
 ![](images/week03_03_type_i_ii_error_matrix.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Type I and Type II Errors {.smaller}
+
+|  | **Reject $H_0$** | **Retain $H_0$** |
+|:---|:---|:---|
+| **Effect exists** | Correct decision: Effect detected | Type II error ($\beta$): Effect not detected |
+| **No effect** | Type I error ($\alpha$): Effect detected; none exists | Correct decision: No effect detected; none exists |
 
 ## Components of Hypothesis Testing {.smaller}
 
@@ -154,9 +214,99 @@ $H_A$: The substitution **decreases** the catalytic rate
 
 ![](images/week03_05_statistical_distributions_z_t_chi_f.jpeg){fig-align="center" width="70%"}
 
+## DRAFT: Statistical Sampling Distributions {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+
+x <- seq(-4, 4, length.out = 500)
+
+# z distribution
+plot(x, dnorm(x), type = "l", lwd = 3, main = expression(italic(z)),
+     xlab = expression(italic(y)), ylab = expression(italic(P(y))),
+     cex.main = 2, las = 1)
+
+# chi-squared
+x_chi <- seq(0.01, 20, length.out = 500)
+plot(x_chi, dchisq(x_chi, df = 2), type = "l", lwd = 2,
+     main = expression(chi^2), col = "red",
+     xlab = expression(italic(y)), ylab = expression(italic(P(y))),
+     ylim = c(0, 0.35), cex.main = 2, las = 1)
+lines(x_chi, dchisq(x_chi, df = 5), lwd = 2, col = "black")
+lines(x_chi, dchisq(x_chi, df = 10), lwd = 2, col = "blue")
+text(3, 0.32, "a", col = "red", cex = 1.2)
+text(5, 0.15, "b", cex = 1.2)
+text(12, 0.09, "c", col = "blue", cex = 1.2)
+
+# t distribution
+plot(x, dt(x, df = 2), type = "l", lwd = 2, main = expression(italic(t)),
+     xlab = expression(italic(y)), ylab = expression(italic(P(y))),
+     ylim = c(0, 0.45), cex.main = 2, las = 1)
+lines(x, dt(x, df = 5), lwd = 2, col = "red")
+lines(x, dt(x, df = 30), lwd = 2, col = "blue")
+text(-2.5, 0.08, "a", cex = 1.2)
+text(-1.8, 0.15, "b", col = "red", cex = 1.2)
+text(0.3, 0.42, "c", col = "blue", cex = 1.2)
+
+# F distribution
+x_f <- seq(0.01, 6, length.out = 500)
+plot(x_f, df(x_f, df1 = 2, df2 = 5), type = "l", lwd = 2,
+     main = expression(italic(F)),
+     xlab = expression(italic(y)), ylab = expression(italic(P(y))),
+     ylim = c(0, 1.0), cex.main = 2, las = 1)
+lines(x_f, df(x_f, df1 = 5, df2 = 10), lwd = 2, col = "red")
+lines(x_f, df(x_f, df1 = 10, df2 = 20), lwd = 2, col = "blue")
+lines(x_f, df(x_f, df1 = 50, df2 = 100), lwd = 2, col = "darkgreen")
+text(0.2, 0.85, "a", cex = 1.2)
+text(0.5, 0.65, "b", col = "red", cex = 1.2)
+text(0.7, 0.75, "c", col = "blue", cex = 1.2)
+text(1, 0.95, "d", col = "darkgreen", cex = 1.2)
+```
+
 ## Statistical Null Distributions and p-Values {.smaller}
 
 ![Understanding p-values and null distributions](images/week03_12_understanding_p_values_and_nul.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Understanding p-Values {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+x <- seq(-4, 4, length.out = 500)
+y <- dnorm(x)
+obs_stat <- 1.8
+
+plot(x, y, type = "l", lwd = 3, col = "steelblue",
+     axes = FALSE, xlab = "", ylab = "",
+     ylim = c(-0.02, max(y) * 1.15))
+
+# Shade p-value region
+x_tail <- x[x >= obs_stat]
+polygon(c(obs_stat, x_tail, max(x_tail)),
+        c(0, dnorm(x_tail), 0),
+        col = rgb(1, 0.6, 0.4, 0.6), border = NA)
+lines(x, y, lwd = 3, col = "steelblue")
+
+# Axis
+axis(1, at = c(obs_stat), labels = c("Observed statistic"), cex.axis = 1.1)
+segments(obs_stat, 0, obs_stat, dnorm(obs_stat), lwd = 2, col = "darkorange")
+
+# Labels
+text(-1.5, 0.22, expression("Sampling\ndistribution\nwhen " * H[0] * " is true"),
+     cex = 1.2)
+arrows(2.8, 0.15, 2.5, 0.04, length = 0.12, lwd = 2)
+text(3, 0.17, expression(italic(P) * "-value"), cex = 1.4, font = 3)
+text(-3, 0.38, expression("Needed to calculate\n" * italic(P) * "-value for test"),
+     cex = 1.2)
+```
 
 # T-Tests {background-color="#2c3e50"}
 
@@ -237,9 +387,71 @@ legend("topright", c("Normal", paste("df =", df_values)),
 
 ![](images/week03_09_one_tailed_critical_region.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: One-Tailed Test {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+x <- seq(-4, 4, length.out = 500)
+y <- dt(x, df = 20)
+tc <- qt(0.95, df = 20)
+
+plot(x, y, type = "l", lwd = 3, axes = FALSE,
+     xlab = "", ylab = expression(italic(P(t))),
+     main = "(b)")
+axis(1, at = c(0, tc), labels = c(expression(italic(t) == 0), expression(italic(t)[c])),
+     cex.axis = 1.2)
+
+# Shade alpha region
+x_tail <- x[x >= tc]
+polygon(c(tc, x_tail, max(x_tail)), c(0, dt(x_tail, df = 20), 0),
+        col = "gray80", border = NA)
+lines(x, y, lwd = 3)
+arrows(tc + 0.5, 0.08, tc + 0.2, 0.02, length = 0.1, lwd = 2)
+text(tc + 0.8, 0.10, expression(alpha == 0.05), cex = 1.3)
+```
+
 ## Two-Tailed Test {.smaller}
 
 ![Critical regions in a two-tailed hypothesis test](images/week03_10_critical_regions_in_a_two_tail.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Two-Tailed Test {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+x <- seq(-4, 4, length.out = 500)
+y <- dt(x, df = 20)
+tc <- qt(0.975, df = 20)
+
+plot(x, y, type = "l", lwd = 3, axes = FALSE,
+     xlab = "", ylab = expression(italic(P(t))),
+     main = "(a)")
+axis(1, at = c(-tc, 0, tc),
+     labels = c(expression(italic(t)[c]), expression(italic(t) == 0), expression(italic(t)[c])),
+     cex.axis = 1.2)
+
+# Shade left tail
+x_left <- x[x <= -tc]
+polygon(c(min(x_left), x_left, -tc), c(0, dt(x_left, df = 20), 0),
+        col = "gray80", border = NA)
+# Shade right tail
+x_right <- x[x >= tc]
+polygon(c(tc, x_right, max(x_right)), c(0, dt(x_right, df = 20), 0),
+        col = "gray80", border = NA)
+lines(x, y, lwd = 3)
+
+arrows(-tc - 0.5, 0.08, -tc - 0.2, 0.02, length = 0.1, lwd = 2)
+text(-tc - 0.8, 0.10, expression(alpha == 0.025), cex = 1.2)
+arrows(tc + 0.5, 0.08, tc + 0.2, 0.02, length = 0.1, lwd = 2)
+text(tc + 0.8, 0.10, expression(alpha == 0.025), cex = 1.2)
+```
 
 ## Visualizing Critical Regions in R {.smaller}
 
@@ -765,6 +977,40 @@ A programmer's partner says: "Buy milk, and if they have eggs, get six." The pro
 
 ![](images/week03_14_permutation_null_distribution.jpeg){fig-align="center" width="40%"}
 
+## DRAFT: Permutation Null Distribution {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 6
+#| fig-height: 5
+
+# Simulate a permutation test: difference in means between SM and DM groups
+set.seed(123)
+sm_data <- rnorm(20, mean = 3.5, sd = 1.5)
+dm_data <- rnorm(20, mean = 5.0, sd = 1.5)
+obs_diff <- mean(sm_data) - mean(dm_data)  # approximately -1.425
+
+combined <- c(sm_data, dm_data)
+n_perms <- 5000
+perm_diffs <- replicate(n_perms, {
+  shuffled <- sample(combined)
+  mean(shuffled[1:20]) - mean(shuffled[21:40])
+})
+
+# Color bars more extreme than observed
+h <- hist(perm_diffs, breaks = 40, plot = FALSE)
+colors <- ifelse(h$mids <= obs_diff, "red", "white")
+
+hist(perm_diffs, breaks = 40, col = colors, border = "black",
+     main = "", las = 1,
+     xlab = expression(bar(Y)[SM] - bar(Y)[DM] * " from randomized data sets"),
+     ylab = "Frequency")
+abline(v = obs_diff, lwd = 2)
+text(obs_diff + 0.1, max(h$counts) * 0.9, round(obs_diff, 3),
+     cex = 1.1, adj = 0)
+```
+
 ## Creating Empirical Null Distributions {.smaller}
 
 ::: panel-tabset
@@ -872,6 +1118,19 @@ cat("Empirical p-value:", p_value)
 
 ![](images/week02_97_clinical_trial_data_table.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Clinical Trial Example {.smaller}
+
+|  | **Nonoxynol-9** |  | **Placebo** |  |
+|:---------|:---:|:---:|:---:|:---:|
+| **Clinic** | **n** | **Number infected** | **n** | **Number infected** |
+| Abidjan | 78 | 0 | 84 | 5 |
+| Bangkok | 26 | 0 | 25 | 0 |
+| Cotonou | 100 | 12 | 103 | 10 |
+| Durban | 94 | 42 | 93 | 30 |
+| Hat Yai 2 | 22 | 0 | 25 | 0 |
+| Hat Yai 3 | 56 | 5 | 59 | 0 |
+| **Total** | **376** | **59** | **389** | **45** |
+
 ## Simultaneous Control Group {.smaller}
 
 -   Placebo or currently accepted treatment
@@ -919,6 +1178,12 @@ Studies without double-blinding exaggerate treatment effects by 16% on average (
 -   Minimizes standard error
 
 ![](images/week02_98_pooled_standard_error_formula.jpeg){fig-align="center" width="80%"}
+
+## DRAFT: Pooled Standard Error Formula {.smaller}
+
+$$\huge s_{\bar{y}_1 - \bar{y}_2} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}$$
+
+When $n_1 = n_2$, this simplifies and gives the smallest standard error — this is why **balanced designs** are preferred.
 
 ## Types of Replication {.smaller}
 

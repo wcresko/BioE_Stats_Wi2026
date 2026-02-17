@@ -122,13 +122,124 @@ This week we continue with the biological motivations, interpretation, and assum
 
 ![](images/week10_13_ancova_brain_body_mass_regression.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Brain-Body Mass Regression {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+set.seed(42)
+n <- 30
+body_h <- rnorm(n, 70, 10)
+brain_h <- 900 + 8 * body_h + rnorm(n, 0, 50)
+body_n <- rnorm(n, 80, 12)
+brain_n <- 850 + 8 * body_n + rnorm(n, 0, 50)
+
+par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
+
+# Parallel slopes
+plot(body_h, brain_h, pch = 16, col = "blue", cex = 1.2,
+     xlim = range(c(body_h, body_n)), ylim = range(c(brain_h, brain_n)),
+     xlab = "Body mass (kg)", ylab = "Brain size (cc)",
+     main = "brain ~ mass + species")
+points(body_n, brain_n, pch = 17, col = "red", cex = 1.2)
+abline(lm(brain_h ~ body_h), col = "blue", lwd = 2)
+abline(lm(brain_n ~ body_n), col = "red", lwd = 2)
+legend("topleft", c("H. sapiens", "Neanderthal"),
+       pch = c(16, 17), col = c("blue", "red"))
+
+# With interaction
+plot(body_h, brain_h, pch = 16, col = "blue", cex = 1.2,
+     xlim = range(c(body_h, body_n)), ylim = range(c(brain_h, brain_n)),
+     xlab = "Body mass (kg)", ylab = "Brain size (cc)",
+     main = "brain ~ mass * species")
+points(body_n, brain_n, pch = 17, col = "red", cex = 1.2)
+abline(lm(brain_h ~ body_h), col = "blue", lwd = 2)
+abline(lm(brain_n ~ body_n), col = "red", lwd = 2, lty = 2)
+legend("topleft", c("H. sapiens", "Neanderthal"),
+       pch = c(16, 17), col = c("blue", "red"))
+```
+
 ## ANCOVA: ANOVA vs. Covariate Adjustment {.smaller}
 
 ![](images/week10_14_ancova_anova_vs_covariate_comparison.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: ANOVA vs ANCOVA Comparison {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
+
+set.seed(42)
+n <- 20
+resp_a <- rnorm(n, 10, 2)
+resp_b <- rnorm(n, 12, 2)
+
+# Left: simple group comparison
+stripchart(list("Group A" = resp_a, "Group B" = resp_b),
+           vertical = TRUE, pch = 16, col = c("blue", "red"),
+           main = "ANOVA: response ~ group", ylab = "Response",
+           method = "jitter", jitter = 0.1)
+segments(0.8, mean(resp_a), 1.2, mean(resp_a), lwd = 3, col = "blue")
+segments(1.8, mean(resp_b), 2.2, mean(resp_b), lwd = 3, col = "red")
+
+# Right: with covariate
+cov_a <- rnorm(n, 5, 1)
+cov_b <- rnorm(n, 7, 1)
+resp_a2 <- 5 + 1 * cov_a + rnorm(n, 0, 0.8)
+resp_b2 <- 5 + 1 * cov_b + rnorm(n, 0, 0.8)
+
+plot(c(cov_a, cov_b), c(resp_a2, resp_b2),
+     pch = 16, col = rep(c("blue", "red"), each = n),
+     xlab = "Covariate", ylab = "Response",
+     main = "ANCOVA: response ~ covariate + group")
+abline(lm(resp_a2 ~ cov_a), col = "blue", lwd = 2)
+abline(lm(resp_b2 ~ cov_b), col = "red", lwd = 2)
+legend("topleft", c("Group A", "Group B"),
+       pch = 16, col = c("blue", "red"))
+```
+
 ## ANCOVA: Adjusted Means {.smaller}
 
 ![](images/week10_15_ancova_adjusted_means_diagram.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: ANCOVA Adjusted Means {.smaller}
+
+The ANCOVA model:
+
+$$y_{ij} = \mu + \alpha_i + \beta(x_{ij} - \bar{x}) + \varepsilon_{ij}$$
+
+Adjusted means are computed at the overall mean of the covariate:
+
+$$\bar{y}_{i(adj)} = \bar{y}_i - \hat{\beta}(\bar{x}_i - \bar{x})$$
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+set.seed(42)
+n <- 20
+x_a <- rnorm(n, 4, 1); y_a <- 2 + 1.5 * x_a + rnorm(n, 0, 0.8)
+x_b <- rnorm(n, 6, 1); y_b <- 4 + 1.5 * x_b + rnorm(n, 0, 0.8)
+x_all <- mean(c(x_a, x_b))
+
+plot(c(x_a, x_b), c(y_a, y_b), pch = 16,
+     col = rep(c("blue", "red"), each = n),
+     xlab = "Covariate (x)", ylab = "Response (y)", las = 1)
+abline(lm(y_a ~ x_a), col = "blue", lwd = 2)
+abline(lm(y_b ~ x_b), col = "red", lwd = 2)
+abline(v = x_all, lty = 2, lwd = 1)
+text(x_all + 0.1, max(c(y_a, y_b)), expression(bar(x)[..]), cex = 1.2)
+legend("topleft", c("Group A", "Group B"), pch = 16, col = c("blue", "red"))
+```
 
 The key insight: by **adjusting for the covariate**, we can compare groups at the same value of the continuous predictor, removing confounding variation.
 
@@ -136,13 +247,45 @@ The key insight: by **adjusting for the covariate**, we can compare groups at th
 
 ![](images/week10_16_ancova_multiple_covariates_formula.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: ANCOVA with Multiple Covariates {.smaller}
+
+**Linear model:**
+
+$$y_{ij} = \mu + \alpha_i + \beta_1(x_{1ij} - \bar{x}_1) + \beta_2(x_{2ij} - \bar{x}_2) + \varepsilon_{ij}$$
+
+**Adjusted mean:**
+
+$$\bar{y}_{i(adj)} = \bar{y}_i - \hat{\beta}_1(\bar{x}_{1i} - \bar{x}_1) - \hat{\beta}_2(\bar{x}_{2i} - \bar{x}_2)$$
+
 ## ANCOVA: Null Hypotheses {.smaller}
 
 ![](images/week10_17_ancova_null_hypotheses.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: ANCOVA Null Hypotheses {.smaller}
+
+**For the categorical factor (e.g., species):**
+
+$$H_0: \mu_{1(adj)} = \mu_{2(adj)} = \ldots = \mu_{p(adj)}$$
+
+All adjusted group means are equal (after accounting for the covariate).
+
+**For the covariate (e.g., body mass):**
+
+$$H_0: \beta = 0$$
+
+The covariate has no linear relationship with the response.
+
 ## ANCOVA: F-Ratio Table and Collinearity {.smaller}
 
 ![](images/week10_18_ancova_f_ratio_table.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: ANCOVA F-Ratio Table {.smaller}
+
+| Source | df | MS | F-ratio |
+|:---|:---|:---|:---|
+| Factor A | $p - 1$ | $MS_A$ | $MS_A / MS_{Residual}$ |
+| Covariate | 1 | $MS_{Covariate}$ | $MS_{Cov} / MS_{Residual}$ |
+| Residual | $N - p - 1$ | $MS_{Residual}$ | |
 
 ::: callout-warning
 ## Collinearity in ANCOVA
@@ -153,6 +296,39 @@ If the covariate and the factor are correlated (e.g., body mass differs between 
 ## ANCOVA: Heterogeneous Slopes {.smaller}
 
 ![](images/week10_19_ancova_heterogeneous_slopes.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Heterogeneous Slopes {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+set.seed(42)
+n <- 25
+par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
+
+# Homogeneous slopes (assumption met)
+x1 <- rnorm(n, 5, 2); y1 <- 2 + 1.5 * x1 + rnorm(n, 0, 1)
+x2 <- rnorm(n, 5, 2); y2 <- 5 + 1.5 * x2 + rnorm(n, 0, 1)
+plot(c(x1, x2), c(y1, y2), pch = 16,
+     col = rep(c("blue", "red"), each = n),
+     xlab = "Covariate", ylab = "Response",
+     main = "Homogeneous slopes (OK)")
+abline(lm(y1 ~ x1), col = "blue", lwd = 2)
+abline(lm(y2 ~ x2), col = "red", lwd = 2)
+
+# Heterogeneous slopes (violation)
+x3 <- rnorm(n, 5, 2); y3 <- 2 + 0.5 * x3 + rnorm(n, 0, 1)
+x4 <- rnorm(n, 5, 2); y4 <- 1 + 2.5 * x4 + rnorm(n, 0, 1)
+plot(c(x3, x4), c(y3, y4), pch = 16,
+     col = rep(c("blue", "red"), each = n),
+     xlab = "Covariate", ylab = "Response",
+     main = "Heterogeneous slopes (VIOLATION)")
+abline(lm(y3 ~ x3), col = "blue", lwd = 2)
+abline(lm(y4 ~ x4), col = "red", lwd = 2)
+```
 
 When slopes differ between groups, the interaction between the covariate and the factor is significant — this is a violation of the **parallel slopes assumption**.
 
@@ -400,6 +576,35 @@ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1} x_{i2} + \epsil
 
 ![](images/week07_24_additive_vs_multiplicative_models.jpeg){fig-align="center" width="100%"}
 
+## DRAFT: Additive vs. Multiplicative Response Surfaces {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+par(mfrow = c(1, 2), mar = c(1, 1, 3, 1))
+
+# Create grid
+x1 <- seq(-10, 10, length.out = 30)
+x2 <- seq(-10, 10, length.out = 30)
+
+# Additive model: y = 2*x1 + 3*x2 (flat plane)
+z_add <- outer(x1, x2, function(a, b) 2*a + 3*b)
+persp(x1, x2, z_add, theta = 30, phi = 20,
+      xlab = "X1", ylab = "X2", zlab = "Y",
+      main = "Additive Model", col = "indianred1",
+      border = "darkred", shade = 0.1, cex.main = 1.3)
+
+# Multiplicative model: y = 2*x1 + 3*x2 + 0.5*x1*x2 (twisted plane)
+z_mult <- outer(x1, x2, function(a, b) 2*a + 3*b + 0.5*a*b)
+persp(x1, x2, z_mult, theta = 30, phi = 20,
+      xlab = "X1", ylab = "X2", zlab = "Y",
+      main = "Multiplicative Model (with interaction)", col = "indianred1",
+      border = "darkred", shade = 0.1, cex.main = 1.3)
+```
+
 ## R Example: Multiple Regression with 2 Predictors {.smaller}
 
 Read in the RNAseq_lip.tsv and examine whether Gene01 and/or Gene02 expression levels influence lipid content.
@@ -469,6 +674,42 @@ When predictors are highly correlated, coefficient estimates become unstable, st
 ## Checking for Multicollinearity {.smaller}
 
 ![](images/week07_25_multicollinearity_scatterplot_matrix.jpeg){fig-align="center" width="70%"}
+
+## DRAFT: Scatterplot Matrix for Collinearity {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 7
+
+# Simulated environmental data with collinearity
+set.seed(42)
+n <- 50
+elevation <- rnorm(n, 500, 200)
+SO4 <- rnorm(n, 50, 20) + 0.02 * elevation  # weakly correlated with elevation
+Cl <- rexp(n, rate = 0.1) + 2               # right-skewed, some outliers
+
+env_data <- data.frame(SO4 = SO4, Cl = Cl, Elevation = elevation)
+
+# Scatterplot matrix with boxplots on diagonal
+pairs(env_data,
+      panel = function(x, y, ...) points(x, y, pch = 1, cex = 0.9),
+      diag.panel = function(x, ...) {
+        usr <- par("usr")
+        bp <- boxplot(x, plot = FALSE)
+        rect(usr[1] + 0.2*(usr[2]-usr[1]), bp$stats[2],
+             usr[2] - 0.2*(usr[2]-usr[1]), bp$stats[4],
+             border = "black")
+        segments(usr[1] + 0.35*(usr[2]-usr[1]), bp$stats[3],
+                 usr[2] - 0.35*(usr[2]-usr[1]), bp$stats[3], lwd = 2)
+        segments(mean(c(usr[1], usr[2])), bp$stats[1],
+                 mean(c(usr[1], usr[2])), bp$stats[2])
+        segments(mean(c(usr[1], usr[2])), bp$stats[4],
+                 mean(c(usr[1], usr[2])), bp$stats[5])
+      },
+      cex.labels = 1.5, gap = 0.5)
+```
 
 ::: panel-tabset
 ### Code
@@ -692,6 +933,26 @@ If two or more models fit the data almost equally well, prefer the simpler model
 
 The log-likelihood and $R^2$ always increase with more parameters — but this does not mean the model is better!
 
+## DRAFT: Beetle Wing vs Horn Data {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+# Simulated beetle wing vs horn data (Emlen 2001 style)
+set.seed(2001)
+wing <- runif(20, -45, 25)
+horn <- -0.002 * wing + rnorm(20, 0, 0.05)
+
+par(mar = c(5, 5, 2, 2))
+plot(wing, horn, pch = 16, cex = 1.3,
+     xlab = "Relative wing length", ylab = "Relative horn length",
+     cex.lab = 1.3, cex.axis = 1.1,
+     main = "Beetle wing length vs horn length")
+```
+
 ## The Progression of Polynomial Fits {.smaller}
 
 ::::: columns
@@ -703,6 +964,36 @@ The log-likelihood and $R^2$ always increase with more parameters — but this d
 ![Quadratic fit](images/week07_28_quadratic_fit_beetle.jpeg){fig-align="center" width="100%"}
 :::
 :::::
+
+## DRAFT: Linear and Quadratic Fits {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+set.seed(2001)
+wing <- runif(20, -45, 25)
+horn <- -0.002 * wing + rnorm(20, 0, 0.05)
+
+par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+
+# Linear fit
+plot(wing, horn, pch = 16, cex = 1.2,
+     xlab = "Relative wing length", ylab = "Relative horn length",
+     main = "Linear regression", cex.lab = 1.2, cex.main = 1.3)
+fit1 <- lm(horn ~ wing)
+abline(fit1, lwd = 2)
+
+# Quadratic fit
+plot(wing, horn, pch = 16, cex = 1.2,
+     xlab = "Relative wing length", ylab = "Relative horn length",
+     main = "Quadratic fit", cex.lab = 1.2, cex.main = 1.3)
+fit2 <- lm(horn ~ poly(wing, 2, raw = TRUE))
+x_seq <- seq(min(wing), max(wing), length.out = 200)
+lines(x_seq, predict(fit2, newdata = data.frame(wing = x_seq)), lwd = 2)
+```
 
 ## Higher-Order Polynomials and Overfitting {.smaller}
 
@@ -717,6 +1008,38 @@ The log-likelihood and $R^2$ always increase with more parameters — but this d
 :::::
 
 As polynomial degree increases, the model fits the training data ever more closely — but becomes useless for prediction on new data.
+
+## DRAFT: Higher-Order Polynomial Fits {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+set.seed(2001)
+wing <- runif(20, -45, 25)
+horn <- -0.002 * wing + rnorm(20, 0, 0.05)
+
+par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+
+# Degree 5
+plot(wing, horn, pch = 16, cex = 1.2,
+     xlab = "Relative wing length", ylab = "Relative horn length",
+     main = "Degree 5 polynomial", cex.lab = 1.2, cex.main = 1.3)
+fit5 <- lm(horn ~ poly(wing, 5, raw = TRUE))
+x_seq <- seq(min(wing), max(wing), length.out = 200)
+lines(x_seq, predict(fit5, newdata = data.frame(wing = x_seq)), lwd = 2)
+
+# Degree 10
+plot(wing, horn, pch = 16, cex = 1.2,
+     xlab = "Relative wing length", ylab = "Relative horn length",
+     main = "Degree 10 polynomial", cex.lab = 1.2, cex.main = 1.3)
+fit10 <- lm(horn ~ poly(wing, 10, raw = TRUE))
+x_seq2 <- seq(min(wing), max(wing), length.out = 500)
+pred10 <- predict(fit10, newdata = data.frame(wing = x_seq2))
+lines(x_seq2, pred10, lwd = 2)
+```
 
 ## Model Selection Criteria {.smaller}
 
@@ -735,6 +1058,32 @@ As a rule of thumb, if the difference between two AIC values (ΔAIC) is greater 
 ## Mallow's Cp and All-Subsets Regression {.smaller}
 
 ![](images/week07_31_mallows_cp_formula.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Mallow's Cp Formula {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$C_p = \frac{SS_{\text{error}}}{\hat{\sigma}^2} - n + 2p$$
+
+where:
+
+| Symbol | Meaning |
+|:-------|:--------|
+| $SS_{\text{error}}$ | Error sum of squares for the model with $p$ predictors (incl. intercept) |
+| $\hat{\sigma}^2$ | Error mean square of full model (e.g., all predictors) |
+| $n$ | Sample size |
+| $p$ | Number of predictors (including intercept) |
+
+- $C_p$ estimates **mean square prediction error** (related to AIC)
+- $2p$: a penalty for including too many predictors — a feature shared with all other model selection criteria
+
+### LaTeX
+
+``` text
+C_p = \frac{SS_{\text{error}}}{\hat{\sigma}^2} - n + 2p
+```
+:::
 
 ::: panel-tabset
 ### Code
@@ -860,6 +1209,19 @@ $$\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}$$
 
 ![Statistical power and Type II error](images/week09_19_statistical_power_and_type_ii.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Statistical Power and Type II Error {.smaller}
+
+|                         | **Reject $H_0$**                             | **Retain $H_0$**                              |
+|:------------------------|:----------------------------------------------|:-----------------------------------------------|
+| **Effect exists**       | Correct decision — Effect detected (Power = $1-\beta$) | **Type II error** — Effect not detected ($\beta$) |
+| **No effect**           | **Type I error** — Effect detected; none exists ($\alpha$) | Correct decision — No effect detected          |
+
+::: callout-note
+- **Power** = probability of correctly rejecting $H_0$ when the effect is real
+- We want Power $\geq 0.80$ (i.e., $\beta \leq 0.20$)
+- Increasing sample size, effect size, or $\alpha$ increases power
+:::
+
 ## Key Components of Power {.smaller}
 
 | Component                  | Description                       |
@@ -871,6 +1233,46 @@ $$\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}$$
 | **Power (1 − β)**          | Usually 0.80                      |
 
 ![Key questions in power analysis](images/week09_20_key_questions_in_power_analysi.jpeg){fig-align="center" width="70%"}
+
+## DRAFT: Power vs Effect Size and Sample Size {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+
+# Left panel: Power vs Effect Size
+es <- seq(0.5, 40, length.out = 200)
+# Approximate power curve using a sigmoid
+power_vals <- pnorm(es / 10 * qnorm(0.975) - qnorm(0.975) + es/10 * sqrt(20))
+power_vals <- pmin(power_vals, 1)
+# Simpler: use a logistic-like curve
+power_vals <- 1 / (1 + exp(-0.25 * (es - 15)))
+
+plot(es, power_vals, type = "l", lwd = 2,
+     xlab = "Effect Size", ylab = "Power",
+     main = "Power vs Effect Size",
+     xlim = c(0, 40), ylim = c(0, 1),
+     cex.lab = 1.3, cex.main = 1.3, cex.axis = 1.1)
+abline(h = 0.80, lty = 2, col = "gray40")
+abline(v = 25, lty = 2, col = "gray40")
+
+# Right panel: Detectable Effect Size vs n
+n_vals <- seq(1, 40, length.out = 200)
+# Effect size detectable decreases with n (hyperbolic)
+det_es <- 80 / sqrt(n_vals)
+
+plot(n_vals, det_es, type = "l", lwd = 2,
+     xlab = "No. of Replicates", ylab = "Detectable Effect Size",
+     main = "Effect Size vs n",
+     xlim = c(0, 40), ylim = c(0, 90),
+     cex.lab = 1.3, cex.main = 1.3, cex.axis = 1.1)
+abline(h = 25, lty = 2, col = "gray40")
+abline(v = 22, lty = 2, col = "gray40")
+```
 
 ## Cohen's d {.smaller}
 
@@ -1181,6 +1583,33 @@ Interactions typically have **smaller effect sizes** than main effects. Budget e
 
 ![](images/week07_02_walking_stick_femur_length_variation.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Femur Length Variation Within Individuals {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 6
+
+# Simulated walking stick femur length data (2 measurements per individual)
+set.seed(123)
+n_individuals <- 25
+ind_means <- sort(runif(n_individuals, 0.14, 0.28))
+
+# Two measurements per individual with small within-individual variation
+m1 <- ind_means + rnorm(n_individuals, 0, 0.008)
+m2 <- ind_means + rnorm(n_individuals, 0, 0.008)
+
+par(mar = c(5, 5, 2, 2))
+plot(1:n_individuals, m1, pch = 16, cex = 1.2,
+     ylim = range(c(m1, m2)) * c(0.95, 1.05),
+     xlab = "Individual walking sticks", ylab = "Femur Length",
+     xaxt = "n", cex.lab = 1.3, cex.axis = 1.1)
+points(1:n_individuals, m2, pch = 16, cex = 1.2)
+segments(1:n_individuals, m1, 1:n_individuals, m2, lwd = 1.5)
+```
+
+
 ## Factor Levels {.smaller}
 
 ![](images/week07_03_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
@@ -1189,17 +1618,92 @@ Interactions typically have **smaller effect sizes** than main effects. Budget e
 
 ![](images/week07_04_nested_anova_table_insects.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Nested ANOVA Table {.smaller}
+
+| Source | SS | df | MS | F |
+|:---|:---|:---|:---|:---|
+| Among groups (A) | $SS_A$ | $p - 1$ | $MS_A$ | $MS_A / MS_{B(A)}$ |
+| Among subgroups B(A) | $SS_{B(A)}$ | $p(q - 1)$ | $MS_{B(A)}$ | $MS_{B(A)} / MS_{Residual}$ |
+| Residual | $SS_{Residual}$ | $pq(n - 1)$ | $MS_{Residual}$ | |
+| **Total** | $SS_{Total}$ | $pqn - 1$ | | |
+
 ## Sum of Squares Decomposition {.smaller}
 
 ![](images/week07_05_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Nested Design Hierarchy {.smaller}
+
+```
+                    Main Factor "A" (e.g. Treatment)
+                 ┌──────────────┴──────────────┐
+                A₁ (μ₁)                       Aᵢ (μᵢ)
+         ┌──────┼──────┐              ┌──────┼──────┐
+      B₁₍₁₎  B₂₍₁₎  Bⱼ₍₁₎       B₁₍ᵢ₎  B₂₍ᵢ₎  Bⱼ₍ᵢ₎
+      (μ₁₍₁₎)(μ₂₍₁₎)(μⱼ₍₁₎)     (μ₁₍ᵢ₎)(μ₂₍ᵢ₎)(μⱼ₍ᵢ₎)
+       │                                            │
+    y₁₍₁₍₁₎₎                                   y₁₍ⱼ₍ᵢ₎₎
+    y₂₍₁₍₁₎₎     Sub-replicates               y₂₍ⱼ₍ᵢ₎₎
+    yₖ₍₁₍₁₎₎     for each site                 yₖ₍ⱼ₍ᵢ₎₎
+```
+
+$$y_{k(j(i))} = y_{ijk}$$
+
+**observation** $k$ **within Site** $j$ **within Treatment** $i$
+
+Nested Factor "B" (e.g. Site) — levels of B are **unique** to each level of A
+
 
 ## Multifactor ANOVA Table {.smaller}
 
 ![](images/week07_06_nested_model_equations_one_two_levels.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Nested Model Equations {.smaller}
+
+**One level of nesting:**
+
+$$y_{ijk} = \mu + \alpha_i + \beta_{j(i)} + \varepsilon_{ijk}$$
+
+where $\alpha_i$ is the effect of group $i$ and $\beta_{j(i)}$ is the effect of subgroup $j$ nested within group $i$.
+
+**Two levels of nesting:**
+
+$$y_{ijkl} = \mu + \alpha_i + \beta_{j(i)} + \gamma_{k(ij)} + \varepsilon_{ijkl}$$
+
 ## Understanding Degrees of Freedom {.smaller}
 
 ![DOF in statistical models](images/week07_07_dof_in_statistical_models.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Hypotheses in Nested Designs {.smaller}
+
+::: panel-tabset
+### Fixed Effects (Main Factor)
+
+$$H_0(A): \mu_1 = \mu_2 = \ldots = \mu_i = \mu \quad \text{(in terms of pop. means)}$$
+
+$$H_0(A): \alpha_1 = \alpha_2 = \ldots = \alpha_i = 0 \quad \text{(in terms of effects on the grand mean)}$$
+
+### Random Effects
+
+$$H_0(A): \sigma^2_\alpha = 0$$
+
+*"No added variance due to all possible levels of A"*
+
+$$H_0(B): \sigma^2_\beta = 0$$
+
+*"No added variance due to all possible levels of B within all possible levels of A"*
+
+### LaTeX
+
+``` text
+% Fixed effects
+H_0(A): \mu_1 = \mu_2 = \ldots = \mu_i = \mu
+H_0(A): \alpha_1 = \alpha_2 = \ldots = \alpha_i = 0
+
+% Random effects
+H_0(A): \sigma^2_\alpha = 0
+H_0(B): \sigma^2_\beta = 0
+```
+:::
 
 ![Intuition behind degrees of freedom](images/week07_08_intuition_behind_degrees_of_fr.jpeg){fig-align="center" width="80%"}
 
@@ -1207,9 +1711,25 @@ Interactions typically have **smaller effect sizes** than main effects. Budget e
 
 ![](images/week07_09_nested_anova_table_formulas.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Nested ANOVA F-Ratio Formulas {.smaller}
+
+| Source | SS formula | df | MS | F |
+|:---|:---|:---|:---|:---|
+| A | $qn\sum(\bar{y}_{i..} - \bar{y}_{...})^2$ | $p - 1$ | $SS_A / (p-1)$ | $MS_A / MS_{B(A)}$ |
+| B(A) | $n\sum\sum(\bar{y}_{ij.} - \bar{y}_{i..})^2$ | $p(q - 1)$ | $SS_{B(A)} / [p(q-1)]$ | $MS_{B(A)} / MS_{Res}$ |
+| Residual | $\sum\sum\sum(y_{ijk} - \bar{y}_{ij.})^2$ | $pq(n - 1)$ | $SS_{Res} / [pq(n-1)]$ | |
+
 ## Multifactor Example {.smaller}
 
 ![](images/week07_10_nested_anova_r_syntax_table.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Nested ANOVA in R {.smaller}
+
+| Design | R syntax |
+|:---|:---|
+| A fixed, B nested in A | `aov(y ~ A + B %in% A)` or `aov(y ~ A/B)` |
+| A fixed, B random nested in A | `aov(y ~ A + Error(B %in% A))` |
+| Unbalanced nested design | Use `lmer()` from `lme4`: `lmer(y ~ A + (1|A:B))` |
 
 ## Multifactor ANOVA Results {.smaller}
 
@@ -1221,6 +1741,47 @@ An **interaction** means the effect of one variable on the response depends on t
 
 ![](images/week07_18_interaction_plots_fertilizer_temperature.jpeg){fig-align="center" width="75%"}
 
+## DRAFT: Interaction Plot Patterns {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+
+# (a) No interaction, both significant
+temp <- c("Cold", "Hot"); fert <- c("No", "Yes")
+plot(1:2, c(4, 6), type = "b", pch = 16, col = "blue", lwd = 2,
+     xlim = c(0.8, 2.2), ylim = c(0, 12), axes = FALSE,
+     xlab = "Temperature", ylab = "Growth", main = "(a) No interaction")
+lines(1:2, c(6, 8), type = "b", pch = 17, col = "red", lwd = 2)
+axis(1, at = 1:2, labels = temp); axis(2, las = 1)
+legend("topleft", fert, pch = c(16, 17), col = c("blue", "red"), title = "Fertilizer", cex = 0.9)
+
+# (b) Interaction (crossing)
+plot(1:2, c(3, 9), type = "b", pch = 16, col = "blue", lwd = 2,
+     xlim = c(0.8, 2.2), ylim = c(0, 12), axes = FALSE,
+     xlab = "Temperature", ylab = "Growth", main = "(b) Interaction (crossing)")
+lines(1:2, c(8, 4), type = "b", pch = 17, col = "red", lwd = 2)
+axis(1, at = 1:2, labels = temp); axis(2, las = 1)
+
+# (c) Interaction (fan shape)
+plot(1:2, c(4, 5), type = "b", pch = 16, col = "blue", lwd = 2,
+     xlim = c(0.8, 2.2), ylim = c(0, 12), axes = FALSE,
+     xlab = "Temperature", ylab = "Growth", main = "(c) Interaction (fan)")
+lines(1:2, c(4, 10), type = "b", pch = 17, col = "red", lwd = 2)
+axis(1, at = 1:2, labels = temp); axis(2, las = 1)
+
+# (d) No effect
+plot(1:2, c(5, 5), type = "b", pch = 16, col = "blue", lwd = 2,
+     xlim = c(0.8, 2.2), ylim = c(0, 12), axes = FALSE,
+     xlab = "Temperature", ylab = "Growth", main = "(d) No effects")
+lines(1:2, c(5, 5), type = "b", pch = 17, col = "red", lwd = 2)
+axis(1, at = 1:2, labels = temp); axis(2, las = 1)
+```
+
 ## Visualizing Interactions {.smaller}
 
 ![](images/week07_12_tadpole_photograph.jpeg){fig-align="center" width="90%"}
@@ -1228,6 +1789,26 @@ An **interaction** means the effect of one variable on the response depends on t
 ## Interaction Interpretation {.smaller}
 
 ![](images/week07_13_pesticide_predator_survival_interaction.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Pesticide × Predator Interaction {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+# Simulated interaction: pesticide effect depends on predator presence
+plot(1:2, c(70, 30), type = "b", pch = 16, col = "blue", lwd = 2,
+     xlim = c(0.8, 2.2), ylim = c(0, 100), axes = FALSE,
+     xlab = "Pesticide", ylab = "% Survival")
+lines(1:2, c(75, 65), type = "b", pch = 17, col = "red", lwd = 2)
+axis(1, at = 1:2, labels = c("No pesticide", "Pesticide"))
+axis(2, las = 1)
+legend("topright", c("With predator", "No predator"),
+       pch = c(16, 17), col = c("blue", "red"), cex = 1.0)
+title("Interaction: Pesticide effect depends on predator presence")
+```
 
 ## Factorial vs. Nested Designs {.smaller}
 
@@ -1248,37 +1829,237 @@ An **interaction** means the effect of one variable on the response depends on t
 
 ![](images/week07_14_factorial_anova_interaction_formula.jpeg){fig-align="center" width="100%"}
 
+## DRAFT: Two-Factor Factorial Model {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$\huge y_{ijk} = \mu + \underbrace{\alpha_i + \beta_j}_{\text{Main Effects}} + \underbrace{(\alpha\beta)_{ij}}_{\text{Two-way interaction}} + \varepsilon_{ijk}$$
+
+where:
+
+- $\mu$ = grand mean
+- $\alpha_i$ = effect of level $i$ of factor A
+- $\beta_j$ = effect of level $j$ of factor B
+- $(\alpha\beta)_{ij}$ = interaction effect of A level $i$ and B level $j$
+- $\varepsilon_{ijk}$ = random error for replicate $k$
+
+### LaTeX
+
+``` text
+y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
+```
+:::
+
 ## Three-Factor Factorial Design {.smaller}
 
 ![Three-way factorial layout](images/week07_15_three_way_factorial_layout.jpeg){fig-align="center" width="100%"}
+
+## DRAFT: Three-Factor Factorial Model {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$y_{ijkl} = \mu + \underbrace{\alpha_i + \beta_j + \gamma_k}_{\text{Main Effects}} + \underbrace{(\alpha\beta)_{ij} + (\alpha\gamma)_{ik} + (\beta\gamma)_{jk}}_{\text{Two-way interactions}} + \underbrace{(\alpha\beta\gamma)_{ijk}}_{\text{Three-way interaction}} + \varepsilon_{ijkl}$$
+
+### Components
+
+| Term | Meaning |
+|:-----|:--------|
+| $\alpha_i, \beta_j, \gamma_k$ | Main effects of factors A, B, C |
+| $(\alpha\beta)_{ij}, (\alpha\gamma)_{ik}, (\beta\gamma)_{jk}$ | Two-way interaction effects |
+| $(\alpha\beta\gamma)_{ijk}$ | Three-way interaction effect |
+| $\varepsilon_{ijkl}$ | Random error for replicate $l$ |
+
+### LaTeX
+
+``` text
+y_{ijkl} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha\beta)_{ij} + (\alpha\gamma)_{ik} + (\beta\gamma)_{jk} + (\alpha\beta\gamma)_{ijk} + \varepsilon_{ijkl}
+```
+:::
 
 ## Higher-Order Interactions {.smaller}
 
 ![Interpreting three-way interactions](images/week07_16_interpreting_three_way_interac.jpeg){fig-align="center" width="90%"}
 
+## DRAFT: Factorial Design Sizes {.smaller}
+
+**For 2 levels per factor:**
+
+| Factors | Design | Combinations | Observations (*N* = 6 replicates) |
+|:--------|:-------|:-------------|:----------------------------------|
+| 2       | 2×2    | 4            | 24                                |
+| 3       | 2×2×2  | 8            | 48                                |
+| 4       | 2×2×2×2| 16           | 96                                |
+
+::: panel-tabset
+### Formula
+
+$$\text{Total \# of observations} = N \cdot 2^p$$
+
+where $N$ = replicates per cell, $p$ = number of factors
+
+### LaTeX
+
+``` text
+\text{Total \# of observations} = N \cdot 2^p
+```
+:::
+
 ## Complete Factorial Model {.smaller}
 
 ![Full model with all interaction terms](images/week07_17_full_model_with_all_interactio.jpeg){fig-align="center" width="90%"}
+
+## DRAFT: Two-Factor Cell and Marginal Means (Table 9.7) {.smaller}
+
+**General notation** — population means $\mu_{ij}$ for a two-factor design:
+
+|              | $B_1$      | $B_2$      | $\ldots$ | $B_j$      | Marginal means A |
+|:-------------|:-----------|:-----------|:---------|:-----------|:-----------------|
+| $A_1$        | $\mu_{11}$ | $\mu_{12}$ | $\ldots$ | $\mu_{1j}$ | $\mu_{i=1}$      |
+| $A_2$        | $\mu_{21}$ | $\mu_{22}$ | $\ldots$ | $\mu_{2j}$ | $\mu_{i=2}$      |
+| $A_i$        | $\mu_{i1}$ | $\mu_{i2}$ | $\ldots$ | $\mu_{ij}$ | $\mu_{i}$        |
+| Marginal B   | $\mu_{j=1}$| $\mu_{j=2}$| $\ldots$ | $\mu_{j}$  | Grand mean $\mu$  |
+
+**Example: Limpet density (A) × Season (B) — 4×2 Factorial** (Quinn 1988)
+
+| Factor A (Density) | $B_1$ Spring | $B_2$ Summer | Marginal A |
+|:-------------------|:-------------|:-------------|:-----------|
+| $A_1$ (8)          | $\bar{y}_{11}$ = 2.417 | $\bar{y}_{12}$ = 1.833 | $\bar{y}_{i=1}$ = 2.125 |
+| $A_2$ (15)         | $\bar{y}_{21}$ = 2.177 | $\bar{y}_{22}$ = 1.178 | $\bar{y}_{i=2}$ = 1.677 |
+| $A_3$ (30)         | $\bar{y}_{31}$ = 1.565 | $\bar{y}_{32}$ = 0.811 | $\bar{y}_{i=3}$ = 1.188 |
+| $A_4$ (45)         | $\bar{y}_{41}$ = 1.200 | $\bar{y}_{42}$ = 0.593 | $\bar{y}_{i=4}$ = 0.896 |
+| **Marginal B**     | $\bar{y}_{j=1}$ = 1.840 | $\bar{y}_{j=2}$ = 1.104 | $\bar{y}$ = 1.472 |
 
 ## Factorial ANOVA — Fixed Effects {.smaller}
 
 ![](images/week07_19_factorial_anova_null_hypotheses_fixed.jpeg){fig-align="center" width="80%"}
 
+## DRAFT: Factorial ANOVA Null Hypotheses — Fixed Effects {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Factor A:**
+
+$$H_0(A): \mu_1 = \mu_2 = \cdots = \mu_i = \mu$$
+
+$$H_0(A): \alpha_1 = \alpha_2 = \cdots = \alpha_i = 0$$
+
+**Factor B:**
+
+$$H_0(B): \mu_1 = \mu_2 = \cdots = \mu_j = \mu$$
+
+**A:B Interaction:**
+
+$$H_0(AB): \mu_{ij} = \mu_i + \mu_j - \mu$$
+
+(i.e., the cell mean equals what we'd expect from the marginal means alone — no interaction)
+
+### LaTeX
+
+``` text
+H_0(A): \mu_1 = \mu_2 = \cdots = \mu_i = \mu
+H_0(A): \alpha_1 = \alpha_2 = \cdots = \alpha_i = 0
+H_0(B): \mu_1 = \mu_2 = \cdots = \mu_j = \mu
+H_0(AB): \mu_{ij} = \mu_i + \mu_j - \mu
+```
+:::
+
 ## Factorial ANOVA — Random Effects {.smaller}
 
 ![](images/week07_20_factorial_anova_null_hypotheses_random.jpeg){fig-align="center" width="100%"}
+
+## DRAFT: Factorial ANOVA Null Hypotheses — Random Effects {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Factor A:**
+
+$$H_0(A): \sigma^2_\alpha = 0 \quad \text{(population variance equals zero)}$$
+
+There is no added variance due to all possible levels of A.
+
+**Factor B:**
+
+$$H_0(B): \sigma^2_\beta = 0 \quad \text{(population variance equals zero)}$$
+
+There is no added variance due to all possible levels of B.
+
+**A:B Interaction:**
+
+$$H_0(AB): \sigma^2_{\alpha\beta} = 0 \quad \text{(population variance equals zero)}$$
+
+### LaTeX
+
+``` text
+H_0(A): \sigma^2_\alpha = 0
+H_0(B): \sigma^2_\beta = 0
+H_0(AB): \sigma^2_{\alpha\beta} = 0
+```
+:::
 
 ## Mean Squares for Factorial Model {.smaller}
 
 ![](images/week07_21_two_factor_crossed_anova_table.jpeg){fig-align="center" width="100%"}
 
+## DRAFT: ANOVA Table for Two-Factor Crossed Model (Table 9.8) {.smaller}
+
+| Source | SS | df | MS |
+|:-------|:---|:---|:---|
+| A | $nq \displaystyle\sum_{i=1}^{p}(\bar{y}_{i} - \bar{y})^2$ | $p - 1$ | $\dfrac{SS_A}{p - 1}$ |
+| B | $np \displaystyle\sum_{j=1}^{q}(\bar{y}_{j} - \bar{y})^2$ | $q - 1$ | $\dfrac{SS_B}{q - 1}$ |
+| AB | $n \displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}(\bar{y}_{ij} - \bar{y}_{i} - \bar{y}_{j} + \bar{y})^2$ | $(p-1)(q-1)$ | $\dfrac{SS_{AB}}{(p-1)(q-1)}$ |
+| Residual | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{ij})^2$ | $pq(n-1)$ | $\dfrac{SS_{Residual}}{pq(n-1)}$ |
+| Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y})^2$ | $pqn - 1$ | |
+
 ## F-Ratios for Factorial Model {.smaller}
 
 ![](images/week07_22_f_ratio_table_fixed_random_factors.jpeg){fig-align="center" width="100%"}
 
+## DRAFT: F-Ratios for Fixed, Random, and Mixed Models {.smaller}
+
+| Source | A and B fixed | A and B random | A fixed, B random (Restricted) | A fixed, B random (Unrestricted) |
+|:-------|:--------------|:---------------|:-------------------------------|:---------------------------------|
+| A | $\dfrac{MS_A}{MS_{Residual}}$ | $\dfrac{MS_A}{MS_{AB}}$ | $\dfrac{MS_A}{MS_{AB}}$ | $\dfrac{MS_A}{MS_{AB}}$ |
+| B | $\dfrac{MS_B}{MS_{Residual}}$ | $\dfrac{MS_B}{MS_{AB}}$ | $\dfrac{MS_B}{MS_{Residual}}$ | $\dfrac{MS_B}{MS_{AB}}$ |
+| AB | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ |
+
+::: callout-note
+The choice of denominator for the F-ratio depends on whether each factor is fixed or random. When a factor is random, its interaction with the other factor must be used as the error term for testing the other factor's main effect.
+:::
+
 ## Interpretation of Results {.smaller}
 
 ![](images/week07_23_factorial_model_significant_terms.jpeg){fig-align="center" width="100%"}
+
+## DRAFT: Interpreting Significant Terms {.smaller}
+
+::: panel-tabset
+### Model
+
+$$y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$
+
+- Factor 1 is **temperature**
+- Factor 2 is **fertilizer**
+
+### When All Terms Are Significant
+
+If all terms in the model are significant — now what?
+
+1. **Start with the interaction** — if $(\alpha\beta)_{ij}$ is significant, the effect of one factor depends on the level of the other
+2. **Main effects are hard to interpret alone** when interaction is present
+3. Examine **simple effects** — the effect of one factor at each level of the other
+4. Use **interaction plots** to visualize patterns
+5. Perform **post-hoc comparisons** within each level of the other factor
+
+### LaTeX
+
+``` text
+y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
+```
+:::
 
 ## Factorial ANOVA in R {.smaller}
 
