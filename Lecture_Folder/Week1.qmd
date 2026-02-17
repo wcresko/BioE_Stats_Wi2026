@@ -482,7 +482,7 @@ When you get an error, paste it into Google—someone else has had the same prob
 
 ##  {.smaller}
 
-![](images/week01_38_rstudio.png){fig-align="center" width="80%"}
+![](images/week01_38_rstudio.jpeg){fig-align="center" width="80%"}
 
 | Pane                 | Location     | Purpose                              |
 |:---------------------|:-------------|:-------------------------------------|

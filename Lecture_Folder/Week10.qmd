@@ -1147,7 +1147,7 @@ legend("topright", levels(iris$Species), col = 1:3, pch = 19)
 -   Handle both numerical and categorical data
 -   No assumptions about data distribution
 
-![Decision tree structure](images/week09_14_decision_tree_structure_illust.png){fig-align="center" width="70%"}
+![Decision tree structure](images/week09_14_decision_tree_structure_illust.jpeg){fig-align="center" width="70%"}
 
 ## Decision Tree Example: Injury Risk {.smaller}
 

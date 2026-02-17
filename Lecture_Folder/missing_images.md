@@ -4,39 +4,25 @@ Image files referenced in lecture .qmd files but not found in the `images/` dire
 
 ## Status
 
-33 of the original 45 missing images have been resolved by renaming existing
-slide-numbered files to match the descriptive names used in the lectures, and
-by copying 2 PDFs from the `images/00.not_used/` directory.
+All 45 originally missing images have been resolved:
+- 33 resolved by renaming existing slide-numbered files to descriptive names
+- 2 PDFs copied from `images/00.not_used/`
+- 8 legacy `images_5a/5b` files matched from newly provided originals and renamed to `week07_24` through `week07_31`
+- 1 intentional placeholder (`your_image.png`)
 
-**Remaining: 9 missing images**
+**Remaining: 1 (intentional placeholder only)**
 
 ---
 
-## Week1.qmd (1 missing)
+## Week1.qmd (1 — intentional)
 
 | Missing Filename | Notes |
 |---|---|
-| `your_image.png` | Placeholder/template reference (lines 1223, 1229) -- likely intentional |
-
-## Week7.qmd (8 missing)
-
-### Legacy "images_5" series (no matches found anywhere on disk)
-
-| Missing Filename |
-|---|
-| `images_5a.006.jpeg` |
-| `images_5b.001.jpeg` |
-| `images_5b.005.jpeg` |
-| `images_5b.006.jpeg` |
-| `images_5b.007.jpeg` |
-| `images_5b.009.jpeg` |
-| `images_5b.010.jpeg` |
-| `images_5b.012.jpeg` |
+| `your_image.png` | Placeholder/template reference (lines 1223, 1229) -- intentional |
 
 ---
 
 ## Summary
 
 - **Placeholder** (1): `your_image.png` in Week1 -- intentional teaching example
-- **Legacy files with no match** (8): The `images_5a/5b` series in Week7 -- these will need to be located and added manually
-- **RESOLVED** (33): All slide-numbered files have been renamed to descriptive names and 2 PDFs moved from `00.not_used/`
+- **RESOLVED** (44): All slide-numbered and legacy files have been renamed to descriptive `weekXX_NN_description` format
