@@ -242,7 +242,7 @@ library(tidyverse)
 library(broom)
 library(knitr)
 
-grip <- read_csv("grip_strength_data.csv")
+grip <- read_csv("data/grip_strength_data.csv")
 
 # Fit linear model for later comparison
 lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
@@ -260,7 +260,7 @@ library(tidyverse)
 library(broom)
 library(knitr)
 
-grip <- read_csv("grip_strength_data.csv")
+grip <- read_csv("data/grip_strength_data.csv")
 
 # Fit linear model for later comparison
 lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
@@ -646,7 +646,7 @@ The key insight is that OLS minimizes vertical distances (residuals in Y only), 
 #| echo: false
 #| eval: true
 
-cell_raw <- read_csv("cell_culture_expression.csv")
+cell_raw <- read_csv("data/cell_culture_expression.csv")
 ```
 
 ### Code
@@ -656,7 +656,7 @@ cell_raw <- read_csv("cell_culture_expression.csv")
 #| echo: true
 #| eval: false
 
-cell_raw <- read_csv("cell_culture_expression.csv")
+cell_raw <- read_csv("data/cell_culture_expression.csv")
 ```
 :::
 

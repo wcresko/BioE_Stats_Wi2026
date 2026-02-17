@@ -468,7 +468,7 @@ library(tidyverse)
 library(broom)
 library(knitr)
 
-grip <- read_csv("grip_strength_data.csv")
+grip <- read_csv("data/grip_strength_data.csv")
 
 # Preview the data
 head(grip, 8) |> kable(digits = 2)
@@ -485,7 +485,7 @@ library(tidyverse)
 library(broom)
 library(knitr)
 
-grip <- read_csv("grip_strength_data.csv")
+grip <- read_csv("data/grip_strength_data.csv")
 
 # Preview the data
 head(grip, 8) |> kable(digits = 2)
@@ -1291,7 +1291,7 @@ Always label your points with sample IDs when looking for outliers — you need 
 #| fig-width: 8
 #| fig-height: 5
 
-expr <- read_csv("cell_culture_expression.csv")
+expr <- read_csv("data/cell_culture_expression.csv")
 
 ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
   geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
@@ -1312,7 +1312,7 @@ ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
 #| echo: true
 #| eval: false
 
-expr <- read_csv("cell_culture_expression.csv")
+expr <- read_csv("data/cell_culture_expression.csv")
 
 ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
   geom_point(color = "steelblue", alpha = 0.7, size = 2.5) +
