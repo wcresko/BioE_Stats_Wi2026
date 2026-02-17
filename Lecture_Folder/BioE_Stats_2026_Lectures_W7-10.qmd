@@ -1,0 +1,5933 @@
+---
+title: "Statistics for Bioengineering - Weeks 7–10"
+author: "Bill Cresko"
+format: 
+  revealjs:
+    footer: BioE_Stats_2026 - Knight Campus 
+    transition: fade
+    transition-speed: slow
+    theme: default
+    slide-number: true
+    code-fold: false
+    code-overflow: wrap
+    code-line-numbers: true
+    highlight-style: github
+    embed-resources: true
+    css: cresko_style.css
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# Core data manipulation and visualization
+library(tidyverse)
+library(knitr)
+library(readxl)
+
+# Statistical analysis packages
+library(MASS)        # LDA, robust regression
+library(pwr)         # Power analysis
+library(boot)        # Bootstrap methods
+library(car)         # Companion to Applied Regression
+library(survival)    # Survival analysis
+library(nlme)        # Mixed effects models
+library(broom)       # Tidy model output
+library(emmeans)     # Estimated marginal means
+library(splines)     # Natural splines
+library(vegan)       # Ecological ordination (PCoA, NMDS, PERMANOVA)
+library(rpart)       # Decision trees
+library(randomForest) # Random forests
+library(e1071)       # SVM
+
+# Set consistent theme for all plots
+theme_set(theme_minimal(base_size = 14))
+
+# Set seed for reproducibility
+set.seed(2026)
+```
+
+# Week 7: Multiple Regression and Multifactor ANOVA {background-color="#2c3e50"}
+
+## Week 7 Topics
+
+::: incremental
+-   Finish ANCOVA
+-   Multiple linear regression
+-   Model selection (AIC, BIC, Mallow's Cp)
+-   Statistical power
+-   Multifactor ANOVA
+-   Factorial & nested designs
+-   Random effects & repeated measures
+:::
+
+**Readings:** Chapter 28
+
+**HW3 Due this week**
+
+## Packages for This Week {.smaller}
+
+::: panel-tabset
+### Install
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Install new packages (run once)
+install.packages(c("nlme", "car", "pwr", "leaps"))
+```
+
+### Load
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Load packages
+library(tidyverse)    # Data manipulation & visualization
+library(car)          # Type II/III SS, VIF, assumption testing
+library(nlme)         # Linear mixed-effects models
+library(pwr)          # Power analysis
+library(leaps)        # All-subsets regression
+library(broom)        # Tidy model output
+library(emmeans)      # Estimated marginal means
+```
+:::
+
+**Built-in datasets used this week:** `ToothGrowth` (vitamin C effects on tooth growth)
+
+------------------------------------------------------------------------
+
+# Finish ANCOVA: Combining Regression and ANOVA {background-color="#2c3e50"}
+
+## ANCOVA Review {.smaller}
+
+Last week we introduced **Analysis of Covariance (ANCOVA)**, which combines:
+
+-   **Continuous predictor** (covariate) — like body mass or temperature
+-   **Categorical predictor** (factor) — like species or treatment
+
+This week we continue with the biological motivations, interpretation, and assumptions.
+
+## ANCOVA: Brain Size and Body Mass {.smaller}
+
+![](images/week10_11_neanderthal_human_brain_size.jpeg){fig-align="center" width="90%"}
+
+## ANCOVA: Neanderthal vs. Modern Human {.smaller}
+
+![](images/week10_12_neanderthal_human_skulls_skeletons.jpeg){fig-align="center" width="90%"}
+
+## ANCOVA: Brain-Body Mass Regression {.smaller}
+
+![](images/week10_13_ancova_brain_body_mass_regression.jpeg){fig-align="center" width="90%"}
+
+## ANCOVA: ANOVA vs. Covariate Adjustment {.smaller}
+
+![](images/week10_14_ancova_anova_vs_covariate_comparison.jpeg){fig-align="center" width="90%"}
+
+## ANCOVA: Adjusted Means {.smaller}
+
+![](images/week10_15_ancova_adjusted_means_diagram.jpeg){fig-align="center" width="90%"}
+
+The key insight: by **adjusting for the covariate**, we can compare groups at the same value of the continuous predictor, removing confounding variation.
+
+## ANCOVA: Multiple Covariates {.smaller}
+
+![](images/week10_16_ancova_multiple_covariates_formula.jpeg){fig-align="center" width="90%"}
+
+## ANCOVA: Null Hypotheses {.smaller}
+
+![](images/week10_17_ancova_null_hypotheses.jpeg){fig-align="center" width="90%"}
+
+## ANCOVA: F-Ratio Table and Collinearity {.smaller}
+
+![](images/week10_18_ancova_f_ratio_table.jpeg){fig-align="center" width="90%"}
+
+::: callout-warning
+## Collinearity in ANCOVA
+
+If the covariate and the factor are correlated (e.g., body mass differs between species), the order in which terms enter the model matters. Use **Type II or Type III sums of squares** from the `car` package to handle this properly.
+:::
+
+## ANCOVA: Heterogeneous Slopes {.smaller}
+
+![](images/week10_19_ancova_heterogeneous_slopes.jpeg){fig-align="center" width="90%"}
+
+When slopes differ between groups, the interaction between the covariate and the factor is significant — this is a violation of the **parallel slopes assumption**.
+
+## Parallel Slopes (Additive) Model {.smaller}
+
+When there is no interaction, each group has the **same slope** but **different intercepts**:
+
+::: panel-tabset
+### Equation
+
+$$y = \beta_0 + \beta_1 x_{continuous} + \beta_2 x_{categorical} + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y = \beta_0 + \beta_1 x_{continuous} + \beta_2 x_{categorical} + \epsilon_i
+```
+:::
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Parallel slopes model (additive)
+lm(response ~ continuous_var + factor_var, data = mydata)
+```
+
+-   The `+` means "additive" — the effect of the covariate is the same in every group
+-   This produces parallel regression lines
+
+## Interaction Model {.smaller}
+
+When the relationship **differs between groups**, add an **interaction term**:
+
+::: panel-tabset
+### Equation
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2) + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2) + \epsilon_i
+```
+:::
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Model with interaction (different slopes)
+lm(response ~ continuous_var * factor_var, data = mydata)
+
+# Equivalent to:
+lm(response ~ continuous_var + factor_var + continuous_var:factor_var,
+   data = mydata)
+```
+
+## Interpreting ANCOVA Output {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Example with crickets data
+lm(rate ~ temp + species, data = crickets)
+
+# Output interpretation:
+# (Intercept)      - baseline intercept for reference level
+# temp             - slope (same for all groups)
+# speciesO.niveus  - difference in intercept from reference
+```
+
+### Interpretation
+
+-   The categorical variable coefficient represents the **offset from the reference group**
+-   This is the same dummy variable encoding that `lm()` uses for ANOVA
+-   The only difference from pure ANOVA is the inclusion of a continuous predictor
+:::
+
+## Parallel vs. Interaction: When to Use {.smaller}
+
+| Model | Use When | R Formula |
+|:---|:---|:---|
+| **Parallel Slopes** | Effect of covariate is same across groups | `y ~ x + group` |
+| **Interaction** | Effect of covariate differs by group | `y ~ x * group` |
+
+::: callout-tip
+Always start with the interaction model. Test whether the interaction term is significant. If not, drop it and use the simpler parallel slopes model (parsimony principle).
+:::
+
+## ANCOVA: Type II/III Sums of Squares {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(car)
+
+# Type II SS — tests each term after adjusting for all others
+# (appropriate when no significant interaction)
+Anova(lm(y ~ covariate + factor, data = mydata), type = "II")
+
+# Type III SS — tests each term after adjusting for all others
+# including interaction (appropriate when interaction is present)
+Anova(lm(y ~ covariate * factor, data = mydata), type = "III")
+```
+
+### When to Use
+
+| SS Type      | Use When                        | Notes                       |
+|:-------------|:--------------------------------|:----------------------------|
+| **Type I**   | Balanced designs, order matters | Default in `anova()`        |
+| **Type II**  | Unbalanced, no interaction      | Default in `car::Anova()`   |
+| **Type III** | Unbalanced, interaction present | Requires `contr.sum` coding |
+:::
+
+## Visualizing ANCOVA Models {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: ancova-viz-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+# Simulated data for two groups
+set.seed(42)
+x <- rep(seq(1, 10, length.out = 20), 2)
+group <- rep(c("A", "B"), each = 20)
+y <- ifelse(group == "A", 2 + 0.8*x, 5 + 0.8*x) + rnorm(40, 0, 0.8)
+df <- data.frame(x, y, group)
+
+par(mfrow = c(1, 2))
+
+# Parallel slopes
+plot(x, y, col = ifelse(group == "A", "steelblue", "coral"), pch = 19,
+     main = "Parallel Slopes Model")
+abline(2, 0.8, col = "steelblue", lwd = 2)
+abline(5, 0.8, col = "coral", lwd = 2)
+legend("bottomright", c("Group A", "Group B"), col = c("steelblue", "coral"), pch = 19)
+
+# Interaction model
+set.seed(43)
+y2 <- ifelse(group == "A", 2 + 0.5*x, 5 + 1.2*x) + rnorm(40, 0, 0.8)
+plot(x, y2, col = ifelse(group == "A", "steelblue", "coral"), pch = 19,
+     main = "Interaction Model (Different Slopes)")
+abline(2, 0.5, col = "steelblue", lwd = 2)
+abline(5, 1.2, col = "coral", lwd = 2)
+legend("bottomright", c("Group A", "Group B"), col = c("steelblue", "coral"), pch = 19)
+```
+
+### Code
+
+```{r}
+#| label: ancova-viz-code
+#| echo: true
+#| eval: false
+
+par(mfrow = c(1, 2))
+
+# Parallel slopes
+plot(x, y, col = ifelse(group == "A", "steelblue", "coral"), pch = 19,
+     main = "Parallel Slopes Model")
+abline(2, 0.8, col = "steelblue", lwd = 2)
+abline(5, 0.8, col = "coral", lwd = 2)
+legend("bottomright", c("Group A", "Group B"),
+       col = c("steelblue", "coral"), pch = 19)
+
+# Interaction model (different slopes)
+plot(x, y2, col = ifelse(group == "A", "steelblue", "coral"), pch = 19,
+     main = "Interaction Model (Different Slopes)")
+abline(2, 0.5, col = "steelblue", lwd = 2)
+abline(5, 1.2, col = "coral", lwd = 2)
+```
+:::
+
+## Dangers of Extrapolation {.smaller}
+
+All regression models (including ANCOVA) are only valid **within the range of the observed data**:
+
+-   Polynomial models are especially dangerous to extrapolate — they can produce wildly unrealistic predictions outside the data range
+-   Even linear ANCOVA predictions become unreliable far from the observed covariate values
+-   Always report the range of your covariates alongside your model
+
+::: callout-warning
+## Rule of Thumb
+
+Never predict beyond the range of your observed data unless you have strong theoretical justification for the extrapolation.
+:::
+
+------------------------------------------------------------------------
+
+# Multiple Linear Regression {background-color="#2c3e50"}
+
+## Why Multiple Regression? {.smaller}
+
+Multiple linear regression extends simple regression to include **two or more predictor variables**. The goals are:
+
+-   Develop a better **predictive model** than possible from models based on single independent variables
+-   Investigate the **relative individual effects** of each predictor variable above and beyond the effects of the other variables
+-   The individual effects of each predictor on the response can be depicted by **partial regression lines**
+-   The slope of any partial regression line represents the rate of change of that predictor on the response, **holding all other predictors constant** at their means
+
+## Additive and Multiplicative Models {.smaller}
+
+**Additive model** — each predictor contributes independently:
+
+::: panel-tabset
+### Equation
+
+$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_j x_{ij} + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_j x_{ij} + \epsilon_i
+```
+:::
+
+**Multiplicative model** — includes an interaction between two predictors:
+
+::: panel-tabset
+### Equation
+
+$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1} x_{i2} + \epsilon_i$$
+
+### LaTeX
+
+``` text
+y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1} x_{i2} + \epsilon_i
+```
+:::
+
+## Additive vs. Multiplicative Models {.smaller}
+
+![](images/images_5a.006.jpeg){fig-align="center" width="100%"}
+
+## R Example: Multiple Regression with 2 Predictors {.smaller}
+
+Read in the RNAseq_lip.tsv and examine whether Gene01 and/or Gene02 expression levels influence lipid content.
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+RNAseq_Data <- read.table('RNAseq_lip.tsv', header = TRUE, sep = '\t')
+
+y  <- RNAseq_Data$Lipid_Conc
+g1 <- RNAseq_Data$Gene01
+g2 <- RNAseq_Data$Gene02
+
+# Multiplicative model (with interaction)
+Mult_lm <- lm(y ~ g1 * g2)
+summary(Mult_lm)
+```
+
+### Questions
+
+-   What are the parameter estimates of interest?
+-   What are the outcomes from the hypothesis tests?
+-   What happens when you remove the interaction term?
+:::
+
+## Additive Model Comparison {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Additive model (no interaction)
+Add_lm <- lm(y ~ g1 + g2)
+summary(Add_lm)
+```
+
+### Questions
+
+-   Did any of the coefficient estimates change? Why?
+-   Did the degrees of freedom change? Why?
+-   Try different combinations of genes as predictors
+:::
+
+## Multiple Regression Assumptions {.smaller}
+
+Multiple regression carries all the assumptions of simple regression plus an additional one:
+
+1.  **Linearity** — the relationship between predictors and response is linear
+2.  **Normality** — residuals are normally distributed
+3.  **Homogeneity of variance** — constant variance of residuals
+4.  **Independence** — observations are independent
+5.  **No multicollinearity** — a predictor variable must not be strongly correlated with the combination of other predictor variables
+
+::: callout-warning
+## Multicollinearity
+
+When predictors are highly correlated, coefficient estimates become unstable, standard errors inflate, and interpretation becomes unreliable. Always check for collinearity before interpreting a multiple regression model.
+:::
+
+## Checking for Multicollinearity {.smaller}
+
+![](images/images_5b.001.jpeg){fig-align="center" width="70%"}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(car)
+
+# Visual check with scatterplot matrix
+scatterplotMatrix(~ var1 + var2 + var3, diag = "boxplot")
+
+# Variance Inflation Factor (VIF)
+model <- lm(y ~ g1 + g2 + g3)
+vif(model)
+
+# Tolerance = 1/VIF (values < 0.1 indicate severe collinearity)
+1 / vif(model)
+```
+
+### Interpretation
+
+| VIF Value | Interpretation                  |
+|:----------|:--------------------------------|
+| 1         | No collinearity                 |
+| 1–5       | Moderate (usually acceptable)   |
+| 5–10      | High (investigate further)      |
+| \> 10     | Severe (remedial action needed) |
+:::
+
+## R Example: Three-Variable Regression {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+RNAseq_Data <- read.table('RNAseq_lip.tsv', header = TRUE, sep = '\t')
+y  <- RNAseq_Data$Lipid_Conc
+g1 <- RNAseq_Data$Gene01
+g2 <- RNAseq_Data$Gene02
+g3 <- RNAseq_Data$Gene03
+
+# Three-predictor model
+RNAseq3_lm <- lm(y ~ g1 + g2 + g3)
+summary(RNAseq3_lm)
+plot(RNAseq3_lm)
+
+# Scatterplot matrices
+library(car)
+scatterplotMatrix(~ g1 + g2 + g3, diag = "boxplot")
+scatterplotMatrix(~ y + g1 + g2 + g3, diag = "boxplot")
+
+# Tolerance calculations (1 - R²)
+1 / vif(lm(y ~ g1 + g2 + g3))
+```
+
+### Questions
+
+-   Is there any evidence for multicollinearity?
+-   Try running a simple regression of `y ~ g3` alone — how does the slope estimate for Gene03 compare to the partial slope estimate from the full model?
+-   What does a change in slope estimate tell you about confounding?
+:::
+
+## Bioengineering Example: Scaffold Properties and Tissue Growth {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Simulated bioengineering data: predicting tissue growth
+# from scaffold porosity, stiffness, and cell seeding density
+set.seed(42)
+n <- 60
+
+scaffold_data <- data.frame(
+  porosity     = runif(n, 40, 90),         # percent porosity
+  stiffness    = runif(n, 5, 50),          # kPa
+  seeding_dens = runif(n, 1e4, 1e6)        # cells/mL
+)
+scaffold_data$tissue_growth <- with(scaffold_data,
+  0.8 * porosity + 0.3 * stiffness - 0.00001 * seeding_dens +
+  0.005 * porosity * stiffness + rnorm(n, 0, 8)
+)
+
+# Fit multiple regression
+scaffold_lm <- lm(tissue_growth ~ porosity + stiffness + seeding_dens,
+                   data = scaffold_data)
+summary(scaffold_lm)
+```
+
+### Questions
+
+-   Which scaffold properties significantly predict tissue growth?
+-   Does adding the interaction `porosity:stiffness` improve the model?
+-   What happens to the seeding density coefficient when you remove it?
+:::
+
+## Diagnostic Plots for Multiple Regression {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: diag-plots-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+set.seed(42)
+n <- 60
+scaffold_data <- data.frame(
+  porosity     = runif(n, 40, 90),
+  stiffness    = runif(n, 5, 50),
+  seeding_dens = runif(n, 1e4, 1e6)
+)
+scaffold_data$tissue_growth <- with(scaffold_data,
+  0.8 * porosity + 0.3 * stiffness - 0.00001 * seeding_dens +
+  0.005 * porosity * stiffness + rnorm(n, 0, 8))
+
+scaffold_lm <- lm(tissue_growth ~ porosity + stiffness + seeding_dens,
+                   data = scaffold_data)
+par(mfrow = c(2, 2))
+plot(scaffold_lm)
+```
+
+### Code
+
+```{r}
+#| label: diag-plots-code
+#| echo: true
+#| eval: false
+
+# Standard diagnostic plots
+par(mfrow = c(2, 2))
+plot(scaffold_lm)
+
+# Using ggfortify for prettier diagnostics
+library(ggfortify)
+autoplot(scaffold_lm, which = 1:4) + theme_minimal()
+
+# Cook's distance — identify influential observations
+cooks_d <- cooks.distance(scaffold_lm)
+plot(cooks_d, type = "h", main = "Cook's Distance",
+     ylab = "Cook's Distance", xlab = "Observation")
+abline(h = 4 / n, col = "red", lty = 2)
+```
+
+### Interpretation
+
+-   **Residuals vs Fitted**: look for non-linearity (curved pattern) or heteroscedasticity (funnel shape)
+-   **Q-Q Plot**: points should follow the diagonal line; deviations indicate non-normality
+-   **Scale-Location**: check for constant variance (flat trend line)
+-   **Residuals vs Leverage**: Cook's distance \> 4/n flags influential points
+:::
+
+## Partial Regression Plots {.smaller}
+
+Partial regression (added-variable) plots show the effect of each predictor **after adjusting for all others**:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: avplots-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+library(car)
+avPlots(scaffold_lm, main = "Added-Variable Plots")
+```
+
+### Code
+
+```{r}
+#| label: avplots-code
+#| echo: true
+#| eval: false
+
+library(car)
+
+# Added-variable plots (partial regression plots)
+avPlots(scaffold_lm)
+
+# Each plot shows the relationship between one predictor
+# and the response, holding all other predictors constant.
+# The slope of each line equals the partial regression coefficient.
+```
+:::
+
+------------------------------------------------------------------------
+
+# Model Selection {background-color="#2c3e50"}
+
+## The Problem of Model Complexity {.smaller}
+
+-   How do we decide the complexity of a polynomial: straight line, quadratic, cubic, …?
+-   Which variables should we keep or discard when building a multiple regression model?
+-   How do we select from candidate models representing different biological processes?
+
+::: callout-important
+## Principle of Parsimony
+
+"Models should be pared down until they are minimal and adequate" — Crawley 2007
+
+If two or more models fit the data almost equally well, prefer the simpler model.
+:::
+
+## Overfitting with Polynomials {.smaller}
+
+![](images/images_5b.005.jpeg){fig-align="center" width="80%"}
+
+The log-likelihood and $R^2$ always increase with more parameters — but this does not mean the model is better!
+
+## The Progression of Polynomial Fits {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+![Linear fit](images/images_5b.006.jpeg){fig-align="center" width="100%"}
+:::
+
+::: {.column width="50%"}
+![Quadratic fit](images/images_5b.007.jpeg){fig-align="center" width="100%"}
+:::
+:::::
+
+## Higher-Order Polynomials and Overfitting {.smaller}
+
+::::: columns
+::: {.column width="50%"}
+![Degree 5 polynomial](images/images_5b.009.jpeg){fig-align="center" width="100%"}
+:::
+
+::: {.column width="50%"}
+![Degree 10 polynomial](images/images_5b.010.jpeg){fig-align="center" width="100%"}
+:::
+:::::
+
+As polynomial degree increases, the model fits the training data ever more closely — but becomes useless for prediction on new data.
+
+## Model Selection Criteria {.smaller}
+
+| Criterion | Description | Selection Rule |
+|:---|:---|:---|
+| **MS~residuals~** | Mean unexplained variation | Lowest value = best fit |
+| **Adjusted R²** | Proportion of variance explained, penalized for \# terms | Larger = better fit |
+| **Mallow's Cp** | Comparison to full model | Lowest value, or closest to p |
+| **AIC** | Likelihood penalized by number of parameters | Smaller = more parsimonious |
+| **BIC** | Like AIC but heavier penalty for complexity | Smaller = more parsimonious |
+
+::: callout-tip
+As a rule of thumb, if the difference between two AIC values (ΔAIC) is greater than 2, the lower AIC represents a meaningfully better model.
+:::
+
+## Mallow's Cp and All-Subsets Regression {.smaller}
+
+![](images/images_5b.012.jpeg){fig-align="center" width="90%"}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(leaps)
+
+# All subsets regression
+all_subsets <- regsubsets(y ~ g1 + g2 + g3 + g4, data = RNAseq_Data)
+summary(all_subsets)
+
+# Plot Cp, BIC, adjusted R²
+par(mfrow = c(1, 3))
+plot(all_subsets, scale = "Cp")
+plot(all_subsets, scale = "bic")
+plot(all_subsets, scale = "adjr2")
+```
+
+### Key Points
+
+-   **For prediction**: All models with Cp \< p predict about equally well
+-   **For explanation**: If numerous models fit equally well, it is difficult to deduce which predictor "explains" the response
+-   **General caveat**: "Regression is not causation" — an experiment is needed for causal explanation
+:::
+
+## Nested vs. Non-Nested Models {.smaller}
+
+-   **Nested (reduced vs. full)**: One model is a special case of the other — can compare with F-test or likelihood ratio test
+-   **Non-nested**: Models contain different sets of variables — compare with AIC or BIC
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Compare nested models with F-test
+model_reduced <- lm(y ~ g1 + g2)
+model_full    <- lm(y ~ g1 + g2 + g3)
+anova(model_reduced, model_full)
+
+# Compare non-nested models with AIC
+AIC(model_a, model_b, model_c)
+BIC(model_a, model_b, model_c)
+```
+
+### Interpretation
+
+-   F-test p \< 0.05 → the fuller model is significantly better
+-   Lower AIC/BIC → more parsimonious model
+-   BIC penalizes complexity more heavily than AIC
+:::
+
+## Stepwise Model Selection in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Start with a full model
+full_model <- lm(tissue_growth ~ porosity * stiffness * seeding_dens,
+                 data = scaffold_data)
+
+# Forward stepwise selection (start from intercept-only)
+null_model <- lm(tissue_growth ~ 1, data = scaffold_data)
+forward_model <- step(null_model,
+                      scope = list(lower = null_model, upper = full_model),
+                      direction = "forward", trace = 1)
+
+# Backward elimination (start from full model)
+backward_model <- step(full_model, direction = "backward", trace = 1)
+
+# Both directions
+both_model <- step(null_model,
+                   scope = list(lower = null_model, upper = full_model),
+                   direction = "both", trace = 1)
+
+# Compare final models
+AIC(forward_model, backward_model, both_model)
+BIC(forward_model, backward_model, both_model)
+```
+
+### Key Points
+
+-   `step()` uses AIC by default; add `k = log(n)` for BIC-based selection
+-   Forward selection can miss important combinations
+-   Backward elimination can fail when p \> n
+-   "Both" direction is generally most robust
+-   Stepwise methods can overfit — always validate with cross-validation
+:::
+
+# BREAK {background-color="#e74c3c"}
+
+# Statistical Power {background-color="#2c3e50"}
+
+## What is Power? {.smaller}
+
+Power is the probability of correctly rejecting a **false** null hypothesis (i.e., detecting a real effect when one exists).
+
+::: panel-tabset
+### Equation
+
+$$\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}$$
+
+### LaTeX
+
+``` text
+\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}
+```
+:::
+
+-   Helps interpret failure to reject the null — was the test underpowered?
+-   Target: typically **80% power** (β = 0.20)
+
+## Power Overview {.smaller}
+
+![Statistical power and Type II error](images/week09_19_statistical_power_and_type_ii.jpeg){fig-align="center" width="90%"}
+
+## Key Components of Power {.smaller}
+
+| Component                  | Description                       |
+|:---------------------------|:----------------------------------|
+| **Effect Size (ES)**       | Magnitude of difference to detect |
+| **Standard Deviation (σ)** | Variability within groups         |
+| **Sample Size (n)**        | Number of observations            |
+| **Significance Level (α)** | Usually 0.05                      |
+| **Power (1 − β)**          | Usually 0.80                      |
+
+![Key questions in power analysis](images/week09_20_key_questions_in_power_analysi.jpeg){fig-align="center" width="70%"}
+
+## Cohen's d {.smaller}
+
+Effect size between two group means expressed in standard deviation units:
+
+::: panel-tabset
+### Equation
+
+$$d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}$$
+
+### LaTeX
+
+``` text
+d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}
+```
+:::
+
+| d   | Interpretation |
+|:----|:---------------|
+| 0.2 | Small effect   |
+| 0.5 | Medium effect  |
+| 0.8 | Large effect   |
+
+## Power Analysis in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: power-analysis
+#| echo: false
+#| eval: true
+
+library(pwr)
+
+# Calculate required sample size for 80% power
+sample_size <- pwr.t.test(
+  d = 0.5,
+  sig.level = 0.05,
+  power = 0.80,
+  type = "two.sample"
+)
+
+cat("Required n per group:", ceiling(sample_size$n))
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(pwr)
+
+# Calculate required sample size for 80% power
+sample_size <- pwr.t.test(
+  d = 0.5,
+  sig.level = 0.05,
+  power = 0.80,
+  type = "two.sample"
+)
+
+cat("Required n per group:", ceiling(sample_size$n))
+```
+:::
+
+## Power Curve {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: power-curve-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+effect_sizes <- seq(0.2, 1.0, by = 0.1)
+power_values <- sapply(effect_sizes, function(d) {
+  pwr.t.test(d = d, n = 50, sig.level = 0.05, type = "two.sample")$power
+})
+
+plot(effect_sizes, power_values, type = "b", pch = 19, col = "steelblue",
+     xlab = "Effect Size (Cohen's d)", ylab = "Power", ylim = c(0, 1))
+abline(h = 0.8, lty = 2, col = "red")
+```
+
+### Code
+
+```{r}
+#| label: power-curve-code
+#| echo: true
+#| eval: false
+
+effect_sizes <- seq(0.2, 1.0, by = 0.1)
+power_values <- sapply(effect_sizes, function(d) {
+  pwr.t.test(d = d, n = 50, sig.level = 0.05, type = "two.sample")$power
+})
+
+plot(effect_sizes, power_values, type = "b", pch = 19, col = "steelblue",
+     xlab = "Effect Size (Cohen's d)", ylab = "Power", ylim = c(0, 1))
+abline(h = 0.8, lty = 2, col = "red")
+```
+:::
+
+## Sample Size Curve {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: sample-curve-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+sample_sizes <- seq(10, 200, by = 10)
+power_by_n <- sapply(sample_sizes, function(n) {
+  pwr.t.test(d = 0.5, n = n, sig.level = 0.05, type = "two.sample")$power
+})
+
+plot(sample_sizes, power_by_n, type = "b", pch = 19, col = "darkgreen",
+     xlab = "Sample Size per Group", ylab = "Power", ylim = c(0, 1))
+abline(h = 0.8, lty = 2, col = "red")
+```
+
+### Code
+
+```{r}
+#| label: sample-curve-code
+#| echo: true
+#| eval: false
+
+sample_sizes <- seq(10, 200, by = 10)
+power_by_n <- sapply(sample_sizes, function(n) {
+  pwr.t.test(d = 0.5, n = n, sig.level = 0.05, type = "two.sample")$power
+})
+
+plot(sample_sizes, power_by_n, type = "b", pch = 19, col = "darkgreen",
+     xlab = "Sample Size per Group", ylab = "Power", ylim = c(0, 1))
+abline(h = 0.8, lty = 2, col = "red")
+```
+:::
+
+## Bootstrap Power Analysis {.smaller}
+
+When parametric assumptions may not hold, use simulation-based power analysis:
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Step 1: Simulate true populations
+senior <- rpois(5000, lambda = 10)
+fresh  <- rpois(5000, lambda = 12)
+
+# Step 2: Draw samples and test
+sample_s <- sample(senior, size = 10, replace = FALSE)
+sample_f <- sample(fresh, size = 10, replace = FALSE)
+t.test(sample_f, sample_s)
+
+# Step 3: Replicate many times
+samps_s <- replicate(n = 100, sample(senior, size = 10))
+samps_f <- replicate(n = 100, sample(fresh, size = 10))
+
+# Calculate power
+tests <- data.frame(result = numeric(100))
+for (i in 1:100) {
+  tests$result[i] <- t.test(samps_s[, i], samps_f[, i])$p.value
+}
+power <- sum(tests$result < 0.05) / 100
+cat("Estimated power:", power)
+```
+
+### Key Points
+
+-   This approach works for any distribution (Poisson, skewed, etc.)
+-   Increase the number of replicates (e.g., 1000+) for stable estimates
+-   Can modify sample sizes, effect sizes, or distributions to explore scenarios
+:::
+
+## Power Analysis for ANOVA {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(pwr)
+
+# Parameters for one-way ANOVA
+effect_size_anova <- 0.25  # Cohen's f (medium)
+alpha_anova <- 0.05
+power_anova <- 0.8
+
+# Calculate required sample size per group
+sample_size_anova <- pwr.anova.test(
+  k = 3,                    # Number of groups
+  f = effect_size_anova,
+  sig.level = alpha_anova,
+  power = power_anova
+)$n
+
+cat("Sample Size per group for ANOVA:", ceiling(sample_size_anova))
+```
+
+### Cohen's f
+
+Cohen's f measures effect size in ANOVA:
+
+| f    | Interpretation |
+|:-----|:---------------|
+| 0.10 | Small effect   |
+| 0.25 | Medium effect  |
+| 0.40 | Large effect   |
+
+Cohen's f = √(variance between groups / variance within groups)
+:::
+
+## Power Example: Bone Scaffold Experiment {.smaller}
+
+A bioengineering lab needs to determine how many bone scaffolds to test to detect a 15% difference in compressive strength between two scaffold designs.
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Known from pilot data:
+# Mean compressive strength: 50 MPa
+# Standard deviation: 8 MPa
+# Desired detectable difference: 15% = 7.5 MPa
+
+effect_size_d <- 7.5 / 8  # Cohen's d = 0.94
+
+scaffold_power <- pwr.t.test(
+  d = effect_size_d,
+  sig.level = 0.05,
+  power = 0.80,
+  type = "two.sample"
+)
+
+cat("Required scaffolds per group:", ceiling(scaffold_power$n))
+cat("\nEffect size (Cohen's d):", round(effect_size_d, 2))
+```
+
+### Key Takeaway
+
+-   With a large effect size (d ≈ 0.94), we need relatively few samples
+-   If the expected difference were only 5% (3.75 MPa, d ≈ 0.47), sample size would roughly quadruple
+-   Always conduct a power analysis **before** running your experiment
+:::
+
+## Power for Factorial ANOVA {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(pwr)
+
+# Power for a 2×3 factorial design
+# (e.g., 2 scaffold materials × 3 growth factor concentrations)
+pwr.anova.test(
+  k = 6,           # Total number of cells (2 × 3)
+  f = 0.30,        # Medium-large effect
+  sig.level = 0.05,
+  power = 0.80
+)
+
+# For interaction effects specifically:
+# Interactions are typically harder to detect
+# Use a smaller f value or plan for more samples
+pwr.anova.test(
+  k = 6,
+  f = 0.20,        # Small-medium for interaction
+  sig.level = 0.05,
+  power = 0.80
+)
+```
+
+### Tip
+
+Interactions typically have **smaller effect sizes** than main effects. Budget extra samples if detecting interactions is important to your study.
+:::
+
+------------------------------------------------------------------------
+
+# Multifactor ANOVA {background-color="#2c3e50"}
+
+## Multifactor Designs Introduction {.smaller}
+
+![](images/week07_01_walking_stick_insect_femur.jpeg){fig-align="center" width="90%"}
+
+## Types of Factors {.smaller}
+
+![](images/week07_02_walking_stick_femur_length_variation.jpeg){fig-align="center" width="90%"}
+
+## Factor Levels {.smaller}
+
+![](images/week07_03_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
+
+## Multifactor ANOVA Model {.smaller}
+
+![](images/week07_04_nested_anova_table_insects.jpeg){fig-align="center" width="90%"}
+
+## Sum of Squares Decomposition {.smaller}
+
+![](images/week07_05_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
+
+## Multifactor ANOVA Table {.smaller}
+
+![](images/week07_06_nested_model_equations_one_two_levels.jpeg){fig-align="center" width="90%"}
+
+## Understanding Degrees of Freedom {.smaller}
+
+![DOF in statistical models](images/week07_07_dof_in_statistical_models.jpeg){fig-align="center" width="90%"}
+
+![Intuition behind degrees of freedom](images/week07_08_intuition_behind_degrees_of_fr.jpeg){fig-align="center" width="80%"}
+
+## Calculating F-Ratios {.smaller}
+
+![](images/week07_09_nested_anova_table_formulas.jpeg){fig-align="center" width="90%"}
+
+## Multifactor Example {.smaller}
+
+![](images/week07_10_nested_anova_r_syntax_table.jpeg){fig-align="center" width="90%"}
+
+## Multifactor ANOVA Results {.smaller}
+
+![](images/week07_11_sea_urchin_algae_experiment_design.jpeg){fig-align="center" width="90%"}
+
+## Interactions {.smaller}
+
+An **interaction** means the effect of one variable on the response depends on the state of another variable.
+
+![](images/week07_18_interaction_plots_fertilizer_temperature.jpeg){fig-align="center" width="75%"}
+
+## Visualizing Interactions {.smaller}
+
+![](images/week07_12_tadpole_photograph.jpeg){fig-align="center" width="90%"}
+
+## Interaction Interpretation {.smaller}
+
+![](images/week07_13_pesticide_predator_survival_interaction.jpeg){fig-align="center" width="90%"}
+
+## Factorial vs. Nested Designs {.smaller}
+
+**Factorial designs:**
+
+-   All pairwise combinations of factor levels are present
+-   Can assess interactions between factors
+-   Example: Drug dose × Exercise regimen
+
+**Nested designs:**
+
+-   Hierarchical structure — levels of one factor occur within levels of another
+-   No interaction terms (levels are unique to each group)
+-   Often contain random effects
+-   Example: Cells within wells within plates
+
+## Two-Factor Factorial Design {.smaller}
+
+![](images/week07_14_factorial_anova_interaction_formula.jpeg){fig-align="center" width="100%"}
+
+## Three-Factor Factorial Design {.smaller}
+
+![Three-way factorial layout](images/week07_15_three_way_factorial_layout.jpeg){fig-align="center" width="100%"}
+
+## Higher-Order Interactions {.smaller}
+
+![Interpreting three-way interactions](images/week07_16_interpreting_three_way_interac.jpeg){fig-align="center" width="90%"}
+
+## Complete Factorial Model {.smaller}
+
+![Full model with all interaction terms](images/week07_17_full_model_with_all_interactio.jpeg){fig-align="center" width="90%"}
+
+## Factorial ANOVA — Fixed Effects {.smaller}
+
+![](images/week07_19_factorial_anova_null_hypotheses_fixed.jpeg){fig-align="center" width="80%"}
+
+## Factorial ANOVA — Random Effects {.smaller}
+
+![](images/week07_20_factorial_anova_null_hypotheses_random.jpeg){fig-align="center" width="100%"}
+
+## Mean Squares for Factorial Model {.smaller}
+
+![](images/week07_21_two_factor_crossed_anova_table.jpeg){fig-align="center" width="100%"}
+
+## F-Ratios for Factorial Model {.smaller}
+
+![](images/week07_22_f_ratio_table_fixed_random_factors.jpeg){fig-align="center" width="100%"}
+
+## Interpretation of Results {.smaller}
+
+![](images/week07_23_factorial_model_significant_terms.jpeg){fig-align="center" width="100%"}
+
+## Factorial ANOVA in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+rna_data <- read.table("Stickle_RNAseq.tsv", header = TRUE, sep = "\t")
+
+gene       <- rna_data$Gene100
+microbiota <- rna_data$Microbiota
+genotype   <- rna_data$Genotype
+
+# Multiplicative model (with interaction)
+model_interaction <- aov(gene ~ microbiota * genotype)
+
+# Additive model (no interaction)
+model_additive <- aov(gene ~ microbiota + genotype)
+
+summary(model_interaction)
+summary(model_additive)
+```
+
+### Interpretation
+
+-   If the interaction term is significant, the effect of one factor depends on the level of the other
+-   If the interaction is not significant, interpret the main effects directly
+-   Always check the interaction first before interpreting main effects
+:::
+
+# BREAK {background-color="#e74c3c"}
+
+# Random Effects {background-color="#2c3e50"}
+
+## Fixed vs. Random Effects {.smaller}
+
+**Fixed effects:**
+
+-   Groups are predetermined, of direct interest, repeatable
+-   Examples: medical treatments, predetermined doses, habitat types
+-   We want to estimate specific group means
+
+**Random effects:**
+
+-   Groups randomly sampled from a larger population
+-   Examples: families, subjects measured repeatedly, blocks, batches
+-   **Variance among groups** is of interest, not specific group means
+
+## When to Use Random Effects {.smaller}
+
+-   Nested sampling designs (individuals within populations)
+-   Subplots within plots
+-   Replicates grouped spatially or temporally (blocks, batches)
+-   Related individuals (families, litters)
+-   Repeated measures on the same subjects
+
+## Random Effects Hypothesis {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$H_0: \sigma^2_\alpha = 0$$ $$H_A: \sigma^2_\alpha \neq 0$$
+
+### LaTeX
+
+``` text
+H_0: \sigma^2_\alpha = 0
+H_A: \sigma^2_\alpha \neq 0
+```
+:::
+
+We are testing whether the **variance component** for the random effect is zero — i.e., whether there is meaningful variation among the randomly sampled groups.
+
+## Random Effects in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(nlme)
+
+# Random effect model
+micro_model_random_effect <- lme(
+  fixed  = Gene202 ~ 1,
+  random = ~1 | Geno.Micro,
+  data   = stickle_micro
+)
+
+summary(micro_model_random_effect)
+```
+
+### Key Points
+
+-   In R, `lm()` assumes all effects are **fixed**
+-   For random effects, use `lme()` from the **nlme** package or `lmer()` from **lme4**
+-   The `~1 | group` syntax specifies a random intercept for each level of `group`
+:::
+
+## Random Effects: Bioengineering Example {.smaller}
+
+Measuring cell viability across multiple wells within multiple plates within multiple experiments:
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Simulated hierarchical data: cells → wells → plates → experiments
+set.seed(42)
+n_exp <- 3; n_plate <- 4; n_well <- 6
+experiment <- rep(1:n_exp, each = n_plate * n_well)
+plate      <- rep(rep(1:n_plate, each = n_well), n_exp)
+well       <- rep(1:n_well, n_exp * n_plate)
+
+# Generate data with variance at each level
+exp_effect   <- rnorm(n_exp, 0, 5)[experiment]
+plate_effect <- rnorm(n_exp * n_plate, 0, 3)[interaction(experiment, plate)]
+viability    <- 75 + exp_effect + plate_effect + rnorm(n_exp * n_plate * n_well, 0, 2)
+
+cell_data <- data.frame(
+  viability, experiment = factor(experiment),
+  plate = factor(plate), well = factor(well)
+)
+
+# Fit nested random effects model
+library(nlme)
+nested_model <- lme(viability ~ 1,
+                    random = ~1 | experiment/plate,
+                    data = cell_data)
+summary(nested_model)
+
+# Extract variance components
+VarCorr(nested_model)
+```
+
+### Interpreting Variance Components
+
+The output from `VarCorr()` shows:
+
+-   **Experiment variance**: variation between experimental runs
+-   **Plate-within-experiment variance**: variation between plates within a run
+-   **Residual variance**: well-to-well variation within plates
+-   ICC (Intraclass Correlation) = group variance / total variance
+:::
+
+------------------------------------------------------------------------
+
+# Nested ANOVA {background-color="#2c3e50"}
+
+## Nested Design {.smaller}
+
+-   Factors are hierarchical within one another
+-   Sources of variance are hierarchical
+-   No interaction terms (in completely nested designs)
+
+**Example:** Students within classrooms within schools
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Nested ANOVA using aov
+model_nested <- aov(y ~ A + B %in% A, data = mydata)
+
+# Using lme for random nested effects
+model_nested_random <- lme(y ~ A, random = ~1 | A/B, data = mydata)
+
+summary(model_nested_random)
+```
+
+### Interpretation
+
+-   The `%in%` notation means "B is nested within A"
+-   The `~1 | A/B` random effects specification means "random intercepts for B nested within A"
+-   Nested designs arise when the levels of one factor are unique to each level of another (e.g., specific cell lines unique to each lab)
+:::
+
+------------------------------------------------------------------------
+
+# Repeated Measures Analysis {background-color="#2c3e50"}
+
+## What are Repeated Measures? {.smaller}
+
+Measurements taken on the **same subjects** at multiple:
+
+-   **Time points** (longitudinal studies)
+-   **Conditions** (within-subjects design)
+-   **Locations** (spatial sampling)
+
+**Advantages:** Controls for individual differences, requires fewer subjects, more statistical power
+
+**Challenge:** Observations are **not independent** — standard ANOVA assumes independence
+
+## Repeated Measures ANOVA {.smaller}
+
+**Sphericity Assumption:**
+
+-   Variances of differences between all pairs of conditions must be equal
+-   Often violated in practice
+
+**Mauchly's Test:** Tests the sphericity assumption
+
+-   p \< 0.05 → sphericity is violated → apply correction (Greenhouse-Geisser or Huynh-Feldt)
+
+## Repeated Measures in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: rm-anova-output
+#| echo: false
+#| eval: true
+
+# Create repeated measures data
+set.seed(42)
+subject <- factor(rep(1:10, each = 3))
+time <- factor(rep(c("Pre", "Mid", "Post"), 10))
+score <- c(
+  rnorm(10, 50, 5),   # Pre
+  rnorm(10, 55, 5),   # Mid
+  rnorm(10, 62, 5)    # Post
+) + rep(rnorm(10, 0, 8), each = 3)  # Subject random effect
+
+rm_data <- data.frame(subject, time, score)
+
+# Repeated measures ANOVA
+rm_aov <- aov(score ~ time + Error(subject/time), data = rm_data)
+summary(rm_aov)
+```
+
+### Code
+
+```{r}
+#| label: rm-anova-code
+#| echo: true
+#| eval: false
+
+# Create repeated measures data
+set.seed(42)
+subject <- factor(rep(1:10, each = 3))
+time <- factor(rep(c("Pre", "Mid", "Post"), 10))
+score <- c(
+  rnorm(10, 50, 5),   # Pre
+  rnorm(10, 55, 5),   # Mid
+  rnorm(10, 62, 5)    # Post
+) + rep(rnorm(10, 0, 8), each = 3)  # Subject random effect
+
+rm_data <- data.frame(subject, time, score)
+
+# Repeated measures ANOVA
+rm_aov <- aov(score ~ time + Error(subject/time), data = rm_data)
+summary(rm_aov)
+```
+:::
+
+## Mixed Models for Repeated Measures {.smaller}
+
+The modern approach uses **linear mixed models**, which are more flexible and handle missing data gracefully:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+
+library(nlme)
+
+# Mixed model with random intercept for subject
+rm_mixed <- lme(score ~ time, random = ~1 | subject, data = rm_data)
+summary(rm_mixed)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(nlme)
+
+# Mixed model with random intercept for subject
+rm_mixed <- lme(score ~ time, random = ~1 | subject, data = rm_data)
+summary(rm_mixed)
+```
+:::
+
+## Visualizing Repeated Measures {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: repeated-measures-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+par(mfrow = c(1, 2))
+
+# Spaghetti plot (individual trajectories)
+interaction.plot(rm_data$time, rm_data$subject, rm_data$score,
+                 xlab = "Time", ylab = "Score", legend = FALSE,
+                 main = "Individual Trajectories", col = "gray")
+
+# Group means with error bars
+means <- tapply(rm_data$score, rm_data$time, mean)
+sds <- tapply(rm_data$score, rm_data$time, sd)
+n <- 10
+ses <- sds / sqrt(n)
+
+barplot(means, ylim = c(0, max(means) + max(ses) * 2),
+        main = "Group Means ± SE", ylab = "Score")
+arrows(x0 = c(0.7, 1.9, 3.1), y0 = means - ses,
+       y1 = means + ses, angle = 90, code = 3, length = 0.1)
+```
+
+### Code
+
+```{r}
+#| label: repeated-measures-code
+#| echo: true
+#| eval: false
+
+par(mfrow = c(1, 2))
+
+# Spaghetti plot (individual trajectories)
+interaction.plot(rm_data$time, rm_data$subject, rm_data$score,
+                 xlab = "Time", ylab = "Score", legend = FALSE,
+                 main = "Individual Trajectories", col = "gray")
+
+# Group means with error bars
+means <- tapply(rm_data$score, rm_data$time, mean)
+sds <- tapply(rm_data$score, rm_data$time, sd)
+n <- 10
+ses <- sds / sqrt(n)
+
+barplot(means, ylim = c(0, max(means) + max(ses) * 2),
+        main = "Group Means ± SE", ylab = "Score")
+arrows(x0 = c(0.7, 1.9, 3.1), y0 = means - ses,
+       y1 = means + ses, angle = 90, code = 3, length = 0.1)
+```
+:::
+
+## Repeated Measures: ggplot Visualization {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: rm-ggplot-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+library(ggplot2)
+
+rm_summary <- rm_data %>%
+  group_by(time) %>%
+  summarize(mean_score = mean(score), se = sd(score)/sqrt(n()), .groups = "drop")
+
+p1 <- ggplot(rm_data, aes(x = time, y = score, group = subject)) +
+  geom_line(alpha = 0.3, color = "gray50") +
+  geom_point(alpha = 0.3) +
+  geom_line(data = rm_summary, aes(x = time, y = mean_score, group = 1),
+            color = "steelblue", linewidth = 1.5) +
+  geom_point(data = rm_summary, aes(x = time, y = mean_score, group = 1),
+             color = "steelblue", size = 3) +
+  geom_errorbar(data = rm_summary,
+                aes(x = time, y = mean_score, ymin = mean_score - se, ymax = mean_score + se, group = 1),
+                width = 0.1, color = "steelblue", linewidth = 0.8) +
+  labs(title = "Spaghetti Plot with Group Mean ± SE",
+       x = "Time Point", y = "Score") +
+  theme_minimal(base_size = 14)
+print(p1)
+```
+
+### Code
+
+```{r}
+#| label: rm-ggplot-code
+#| echo: true
+#| eval: false
+
+library(ggplot2)
+
+rm_summary <- rm_data %>%
+  group_by(time) %>%
+  summarize(mean_score = mean(score), se = sd(score)/sqrt(n()))
+
+ggplot(rm_data, aes(x = time, y = score, group = subject)) +
+  geom_line(alpha = 0.3, color = "gray50") +
+  geom_point(alpha = 0.3) +
+  geom_line(data = rm_summary,
+            aes(x = time, y = mean_score, group = 1),
+            color = "steelblue", linewidth = 1.5) +
+  geom_point(data = rm_summary,
+             aes(x = time, y = mean_score, group = 1),
+             color = "steelblue", size = 3) +
+  geom_errorbar(data = rm_summary,
+                aes(x = time, y = mean_score,
+                    ymin = mean_score - se,
+                    ymax = mean_score + se, group = 1),
+                width = 0.1, color = "steelblue") +
+  labs(title = "Spaghetti Plot with Group Mean ± SE",
+       x = "Time Point", y = "Score") +
+  theme_minimal()
+```
+:::
+
+## R Exercise: Factorial ANOVA {.smaller}
+
+::: callout-tip
+## Exercise
+
+Using the `ToothGrowth` dataset (tooth growth in guinea pigs):
+
+1.  Examine the structure: `supp` (supplement type) × `dose` (dose level)
+2.  Create an interaction plot
+3.  Perform two-way ANOVA
+4.  Test for interaction effect
+5.  If significant interaction, perform simple effects analysis
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Starter code
+data(ToothGrowth)
+ToothGrowth$dose <- factor(ToothGrowth$dose)
+
+# Interaction plot
+interaction.plot(ToothGrowth$dose, ToothGrowth$supp, ToothGrowth$len)
+
+# Two-way ANOVA
+tooth_aov <- aov(len ~ supp * dose, data = ToothGrowth)
+
+# Your analysis here...
+```
+:::
+
+------------------------------------------------------------------------
+
+# Week 8: GLMs, Regularization, and Survival Analysis {background-color="#2c3e50"}
+
+## Week 8 Topics
+
+::: incremental
+-   Generalized Linear Models (GLMs)
+-   Logistic regression
+-   Poisson regression
+-   Regularization methods (Ridge, Lasso, Elastic Net)
+-   Splines and LOESS smoothing
+-   Survival analysis
+:::
+
+::: callout-note
+**Readings:** Chapter 29
+
+**HW4 Due next week**
+:::
+
+## Packages for This Week {.smaller}
+
+::: panel-tabset
+### Install
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Install new packages (run once)
+install.packages(c("survival", "glmnet", "mgcv", "splines"))
+```
+
+### Load
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Load packages
+library(tidyverse)    # Data manipulation & visualization
+library(nlme)         # Mixed-effects models (from Week 7)
+library(survival)     # Survival analysis (Kaplan-Meier, Cox regression)
+library(glmnet)       # Regularized regression (LASSO, ridge)
+library(mgcv)         # Generalized additive models (GAMs)
+library(splines)      # Spline basis functions
+```
+:::
+
+**Datasets from packages:** `lung` (survival package — lung cancer survival data), `mtcars` (built-in)
+
+## Correlation in Mixed Models {.smaller}
+
+![Understanding correlation structures in hierarchical data](images/week05_11_week8_correlation.jpg){fig-align="center" width="85%"}
+
+------------------------------------------------------------------------
+
+# Generalized Linear Models {background-color="#2c3e50"}
+
+## What is a GLM? {.smaller}
+
+GLMs extend linear models to handle response variables that are not normally distributed. Use when standard linear model assumptions are violated:
+
+-   **Binary response** (e.g., survived/died) → logistic regression
+-   **Count response** (e.g., number of mutations) → Poisson regression
+
+**Three components of every GLM:**
+
+1.  **Random component**: probability distribution of the response variable (e.g., binomial, Poisson)
+2.  **Systematic component**: linear combination of predictors ($\beta_0 + \beta_1 x_1 + \ldots$)
+3.  **Link function**: connects the random and systematic components
+
+## GLM Families {.smaller}
+
+| Family   | Link Function | Use For             | Example                  |
+|:---------|:--------------|:--------------------|:-------------------------|
+| Gaussian | identity      | Continuous response | Standard linear model    |
+| Binomial | logit         | Binary outcomes     | Disease presence/absence |
+| Poisson  | log           | Count data          | Number of colonies       |
+| Gamma    | inverse       | Positive continuous | Reaction times           |
+
+## GLM Assumptions {.smaller}
+
+-   **Independence** of observations
+-   No overly **influential observations**
+-   **Linearity** between predictors and the link function (not between predictors and raw response)
+-   **Appropriate dispersion** (variance matches the assumed distribution)
+
+## GLM in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# General syntax
+glm(formula = y ~ x1 + x2, 
+    family = gaussian(link = "identity"),
+    data = mydata)
+
+# Binomial family for logistic regression
+glm(y ~ x1 + x2, family = binomial, data = mydata)
+
+# Poisson family for count data
+glm(count ~ x1 + x2, family = poisson, data = mydata)
+```
+
+### Deviance
+
+-   **Deviance** measures model fit in GLMs (analogous to RSS in linear regression)
+-   **Null Deviance**: from model with only intercept
+-   **Residual Deviance**: from fitted model
+-   Large drop from null to residual deviance → better model fit
+:::
+
+## GLM Diagnostics {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Fit a GLM
+model <- glm(y ~ x1 + x2, family = binomial, data = mydata)
+
+# Residual deviance plot
+plot(predict(model, type = "link"), residuals(model, type = "deviance"),
+     xlab = "Linear Predictor", ylab = "Deviance Residuals",
+     main = "GLM Deviance Residuals")
+abline(h = 0, col = "red", lty = 2)
+
+# Influential observations
+plot(cooks.distance(model), type = "h",
+     main = "Cook's Distance", ylab = "Cook's Distance")
+
+# DHARMa package for simulation-based diagnostics
+library(DHARMa)
+sim_res <- simulateResiduals(fittedModel = model, n = 1000)
+plot(sim_res)  # QQ plot + residual vs predicted
+```
+
+### DHARMa Interpretation
+
+The **DHARMa** package creates simulated residuals that work for any GLM family:
+
+-   **QQ plot**: residuals should follow the uniform distribution
+-   **Residual vs. predicted**: should show no pattern
+-   **Dispersion test**: detects over/underdispersion
+-   Works for binomial, Poisson, negative binomial, and zero-inflated models
+:::
+
+# BREAK {background-color="#e74c3c"}
+
+# Logistic Regression {background-color="#2c3e50"}
+
+## What is Logistic Regression? {.smaller}
+
+-   Classification algorithm for **binary outcomes** (0/1, yes/no, survived/died)
+-   Uses the **logit** link function to map outputs between 0 and 1
+
+::: panel-tabset
+### Equation
+
+$$P(y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}$$
+
+### LaTeX
+
+``` text
+P(y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}
+```
+:::
+
+## The Logistic Function {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: logistic-function-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+curve(1 / (1 + exp(-x)), from = -10, to = 10, col = "blue", lwd = 2,
+      ylab = "Probability", xlab = "Linear predictor (β₀ + β₁x)")
+abline(h = 0.5, lty = 2, col = "gray")
+```
+
+### Code
+
+```{r}
+#| label: logistic-function-code
+#| echo: true
+#| eval: false
+
+curve(1 / (1 + exp(-x)), from = -10, to = 10, col = "blue", lwd = 2,
+      ylab = "Probability", xlab = "Linear predictor (β₀ + β₁x)")
+abline(h = 0.5, lty = 2, col = "gray")
+```
+:::
+
+## Odds and Log-Odds {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Odds:** $$\frac{P}{1 - P}$$
+
+**Log-odds (logit):** $$\log\left(\frac{P}{1 - P}\right)$$
+
+**Model equation:** $$\log\left(\frac{P(y=1)}{1 - P(y=1)}\right) = \beta_0 + \beta_1 x$$
+
+### LaTeX
+
+``` text
+\text{Odds} = \frac{P}{1 - P}
+
+\text{Log-odds (logit)} = \log\left(\frac{P}{1 - P}\right)
+
+\text{Model:} \log\left(\frac{P(y=1)}{1 - P(y=1)}\right) = \beta_0 + \beta_1 x
+```
+:::
+
+## Logistic Regression in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+data(mtcars)
+mtcars$am <- factor(mtcars$am)
+model <- glm(am ~ mpg, data = mtcars, family = binomial)
+summary(model)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+data(mtcars)
+mtcars$am <- factor(mtcars$am)
+model <- glm(am ~ mpg, data = mtcars, family = binomial)
+summary(model)
+```
+:::
+
+## Interpreting Coefficients {.smaller}
+
+Coefficients are in **log-odds** — exponentiate to get odds ratios:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+exp(coef(model))
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+exp(coef(model))
+```
+:::
+
+$\exp(\beta_1)$ is the **multiplicative change in odds** for a 1-unit increase in the predictor. For example, if $\exp(\beta_1) = 1.35$, a one-unit increase in mpg multiplies the odds of manual transmission by 1.35 (a 35% increase).
+
+## Bioengineering Example: Predicting Implant Failure {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Simulated implant failure data
+set.seed(2026)
+n <- 150
+implant_data <- data.frame(
+  surface_roughness = rnorm(n, 1.5, 0.5),     # μm
+  coating_thickness = rnorm(n, 50, 15),         # nm
+  load_cycles       = rnorm(n, 5e6, 1e6)       # cycles
+)
+implant_data$failure <- rbinom(n, 1,
+  plogis(-3 + 1.5 * implant_data$surface_roughness -
+         0.02 * implant_data$coating_thickness +
+         0.0000003 * implant_data$load_cycles))
+
+# Fit logistic regression
+implant_glm <- glm(failure ~ surface_roughness + coating_thickness + load_cycles,
+                    family = binomial, data = implant_data)
+summary(implant_glm)
+
+# Odds ratios
+exp(coef(implant_glm))
+exp(confint(implant_glm))
+```
+
+### Interpretation
+
+-   Higher surface roughness increases odds of failure
+-   Thicker coating decreases odds of failure
+-   More load cycles increases odds of failure
+-   Report odds ratios with 95% CIs for each predictor
+:::
+
+## ROC Curve and AUC {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: roc-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+set.seed(2026)
+n <- 150
+implant_data <- data.frame(
+  surface_roughness = rnorm(n, 1.5, 0.5),
+  coating_thickness = rnorm(n, 50, 15),
+  load_cycles       = rnorm(n, 5e6, 1e6)
+)
+implant_data$failure <- rbinom(n, 1,
+  plogis(-3 + 1.5 * implant_data$surface_roughness -
+         0.02 * implant_data$coating_thickness +
+         0.0000003 * implant_data$load_cycles))
+
+implant_glm <- glm(failure ~ surface_roughness + coating_thickness + load_cycles,
+                    family = binomial, data = implant_data)
+
+# Manual ROC curve
+pred_probs <- predict(implant_glm, type = "response")
+thresholds <- seq(0, 1, by = 0.01)
+tpr <- sapply(thresholds, function(t) {
+  pred_class <- ifelse(pred_probs >= t, 1, 0)
+  sum(pred_class == 1 & implant_data$failure == 1) / sum(implant_data$failure == 1)
+})
+fpr <- sapply(thresholds, function(t) {
+  pred_class <- ifelse(pred_probs >= t, 1, 0)
+  sum(pred_class == 1 & implant_data$failure == 0) / sum(implant_data$failure == 0)
+})
+
+plot(fpr, tpr, type = "l", col = "steelblue", lwd = 2,
+     xlab = "False Positive Rate", ylab = "True Positive Rate",
+     main = "ROC Curve — Implant Failure Model")
+abline(0, 1, lty = 2, col = "gray")
+
+# Approximate AUC using trapezoidal rule
+auc <- abs(sum(diff(fpr) * (tpr[-1] + tpr[-length(tpr)])/2))
+legend("bottomright", paste("AUC ≈", round(auc, 3)), bty = "n", cex = 1.2)
+```
+
+### Code
+
+```{r}
+#| label: roc-code
+#| echo: true
+#| eval: false
+
+# Using pROC package for ROC curves
+library(pROC)
+
+pred_probs <- predict(implant_glm, type = "response")
+roc_obj <- roc(implant_data$failure, pred_probs)
+
+# Plot ROC curve
+plot(roc_obj, col = "steelblue", lwd = 2,
+     main = "ROC Curve — Implant Failure Model")
+cat("AUC:", auc(roc_obj))
+
+# Optimal threshold (Youden's J statistic)
+coords(roc_obj, "best", ret = c("threshold", "sensitivity", "specificity"))
+
+# Confusion matrix at optimal threshold
+optimal_thresh <- coords(roc_obj, "best")$threshold
+pred_class <- ifelse(pred_probs >= optimal_thresh, 1, 0)
+table(Predicted = pred_class, Actual = implant_data$failure)
+```
+:::
+
+## Model Evaluation Metrics {.smaller}
+
+| Metric        | Formula                                                     |
+|:--------------|:------------------------------------------------------------|
+| **Accuracy**  | $(TP + TN) / (TP + TN + FP + FN)$                           |
+| **Precision** | $TP / (TP + FP)$                                            |
+| **Recall**    | $TP / (TP + FN)$                                            |
+| **F1 Score**  | $2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}$ |
+
+## Confusion Matrix {.smaller}
+
+|                     | Predicted Positive  | Predicted Negative  |
+|---------------------|---------------------|---------------------|
+| **Actual Positive** | True Positive (TP)  | False Negative (FN) |
+| **Actual Negative** | False Positive (FP) | True Negative (TN)  |
+
+------------------------------------------------------------------------
+
+# Poisson Regression {background-color="#2c3e50"}
+
+## What is Poisson Regression? {.smaller}
+
+Models **count data** where the response variable represents the number of times an event occurs:
+
+::: panel-tabset
+### Equation
+
+$$\log(\lambda_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}$$
+
+### LaTeX
+
+``` text
+\log(\lambda_i) = \beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}
+```
+:::
+
+Assumes Poisson distribution: **Mean = Variance = λ**
+
+## Poisson Regression in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Fit Poisson model
+model <- glm(count ~ x1 + x2, family = poisson, data = mydata)
+
+# Check for overdispersion
+dispersion <- sum(residuals(model, type = "pearson")^2) / model$df.residual
+cat("Dispersion parameter:", dispersion)
+# If >> 1, overdispersion is present
+```
+
+### Overdispersion Solutions
+
+When variance \> mean (overdispersion):
+
+-   **Quasi-Poisson**: Adjusts standard errors but keeps same coefficients
+-   **Negative Binomial**: Adds a parameter for extra-Poisson variation
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Quasi-Poisson
+model_qp <- glm(count ~ x1 + x2, family = quasipoisson, data = mydata)
+
+# Negative Binomial
+library(MASS)
+model_nb <- glm.nb(count ~ x1 + x2, data = mydata)
+```
+:::
+
+## Poisson Worked Example: Colony Counts {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: poisson-example-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+set.seed(2026)
+n <- 120
+colony_data <- data.frame(
+  coating = factor(rep(c("None", "Fibronectin", "Collagen"), each = 40)),
+  seeding = rep(seq(1000, 5000, length.out = 40), 3)
+)
+colony_data$colonies <- rpois(n, exp(
+  1.5 + 0.6 * (colony_data$coating == "Fibronectin") +
+  0.9 * (colony_data$coating == "Collagen") +
+  0.0003 * colony_data$seeding))
+
+par(mfrow = c(1, 2))
+boxplot(colonies ~ coating, data = colony_data, col = c("gray80", "lightblue", "salmon"),
+        main = "Colony Counts by Coating", ylab = "Number of Colonies")
+plot(colony_data$seeding, colony_data$colonies,
+     col = c("gray40", "steelblue", "coral")[colony_data$coating],
+     pch = 19, cex = 0.8, xlab = "Seeding Density (cells/mL)",
+     ylab = "Colony Count", main = "Colonies vs. Seeding Density")
+legend("topleft", levels(colony_data$coating),
+       col = c("gray40", "steelblue", "coral"), pch = 19, cex = 0.8)
+```
+
+### Code
+
+```{r}
+#| label: poisson-example-code
+#| echo: true
+#| eval: false
+
+# Bioengineering Poisson regression: bacterial colony counts
+# on tissue culture plates with different surface coatings
+set.seed(2026)
+n <- 120
+colony_data <- data.frame(
+  coating = factor(rep(c("None", "Fibronectin", "Collagen"), each = 40)),
+  seeding = rep(seq(1000, 5000, length.out = 40), 3)
+)
+colony_data$colonies <- rpois(n, exp(
+  1.5 + 0.6 * (colony_data$coating == "Fibronectin") +
+  0.9 * (colony_data$coating == "Collagen") +
+  0.0003 * colony_data$seeding))
+
+# Fit Poisson GLM
+pois_model <- glm(colonies ~ coating + seeding, family = poisson,
+                   data = colony_data)
+summary(pois_model)
+
+# Check overdispersion
+disp <- sum(residuals(pois_model, type = "pearson")^2) / pois_model$df.residual
+cat("Dispersion:", round(disp, 2), "\n")
+
+# If overdispersed, compare models
+if (disp > 1.5) {
+  qp_model <- glm(colonies ~ coating + seeding, family = quasipoisson,
+                   data = colony_data)
+  nb_model <- MASS::glm.nb(colonies ~ coating + seeding, data = colony_data)
+
+  cat("Poisson AIC:", AIC(pois_model), "\n")
+  cat("Neg Binom AIC:", AIC(nb_model), "\n")
+}
+
+# Exponentiate for rate ratios
+exp(coef(pois_model))
+exp(confint(pois_model))
+```
+:::
+
+## Poisson vs. Quasi-Poisson vs. Negative Binomial {.smaller}
+
+| Model | Dispersion | Use When | R Function |
+|:---|:---|:---|:---|
+| **Poisson** | φ ≈ 1 | Variance ≈ mean | `glm(..., family = poisson)` |
+| **Quasi-Poisson** | φ \> 1 | Mild overdispersion | `glm(..., family = quasipoisson)` |
+| **Neg. Binomial** | φ \>\> 1 | Severe overdispersion | `MASS::glm.nb()` |
+
+::: callout-tip
+Always check overdispersion first. If the dispersion parameter is close to 1, standard Poisson is fine. If it exceeds \~1.5, consider quasi-Poisson (same coefficients, wider CIs) or negative binomial (different model entirely).
+:::
+
+------------------------------------------------------------------------
+
+# Regularization Methods {background-color="#2c3e50"}
+
+## Why Regularization? {.smaller}
+
+Standard linear regression struggles when:
+
+-   **Multicollinearity**: Correlated predictors lead to unstable coefficient estimates
+-   **High dimensionality**: More predictors than observations (p \> n)
+-   **Overfitting**: Model fits training data too closely, poor generalization
+
+**Solution**: Add a penalty term that **shrinks coefficients toward zero**, trading a small amount of bias for a large reduction in variance.
+
+## Ridge Regression (L2 Penalty) {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$\hat{\beta}_{ridge} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \right]$$
+
+### LaTeX
+
+``` text
+\hat{\beta}_{ridge} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \right]
+```
+
+### Properties
+
+-   Penalty: $\sum \beta_j^2$ (L2 norm — sum of squared coefficients)
+-   Shrinks coefficients toward zero but **never exactly zero**
+-   Handles multicollinearity well
+-   Closed-form solution: $\hat{\beta}_{ridge} = (X^TX + \lambda I)^{-1}X^Ty$
+-   As λ → 0: approaches OLS; as λ → ∞: coefficients → 0
+:::
+
+## Lasso Regression (L1 Penalty) {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$\hat{\beta}_{lasso} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 + \lambda \sum_{j=1}^{p} |\beta_j| \right]$$
+
+### LaTeX
+
+``` text
+\hat{\beta}_{lasso} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 + \lambda \sum_{j=1}^{p} |\beta_j| \right]
+```
+
+### Properties
+
+-   Penalty: $\sum |\beta_j|$ (L1 norm — sum of absolute values)
+-   Can set coefficients **exactly to zero** → performs variable selection
+-   No closed-form solution (requires optimization)
+-   Produces **sparse models** — useful when you believe many predictors are irrelevant
+:::
+
+## Elastic Net {.smaller}
+
+Combines Ridge and Lasso penalties:
+
+::: panel-tabset
+### Equation
+
+$$\hat{\beta}_{elastic} = \arg\min_{\beta} \left[ RSS + \lambda \left( \alpha \sum |\beta_j| + (1-\alpha) \sum \beta_j^2 \right) \right]$$
+
+### LaTeX
+
+``` text
+\hat{\beta}_{elastic} = \arg\min_{\beta} \left[ RSS + \lambda \left( \alpha \sum |\beta_j| + (1-\alpha) \sum \beta_j^2 \right) \right]
+```
+:::
+
+-   α = 0: pure Ridge; α = 1: pure Lasso
+-   Variable selection like Lasso + handles correlated features like Ridge
+-   Often the best default choice
+
+## Regularization in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(glmnet)
+
+# Ridge regression (alpha = 0)
+ridge_cv <- cv.glmnet(X_train, y_train, alpha = 0, nfolds = 10)
+ridge_model <- glmnet(X_train, y_train, alpha = 0, lambda = ridge_cv$lambda.min)
+
+# Lasso regression (alpha = 1)
+lasso_cv <- cv.glmnet(X_train, y_train, alpha = 1, nfolds = 10)
+lasso_model <- glmnet(X_train, y_train, alpha = 1, lambda = lasso_cv$lambda.min)
+
+# Elastic net (alpha between 0 and 1)
+elastic_cv <- cv.glmnet(X_train, y_train, alpha = 0.5, nfolds = 10)
+```
+
+### When to Use
+
+| Method          | Use When                                                |
+|:----------------|:--------------------------------------------------------|
+| **Ridge**       | Many predictors, most relevant; multicollinearity       |
+| **Lasso**       | Feature selection important; many irrelevant predictors |
+| **Elastic Net** | Groups of correlated predictors; best of both worlds    |
+:::
+
+## Geometric Interpretation {.smaller}
+
+-   **Ridge** constraint region: circle/sphere (smooth boundary) → coefficients shrink continuously
+-   **Lasso** constraint region: diamond/polytope (corners at axes) → coefficients can be exactly zero at the corners
+-   The intersection of the elliptical RSS contours with the constraint region determines the solution
+
+## Visualizing Regularization Paths {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Fit models across range of lambda values
+ridge_path <- glmnet(X_train, y_train, alpha = 0)
+lasso_path <- glmnet(X_train, y_train, alpha = 1)
+
+# Plot coefficient paths
+par(mfrow = c(1, 2))
+plot(ridge_path, xvar = "lambda", main = "Ridge Regression Path")
+plot(lasso_path, xvar = "lambda", main = "Lasso Regression Path")
+```
+
+### Interpretation
+
+-   Each line represents one coefficient as λ changes
+-   Ridge: all coefficients shrink together toward zero
+-   Lasso: coefficients drop to exactly zero at different λ values
+-   Cross-validation selects the optimal λ
+:::
+
+## Regularization Worked Example: Biomaterial Properties {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(glmnet)
+
+# Simulated biomaterial data: 15 material properties predicting biocompatibility
+set.seed(42)
+n <- 100; p <- 15
+X <- matrix(rnorm(n * p), n, p)
+colnames(X) <- paste0("property_", 1:p)
+# Only 4 properties actually matter
+y <- 3 * X[,1] - 2 * X[,3] + 1.5 * X[,7] + 0.8 * X[,12] + rnorm(n, 0, 2)
+
+# Step 1: Scale predictors (glmnet does this by default)
+# Step 2: Split data
+set.seed(42)
+train_idx <- sample(n, 0.7 * n)
+X_train <- X[train_idx, ]; y_train <- y[train_idx]
+X_test  <- X[-train_idx, ]; y_test  <- y[-train_idx]
+
+# Step 3: Fit with cross-validation
+lasso_cv <- cv.glmnet(X_train, y_train, alpha = 1, nfolds = 10)
+ridge_cv <- cv.glmnet(X_train, y_train, alpha = 0, nfolds = 10)
+
+# Step 4: Optimal lambda
+cat("Lasso lambda.min:", lasso_cv$lambda.min, "\n")
+cat("Ridge lambda.min:", ridge_cv$lambda.min, "\n")
+
+# Step 5: Extract coefficients — which properties are selected?
+lasso_coefs <- coef(lasso_cv, s = "lambda.min")
+print(lasso_coefs)
+
+# Step 6: Compare test set performance
+lasso_pred <- predict(lasso_cv, X_test, s = "lambda.min")
+ridge_pred <- predict(ridge_cv, X_test, s = "lambda.min")
+ols_model  <- lm(y_train ~ X_train)
+ols_pred   <- cbind(1, X_test) %*% coef(ols_model)
+
+cat("Test RMSE — Lasso:", sqrt(mean((y_test - lasso_pred)^2)), "\n")
+cat("Test RMSE — Ridge:", sqrt(mean((y_test - ridge_pred)^2)), "\n")
+cat("Test RMSE — OLS:  ", sqrt(mean((y_test - ols_pred)^2)), "\n")
+```
+
+### Visualization
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Plot cross-validation curves
+par(mfrow = c(1, 2))
+plot(lasso_cv, main = "Lasso CV")
+plot(ridge_cv, main = "Ridge CV")
+
+# Coefficient path showing variable selection
+plot(glmnet(X_train, y_train, alpha = 1), xvar = "lambda",
+     main = "Lasso Coefficient Path")
+abline(v = log(lasso_cv$lambda.min), lty = 2, col = "red")
+legend("topright", "lambda.min", lty = 2, col = "red", cex = 0.8)
+```
+:::
+
+------------------------------------------------------------------------
+
+# Splines for Non-Linear Relationships {background-color="#2c3e50"}
+
+## What are Splines? {.smaller}
+
+Splines are **piecewise polynomials** that create smooth curves by fitting different polynomial segments between data points.
+
+**Types of Spline Fitting:**
+
+-   **Regression Splines**: Fit using least squares with specified knots
+-   **Smoothing Splines**: Balance data fidelity and smoothness automatically
+-   **Penalized Splines (P-splines)**: Combine B-spline basis with penalties
+-   **Thin Plate Splines**: Extend to multiple dimensions for spatial data
+
+## Splines in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Natural splines
+library(splines)
+model_ns <- lm(y ~ ns(x, df = 4), data = mydata)
+
+# Smoothing splines
+smooth_fit <- smooth.spline(x, y, cv = TRUE)
+
+# Generalized Additive Models (GAMs)
+library(mgcv)
+gam_model <- gam(y ~ s(x), data = mydata)
+
+# Thin plate spline for 2D spatial data
+model_tp <- gam(z ~ s(x, y, bs = "tp"), data = spatial_data)
+```
+
+### Key Points
+
+-   Natural splines constrain the tails to be linear (less extrapolation danger)
+-   GAMs use `s()` to automatically select the amount of smoothing
+-   Cross-validation (`cv = TRUE`) selects the optimal smoothing parameter
+:::
+
+## LOESS Smoothing {.smaller}
+
+LOESS (Locally Estimated Scatterplot Smoothing) fits local polynomial regressions at each point:
+
+![](images/week08_03_loess_1.jpg){fig-align="center" width="80%"}
+
+## LOESS Animation {.smaller}
+
+![](images/week08_04_loess_animation.gif){fig-align="center" width="80%"}
+
+## LOESS with Different Spans {.smaller}
+
+The span parameter controls the smoothness — smaller values create more flexible fits:
+
+![](images/week08_05_loess_multi_span_animation.gif){fig-align="center" width="80%"}
+
+## Comparing Fitting Approaches {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: spline-comparison-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+library(splines)
+set.seed(42)
+x <- seq(0, 10, length.out = 100)
+y <- sin(x) + 0.3 * x + rnorm(100, 0, 0.5)
+df <- data.frame(x, y)
+
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+
+# Linear
+plot(x, y, pch = 16, cex = 0.6, col = "gray60", main = "Linear Regression")
+m1 <- lm(y ~ x, data = df)
+lines(x, predict(m1), col = "steelblue", lwd = 2)
+
+# Polynomial (degree 5)
+plot(x, y, pch = 16, cex = 0.6, col = "gray60", main = "Polynomial (degree 5)")
+m2 <- lm(y ~ poly(x, 5), data = df)
+lines(x, predict(m2), col = "coral", lwd = 2)
+
+# Natural splines (df = 5)
+plot(x, y, pch = 16, cex = 0.6, col = "gray60", main = "Natural Splines (df = 5)")
+m3 <- lm(y ~ ns(x, df = 5), data = df)
+lines(x, predict(m3), col = "forestgreen", lwd = 2)
+
+# GAM with smoothing spline
+plot(x, y, pch = 16, cex = 0.6, col = "gray60", main = "GAM (Smoothing Spline)")
+m4 <- smooth.spline(x, y, cv = TRUE)
+lines(m4, col = "purple", lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: spline-comparison-code
+#| echo: true
+#| eval: false
+
+library(splines)
+par(mfrow = c(2, 2))
+
+# Linear
+m1 <- lm(y ~ x)
+plot(x, y, pch = 16, col = "gray60", main = "Linear")
+lines(x, predict(m1), col = "steelblue", lwd = 2)
+
+# Polynomial
+m2 <- lm(y ~ poly(x, 5))
+plot(x, y, pch = 16, col = "gray60", main = "Polynomial (deg 5)")
+lines(x, predict(m2), col = "coral", lwd = 2)
+
+# Natural splines
+m3 <- lm(y ~ ns(x, df = 5))
+plot(x, y, pch = 16, col = "gray60", main = "Natural Splines (df=5)")
+lines(x, predict(m3), col = "forestgreen", lwd = 2)
+
+# GAM
+m4 <- smooth.spline(x, y, cv = TRUE)
+plot(x, y, pch = 16, col = "gray60", main = "GAM")
+lines(m4, col = "purple", lwd = 2)
+```
+
+### Tradeoffs
+
+| Method          | Flexibility | Extrapolation | Interpretability |
+|:----------------|:------------|:--------------|:-----------------|
+| Linear          | Low         | Reasonable    | High             |
+| Polynomial      | Medium      | Dangerous     | Medium           |
+| Natural splines | High        | Linear tails  | Medium           |
+| GAM             | High        | Auto-tuned    | Lower            |
+:::
+
+------------------------------------------------------------------------
+
+# Survival Analysis {background-color="#2c3e50"}
+
+## What is Survival Analysis? {.smaller}
+
+**Time-to-event analysis** — studying the time until an event occurs:
+
+-   Time until death (clinical trials)
+-   Time until device failure (bioengineering)
+-   Time until cell division or apoptosis
+-   Time until disease recurrence
+
+**Key Features:**
+
+-   **Censoring**: Some subjects haven't experienced the event yet
+-   **Non-normal data**: Time data is typically right-skewed
+-   **Hazard rates**: Instantaneous risk of the event at any given time
+
+## Censoring in Survival Data {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: censoring-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 3
+
+# Visualize censoring concept
+par(mar = c(4, 4, 2, 1))
+plot(NULL, xlim = c(0, 12), ylim = c(0.5, 5.5), xlab = "Time (months)",
+     ylab = "Subject", main = "Survival Data with Censoring", yaxt = "n")
+axis(2, at = 1:5, labels = paste("Subject", 1:5), las = 1)
+
+# Subject timelines
+segments(0, 5, 3, 5, lwd = 3, col = "steelblue")
+points(3, 5, pch = 4, cex = 2, col = "red", lwd = 2)  # Event
+segments(0, 4, 8, 4, lwd = 3, col = "steelblue")
+points(8, 4, pch = 1, cex = 2, col = "darkgreen", lwd = 2)  # Censored
+segments(0, 3, 5, 3, lwd = 3, col = "steelblue")
+points(5, 3, pch = 4, cex = 2, col = "red", lwd = 2)  # Event
+segments(0, 2, 10, 2, lwd = 3, col = "steelblue")
+points(10, 2, pch = 1, cex = 2, col = "darkgreen", lwd = 2)  # Censored
+segments(0, 1, 7, 1, lwd = 3, col = "steelblue")
+points(7, 1, pch = 4, cex = 2, col = "red", lwd = 2)  # Event
+
+legend("topright", c("Event (X)", "Censored (O)"),
+       pch = c(4, 1), col = c("red", "darkgreen"), pt.lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: censoring-code
+#| echo: true
+#| eval: false
+
+par(mar = c(4, 4, 2, 1))
+plot(NULL, xlim = c(0, 12), ylim = c(0.5, 5.5), xlab = "Time (months)",
+     ylab = "Subject", main = "Survival Data with Censoring", yaxt = "n")
+axis(2, at = 1:5, labels = paste("Subject", 1:5), las = 1)
+
+segments(0, 5, 3, 5, lwd = 3, col = "steelblue")
+points(3, 5, pch = 4, cex = 2, col = "red", lwd = 2)
+segments(0, 4, 8, 4, lwd = 3, col = "steelblue")
+points(8, 4, pch = 1, cex = 2, col = "darkgreen", lwd = 2)
+# ... (additional subjects)
+
+legend("topright", c("Event (X)", "Censored (O)"),
+       pch = c(4, 1), col = c("red", "darkgreen"), pt.lwd = 2)
+```
+:::
+
+## The Survival and Hazard Functions {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Survival function:** $$S(t) = P(T > t) = \text{Probability of surviving past time } t$$
+
+-   $S(0) = 1$ (everyone alive at start)
+-   $S(t)$ decreases over time
+-   $S(\infty) = 0$ (eventually everyone experiences the event)
+
+**Hazard function:** $$h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\Delta t}$$
+
+### LaTeX
+
+``` text
+S(t) = P(T > t)
+
+h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\Delta t}
+```
+:::
+
+## Kaplan-Meier Estimator {.smaller}
+
+The **product-limit estimator** for the survival function:
+
+::: panel-tabset
+### Equation
+
+$$\hat{S}(t) = \prod_{t_i \leq t} \left(1 - \frac{d_i}{n_i}\right)$$
+
+Where $d_i$ = events at time $t_i$ and $n_i$ = number at risk before $t_i$
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(survival)
+data(lung)
+
+# Fit Kaplan-Meier model
+km_fit <- survfit(Surv(time, status) ~ 1, data = lung)
+
+# Plot survival curve
+plot(km_fit, xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Kaplan-Meier Survival Curve - Lung Cancer",
+     col = "steelblue", lwd = 2, conf.int = TRUE)
+abline(h = 0.5, lty = 2, col = "red")
+```
+:::
+
+## Kaplan-Meier Curves {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: km-curves-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+library(survival)
+data(lung)
+km_fit <- survfit(Surv(time, status) ~ 1, data = lung)
+
+plot(km_fit, xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Kaplan-Meier Survival Curve - Lung Cancer",
+     col = "steelblue", lwd = 2, conf.int = TRUE)
+abline(h = 0.5, lty = 2, col = "red")
+legend("topright", c("Survival curve", "95% CI", "Median survival"),
+       col = c("steelblue", "steelblue", "red"), lwd = c(2, 1, 1), lty = c(1, 2, 2))
+```
+
+### Code
+
+```{r}
+#| label: km-curves-code
+#| echo: true
+#| eval: false
+
+km_fit <- survfit(Surv(time, status) ~ 1, data = lung)
+
+plot(km_fit, xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Kaplan-Meier Survival Curve - Lung Cancer",
+     col = "steelblue", lwd = 2, conf.int = TRUE)
+abline(h = 0.5, lty = 2, col = "red")
+legend("topright", c("Survival curve", "95% CI", "Median survival"),
+       col = c("steelblue", "steelblue", "red"), lwd = c(2, 1, 1), lty = c(1, 2, 2))
+```
+:::
+
+## Comparing Survival Curves {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: survival-comparison-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+km_sex <- survfit(Surv(time, status) ~ sex, data = lung)
+plot(km_sex, col = c("steelblue", "coral"), lwd = 2,
+     xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Survival by Sex")
+legend("topright", c("Male", "Female"), col = c("steelblue", "coral"), lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: survival-comparison-code
+#| echo: true
+#| eval: false
+
+km_sex <- survfit(Surv(time, status) ~ sex, data = lung)
+plot(km_sex, col = c("steelblue", "coral"), lwd = 2,
+     xlab = "Time (days)", ylab = "Survival Probability",
+     main = "Survival by Sex")
+legend("topright", c("Male", "Female"), col = c("steelblue", "coral"), lwd = 2)
+```
+:::
+
+## Log-Rank Test {.smaller}
+
+Tests whether survival curves differ significantly between groups:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+survdiff(Surv(time, status) ~ sex, data = lung)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Log-rank test comparing survival by sex
+survdiff(Surv(time, status) ~ sex, data = lung)
+```
+:::
+
+## Cox Proportional Hazards Model {.smaller}
+
+**Semi-parametric model** relating covariates to hazard:
+
+::: panel-tabset
+### Equation
+
+$$h(t \mid X) = h_0(t) \cdot \exp(\beta_1 X_1 + \beta_2 X_2 + \ldots)$$
+
+Where $h_0(t)$ is the baseline hazard and $\exp(\beta)$ is the **hazard ratio** for a 1-unit increase.
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: true
+
+cox_model <- coxph(Surv(time, status) ~ age + sex + ph.ecog, data = lung)
+summary(cox_model)
+```
+:::
+
+## Interpreting Hazard Ratios {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+exp(cbind(HR = coef(cox_model), confint(cox_model)))
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Extract hazard ratios with confidence intervals
+exp(cbind(HR = coef(cox_model), confint(cox_model)))
+```
+
+### Interpretation
+
+-   HR = 1: No effect on survival
+-   HR \> 1: Increased hazard (worse survival)
+-   HR \< 1: Decreased hazard (better survival)
+-   Example: HR for sex = 0.59 means females have 41% lower hazard than males
+:::
+
+## Checking Proportional Hazards Assumption {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: ph-assumption-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 4
+
+ph_test <- cox.zph(cox_model)
+print(ph_test)
+plot(ph_test[2], main = "Schoenfeld Residuals for Sex")
+abline(h = 0, col = "red", lty = 2)
+```
+
+### Code
+
+```{r}
+#| label: ph-assumption-code
+#| echo: true
+#| eval: false
+
+# Test proportional hazards assumption
+ph_test <- cox.zph(cox_model)
+print(ph_test)
+
+# Visual check — Schoenfeld residuals should show no trend
+plot(ph_test[2], main = "Schoenfeld Residuals for Sex")
+abline(h = 0, col = "red", lty = 2)
+```
+:::
+
+## Bioengineering Example: Scaffold Degradation {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: scaffold-survival-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+library(survival)
+set.seed(2026)
+n_scaffolds <- 90
+scaffold_surv <- data.frame(
+  material = factor(rep(c("PLGA", "PCL", "Collagen"), each = 30)),
+  time = c(rweibull(30, 2, 14), rweibull(30, 2, 28), rweibull(30, 1.5, 10)),
+  event = rbinom(n_scaffolds, 1, 0.85)
+)
+scaffold_surv$time <- pmax(scaffold_surv$time, 0.5)
+
+km_scaffold <- survfit(Surv(time, event) ~ material, data = scaffold_surv)
+plot(km_scaffold, col = c("coral", "steelblue", "forestgreen"), lwd = 2,
+     xlab = "Time (weeks)", ylab = "Proportion Intact",
+     main = "Scaffold Degradation by Material")
+legend("topright", c("Collagen", "PCL", "PLGA"),
+       col = c("coral", "steelblue", "forestgreen"), lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: scaffold-survival-code
+#| echo: true
+#| eval: false
+
+# Simulated scaffold degradation data
+set.seed(2026)
+scaffold_surv <- data.frame(
+  material = factor(rep(c("PLGA", "PCL", "Collagen"), each = 30)),
+  time = c(rweibull(30, 2, 14),    # PLGA: moderate degradation
+           rweibull(30, 2, 28),     # PCL: slow degradation
+           rweibull(30, 1.5, 10)),  # Collagen: fast degradation
+  event = rbinom(90, 1, 0.85)      # 85% observed degradation
+)
+
+# Kaplan-Meier by material
+km_scaffold <- survfit(Surv(time, event) ~ material, data = scaffold_surv)
+plot(km_scaffold, col = c("coral", "steelblue", "forestgreen"), lwd = 2,
+     xlab = "Time (weeks)", ylab = "Proportion Intact",
+     main = "Scaffold Degradation by Material")
+
+# Log-rank test
+survdiff(Surv(time, event) ~ material, data = scaffold_surv)
+
+# Cox model: which material degrades fastest?
+cox_scaffold <- coxph(Surv(time, event) ~ material, data = scaffold_surv)
+summary(cox_scaffold)
+exp(cbind(HR = coef(cox_scaffold), confint(cox_scaffold)))
+```
+
+### Interpretation
+
+In this bioengineering context:
+
+-   **Event** = scaffold degradation (loss of structural integrity)
+-   **Censored** = scaffold still intact at end of observation period
+-   **Hazard ratio** = relative rate of degradation vs. reference material
+-   A higher HR means faster degradation
+:::
+
+## R Exercise: Logistic Regression {.smaller}
+
+::: callout-tip
+## Exercise
+
+A medical researcher wants to predict diabetes using blood glucose and BMI:
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Simulated diabetes data
+set.seed(123)
+n <- 200
+glucose <- rnorm(n, 100, 20)
+bmi <- rnorm(n, 27, 5)
+prob <- 1 / (1 + exp(-(-8 + 0.05 * glucose + 0.1 * bmi)))
+diabetes <- rbinom(n, 1, prob)
+diabetes_data <- data.frame(diabetes, glucose, bmi)
+```
+
+Tasks:
+
+1.  Fit logistic regression: `diabetes ~ glucose + bmi`
+2.  Interpret the odds ratios (exponentiated coefficients)
+3.  Predict probability of diabetes for glucose = 120, BMI = 30
+4.  Create a confusion matrix and calculate accuracy
+5.  What glucose level gives 50% probability (at mean BMI)?
+:::
+
+------------------------------------------------------------------------
+
+# Week 9: Statistical Learning and Classification {background-color="#2c3e50"}
+
+## Week 9 Topics
+
+::: incremental
+-   Introduction to statistical learning
+-   Overfitting and the bias-variance tradeoff
+-   Cross-validation
+-   Bayesian statistics
+-   K-nearest neighbors (KNN)
+-   Support vector machines (SVM)
+-   Hierarchical clustering
+:::
+
+::: callout-note
+**Readings:** Chapters 30–35
+
+**HW4 Due this week**
+:::
+
+## Packages for This Week {.smaller}
+
+::: panel-tabset
+### Install
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Install new packages (run once)
+install.packages(c("class", "caret", "cluster", "dendextend", "e1071"))
+```
+
+### Load
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(tidyverse)    # Data manipulation & visualization
+library(boot)         # Bootstrap and cross-validation
+library(class)        # K-nearest neighbors (knn)
+library(caret)        # Classification And REgression Training
+library(cluster)      # Clustering algorithms
+library(dendextend)   # Dendrogram visualization
+library(e1071)        # Support vector machines (SVM)
+library(pwr)          # Power analysis
+```
+:::
+
+**Built-in datasets used this week:** `iris` (classification example)
+
+------------------------------------------------------------------------
+
+# Statistical Learning Overview {background-color="#2c3e50"}
+
+## General Steps for Machine Learning {.smaller}
+
+![Machine learning workflow from data collection to deployment](images/week09_22_ml_workflow_steps.pdf){fig-align="center" width="90%"}
+
+## What is Statistical Learning? {.smaller}
+
+-   A set of tools for **understanding data** through models
+-   **Supervised learning**: predict an outcome from predictors (requires labeled data)
+-   **Unsupervised learning**: find patterns without a predefined outcome variable
+
+| Type         | Goal                | Examples                   |
+|:-------------|:--------------------|:---------------------------|
+| Supervised   | Predict Y from X    | Regression, classification |
+| Unsupervised | Find structure in X | Clustering, PCA            |
+
+## Machine Learning Steps {.smaller}
+
+![The ML workflow from data to predictions](images/week09_05_the_ml_workflow_from_data_to_p.jpg){fig-align="center" width="90%"}
+
+------------------------------------------------------------------------
+
+# The Overfitting Problem {background-color="#2c3e50"}
+
+## Overfitting vs. Underfitting {.smaller}
+
+::::::: columns
+:::: {.column width="50%"}
+::: callout-caution
+## Underfitting
+
+-   Model too simple
+-   High bias
+-   Misses important patterns
+-   Poor performance everywhere
+:::
+::::
+
+:::: {.column width="50%"}
+::: callout-warning
+## Overfitting
+
+-   Model too complex
+-   High variance
+-   Memorizes noise
+-   Great on training, poor on testing
+:::
+::::
+:::::::
+
+## Bias-Variance Tradeoff {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$$
+
+### LaTeX
+
+``` text
+\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
+```
+:::
+
+-   **Bias**: error from incorrect model assumptions (too simple)
+-   **Variance**: error from sensitivity to training data (too complex)
+-   Goal: balance flexibility with stability
+
+![Bias-variance tradeoff](images/week09_04_bias_variance_tradeoff_visuali.jpeg){fig-align="center" width="70%"}
+
+## In-Class Demo: Overfitting in Action {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: overfit-demo-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+set.seed(1)
+x_pop <- runif(1000, 0, 10)
+y_pop <- 6 - 0.5 * x_pop + rnorm(1000, sd = 2)
+
+set.seed(0)
+idx <- sample(1000, 25)
+x_samp <- x_pop[idx]; y_samp <- y_pop[idx]
+
+par(mfrow = c(1, 2))
+
+plot(x_pop, y_pop, col = "lightblue", pch = 19, cex = 0.5,
+     main = "Linear Model (Appropriate)", xlab = "x", ylab = "y")
+points(x_samp, y_samp, col = "black", pch = 19)
+abline(lm(y_samp ~ x_samp), col = "red", lwd = 2)
+abline(a = 6, b = -0.5, col = "blue", lwd = 2, lty = 2)
+legend("topright", c("True line", "Sample fit"), col = c("blue", "red"), lty = c(2, 1), lwd = 2)
+
+plot(x_pop, y_pop, col = "lightblue", pch = 19, cex = 0.5,
+     main = "LOESS Model (Overfit)", xlab = "x", ylab = "y")
+points(x_samp, y_samp, col = "black", pch = 19)
+lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)], col = "red", lwd = 2)
+abline(a = 6, b = -0.5, col = "blue", lwd = 2, lty = 2)
+```
+
+### Code
+
+```{r}
+#| label: overfit-demo-code
+#| echo: true
+#| eval: false
+
+set.seed(1)
+x_pop <- runif(1000, 0, 10)
+y_pop <- 6 - 0.5 * x_pop + rnorm(1000, sd = 2)
+
+set.seed(0)
+idx <- sample(1000, 25)
+x_samp <- x_pop[idx]; y_samp <- y_pop[idx]
+
+par(mfrow = c(1, 2))
+
+# Linear model: appropriate fit
+plot(x_pop, y_pop, col = "lightblue", pch = 19, cex = 0.5,
+     main = "Linear Model (Appropriate)", xlab = "x", ylab = "y")
+points(x_samp, y_samp, col = "black", pch = 19)
+abline(lm(y_samp ~ x_samp), col = "red", lwd = 2)
+abline(a = 6, b = -0.5, col = "blue", lwd = 2, lty = 2)
+
+# LOESS: overfitting
+plot(x_pop, y_pop, col = "lightblue", pch = 19, cex = 0.5,
+     main = "LOESS Model (Overfit)", xlab = "x", ylab = "y")
+points(x_samp, y_samp, col = "black", pch = 19)
+lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)],
+      col = "red", lwd = 2)
+abline(a = 6, b = -0.5, col = "blue", lwd = 2, lty = 2)
+```
+:::
+
+# BREAK {background-color="#e74c3c"}
+
+# Cross-Validation {background-color="#2c3e50"}
+
+## What is Cross-Validation? {.smaller}
+
+-   Assess model performance on **unseen data**
+-   Reduce overfitting by testing generalization
+-   Compare different models objectively
+
+![](images/week09_06_crossvalidation1.png){fig-align="center" width="70%"}
+
+## Training vs Testing Data {.smaller}
+
+![](images/week09_07_crossvalidation2.png){fig-align="center" width="80%"}
+
+## Overfitting Problem {.smaller}
+
+![](images/week09_08_crossvalidation3.png){fig-align="center" width="80%"}
+
+## K-Fold CV Concept {.smaller}
+
+**Process:**
+
+1.  Split data into k folds
+2.  Train on k − 1 folds
+3.  Test on remaining fold
+4.  Repeat k times
+5.  Average results
+
+![](images/week09_09_crossvalidation4.png){fig-align="center" width="80%"}
+
+## K-Fold Cross-Validation Illustration {.smaller}
+
+![](images/week09_10_crossvalidation5.png){fig-align="center" width="80%"}
+
+## CV Results Comparison {.smaller}
+
+![](images/week09_11_crossvalidation6.png){fig-align="center" width="80%"}
+
+## Model Selection with CV {.smaller}
+
+![](images/week09_12_crossvalidation7.png){fig-align="center" width="80%"}
+
+## CV Summary {.smaller}
+
+![](images/week09_13_crossvalidation8.png){fig-align="center" width="80%"}
+
+## K-Fold Cross-Validation in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: cv-example
+#| echo: false
+#| eval: true
+
+library(boot)
+
+set.seed(123)
+n <- 100
+x <- runif(n, 0, 2 * pi)
+y <- sin(x) + rnorm(n, 0, 0.3)
+data <- data.frame(x = x, y = y)
+
+model <- glm(y ~ poly(x, 3), data = data)
+cv_result <- cv.glm(data, model, K = 10)
+cat("10-fold CV MSE:", round(cv_result$delta[1], 4))
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(boot)
+
+set.seed(123)
+n <- 100
+x <- runif(n, 0, 2 * pi)
+y <- sin(x) + rnorm(n, 0, 0.3)
+data <- data.frame(x = x, y = y)
+
+model <- glm(y ~ poly(x, 3), data = data)
+cv_result <- cv.glm(data, model, K = 10)
+cat("10-fold CV MSE:", round(cv_result$delta[1], 4))
+```
+:::
+
+## Choosing K {.smaller}
+
+| K      | Description           | Properties                       |
+|:-------|:----------------------|:---------------------------------|
+| K = 5  | 5-fold CV             | Good balance, common choice      |
+| K = 10 | 10-fold CV            | Most popular default             |
+| K = n  | Leave-one-out (LOOCV) | Maximum training data, expensive |
+
+## CV for Polynomial Degree Selection {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: cv-poly-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+set.seed(42)
+n <- 80
+x <- runif(n, 0, 6)
+y <- 2 + 3*x - 0.5*x^2 + rnorm(n, 0, 1.5)
+df <- data.frame(x, y)
+
+cv_errors <- numeric(10)
+for (d in 1:10) {
+  cv_err <- 0
+  for (i in 1:n) {
+    fit <- lm(y ~ poly(x, d), data = df[-i, ])
+    pred <- predict(fit, df[i, , drop = FALSE])
+    cv_err <- cv_err + (df$y[i] - pred)^2
+  }
+  cv_errors[d] <- cv_err / n
+}
+
+plot(1:10, cv_errors, type = "b", pch = 19, col = "steelblue", lwd = 2,
+     xlab = "Polynomial Degree", ylab = "LOOCV Error (MSE)",
+     main = "Cross-Validation for Model Selection")
+abline(v = which.min(cv_errors), lty = 2, col = "red")
+legend("topright", paste("Optimal degree =", which.min(cv_errors)),
+       col = "red", lty = 2, bty = "n")
+```
+
+### Code
+
+```{r}
+#| label: cv-poly-code
+#| echo: true
+#| eval: false
+
+# LOOCV to select optimal polynomial degree
+set.seed(42)
+n <- 80
+x <- runif(n, 0, 6)
+y <- 2 + 3*x - 0.5*x^2 + rnorm(n, 0, 1.5)
+df <- data.frame(x, y)
+
+cv_errors <- numeric(10)
+for (d in 1:10) {
+  cv_err <- 0
+  for (i in 1:n) {
+    fit <- lm(y ~ poly(x, d), data = df[-i, ])
+    pred <- predict(fit, df[i, , drop = FALSE])
+    cv_err <- cv_err + (df$y[i] - pred)^2
+  }
+  cv_errors[d] <- cv_err / n
+}
+
+# Plot CV error vs. complexity
+plot(1:10, cv_errors, type = "b", pch = 19, col = "steelblue",
+     xlab = "Polynomial Degree", ylab = "LOOCV MSE",
+     main = "Cross-Validation for Model Selection")
+abline(v = which.min(cv_errors), lty = 2, col = "red")
+
+# The "elbow" shows where adding complexity stops helping
+cat("Optimal degree:", which.min(cv_errors))
+```
+
+### Key Insight
+
+-   CV error initially decreases as model becomes more flexible
+-   After the optimal point, overfitting causes CV error to **increase**
+-   This "elbow" identifies the best bias-variance tradeoff
+-   Connects directly to model selection from Week 7
+:::
+
+------------------------------------------------------------------------
+
+# Introduction to Bayesian Statistics {background-color="#2c3e50"}
+
+## Frequentist vs. Bayesian {.smaller}
+
+**Frequentist (what we've learned so far):**
+
+-   Parameters are fixed, unknown constants
+-   Probability = long-run frequency of events
+-   Confidence intervals: "95% of such intervals contain the true parameter"
+-   Focus on p-values and hypothesis tests
+
+**Bayesian:**
+
+-   Parameters have **probability distributions**
+-   Probability = degree of belief
+-   Credible intervals: "95% probability the parameter is in this range"
+-   Focus on **posterior distributions**
+
+## Bayes' Theorem Review {.smaller}
+
+::: panel-tabset
+### Equation
+
+$$P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}$$
+
+Or more simply: $$\text{Posterior} \propto \text{Likelihood} \times \text{Prior}$$
+
+### LaTeX
+
+``` text
+P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}
+```
+
+### Components
+
+-   **Prior** $P(\theta)$: What we believe before seeing data
+-   **Likelihood** $P(data \mid \theta)$: How probable the data is given a parameter value
+-   **Posterior** $P(\theta \mid data)$: Updated belief after seeing data
+-   The posterior is a compromise between the prior and the data
+:::
+
+## Bayesian Estimation: Coin Flip Example {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: bayes-coin-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+par(mfrow = c(1, 3))
+theta <- seq(0, 1, length.out = 100)
+
+plot(theta, dbeta(theta, 2, 2), type = "l", lwd = 2, col = "steelblue",
+     main = "Prior: Beta(2,2)", xlab = "θ (prob of heads)", ylab = "Density")
+
+plot(theta, dbinom(7, 10, theta), type = "l", lwd = 2, col = "coral",
+     main = "Likelihood: 7/10 heads", xlab = "θ", ylab = "Likelihood")
+
+plot(theta, dbeta(theta, 9, 5), type = "l", lwd = 2, col = "darkgreen",
+     main = "Posterior: Beta(9,5)", xlab = "θ", ylab = "Density")
+abline(v = qbeta(c(0.025, 0.975), 9, 5), lty = 2, col = "red")
+```
+
+### Code
+
+```{r}
+#| label: bayes-coin-code
+#| echo: true
+#| eval: false
+
+par(mfrow = c(1, 3))
+theta <- seq(0, 1, length.out = 100)
+
+# Prior: Beta(2, 2) — slight belief coin is fair
+plot(theta, dbeta(theta, 2, 2), type = "l", lwd = 2, col = "steelblue",
+     main = "Prior: Beta(2,2)", xlab = "θ (prob of heads)", ylab = "Density")
+
+# Likelihood (binomial): 7 heads out of 10 flips
+plot(theta, dbinom(7, 10, theta), type = "l", lwd = 2, col = "coral",
+     main = "Likelihood: 7/10 heads", xlab = "θ", ylab = "Likelihood")
+
+# Posterior: Beta(2+7, 2+3) = Beta(9, 5)
+plot(theta, dbeta(theta, 9, 5), type = "l", lwd = 2, col = "darkgreen",
+     main = "Posterior: Beta(9,5)", xlab = "θ", ylab = "Density")
+abline(v = qbeta(c(0.025, 0.975), 9, 5), lty = 2, col = "red")
+```
+:::
+
+## Credible Intervals {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+posterior_mean <- 9 / (9 + 5)
+credible_interval <- qbeta(c(0.025, 0.975), 9, 5)
+
+cat("Posterior mean:", round(posterior_mean, 3), "\n")
+cat("95% Credible Interval:", round(credible_interval, 3), "\n")
+cat("\nInterpretation: There's a 95% probability the true\n")
+cat("probability of heads is between", round(credible_interval[1], 2),
+    "and", round(credible_interval[2], 2))
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Posterior: Beta(9, 5)
+posterior_mean <- 9 / (9 + 5)
+credible_interval <- qbeta(c(0.025, 0.975), 9, 5)
+
+cat("Posterior mean:", round(posterior_mean, 3), "\n")
+cat("95% Credible Interval:", round(credible_interval, 3))
+```
+:::
+
+## Bayesian Linear Regression Concept {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: bayes-lm-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 4
+
+set.seed(42)
+beta1_samples <- rnorm(10000, mean = 2.3, sd = 0.4)
+
+hist(beta1_samples, breaks = 50, col = "lightblue", border = "white",
+     main = "Posterior Distribution of Slope",
+     xlab = expression(beta[1]), probability = TRUE)
+abline(v = quantile(beta1_samples, c(0.025, 0.975)), col = "red", lwd = 2, lty = 2)
+abline(v = mean(beta1_samples), col = "darkblue", lwd = 2)
+legend("topright", c("Posterior mean", "95% CI"),
+       col = c("darkblue", "red"), lwd = 2, lty = c(1, 2))
+```
+
+### Code
+
+```{r}
+#| label: bayes-lm-code
+#| echo: true
+#| eval: false
+
+set.seed(42)
+beta1_samples <- rnorm(10000, mean = 2.3, sd = 0.4)
+
+hist(beta1_samples, breaks = 50, col = "lightblue", border = "white",
+     main = "Posterior Distribution of Slope",
+     xlab = expression(beta[1]), probability = TRUE)
+abline(v = quantile(beta1_samples, c(0.025, 0.975)), col = "red", lwd = 2, lty = 2)
+abline(v = mean(beta1_samples), col = "darkblue", lwd = 2)
+```
+:::
+
+## When to Use Bayesian Methods {.smaller}
+
+::: callout-tip
+## Consider Bayesian When:
+
+1.  **Prior information exists** — previous studies, expert knowledge
+2.  **Small sample sizes** — priors stabilize estimates
+3.  **Complex models** — hierarchical models, missing data
+4.  **Direct probability statements** — "90% chance effect is positive"
+5.  **Sequential updating** — accumulating evidence over time
+:::
+
+**R Packages for Bayesian Analysis:**
+
+-   **rstanarm**: Easy Bayesian regression (similar syntax to lm/glm)
+-   **brms**: Flexible Bayesian models
+-   **BayesFactor**: Bayesian hypothesis testing
+
+## Bayesian Regression in Practice {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Install: install.packages("rstanarm")
+library(rstanarm)
+
+# Frequentist linear regression
+freq_model <- lm(Petal.Length ~ Sepal.Length + Sepal.Width,
+                 data = iris)
+summary(freq_model)
+
+# Bayesian equivalent — nearly identical syntax!
+bayes_model <- stan_glm(Petal.Length ~ Sepal.Length + Sepal.Width,
+                        data = iris,
+                        family = gaussian(),
+                        prior = normal(0, 5),         # weakly informative
+                        prior_intercept = normal(0, 10),
+                        chains = 4, iter = 2000, seed = 42)
+
+# Posterior summary
+print(bayes_model, digits = 3)
+
+# 95% credible intervals
+posterior_interval(bayes_model, prob = 0.95)
+
+# Compare to frequentist CIs
+confint(freq_model)
+```
+
+### Posterior Visualization
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Plot posterior distributions of coefficients
+plot(bayes_model, plotfun = "areas", prob = 0.95,
+     pars = c("Sepal.Length", "Sepal.Width"))
+
+# Posterior predictive check: does the model generate
+# data that looks like the real data?
+pp_check(bayes_model, plotfun = "dens_overlay", nreps = 50)
+
+# Probability that Sepal.Length effect is positive
+posterior_draws <- as.data.frame(bayes_model)
+cat("P(Sepal.Length > 0) =",
+    mean(posterior_draws$Sepal.Length > 0))
+```
+
+### Key Differences from Frequentist
+
+-   **Credible intervals** have a direct probability interpretation (unlike CIs)
+-   **Posterior predictive checks** tell you if the model is adequate
+-   With weak priors and enough data, Bayesian and frequentist results converge
+-   Bayesian approach naturally handles small samples and complex models
+:::
+
+------------------------------------------------------------------------
+
+# K-Nearest Neighbors (KNN) {background-color="#2c3e50"}
+
+## What is KNN? {.smaller}
+
+KNN is a **lazy learning** algorithm that makes predictions based on the k nearest neighbors in the feature space.
+
+-   Non-parametric method
+-   Instance-based learning (no explicit training phase)
+-   Used for both classification and regression
+-   "Tell me who your neighbors are, and I'll tell you who you are"
+
+## KNN and Overfitting {.smaller}
+
+![](images/week09_15_knn_1_overfit_1.jpg){fig-align="center" width="80%"}
+
+Choosing the right value of k is crucial: k too small → overfitting; k too large → underfitting.
+
+## KNN Algorithm Steps {.smaller}
+
+1.  **Choose** the number of neighbors (k)
+2.  **Calculate** distance between the query point and all training points
+3.  **Sort** distances and identify k nearest neighbors
+4.  **Classify** based on majority vote (classification) or average (regression)
+
+## Distance Metrics for KNN {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Euclidean Distance:** $$d(x_i, x_j) = \sqrt{\sum_{l=1}^{p}(x_{il} - x_{jl})^2}$$
+
+**Manhattan Distance:** $$d(x_i, x_j) = \sum_{l=1}^{p}|x_{il} - x_{jl}|$$
+
+**Minkowski Distance (generalized):** $$d(x_i, x_j) = \left(\sum_{l=1}^{p}|x_{il} - x_{jl}|^q\right)^{1/q}$$
+
+### LaTeX
+
+``` text
+d_{Euclidean} = \sqrt{\sum_{l=1}^{p}(x_{il} - x_{jl})^2}
+
+d_{Manhattan} = \sum_{l=1}^{p}|x_{il} - x_{jl}|
+
+d_{Minkowski} = \left(\sum_{l=1}^{p}|x_{il} - x_{jl}|^q\right)^{1/q}
+```
+:::
+
+## KNN Classification in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(class)
+
+# Prepare data
+train_features <- train_data[, c("x1", "x2")]
+train_labels   <- train_data$class
+test_features  <- test_data[, c("x1", "x2")]
+
+# Apply KNN
+k <- 5
+knn_pred <- knn(train = train_features,
+                test  = test_features,
+                cl    = train_labels,
+                k     = k)
+
+# Calculate accuracy
+accuracy <- mean(knn_pred == test_labels)
+cat("Accuracy:", accuracy)
+```
+
+### Choosing Optimal K
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(caret)
+
+# Cross-validation for optimal k
+ctrl <- trainControl(method = "cv", number = 10)
+
+knn_model <- train(class ~ x1 + x2,
+                   data = train_data,
+                   method = "knn",
+                   trControl = ctrl,
+                   tuneGrid = data.frame(k = 1:20))
+
+plot(knn_model)
+```
+:::
+
+## KNN Pros and Cons {.smaller}
+
+**Advantages:** Simple to understand, no assumptions about data distribution, works well with small datasets, naturally handles multi-class problems
+
+**Disadvantages:** Computationally expensive for large datasets, sensitive to irrelevant features and scale, performance degrades in high dimensions (curse of dimensionality)
+
+::: callout-tip
+Always **standardize features** before applying KNN — otherwise variables measured on larger scales will dominate the distance calculations.
+:::
+
+## Complete KNN Workflow {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Step 1: Prepare and normalize data
+data(iris)
+iris_sub <- iris[iris$Species != "setosa", ]  # 2-class problem
+iris_sub$Species <- droplevels(iris_sub$Species)
+
+# Step 2: Normalize features (critical for KNN!)
+normalize <- function(x) (x - min(x)) / (max(x) - min(x))
+iris_norm <- as.data.frame(lapply(iris_sub[, 1:4], normalize))
+iris_norm$Species <- iris_sub$Species
+
+# Step 3: Train/test split
+set.seed(42)
+train_idx <- sample(nrow(iris_norm), 0.7 * nrow(iris_norm))
+train <- iris_norm[train_idx, ]
+test  <- iris_norm[-train_idx, ]
+
+# Step 4: Fit and evaluate across k values
+library(class)
+k_values <- seq(1, 25, by = 2)
+accuracies <- sapply(k_values, function(k) {
+  pred <- knn(train[, 1:4], test[, 1:4], train$Species, k = k)
+  mean(pred == test$Species)
+})
+best_k <- k_values[which.max(accuracies)]
+cat("Best k:", best_k, "with accuracy:", max(accuracies))
+
+# Step 5: Final model and confusion matrix
+final_pred <- knn(train[, 1:4], test[, 1:4], train$Species, k = best_k)
+table(Predicted = final_pred, Actual = test$Species)
+```
+
+### Decision Boundaries
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Visualize decision boundaries for different k values
+library(class)
+
+# Use 2 features for visualization
+x1_range <- seq(0, 1, length.out = 100)
+x2_range <- seq(0, 1, length.out = 100)
+grid <- expand.grid(x1 = x1_range, x2 = x2_range)
+
+par(mfrow = c(1, 3))
+for (k in c(1, 7, 25)) {
+  pred_grid <- knn(train[, 3:4], grid, train$Species, k = k)
+  plot(grid$x1, grid$x2, col = ifelse(pred_grid == "versicolor",
+       rgb(0.7, 0.7, 1, 0.3), rgb(1, 0.7, 0.7, 0.3)),
+       pch = 15, cex = 0.5, main = paste("k =", k),
+       xlab = "Petal.Length", ylab = "Petal.Width")
+  points(train[, 3], train[, 4],
+         col = ifelse(train$Species == "versicolor", "blue", "red"),
+         pch = 19)
+}
+```
+:::
+
+# BREAK {background-color="#e74c3c"}
+
+# Support Vector Machines (SVM) {background-color="#2c3e50"}
+
+## What are Support Vector Machines? {.smaller}
+
+SVMs find the optimal **hyperplane** (decision boundary) that separates classes with the **maximum margin**.
+
+-   **Hyperplane**: Decision boundary that separates classes
+-   **Support Vectors**: Data points closest to the hyperplane (the critical observations)
+-   **Margin**: Distance between the hyperplane and the nearest points
+-   **Maximum Margin**: SVM finds the hyperplane with the largest margin
+
+## Mathematical Foundation {.smaller}
+
+::: panel-tabset
+### Equation
+
+Minimize: $$\frac{1}{2}||w||^2 + C\sum_{i=1}^{n}\xi_i$$
+
+Subject to: $y_i(w^T x_i + b) \geq 1 - \xi_i$ and $\xi_i \geq 0$
+
+### LaTeX
+
+``` text
+\min \frac{1}{2}||w||^2 + C\sum_{i=1}^{n}\xi_i
+
+\text{s.t. } y_i(w^T x_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0
+```
+
+### Parameters
+
+-   $w$: weight vector (defines hyperplane orientation)
+-   $b$: bias term
+-   $C$: regularization parameter (tradeoff between margin width and misclassification)
+-   $\xi_i$: slack variables (allow some misclassification for soft-margin SVM)
+:::
+
+## The Kernel Trick {.smaller}
+
+**Problem**: What if data is not linearly separable?
+
+**Solution**: Map data to a higher-dimensional space using **kernel functions** where it becomes linearly separable.
+
+**Popular Kernels:**
+
+-   **Linear**: $K(x_i, x_j) = x_i^T x_j$
+-   **Polynomial**: $K(x_i, x_j) = (x_i^T x_j + 1)^d$
+-   **RBF (Radial Basis Function)**: $K(x_i, x_j) = \exp(-\gamma ||x_i - x_j||^2)$
+
+## Kernel Trick Visualization {.smaller}
+
+![](images/week09_17_kernel_animation.gif){fig-align="center" width="80%"}
+
+The kernel trick maps data to a higher-dimensional space where it becomes linearly separable.
+
+## SVM in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(e1071)
+
+# Build linear SVM
+svm_linear <- svm(y ~ x1 + x2,
+                  data = train_data,
+                  kernel = "linear",
+                  cost = 1)
+
+# Build RBF SVM
+svm_rbf <- svm(y ~ x1 + x2,
+               data = train_data,
+               kernel = "radial",
+               cost = 1,
+               gamma = 1)
+
+# Make predictions
+predictions <- predict(svm_rbf, test_data)
+```
+
+### Hyperparameter Tuning
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Grid search for optimal parameters
+tune_result <- tune(svm,
+                    y ~ x1 + x2,
+                    data = train_data,
+                    kernel = "radial",
+                    ranges = list(
+                      cost = c(0.1, 1, 10, 100),
+                      gamma = c(0.01, 0.1, 1, 10)
+                    ))
+
+print(tune_result$best.parameters)
+```
+:::
+
+## SVM vs Other Algorithms {.smaller}
+
+| Algorithm | Best For | Pros | Cons |
+|:---|:---|:---|:---|
+| **SVM** | High-dim, small-medium data | Robust, versatile kernels | Slow on large data |
+| **Random Forest** | General purpose, large data | Fast, interpretable | Can overfit |
+| **KNN** | Small datasets | Simple, no training | Slow at prediction |
+
+## SVM Decision Boundaries by Kernel {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: svm-boundaries-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+library(e1071)
+set.seed(42)
+# Generate non-linearly separable data
+n <- 200
+r1 <- rnorm(n/2, 1.5, 0.5); t1 <- runif(n/2, 0, 2*pi)
+r2 <- rnorm(n/2, 3, 0.5); t2 <- runif(n/2, 0, 2*pi)
+svm_data <- data.frame(
+  x1 = c(r1 * cos(t1), r2 * cos(t2)),
+  x2 = c(r1 * sin(t1), r2 * sin(t2)),
+  class = factor(rep(c("A", "B"), each = n/2))
+)
+
+grid <- expand.grid(
+  x1 = seq(-5, 5, length.out = 100),
+  x2 = seq(-5, 5, length.out = 100)
+)
+
+par(mfrow = c(1, 3), mar = c(4, 4, 3, 1))
+for (kern in c("linear", "polynomial", "radial")) {
+  fit <- svm(class ~ x1 + x2, data = svm_data, kernel = kern, cost = 10, gamma = 0.5)
+  pred <- predict(fit, grid)
+  plot(grid$x1, grid$x2, col = ifelse(pred == "A",
+       rgb(0.7, 0.7, 1, 0.2), rgb(1, 0.7, 0.7, 0.2)),
+       pch = 15, cex = 0.3, main = paste("Kernel:", kern),
+       xlab = "x1", ylab = "x2")
+  points(svm_data$x1, svm_data$x2,
+         col = ifelse(svm_data$class == "A", "blue", "red"),
+         pch = 19, cex = 0.6)
+}
+```
+
+### Code
+
+```{r}
+#| label: svm-boundaries-code
+#| echo: true
+#| eval: false
+
+library(e1071)
+
+# Create grid for visualization
+grid <- expand.grid(
+  x1 = seq(-5, 5, length.out = 100),
+  x2 = seq(-5, 5, length.out = 100)
+)
+
+par(mfrow = c(1, 3))
+for (kern in c("linear", "polynomial", "radial")) {
+  fit <- svm(class ~ x1 + x2, data = svm_data,
+             kernel = kern, cost = 10, gamma = 0.5)
+  pred <- predict(fit, grid)
+
+  plot(grid$x1, grid$x2,
+       col = ifelse(pred == "A",
+             rgb(0.7, 0.7, 1, 0.2), rgb(1, 0.7, 0.7, 0.2)),
+       pch = 15, cex = 0.3, main = paste("Kernel:", kern),
+       xlab = "x1", ylab = "x2")
+  points(svm_data$x1, svm_data$x2,
+         col = ifelse(svm_data$class == "A", "blue", "red"),
+         pch = 19, cex = 0.6)
+}
+```
+
+### Takeaway
+
+-   **Linear**: Straight boundary — fails on non-linearly separable data
+-   **Polynomial**: Curved boundary — captures moderate non-linearity
+-   **RBF (Radial)**: Flexible boundary — captures complex shapes; most versatile
+:::
+
+------------------------------------------------------------------------
+
+# Hierarchical Clustering {background-color="#2c3e50"}
+
+## What is Hierarchical Clustering? {.smaller}
+
+Creates a tree-like structure (**dendrogram**) of nested clusters.
+
+**Two main types:**
+
+1.  **Agglomerative (Bottom-up):** Start with each point as its own cluster, merge closest clusters iteratively
+2.  **Divisive (Top-down):** Start with all points in one cluster, split iteratively
+
+## Dendrogram Example {.smaller}
+
+![](images/week09_16_dendrogram_2_1.jpg){fig-align="center" width="80%"}
+
+Cut the tree at different heights to get different numbers of clusters.
+
+## Linkage Methods {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Single Linkage (Minimum):** $$d(C_i, C_j) = \min_{x \in C_i, y \in C_j} d(x, y)$$
+
+**Complete Linkage (Maximum):** $$d(C_i, C_j) = \max_{x \in C_i, y \in C_j} d(x, y)$$
+
+**Average Linkage:** $$d(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum_{x \in C_i} \sum_{y \in C_j} d(x, y)$$
+
+**Ward's Method:** Minimizes within-cluster sum of squares
+
+### LaTeX
+
+``` text
+d_{single}(C_i, C_j) = \min_{x \in C_i, y \in C_j} d(x, y)
+
+d_{complete}(C_i, C_j) = \max_{x \in C_i, y \in C_j} d(x, y)
+
+d_{average}(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum \sum d(x, y)
+```
+:::
+
+## Hierarchical Clustering in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Calculate distance matrix
+dist_matrix <- dist(data, method = "euclidean")
+
+# Perform hierarchical clustering
+hclust_ward <- hclust(dist_matrix, method = "ward.D2")
+
+# Plot dendrogram
+plot(hclust_ward, main = "Dendrogram (Ward's Method)")
+
+# Cut tree to get clusters
+clusters <- cutree(hclust_ward, k = 3)
+```
+
+### Enhanced Dendrograms
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(dendextend)
+
+dend <- as.dendrogram(hclust_ward)
+
+dend %>%
+  color_branches(k = 3) %>%
+  color_labels(k = 3) %>%
+  plot(main = "Colored Dendrogram")
+
+rect.dendrogram(dend, k = 3, border = "red")
+```
+:::
+
+## Silhouette Analysis and Cophenetic Correlation {.smaller}
+
+::: panel-tabset
+### Silhouette
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(cluster)
+
+# Silhouette scores for different k
+silhouette_scores <- numeric(9)
+for (k in 2:10) {
+  clusters <- cutree(hclust_ward, k = k)
+  sil <- silhouette(clusters, dist_matrix)
+  silhouette_scores[k - 1] <- mean(sil[, "sil_width"])
+}
+
+plot(2:10, silhouette_scores, type = "b",
+     xlab = "Number of Clusters",
+     ylab = "Average Silhouette Score")
+```
+
+### Cophenetic Correlation
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Cophenetic correlation: how well does the dendrogram
+# preserve original pairwise distances?
+cophenetic_dist <- cophenetic(hclust_ward)
+coph_corr <- cor(dist_matrix, cophenetic_dist)
+cat("Cophenetic correlation:", round(coph_corr, 3))
+# Values closer to 1 = better preservation
+```
+:::
+
+## Clustered Heatmap {.smaller}
+
+Clustered heatmaps are ubiquitous in genomics and bioengineering — they show both the data and the hierarchical clustering simultaneously.
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: heatmap-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 6
+
+# Heatmap of iris data
+iris_mat <- as.matrix(iris[, 1:4])
+rownames(iris_mat) <- paste0(substr(iris$Species, 1, 2), 1:150)
+heatmap(iris_mat, scale = "column",
+        col = hcl.colors(50, "RdYlBu"),
+        main = "Clustered Heatmap: Iris Data",
+        labRow = NA)
+```
+
+### Code
+
+```{r}
+#| label: heatmap-code
+#| echo: true
+#| eval: false
+
+# Base R heatmap (rows and columns clustered automatically)
+iris_mat <- as.matrix(iris[, 1:4])
+heatmap(iris_mat, scale = "column",
+        col = hcl.colors(50, "RdYlBu"),
+        main = "Clustered Heatmap: Iris Data")
+
+# Using pheatmap for more control
+# install.packages("pheatmap")
+library(pheatmap)
+annotation_row <- data.frame(Species = iris$Species)
+rownames(annotation_row) <- rownames(iris_mat)
+
+pheatmap(iris_mat,
+         scale = "column",
+         clustering_method = "ward.D2",
+         annotation_row = annotation_row,
+         show_rownames = FALSE,
+         color = hcl.colors(50, "RdYlBu"),
+         main = "Iris Features Clustered Heatmap")
+```
+
+### When to Use
+
+-   **Gene expression** across samples and conditions
+-   **Biomaterial properties** across formulations
+-   **Multi-analyte assays** (cytokine panels, metabolomics)
+-   Any matrix where you want to see patterns in both rows and columns
+:::
+
+------------------------------------------------------------------------
+
+# K-Means Clustering {background-color="#2c3e50"}
+
+## What is K-Means? {.smaller}
+
+K-means partitions data into **k clusters** by minimizing within-cluster variance:
+
+::: panel-tabset
+### Algorithm
+
+1.  **Initialize** k cluster centers (randomly or with k-means++)
+2.  **Assign** each point to its nearest center
+3.  **Update** each center to the mean of its assigned points
+4.  **Repeat** steps 2–3 until convergence
+
+### Equation
+
+$$\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2$$
+
+Where $\mu_j$ is the centroid of cluster $C_j$.
+
+### LaTeX
+
+``` text
+\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2
+```
+:::
+
+## K-Means in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: kmeans-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+iris_scaled <- scale(iris[, 1:4])
+par(mfrow = c(1, 2))
+
+# Elbow method
+wss <- sapply(1:10, function(k) {
+  kmeans(iris_scaled, k, nstart = 25)$tot.withinss
+})
+plot(1:10, wss, type = "b", pch = 19, col = "steelblue",
+     xlab = "Number of Clusters (k)", ylab = "Total Within-Cluster SS",
+     main = "Elbow Method")
+
+# K-means with k = 3
+km_fit <- kmeans(iris_scaled, 3, nstart = 25)
+plot(iris$Petal.Length, iris$Petal.Width,
+     col = c("steelblue", "coral", "forestgreen")[km_fit$cluster],
+     pch = 19, xlab = "Petal Length", ylab = "Petal Width",
+     main = "K-Means Clusters (k = 3)")
+points(km_fit$centers[, 3:4] * attr(iris_scaled, "scaled:scale")[3:4] +
+       attr(iris_scaled, "scaled:center")[3:4],
+       pch = 8, cex = 2, lwd = 3)
+```
+
+### Code
+
+```{r}
+#| label: kmeans-code
+#| echo: true
+#| eval: false
+
+# Scale data first
+iris_scaled <- scale(iris[, 1:4])
+
+# Elbow method: find optimal k
+wss <- sapply(1:10, function(k) {
+  kmeans(iris_scaled, k, nstart = 25)$tot.withinss
+})
+plot(1:10, wss, type = "b", pch = 19,
+     xlab = "k", ylab = "Total Within-SS",
+     main = "Elbow Method")
+
+# Fit k-means with chosen k
+set.seed(42)
+km_fit <- kmeans(iris_scaled, centers = 3, nstart = 25)
+
+# Visualize clusters
+plot(iris$Petal.Length, iris$Petal.Width,
+     col = km_fit$cluster, pch = 19,
+     xlab = "Petal Length", ylab = "Petal Width")
+
+# Compare k-means to true labels
+table(Cluster = km_fit$cluster, True = iris$Species)
+```
+:::
+
+## K-Means vs. Hierarchical Clustering {.smaller}
+
+| Feature             | K-Means               | Hierarchical          |
+|:--------------------|:----------------------|:----------------------|
+| **Must specify k?** | Yes (in advance)      | No (cut tree later)   |
+| **Cluster shape**   | Spherical             | Any shape             |
+| **Scalability**     | Fast (large datasets) | Slow (O(n²) or O(n³)) |
+| **Deterministic?**  | No (random init)      | Yes                   |
+| **Visualization**   | Scatter plots         | Dendrograms           |
+
+::: callout-tip
+Use the **elbow method** or **silhouette scores** to choose k for k-means. Consider running both methods and comparing results for robustness.
+:::
+
+## R Exercise: Statistical Learning {.smaller}
+
+::: callout-tip
+## Exercise
+
+Using the `iris` dataset for classification:
+
+1.  Split data into training (80%) and test (20%) sets
+2.  Train a KNN classifier with k = 5 to predict Species
+3.  Evaluate accuracy on the test set
+4.  Use cross-validation to find optimal k (1 to 20)
+5.  Compare to an SVM classifier with RBF kernel
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Starter code
+library(class)
+set.seed(123)
+n <- nrow(iris)
+train_idx <- sample(n, 0.8 * n)
+train <- iris[train_idx, ]
+test  <- iris[-train_idx, ]
+
+# Your analysis here...
+```
+:::
+
+------------------------------------------------------------------------
+
+# Week 10: Multivariate Methods {background-color="#2c3e50"}
+
+## Week 10 Topics
+
+::: incremental
+-   Multivariate statistics overview
+-   MANOVA
+-   Discriminant Function Analysis (DFA / LDA)
+-   Principal Component Analysis (PCA)
+-   PCoA and NMDS
+-   t-SNE and UMAP
+-   Decision trees and random forests
+:::
+
+::: callout-note
+**Readings:** Chapters 38–39
+:::
+
+## Packages for This Week {.smaller}
+
+::: panel-tabset
+### Install
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Install new packages (run once)
+install.packages(c("MASS", "Rtsne", "umap", "vegan",
+                   "mvnormtest", "mvoutlier", "rpart", "randomForest"))
+```
+
+### Load
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(tidyverse)      # Data manipulation & visualization
+library(MASS)           # Linear discriminant analysis (LDA)
+library(car)            # Multivariate tests
+library(Rtsne)          # t-SNE dimensionality reduction
+library(umap)           # UMAP dimensionality reduction
+library(vegan)          # NMDS and ecological ordination
+library(mvnormtest)     # Multivariate normality tests
+library(rpart)          # Decision trees
+library(randomForest)   # Random forests
+```
+:::
+
+**Built-in datasets:** `iris` (PCA, LDA, t-SNE, UMAP examples)
+
+## Experimental Design Overview {.smaller}
+
+![](images/week10_01_week10_experimentaldesign.jpg){fig-align="center" width="80%"}
+
+------------------------------------------------------------------------
+
+# Introduction to Multivariate Statistics {background-color="#2c3e50"}
+
+## Multivariate Data {.smaller}
+
+![](images/week10_02_3d_multivariate_data_cloud.jpeg){fig-align="center" width="90%"}
+
+## Multivariate Approach {.smaller}
+
+![](images/week10_03_pca_matrix_transformation_diagram.jpeg){fig-align="center" width="90%"}
+
+## Multivariate Methods Overview {.smaller}
+
+![](images/week10_04_data_correlation_distance_matrices.jpeg){fig-align="center" width="90%"}
+
+## Variance-Covariance and Eigenvalues {.smaller}
+
+![](images/week10_05_pca_scree_plot_eigenvalues.jpeg){fig-align="center" width="90%"}
+
+## Dissimilarity and Distance {.smaller}
+
+![](images/week10_06_dissimilarity_distance_formulas.jpeg){fig-align="center" width="90%"}
+
+## Handling Missing Data in Multivariate Analysis {.smaller}
+
+| Type     | Description                  | Problem Severity  |
+|:---------|:-----------------------------|:------------------|
+| **MCAR** | Missing Completely At Random | Least problematic |
+| **MAR**  | Missing At Random            | Moderate concern  |
+| **MBC**  | Missing But Correlated       | Most problematic  |
+
+::: callout-tip
+## Three Main Approaches
+
+1.  **Deletion** — remove observations with missing values (simple but loses information)
+2.  **Imputation** — infer missing values (mean/median or multiple imputation)
+3.  **Maximum Likelihood / EM** — use all available data (most sophisticated)
+:::
+
+------------------------------------------------------------------------
+
+# MANOVA — Multivariate Analysis of Variance {background-color="#2c3e50"}
+
+## Why Use MANOVA? {.smaller}
+
+-   When interested in the relationship of **two or more response variables** and one or more predictor variables
+-   Tests whether **group centroids** differ across multiple variables simultaneously
+-   More powerful than running separate univariate ANOVAs when response variables are correlated
+
+::: panel-tabset
+### Equation
+
+$$H_0: \boldsymbol{\mu}_1 = \boldsymbol{\mu}_2 = \ldots = \boldsymbol{\mu}_k$$
+
+### LaTeX
+
+``` text
+H_0: \boldsymbol{\mu}_1 = \boldsymbol{\mu}_2 = \ldots = \boldsymbol{\mu}_k
+```
+:::
+
+## MANOVA Linear Model {.smaller}
+
+Single Factor MANOVA uses a linear combination of p response variables:
+
+::: panel-tabset
+### Equation
+
+$$z_{ik} = c_1 y_{i1} + c_2 y_{i2} + c_3 y_{i3} + \ldots + c_p y_{ip}$$
+
+### Key Matrices
+
+-   **H matrix**: Between-groups sums of squares and cross-products
+-   **E matrix**: Within-groups sums of squares and cross-products
+-   **T matrix**: Total sums of squares and cross-products
+-   The ratio H/E is decomposed into eigenvalues and eigenvectors
+:::
+
+## MANOVA Test Statistics {.smaller}
+
+| Statistic              | Description               | Use When               |
+|:-----------------------|:--------------------------|:-----------------------|
+| **Wilk's Lambda**      | Most commonly used        | General purpose        |
+| **Pillai's Trace**     | Most robust               | Assumption violations  |
+| **Hotelling-Lawley**   | Most powerful             | Assumptions met        |
+| **Roy's Largest Root** | Examines first eigenvalue | Few response variables |
+
+## MANOVA in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+iris_manova <- manova(cbind(Sepal.Length, Sepal.Width,
+                            Petal.Length, Petal.Width) ~ Species,
+                      data = iris)
+summary(iris_manova, test = "Pillai")
+```
+
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+iris_manova <- manova(cbind(Sepal.Length, Sepal.Width,
+                            Petal.Length, Petal.Width) ~ Species,
+                      data = iris)
+
+# Different test statistics
+summary(iris_manova, test = "Pillai")
+summary(iris_manova, test = "Wilks")
+summary(iris_manova, test = "Hotelling-Lawley")
+
+# Follow up with univariate ANOVAs
+summary.aov(iris_manova)
+```
+:::
+
+## MANOVA Assumptions {.smaller}
+
+1.  **Multivariate Normality** — less critical for Pillai's trace
+2.  **Homogeneity of Variance-Covariance** — test with Box's M
+3.  **Independence** of observations
+4.  **No Multicollinearity** among response variables
+
+::: callout-warning
+## Outliers
+
+MANOVA is very sensitive to multivariate outliers. Use **Mahalanobis distance** to detect them.
+:::
+
+## Detecting Multivariate Outliers {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: mahal-outliers-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+iris_numeric <- iris[, 1:4]
+center <- colMeans(iris_numeric)
+cov_matrix <- cov(iris_numeric)
+mahal_dist <- mahalanobis(iris_numeric, center, cov_matrix)
+
+plot(mahal_dist, pch = 19, main = "Mahalanobis Distances",
+     ylab = "Mahalanobis Distance", xlab = "Observation")
+abline(h = qchisq(0.975, df = 4), col = "red", lwd = 2)
+```
+
+### Code
+
+```{r}
+#| label: mahal-outliers-code
+#| echo: true
+#| eval: false
+
+iris_numeric <- iris[, 1:4]
+center <- colMeans(iris_numeric)
+cov_matrix <- cov(iris_numeric)
+mahal_dist <- mahalanobis(iris_numeric, center, cov_matrix)
+
+plot(mahal_dist, pch = 19, main = "Mahalanobis Distances",
+     ylab = "Mahalanobis Distance", xlab = "Observation")
+abline(h = qchisq(0.975, df = 4), col = "red", lwd = 2)
+```
+:::
+
+## MANOVA Follow-Up Workflow {.smaller}
+
+After a significant MANOVA, determine **which variables** drive the group differences:
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Step 1: MANOVA
+manova_result <- manova(cbind(Sepal.Length, Sepal.Width,
+                               Petal.Length, Petal.Width) ~ Species,
+                         data = iris)
+summary(manova_result, test = "Pillai")
+
+# Step 2: Univariate follow-up ANOVAs
+summary.aov(manova_result)
+
+# Step 3: Post-hoc pairwise comparisons for each response
+library(emmeans)
+for (var in c("Sepal.Length", "Sepal.Width",
+              "Petal.Length", "Petal.Width")) {
+  cat("\n---", var, "---\n")
+  fit <- lm(as.formula(paste(var, "~ Species")), data = iris)
+  em <- emmeans(fit, pairwise ~ Species, adjust = "bonferroni")
+  print(em$contrasts)
+}
+
+# Step 4: Effect sizes (eta-squared for each variable)
+library(car)
+for (var in c("Sepal.Length", "Sepal.Width",
+              "Petal.Length", "Petal.Width")) {
+  fit <- lm(as.formula(paste(var, "~ Species")), data = iris)
+  aov_table <- Anova(fit, type = "II")
+  ss_group <- aov_table$`Sum Sq`[1]
+  ss_total <- sum(aov_table$`Sum Sq`)
+  cat(var, "eta² =", round(ss_group / ss_total, 3), "\n")
+}
+```
+
+### Workflow Summary
+
+1.  **MANOVA**: Test overall multivariate difference → significant?
+2.  **Univariate ANOVAs**: Which response variables differ?
+3.  **Post-hoc tests**: Which groups differ on each variable?
+4.  **Effect sizes**: How large are the differences?
+5.  **DFA/LDA**: Which combinations of variables best discriminate groups?
+:::
+
+------------------------------------------------------------------------
+
+# Discriminant Function Analysis (DFA / LDA) {background-color="#2c3e50"}
+
+## MANOVA vs DFA {.smaller}
+
+| Aspect | MANOVA | DFA |
+|:---|:---|:---|
+| **Purpose** | Hypothesis testing | Classification & prediction |
+| **Question** | Do groups differ? | Which group does a new observation belong to? |
+| **Output** | F-statistic, p-value | Discriminant functions, predictions |
+| **Focus** | First discriminant function | All discriminant functions |
+
+Both methods use the same underlying mathematics (eigendecomposition of H/E) but for different purposes.
+
+## DFA Steps {.smaller}
+
+1.  **Run MANOVA** to test for group differences
+    -   If not significant, DFA won't be useful
+2.  **Calculate Linear Discriminant Functions (LDF)**
+    -   Evaluate distributions of LDF scores
+    -   Do groups have separate distributions?
+3.  **Classify observations**
+    -   Generate conditional (posterior) probabilities
+    -   Determine percentage of correct assignments
+    -   Can train on one dataset and predict on new data
+
+## Linear Discriminant Analysis in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+library(MASS)
+iris_lda <- lda(Species ~ Sepal.Length + Sepal.Width +
+                         Petal.Length + Petal.Width,
+               data = iris)
+iris_lda$scaling
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(MASS)
+
+# Fit LDA model
+iris_lda <- lda(Species ~ Sepal.Length + Sepal.Width +
+                         Petal.Length + Petal.Width,
+               data = iris)
+
+# View discriminant function coefficients
+iris_lda$scaling
+```
+:::
+
+## LDA Predictions and Classification {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+iris_pred <- predict(iris_lda)
+table(Predicted = iris_pred$class, Actual = iris$Species)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Make predictions
+iris_pred <- predict(iris_lda)
+
+# Confusion matrix
+table(Predicted = iris_pred$class, Actual = iris$Species)
+```
+:::
+
+## Visualizing Discriminant Functions {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: lda-viz-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+lda_scores <- predict(iris_lda)$x
+plot(lda_scores[, 1], lda_scores[, 2],
+     col = as.numeric(iris$Species), pch = 19,
+     xlab = "LD1", ylab = "LD2",
+     main = "Linear Discriminant Analysis — Iris Data")
+legend("topright", levels(iris$Species),
+       col = 1:3, pch = 19)
+```
+
+### Code
+
+```{r}
+#| label: lda-viz-code
+#| echo: true
+#| eval: false
+
+lda_scores <- predict(iris_lda)$x
+plot(lda_scores[, 1], lda_scores[, 2],
+     col = as.numeric(iris$Species), pch = 19,
+     xlab = "LD1", ylab = "LD2",
+     main = "Linear Discriminant Analysis — Iris Data")
+legend("topright", levels(iris$Species),
+       col = 1:3, pch = 19)
+```
+:::
+
+## LDA for New Predictions {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+new_flowers <- data.frame(
+  Sepal.Length = c(5.0, 6.5, 7.0),
+  Sepal.Width  = c(3.5, 3.0, 3.2),
+  Petal.Length  = c(1.4, 4.5, 6.0),
+  Petal.Width   = c(0.2, 1.5, 2.0)
+)
+
+predict(iris_lda, new_flowers)$class
+round(predict(iris_lda, new_flowers)$posterior, 3)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Create new observations
+new_flowers <- data.frame(
+  Sepal.Length = c(5.0, 6.5, 7.0),
+  Sepal.Width  = c(3.5, 3.0, 3.2),
+  Petal.Length  = c(1.4, 4.5, 6.0),
+  Petal.Width   = c(0.2, 1.5, 2.0)
+)
+
+# Predict species
+predict(iris_lda, new_flowers)$class
+
+# Get posterior probabilities
+round(predict(iris_lda, new_flowers)$posterior, 3)
+```
+:::
+
+## Logistic Regression as Classification {.smaller}
+
+Recall from Week 8 that logistic regression can also be used for classification. The key differences from LDA:
+
+| Aspect | LDA | Logistic Regression |
+|:---|:---|:---|
+| **Assumption** | Multivariate normal predictors | No distributional assumption |
+| **Output** | Discriminant scores + classes | Log-odds + probabilities |
+| **Best for** | Well-separated groups, normal data | Binary outcomes, mixed data types |
+| **Multi-class** | Natural extension | Requires one-vs-rest |
+
+::: callout-tip
+Use LDA when you believe the predictors are approximately multivariate normal within each group. Use logistic regression when you have binary outcomes or non-normal predictors.
+:::
+
+## LDA Cross-Validation for Honest Accuracy {.smaller}
+
+Training and testing on the same data gives **overly optimistic** accuracy estimates. Use leave-one-out CV:
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(MASS)
+
+# LOOCV for LDA (built into MASS::lda!)
+lda_cv <- lda(Species ~ ., data = iris, CV = TRUE)
+
+# Honest classification accuracy
+cv_accuracy <- mean(lda_cv$class == iris$Species)
+cat("LDA LOOCV Accuracy:", round(cv_accuracy, 3))
+
+# Confusion matrix from CV
+table(Predicted = lda_cv$class, Actual = iris$Species)
+
+# Compare with resubstitution (training accuracy — optimistic!)
+lda_train <- lda(Species ~ ., data = iris)
+train_pred <- predict(lda_train, iris)$class
+train_accuracy <- mean(train_pred == iris$Species)
+cat("\nTraining Accuracy:", round(train_accuracy, 3))
+cat("\nCV Accuracy:     ", round(cv_accuracy, 3))
+cat("\nDifference:      ", round(train_accuracy - cv_accuracy, 3))
+```
+
+### Classifier Comparison
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Compare LDA vs. KNN vs. SVM via 10-fold CV
+library(caret)
+set.seed(42)
+ctrl <- trainControl(method = "cv", number = 10)
+
+# LDA
+lda_cv_fit <- train(Species ~ ., data = iris, method = "lda",
+                    trControl = ctrl)
+# KNN
+knn_cv_fit <- train(Species ~ ., data = iris, method = "knn",
+                    trControl = ctrl, tuneGrid = data.frame(k = 1:15))
+# SVM
+svm_cv_fit <- train(Species ~ ., data = iris, method = "svmRadial",
+                    trControl = ctrl)
+
+# Compare results
+results <- resamples(list(LDA = lda_cv_fit, KNN = knn_cv_fit, SVM = svm_cv_fit))
+summary(results)
+dotplot(results)
+```
+:::
+
+# BREAK {background-color="#e74c3c"}
+
+# Principal Component Analysis (PCA) {background-color="#2c3e50"}
+
+## What is PCA? {.smaller}
+
+-   **Dimensionality reduction** technique for continuous data
+-   Finds orthogonal directions (principal components) of **maximum variance**
+-   Transforms correlated variables into uncorrelated components
+-   First PC explains the most variance, second PC the next most, etc.
+
+::: callout-tip
+## Key Concepts
+
+-   **Principal components**: new axes that maximize variance
+-   **Eigenvalues**: amount of variance explained by each PC
+-   **Loadings**: contribution of original variables to each PC
+-   **Scores**: coordinates of observations in PC space
+:::
+
+## PCA in R {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+
+pca_result <- prcomp(iris[, 1:4], scale. = TRUE)
+summary(pca_result)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# PCA on iris data (excluding species)
+pca_result <- prcomp(iris[, 1:4], scale. = TRUE)
+
+# Variance explained
+summary(pca_result)
+```
+:::
+
+## PCA Biplot {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: pca-biplot-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+biplot(pca_result, col = c("gray", "red"))
+```
+
+### Code
+
+```{r}
+#| label: pca-biplot-code
+#| echo: true
+#| eval: false
+
+biplot(pca_result, col = c("gray", "red"))
+```
+:::
+
+## Scree Plot {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: scree-plot-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2)
+
+plot(var_explained, type = "b", pch = 19,
+     xlab = "Principal Component", ylab = "Proportion of Variance",
+     main = "Scree Plot")
+```
+
+### Code
+
+```{r}
+#| label: scree-plot-code
+#| echo: true
+#| eval: false
+
+var_explained <- pca_result$sdev^2 / sum(pca_result$sdev^2)
+
+plot(var_explained, type = "b", pch = 19,
+     xlab = "Principal Component", ylab = "Proportion of Variance",
+     main = "Scree Plot")
+```
+:::
+
+## Interpreting PCA Loadings {.smaller}
+
+The loadings (rotation matrix) tell you **which original variables contribute most** to each PC:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: pca-loadings-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+par(mfrow = c(1, 2), mar = c(5, 8, 3, 1))
+
+# Loadings barplot for PC1
+loadings_pc1 <- pca_result$rotation[, 1]
+barplot(sort(loadings_pc1), horiz = TRUE, las = 1,
+        main = "PC1 Loadings", col = "steelblue",
+        xlab = "Loading")
+
+# Loadings barplot for PC2
+loadings_pc2 <- pca_result$rotation[, 2]
+barplot(sort(loadings_pc2), horiz = TRUE, las = 1,
+        main = "PC2 Loadings", col = "coral",
+        xlab = "Loading")
+```
+
+### Code
+
+```{r}
+#| label: pca-loadings-code
+#| echo: true
+#| eval: false
+
+# View the rotation (loadings) matrix
+pca_result$rotation
+
+# Loadings barplot
+par(mfrow = c(1, 2), mar = c(5, 8, 3, 1))
+barplot(sort(pca_result$rotation[, 1]), horiz = TRUE, las = 1,
+        main = "PC1 Loadings", col = "steelblue")
+barplot(sort(pca_result$rotation[, 2]), horiz = TRUE, las = 1,
+        main = "PC2 Loadings", col = "coral")
+
+# For many variables, use a heatmap of loadings
+heatmap(pca_result$rotation, scale = "column",
+        col = hcl.colors(50, "RdBu"),
+        main = "PCA Loadings Heatmap")
+```
+
+### Interpretation
+
+-   **Large positive loading**: variable increases along that PC direction
+-   **Large negative loading**: variable decreases
+-   **Near zero loading**: variable contributes little to that PC
+-   PC1 often represents overall size; PC2 often represents shape contrasts
+:::
+
+## Publication-Quality PCA with ggplot2 {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: pca-ggplot-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+library(ggplot2)
+pca_scores <- as.data.frame(pca_result$x)
+pca_scores$Species <- iris$Species
+var_exp <- round(100 * pca_result$sdev^2 / sum(pca_result$sdev^2), 1)
+
+ggplot(pca_scores, aes(x = PC1, y = PC2, color = Species)) +
+  geom_point(size = 2, alpha = 0.7) +
+  stat_ellipse(level = 0.95, linewidth = 0.8) +
+  labs(x = paste0("PC1 (", var_exp[1], "%)"),
+       y = paste0("PC2 (", var_exp[2], "%)"),
+       title = "PCA of Iris Data with 95% Confidence Ellipses") +
+  scale_color_manual(values = c("steelblue", "coral", "forestgreen")) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom")
+```
+
+### Code
+
+```{r}
+#| label: pca-ggplot-code
+#| echo: true
+#| eval: false
+
+library(ggplot2)
+
+# Extract scores and add grouping variable
+pca_scores <- as.data.frame(pca_result$x)
+pca_scores$Species <- iris$Species
+var_exp <- round(100 * pca_result$sdev^2 / sum(pca_result$sdev^2), 1)
+
+# ggplot PCA with 95% confidence ellipses
+ggplot(pca_scores, aes(x = PC1, y = PC2, color = Species)) +
+  geom_point(size = 2, alpha = 0.7) +
+  stat_ellipse(level = 0.95, linewidth = 0.8) +
+  labs(x = paste0("PC1 (", var_exp[1], "%)"),
+       y = paste0("PC2 (", var_exp[2], "%)"),
+       title = "PCA with 95% Confidence Ellipses") +
+  scale_color_manual(values = c("steelblue", "coral", "forestgreen")) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom")
+```
+:::
+
+------------------------------------------------------------------------
+
+# PCoA and NMDS {background-color="#2c3e50"}
+
+## PCoA — Principal Coordinates Analysis {.smaller}
+
+PCoA (also called classical multidimensional scaling) is similar to PCA but works on a **dissimilarity matrix** rather than raw data:
+
+-   Can use any distance metric (Bray-Curtis, Jaccard, UniFrac, etc.)
+-   Metric ordination: preserves actual distances
+-   Scores can be used in downstream linear models
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(vegan)
+
+# Calculate distance matrix
+dist_matrix <- vegdist(my_data, method = "bray")
+
+# Run PCoA
+pcoa_result <- cmdscale(dist_matrix, k = 2, eig = TRUE)
+
+# Plot
+plot(pcoa_result$points, col = group_factor, pch = 19,
+     xlab = "PCoA1", ylab = "PCoA2",
+     main = "Principal Coordinates Analysis")
+```
+
+### When to Use
+
+-   When your dissimilarity metric matters (e.g., ecological data with Bray-Curtis)
+-   When you want metric ordination scores for downstream analysis
+-   When data are not suited for PCA (e.g., count data, presence/absence)
+:::
+
+## PCoA: Community Data Example {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: pcoa-community-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+library(vegan)
+set.seed(42)
+# Simulated microbiome-style community data
+n_samples <- 40
+n_species <- 20
+treatment <- factor(rep(c("Control", "Treatment"), each = 20))
+community <- matrix(rpois(n_samples * n_species, lambda = 5), n_samples, n_species)
+# Treatment effect: shift abundance of some species
+community[treatment == "Treatment", 1:5] <- community[treatment == "Treatment", 1:5] + rpois(5 * 20, 8)
+
+dist_bc <- vegdist(community, method = "bray")
+pcoa_res <- cmdscale(dist_bc, k = 2, eig = TRUE)
+var_exp <- round(100 * pcoa_res$eig[1:2] / sum(pcoa_res$eig[pcoa_res$eig > 0]), 1)
+
+plot(pcoa_res$points, col = c("steelblue", "coral")[treatment],
+     pch = 19, cex = 1.5,
+     xlab = paste0("PCoA1 (", var_exp[1], "%)"),
+     ylab = paste0("PCoA2 (", var_exp[2], "%)"),
+     main = "PCoA of Microbial Community Data (Bray-Curtis)")
+legend("topright", levels(treatment), col = c("steelblue", "coral"), pch = 19)
+```
+
+### Code
+
+```{r}
+#| label: pcoa-community-code
+#| echo: true
+#| eval: false
+
+library(vegan)
+
+# Calculate Bray-Curtis dissimilarity
+dist_bc <- vegdist(community_data, method = "bray")
+
+# Run PCoA
+pcoa_res <- cmdscale(dist_bc, k = 2, eig = TRUE)
+
+# Percent variance explained
+var_exp <- round(100 * pcoa_res$eig[1:2] /
+                 sum(pcoa_res$eig[pcoa_res$eig > 0]), 1)
+
+# Plot with group labels
+plot(pcoa_res$points, col = treatment, pch = 19,
+     xlab = paste0("PCoA1 (", var_exp[1], "%)"),
+     ylab = paste0("PCoA2 (", var_exp[2], "%)"),
+     main = "PCoA (Bray-Curtis)")
+
+# PERMANOVA: test if groups differ in multivariate space
+adonis_result <- adonis2(dist_bc ~ treatment, permutations = 999)
+print(adonis_result)
+
+# Effect size: R² from PERMANOVA
+cat("R² =", round(adonis_result$R2[1], 3))
+```
+
+### PERMANOVA Notes
+
+-   **PERMANOVA** (`adonis2()`) tests whether group centroids differ in multivariate space
+-   Works on any distance matrix (doesn't require normality)
+-   R² gives the proportion of variation explained by the grouping
+-   Check **betadisper()** for homogeneity of dispersions (analogous to Levene's test)
+:::
+
+## NMDS — Non-metric Multidimensional Scaling {.smaller}
+
+**NMDS** is a form of nonparametric ordination:
+
+-   Uses **rank-order** of dissimilarities rather than exact values
+-   Relaxes distributional assumptions
+-   Excellent for ecological, expression, and phenotypic data
+-   Works well when relationships are non-linear
+
+## NMDS Algorithm {.smaller}
+
+1.  Calculate dissimilarity matrix between samples
+2.  Place points in reduced dimensional space (usually 2D)
+3.  Iteratively adjust positions to minimize **stress**
+4.  Stress measures how well ordination distances match dissimilarities
+
+| Stress Value | Interpretation |
+|:-------------|:---------------|
+| \< 0.05      | Excellent      |
+| 0.05–0.10    | Good           |
+| 0.10–0.20    | Acceptable     |
+| \> 0.20      | Poor fit       |
+
+## NMDS in R with vegan {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(vegan)
+
+# Run NMDS
+nmds_result <- metaMDS(my_data, distance = "bray", k = 2, trace = FALSE)
+
+# Check stress value
+print(nmds_result$stress)
+
+# Stress plot: visualize fit between ordination and original distances
+stressplot(nmds_result)
+```
+
+### Visualization
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Color by grouping variable
+plot(nmds_result$points, col = group_factor, pch = 19,
+     xlab = "NMDS1", ylab = "NMDS2",
+     main = "NMDS Ordination")
+legend("topright", levels(group_factor),
+       col = 1:nlevels(group_factor), pch = 19)
+```
+:::
+
+## PCA vs PCoA vs NMDS {.smaller}
+
+| Aspect | PCA | PCoA | NMDS |
+|:---|:---|:---|:---|
+| **Input** | Covariance/Correlation | Dissimilarity matrix | Dissimilarity matrix |
+| **Scaling** | Metric | Metric | Non-metric (ordinal) |
+| **Assumptions** | Linear relationships | Any distance metric | Rank-order preservation |
+| **Downstream** | Scores usable in linear models | Scores usable in linear models | **Cannot use in linear models** |
+
+::: callout-warning
+NMDS scores preserve only rank-order relationships, so they should **not** be used directly in regression or ANOVA!
+:::
+
+## NMDS: Hypothesis Testing with PERMANOVA {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(vegan)
+
+# Fit NMDS
+nmds <- metaMDS(community_data, distance = "bray", k = 2, trymax = 100)
+
+# PERMANOVA — test group differences on the distance matrix
+dist_bc <- vegdist(community_data, method = "bray")
+perm_result <- adonis2(dist_bc ~ treatment, permutations = 999)
+print(perm_result)
+
+# Check dispersion homogeneity (assumption of PERMANOVA)
+disp <- betadisper(dist_bc, treatment)
+permutest(disp, permutations = 999)
+
+# envfit — fit environmental variables onto ordination
+env_data <- data.frame(pH = rnorm(nrow(community_data), 7, 0.5),
+                       temperature = rnorm(nrow(community_data), 37, 2))
+ef <- envfit(nmds, env_data, permutations = 999)
+print(ef)
+
+# Plot NMDS with envfit vectors
+plot(nmds, type = "n", main = "NMDS with Environmental Vectors")
+points(nmds, col = treatment, pch = 19)
+plot(ef, p.max = 0.05, col = "red", lwd = 2)
+```
+
+### Interpretation
+
+-   **PERMANOVA** (adonis2): Tests whether group centroids differ; report R² and p-value
+-   **betadisper**: Checks if groups have similar spread (a PERMANOVA assumption)
+-   **envfit**: Fits continuous environmental variables as vectors onto the ordination; arrow direction and length show correlation strength
+-   Only plot envfit vectors that are significant (p \< 0.05)
+:::
+
+------------------------------------------------------------------------
+
+# t-SNE and UMAP {background-color="#2c3e50"}
+
+## What is t-SNE? {.smaller}
+
+**t-Distributed Stochastic Neighbor Embedding** — a non-linear dimensionality reduction method:
+
+-   Preserves **local structure** (nearby points stay nearby)
+-   Excellent for visualization of high-dimensional clusters
+-   Not for inference or preserving global structure
+
+| Parameter     | Description                            | Typical Values |
+|:--------------|:---------------------------------------|:---------------|
+| perplexity    | Balance between local/global structure | 5–50           |
+| iterations    | Number of optimization steps           | 1000+          |
+| learning_rate | Step size for optimization             | 100–1000       |
+
+## t-SNE in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(Rtsne)
+
+# Run t-SNE
+tsne_result <- Rtsne(iris[, 1:4],
+                     perplexity = 30,
+                     dims = 2,
+                     verbose = TRUE)
+
+# Plot
+plot(tsne_result$Y, col = iris$Species, pch = 19,
+     xlab = "t-SNE 1", ylab = "t-SNE 2",
+     main = "t-SNE of Iris Data")
+legend("topright", levels(iris$Species), col = 1:3, pch = 19)
+```
+
+### Important Notes
+
+-   Results depend on random initialization — set a seed!
+-   Perplexity affects results significantly
+-   **Don't interpret distances between clusters** — only within-cluster structure is meaningful
+-   Not deterministic — run multiple times and compare
+:::
+
+## What is UMAP? {.smaller}
+
+**Uniform Manifold Approximation and Projection** — similar goals to t-SNE but with key advantages:
+
+-   Faster computation (scales better to large datasets)
+-   Better preserves **global structure** (relative cluster positions are meaningful)
+-   More reproducible
+-   Can project new data onto an existing embedding
+
+| Parameter    | Description                     | Typical Values |
+|:-------------|:--------------------------------|:---------------|
+| n_neighbors  | Size of local neighborhood      | 5–50           |
+| min_dist     | Minimum distance between points | 0.001–0.5      |
+| n_components | Number of output dimensions     | 2–3            |
+
+## UMAP in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(umap)
+
+# Run UMAP
+umap_result <- umap(iris[, 1:4])
+
+# Plot
+plot(umap_result$layout, col = iris$Species, pch = 19,
+     xlab = "UMAP 1", ylab = "UMAP 2",
+     main = "UMAP of Iris Data")
+legend("topright", levels(iris$Species), col = 1:3, pch = 19)
+```
+
+### Comparing Methods
+
+| Method | Speed  | Global Structure | Local Structure | Reproducible |
+|:-------|:-------|:-----------------|:----------------|:-------------|
+| PCA    | Fast   | Preserved        | Less accurate   | Yes          |
+| t-SNE  | Slow   | Lost             | Excellent       | No           |
+| UMAP   | Medium | Good             | Excellent       | Mostly       |
+:::
+
+## When to Use Each Dimensionality Reduction Method {.smaller}
+
+::: callout-tip
+## Recommendations
+
+-   **PCA**: Initial exploration, feature extraction, preprocessing, when you need interpretable axes
+-   **PCoA**: When your distance metric matters (ecology, microbiome data)
+-   **NMDS**: When rank-order relationships are more meaningful than exact distances
+-   **t-SNE**: Publication-quality visualization of clusters in high-dimensional data
+-   **UMAP**: Large datasets, when you need both global and local structure preserved
+:::
+
+# BREAK {background-color="#e74c3c"}
+
+# Decision Trees and Random Forests {background-color="#2c3e50"}
+
+## Decision Trees {.smaller}
+
+-   Supervised learning using tree-like decision structure
+-   Easy to interpret and visualize
+-   Handle both numerical and categorical data
+-   No assumptions about data distribution
+
+![Decision tree structure](images/week09_14_decision_tree_structure_illust.png){fig-align="center" width="70%"}
+
+## Decision Tree Example: Injury Risk {.smaller}
+
+![Bioengineering decision tree example for injury risk](images/week09_23_decision_tree_bioe_example.pdf){fig-align="center" width="85%"}
+
+## How Decision Trees Work {.smaller}
+
+1.  Start with entire dataset at root
+2.  Find best feature and split point (minimize impurity)
+3.  Create branches for each outcome
+4.  Repeat until stopping criteria met
+5.  Assign predictions to leaf nodes
+
+## Splitting Criteria {.smaller}
+
+::: panel-tabset
+### Equations
+
+**Gini Impurity (classification):** $$Gini = 1 - \sum_{i=1}^{n} p_i^2$$
+
+**Entropy (classification):** $$Entropy = -\sum_{i=1}^{n} p_i \log_2(p_i)$$
+
+**MSE (regression trees):** $$MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2$$
+
+### LaTeX
+
+``` text
+Gini = 1 - \sum_{i=1}^{n} p_i^2
+
+Entropy = -\sum_{i=1}^{n} p_i \log_2(p_i)
+
+MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2
+```
+:::
+
+## Decision Trees in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(rpart)
+
+# Fit a classification tree
+tree_model <- rpart(Species ~ ., data = iris, method = "class")
+
+# Plot the tree
+plot(tree_model, margin = 0.1)
+text(tree_model, use.n = TRUE, cex = 0.8)
+
+# Predict
+tree_pred <- predict(tree_model, test_data, type = "class")
+table(Predicted = tree_pred, Actual = test_data$Species)
+```
+
+### Pruning
+
+```{r}
+#| eval: false
+#| echo: true
+
+# View complexity parameter table
+printcp(tree_model)
+
+# Prune to optimal tree (minimize cross-validated error)
+optimal_cp <- tree_model$cptable[which.min(tree_model$cptable[, "xerror"]), "CP"]
+pruned_tree <- prune(tree_model, cp = optimal_cp)
+```
+:::
+
+## Decision Tree: Complete Pruning Workflow {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: tree-pruning-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+library(rpart)
+tree_full <- rpart(Species ~ ., data = iris, method = "class",
+                   control = rpart.control(cp = 0.001))
+par(mfrow = c(1, 2))
+plotcp(tree_full, main = "CP Plot: Cross-Validation Error")
+optimal_cp <- tree_full$cptable[which.min(tree_full$cptable[, "xerror"]), "CP"]
+pruned <- prune(tree_full, cp = optimal_cp)
+plot(pruned, margin = 0.15)
+text(pruned, use.n = TRUE, cex = 0.8)
+title("Pruned Decision Tree")
+```
+
+### Code
+
+```{r}
+#| label: tree-pruning-code
+#| echo: true
+#| eval: false
+
+library(rpart)
+
+# Step 1: Grow a complex tree (low cp)
+tree_full <- rpart(Species ~ ., data = iris, method = "class",
+                   control = rpart.control(cp = 0.001))
+
+# Step 2: Plot CV error by complexity parameter
+plotcp(tree_full)
+
+# Step 3: Find optimal cp (1-SE rule)
+cp_table <- tree_full$cptable
+optimal_cp <- cp_table[which.min(cp_table[, "xerror"]), "CP"]
+
+# Step 4: Prune
+pruned_tree <- prune(tree_full, cp = optimal_cp)
+
+# Step 5: Better visualization with rpart.plot
+# install.packages("rpart.plot")
+library(rpart.plot)
+rpart.plot(pruned_tree, type = 4, extra = 104,
+           box.palette = "BuGn",
+           main = "Pruned Classification Tree")
+```
+:::
+
+## Random Forests {.smaller}
+
+Address decision tree limitations through **ensemble learning**:
+
+-   Build many trees on **bootstrap samples** of the data
+-   Randomly select a subset of **features at each split**
+-   Average predictions across all trees (reduces variance)
+
+**Advantages:** Reduces overfitting, more stable predictions, handles high-dimensional data, provides variable importance measures
+
+## Random Forests in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(randomForest)
+
+# Fit random forest
+rf_model <- randomForest(Species ~ ., data = iris,
+                         ntree = 500, mtry = 2, importance = TRUE)
+
+# View confusion matrix
+print(rf_model)
+
+# Variable importance
+importance(rf_model)
+varImpPlot(rf_model, main = "Variable Importance")
+```
+
+### Key Parameters
+
+| Parameter | Description                | Default             |
+|:----------|:---------------------------|:--------------------|
+| ntree     | Number of trees            | 500                 |
+| mtry      | Features sampled per split | √p (classification) |
+| nodesize  | Minimum terminal node size | 1 (classification)  |
+:::
+
+## Random Forest: Variable Importance {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: rf-varimp-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+library(randomForest)
+set.seed(42)
+rf_model <- randomForest(Species ~ ., data = iris,
+                         ntree = 500, mtry = 2, importance = TRUE)
+par(mfrow = c(1, 2))
+varImpPlot(rf_model, main = "Variable Importance")
+```
+
+### Code
+
+```{r}
+#| label: rf-varimp-code
+#| echo: true
+#| eval: false
+
+# Variable importance — two measures
+varImpPlot(rf_model)
+
+# MeanDecreaseAccuracy: how much accuracy drops when variable is permuted
+# MeanDecreaseGini: total decrease in Gini impurity from that variable
+
+# Extract numerical importance
+importance(rf_model)
+
+# Partial dependence plots — effect of one variable on prediction
+# install.packages("pdp")
+library(pdp)
+partial(rf_model, pred.var = "Petal.Length", plot = TRUE,
+        rug = TRUE, plot.engine = "ggplot2")
+
+partial(rf_model, pred.var = "Petal.Width", plot = TRUE,
+        rug = TRUE, plot.engine = "ggplot2")
+```
+
+### Interpreting Importance
+
+-   **Mean Decrease Accuracy**: More reliable; measures prediction degradation when variable is shuffled
+-   **Mean Decrease Gini**: Biased toward variables with many categories; faster to compute
+-   **Partial dependence**: Shows the marginal effect of a variable, averaging over all other variables
+-   Use importance to identify key drivers, not for formal hypothesis testing
+:::
+
+## ROC Curves and AUC {.smaller}
+
+**ROC** (Receiver Operating Characteristic) curves summarize classifier performance across all thresholds:
+
+-   Plots True Positive Rate vs. False Positive Rate
+-   **AUC** (Area Under Curve) is a single-number summary
+-   0.5 = random guessing, 1.0 = perfect classification
+
+| AUC     | Interpretation |
+|:--------|:---------------|
+| 0.5–0.7 | Poor           |
+| 0.7–0.8 | Fair           |
+| 0.8–0.9 | Good           |
+| \> 0.9  | Excellent      |
+
+## Brief Introduction to Neural Networks {.smaller}
+
+Neural networks extend the ideas of linear regression and classification into highly flexible models:
+
+-   **Layers** of interconnected nodes (neurons) transform inputs
+-   Each connection has a learned **weight**
+-   Non-linear **activation functions** (ReLU, sigmoid) allow complex decision boundaries
+-   Trained by **backpropagation** — iteratively adjusting weights to minimize a loss function
+
+::: callout-note
+Neural networks are powerful but require large datasets, careful tuning, and are often "black boxes" that are difficult to interpret. For most bioengineering applications with moderate sample sizes, methods like random forests, SVM, or regularized regression are more appropriate starting points.
+:::
+
+## Simple Neural Network in R {.smaller}
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(nnet)
+
+# Scale predictors for neural network
+iris_scaled <- iris
+iris_scaled[, 1:4] <- scale(iris[, 1:4])
+
+# Train/test split
+set.seed(42)
+train_idx <- sample(nrow(iris_scaled), 0.7 * nrow(iris_scaled))
+train <- iris_scaled[train_idx, ]
+test  <- iris_scaled[-train_idx, ]
+
+# Fit single hidden layer neural network
+nn_model <- nnet(Species ~ ., data = train,
+                 size = 5,       # 5 hidden neurons
+                 decay = 0.01,   # weight decay (regularization)
+                 maxit = 500,
+                 trace = FALSE)
+
+# Predictions and accuracy
+nn_pred <- predict(nn_model, test, type = "class")
+accuracy <- mean(nn_pred == test$Species)
+cat("Neural Network Accuracy:", round(accuracy, 3))
+table(Predicted = nn_pred, Actual = test$Species)
+
+# Compare with random forest
+library(randomForest)
+rf_model <- randomForest(Species ~ ., data = train)
+rf_pred <- predict(rf_model, test)
+cat("\nRandom Forest Accuracy:", round(mean(rf_pred == test$Species), 3))
+```
+
+### Key Points
+
+-   `nnet` implements a single hidden layer — sufficient for many problems
+-   `size`: number of hidden neurons (start small, increase if underfitting)
+-   `decay`: L2 regularization to prevent overfitting
+-   Always scale inputs before training a neural network
+-   For deep learning, explore `keras` and `tensorflow` packages
+-   This is a brief introduction — take a dedicated ML course for depth
+:::
+
+## In-Class Exercise: PCA and Ordination {.smaller}
+
+::: callout-tip
+## Exercise
+
+**Dataset**: Built-in `iris` data
+
+**Tasks**:
+
+1.  Perform PCA on the four numeric variables
+2.  Determine how many components to retain using a scree plot
+3.  Create a biplot showing samples colored by species
+4.  Interpret which variables drive the separation
+5.  Compare PCA results with an LDA — do the same variables dominate?
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Starter code
+data(iris)
+iris_pca <- prcomp(iris[, 1:4], center = TRUE, scale. = TRUE)
+summary(iris_pca)
+
+# Scree plot
+var_explained <- iris_pca$sdev^2 / sum(iris_pca$sdev^2)
+barplot(var_explained, names.arg = paste0("PC", 1:4),
+        ylab = "Proportion of Variance", main = "Scree Plot")
+
+# PCA plot colored by species
+plot(iris_pca$x[, 1:2],
+     col = as.numeric(iris$Species) + 1, pch = 19,
+     xlab = paste0("PC1 (", round(var_explained[1] * 100, 1), "%)"),
+     ylab = paste0("PC2 (", round(var_explained[2] * 100, 1), "%)"),
+     main = "PCA of Iris Dataset")
+legend("topright", levels(iris$Species), col = 2:4, pch = 19)
+
+# Examine loadings
+print(iris_pca$rotation)
+```
+:::
+
+------------------------------------------------------------------------
+
+# Course Summary: Choosing the Right Method {background-color="#2c3e50"}
+
+## Which Method Should I Use? {.smaller}
+
+**Start by asking these questions:**
+
+1.  **What is your goal?** Inference (understanding) vs. Prediction
+2.  **What type is your response variable?** Continuous, binary, count, time-to-event, multivariate
+3.  **How many predictors?** Few vs. many; continuous vs. categorical vs. mixed
+4.  **Sample size?** Small (n \< 30), moderate (30–200), large (200+)
+
+## Method Selection: Inference {.smaller}
+
+| Response | Predictors | Method | Week |
+|:---|:---|:---|:---|
+| Continuous | 1 continuous | Simple regression | 6 |
+| Continuous | Multiple continuous | Multiple regression | 7 |
+| Continuous | Continuous + categorical | ANCOVA | 7 |
+| Continuous | 1 categorical (2 groups) | t-test / ANOVA | 6 |
+| Continuous | Multiple categorical | Multifactor ANOVA | 7 |
+| Continuous | Categorical (repeated) | Repeated measures / mixed model | 7 |
+| Binary | Continuous/mixed | Logistic regression | 8 |
+| Count | Continuous/mixed | Poisson / negative binomial regression | 8 |
+| Time-to-event | Continuous/mixed | Cox proportional hazards | 8 |
+| Multiple continuous | Categorical | MANOVA → DFA | 10 |
+
+## Method Selection: Prediction & Exploration {.smaller}
+
+| Goal | Data Type | Method | Week |
+|:---|:---|:---|:---|
+| Classify | Labeled, few features | LDA, logistic regression | 8, 10 |
+| Classify | Labeled, complex boundaries | KNN, SVM, random forest | 9, 10 |
+| Classify | Labeled, many features | Regularized regression, random forest | 8, 10 |
+| Reduce dimensions | Continuous | PCA | 10 |
+| Reduce dimensions | Distance/dissimilarity | PCoA, NMDS | 10 |
+| Visualize clusters | High-dimensional | t-SNE, UMAP | 10 |
+| Find groups | No labels | K-means, hierarchical clustering | 9 |
+| Test group differences | Distance matrix | PERMANOVA | 10 |
+
+## The Modeling Progression {.smaller}
+
+How methods connect across weeks — each row builds on the previous:
+
+| Flexibility | Method                   | Key Addition                     |
+|:------------|:-------------------------|:---------------------------------|
+| Lowest      | Simple linear regression | One predictor, straight line     |
+| ↓           | Multiple regression      | Multiple predictors              |
+| ↓           | Polynomial regression    | Non-linear terms                 |
+| ↓           | Natural splines          | Piecewise flexibility            |
+| ↓           | GAMs                     | Automatic smoothing              |
+| ↓           | Random forests           | Non-parametric, ensemble         |
+| Highest     | Neural networks          | Universal function approximation |
+
+::: callout-tip
+Start simple. Only increase complexity when diagnostic plots show the simpler model is inadequate.
+:::
+
+## Reporting Effect Sizes {.smaller}
+
+P-values tell you **whether** an effect exists; effect sizes tell you **how large** it is. Always report both.
+
+| Method | Effect Size Measure | R Code |
+|:---|:---|:---|
+| t-test | Cohen's d | `effectsize::cohens_d()` |
+| ANOVA | η² (eta-squared), ω² | `effectsize::eta_squared()` |
+| Regression | R², partial R² | `summary(model)$r.squared` |
+| ANCOVA | Partial η² | `effectsize::eta_squared(type = "partial")` |
+| Logistic regression | Odds ratio | `exp(coef(model))` |
+| Cox PH | Hazard ratio | `exp(coef(model))` |
+| MANOVA | Pillai's trace, η² | `effectsize::eta_squared()` |
+| PERMANOVA | R² | `adonis2()` output |
+
+::: callout-important
+"Statistical significance does not imply practical importance." A tiny effect can be highly significant with a large enough sample. Effect sizes help you assess whether the difference matters in your bioengineering application.
+:::
+
+## Reproducibility Checklist {.smaller}
+
+For every analysis in this course and beyond:
+
+1.  **Set a seed** (`set.seed()`) for any analysis involving randomness
+2.  **Report package versions** (`sessionInfo()` or `renv::snapshot()`)
+3.  **Use relative paths** and organized project directories
+4.  **Document your analysis** in Quarto/R Markdown (literate programming)
+5.  **Report effect sizes** alongside p-values
+6.  **Share your code** — reproducibility requires transparency
+
+#  {background-color="#2c3e50"}
