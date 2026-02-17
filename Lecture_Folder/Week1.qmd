@@ -793,63 +793,133 @@ Read error messages from the bottom up—the last line tells you what went wrong
 
 ## Drawing Samples from Distributions {.smaller}
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: fig-samples
+#| label: fig-samples-output
 #| fig-cap: "Random samples from distributions"
 #| out-width: "70%"
-#| echo: true
+#| echo: false
+#| eval: true
 
 x <- rnorm(10000, 0, 10)
 y <- sample(1:10000, 10000, replace = T)
 plot(x, y, pch = 20, col = rgb(0, 0, 1, 0.3))
 ```
 
-## Histograms {.smaller}
+### Code
 
 ```{r}
-#| label: fig-histogram
+#| label: fig-samples-code
+#| echo: true
+#| eval: false
+
+x <- rnorm(10000, 0, 10)
+y <- sample(1:10000, 10000, replace = T)
+plot(x, y, pch = 20, col = rgb(0, 0, 1, 0.3))
+```
+:::
+
+## Histograms {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: fig-histogram-output
 #| fig-cap: "Histogram of normally distributed data"
 #| out-width: "70%"
-#| echo: true
+#| echo: false
+#| eval: true
 
 x <- rnorm(10000, 0, 10)
 hist(x, col = "steelblue", border = "white", main = "Normal Distribution")
 ```
 
-## Density Curves {.smaller}
+### Code
 
 ```{r}
-#| label: fig-normal-curve
+#| label: fig-histogram-code
+#| echo: true
+#| eval: false
+
+x <- rnorm(10000, 0, 10)
+hist(x, col = "steelblue", border = "white", main = "Normal Distribution")
+```
+:::
+
+## Density Curves {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: fig-normal-curve-output
 #| fig-cap: "Histogram with density curve overlay"
 #| out-width: "70%"
-#| echo: true
+#| echo: false
+#| eval: true
 
 x <- rnorm(1000, 0, 100)
 hist(x, xlim = c(-500,500), col = "lightblue", border = "white", freq = FALSE)
 curve(dnorm(x, 0, 100), xlim = c(-500,500), add=TRUE, col='Red', lwd=2)
 ```
 
-## Binomial Distribution {.smaller}
+### Code
 
 ```{r}
-#| label: fig-binomial
+#| label: fig-normal-curve-code
+#| echo: true
+#| eval: false
+
+x <- rnorm(1000, 0, 100)
+hist(x, xlim = c(-500,500), col = "lightblue", border = "white", freq = FALSE)
+curve(dnorm(x, 0, 100), xlim = c(-500,500), add=TRUE, col='Red', lwd=2)
+```
+:::
+
+## Binomial Distribution {.smaller}
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: fig-binomial-output
 #| fig-cap: "Binomial distribution: 10 successes (out of 20 trials) is most frequent"
 #| out-width: "60%"
-#| echo: true
+#| echo: false
+#| eval: true
 
 heads <- rbinom(n=1000, size=20, prob=0.5)
 hist(heads, col = "coral", border = "white")
 ```
 
+### Code
+
+```{r}
+#| label: fig-binomial-code
+#| echo: true
+#| eval: false
+
+heads <- rbinom(n=1000, size=20, prob=0.5)
+hist(heads, col = "coral", border = "white")
+```
+:::
+
 ## Multiple Plots {.smaller}
 
 Use `par(mfrow=c(rows, cols))` to create composite figures:
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: fig-composite
+#| label: fig-composite-output
 #| fig-cap: "Multiple plots in a single figure"
 #| out-width: "80%"
-#| echo: true
+#| echo: false
+#| eval: true
 
 seq_1 <- seq(0.0, 10.0, by = 0.1)
 seq_2 <- seq(10.0, 0.0, by = -0.1)
@@ -860,6 +930,24 @@ plot(seq_2, xlab="time", ylab="p in pop 2", type = "p", col = 'green', pch = 19)
 plot((seq_2)^2, xlab="time", ylab="p2 in pop 2", type = "p", col = 'blue', pch = 19)
 plot((seq_1)^2, xlab="time", ylab ="p in pop 1", type = "l", col = 'orange', lwd = 2)
 ```
+
+### Code
+
+```{r}
+#| label: fig-composite-code
+#| echo: true
+#| eval: false
+
+seq_1 <- seq(0.0, 10.0, by = 0.1)
+seq_2 <- seq(10.0, 0.0, by = -0.1)
+
+par(mfrow=c(2,2))
+plot(seq_1, xlab="time", ylab="p in pop 1", type = "p", col = 'red', pch = 19)
+plot(seq_2, xlab="time", ylab="p in pop 2", type = "p", col = 'green', pch = 19)
+plot((seq_2)^2, xlab="time", ylab="p2 in pop 2", type = "p", col = 'blue', pch = 19)
+plot((seq_1)^2, xlab="time", ylab ="p in pop 1", type = "l", col = 'orange', lwd = 2)
+```
+:::
 
 # Tidy Data & File Types {background-color="#2c3e50"}
 
@@ -1149,14 +1237,17 @@ Note that these go into the beginning of each code chunk
 
 **Display math:**
 
-``` latex
+::: panel-tabset
+### Equation
+
 $$\iint\limits_{a}^{b} f(x,y) \, dx \, dy$$
+
+### LaTeX
+
+``` text
+\iint\limits_{a}^{b} f(x,y) \, dx \, dy
 ```
-
-\
-\
-
-$$\iint\limits_{a}^{b} f(x,y) \, dx \, dy$$
+:::
 
 ## Example: Biological Data Analysis {.smaller}
 
@@ -1235,7 +1326,12 @@ The R pipe (`|>` or `%>%`) is a way to chain operations - but remember, the map 
 
 ## Pipe Workflow - Step 5 {.smaller}
 
-![Pipe workflow step 5](images/week02_21_w1_pipes_5.jpeg){#fig-week2-pipes-5 fig-align="center" width="90%"} \## Visualization {.smaller}
+![Pipe workflow step 5](images/week02_21_w1_pipes_5.jpeg){#fig-week2-pipes-5 fig-align="center" width="90%"}
+
+## Visualization {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: fig-gene-boxplot-output
@@ -1254,7 +1350,7 @@ ggplot(gene_expression, aes(x = treatment, y = gene_BRCA1, fill = treatment)) +
   scale_fill_brewer(palette = "Set2")
 ```
 
-## Visualization Code {.smaller}
+### Code
 
 ```{r}
 #| label: fig-gene-boxplot-code
@@ -1269,8 +1365,12 @@ ggplot(gene_expression, aes(x = treatment, y = gene_BRCA1, fill = treatment)) +
   theme(legend.position = "none") +
   scale_fill_brewer(palette = "Set2")
 ```
+:::
 
 ## Statistical Test {.smaller}
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: stat-test-output
@@ -1282,7 +1382,7 @@ tidy(anova_result) |>
   kable(digits = 4, caption = "ANOVA Results: BRCA1 Expression by Treatment")
 ```
 
-## Statistical Test Code {.smaller}
+### Code
 
 ```{r}
 #| label: stat-test-code
@@ -1295,6 +1395,7 @@ anova_result <- aov(gene_BRCA1 ~ treatment, data = gene_expression)
 tidy(anova_result) |>
   kable(digits = 4, caption = "ANOVA Results")
 ```
+:::
 
 ::: callout-note
 The p-value indicates whether there are significant differences between groups.
