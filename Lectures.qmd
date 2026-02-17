@@ -10,15 +10,23 @@ title: "Lectures"
 
 ### Datasets for in Class Exercises
 
-[Stickleback_RNAseq_Data_Set](Lecture_Folder/Stickle_RNAseq.tsv)
+[Stickleback_RNAseq_Data_Set](Lecture_Folder/Sdata/tickle_RNAseq.tsv)
 
-[Knee_Injury_Data_Set](Lecture_Folder/knee_injury.csv)
+[Knee_Injury_Data_Set](Lecture_Folder/data/knee_injury.csv)
 
-[Grip_Strength_Data_Set](Lecture_Folder/grip_strength.csv)
+[Grip_Strength_Data_Set](Lecture_Folder/data/grip_strength.csv)
 
-[Cell_Culture_Data](Lecture_Folder/cell_culture_expression.csv)
+[Cell_Culture_Data](Lecture_Folder/cdata/ell_culture_expression.csv)
 
-[Zebrafish_Development](Lecture_Folder/Drerio_development.csv)
+[Zebrafish_Development](Lecture_Folder/data/Drerio_development.csv)
+
+[Hydrogel Drug Release](Lecture_Folder/data/hydrogel_drug_release.csv)
+
+[Nanofiber tensile strength](Lecture_Folder/data/nanofiber_tensile_strength.csv)
+
+[Cell Proliferation Assay](Lecture_Folder/data/cell_proliferation_assay.csv)
+
+[Implant Degredataion](Lecture_Folder/data/implant_degradation.csv)
 
 ### Lectures
 
@@ -33,3 +41,5 @@ title: "Lectures"
 [Lecture_5](Lecture_Folder/Week5.html)
 
 [Lecture_6](Lecture_Folder/Week6.html)
+
+[Lecture_7](Lecture_Folder/Week7.html)

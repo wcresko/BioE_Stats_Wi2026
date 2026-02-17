@@ -29,16 +29,18 @@ editor: visual
 library(tidyverse)
 library(knitr)
 library(readxl)
+library(patchwork)
 
 # Statistical analysis packages
 library(MASS)        # LDA, robust regression
 library(pwr)         # Power analysis
 library(boot)        # Bootstrap methods
 library(car)         # Companion to Applied Regression
-library(survival)    # Survival analysis
 library(nlme)        # Mixed effects models
 library(broom)       # Tidy model output
 library(emmeans)     # Estimated marginal means
+library(GGally)      # Extended ggplot2 pairs plots
+library(ggfortify)   # ggplot2 diagnostics for lm objects
 
 # Set consistent theme for all plots
 theme_set(theme_minimal(base_size = 14))
@@ -47,18 +49,17 @@ theme_set(theme_minimal(base_size = 14))
 set.seed(2026)
 ```
 
-# Week 7: Multiple Regression and Multifactor ANOVA {background-color="#2c3e50"}
+# Week 7: Multifactor ANOVA and Multiple Regression {background-color="#d4edda"}
 
 ## Week 7 Topics
 
 ::: incremental
--   Finish ANCOVA
--   Multiple linear regression
--   Model selection (AIC, BIC, Mallow's Cp)
--   Statistical power
+-   Finish ANCOVA (with post-hoc analysis using `emmeans`)
 -   Multifactor ANOVA
--   Factorial & nested designs
+-   Factorial & nested designs (with post-hoc analysis)
 -   Random effects & repeated measures
+-   Multiple linear regression
+-   Model selection: AIC, BIC, Mallow's Cp, and worked example
 :::
 
 **Readings:** Chapter 28
@@ -75,7 +76,8 @@ set.seed(2026)
 #| echo: true
 
 # Install new packages (run once)
-install.packages(c("nlme", "car", "pwr", "leaps"))
+install.packages(c("nlme", "car", "pwr", "leaps",
+                   "patchwork", "GGally", "ggfortify"))
 ```
 
 ### Load
@@ -92,14 +94,29 @@ library(pwr)          # Power analysis
 library(leaps)        # All-subsets regression
 library(broom)        # Tidy model output
 library(emmeans)      # Estimated marginal means
+library(patchwork)    # Combining ggplots
+library(GGally)       # ggpairs scatterplot matrices
+library(ggfortify)    # ggplot2 diagnostic plots for lm
 ```
 :::
 
-**Built-in datasets used this week:** `ToothGrowth` (vitamin C effects on tooth growth)
+## Datasets for This Week
+
+**Built-in datasets:** `ToothGrowth` (vitamin C effects on guinea pig tooth growth)
+
+**Course datasets (download from Canvas):**
+
+| File | Analysis | Description |
+|:-----|:---------|:------------|
+| `hydrogel_drug_release.csv` | ANCOVA | Drug release from hydrogel scaffolds by polymer type |
+| `nanofiber_tensile_strength.csv` | Nested ANOVA | Tensile strength of nanofiber scaffolds across batches |
+| `cell_proliferation_assay.csv` | Factorial ANOVA | Stem cell proliferation by substrate stiffness and growth factor |
+| `implant_degradation.csv` | Repeated Measures | Biodegradable implant mass loss over time by coating type |
+| `RNAseq_lip.tsv` | Multiple regression | Gene expression and lipid content |
 
 ------------------------------------------------------------------------
 
-# Finish ANCOVA: Combining Regression and ANOVA {background-color="#2c3e50"}
+# Finish ANCOVA: Combining Regression and ANOVA {background-color="#d4edda"}
 
 ## ANCOVA Review
 
@@ -110,21 +127,21 @@ Last week we introduced **Analysis of Covariance (ANCOVA)**, which combines:
 
 This week we continue with the biological motivations, interpretation, and assumptions.
 
-## ANCOVA: Brain Size and Body Mass
-
-![](images/week10_11_neanderthal_human_brain_size.jpeg){fig-align="center" width="90%"}
+-   ANCOVA increases statistical power by reducing unexplained variance — the covariate "absorbs" variation that would otherwise inflate the residual error term
+-   The adjusted group means account for differences in the covariate, providing a fairer comparison between groups
 
 ## ANCOVA: Neanderthal vs. Modern Human
 
 ![](images/week10_12_neanderthal_human_skulls_skeletons.jpeg){fig-align="center" width="90%"}
 
-## ANCOVA: Brain-Body Mass Regression
 
-![](images/week10_13_ancova_brain_body_mass_regression.jpeg){fig-align="center" width="90%"}
+## Brain-Body Mass Regression
 
-## DRAFT: Brain-Body Mass Regression
+::: panel-tabset
+### Output
 
 ```{r}
+#| label: plot-brain-body-mass
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -132,136 +149,84 @@ This week we continue with the biological motivations, interpretation, and assum
 
 set.seed(42)
 n <- 30
-body_h <- rnorm(n, 70, 10)
-brain_h <- 900 + 8 * body_h + rnorm(n, 0, 50)
-body_n <- rnorm(n, 80, 12)
-brain_n <- 850 + 8 * body_n + rnorm(n, 0, 50)
 
-par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
+species_data <- tibble(
+  species = rep(c("H. sapiens", "Neanderthal"), each = n),
+  body_mass = c(rnorm(n, 70, 10), rnorm(n, 80, 12))
+) %>%
+  mutate(brain_size = ifelse(species == "H. sapiens",
+                              900 + 8 * body_mass + rnorm(n(), 0, 50),
+                              850 + 8 * body_mass + rnorm(n(), 0, 50)))
 
-# Parallel slopes
-plot(body_h, brain_h, pch = 16, col = "blue", cex = 1.2,
-     xlim = range(c(body_h, body_n)), ylim = range(c(brain_h, brain_n)),
-     xlab = "Body mass (kg)", ylab = "Brain size (cc)",
-     main = "brain ~ mass + species")
-points(body_n, brain_n, pch = 17, col = "red", cex = 1.2)
-abline(lm(brain_h ~ body_h), col = "blue", lwd = 2)
-abline(lm(brain_n ~ body_n), col = "red", lwd = 2)
-legend("topleft", c("H. sapiens", "Neanderthal"),
-       pch = c(16, 17), col = c("blue", "red"))
+p1 <- ggplot(species_data, aes(x = body_mass, y = brain_size,
+                                color = species, shape = species)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1.2) +
+  scale_color_manual(values = c("H. sapiens" = "steelblue",
+                                 "Neanderthal" = "firebrick")) +
+  scale_shape_manual(values = c(16, 17)) +
+  labs(title = "Parallel Slopes: brain ~ mass + species",
+       x = "Body mass (kg)", y = "Brain size (cc)",
+       color = "Species", shape = "Species") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
 
-# With interaction
-plot(body_h, brain_h, pch = 16, col = "blue", cex = 1.2,
-     xlim = range(c(body_h, body_n)), ylim = range(c(brain_h, brain_n)),
-     xlab = "Body mass (kg)", ylab = "Brain size (cc)",
-     main = "brain ~ mass * species")
-points(body_n, brain_n, pch = 17, col = "red", cex = 1.2)
-abline(lm(brain_h ~ body_h), col = "blue", lwd = 2)
-abline(lm(brain_n ~ body_n), col = "red", lwd = 2, lty = 2)
-legend("topleft", c("H. sapiens", "Neanderthal"),
-       pch = c(16, 17), col = c("blue", "red"))
+p2 <- ggplot(species_data, aes(x = body_mass, y = brain_size,
+                                color = species, shape = species)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1.2) +
+  scale_color_manual(values = c("H. sapiens" = "steelblue",
+                                 "Neanderthal" = "firebrick")) +
+  scale_shape_manual(values = c(16, 17)) +
+  labs(title = "Interaction: brain ~ mass * species",
+       x = "Body mass (kg)", y = "Brain size (cc)",
+       color = "Species", shape = "Species") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
+
+p1 + p2 + plot_layout(guides = "collect") &
+  theme(legend.position = "top")
 ```
 
-## ANCOVA: ANOVA vs. Covariate Adjustment
-
-![](images/week10_14_ancova_anova_vs_covariate_comparison.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: ANOVA vs ANCOVA Comparison
+### Code
 
 ```{r}
-#| echo: false
-#| eval: true
-#| fig-width: 10
-#| fig-height: 5
+#| label: plot-brain-body-mass-code
+#| echo: true
+#| eval: false
 
-par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
-
+# Simulated Neanderthal vs. H. sapiens data
 set.seed(42)
-n <- 20
-resp_a <- rnorm(n, 10, 2)
-resp_b <- rnorm(n, 12, 2)
+n <- 30
+species_data <- tibble(
+  species = rep(c("H. sapiens", "Neanderthal"), each = n),
+  body_mass = c(rnorm(n, 70, 10), rnorm(n, 80, 12))
+) %>%
+  mutate(brain_size = ifelse(species == "H. sapiens",
+                              900 + 8 * body_mass + rnorm(n(), 0, 50),
+                              850 + 8 * body_mass + rnorm(n(), 0, 50)))
 
-# Left: simple group comparison
-stripchart(list("Group A" = resp_a, "Group B" = resp_b),
-           vertical = TRUE, pch = 16, col = c("blue", "red"),
-           main = "ANOVA: response ~ group", ylab = "Response",
-           method = "jitter", jitter = 0.1)
-segments(0.8, mean(resp_a), 1.2, mean(resp_a), lwd = 3, col = "blue")
-segments(1.8, mean(resp_b), 2.2, mean(resp_b), lwd = 3, col = "red")
-
-# Right: with covariate
-cov_a <- rnorm(n, 5, 1)
-cov_b <- rnorm(n, 7, 1)
-resp_a2 <- 5 + 1 * cov_a + rnorm(n, 0, 0.8)
-resp_b2 <- 5 + 1 * cov_b + rnorm(n, 0, 0.8)
-
-plot(c(cov_a, cov_b), c(resp_a2, resp_b2),
-     pch = 16, col = rep(c("blue", "red"), each = n),
-     xlab = "Covariate", ylab = "Response",
-     main = "ANCOVA: response ~ covariate + group")
-abline(lm(resp_a2 ~ cov_a), col = "blue", lwd = 2)
-abline(lm(resp_b2 ~ cov_b), col = "red", lwd = 2)
-legend("topleft", c("Group A", "Group B"),
-       pch = 16, col = c("blue", "red"))
+# Parallel slopes visualization
+ggplot(species_data, aes(x = body_mass, y = brain_size,
+                          color = species, shape = species)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1.2) +
+  scale_color_manual(values = c("steelblue", "firebrick")) +
+  labs(title = "brain ~ mass + species",
+       x = "Body mass (kg)", y = "Brain size (cc)")
 ```
 
-## ANCOVA: Adjusted Means
+### Interpretation
 
-![](images/week10_15_ancova_adjusted_means_diagram.jpeg){fig-align="center" width="90%"}
+-   **Left panel (additive model):** Both species have the same slope relating body mass to brain size, but Neanderthals have a different intercept — the lines are parallel
+-   **Right panel (interaction model):** The slopes are allowed to differ between species — if the interaction is not significant, the parallel model is preferred
+-   The key ANCOVA question: after controlling for body mass, do the species differ in brain size?
+:::
 
-## DRAFT: ANCOVA Adjusted Means
+## ANCOVA Null Hypotheses
 
-The ANCOVA model:
-
-$$y_{ij} = \mu + \alpha_i + \beta(x_{ij} - \bar{x}) + \varepsilon_{ij}$$
-
-Adjusted means are computed at the overall mean of the covariate:
-
-$$\bar{y}_{i(adj)} = \bar{y}_i - \hat{\beta}(\bar{x}_i - \bar{x})$$
-
-```{r}
-#| echo: false
-#| eval: true
-#| fig-width: 7
-#| fig-height: 5
-
-set.seed(42)
-n <- 20
-x_a <- rnorm(n, 4, 1); y_a <- 2 + 1.5 * x_a + rnorm(n, 0, 0.8)
-x_b <- rnorm(n, 6, 1); y_b <- 4 + 1.5 * x_b + rnorm(n, 0, 0.8)
-x_all <- mean(c(x_a, x_b))
-
-plot(c(x_a, x_b), c(y_a, y_b), pch = 16,
-     col = rep(c("blue", "red"), each = n),
-     xlab = "Covariate (x)", ylab = "Response (y)", las = 1)
-abline(lm(y_a ~ x_a), col = "blue", lwd = 2)
-abline(lm(y_b ~ x_b), col = "red", lwd = 2)
-abline(v = x_all, lty = 2, lwd = 1)
-text(x_all + 0.1, max(c(y_a, y_b)), expression(bar(x)[..]), cex = 1.2)
-legend("topleft", c("Group A", "Group B"), pch = 16, col = c("blue", "red"))
-```
-
-The key insight: by **adjusting for the covariate**, we can compare groups at the same value of the continuous predictor, removing confounding variation.
-
-## ANCOVA: Multiple Covariates
-
-![](images/week10_16_ancova_multiple_covariates_formula.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: ANCOVA with Multiple Covariates
-
-**Linear model:**
-
-$$y_{ij} = \mu + \alpha_i + \beta_1(x_{1ij} - \bar{x}_1) + \beta_2(x_{2ij} - \bar{x}_2) + \varepsilon_{ij}$$
-
-**Adjusted mean:**
-
-$$\bar{y}_{i(adj)} = \bar{y}_i - \hat{\beta}_1(\bar{x}_{1i} - \bar{x}_1) - \hat{\beta}_2(\bar{x}_{2i} - \bar{x}_2)$$
-
-## ANCOVA: Null Hypotheses
-
-![](images/week10_17_ancova_null_hypotheses.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: ANCOVA Null Hypotheses
+::: panel-tabset
+### Equations
 
 **For the categorical factor (e.g., species):**
 
@@ -275,11 +240,16 @@ $$H_0: \beta = 0$$
 
 The covariate has no linear relationship with the response.
 
-## ANCOVA: F-Ratio Table and Collinearity
+### LaTeX
 
-![](images/week10_18_ancova_f_ratio_table.jpeg){fig-align="center" width="90%"}
+``` text
+H_0: \mu_{1(adj)} = \mu_{2(adj)} = \ldots = \mu_{p(adj)}
+H_0: \beta = 0
+```
+:::
 
-## DRAFT: ANCOVA F-Ratio Table
+
+## ANCOVA F-Ratio Table
 
 | Source    | df          | MS               | F-ratio                    |
 |:----------|:------------|:-----------------|:---------------------------|
@@ -287,19 +257,17 @@ The covariate has no linear relationship with the response.
 | Covariate | 1           | $MS_{Covariate}$ | $MS_{Cov} / MS_{Residual}$ |
 | Residual  | $N - p - 1$ | $MS_{Residual}$  |                            |
 
-::: callout-warning
-## Collinearity in ANCOVA
+-   The covariate consumes 1 df from the residual, reducing the error term
+-   If the covariate is strongly related to the response, $MS_{Residual}$ drops substantially, increasing power for the factor test
+-   This is why ANCOVA is more powerful than one-way ANOVA when the covariate is correlated with the response
 
-If the covariate and the factor are correlated (e.g., body mass differs between species), the order in which terms enter the model matters. Use **Type II or Type III sums of squares** from the `car` package to handle this properly.
-:::
+## Homogeneous vs. Heterogeneous Slopes
 
-## ANCOVA: Heterogeneous Slopes
-
-![](images/week10_19_ancova_heterogeneous_slopes.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Heterogeneous Slopes
+::: panel-tabset
+### Output
 
 ```{r}
+#| label: plot-slopes-assumption
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -307,30 +275,68 @@ If the covariate and the factor are correlated (e.g., body mass differs between 
 
 set.seed(42)
 n <- 25
-par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
 
-# Homogeneous slopes (assumption met)
-x1 <- rnorm(n, 5, 2); y1 <- 2 + 1.5 * x1 + rnorm(n, 0, 1)
-x2 <- rnorm(n, 5, 2); y2 <- 5 + 1.5 * x2 + rnorm(n, 0, 1)
-plot(c(x1, x2), c(y1, y2), pch = 16,
-     col = rep(c("blue", "red"), each = n),
-     xlab = "Covariate", ylab = "Response",
-     main = "Homogeneous slopes (OK)")
-abline(lm(y1 ~ x1), col = "blue", lwd = 2)
-abline(lm(y2 ~ x2), col = "red", lwd = 2)
+homo_a <- tibble(group = "Group A", x = rnorm(n, 5, 2)) %>%
+  mutate(y = 2 + 1.5 * x + rnorm(n(), 0, 1), panel = "Homogeneous Slopes (OK)")
+homo_b <- tibble(group = "Group B", x = rnorm(n, 5, 2)) %>%
+  mutate(y = 5 + 1.5 * x + rnorm(n(), 0, 1), panel = "Homogeneous Slopes (OK)")
+het_a <- tibble(group = "Group A", x = rnorm(n, 5, 2)) %>%
+  mutate(y = 2 + 0.5 * x + rnorm(n(), 0, 1), panel = "Heterogeneous Slopes (VIOLATION)")
+het_b <- tibble(group = "Group B", x = rnorm(n, 5, 2)) %>%
+  mutate(y = 1 + 2.5 * x + rnorm(n(), 0, 1), panel = "Heterogeneous Slopes (VIOLATION)")
 
-# Heterogeneous slopes (violation)
-x3 <- rnorm(n, 5, 2); y3 <- 2 + 0.5 * x3 + rnorm(n, 0, 1)
-x4 <- rnorm(n, 5, 2); y4 <- 1 + 2.5 * x4 + rnorm(n, 0, 1)
-plot(c(x3, x4), c(y3, y4), pch = 16,
-     col = rep(c("blue", "red"), each = n),
-     xlab = "Covariate", ylab = "Response",
-     main = "Heterogeneous slopes (VIOLATION)")
-abline(lm(y3 ~ x3), col = "blue", lwd = 2)
-abline(lm(y4 ~ x4), col = "red", lwd = 2)
+slopes_df <- bind_rows(homo_a, homo_b, het_a, het_b)
+
+ggplot(slopes_df, aes(x = x, y = y, color = group)) +
+  geom_point(size = 2, alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1.2) +
+  facet_wrap(~ panel) +
+  scale_color_manual(values = c("Group A" = "steelblue", "Group B" = "firebrick")) +
+  labs(x = "Covariate", y = "Response", color = "Group") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
 ```
 
-When slopes differ between groups, the interaction between the covariate and the factor is significant — this is a violation of the **parallel slopes assumption**.
+### Code
+
+```{r}
+#| label: plot-slopes-assumption-code
+#| echo: true
+#| eval: false
+
+# Demonstrating slope homogeneity assumption
+set.seed(42)
+n <- 25
+
+# Homogeneous: same slope (1.5), different intercepts
+homo_a <- tibble(group = "A", x = rnorm(n, 5, 2)) %>%
+  mutate(y = 2 + 1.5 * x + rnorm(n(), 0, 1))
+homo_b <- tibble(group = "B", x = rnorm(n, 5, 2)) %>%
+  mutate(y = 5 + 1.5 * x + rnorm(n(), 0, 1))
+
+# Heterogeneous: different slopes (0.5 vs 2.5)
+het_a <- tibble(group = "A", x = rnorm(n, 5, 2)) %>%
+  mutate(y = 2 + 0.5 * x + rnorm(n(), 0, 1))
+het_b <- tibble(group = "B", x = rnorm(n, 5, 2)) %>%
+  mutate(y = 1 + 2.5 * x + rnorm(n(), 0, 1))
+
+ggplot(bind_rows(homo_a, homo_b), aes(x, y, color = group)) +
+  geom_point() + geom_smooth(method = "lm", se = FALSE)
+```
+:::
+
+When slopes differ between groups, the interaction between the covariate and the factor is significant — this is a violation of the **parallel slopes assumption**. In this case, the interaction model is more appropriate than the additive model.
+
+## Parallel vs. Interaction: When to Use
+
+| Model | Use When | R Formula |
+|:-----------------------|:-----------------------|:-----------------------|
+| **Parallel Slopes** | Effect of covariate is same across groups | `y ~ x + group` |
+| **Interaction** | Effect of covariate differs by group | `y ~ x * group` |
+
+::: callout-tip
+Always start with the interaction model. Test whether the interaction term is significant. If not, drop it and use the simpler parallel slopes model (parsimony principle).
+:::
 
 ## Parallel Slopes (Additive) Model
 
@@ -357,9 +363,10 @@ lm(response ~ continuous_var + factor_var, data = mydata)
 ```
 
 -   The `+` means "additive" — the effect of the covariate is the same in every group
--   This produces parallel regression lines
+-   This produces parallel regression lines with different y-intercepts
 
-## Interaction Model
+
+## Non-parallel Slopes (Interaction) Model
 
 When the relationship **differs between groups**, add an **interaction term**:
 
@@ -383,9 +390,11 @@ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2) + \epsilon_i
 lm(response ~ continuous_var * factor_var, data = mydata)
 
 # Equivalent to:
-lm(response ~ continuous_var + factor_var + continuous_var:factor_var,
-   data = mydata)
+lm(response ~ continuous_var + factor_var + continuous_var:factor_var, data = mydata)
 ```
+
+-   The `*` operator automatically includes both main effects and their interaction
+-   A significant interaction means the slope of the covariate differs between groups
 
 ## Interpreting ANCOVA Output
 
@@ -410,128 +419,1661 @@ lm(rate ~ temp + species, data = crickets)
 -   The categorical variable coefficient represents the **offset from the reference group**
 -   This is the same dummy variable encoding that `lm()` uses for ANOVA
 -   The only difference from pure ANOVA is the inclusion of a continuous predictor
+-   Use `summary()` to see individual coefficients; use `car::Anova()` with `type = "II"` for the overall ANOVA table with proper sums of squares
 :::
 
-## Parallel vs. Interaction: When to Use
 
-| Model | Use When | R Formula |
-|:---|:---|:---|
-| **Parallel Slopes** | Effect of covariate is same across groups | `y ~ x + group` |
-| **Interaction** | Effect of covariate differs by group | `y ~ x * group` |
+## Hydrogel Drug Release Dataset
 
-::: callout-tip
-Always start with the interaction model. Test whether the interaction term is significant. If not, drop it and use the simpler parallel slopes model (parsimony principle).
-:::
+**Scenario:** Researchers are testing how **polymer type** (PEG, Alginate, Chitosan) affects cumulative drug release from hydrogel scaffolds, with **crosslink density** as a covariate. The relationship between crosslink density and release rate is expected to differ by polymer.
 
-## ANCOVA: Type II/III Sums of Squares
+| Variable | Type | Description |
+|:---------|:-----|:------------|
+| `polymer` | Categorical (3 levels) | Hydrogel polymer type: PEG, Alginate, Chitosan |
+| `crosslink_density` | Continuous | Crosslink density of the hydrogel (mol/L, range 2–12) |
+| `cumulative_release_pct` | Continuous (response) | Cumulative drug release after 24 hours (%) |
 
-::: panel-tabset
-### Code
+-   *n* = 75 (25 per polymer type)
+-   The interaction model is expected to be the best fit because the three polymers have different degradation mechanisms
 
-```{r}
-#| echo: true
-#| eval: false
-
-library(car)
-
-# Type II SS — tests each term after adjusting for all others
-# (appropriate when no significant interaction)
-Anova(lm(y ~ covariate + factor, data = mydata), type = "II")
-
-# Type III SS — tests each term after adjusting for all others
-# including interaction (appropriate when interaction is present)
-Anova(lm(y ~ covariate * factor, data = mydata), type = "III")
-```
-
-### When to Use
-
-| SS Type      | Use When                        | Notes                       |
-|:-------------|:--------------------------------|:----------------------------|
-| **Type I**   | Balanced designs, order matters | Default in `anova()`        |
-| **Type II**  | Unbalanced, no interaction      | Default in `car::Anova()`   |
-| **Type III** | Unbalanced, interaction present | Requires `contr.sum` coding |
-:::
-
-## Visualizing ANCOVA Models
+## ANCOVA Worked Example: Loading and Exploring
 
 ::: panel-tabset
 ### Output
 
 ```{r}
-#| label: ancova-viz-output
+#| label: plot-ancova-explore
 #| echo: false
 #| eval: true
-#| fig-width: 10
-#| fig-height: 4
+#| fig-width: 9
+#| fig-height: 5
 
-# Simulated data for two groups
-set.seed(42)
-x <- rep(seq(1, 10, length.out = 20), 2)
-group <- rep(c("A", "B"), each = 20)
-y <- ifelse(group == "A", 2 + 0.8*x, 5 + 0.8*x) + rnorm(40, 0, 0.8)
-df <- data.frame(x, y, group)
+hydrogel <- read.csv("data/hydrogel_drug_release.csv")
 
-par(mfrow = c(1, 2))
-
-# Parallel slopes
-plot(x, y, col = ifelse(group == "A", "steelblue", "coral"), pch = 19,
-     main = "Parallel Slopes Model")
-abline(2, 0.8, col = "steelblue", lwd = 2)
-abline(5, 0.8, col = "coral", lwd = 2)
-legend("bottomright", c("Group A", "Group B"), col = c("steelblue", "coral"), pch = 19)
-
-# Interaction model
-set.seed(43)
-y2 <- ifelse(group == "A", 2 + 0.5*x, 5 + 1.2*x) + rnorm(40, 0, 0.8)
-plot(x, y2, col = ifelse(group == "A", "steelblue", "coral"), pch = 19,
-     main = "Interaction Model (Different Slopes)")
-abline(2, 0.5, col = "steelblue", lwd = 2)
-abline(5, 1.2, col = "coral", lwd = 2)
-legend("bottomright", c("Group A", "Group B"), col = c("steelblue", "coral"), pch = 19)
+ggplot(hydrogel, aes(x = crosslink_density, y = cumulative_release_pct,
+                      color = polymer, shape = polymer)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, alpha = 0.15, linewidth = 1.1) +
+  scale_color_brewer(palette = "Set1") +
+  labs(title = "Drug Release vs. Crosslink Density by Polymer Type",
+       x = "Crosslink Density (mol/L)",
+       y = "Cumulative Release (%)",
+       color = "Polymer", shape = "Polymer") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
 ```
 
 ### Code
 
 ```{r}
-#| label: ancova-viz-code
+#| label: plot-ancova-explore-code
 #| echo: true
 #| eval: false
 
-par(mfrow = c(1, 2))
+# Load the hydrogel dataset
+hydrogel <- read.csv("data/hydrogel_drug_release.csv")
 
-# Parallel slopes
-plot(x, y, col = ifelse(group == "A", "steelblue", "coral"), pch = 19,
-     main = "Parallel Slopes Model")
-abline(2, 0.8, col = "steelblue", lwd = 2)
-abline(5, 0.8, col = "coral", lwd = 2)
-legend("bottomright", c("Group A", "Group B"),
-       col = c("steelblue", "coral"), pch = 19)
+# Explore the data
+str(hydrogel)
+summary(hydrogel)
 
-# Interaction model (different slopes)
-plot(x, y2, col = ifelse(group == "A", "steelblue", "coral"), pch = 19,
-     main = "Interaction Model (Different Slopes)")
-abline(2, 0.5, col = "steelblue", lwd = 2)
-abline(5, 1.2, col = "coral", lwd = 2)
+# Visualize: do the slopes look different?
+ggplot(hydrogel, aes(x = crosslink_density, y = cumulative_release_pct,
+                      color = polymer, shape = polymer)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, alpha = 0.15) +
+  scale_color_brewer(palette = "Set1") +
+  labs(title = "Drug Release vs. Crosslink Density by Polymer",
+       x = "Crosslink Density (mol/L)",
+       y = "Cumulative Release (%)")
+```
+
+### Interpretation
+
+-   The three polymer types clearly show **different slopes** — Chitosan has the steepest negative relationship with crosslink density while Alginate is nearly flat
+-   This visual pattern suggests the **interaction model** will be more appropriate than the parallel slopes model
+-   All three polymers show decreasing release with increasing crosslink density, but the rate of decrease differs substantially
+:::
+
+
+## ANCOVA Worked Example: Fitting and Comparing Models
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Step 1: Fit the interaction model
+ancova_interaction <- lm(cumulative_release_pct ~ crosslink_density * polymer,
+                          data = hydrogel)
+
+# Step 2: Fit the parallel slopes (additive) model
+ancova_additive <- lm(cumulative_release_pct ~ crosslink_density + polymer,
+                       data = hydrogel)
+
+# Step 3: Compare models — is the interaction significant?
+anova(ancova_additive, ancova_interaction)
+
+# Step 4: Examine the interaction model
+summary(ancova_interaction)
+
+# Step 5: Type II ANOVA table
+car::Anova(ancova_interaction, type = "II")
+```
+
+### Interpretation
+
+-   The `anova()` comparison tests whether the interaction terms significantly improve the model (F-test on the additional parameters)
+-   If the interaction is significant (p < 0.05), use the interaction model — the effect of crosslink density on drug release **depends on polymer type**
+-   The `summary()` output gives you the slope for the reference polymer (Alginate) and the slope *differences* for the other polymers
+-   Each polymer's actual slope = reference slope + its interaction coefficient
+:::
+
+
+## ANCOVA Post-Hoc: Adjusted Means with emmeans
+
+When the interaction is significant, we want to compare the **adjusted group means** — the predicted drug release for each polymer at the mean crosslink density:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-ancova-emmeans-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+hydrogel <- read.csv("data/hydrogel_drug_release.csv")
+
+ancova_interaction <- lm(cumulative_release_pct ~ crosslink_density * polymer,
+                          data = hydrogel)
+
+library(emmeans)
+
+# Estimated marginal means at mean crosslink density
+ancova_emm <- emmeans(ancova_interaction, ~ polymer)
+ancova_pairs <- pairs(ancova_emm)
+
+# Plot the emmeans
+emm_df <- as.data.frame(ancova_emm)
+
+ggplot(emm_df, aes(x = polymer, y = emmean, color = polymer)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL),
+                width = 0.2, linewidth = 1) +
+  scale_color_brewer(palette = "Set1") +
+  labs(title = "Adjusted Mean Drug Release by Polymer Type",
+       subtitle = "Estimated marginal means at mean crosslink density, with 95% CI",
+       x = "Polymer Type", y = "Adjusted Cumulative Release (%)") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
+```
+
+### Code
+
+```{r}
+#| label: plot-ancova-emmeans-code
+#| echo: true
+#| eval: false
+
+library(emmeans)
+
+# Estimated marginal means at mean crosslink density
+ancova_emm <- emmeans(ancova_interaction, ~ polymer)
+summary(ancova_emm)
+
+# Pairwise comparisons (Tukey-adjusted)
+pairs(ancova_emm)
+
+# Visualize with CLD (compact letter display)
+plot(ancova_emm, comparisons = TRUE) +
+  labs(x = "Adjusted Cumulative Release (%)",
+       y = "Polymer Type")
+
+# emtrends: compare slopes across groups
+emtrends(ancova_interaction, pairwise ~ polymer,
+         var = "crosslink_density")
+```
+
+### Interpretation
+
+-   `emmeans()` computes the predicted response for each polymer at the **mean** value of the covariate — this gives a fair comparison by holding crosslink density constant
+-   `pairs()` performs Tukey-adjusted pairwise comparisons of these adjusted means
+-   `emtrends()` compares the **slopes** across polymer types — this directly tests whether the rate of change in drug release per unit of crosslink density differs between polymers
+-   When the interaction is significant, the `emtrends()` output is often more informative than the adjusted means, because the group differences depend on where along the covariate you evaluate them
+:::
+
+
+------------------------------------------------------------------------
+
+# Multifactor ANOVA {background-color="#d4edda"}
+
+## Why Multifactor Designs?
+
+Single-factor designs can only test one variable at a time. In bioengineering experiments, **multiple factors** often operate simultaneously:
+
+-   Scaffold material × growth factor concentration
+-   Temperature × pH × incubation time
+-   Device geometry × surface coating
+
+Multifactor designs allow us to test **main effects** of each factor and their **interactions** — whether the effect of one factor depends on the level of another.
+
+-   **Factorial designs**: all combinations of factor levels are present (crossed)
+-   **Nested designs**: levels of one factor are unique to levels of another (hierarchical)
+-   **Mixed models**: incorporate both fixed and random effects
+
+------------------------------------------------------------------------
+
+# Random Effects {background-color="#d4edda"}
+
+## Fixed vs. Random Effects
+
+**Fixed effects:**
+
+-   Groups are predetermined, of direct interest, repeatable
+-   Examples: medical treatments, predetermined doses, habitat types
+-   We want to estimate specific group means
+
+**Random effects:**
+
+-   Groups randomly sampled from a larger population
+-   Examples: families, subjects measured repeatedly, blocks, batches
+-   **Variance among groups** is of interest, not specific group means
+
+-   The distinction matters because it changes which error term is used in the F-ratio — using the wrong one leads to incorrect p-values
+-   If your groups could be replaced by a different random sample and you'd still be answering the same question, they are random
+
+## When to Use Random Effects
+
+-   Nested sampling designs (individuals within populations)
+-   Subplots within plots
+-   Replicates grouped spatially or temporally (blocks, batches)
+-   Related individuals (families, litters)
+-   Repeated measures on the same subjects
+
+::: callout-note
+A good rule of thumb: if you are interested in the **specific levels** of a factor, it is fixed. If you are interested in the **variability among levels** drawn from a larger population, it is random.
+:::
+
+## Random Effects Hypothesis
+
+::: panel-tabset
+### Equation
+
+$$H_0: \sigma^2_\alpha = 0 \qquad H_A: \sigma^2_\alpha \neq 0$$
+
+### LaTeX
+
+``` text
+H_0: \sigma^2_\alpha = 0
+H_A: \sigma^2_\alpha \neq 0
 ```
 :::
 
-## Dangers of Extrapolation
+We are testing whether the **variance component** for the random effect is zero — i.e., whether there is meaningful variation among the randomly sampled groups.
 
-All regression models (including ANCOVA) are only valid **within the range of the observed data**:
+-   Unlike fixed effects where we test for differences among specific group means, here we test whether the *variance* across groups is greater than zero
+-   A significant result means the grouping structure explains meaningful variation in the response
 
--   Polynomial models are especially dangerous to extrapolate — they can produce wildly unrealistic predictions outside the data range
--   Even linear ANCOVA predictions become unreliable far from the observed covariate values
--   Always report the range of your covariates alongside your model
+## Random Effects in R
 
-::: callout-warning
-## Rule of Thumb
+::: panel-tabset
+### Code
 
-Never predict beyond the range of your observed data unless you have strong theoretical justification for the extrapolation.
+```{r}
+#| eval: false
+#| echo: true
+
+library(nlme)
+
+# Random effect model
+micro_model_random_effect <- lme(
+  fixed  = Gene202 ~ 1,
+  random = ~1 | Geno.Micro,
+  data   = stickle_micro
+)
+
+summary(micro_model_random_effect)
+```
+
+### Key Points
+
+-   In R, `lm()` assumes all effects are **fixed**
+-   For random effects, use `lme()` from the **nlme** package or `lmer()` from **lme4**
+-   The `~1 | group` syntax specifies a random intercept for each level of `group`
+-   The output reports variance components rather than group means
+:::
+
+## Random Effects: Bioengineering Example
+
+Measuring cell viability across multiple wells within multiple plates within multiple experiments:
+
+::: panel-tabset
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Simulated hierarchical data: cells → wells → plates → experiments
+set.seed(42)
+n_exp <- 3; n_plate <- 4; n_well <- 6
+experiment <- rep(1:n_exp, each = n_plate * n_well)
+plate      <- rep(rep(1:n_plate, each = n_well), n_exp)
+
+# Generate data with variance at each level
+exp_effect   <- rnorm(n_exp, 0, 5)[experiment]
+plate_effect <- rnorm(n_exp * n_plate, 0, 3)[interaction(experiment, plate)]
+viability    <- 75 + exp_effect + plate_effect +
+                rnorm(n_exp * n_plate * n_well, 0, 2)
+
+cell_data <- data.frame(
+  viability, experiment = factor(experiment),
+  plate = factor(plate)
+)
+
+# Fit nested random effects model
+library(nlme)
+nested_model <- lme(viability ~ 1,
+                    random = ~1 | experiment/plate,
+                    data = cell_data)
+summary(nested_model)
+
+# Extract variance components
+VarCorr(nested_model)
+```
+
+### Interpreting Variance Components
+
+The output from `VarCorr()` shows:
+
+-   **Experiment variance**: variation between experimental runs
+-   **Plate-within-experiment variance**: variation between plates within a run
+-   **Residual variance**: well-to-well variation within plates
+-   ICC (Intraclass Correlation) = group variance / total variance
+
+The ICC tells you what proportion of total variability is attributable to each level of the hierarchy. A high experiment ICC means most variability comes from run-to-run differences — potentially a quality control concern.
 :::
 
 ------------------------------------------------------------------------
 
-# Multiple Linear Regression {background-color="#2c3e50"}
+# Interactions {background-color="#d4edda"}
+
+## What is an Interaction?
+
+An **interaction** means the effect of one variable on the response depends on the state of another variable.
+
+![](images/week07_18_interaction_plots_fertilizer_temperature.jpeg){fig-align="center" width="75%"}
+
+-   In the presence of a significant interaction, the main effects alone are insufficient to describe the results
+-   You must describe the effect of each factor *at each level* of the other factor
+
+## Interaction Plot Patterns
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-interaction-patterns
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 8
+
+interaction_data <- tibble(
+  Temperature = rep(c("Cold", "Hot"), 8),
+  Fertilizer = rep(rep(c("No Fertilizer", "Fertilizer"), each = 2), 4),
+  Growth = c(4, 6, 6, 8,    # (a) No interaction
+             3, 9, 8, 4,    # (b) Crossing
+             4, 5, 4, 10,   # (c) Fan
+             5, 5, 5, 5),   # (d) No effect
+  Panel = rep(c("(a) No interaction, both significant",
+                "(b) Interaction (crossing)",
+                "(c) Interaction (fan-shaped)",
+                "(d) No effects"), each = 4)
+)
+
+interaction_data$Temperature <- factor(interaction_data$Temperature,
+                                        levels = c("Cold", "Hot"))
+
+ggplot(interaction_data, aes(x = Temperature, y = Growth,
+                              color = Fertilizer, group = Fertilizer)) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1.2) +
+  facet_wrap(~ Panel, nrow = 2) +
+  scale_color_manual(values = c("No Fertilizer" = "steelblue",
+                                 "Fertilizer" = "firebrick")) +
+  ylim(0, 12) +
+  labs(y = "Growth", color = "") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
+```
+
+### Code
+
+```{r}
+#| label: plot-interaction-patterns-code
+#| echo: true
+#| eval: false
+
+# Creating interaction plots with ggplot2
+# Key visual cues:
+# - Parallel lines = no interaction
+# - Crossing lines = strong (crossover) interaction
+# - Fan-shaped lines = ordinal interaction
+# - Overlapping flat lines = no effects at all
+
+ggplot(data, aes(x = factor_A, y = response,
+                  color = factor_B, group = factor_B)) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1.2) +
+  labs(y = "Response")
+```
+
+### Interpretation
+
+-   **(a) No interaction:** Lines are parallel — both temperature and fertilizer have independent additive effects
+-   **(b) Crossing interaction:** Lines cross — fertilizer helps in cold but hurts in hot conditions (or vice versa). The effect of one factor *reverses* depending on the other
+-   **(c) Fan-shaped interaction:** Fertilizer has a larger effect in hot conditions — the magnitude of one factor's effect depends on the other
+-   **(d) No effects:** Both lines are flat and overlapping — neither factor matters
+:::
+
+
+## Pesticide × Predator Interaction
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-pesticide-predator
+#| echo: false
+#| eval: true
+#| fig-width: 7
+#| fig-height: 5
+
+pest_data <- tibble(
+  Pesticide = factor(rep(c("No pesticide", "Pesticide"), 2),
+                      levels = c("No pesticide", "Pesticide")),
+  Predator = rep(c("With predator", "No predator"), each = 2),
+  Survival = c(70, 30, 75, 65)
+)
+
+ggplot(pest_data, aes(x = Pesticide, y = Survival,
+                       color = Predator, group = Predator)) +
+  geom_point(size = 4) +
+  geom_line(linewidth = 1.5) +
+  scale_color_manual(values = c("With predator" = "steelblue",
+                                 "No predator" = "firebrick")) +
+  ylim(0, 100) +
+  labs(title = "Interaction: Pesticide Effect Depends on Predator Presence",
+       y = "% Survival", color = "") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
+```
+
+### Interpretation
+
+-   Without predators, the pesticide has a modest effect on survival (75% → 65%)
+-   With predators, the pesticide has a dramatic effect (70% → 30%)
+-   The pesticide removes the natural predators' prey alternatives, making predation pressure worse — a synergistic interaction
+-   This is a **fan-shaped** (ordinal) interaction: the direction of the pesticide effect is the same in both conditions, but the magnitude differs greatly
+:::
+
+
+------------------------------------------------------------------------
+
+# Factorial ANOVA {background-color="#d4edda"}
+
+## Factorial vs. Nested Designs
+
+**Factorial designs:**
+
+-   All pairwise combinations of factor levels are present
+-   Can assess interactions between factors
+-   Example: Drug dose × Exercise regimen
+
+**Nested designs:**
+
+-   Hierarchical structure — levels of one factor occur within levels of another
+-   No interaction terms (levels are unique to each group)
+-   Often contain random effects
+-   Example: Cells within wells within plates
+
+-   The key distinction: in a factorial design, every level of A occurs with every level of B; in a nested design, the levels of B are unique to each level of A
+
+## Two-Factor Factorial Model
+
+::: panel-tabset
+### Equation
+
+$$y_{ijk} = \mu + \underbrace{\alpha_i + \beta_j}_{\text{Main Effects}} + \underbrace{(\alpha\beta)_{ij}}_{\text{Two-way interaction}} + \varepsilon_{ijk}$$
+
+where:
+
+-   $\mu$ = grand mean
+-   $\alpha_i$ = effect of level $i$ of factor A
+-   $\beta_j$ = effect of level $j$ of factor B
+-   $(\alpha\beta)_{ij}$ = interaction effect of A level $i$ and B level $j$
+-   $\varepsilon_{ijk}$ = random error for replicate $k$
+
+### LaTeX
+
+``` text
+y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
+```
+:::
+
+
+## Three-Factor Factorial Model
+
+::: panel-tabset
+### Equation
+
+$$y_{ijkl} = \mu + \underbrace{\alpha_i + \beta_j + \gamma_k}_{\text{Main Effects}} + \underbrace{(\alpha\beta)_{ij} + (\alpha\gamma)_{ik} + (\beta\gamma)_{jk}}_{\text{Two-way interactions}} + \underbrace{(\alpha\beta\gamma)_{ijk}}_{\text{Three-way}} + \varepsilon_{ijkl}$$
+
+### Components
+
+| Term | Meaning |
+|:-----------------------------------|:-----------------------------------|
+| $\alpha_i, \beta_j, \gamma_k$ | Main effects of factors A, B, C |
+| $(\alpha\beta)_{ij}, (\alpha\gamma)_{ik}, (\beta\gamma)_{jk}$ | Two-way interaction effects |
+| $(\alpha\beta\gamma)_{ijk}$ | Three-way interaction effect |
+| $\varepsilon_{ijkl}$ | Random error for replicate $l$ |
+
+### LaTeX
+
+``` text
+y_{ijkl} = \mu + \alpha_i + \beta_j + \gamma_k
+  + (\alpha\beta)_{ij} + (\alpha\gamma)_{ik} + (\beta\gamma)_{jk}
+  + (\alpha\beta\gamma)_{ijk} + \varepsilon_{ijkl}
+```
+:::
+
+-   The number of terms grows rapidly — a 3-factor model has 7 terms (3 main + 3 two-way + 1 three-way)
+-   Higher-order interactions become increasingly difficult to interpret biologically
+
+
+## Factorial Design Sizes
+
+**For 2 levels per factor:**
+
+| Factors | Design  | Combinations | Observations (*N* = 6 replicates) |
+|:--------|:--------|:-------------|:----------------------------------|
+| 2       | 2×2     | 4            | 24                                |
+| 3       | 2×2×2   | 8            | 48                                |
+| 4       | 2×2×2×2 | 16           | 96                                |
+
+::: panel-tabset
+### Formula
+
+$$\text{Total \# of observations} = N \cdot 2^p$$
+
+where $N$ = replicates per cell, $p$ = number of factors
+
+### LaTeX
+
+``` text
+\text{Total number of observations} = N \cdot 2^p
+```
+:::
+
+-   The total number of cells grows exponentially — a 2×3×4 design has 24 cells
+-   Budget and feasibility constrain factorial designs; fractional factorials can help when full designs are too large
+
+
+## Factorial ANOVA Null Hypotheses — Fixed Effects
+
+::: panel-tabset
+### Equations
+
+**Factor A:**
+
+$$H_0(A): \mu_1 = \mu_2 = \cdots = \mu_i = \mu$$
+
+$$H_0(A): \alpha_1 = \alpha_2 = \cdots = \alpha_i = 0$$
+
+**Factor B:**
+
+$$H_0(B): \mu_1 = \mu_2 = \cdots = \mu_j = \mu$$
+
+**A:B Interaction:**
+
+$$H_0(AB): \mu_{ij} = \mu_i + \mu_j - \mu$$
+
+(i.e., the cell mean equals what we'd expect from the marginal means alone — no interaction)
+
+### LaTeX
+
+``` text
+H_0(A): \alpha_1 = \alpha_2 = \cdots = \alpha_i = 0
+H_0(B): \mu_1 = \mu_2 = \cdots = \mu_j = \mu
+H_0(AB): \mu_{ij} = \mu_i + \mu_j - \mu
+```
+:::
+
+
+## Factorial ANOVA Null Hypotheses — Random Effects
+
+::: panel-tabset
+### Equations
+
+**Factor A:**
+
+$$H_0(A): \sigma^2_\alpha = 0 \quad \text{(population variance equals zero)}$$
+
+There is no added variance due to all possible levels of A.
+
+**Factor B:**
+
+$$H_0(B): \sigma^2_\beta = 0 \quad \text{(population variance equals zero)}$$
+
+There is no added variance due to all possible levels of B.
+
+**A:B Interaction:**
+
+$$H_0(AB): \sigma^2_{\alpha\beta} = 0 \quad \text{(population variance equals zero)}$$
+
+### LaTeX
+
+``` text
+H_0(A): \sigma^2_\alpha = 0
+H_0(B): \sigma^2_\beta = 0
+H_0(AB): \sigma^2_{\alpha\beta} = 0
+```
+:::
+
+
+## ANOVA Table for Two-Factor Crossed Model
+
+| Source | SS | df | MS |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| A | $nq \displaystyle\sum_{i=1}^{p}(\bar{y}_{i} - \bar{y})^2$ | $p - 1$ | $\dfrac{SS_A}{p - 1}$ |
+| B | $np \displaystyle\sum_{j=1}^{q}(\bar{y}_{j} - \bar{y})^2$ | $q - 1$ | $\dfrac{SS_B}{q - 1}$ |
+| AB | $n \displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}(\bar{y}_{ij} - \bar{y}_{i} - \bar{y}_{j} + \bar{y})^2$ | $(p-1)(q-1)$ | $\dfrac{SS_{AB}}{(p-1)(q-1)}$ |
+| Residual | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{ij})^2$ | $pq(n-1)$ | $\dfrac{SS_{Residual}}{pq(n-1)}$ |
+| Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y})^2$ | $pqn - 1$ |  |
+
+-   The interaction SS captures variability in cell means that cannot be explained by the row and column marginal means alone
+
+
+## F-Ratios for Fixed, Random, and Mixed Models
+
+| Source | A and B fixed | A and B random | A fixed, B random |
+|:-------|:--------------|:---------------|:------------------|
+| A | $\dfrac{MS_A}{MS_{Residual}}$ | $\dfrac{MS_A}{MS_{AB}}$ | $\dfrac{MS_A}{MS_{AB}}$ |
+| B | $\dfrac{MS_B}{MS_{Residual}}$ | $\dfrac{MS_B}{MS_{AB}}$ | $\dfrac{MS_B}{MS_{Residual}}$ |
+| AB | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ |
+
+::: callout-note
+The choice of denominator for the F-ratio depends on whether each factor is fixed or random. When a factor is random, its interaction with the other factor must be used as the error term for testing the other factor's main effect. Getting this wrong leads to inflated Type I error rates.
+:::
+
+
+## Factorial ANOVA in R
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+rna_data <- read.table("data/Stickle_RNAseq.tsv",
+                        header = TRUE, sep = "\t")
+
+gene       <- rna_data$Gene100
+microbiota <- rna_data$Microbiota
+genotype   <- rna_data$Genotype
+
+# Multiplicative model (with interaction)
+model_interaction <- aov(gene ~ microbiota * genotype)
+
+# Additive model (no interaction)
+model_additive <- aov(gene ~ microbiota + genotype)
+
+summary(model_interaction)
+summary(model_additive)
+```
+
+### Interpretation
+
+-   If the interaction term is significant, the effect of one factor depends on the level of the other — interpret simple effects, not main effects
+-   If the interaction is not significant, interpret the main effects directly
+-   Always check the interaction first before interpreting main effects
+-   Use `interaction.plot()` or ggplot2 to visualize the pattern before running the ANOVA
+:::
+
+## R Exercise: Factorial ANOVA with ToothGrowth
+
+::: callout-tip
+## Exercise
+
+Using the `ToothGrowth` dataset (tooth growth in guinea pigs):
+
+1.  Examine the structure: `supp` (supplement type) × `dose` (dose level)
+2.  Create an interaction plot
+3.  Perform two-way ANOVA
+4.  Test for interaction effect
+5.  If significant interaction, perform simple effects analysis
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Starter code
+data(ToothGrowth)
+ToothGrowth$dose <- factor(ToothGrowth$dose)
+
+# Interaction plot
+interaction.plot(ToothGrowth$dose, ToothGrowth$supp, ToothGrowth$len)
+
+# Two-way ANOVA
+tooth_aov <- aov(len ~ supp * dose, data = ToothGrowth)
+
+# Your analysis here...
+```
+:::
+
+
+## Cell Proliferation Assay Dataset
+
+**Scenario:** A 3×2 factorial experiment testing the effect of **substrate stiffness** (Soft 1 kPa, Medium 10 kPa, Stiff 50 kPa) and **growth factor supplementation** (Control vs. FGF2) on mesenchymal stem cell proliferation.
+
+| Variable | Type | Description |
+|:---------|:-----|:------------|
+| `stiffness` | Categorical (3 levels) | Substrate stiffness: Soft_1kPa, Medium_10kPa, Stiff_50kPa |
+| `growth_factor` | Categorical (2 levels) | Growth factor treatment: Control, FGF2 |
+| `proliferation_fold_change` | Continuous (response) | Cell proliferation as fold-change from baseline |
+
+-   *n* = 60 (10 replicates per cell of the 3×2 design)
+-   A significant interaction is expected: FGF2 boosts proliferation more on medium stiffness substrates than on soft or stiff substrates
+
+## Factorial ANOVA Worked Example: Visualization
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-factorial-exercise
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+cell_data <- read.csv("data/cell_proliferation_assay.csv")
+cell_data$stiffness <- factor(cell_data$stiffness,
+                               levels = c("Soft_1kPa", "Medium_10kPa", "Stiff_50kPa"))
+
+# Summary for interaction plot
+cell_summary <- cell_data %>%
+  group_by(stiffness, growth_factor) %>%
+  summarize(mean_prolif = mean(proliferation_fold_change),
+            se = sd(proliferation_fold_change) / sqrt(n()),
+            .groups = "drop")
+
+ggplot(cell_summary, aes(x = stiffness, y = mean_prolif,
+                          color = growth_factor, group = growth_factor)) +
+  geom_point(size = 4) +
+  geom_line(linewidth = 1.3) +
+  geom_errorbar(aes(ymin = mean_prolif - se, ymax = mean_prolif + se),
+                width = 0.15, linewidth = 0.8) +
+  geom_jitter(data = cell_data,
+              aes(x = stiffness, y = proliferation_fold_change,
+                  color = growth_factor),
+              width = 0.08, alpha = 0.3, size = 1.5, show.legend = FALSE) +
+  scale_color_manual(values = c("Control" = "gray50", "FGF2" = "darkorange")) +
+  labs(title = "MSC Proliferation: Stiffness x Growth Factor",
+       x = "Substrate Stiffness", y = "Proliferation (fold-change)",
+       color = "Treatment") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
+```
+
+### Code
+
+```{r}
+#| label: plot-factorial-exercise-code
+#| echo: true
+#| eval: false
+
+# Load and prepare data
+cell_data <- read.csv("data/cell_proliferation_assay.csv")
+cell_data$stiffness <- factor(cell_data$stiffness,
+                               levels = c("Soft_1kPa", "Medium_10kPa", "Stiff_50kPa"))
+
+# Two-way ANOVA with interaction
+cell_aov <- aov(proliferation_fold_change ~ stiffness * growth_factor,
+                data = cell_data)
+summary(cell_aov)
+
+# Interaction plot
+cell_summary <- cell_data %>%
+  group_by(stiffness, growth_factor) %>%
+  summarize(mean_prolif = mean(proliferation_fold_change),
+            se = sd(proliferation_fold_change) / sqrt(n()))
+
+ggplot(cell_summary, aes(x = stiffness, y = mean_prolif,
+                          color = growth_factor, group = growth_factor)) +
+  geom_point(size = 4) + geom_line(linewidth = 1.3) +
+  geom_errorbar(aes(ymin = mean_prolif - se, ymax = mean_prolif + se),
+                width = 0.15) +
+  scale_color_manual(values = c("gray50", "darkorange")) +
+  labs(title = "MSC Proliferation: Stiffness x Growth Factor",
+       x = "Substrate Stiffness", y = "Proliferation (fold-change)")
+
+# Post-hoc: simple effects of growth factor at each stiffness
+emmeans(cell_aov, pairwise ~ growth_factor | stiffness)
+```
+
+### Interpretation
+
+-   The non-parallel lines in the interaction plot indicate a **stiffness × growth factor interaction**
+-   FGF2 dramatically increases proliferation on medium-stiffness substrates (~10 kPa), which mimics the native stiffness of many soft tissues
+-   On very soft or very stiff substrates, FGF2 has a much smaller effect — the cells may be limited by mechanical signaling
+-   Post-hoc comparisons with `emmeans` let you test the FGF2 effect at each stiffness level separately
+:::
+
+
+## Factorial Post-Hoc: Simple Effects with emmeans
+
+When a significant interaction is present, main effects alone don't tell the full story. We use `emmeans` to examine **simple effects** — the effect of one factor at each level of the other:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-factorial-emmeans-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+cell_data <- read.csv("data/cell_proliferation_assay.csv")
+cell_data$stiffness <- factor(cell_data$stiffness,
+                               levels = c("Soft_1kPa", "Medium_10kPa", "Stiff_50kPa"))
+
+cell_aov <- aov(proliferation_fold_change ~ stiffness * growth_factor,
+                data = cell_data)
+
+library(emmeans)
+
+# Simple effects: growth factor at each stiffness
+simple_fx <- emmeans(cell_aov, pairwise ~ growth_factor | stiffness)
+simple_df <- as.data.frame(simple_fx$emmeans)
+
+ggplot(simple_df, aes(x = stiffness, y = emmean, color = growth_factor)) +
+  geom_point(size = 4, position = position_dodge(0.3)) +
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL),
+                width = 0.2, linewidth = 1,
+                position = position_dodge(0.3)) +
+  scale_color_manual(values = c("Control" = "gray50", "FGF2" = "darkorange")) +
+  labs(title = "Estimated Marginal Means: Growth Factor Effect at Each Stiffness",
+       subtitle = "95% confidence intervals; non-overlapping CIs suggest significant differences",
+       x = "Substrate Stiffness", y = "Proliferation (fold-change)",
+       color = "Treatment") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
+```
+
+### Code
+
+```{r}
+#| label: plot-factorial-emmeans-code
+#| echo: true
+#| eval: false
+
+library(emmeans)
+
+# Cell means (estimated marginal means for all combinations)
+cell_emm <- emmeans(cell_aov, ~ stiffness * growth_factor)
+summary(cell_emm)
+
+# Simple effects: FGF2 vs Control at each stiffness level
+simple_fx <- emmeans(cell_aov, pairwise ~ growth_factor | stiffness)
+simple_fx$contrasts   # p-values for each comparison
+
+# Simple effects the other direction: stiffness at each GF level
+emmeans(cell_aov, pairwise ~ stiffness | growth_factor)
+
+# Visualize
+plot(simple_fx$emmeans, comparisons = TRUE) +
+  labs(x = "Proliferation (fold-change)")
+```
+
+### Interpretation
+
+-   The `pairwise ~ growth_factor | stiffness` syntax asks: "compare FGF2 vs. Control separately at each stiffness level"
+-   On **Medium (10 kPa)** substrates, FGF2 produces a large, significant increase in proliferation
+-   On **Soft (1 kPa)** and **Stiff (50 kPa)** substrates, the FGF2 effect is smaller and may not reach significance
+-   This is the hallmark of an interaction: the treatment effect depends on the experimental context
+-   The `emmeans` output also provides Tukey-adjusted p-values to control for multiple comparisons
+:::
+
+------------------------------------------------------------------------
+
+# Nested ANOVA {background-color="#d4edda"}
+
+## Nested Design
+
+-   Factors are hierarchical within one another
+-   Sources of variance are hierarchical
+-   No interaction terms (in completely nested designs)
+
+**Example:** Students within classrooms within schools
+
+::: panel-tabset
+### Code
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Nested ANOVA using aov
+model_nested <- aov(y ~ A + B %in% A, data = mydata)
+
+# Using lme for random nested effects
+model_nested_random <- lme(y ~ A, random = ~1 | A/B, data = mydata)
+
+summary(model_nested_random)
+```
+
+### Interpretation
+
+-   The `%in%` notation means "B is nested within A"
+-   The `~1 | A/B` random effects specification means "random intercepts for B nested within A"
+-   Nested designs arise when the levels of one factor are unique to each level of another (e.g., specific cell lines unique to each lab, or batches unique to each fabrication method)
+-   The critical difference from factorial: you **cannot** test for an A×B interaction because the levels of B do not repeat across levels of A
+:::
+
+## Nested Analysis: Walking Stick Insect
+
+![](images/week07_01_walking_stick_insect_femur.jpeg){fig-align="center" width="90%"}
+
+## Nested Design: Within-Individual Measurements
+
+![](images/week07_03_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
+
+## Femur Length Variation Within Individuals
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-femur-variation
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 5
+
+set.seed(123)
+n_individuals <- 25
+ind_means <- sort(runif(n_individuals, 0.14, 0.28))
+
+m1 <- ind_means + rnorm(n_individuals, 0, 0.008)
+m2 <- ind_means + rnorm(n_individuals, 0, 0.008)
+
+femur_df <- tibble(
+  individual = rep(1:n_individuals, 2),
+  measurement = rep(c("Measure 1", "Measure 2"), each = n_individuals),
+  femur_length = c(m1, m2)
+)
+
+ggplot(femur_df, aes(x = individual, y = femur_length)) +
+  geom_line(aes(group = individual), color = "gray50", linewidth = 0.8) +
+  geom_point(aes(color = measurement), size = 2) +
+  scale_color_manual(values = c("Measure 1" = "steelblue",
+                                 "Measure 2" = "firebrick")) +
+  labs(title = "Within-Individual Variation in Femur Length",
+       subtitle = "Two measurements per walking stick insect",
+       x = "Individual", y = "Femur Length (mm)",
+       color = "") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
+```
+
+### Code
+
+```{r}
+#| label: plot-femur-variation-code
+#| echo: true
+#| eval: false
+
+# Two measurements per individual — nested design
+# Measurements are nested within individuals
+femur_df <- tibble(
+  individual = rep(1:25, 2),
+  measurement = rep(c("M1", "M2"), each = 25),
+  femur_length = c(m1, m2)
+)
+
+ggplot(femur_df, aes(x = individual, y = femur_length)) +
+  geom_line(aes(group = individual), color = "gray50") +
+  geom_point(aes(color = measurement), size = 2) +
+  labs(x = "Individual", y = "Femur Length (mm)")
+```
+
+### Interpretation
+
+-   The vertical segments connecting paired measurements show **within-individual** variation (measurement error)
+-   The spread across the x-axis shows **among-individual** variation (biological variation)
+-   A nested ANOVA partitions the total variance into these two components
+-   If among-individual variance >> within-individual variance, your measurements are reliable (high repeatability)
+:::
+
+
+## Nested ANOVA Model
+
+![](images/week07_04_nested_anova_table_insects.jpeg){fig-align="center" width="90%"}
+
+## Nested ANOVA Table
+
+| Source | SS | df | MS | F |
+|:--------------|:--------------|:--------------|:--------------|:--------------|
+| Among groups (A) | $SS_A$ | $p - 1$ | $MS_A$ | $MS_A / MS_{B(A)}$ |
+| Among subgroups B(A) | $SS_{B(A)}$ | $p(q - 1)$ | $MS_{B(A)}$ | $MS_{B(A)} / MS_{Residual}$ |
+| Residual | $SS_{Residual}$ | $pq(n - 1)$ | $MS_{Residual}$ |  |
+| **Total** | $SS_{Total}$ | $pqn - 1$ |  |  |
+
+-   The key feature: factor A is tested against $MS_{B(A)}$ (the subgroup MS), **not** against $MS_{Residual}$
+-   This is because the subgroups introduce an additional source of variation that must be accounted for when testing the main factor
+
+## Sum of Squares Decomposition
+
+![](images/week07_05_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
+
+
+
+## Nested Model Equations
+
+::: panel-tabset
+### Equations
+
+**One level of nesting:**
+
+$$y_{ijk} = \mu + \alpha_i + \beta_{j(i)} + \varepsilon_{ijk}$$
+
+where $\alpha_i$ is the effect of group $i$ and $\beta_{j(i)}$ is the effect of subgroup $j$ nested within group $i$.
+
+**Two levels of nesting:**
+
+$$y_{ijkl} = \mu + \alpha_i + \beta_{j(i)} + \gamma_{k(ij)} + \varepsilon_{ijkl}$$
+
+### LaTeX
+
+``` text
+% One level of nesting
+y_{ijk} = \mu + \alpha_i + \beta_{j(i)} + \varepsilon_{ijk}
+
+% Two levels of nesting
+y_{ijkl} = \mu + \alpha_i + \beta_{j(i)} + \gamma_{k(ij)} + \varepsilon_{ijkl}
+```
+:::
+
+-   The parenthetical subscript notation $\beta_{j(i)}$ reads as "the effect of subgroup $j$ nested within group $i$"
+-   Each additional nesting level adds a variance component and consumes degrees of freedom
+
+## Understanding Degrees of Freedom
+
+![DOF in statistical models](images/week07_07_dof_in_statistical_models.jpeg){fig-align="center" width="90%"}
+
+## Hypotheses in Nested Designs
+
+::: panel-tabset
+### Fixed Effects (Main Factor)
+
+$$H_0(A): \mu_1 = \mu_2 = \ldots = \mu_i = \mu \quad \text{(in terms of pop. means)}$$
+
+$$H_0(A): \alpha_1 = \alpha_2 = \ldots = \alpha_i = 0 \quad \text{(in terms of effects on the grand mean)}$$
+
+### Random Effects
+
+$$H_0(A): \sigma^2_\alpha = 0$$
+
+*"No added variance due to all possible levels of A"*
+
+$$H_0(B): \sigma^2_\beta = 0$$
+
+*"No added variance due to all possible levels of B within all possible levels of A"*
+
+### LaTeX
+
+``` text
+% Fixed effects
+H_0(A): \mu_1 = \mu_2 = \ldots = \mu_i = \mu
+H_0(A): \alpha_1 = \alpha_2 = \ldots = \alpha_i = 0
+
+% Random effects
+H_0(A): \sigma^2_\alpha = 0
+H_0(B): \sigma^2_\beta = 0
+```
+:::
+
+
+## Nested ANOVA F-Ratio Formulas
+
+| Source | SS formula | df | MS | F |
+|:--------------|:--------------|:--------------|:--------------|:--------------|
+| A | $qn\sum(\bar{y}_{i..} - \bar{y}_{...})^2$ | $p - 1$ | $SS_A / (p-1)$ | $MS_A / MS_{B(A)}$ |
+| B(A) | $n\sum\sum(\bar{y}_{ij.} - \bar{y}_{i..})^2$ | $p(q - 1)$ | $SS_{B(A)} / [p(q-1)]$ | $MS_{B(A)} / MS_{Res}$ |
+| Residual | $\sum\sum\sum(y_{ijk} - \bar{y}_{ij.})^2$ | $pq(n - 1)$ | $SS_{Res} / [pq(n-1)]$ |  |
+
+## Nested ANOVA: R Syntax Reference
+
+![](images/week07_10_nested_anova_r_syntax_table.jpeg){fig-align="center" width="90%"}
+
+## Nested ANOVA in R
+
+| Design | R syntax |
+|:-----------------------------------|:-----------------------------------|
+| A fixed, B nested in A | `aov(y ~ A + B %in% A)` or `aov(y ~ A/B)` |
+| A fixed, B random nested in A | `aov(y ~ A + Error(B %in% A))` |
+| Unbalanced nested design | Use `lmer()` from `lme4`: `lmer(y ~ A + (1|A:B))` |
+
+-   The `%in%` and `/` notations are equivalent for specifying nesting in `aov()`
+-   For unbalanced designs or when random effects are important, use `lme()` or `lmer()` for more reliable inference
+
+
+## Nanofiber Scaffold Tensile Strength Dataset
+
+**Scenario:** Researchers measure tensile strength of electrospun nanofiber scaffolds. Three **fabrication methods** (Aligned, Random, Core-Shell) each produce multiple **batches**, and multiple specimens are tested per batch. Batches are nested within methods.
+
+| Variable | Type | Description |
+|:---------|:-----|:------------|
+| `fabrication_method` | Categorical (3 levels) | Electrospinning technique: Aligned, Random, Core-Shell |
+| `batch` | Categorical (4 per method) | Production batch ID, nested within method |
+| `specimen` | Integer | Specimen number within each batch (1–5) |
+| `tensile_strength_MPa` | Continuous (response) | Tensile strength in megapascals |
+
+-   *n* = 60 (3 methods × 4 batches × 5 specimens)
+-   Batches are **nested** within fabrication method — each batch belongs to exactly one method
+-   Both among-method and batch-to-batch variation are of interest
+
+
+## Nested ANOVA Worked Example: Visualization
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-nested-exercise
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+nanofiber <- read.csv("data/nanofiber_tensile_strength.csv")
+nanofiber$fabrication_method <- factor(nanofiber$fabrication_method,
+                                       levels = c("Aligned", "Random", "Core-Shell"))
+
+ggplot(nanofiber, aes(x = batch, y = tensile_strength_MPa,
+                       fill = fabrication_method)) +
+  geom_boxplot(alpha = 0.6, outlier.shape = 21) +
+  geom_jitter(width = 0.15, size = 1.5, alpha = 0.5) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(title = "Tensile Strength by Fabrication Method and Batch",
+       subtitle = "Batches are nested within fabrication method",
+       x = "Batch (nested within method)",
+       y = "Tensile Strength (MPa)",
+       fill = "Method") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+### Code
+
+```{r}
+#| label: plot-nested-exercise-code
+#| echo: true
+#| eval: false
+
+# Load nanofiber data
+nanofiber <- read.csv("data/nanofiber_tensile_strength.csv")
+nanofiber$fabrication_method <- factor(nanofiber$fabrication_method,
+    levels = c("Aligned", "Random", "Core-Shell"))
+
+# Visualize nested structure
+ggplot(nanofiber, aes(x = batch, y = tensile_strength_MPa,
+                       fill = fabrication_method)) +
+  geom_boxplot(alpha = 0.6) +
+  geom_jitter(width = 0.15, size = 1.5, alpha = 0.5) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(title = "Tensile Strength by Method and Batch",
+       x = "Batch (nested within method)",
+       y = "Tensile Strength (MPa)")
+
+# Nested ANOVA: batch is nested within method
+nested_aov <- aov(tensile_strength_MPa ~ fabrication_method +
+                    batch %in% fabrication_method,
+                  data = nanofiber)
+summary(nested_aov)
+
+# Mixed model approach (batch as random)
+library(nlme)
+nested_lme <- lme(tensile_strength_MPa ~ fabrication_method,
+                   random = ~1 | fabrication_method/batch,
+                   data = nanofiber)
+summary(nested_lme)
+VarCorr(nested_lme)
+```
+
+### Interpretation
+
+-   The boxplot reveals both **among-method** differences (Aligned tends to be strongest) and **batch-to-batch** variation within each method
+-   The nested ANOVA separates these two sources of variance: is the between-method variation significant relative to batch-to-batch variation?
+-   The mixed model (`lme`) treats batch as random and reports variance components — useful for assessing manufacturing consistency
+-   Large batch-to-batch variance relative to within-batch variance suggests the fabrication process needs tighter quality control
+:::
+
+
+------------------------------------------------------------------------
+
+# Repeated Measures Analysis {background-color="#d4edda"}
+
+## What are Repeated Measures?
+
+Measurements taken on the **same subjects** at multiple:
+
+-   **Time points** (longitudinal studies)
+-   **Conditions** (within-subjects design)
+-   **Locations** (spatial sampling)
+
+**Advantages:** Controls for individual differences, requires fewer subjects, more statistical power
+
+**Challenge:** Observations are **not independent** — standard ANOVA assumes independence
+
+-   Repeated measures are a special case of nested data: observations are nested within subjects
+-   Ignoring the correlation structure leads to inflated Type I error rates
+
+## Repeated Measures ANOVA
+
+**Sphericity Assumption:**
+
+-   Variances of differences between all pairs of conditions must be equal
+-   Often violated in practice
+
+**Mauchly's Test:** Tests the sphericity assumption
+
+-   p \< 0.05 → sphericity is violated → apply correction (Greenhouse-Geisser or Huynh-Feldt)
+
+-   Greenhouse-Geisser is more conservative (lower Type I error); Huynh-Feldt is less conservative but can be liberal with small samples
+-   The modern alternative is to use **linear mixed models**, which handle the correlation structure directly
+
+## Repeated Measures in R
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: rm-anova-output
+#| echo: false
+#| eval: true
+
+# Create repeated measures data
+set.seed(42)
+subject <- factor(rep(1:10, each = 3))
+time <- factor(rep(c("Pre", "Mid", "Post"), 10))
+score <- c(
+  rnorm(10, 50, 5),   # Pre
+  rnorm(10, 55, 5),   # Mid
+  rnorm(10, 62, 5)    # Post
+) + rep(rnorm(10, 0, 8), each = 3)  # Subject random effect
+
+rm_data <- data.frame(subject, time, score)
+
+# Repeated measures ANOVA
+rm_aov <- aov(score ~ time + Error(subject/time), data = rm_data)
+summary(rm_aov)
+```
+
+### Code
+
+```{r}
+#| label: rm-anova-code
+#| echo: true
+#| eval: false
+
+# Create repeated measures data
+set.seed(42)
+subject <- factor(rep(1:10, each = 3))
+time <- factor(rep(c("Pre", "Mid", "Post"), 10))
+score <- c(
+  rnorm(10, 50, 5),   # Pre
+  rnorm(10, 55, 5),   # Mid
+  rnorm(10, 62, 5)    # Post
+) + rep(rnorm(10, 0, 8), each = 3)  # Subject random effect
+
+rm_data <- data.frame(subject, time, score)
+
+# Repeated measures ANOVA
+rm_aov <- aov(score ~ time + Error(subject/time), data = rm_data)
+summary(rm_aov)
+```
+
+### Interpretation
+
+-   The `Error(subject/time)` term tells R that `time` is measured within `subject`
+-   The output has two strata: `subject` (between-subjects) and `subject:time` (within-subjects)
+-   The F-test for `time` in the within-subjects stratum tests whether scores change across time points
+:::
+
+## Mixed Models for Repeated Measures
+
+The modern approach uses **linear mixed models**, which are more flexible and handle missing data gracefully:
+
+::: panel-tabset
+### Output
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+
+library(nlme)
+
+# Mixed model with random intercept for subject
+rm_mixed <- lme(score ~ time, random = ~1 | subject, data = rm_data)
+summary(rm_mixed)
+```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(nlme)
+
+# Mixed model with random intercept for subject
+rm_mixed <- lme(score ~ time, random = ~1 | subject, data = rm_data)
+summary(rm_mixed)
+
+# Random slope model (if rate of change varies by subject)
+rm_mixed2 <- lme(score ~ time, random = ~time | subject, data = rm_data)
+```
+
+### Interpretation
+
+-   The random intercept `~1 | subject` accounts for the fact that some subjects start higher or lower than average
+-   The fixed effect of `time` tells you the average change across time points
+-   Advantages over traditional RM-ANOVA: handles missing data, unequal spacing, and does not require sphericity
+:::
+
+## Visualizing Repeated Measures
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-rm-ggplot
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+rm_summary <- rm_data %>%
+  group_by(time) %>%
+  summarize(mean_score = mean(score),
+            se = sd(score)/sqrt(n()),
+            .groups = "drop")
+
+ggplot(rm_data, aes(x = time, y = score, group = subject)) +
+  geom_line(alpha = 0.3, color = "gray50") +
+  geom_point(alpha = 0.3) +
+  geom_line(data = rm_summary, aes(x = time, y = mean_score, group = 1),
+            color = "steelblue", linewidth = 1.5) +
+  geom_point(data = rm_summary, aes(x = time, y = mean_score, group = 1),
+             color = "steelblue", size = 3) +
+  geom_errorbar(data = rm_summary,
+                aes(x = time, y = mean_score,
+                    ymin = mean_score - se, ymax = mean_score + se,
+                    group = 1),
+                width = 0.1, color = "steelblue", linewidth = 0.8) +
+  labs(title = "Spaghetti Plot with Group Mean +/- SE",
+       x = "Time Point", y = "Score") +
+  theme_minimal(base_size = 14)
+```
+
+### Code
+
+```{r}
+#| label: plot-rm-ggplot-code
+#| echo: true
+#| eval: false
+
+rm_summary <- rm_data %>%
+  group_by(time) %>%
+  summarize(mean_score = mean(score),
+            se = sd(score)/sqrt(n()))
+
+ggplot(rm_data, aes(x = time, y = score, group = subject)) +
+  geom_line(alpha = 0.3, color = "gray50") +
+  geom_point(alpha = 0.3) +
+  geom_line(data = rm_summary,
+            aes(x = time, y = mean_score, group = 1),
+            color = "steelblue", linewidth = 1.5) +
+  geom_point(data = rm_summary,
+             aes(x = time, y = mean_score, group = 1),
+             color = "steelblue", size = 3) +
+  geom_errorbar(data = rm_summary,
+                aes(x = time, y = mean_score,
+                    ymin = mean_score - se,
+                    ymax = mean_score + se, group = 1),
+                width = 0.1, color = "steelblue") +
+  labs(title = "Spaghetti Plot with Group Mean +/- SE",
+       x = "Time Point", y = "Score")
+```
+
+### Interpretation
+
+-   The gray "spaghetti" lines show individual subject trajectories — the parallelism tells you whether subjects change at similar rates
+-   The blue line with error bars shows the group mean trend
+-   Wide spread of gray lines = large between-subject variability (the random effect)
+-   Consistent upward trend = significant time effect
+:::
+
+
+## Implant Degradation Dataset
+
+**Scenario:** Researchers are tracking the degradation of biodegradable implants over 12 weeks. Three **coating types** (PLGA, PCL, PLA-PEG) are applied to implant specimens, and **mass remaining** is measured at Weeks 0, 4, 8, and 12. Each specimen is measured repeatedly — a classic repeated measures design.
+
+| Variable | Type | Description |
+|:---------|:-----|:------------|
+| `specimen_id` | Categorical (15 levels) | Unique implant specimen identifier (S01–S15) |
+| `coating` | Categorical (3 levels) | Polymer coating: PLGA, PCL, PLA-PEG |
+| `week` | Numeric (4 time points) | Measurement time: 0, 4, 8, 12 weeks post-implantation |
+| `mass_remaining_pct` | Continuous (response) | Percent of original implant mass remaining |
+
+-   *n* = 60 (15 specimens × 4 time points)
+-   5 specimens per coating type, each measured at all 4 time points
+-   PLGA degrades fastest; PCL is slowest — the coating × time interaction is expected to be significant
+
+
+## RM Worked Example: Visualization
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-rm-implant
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+implant <- read.csv("data/implant_degradation.csv")
+implant$coating <- factor(implant$coating,
+                           levels = c("PLGA", "PLA-PEG", "PCL"))
+
+# Summary
+implant_summary <- implant %>%
+  group_by(coating, week) %>%
+  summarize(mean_mass = mean(mass_remaining_pct),
+            se = sd(mass_remaining_pct) / sqrt(n()),
+            .groups = "drop")
+
+ggplot(implant, aes(x = week, y = mass_remaining_pct,
+                     color = coating, group = specimen_id)) +
+  geom_line(alpha = 0.25, linewidth = 0.6) +
+  geom_point(alpha = 0.3, size = 1.5) +
+  geom_line(data = implant_summary,
+            aes(x = week, y = mean_mass, group = coating),
+            linewidth = 1.5) +
+  geom_point(data = implant_summary,
+             aes(x = week, y = mean_mass, group = coating),
+             size = 3) +
+  geom_errorbar(data = implant_summary,
+                aes(x = week, y = mean_mass,
+                    ymin = mean_mass - se, ymax = mean_mass + se,
+                    group = coating),
+                width = 0.4, linewidth = 0.8) +
+  scale_color_brewer(palette = "Set1") +
+  labs(title = "Implant Degradation by Coating Type",
+       subtitle = "Individual specimen trajectories with group mean +/- SE",
+       x = "Week", y = "Mass Remaining (%)",
+       color = "Coating") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top")
+```
+
+### Code
+
+```{r}
+#| label: plot-rm-implant-code
+#| echo: true
+#| eval: false
+
+# Load the implant degradation dataset
+implant <- read.csv("data/implant_degradation.csv")
+implant$coating <- factor(implant$coating,
+                           levels = c("PLGA", "PLA-PEG", "PCL"))
+
+# Spaghetti plot with group means
+implant_summary <- implant %>%
+  group_by(coating, week) %>%
+  summarize(mean_mass = mean(mass_remaining_pct),
+            se = sd(mass_remaining_pct) / sqrt(n()))
+
+ggplot(implant, aes(x = week, y = mass_remaining_pct,
+                     color = coating, group = specimen_id)) +
+  geom_line(alpha = 0.25) +
+  geom_point(alpha = 0.3) +
+  geom_line(data = implant_summary,
+            aes(y = mean_mass, group = coating), linewidth = 1.5) +
+  geom_errorbar(data = implant_summary,
+                aes(y = mean_mass,
+                    ymin = mean_mass - se, ymax = mean_mass + se,
+                    group = coating),
+                width = 0.4) +
+  scale_color_brewer(palette = "Set1") +
+  labs(title = "Implant Degradation by Coating Type",
+       x = "Week", y = "Mass Remaining (%)")
+```
+
+### Interpretation
+
+-   Each thin line traces an individual specimen's degradation over time
+-   The bold lines show the group mean trajectory for each coating
+-   PLGA degrades fastest (steepest decline), PCL slowest, and PLA-PEG is intermediate
+-   The different slopes indicate a **coating × time interaction** — the rate of mass loss depends on the coating type
+-   Within each coating group, the individual trajectories are roughly parallel, suggesting a random-intercept model (specimens differ in starting mass but degrade at similar rates)
+:::
+
+
+## RM Worked Example: Mixed Model Analysis
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: rm-implant-model-output
+#| echo: false
+#| eval: true
+
+implant <- read.csv("data/implant_degradation.csv")
+implant$coating <- factor(implant$coating,
+                           levels = c("PLGA", "PLA-PEG", "PCL"))
+
+library(nlme)
+
+# Mixed model: coating × week interaction with random intercept per specimen
+implant_lme <- lme(mass_remaining_pct ~ coating * week,
+                    random = ~1 | specimen_id,
+                    data = implant)
+anova(implant_lme)
+```
+
+### Code
+
+```{r}
+#| label: rm-implant-model-code
+#| echo: true
+#| eval: false
+
+library(nlme)
+
+# Mixed model: coating × week with random intercept per specimen
+implant_lme <- lme(mass_remaining_pct ~ coating * week,
+                    random = ~1 | specimen_id,
+                    data = implant)
+
+# ANOVA table for fixed effects
+anova(implant_lme)
+
+# Full model summary (coefficients, variance components)
+summary(implant_lme)
+
+# Variance components
+VarCorr(implant_lme)
+```
+
+### Interpretation
+
+-   The `coating:week` interaction tests whether degradation rates differ across coatings — a significant interaction confirms the visual pattern
+-   The `random = ~1 | specimen_id` accounts for the fact that repeated measurements on the same specimen are not independent
+-   The `VarCorr()` output shows how much variability is between specimens vs. within specimens (measurement error)
+-   The coating main effect tests whether the coatings differ in mean mass remaining (averaged across time); the week main effect tests whether mass changes over time (averaged across coatings)
+:::
+
+
+## RM Worked Example: Post-Hoc with emmeans
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: rm-implant-emmeans-output
+#| echo: false
+#| eval: true
+#| fig-width: 9
+#| fig-height: 5
+
+implant <- read.csv("data/implant_degradation.csv")
+implant$coating <- factor(implant$coating,
+                           levels = c("PLGA", "PLA-PEG", "PCL"))
+
+library(nlme)
+library(emmeans)
+
+implant_lme <- lme(mass_remaining_pct ~ coating * week,
+                    random = ~1 | specimen_id,
+                    data = implant)
+
+# Compare degradation rates (slopes) across coatings
+implant_trends <- emtrends(implant_lme, pairwise ~ coating, var = "week")
+trend_df <- as.data.frame(implant_trends$emtrends)
+
+ggplot(trend_df, aes(x = coating, y = week.trend, color = coating)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL),
+                width = 0.2, linewidth = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  scale_color_brewer(palette = "Set1") +
+  labs(title = "Degradation Rates by Coating Type",
+       subtitle = "Estimated slope (% mass lost per week) with 95% CI",
+       x = "Coating Type", y = "Degradation Rate (% / week)") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
+```
+
+### Code
+
+```{r}
+#| label: rm-implant-emmeans-code
+#| echo: true
+#| eval: false
+
+library(emmeans)
+
+# Compare degradation rates (slopes) across coatings
+implant_trends <- emtrends(implant_lme, pairwise ~ coating, var = "week")
+
+# View the estimated slopes
+implant_trends$emtrends
+
+# Pairwise comparisons of slopes
+implant_trends$contrasts
+
+# Estimated marginal means at specific time points
+emmeans(implant_lme, pairwise ~ coating | week,
+        at = list(week = c(0, 4, 8, 12)))
+```
+
+### Interpretation
+
+-   `emtrends()` estimates the degradation rate (slope: % mass lost per week) for each coating and compares them with Tukey-adjusted pairwise tests
+-   All slopes are negative (mass is decreasing), but PLGA has the steepest decline — it degrades roughly 3× faster than PCL
+-   The pairwise contrasts tell you which coating pairs have significantly different degradation rates
+-   The `emmeans()` call at specific time points shows you the predicted mass remaining at each week — useful for answering practical questions like "when does PLGA lose 50% of its mass?"
+:::
+
+
+------------------------------------------------------------------------
+
+# Multiple Linear Regression {background-color="#d4edda"}
 
 ## Why Multiple Regression?
 
@@ -572,11 +2114,8 @@ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i1} x_{i2} + \epsil
 ```
 :::
 
-## Additive vs. Multiplicative Models
 
-![](images/week07_24_additive_vs_multiplicative_models.jpeg){fig-align="center" width="100%"}
-
-## DRAFT: Additive vs. Multiplicative Response Surfaces
+## Additive vs. Multiplicative Response Surfaces
 
 ```{r}
 #| echo: false
@@ -604,6 +2143,9 @@ persp(x1, x2, z_mult, theta = 30, phi = 20,
       main = "Multiplicative Model (with interaction)", col = "indianred1",
       border = "darkred", shade = 0.1, cex.main = 1.3)
 ```
+
+-   The additive model produces a flat plane — the effect of X1 is the same at every value of X2
+-   The multiplicative model produces a twisted (warped) surface — the slope of X1 changes as X2 changes, reflecting the interaction
 
 ## R Example: Multiple Regression with 2 Predictors
 
@@ -675,53 +2217,47 @@ When predictors are highly correlated, coefficient estimates become unstable, st
 
 ![](images/week07_25_multicollinearity_scatterplot_matrix.jpeg){fig-align="center" width="70%"}
 
-## DRAFT: Scatterplot Matrix for Collinearity
+## Scatterplot Matrix for Collinearity
+
+::: panel-tabset
+### Output
 
 ```{r}
+#| label: plot-collinearity-matrix
 #| echo: false
 #| eval: true
 #| fig-width: 7
 #| fig-height: 7
 
-# Simulated environmental data with collinearity
 set.seed(42)
 n <- 50
 elevation <- rnorm(n, 500, 200)
-SO4 <- rnorm(n, 50, 20) + 0.02 * elevation  # weakly correlated with elevation
-Cl <- rexp(n, rate = 0.1) + 2               # right-skewed, some outliers
+SO4 <- rnorm(n, 50, 20) + 0.02 * elevation
+Cl <- rexp(n, rate = 0.1) + 2
 
-env_data <- data.frame(SO4 = SO4, Cl = Cl, Elevation = elevation)
+env_data <- tibble(SO4 = SO4, Cl = Cl, Elevation = elevation)
 
-# Scatterplot matrix with boxplots on diagonal
-pairs(env_data,
-      panel = function(x, y, ...) points(x, y, pch = 1, cex = 0.9),
-      diag.panel = function(x, ...) {
-        usr <- par("usr")
-        bp <- boxplot(x, plot = FALSE)
-        rect(usr[1] + 0.2*(usr[2]-usr[1]), bp$stats[2],
-             usr[2] - 0.2*(usr[2]-usr[1]), bp$stats[4],
-             border = "black")
-        segments(usr[1] + 0.35*(usr[2]-usr[1]), bp$stats[3],
-                 usr[2] - 0.35*(usr[2]-usr[1]), bp$stats[3], lwd = 2)
-        segments(mean(c(usr[1], usr[2])), bp$stats[1],
-                 mean(c(usr[1], usr[2])), bp$stats[2])
-        segments(mean(c(usr[1], usr[2])), bp$stats[4],
-                 mean(c(usr[1], usr[2])), bp$stats[5])
-      },
-      cex.labels = 1.5, gap = 0.5)
+library(GGally)
+ggpairs(env_data,
+        upper = list(continuous = wrap("cor", size = 5)),
+        lower = list(continuous = wrap("points", alpha = 0.5, size = 1.5)),
+        diag = list(continuous = wrap("boxDensity"))) +
+  labs(title = "Scatterplot Matrix for Collinearity Assessment") +
+  theme_minimal(base_size = 12)
 ```
 
-::: panel-tabset
 ### Code
 
 ```{r}
+#| label: plot-collinearity-matrix-code
 #| echo: true
 #| eval: false
 
 library(car)
 
-# Visual check with scatterplot matrix
-scatterplotMatrix(~ var1 + var2 + var3, diag = "boxplot")
+# Scatterplot matrix
+library(GGally)
+ggpairs(env_data)
 
 # Variance Inflation Factor (VIF)
 model <- lm(y ~ g1 + g2 + g3)
@@ -739,6 +2275,9 @@ vif(model)
 | 1–5       | Moderate (usually acceptable)   |
 | 5–10      | High (investigate further)      |
 | \> 10     | Severe (remedial action needed) |
+
+-   The correlation panel (upper triangle) shows pairwise correlations between predictors
+-   High pairwise correlations (|r| > 0.7) are a warning sign, but VIF captures multicollinearity from *combinations* of predictors
 :::
 
 ## R Example: Three-Variable Regression
@@ -761,12 +2300,11 @@ RNAseq3_lm <- lm(y ~ g1 + g2 + g3)
 summary(RNAseq3_lm)
 plot(RNAseq3_lm)
 
-# Scatterplot matrices
+# Check for multicollinearity
 library(car)
-scatterplotMatrix(~ g1 + g2 + g3, diag = "boxplot")
-scatterplotMatrix(~ y + g1 + g2 + g3, diag = "boxplot")
+vif(lm(y ~ g1 + g2 + g3))
 
-# Tolerance calculations (1 - R²)
+# Tolerance calculations (1 / VIF)
 1 / vif(lm(y ~ g1 + g2 + g3))
 ```
 
@@ -820,7 +2358,7 @@ summary(scaffold_lm)
 ### Output
 
 ```{r}
-#| label: diag-plots-output
+#| label: plot-diag-scaffold
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -839,30 +2377,31 @@ scaffold_data$tissue_growth <- with(scaffold_data,
 
 scaffold_lm <- lm(tissue_growth ~ porosity + stiffness + seeding_dens,
                    data = scaffold_data)
-par(mfrow = c(2, 2))
-plot(scaffold_lm)
+
+library(ggfortify)
+autoplot(scaffold_lm, which = 1:4) +
+  theme_minimal(base_size = 12)
 ```
 
 ### Code
 
 ```{r}
-#| label: diag-plots-code
+#| label: plot-diag-scaffold-code
 #| echo: true
 #| eval: false
 
-# Standard diagnostic plots
-par(mfrow = c(2, 2))
-plot(scaffold_lm)
-
-# Using ggfortify for prettier diagnostics
+# Using ggfortify for ggplot2-style diagnostics
 library(ggfortify)
 autoplot(scaffold_lm, which = 1:4) + theme_minimal()
 
 # Cook's distance — identify influential observations
 cooks_d <- cooks.distance(scaffold_lm)
-plot(cooks_d, type = "h", main = "Cook's Distance",
-     ylab = "Cook's Distance", xlab = "Observation")
-abline(h = 4 / n, col = "red", lty = 2)
+n <- nrow(scaffold_data)
+
+ggplot(tibble(obs = 1:n, cooks = cooks_d), aes(x = obs, y = cooks)) +
+  geom_col(fill = "steelblue") +
+  geom_hline(yintercept = 4/n, color = "red", linetype = "dashed") +
+  labs(title = "Cook's Distance", x = "Observation", y = "Cook's D")
 ```
 
 ### Interpretation
@@ -881,7 +2420,7 @@ Partial regression (added-variable) plots show the effect of each predictor **af
 ### Output
 
 ```{r}
-#| label: avplots-output
+#| label: plot-avplots
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -894,7 +2433,7 @@ avPlots(scaffold_lm, main = "Added-Variable Plots")
 ### Code
 
 ```{r}
-#| label: avplots-code
+#| label: plot-avplots-code
 #| echo: true
 #| eval: false
 
@@ -907,11 +2446,18 @@ avPlots(scaffold_lm)
 # and the response, holding all other predictors constant.
 # The slope of each line equals the partial regression coefficient.
 ```
+
+### Interpretation
+
+-   Each panel shows the unique (partial) contribution of one predictor after removing the effects of all other predictors
+-   A strong linear pattern means the predictor adds explanatory power beyond the others
+-   A flat pattern means the predictor adds little after accounting for the rest
+-   The slope in each partial plot equals the corresponding regression coefficient in the full model
 :::
 
 ------------------------------------------------------------------------
 
-# Model Selection {background-color="#2c3e50"}
+# Model Selection {background-color="#d4edda"}
 
 ## The Problem of Model Complexity
 
@@ -927,47 +2473,65 @@ avPlots(scaffold_lm)
 If two or more models fit the data almost equally well, prefer the simpler model.
 :::
 
+-   More parameters always improve fit to the training data but can worsen prediction on new data — this is **overfitting**
+
 ## Overfitting with Polynomials
 
 ![](images/week07_26_beetle_wing_horn_overfitting.jpeg){fig-align="center" width="80%"}
 
 The log-likelihood and $R^2$ always increase with more parameters — but this does not mean the model is better!
 
-## DRAFT: Beetle Wing vs Horn Data
+## Beetle Wing vs. Horn Data
+
+::: panel-tabset
+### Output
 
 ```{r}
+#| label: plot-beetle-scatter
 #| echo: false
 #| eval: true
 #| fig-width: 8
 #| fig-height: 5
 
-# Simulated beetle wing vs horn data (Emlen 2001 style)
 set.seed(2001)
 wing <- runif(20, -45, 25)
 horn <- -0.002 * wing + rnorm(20, 0, 0.05)
+beetle_data <- tibble(wing = wing, horn = horn)
 
-par(mar = c(5, 5, 2, 2))
-plot(wing, horn, pch = 16, cex = 1.3,
-     xlab = "Relative wing length", ylab = "Relative horn length",
-     cex.lab = 1.3, cex.axis = 1.1,
-     main = "Beetle wing length vs horn length")
+ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point(size = 3, color = "steelblue") +
+  labs(title = "Beetle Wing Length vs. Horn Length",
+       subtitle = "Is there a relationship?",
+       x = "Relative Wing Length", y = "Relative Horn Length") +
+  theme_minimal(base_size = 14)
 ```
 
-## The Progression of Polynomial Fits
-
-::::: columns
-::: {.column width="50%"}
-![Linear fit](images/week07_27_linear_fit_beetle.jpeg){fig-align="center" width="100%"}
-:::
-
-::: {.column width="50%"}
-![Quadratic fit](images/week07_28_quadratic_fit_beetle.jpeg){fig-align="center" width="100%"}
-:::
-:::::
-
-## DRAFT: Linear and Quadratic Fits
+### Code
 
 ```{r}
+#| label: plot-beetle-scatter-code
+#| echo: true
+#| eval: false
+
+set.seed(2001)
+wing <- runif(20, -45, 25)
+horn <- -0.002 * wing + rnorm(20, 0, 0.05)
+beetle_data <- tibble(wing = wing, horn = horn)
+
+ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point(size = 3, color = "steelblue") +
+  labs(x = "Relative Wing Length", y = "Relative Horn Length")
+```
+:::
+
+
+## Linear and Quadratic Fits
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: plot-beetle-linquad
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -976,42 +2540,54 @@ plot(wing, horn, pch = 16, cex = 1.3,
 set.seed(2001)
 wing <- runif(20, -45, 25)
 horn <- -0.002 * wing + rnorm(20, 0, 0.05)
+beetle_data <- tibble(wing = wing, horn = horn)
 
-par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+p_lin <- ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point(size = 2.5, color = "steelblue") +
+  geom_smooth(method = "lm", formula = y ~ x,
+              se = TRUE, color = "firebrick", linewidth = 1.2) +
+  labs(title = "Linear Fit", x = "Relative Wing Length",
+       y = "Relative Horn Length") +
+  theme_minimal(base_size = 14)
+
+p_quad <- ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point(size = 2.5, color = "steelblue") +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2),
+              se = TRUE, color = "firebrick", linewidth = 1.2) +
+  labs(title = "Quadratic Fit", x = "Relative Wing Length",
+       y = "Relative Horn Length") +
+  theme_minimal(base_size = 14)
+
+p_lin + p_quad
+```
+
+### Code
+
+```{r}
+#| label: plot-beetle-linquad-code
+#| echo: true
+#| eval: false
 
 # Linear fit
-plot(wing, horn, pch = 16, cex = 1.2,
-     xlab = "Relative wing length", ylab = "Relative horn length",
-     main = "Linear regression", cex.lab = 1.2, cex.main = 1.3)
-fit1 <- lm(horn ~ wing)
-abline(fit1, lwd = 2)
+ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x)
 
 # Quadratic fit
-plot(wing, horn, pch = 16, cex = 1.2,
-     xlab = "Relative wing length", ylab = "Relative horn length",
-     main = "Quadratic fit", cex.lab = 1.2, cex.main = 1.3)
-fit2 <- lm(horn ~ poly(wing, 2, raw = TRUE))
-x_seq <- seq(min(wing), max(wing), length.out = 200)
-lines(x_seq, predict(fit2, newdata = data.frame(wing = x_seq)), lwd = 2)
+ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2))
 ```
-
-## Higher-Order Polynomials and Overfitting
-
-::::: columns
-::: {.column width="50%"}
-![Degree 5 polynomial](images/week07_29_poly5_fit_beetle.jpeg){fig-align="center" width="100%"}
 :::
 
-::: {.column width="50%"}
-![Degree 10 polynomial](images/week07_30_poly10_fit_beetle.jpeg){fig-align="center" width="100%"}
-:::
-:::::
 
-As polynomial degree increases, the model fits the training data ever more closely — but becomes useless for prediction on new data.
+## Higher-Order Polynomial Fits
 
-## DRAFT: Higher-Order Polynomial Fits
+::: panel-tabset
+### Output
 
 ```{r}
+#| label: plot-beetle-overfit
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -1020,46 +2596,74 @@ As polynomial degree increases, the model fits the training data ever more close
 set.seed(2001)
 wing <- runif(20, -45, 25)
 horn <- -0.002 * wing + rnorm(20, 0, 0.05)
+beetle_data <- tibble(wing = wing, horn = horn)
 
-par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+p5 <- ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point(size = 2.5, color = "steelblue") +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 5),
+              se = FALSE, color = "firebrick", linewidth = 1.2) +
+  labs(title = "Degree 5 Polynomial", x = "Relative Wing Length",
+       y = "Relative Horn Length") +
+  theme_minimal(base_size = 14)
 
-# Degree 5
-plot(wing, horn, pch = 16, cex = 1.2,
-     xlab = "Relative wing length", ylab = "Relative horn length",
-     main = "Degree 5 polynomial", cex.lab = 1.2, cex.main = 1.3)
-fit5 <- lm(horn ~ poly(wing, 5, raw = TRUE))
-x_seq <- seq(min(wing), max(wing), length.out = 200)
-lines(x_seq, predict(fit5, newdata = data.frame(wing = x_seq)), lwd = 2)
+p10 <- ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point(size = 2.5, color = "steelblue") +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 10),
+              se = FALSE, color = "firebrick", linewidth = 1.2) +
+  labs(title = "Degree 10 Polynomial", x = "Relative Wing Length",
+       y = "Relative Horn Length") +
+  theme_minimal(base_size = 14)
 
-# Degree 10
-plot(wing, horn, pch = 16, cex = 1.2,
-     xlab = "Relative wing length", ylab = "Relative horn length",
-     main = "Degree 10 polynomial", cex.lab = 1.2, cex.main = 1.3)
-fit10 <- lm(horn ~ poly(wing, 10, raw = TRUE))
-x_seq2 <- seq(min(wing), max(wing), length.out = 500)
-pred10 <- predict(fit10, newdata = data.frame(wing = x_seq2))
-lines(x_seq2, pred10, lwd = 2)
+p5 + p10
 ```
+
+### Code
+
+```{r}
+#| label: plot-beetle-overfit-code
+#| echo: true
+#| eval: false
+
+# Degree 5 polynomial
+ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 5), se = FALSE) +
+  labs(title = "Degree 5 Polynomial")
+
+# Degree 10 polynomial — clearly overfitting!
+ggplot(beetle_data, aes(x = wing, y = horn)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 10), se = FALSE) +
+  labs(title = "Degree 10 Polynomial")
+```
+
+### Interpretation
+
+-   The linear model captures the general trend with minimal complexity
+-   Higher-degree polynomials chase individual data points — this is **overfitting**
+-   An overfit model has high R-sq on the training data but predicts poorly on new data
+-   Model selection criteria (AIC, BIC, Cp) penalize complexity to guard against this
+:::
 
 ## Model Selection Criteria
 
 | Criterion | Description | Selection Rule |
-|:---|:---|:---|
+|:-----------------------|:-----------------------|:-----------------------|
 | **MS~residuals~** | Mean unexplained variation | Lowest value = best fit |
-| **Adjusted R²** | Proportion of variance explained, penalized for \# terms | Larger = better fit |
+| **Adjusted R-sq** | Proportion of variance explained, penalized for \# terms | Larger = better fit |
 | **Mallow's Cp** | Comparison to full model | Lowest value, or closest to p |
 | **AIC** | Likelihood penalized by number of parameters | Smaller = more parsimonious |
 | **BIC** | Like AIC but heavier penalty for complexity | Smaller = more parsimonious |
 
 ::: callout-tip
-As a rule of thumb, if the difference between two AIC values (ΔAIC) is greater than 2, the lower AIC represents a meaningfully better model.
+As a rule of thumb, if the difference between two AIC values (delta-AIC) is greater than 2, the lower AIC represents a meaningfully better model.
 :::
 
 ## Mallow's Cp and All-Subsets Regression
 
 ![](images/week07_31_mallows_cp_formula.jpeg){fig-align="center" width="90%"}
 
-## DRAFT: Mallow's Cp Formula
+## Mallow's Cp Formula
 
 ::: panel-tabset
 ### Equation
@@ -1069,7 +2673,7 @@ $$C_p = \frac{SS_{\text{error}}}{\hat{\sigma}^2} - n + 2p$$
 where:
 
 | Symbol | Meaning |
-|:---|:---|
+|:-----------------------------------|:-----------------------------------|
 | $SS_{\text{error}}$ | Error sum of squares for the model with $p$ predictors (incl. intercept) |
 | $\hat{\sigma}^2$ | Error mean square of full model (e.g., all predictors) |
 | $n$ | Sample size |
@@ -1098,7 +2702,7 @@ library(leaps)
 all_subsets <- regsubsets(y ~ g1 + g2 + g3 + g4, data = RNAseq_Data)
 summary(all_subsets)
 
-# Plot Cp, BIC, adjusted R²
+# Plot Cp, BIC, adjusted R-sq
 par(mfrow = c(1, 3))
 plot(all_subsets, scale = "Cp")
 plot(all_subsets, scale = "bic")
@@ -1138,7 +2742,8 @@ BIC(model_a, model_b, model_c)
 
 -   F-test p \< 0.05 → the fuller model is significantly better
 -   Lower AIC/BIC → more parsimonious model
--   BIC penalizes complexity more heavily than AIC
+-   BIC penalizes complexity more heavily than AIC, favoring simpler models especially with large sample sizes
+-   When AIC and BIC disagree, consider the scientific context — is prediction or explanation your primary goal?
 :::
 
 ## Stepwise Model Selection in R
@@ -1179,1339 +2784,169 @@ BIC(forward_model, backward_model, both_model)
 -   Forward selection can miss important combinations
 -   Backward elimination can fail when p \> n
 -   "Both" direction is generally most robust
--   Stepwise methods can overfit — always validate with cross-validation
+-   Stepwise methods can overfit — always validate with cross-validation or hold-out data
 :::
 
-# BREAK {background-color="#e74c3c"}
 
-# Statistical Power {background-color="#2c3e50"}
+## Worked Example: Model Selection for Scaffold Data
 
-## What is Power?
-
-Power is the probability of correctly rejecting a **false** null hypothesis (i.e., detecting a real effect when one exists).
+Let's apply model selection to the scaffold tissue growth data, comparing candidate models with different predictor combinations:
 
 ::: panel-tabset
-### Equation
-
-$$\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}$$
-
-### LaTeX
-
-``` text
-\text{Power} \propto \frac{(\text{Effect Size})(\alpha)(\sqrt{n})}{\sigma}
-```
-:::
-
--   Helps interpret failure to reject the null — was the test underpowered?
--   Target: typically **80% power** (β = 0.20)
-
-## Power Overview
-
-![Statistical power and Type II error](images/week09_19_statistical_power_and_type_ii.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Statistical Power and Type II Error
-
-|   | **Reject** $H_0$ | **Retain** $H_0$ |
-|:---|:---|:---|
-| **Effect exists** | Correct decision — Effect detected (Power = $1-\beta$) | **Type II error** — Effect not detected ($\beta$) |
-| **No effect** | **Type I error** — Effect detected; none exists ($\alpha$) | Correct decision — No effect detected |
-
-::: callout-note
--   **Power** = probability of correctly rejecting $H_0$ when the effect is real
--   We want Power $\geq 0.80$ (i.e., $\beta \leq 0.20$)
--   Increasing sample size, effect size, or $\alpha$ increases power
-:::
-
-## Key Components of Power
-
-| Component                  | Description                       |
-|:---------------------------|:----------------------------------|
-| **Effect Size (ES)**       | Magnitude of difference to detect |
-| **Standard Deviation (σ)** | Variability within groups         |
-| **Sample Size (n)**        | Number of observations            |
-| **Significance Level (α)** | Usually 0.05                      |
-| **Power (1 − β)**          | Usually 0.80                      |
-
-![Key questions in power analysis](images/week09_20_key_questions_in_power_analysi.jpeg){fig-align="center" width="70%"}
-
-## DRAFT: Power vs Effect Size and Sample Size
+### Output
 
 ```{r}
+#| label: plot-model-selection-scaffold
 #| echo: false
 #| eval: true
 #| fig-width: 10
 #| fig-height: 5
 
-par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+set.seed(42)
+n <- 60
+scaffold_data <- data.frame(
+  porosity     = runif(n, 40, 90),
+  stiffness    = runif(n, 5, 50),
+  seeding_dens = runif(n, 1e4, 1e6)
+)
+scaffold_data$tissue_growth <- with(scaffold_data,
+  0.8 * porosity + 0.3 * stiffness - 0.00001 * seeding_dens +
+  0.005 * porosity * stiffness + rnorm(n, 0, 8))
 
-# Left panel: Power vs Effect Size
-es <- seq(0.5, 40, length.out = 200)
-# Approximate power curve using a sigmoid
-power_vals <- pnorm(es / 10 * qnorm(0.975) - qnorm(0.975) + es/10 * sqrt(20))
-power_vals <- pmin(power_vals, 1)
-# Simpler: use a logistic-like curve
-power_vals <- 1 / (1 + exp(-0.25 * (es - 15)))
+# Fit candidate models
+m1 <- lm(tissue_growth ~ porosity, data = scaffold_data)
+m2 <- lm(tissue_growth ~ porosity + stiffness, data = scaffold_data)
+m3 <- lm(tissue_growth ~ porosity + stiffness + seeding_dens,
+          data = scaffold_data)
+m4 <- lm(tissue_growth ~ porosity * stiffness, data = scaffold_data)
+m5 <- lm(tissue_growth ~ porosity * stiffness + seeding_dens,
+          data = scaffold_data)
 
-plot(es, power_vals, type = "l", lwd = 2,
-     xlab = "Effect Size", ylab = "Power",
-     main = "Power vs Effect Size",
-     xlim = c(0, 40), ylim = c(0, 1),
-     cex.lab = 1.3, cex.main = 1.3, cex.axis = 1.1)
-abline(h = 0.80, lty = 2, col = "gray40")
-abline(v = 25, lty = 2, col = "gray40")
-
-# Right panel: Detectable Effect Size vs n
-n_vals <- seq(1, 40, length.out = 200)
-# Effect size detectable decreases with n (hyperbolic)
-det_es <- 80 / sqrt(n_vals)
-
-plot(n_vals, det_es, type = "l", lwd = 2,
-     xlab = "No. of Replicates", ylab = "Detectable Effect Size",
-     main = "Effect Size vs n",
-     xlim = c(0, 40), ylim = c(0, 90),
-     cex.lab = 1.3, cex.main = 1.3, cex.axis = 1.1)
-abline(h = 25, lty = 2, col = "gray40")
-abline(v = 22, lty = 2, col = "gray40")
-```
-
-## Cohen's d
-
-Effect size between two group means expressed in standard deviation units:
-
-::: panel-tabset
-### Equation
-
-$$d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}$$
-
-### LaTeX
-
-``` text
-d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}
-```
-:::
-
-| d   | Interpretation |
-|:----|:---------------|
-| 0.2 | Small effect   |
-| 0.5 | Medium effect  |
-| 0.8 | Large effect   |
-
-## Power Analysis in R
-
-::: panel-tabset
-### Output
-
-```{r}
-#| label: power-analysis
-#| echo: false
-#| eval: true
-
-library(pwr)
-
-# Calculate required sample size for 80% power
-sample_size <- pwr.t.test(
-  d = 0.5,
-  sig.level = 0.05,
-  power = 0.80,
-  type = "two.sample"
+# Collect AIC and BIC
+comparison <- tibble(
+  Model = c("porosity",
+            "porosity + stiffness",
+            "porosity + stiff + seeding",
+            "porosity * stiffness",
+            "porosity * stiff + seeding"),
+  AIC = c(AIC(m1), AIC(m2), AIC(m3), AIC(m4), AIC(m5)),
+  BIC = c(BIC(m1), BIC(m2), BIC(m3), BIC(m4), BIC(m5)),
+  Adj_R2 = c(summary(m1)$adj.r.squared,
+             summary(m2)$adj.r.squared,
+             summary(m3)$adj.r.squared,
+             summary(m4)$adj.r.squared,
+             summary(m5)$adj.r.squared)
 )
 
-cat("Required n per group:", ceiling(sample_size$n))
+comparison_long <- comparison %>%
+  mutate(Model = factor(Model, levels = Model)) %>%
+  pivot_longer(cols = c(AIC, BIC), names_to = "Criterion", values_to = "Value")
+
+ggplot(comparison_long, aes(x = Model, y = Value, fill = Criterion)) +
+  geom_col(position = position_dodge(0.8), width = 0.7) +
+  scale_fill_manual(values = c("AIC" = "steelblue", "BIC" = "firebrick")) +
+  labs(title = "Model Comparison: AIC and BIC for Scaffold Models",
+       subtitle = "Lower values indicate better model (fit vs. complexity tradeoff)",
+       x = "", y = "Information Criterion Value") +
+  theme_minimal(base_size = 13) +
+  theme(axis.text.x = element_text(angle = 25, hjust = 1),
+        legend.position = "top")
 ```
 
 ### Code
 
 ```{r}
+#| label: plot-model-selection-scaffold-code
 #| echo: true
 #| eval: false
 
-library(pwr)
-
-# Calculate required sample size for 80% power
-sample_size <- pwr.t.test(
-  d = 0.5,
-  sig.level = 0.05,
-  power = 0.80,
-  type = "two.sample"
-)
-
-cat("Required n per group:", ceiling(sample_size$n))
-```
-:::
-
-## Power Curve
-
-::: panel-tabset
-### Output
-
-```{r}
-#| label: power-curve-output
-#| echo: false
-#| eval: true
-#| fig-width: 8
-#| fig-height: 4
-
-effect_sizes <- seq(0.2, 1.0, by = 0.1)
-power_values <- sapply(effect_sizes, function(d) {
-  pwr.t.test(d = d, n = 50, sig.level = 0.05, type = "two.sample")$power
-})
-
-plot(effect_sizes, power_values, type = "b", pch = 19, col = "steelblue",
-     xlab = "Effect Size (Cohen's d)", ylab = "Power", ylim = c(0, 1))
-abline(h = 0.8, lty = 2, col = "red")
-```
-
-### Code
-
-```{r}
-#| label: power-curve-code
-#| echo: true
-#| eval: false
-
-effect_sizes <- seq(0.2, 1.0, by = 0.1)
-power_values <- sapply(effect_sizes, function(d) {
-  pwr.t.test(d = d, n = 50, sig.level = 0.05, type = "two.sample")$power
-})
-
-plot(effect_sizes, power_values, type = "b", pch = 19, col = "steelblue",
-     xlab = "Effect Size (Cohen's d)", ylab = "Power", ylim = c(0, 1))
-abline(h = 0.8, lty = 2, col = "red")
-```
-:::
-
-## Sample Size Curve
-
-::: panel-tabset
-### Output
-
-```{r}
-#| label: sample-curve-output
-#| echo: false
-#| eval: true
-#| fig-width: 8
-#| fig-height: 4
-
-sample_sizes <- seq(10, 200, by = 10)
-power_by_n <- sapply(sample_sizes, function(n) {
-  pwr.t.test(d = 0.5, n = n, sig.level = 0.05, type = "two.sample")$power
-})
-
-plot(sample_sizes, power_by_n, type = "b", pch = 19, col = "darkgreen",
-     xlab = "Sample Size per Group", ylab = "Power", ylim = c(0, 1))
-abline(h = 0.8, lty = 2, col = "red")
-```
-
-### Code
-
-```{r}
-#| label: sample-curve-code
-#| echo: true
-#| eval: false
-
-sample_sizes <- seq(10, 200, by = 10)
-power_by_n <- sapply(sample_sizes, function(n) {
-  pwr.t.test(d = 0.5, n = n, sig.level = 0.05, type = "two.sample")$power
-})
-
-plot(sample_sizes, power_by_n, type = "b", pch = 19, col = "darkgreen",
-     xlab = "Sample Size per Group", ylab = "Power", ylim = c(0, 1))
-abline(h = 0.8, lty = 2, col = "red")
-```
-:::
-
-## Bootstrap Power Analysis
-
-When parametric assumptions may not hold, use simulation-based power analysis:
-
-::: panel-tabset
-### Code
-
-```{r}
-#| eval: false
-#| echo: true
-
-# Step 1: Simulate true populations
-senior <- rpois(5000, lambda = 10)
-fresh  <- rpois(5000, lambda = 12)
-
-# Step 2: Draw samples and test
-sample_s <- sample(senior, size = 10, replace = FALSE)
-sample_f <- sample(fresh, size = 10, replace = FALSE)
-t.test(sample_f, sample_s)
-
-# Step 3: Replicate many times
-samps_s <- replicate(n = 100, sample(senior, size = 10))
-samps_f <- replicate(n = 100, sample(fresh, size = 10))
-
-# Calculate power
-tests <- data.frame(result = numeric(100))
-for (i in 1:100) {
-  tests$result[i] <- t.test(samps_s[, i], samps_f[, i])$p.value
-}
-power <- sum(tests$result < 0.05) / 100
-cat("Estimated power:", power)
-```
-
-### Key Points
-
--   This approach works for any distribution (Poisson, skewed, etc.)
--   Increase the number of replicates (e.g., 1000+) for stable estimates
--   Can modify sample sizes, effect sizes, or distributions to explore scenarios
-:::
-
-## Power Analysis for ANOVA
-
-::: panel-tabset
-### Code
-
-```{r}
-#| eval: false
-#| echo: true
-
-library(pwr)
-
-# Parameters for one-way ANOVA
-effect_size_anova <- 0.25  # Cohen's f (medium)
-alpha_anova <- 0.05
-power_anova <- 0.8
-
-# Calculate required sample size per group
-sample_size_anova <- pwr.anova.test(
-  k = 3,                    # Number of groups
-  f = effect_size_anova,
-  sig.level = alpha_anova,
-  power = power_anova
-)$n
-
-cat("Sample Size per group for ANOVA:", ceiling(sample_size_anova))
-```
-
-### Cohen's f
-
-Cohen's f measures effect size in ANOVA:
-
-| f    | Interpretation |
-|:-----|:---------------|
-| 0.10 | Small effect   |
-| 0.25 | Medium effect  |
-| 0.40 | Large effect   |
-
-Cohen's f = √(variance between groups / variance within groups)
-:::
-
-## Power Example: Bone Scaffold Experiment
-
-A bioengineering lab needs to determine how many bone scaffolds to test to detect a 15% difference in compressive strength between two scaffold designs.
-
-::: panel-tabset
-### Code
-
-```{r}
-#| echo: true
-#| eval: false
-
-# Known from pilot data:
-# Mean compressive strength: 50 MPa
-# Standard deviation: 8 MPa
-# Desired detectable difference: 15% = 7.5 MPa
-
-effect_size_d <- 7.5 / 8  # Cohen's d = 0.94
-
-scaffold_power <- pwr.t.test(
-  d = effect_size_d,
-  sig.level = 0.05,
-  power = 0.80,
-  type = "two.sample"
-)
-
-cat("Required scaffolds per group:", ceiling(scaffold_power$n))
-cat("\nEffect size (Cohen's d):", round(effect_size_d, 2))
-```
-
-### Key Takeaway
-
--   With a large effect size (d ≈ 0.94), we need relatively few samples
--   If the expected difference were only 5% (3.75 MPa, d ≈ 0.47), sample size would roughly quadruple
--   Always conduct a power analysis **before** running your experiment
-:::
-
-## Power for Factorial ANOVA
-
-::: panel-tabset
-### Code
-
-```{r}
-#| echo: true
-#| eval: false
-
-library(pwr)
-
-# Power for a 2×3 factorial design
-# (e.g., 2 scaffold materials × 3 growth factor concentrations)
-pwr.anova.test(
-  k = 6,           # Total number of cells (2 × 3)
-  f = 0.30,        # Medium-large effect
-  sig.level = 0.05,
-  power = 0.80
-)
-
-# For interaction effects specifically:
-# Interactions are typically harder to detect
-# Use a smaller f value or plan for more samples
-pwr.anova.test(
-  k = 6,
-  f = 0.20,        # Small-medium for interaction
-  sig.level = 0.05,
-  power = 0.80
-)
-```
-
-### Tip
-
-Interactions typically have **smaller effect sizes** than main effects. Budget extra samples if detecting interactions is important to your study.
-:::
-
-------------------------------------------------------------------------
-
-# Multifactor ANOVA {background-color="#2c3e50"}
-
-## Multifactor Designs Introduction
-
-![](images/week07_01_walking_stick_insect_femur.jpeg){fig-align="center" width="90%"}
-
-## Types of Factors
-
-![](images/week07_02_walking_stick_femur_length_variation.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Femur Length Variation Within Individuals
-
-```{r}
-#| echo: false
-#| eval: true
-#| fig-width: 8
-#| fig-height: 6
-
-# Simulated walking stick femur length data (2 measurements per individual)
-set.seed(123)
-n_individuals <- 25
-ind_means <- sort(runif(n_individuals, 0.14, 0.28))
-
-# Two measurements per individual with small within-individual variation
-m1 <- ind_means + rnorm(n_individuals, 0, 0.008)
-m2 <- ind_means + rnorm(n_individuals, 0, 0.008)
-
-par(mar = c(5, 5, 2, 2))
-plot(1:n_individuals, m1, pch = 16, cex = 1.2,
-     ylim = range(c(m1, m2)) * c(0.95, 1.05),
-     xlab = "Individual walking sticks", ylab = "Femur Length",
-     xaxt = "n", cex.lab = 1.3, cex.axis = 1.1)
-points(1:n_individuals, m2, pch = 16, cex = 1.2)
-segments(1:n_individuals, m1, 1:n_individuals, m2, lwd = 1.5)
-```
-
-## Factor Levels
-
-![](images/week07_03_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
-
-## Multifactor ANOVA Model
-
-![](images/week07_04_nested_anova_table_insects.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Nested ANOVA Table
-
-| Source | SS | df | MS | F |
-|:---|:---|:---|:---|:---|
-| Among groups (A) | $SS_A$ | $p - 1$ | $MS_A$ | $MS_A / MS_{B(A)}$ |
-| Among subgroups B(A) | $SS_{B(A)}$ | $p(q - 1)$ | $MS_{B(A)}$ | $MS_{B(A)} / MS_{Residual}$ |
-| Residual | $SS_{Residual}$ | $pq(n - 1)$ | $MS_{Residual}$ |  |
-| **Total** | $SS_{Total}$ | $pqn - 1$ |  |  |
-
-## Sum of Squares Decomposition
-
-![](images/week07_05_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Nested Design Hierarchy
-
-```         
-                    Main Factor "A" (e.g. Treatment)
-                 ┌──────────────┴──────────────┐
-                A₁ (μ₁)                       Aᵢ (μᵢ)
-         ┌──────┼──────┐              ┌──────┼──────┐
-      B₁₍₁₎  B₂₍₁₎  Bⱼ₍₁₎       B₁₍ᵢ₎  B₂₍ᵢ₎  Bⱼ₍ᵢ₎
-      (μ₁₍₁₎)(μ₂₍₁₎)(μⱼ₍₁₎)     (μ₁₍ᵢ₎)(μ₂₍ᵢ₎)(μⱼ₍ᵢ₎)
-       │                                            │
-    y₁₍₁₍₁₎₎                                   y₁₍ⱼ₍ᵢ₎₎
-    y₂₍₁₍₁₎₎     Sub-replicates               y₂₍ⱼ₍ᵢ₎₎
-    yₖ₍₁₍₁₎₎     for each site                 yₖ₍ⱼ₍ᵢ₎₎
-```
-
-$$y_{k(j(i))} = y_{ijk}$$
-
-**observation** $k$ **within Site** $j$ **within Treatment** $i$
-
-Nested Factor "B" (e.g. Site) — levels of B are **unique** to each level of A
-
-## Multifactor ANOVA Table
-
-![](images/week07_06_nested_model_equations_one_two_levels.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Nested Model Equations
-
-**One level of nesting:**
-
-$$y_{ijk} = \mu + \alpha_i + \beta_{j(i)} + \varepsilon_{ijk}$$
-
-where $\alpha_i$ is the effect of group $i$ and $\beta_{j(i)}$ is the effect of subgroup $j$ nested within group $i$.
-
-**Two levels of nesting:**
-
-$$y_{ijkl} = \mu + \alpha_i + \beta_{j(i)} + \gamma_{k(ij)} + \varepsilon_{ijkl}$$
-
-## Understanding Degrees of Freedom
-
-![DOF in statistical models](images/week07_07_dof_in_statistical_models.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Hypotheses in Nested Designs
-
-::: panel-tabset
-### Fixed Effects (Main Factor)
-
-$$H_0(A): \mu_1 = \mu_2 = \ldots = \mu_i = \mu \quad \text{(in terms of pop. means)}$$
-
-$$H_0(A): \alpha_1 = \alpha_2 = \ldots = \alpha_i = 0 \quad \text{(in terms of effects on the grand mean)}$$
-
-### Random Effects
-
-$$H_0(A): \sigma^2_\alpha = 0$$
-
-*"No added variance due to all possible levels of A"*
-
-$$H_0(B): \sigma^2_\beta = 0$$
-
-*"No added variance due to all possible levels of B within all possible levels of A"*
-
-### LaTeX
-
-``` text
-% Fixed effects
-H_0(A): \mu_1 = \mu_2 = \ldots = \mu_i = \mu
-H_0(A): \alpha_1 = \alpha_2 = \ldots = \alpha_i = 0
-
-% Random effects
-H_0(A): \sigma^2_\alpha = 0
-H_0(B): \sigma^2_\beta = 0
-```
-:::
-
-![Intuition behind degrees of freedom](images/week07_08_intuition_behind_degrees_of_fr.jpeg){fig-align="center" width="80%"}
-
-## Calculating F-Ratios
-
-![](images/week07_09_nested_anova_table_formulas.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Nested ANOVA F-Ratio Formulas
-
-| Source | SS formula | df | MS | F |
-|:---|:---|:---|:---|:---|
-| A | $qn\sum(\bar{y}_{i..} - \bar{y}_{...})^2$ | $p - 1$ | $SS_A / (p-1)$ | $MS_A / MS_{B(A)}$ |
-| B(A) | $n\sum\sum(\bar{y}_{ij.} - \bar{y}_{i..})^2$ | $p(q - 1)$ | $SS_{B(A)} / [p(q-1)]$ | $MS_{B(A)} / MS_{Res}$ |
-| Residual | $\sum\sum\sum(y_{ijk} - \bar{y}_{ij.})^2$ | $pq(n - 1)$ | $SS_{Res} / [pq(n-1)]$ |  |
-
-## Multifactor Example
-
-![](images/week07_10_nested_anova_r_syntax_table.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Nested ANOVA in R
-
-| Design | R syntax |
-|:---|:---|
-| A fixed, B nested in A | `aov(y ~ A + B %in% A)` or `aov(y ~ A/B)` |
-| A fixed, B random nested in A | `aov(y ~ A + Error(B %in% A))` |
-| Unbalanced nested design | Use `lmer()` from `lme4`: `lmer(y ~ A + (1|A:B))` |
-
-## Multifactor ANOVA Results
-
-![](images/week07_11_sea_urchin_algae_experiment_design.jpeg){fig-align="center" width="90%"}
-
-## Interactions
-
-An **interaction** means the effect of one variable on the response depends on the state of another variable.
-
-![](images/week07_18_interaction_plots_fertilizer_temperature.jpeg){fig-align="center" width="75%"}
-
-## DRAFT: Interaction Plot Patterns
-
-```{r}
-#| echo: false
-#| eval: true
-#| fig-width: 10
-#| fig-height: 8
-
-par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
-
-# (a) No interaction, both significant
-temp <- c("Cold", "Hot"); fert <- c("No", "Yes")
-plot(1:2, c(4, 6), type = "b", pch = 16, col = "blue", lwd = 2,
-     xlim = c(0.8, 2.2), ylim = c(0, 12), axes = FALSE,
-     xlab = "Temperature", ylab = "Growth", main = "(a) No interaction")
-lines(1:2, c(6, 8), type = "b", pch = 17, col = "red", lwd = 2)
-axis(1, at = 1:2, labels = temp); axis(2, las = 1)
-legend("topleft", fert, pch = c(16, 17), col = c("blue", "red"), title = "Fertilizer", cex = 0.9)
-
-# (b) Interaction (crossing)
-plot(1:2, c(3, 9), type = "b", pch = 16, col = "blue", lwd = 2,
-     xlim = c(0.8, 2.2), ylim = c(0, 12), axes = FALSE,
-     xlab = "Temperature", ylab = "Growth", main = "(b) Interaction (crossing)")
-lines(1:2, c(8, 4), type = "b", pch = 17, col = "red", lwd = 2)
-axis(1, at = 1:2, labels = temp); axis(2, las = 1)
-
-# (c) Interaction (fan shape)
-plot(1:2, c(4, 5), type = "b", pch = 16, col = "blue", lwd = 2,
-     xlim = c(0.8, 2.2), ylim = c(0, 12), axes = FALSE,
-     xlab = "Temperature", ylab = "Growth", main = "(c) Interaction (fan)")
-lines(1:2, c(4, 10), type = "b", pch = 17, col = "red", lwd = 2)
-axis(1, at = 1:2, labels = temp); axis(2, las = 1)
-
-# (d) No effect
-plot(1:2, c(5, 5), type = "b", pch = 16, col = "blue", lwd = 2,
-     xlim = c(0.8, 2.2), ylim = c(0, 12), axes = FALSE,
-     xlab = "Temperature", ylab = "Growth", main = "(d) No effects")
-lines(1:2, c(5, 5), type = "b", pch = 17, col = "red", lwd = 2)
-axis(1, at = 1:2, labels = temp); axis(2, las = 1)
-```
-
-## Visualizing Interactions
-
-![](images/week07_12_tadpole_photograph.jpeg){fig-align="center" width="90%"}
-
-## Interaction Interpretation
-
-![](images/week07_13_pesticide_predator_survival_interaction.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Pesticide × Predator Interaction
-
-```{r}
-#| echo: false
-#| eval: true
-#| fig-width: 7
-#| fig-height: 5
-
-# Simulated interaction: pesticide effect depends on predator presence
-plot(1:2, c(70, 30), type = "b", pch = 16, col = "blue", lwd = 2,
-     xlim = c(0.8, 2.2), ylim = c(0, 100), axes = FALSE,
-     xlab = "Pesticide", ylab = "% Survival")
-lines(1:2, c(75, 65), type = "b", pch = 17, col = "red", lwd = 2)
-axis(1, at = 1:2, labels = c("No pesticide", "Pesticide"))
-axis(2, las = 1)
-legend("topright", c("With predator", "No predator"),
-       pch = c(16, 17), col = c("blue", "red"), cex = 1.0)
-title("Interaction: Pesticide effect depends on predator presence")
-```
-
-## Factorial vs. Nested Designs
-
-**Factorial designs:**
-
--   All pairwise combinations of factor levels are present
--   Can assess interactions between factors
--   Example: Drug dose × Exercise regimen
-
-**Nested designs:**
-
--   Hierarchical structure — levels of one factor occur within levels of another
--   No interaction terms (levels are unique to each group)
--   Often contain random effects
--   Example: Cells within wells within plates
-
-## Two-Factor Factorial Design
-
-![](images/week07_14_factorial_anova_interaction_formula.jpeg){fig-align="center" width="100%"}
-
-## DRAFT: Two-Factor Factorial Model
-
-::: panel-tabset
-### Equation
-
-$$\huge y_{ijk} = \mu + \underbrace{\alpha_i + \beta_j}_{\text{Main Effects}} + \underbrace{(\alpha\beta)_{ij}}_{\text{Two-way interaction}} + \varepsilon_{ijk}$$
-
-where:
-
--   $\mu$ = grand mean
--   $\alpha_i$ = effect of level $i$ of factor A
--   $\beta_j$ = effect of level $j$ of factor B
--   $(\alpha\beta)_{ij}$ = interaction effect of A level $i$ and B level $j$
--   $\varepsilon_{ijk}$ = random error for replicate $k$
-
-### LaTeX
-
-``` text
-y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
-```
-:::
-
-## Three-Factor Factorial Design
-
-![Three-way factorial layout](images/week07_15_three_way_factorial_layout.jpeg){fig-align="center" width="100%"}
-
-## DRAFT: Three-Factor Factorial Model
-
-::: panel-tabset
-### Equation
-
-$$y_{ijkl} = \mu + \underbrace{\alpha_i + \beta_j + \gamma_k}_{\text{Main Effects}} + \underbrace{(\alpha\beta)_{ij} + (\alpha\gamma)_{ik} + (\beta\gamma)_{jk}}_{\text{Two-way interactions}} + \underbrace{(\alpha\beta\gamma)_{ijk}}_{\text{Three-way interaction}} + \varepsilon_{ijkl}$$
-
-### Components
-
-| Term | Meaning |
-|:---|:---|
-| $\alpha_i, \beta_j, \gamma_k$ | Main effects of factors A, B, C |
-| $(\alpha\beta)_{ij}, (\alpha\gamma)_{ik}, (\beta\gamma)_{jk}$ | Two-way interaction effects |
-| $(\alpha\beta\gamma)_{ijk}$ | Three-way interaction effect |
-| $\varepsilon_{ijkl}$ | Random error for replicate $l$ |
-
-### LaTeX
-
-``` text
-y_{ijkl} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha\beta)_{ij} + (\alpha\gamma)_{ik} + (\beta\gamma)_{jk} + (\alpha\beta\gamma)_{ijk} + \varepsilon_{ijkl}
-```
-:::
-
-## Higher-Order Interactions
-
-![Interpreting three-way interactions](images/week07_16_interpreting_three_way_interac.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Factorial Design Sizes
-
-**For 2 levels per factor:**
-
-| Factors | Design  | Combinations | Observations (*N* = 6 replicates) |
-|:--------|:--------|:-------------|:----------------------------------|
-| 2       | 2×2     | 4            | 24                                |
-| 3       | 2×2×2   | 8            | 48                                |
-| 4       | 2×2×2×2 | 16           | 96                                |
-
-::: panel-tabset
-### Formula
-
-$$\text{Total \# of observations} = N \cdot 2^p$$
-
-where $N$ = replicates per cell, $p$ = number of factors
-
-### LaTeX
-
-``` text
-\text{Total \# of observations} = N \cdot 2^p
-```
-:::
-
-## Complete Factorial Model
-
-![Full model with all interaction terms](images/week07_17_full_model_with_all_interactio.jpeg){fig-align="center" width="90%"}
-
-## DRAFT: Two-Factor Cell and Marginal Means (Table 9.7)
-
-**General notation** — population means $\mu_{ij}$ for a two-factor design:
-
-|            | $B_1$       | $B_2$       | $\ldots$ | $B_j$      | Marginal means A |
-|:-----------|:------------|:------------|:---------|:-----------|:-----------------|
-| $A_1$      | $\mu_{11}$  | $\mu_{12}$  | $\ldots$ | $\mu_{1j}$ | $\mu_{i=1}$      |
-| $A_2$      | $\mu_{21}$  | $\mu_{22}$  | $\ldots$ | $\mu_{2j}$ | $\mu_{i=2}$      |
-| $A_i$      | $\mu_{i1}$  | $\mu_{i2}$  | $\ldots$ | $\mu_{ij}$ | $\mu_{i}$        |
-| Marginal B | $\mu_{j=1}$ | $\mu_{j=2}$ | $\ldots$ | $\mu_{j}$  | Grand mean $\mu$ |
-
-**Example: Limpet density (A) × Season (B) — 4×2 Factorial** (Quinn 1988)
-
-| Factor A (Density) | $B_1$ Spring | $B_2$ Summer | Marginal A |
-|:---|:---|:---|:---|
-| $A_1$ (8) | $\bar{y}_{11}$ = 2.417 | $\bar{y}_{12}$ = 1.833 | $\bar{y}_{i=1}$ = 2.125 |
-| $A_2$ (15) | $\bar{y}_{21}$ = 2.177 | $\bar{y}_{22}$ = 1.178 | $\bar{y}_{i=2}$ = 1.677 |
-| $A_3$ (30) | $\bar{y}_{31}$ = 1.565 | $\bar{y}_{32}$ = 0.811 | $\bar{y}_{i=3}$ = 1.188 |
-| $A_4$ (45) | $\bar{y}_{41}$ = 1.200 | $\bar{y}_{42}$ = 0.593 | $\bar{y}_{i=4}$ = 0.896 |
-| **Marginal B** | $\bar{y}_{j=1}$ = 1.840 | $\bar{y}_{j=2}$ = 1.104 | $\bar{y}$ = 1.472 |
-
-## Factorial ANOVA — Fixed Effects
-
-![](images/week07_19_factorial_anova_null_hypotheses_fixed.jpeg){fig-align="center" width="80%"}
-
-## DRAFT: Factorial ANOVA Null Hypotheses — Fixed Effects
-
-::: panel-tabset
-### Equations
-
-**Factor A:**
-
-$$H_0(A): \mu_1 = \mu_2 = \cdots = \mu_i = \mu$$
-
-$$H_0(A): \alpha_1 = \alpha_2 = \cdots = \alpha_i = 0$$
-
-**Factor B:**
-
-$$H_0(B): \mu_1 = \mu_2 = \cdots = \mu_j = \mu$$
-
-**A:B Interaction:**
-
-$$H_0(AB): \mu_{ij} = \mu_i + \mu_j - \mu$$
-
-(i.e., the cell mean equals what we'd expect from the marginal means alone — no interaction)
-
-### LaTeX
-
-``` text
-H_0(A): \mu_1 = \mu_2 = \cdots = \mu_i = \mu
-H_0(A): \alpha_1 = \alpha_2 = \cdots = \alpha_i = 0
-H_0(B): \mu_1 = \mu_2 = \cdots = \mu_j = \mu
-H_0(AB): \mu_{ij} = \mu_i + \mu_j - \mu
-```
-:::
-
-## Factorial ANOVA — Random Effects
-
-![](images/week07_20_factorial_anova_null_hypotheses_random.jpeg){fig-align="center" width="100%"}
-
-## DRAFT: Factorial ANOVA Null Hypotheses — Random Effects
-
-::: panel-tabset
-### Equations
-
-**Factor A:**
-
-$$H_0(A): \sigma^2_\alpha = 0 \quad \text{(population variance equals zero)}$$
-
-There is no added variance due to all possible levels of A.
-
-**Factor B:**
-
-$$H_0(B): \sigma^2_\beta = 0 \quad \text{(population variance equals zero)}$$
-
-There is no added variance due to all possible levels of B.
-
-**A:B Interaction:**
-
-$$H_0(AB): \sigma^2_{\alpha\beta} = 0 \quad \text{(population variance equals zero)}$$
-
-### LaTeX
-
-``` text
-H_0(A): \sigma^2_\alpha = 0
-H_0(B): \sigma^2_\beta = 0
-H_0(AB): \sigma^2_{\alpha\beta} = 0
-```
-:::
-
-## Mean Squares for Factorial Model
-
-![](images/week07_21_two_factor_crossed_anova_table.jpeg){fig-align="center" width="100%"}
-
-## DRAFT: ANOVA Table for Two-Factor Crossed Model (Table 9.8)
-
-| Source | SS | df | MS |
-|:---|:---|:---|:---|
-| A | $nq \displaystyle\sum_{i=1}^{p}(\bar{y}_{i} - \bar{y})^2$ | $p - 1$ | $\dfrac{SS_A}{p - 1}$ |
-| B | $np \displaystyle\sum_{j=1}^{q}(\bar{y}_{j} - \bar{y})^2$ | $q - 1$ | $\dfrac{SS_B}{q - 1}$ |
-| AB | $n \displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}(\bar{y}_{ij} - \bar{y}_{i} - \bar{y}_{j} + \bar{y})^2$ | $(p-1)(q-1)$ | $\dfrac{SS_{AB}}{(p-1)(q-1)}$ |
-| Residual | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y}_{ij})^2$ | $pq(n-1)$ | $\dfrac{SS_{Residual}}{pq(n-1)}$ |
-| Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{q}\sum_{k=1}^{n}(y_{ijk} - \bar{y})^2$ | $pqn - 1$ |  |
-
-## F-Ratios for Factorial Model
-
-![](images/week07_22_f_ratio_table_fixed_random_factors.jpeg){fig-align="center" width="100%"}
-
-## DRAFT: F-Ratios for Fixed, Random, and Mixed Models
-
-| Source | A and B fixed | A and B random | A fixed, B random (Restricted) | A fixed, B random (Unrestricted) |
-|:---|:---|:---|:---|:---|
-| A | $\dfrac{MS_A}{MS_{Residual}}$ | $\dfrac{MS_A}{MS_{AB}}$ | $\dfrac{MS_A}{MS_{AB}}$ | $\dfrac{MS_A}{MS_{AB}}$ |
-| B | $\dfrac{MS_B}{MS_{Residual}}$ | $\dfrac{MS_B}{MS_{AB}}$ | $\dfrac{MS_B}{MS_{Residual}}$ | $\dfrac{MS_B}{MS_{AB}}$ |
-| AB | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ | $\dfrac{MS_{AB}}{MS_{Residual}}$ |
-
-::: callout-note
-The choice of denominator for the F-ratio depends on whether each factor is fixed or random. When a factor is random, its interaction with the other factor must be used as the error term for testing the other factor's main effect.
-:::
-
-## Interpretation of Results
-
-![](images/week07_23_factorial_model_significant_terms.jpeg){fig-align="center" width="100%"}
-
-## DRAFT: Interpreting Significant Terms
-
-::: panel-tabset
-### Model
-
-$$y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}$$
-
--   Factor 1 is **temperature**
--   Factor 2 is **fertilizer**
-
-### When All Terms Are Significant
-
-If all terms in the model are significant — now what?
-
-1.  **Start with the interaction** — if $(\alpha\beta)_{ij}$ is significant, the effect of one factor depends on the level of the other
-2.  **Main effects are hard to interpret alone** when interaction is present
-3.  Examine **simple effects** — the effect of one factor at each level of the other
-4.  Use **interaction plots** to visualize patterns
-5.  Perform **post-hoc comparisons** within each level of the other factor
-
-### LaTeX
-
-``` text
-y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \varepsilon_{ijk}
-```
-:::
-
-## Factorial ANOVA in R
-
-::: panel-tabset
-### Code
-
-```{r}
-#| eval: false
-#| echo: true
-
-rna_data <- read.table("data/Stickle_RNAseq.tsv", header = TRUE, sep = "\t")
-
-gene       <- rna_data$Gene100
-microbiota <- rna_data$Microbiota
-genotype   <- rna_data$Genotype
-
-# Multiplicative model (with interaction)
-model_interaction <- aov(gene ~ microbiota * genotype)
-
-# Additive model (no interaction)
-model_additive <- aov(gene ~ microbiota + genotype)
-
-summary(model_interaction)
-summary(model_additive)
+# Define candidate models
+m1 <- lm(tissue_growth ~ porosity, data = scaffold_data)
+m2 <- lm(tissue_growth ~ porosity + stiffness, data = scaffold_data)
+m3 <- lm(tissue_growth ~ porosity + stiffness + seeding_dens,
+          data = scaffold_data)
+m4 <- lm(tissue_growth ~ porosity * stiffness, data = scaffold_data)
+m5 <- lm(tissue_growth ~ porosity * stiffness + seeding_dens,
+          data = scaffold_data)
+
+# Compare with AIC and BIC
+AIC(m1, m2, m3, m4, m5)
+BIC(m1, m2, m3, m4, m5)
+
+# Compare nested models with F-test
+anova(m2, m4)  # Does the interaction improve the model?
+anova(m4, m5)  # Does seeding density add anything beyond porosity*stiffness?
+
+# Adjusted R-squared comparison
+sapply(list(m1, m2, m3, m4, m5),
+       function(m) summary(m)$adj.r.squared)
 ```
 
 ### Interpretation
 
--   If the interaction term is significant, the effect of one factor depends on the level of the other
--   If the interaction is not significant, interpret the main effects directly
--   Always check the interaction first before interpreting main effects
+-   The **interaction model** (`porosity * stiffness`) has the lowest AIC and BIC, indicating it captures an important feature of the data: the effect of porosity on tissue growth depends on scaffold stiffness
+-   Adding seeding density to the interaction model (m5) does not meaningfully improve AIC/BIC — it adds complexity without benefit
+-   The **F-test** comparing m2 to m4 confirms the interaction is significant; comparing m4 to m5 shows seeding density is not needed
+-   Both AIC and BIC agree on the best model — this is strong evidence for parsimony
 :::
 
-# BREAK {background-color="#e74c3c"}
 
-# Random Effects {background-color="#2c3e50"}
-
-## Fixed vs. Random Effects
-
-**Fixed effects:**
-
--   Groups are predetermined, of direct interest, repeatable
--   Examples: medical treatments, predetermined doses, habitat types
--   We want to estimate specific group means
-
-**Random effects:**
-
--   Groups randomly sampled from a larger population
--   Examples: families, subjects measured repeatedly, blocks, batches
--   **Variance among groups** is of interest, not specific group means
-
-## When to Use Random Effects
-
--   Nested sampling designs (individuals within populations)
--   Subplots within plots
--   Replicates grouped spatially or temporally (blocks, batches)
--   Related individuals (families, litters)
--   Repeated measures on the same subjects
-
-## Random Effects Hypothesis
+## Worked Example: Backward Elimination on Scaffold Data
 
 ::: panel-tabset
-### Equation
-
-$$H_0: \sigma^2_\alpha = 0$$ $$H_A: \sigma^2_\alpha \neq 0$$
-
-### LaTeX
-
-``` text
-H_0: \sigma^2_\alpha = 0
-H_A: \sigma^2_\alpha \neq 0
-```
-:::
-
-We are testing whether the **variance component** for the random effect is zero — i.e., whether there is meaningful variation among the randomly sampled groups.
-
-## Random Effects in R
-
-::: panel-tabset
-### Code
+### Output
 
 ```{r}
-#| eval: false
-#| echo: true
+#| label: scaffold-backward-output
+#| echo: false
+#| eval: true
 
-library(nlme)
-
-# Random effect model
-micro_model_random_effect <- lme(
-  fixed  = Gene202 ~ 1,
-  random = ~1 | Geno.Micro,
-  data   = stickle_micro
-)
-
-summary(micro_model_random_effect)
-```
-
-### Key Points
-
--   In R, `lm()` assumes all effects are **fixed**
--   For random effects, use `lme()` from the **nlme** package or `lmer()` from **lme4**
--   The `~1 | group` syntax specifies a random intercept for each level of `group`
-:::
-
-## Random Effects: Bioengineering Example
-
-Measuring cell viability across multiple wells within multiple plates within multiple experiments:
-
-::: panel-tabset
-### Code
-
-```{r}
-#| echo: true
-#| eval: false
-
-# Simulated hierarchical data: cells → wells → plates → experiments
 set.seed(42)
-n_exp <- 3; n_plate <- 4; n_well <- 6
-experiment <- rep(1:n_exp, each = n_plate * n_well)
-plate      <- rep(rep(1:n_plate, each = n_well), n_exp)
-well       <- rep(1:n_well, n_exp * n_plate)
-
-# Generate data with variance at each level
-exp_effect   <- rnorm(n_exp, 0, 5)[experiment]
-plate_effect <- rnorm(n_exp * n_plate, 0, 3)[interaction(experiment, plate)]
-viability    <- 75 + exp_effect + plate_effect + rnorm(n_exp * n_plate * n_well, 0, 2)
-
-cell_data <- data.frame(
-  viability, experiment = factor(experiment),
-  plate = factor(plate), well = factor(well)
+n <- 60
+scaffold_data <- data.frame(
+  porosity     = runif(n, 40, 90),
+  stiffness    = runif(n, 5, 50),
+  seeding_dens = runif(n, 1e4, 1e6)
 )
+scaffold_data$tissue_growth <- with(scaffold_data,
+  0.8 * porosity + 0.3 * stiffness - 0.00001 * seeding_dens +
+  0.005 * porosity * stiffness + rnorm(n, 0, 8))
 
-# Fit nested random effects model
-library(nlme)
-nested_model <- lme(viability ~ 1,
-                    random = ~1 | experiment/plate,
-                    data = cell_data)
-summary(nested_model)
+# Full model with all terms
+full_model <- lm(tissue_growth ~ porosity * stiffness * seeding_dens,
+                  data = scaffold_data)
 
-# Extract variance components
-VarCorr(nested_model)
+# Backward elimination
+backward_model <- step(full_model, direction = "backward", trace = 1)
 ```
 
-### Interpreting Variance Components
-
-The output from `VarCorr()` shows:
-
--   **Experiment variance**: variation between experimental runs
--   **Plate-within-experiment variance**: variation between plates within a run
--   **Residual variance**: well-to-well variation within plates
--   ICC (Intraclass Correlation) = group variance / total variance
-:::
-
-------------------------------------------------------------------------
-
-# Nested ANOVA {background-color="#2c3e50"}
-
-## Nested Design
-
--   Factors are hierarchical within one another
--   Sources of variance are hierarchical
--   No interaction terms (in completely nested designs)
-
-**Example:** Students within classrooms within schools
-
-::: panel-tabset
 ### Code
 
 ```{r}
-#| eval: false
+#| label: scaffold-backward-code
 #| echo: true
+#| eval: false
 
-# Nested ANOVA using aov
-model_nested <- aov(y ~ A + B %in% A, data = mydata)
+# Start with the full model (all main effects + interactions)
+full_model <- lm(tissue_growth ~ porosity * stiffness * seeding_dens,
+                  data = scaffold_data)
 
-# Using lme for random nested effects
-model_nested_random <- lme(y ~ A, random = ~1 | A/B, data = mydata)
+# Backward elimination: remove terms one at a time
+backward_model <- step(full_model, direction = "backward", trace = 1)
 
-summary(model_nested_random)
+# Examine the final model
+summary(backward_model)
+
+# Compare full vs selected model
+anova(backward_model, full_model)
+AIC(full_model, backward_model)
 ```
 
 ### Interpretation
 
--   The `%in%` notation means "B is nested within A"
--   The `~1 | A/B` random effects specification means "random intercepts for B nested within A"
--   Nested designs arise when the levels of one factor are unique to each level of another (e.g., specific cell lines unique to each lab)
+-   Backward elimination starts with all 7 terms (3 main + 3 two-way + 1 three-way) and removes the least important term at each step
+-   At each step, `step()` drops the term whose removal causes the smallest increase in AIC — if no removal improves AIC, the algorithm stops
+-   The trace output shows the AIC at each step, so you can see how the model simplifies
+-   The final model should converge on `porosity * stiffness` — confirming what we found in the manual comparison
+-   Always inspect the final model's `summary()` and diagnostics before accepting the result
 :::
-
-------------------------------------------------------------------------
-
-# Repeated Measures Analysis {background-color="#2c3e50"}
-
-## What are Repeated Measures?
-
-Measurements taken on the **same subjects** at multiple:
-
--   **Time points** (longitudinal studies)
--   **Conditions** (within-subjects design)
--   **Locations** (spatial sampling)
-
-**Advantages:** Controls for individual differences, requires fewer subjects, more statistical power
-
-**Challenge:** Observations are **not independent** — standard ANOVA assumes independence
-
-## Repeated Measures ANOVA
-
-**Sphericity Assumption:**
-
--   Variances of differences between all pairs of conditions must be equal
--   Often violated in practice
-
-**Mauchly's Test:** Tests the sphericity assumption
-
--   p \< 0.05 → sphericity is violated → apply correction (Greenhouse-Geisser or Huynh-Feldt)
-
-## Repeated Measures in R
-
-::: panel-tabset
-### Output
-
-```{r}
-#| label: rm-anova-output
-#| echo: false
-#| eval: true
-
-# Create repeated measures data
-set.seed(42)
-subject <- factor(rep(1:10, each = 3))
-time <- factor(rep(c("Pre", "Mid", "Post"), 10))
-score <- c(
-  rnorm(10, 50, 5),   # Pre
-  rnorm(10, 55, 5),   # Mid
-  rnorm(10, 62, 5)    # Post
-) + rep(rnorm(10, 0, 8), each = 3)  # Subject random effect
-
-rm_data <- data.frame(subject, time, score)
-
-# Repeated measures ANOVA
-rm_aov <- aov(score ~ time + Error(subject/time), data = rm_data)
-summary(rm_aov)
-```
-
-### Code
-
-```{r}
-#| label: rm-anova-code
-#| echo: true
-#| eval: false
-
-# Create repeated measures data
-set.seed(42)
-subject <- factor(rep(1:10, each = 3))
-time <- factor(rep(c("Pre", "Mid", "Post"), 10))
-score <- c(
-  rnorm(10, 50, 5),   # Pre
-  rnorm(10, 55, 5),   # Mid
-  rnorm(10, 62, 5)    # Post
-) + rep(rnorm(10, 0, 8), each = 3)  # Subject random effect
-
-rm_data <- data.frame(subject, time, score)
-
-# Repeated measures ANOVA
-rm_aov <- aov(score ~ time + Error(subject/time), data = rm_data)
-summary(rm_aov)
-```
-:::
-
-## Mixed Models for Repeated Measures
-
-The modern approach uses **linear mixed models**, which are more flexible and handle missing data gracefully:
-
-::: panel-tabset
-### Output
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-
-library(nlme)
-
-# Mixed model with random intercept for subject
-rm_mixed <- lme(score ~ time, random = ~1 | subject, data = rm_data)
-summary(rm_mixed)
-```
-
-### Code
-
-```{r}
-#| echo: true
-#| eval: false
-
-library(nlme)
-
-# Mixed model with random intercept for subject
-rm_mixed <- lme(score ~ time, random = ~1 | subject, data = rm_data)
-summary(rm_mixed)
-```
-:::
-
-## Visualizing Repeated Measures
-
-::: panel-tabset
-### Output
-
-```{r}
-#| label: repeated-measures-output
-#| echo: false
-#| eval: true
-#| fig-width: 10
-#| fig-height: 4
-
-par(mfrow = c(1, 2))
-
-# Spaghetti plot (individual trajectories)
-interaction.plot(rm_data$time, rm_data$subject, rm_data$score,
-                 xlab = "Time", ylab = "Score", legend = FALSE,
-                 main = "Individual Trajectories", col = "gray")
-
-# Group means with error bars
-means <- tapply(rm_data$score, rm_data$time, mean)
-sds <- tapply(rm_data$score, rm_data$time, sd)
-n <- 10
-ses <- sds / sqrt(n)
-
-barplot(means, ylim = c(0, max(means) + max(ses) * 2),
-        main = "Group Means ± SE", ylab = "Score")
-arrows(x0 = c(0.7, 1.9, 3.1), y0 = means - ses,
-       y1 = means + ses, angle = 90, code = 3, length = 0.1)
-```
-
-### Code
-
-```{r}
-#| label: repeated-measures-code
-#| echo: true
-#| eval: false
-
-par(mfrow = c(1, 2))
-
-# Spaghetti plot (individual trajectories)
-interaction.plot(rm_data$time, rm_data$subject, rm_data$score,
-                 xlab = "Time", ylab = "Score", legend = FALSE,
-                 main = "Individual Trajectories", col = "gray")
-
-# Group means with error bars
-means <- tapply(rm_data$score, rm_data$time, mean)
-sds <- tapply(rm_data$score, rm_data$time, sd)
-n <- 10
-ses <- sds / sqrt(n)
-
-barplot(means, ylim = c(0, max(means) + max(ses) * 2),
-        main = "Group Means ± SE", ylab = "Score")
-arrows(x0 = c(0.7, 1.9, 3.1), y0 = means - ses,
-       y1 = means + ses, angle = 90, code = 3, length = 0.1)
-```
-:::
-
-## Repeated Measures: ggplot Visualization
-
-::: panel-tabset
-### Output
-
-```{r}
-#| label: rm-ggplot-output
-#| echo: false
-#| eval: true
-#| fig-width: 10
-#| fig-height: 4
-
-library(ggplot2)
-
-rm_summary <- rm_data %>%
-  group_by(time) %>%
-  summarize(mean_score = mean(score), se = sd(score)/sqrt(n()), .groups = "drop")
-
-p1 <- ggplot(rm_data, aes(x = time, y = score, group = subject)) +
-  geom_line(alpha = 0.3, color = "gray50") +
-  geom_point(alpha = 0.3) +
-  geom_line(data = rm_summary, aes(x = time, y = mean_score, group = 1),
-            color = "steelblue", linewidth = 1.5) +
-  geom_point(data = rm_summary, aes(x = time, y = mean_score, group = 1),
-             color = "steelblue", size = 3) +
-  geom_errorbar(data = rm_summary,
-                aes(x = time, y = mean_score, ymin = mean_score - se, ymax = mean_score + se, group = 1),
-                width = 0.1, color = "steelblue", linewidth = 0.8) +
-  labs(title = "Spaghetti Plot with Group Mean ± SE",
-       x = "Time Point", y = "Score") +
-  theme_minimal(base_size = 14)
-print(p1)
-```
-
-### Code
-
-```{r}
-#| label: rm-ggplot-code
-#| echo: true
-#| eval: false
-
-library(ggplot2)
-
-rm_summary <- rm_data %>%
-  group_by(time) %>%
-  summarize(mean_score = mean(score), se = sd(score)/sqrt(n()))
-
-ggplot(rm_data, aes(x = time, y = score, group = subject)) +
-  geom_line(alpha = 0.3, color = "gray50") +
-  geom_point(alpha = 0.3) +
-  geom_line(data = rm_summary,
-            aes(x = time, y = mean_score, group = 1),
-            color = "steelblue", linewidth = 1.5) +
-  geom_point(data = rm_summary,
-             aes(x = time, y = mean_score, group = 1),
-             color = "steelblue", size = 3) +
-  geom_errorbar(data = rm_summary,
-                aes(x = time, y = mean_score,
-                    ymin = mean_score - se,
-                    ymax = mean_score + se, group = 1),
-                width = 0.1, color = "steelblue") +
-  labs(title = "Spaghetti Plot with Group Mean ± SE",
-       x = "Time Point", y = "Score") +
-  theme_minimal()
-```
-:::
-
-## R Exercise: Factorial ANOVA
-
-::: callout-tip
-## Exercise
-
-Using the `ToothGrowth` dataset (tooth growth in guinea pigs):
-
-1.  Examine the structure: `supp` (supplement type) × `dose` (dose level)
-2.  Create an interaction plot
-3.  Perform two-way ANOVA
-4.  Test for interaction effect
-5.  If significant interaction, perform simple effects analysis
-
-```{r}
-#| eval: false
-#| echo: true
-
-# Starter code
-data(ToothGrowth)
-ToothGrowth$dose <- factor(ToothGrowth$dose)
-
-# Interaction plot
-interaction.plot(ToothGrowth$dose, ToothGrowth$supp, ToothGrowth$len)
-
-# Two-way ANOVA
-tooth_aov <- aov(len ~ supp * dose, data = ToothGrowth)
-
-# Your analysis here...
-```
-:::
-
-------------------------------------------------------------------------
