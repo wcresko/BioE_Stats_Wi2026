@@ -1,17 +1,19 @@
 ---
 title: "Statistics for Bioengineering - Week 3"
 author: "Bill Cresko"
-format:
+format: 
   revealjs:
-    footer: BioE_Stats_2026 - Knight Campus
+    footer: BioE_Stats_2026 - Knight Campus 
     transition: fade
     transition-speed: slow
     theme: default
     slide-number: true
     code-fold: false
     code-overflow: wrap
+    code-line-numbers: true
     highlight-style: github
     embed-resources: true
+    css: cresko_style.css
 execute:
   echo: true
   warning: false
@@ -463,7 +465,136 @@ cat("  p-value:", format(t.test(diet_A_large, diet_B_large)$p.value, scientific 
 Statistical significance ≠ practical significance. Always report effect sizes!
 :::
 
-# Permutation testing to create empirical null distributions
+# Simulation in Statistics
+
+## Why Simulate? {.smaller}
+
+-   Understand sampling distributions
+-   Validate statistical methods
+-   Power analysis
+-   Bootstrap confidence intervals
+
+# Bootstrapping {background-color="#2c3e50"}
+
+## Etymology of "Bootstrap" {.smaller}
+
+![](images/week09_18_baron_munchausen_bootstrap.jpeg){fig-align="center" width="100%"}
+
+## Why Bootstrap? {.smaller}
+
+-   Most estimates (not just the mean) lack simple SE formulas
+-   Bootstrap is a **nonparametric** approach
+-   Invented by Efron (1979)
+
+::: callout-tip
+## Bootstrap Can Be Applied To
+
+Means, proportions, correlations, regression coefficients, medians, eigenvalues, and more!
+:::
+
+## Bootstrap Steps {.smaller}
+
+1.  Take a random sample **with replacement** from your data
+2.  Calculate the estimate from the bootstrap sample
+3.  Repeat steps 1-2 many times (≥1000)
+4.  Calculate standard deviation of bootstrap estimates
+
+The result is the **bootstrap standard error**.
+
+## Bootstrap Example {.smaller}
+
+```{r}
+#| label: bootstrap-example-output
+#| echo: false
+#| eval: true
+#| fig-width: 8
+#| fig-height: 4
+
+set.seed(42)
+original_sample <- rnorm(50, mean = 10, sd = 3)
+
+# Bootstrap 1000 times
+boot_means <- replicate(1000, mean(sample(original_sample, replace = TRUE)))
+
+hist(boot_means, breaks = 30, col = "steelblue",
+     main = "Bootstrap Distribution of Means")
+abline(v = quantile(boot_means, c(0.025, 0.975)), col = "red", lwd = 2)
+```
+
+## Bootstrap Example Code {.smaller}
+
+```{r}
+#| label: bootstrap-example-code
+#| echo: true
+#| eval: false
+
+set.seed(42)
+original_sample <- rnorm(50, mean = 10, sd = 3)
+
+# Bootstrap 1000 times
+boot_means <- replicate(1000, mean(sample(original_sample, replace = TRUE)))
+
+hist(boot_means, breaks = 30, col = "steelblue",
+     main = "Bootstrap Distribution of Means")
+abline(v = quantile(boot_means, c(0.025, 0.975)), col = "red", lwd = 2)
+```
+
+## Bootstrap Confidence Intervals {.smaller}
+
+```{r}
+#| label: boot-ci
+#| echo: true
+
+# 95% CI from bootstrap percentiles
+quantile(boot_means, probs = c(0.025, 0.975))
+```
+
+The 2.5th and 97.5th percentiles provide a 95% confidence interval without normality assumptions.
+
+# Loops in R {background-color="#2c3e50"}
+
+## For Loops {.smaller}
+
+```{r}
+#| label: for-loop
+#| echo: true
+
+for (i in 1:5) {
+  print(i^2)
+}
+```
+
+## While Loops {.smaller}
+
+```{r}
+#| label: while-loop
+#| echo: true
+
+i <- 0
+while (i < 5) {
+  i <- i + 1
+  print(i)
+}
+```
+
+## If-Else Statements {.smaller}
+
+```{r}
+#| label: if-else
+#| echo: true
+
+eggs <- TRUE
+
+if (eggs == TRUE) {
+  n_milk <- 6
+} else {
+  n_milk <- 1
+}
+
+cat("Bought", n_milk, "cartons of milk")
+```
+
+A programmer's partner says: "Buy milk, and if they have eggs, get six." The programmer returns with 6 cartons of milk.Permutation testing to create empirical null distributions
 
 ## Permutation Test Example {.smaller}
 

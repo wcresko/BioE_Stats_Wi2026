@@ -1,17 +1,19 @@
 ---
 title: "Statistics for Bioengineering - Week 1"
 author: "Bill Cresko"
-format:
+format: 
   revealjs:
-    footer: BioE_Stats_2026 - Knight Campus
+    footer: BioE_Stats_2026 - Knight Campus 
     transition: fade
     transition-speed: slow
     theme: default
     slide-number: true
     code-fold: false
     code-overflow: wrap
+    code-line-numbers: true
     highlight-style: github
     embed-resources: true
+    css: cresko_style.css
 execute:
   echo: true
   warning: false
@@ -201,7 +203,7 @@ We need a firm understanding of probability, sampling, and distributions.
 ## Coding vs. Scripting {.smaller}
 
 | Type | Description | Examples | Speed | Flexibility |
-|:--------------|:--------------|:--------------|:--------------|:--------------|
+|:---|:---|:---|:---|:---|
 | **Coding** | Uses compilers to translate code | C++, Fortran | Faster | Less flexible |
 | **Scripting** | Interpreted on the fly | Python, R, Julia | Slower | More flexible |
 
@@ -387,7 +389,7 @@ See the next slides for WSL2 installation
 ## Common Navigation Commands {.smaller}
 
 | Command | Description | Common Options |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | `pwd` | Print working directory | (In Windows, `cd` prints working directory) |
 | `ls` | List directories and files | `-F`, `-l`, `-r`, `-S`, `-t` |
 | `cd` | Change directory | `..` (up one level), `-` (previous) |
@@ -600,7 +602,7 @@ print(z)
 ## Common Data Types {.smaller}
 
 | Statistical Term       | Description                       | R Type            |
-|:---------------------|:-------------------------------|:-----------------|
+|:-----------------------|:----------------------------------|:------------------|
 | Numerical (continuous) | Measurements (height, weight)     | `numeric`         |
 | Numerical (discrete)   | Whole number counts               | `integer`         |
 | Categorical (nominal)  | Unordered categories (species)    | `factor`          |
@@ -777,7 +779,7 @@ RStudio Projects (File → New Project) automatically set your working directory
 ## Common R Errors {.smaller}
 
 | Error Message | Meaning | Fix |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | `object 'x' not found` | Variable doesn't exist | Check spelling; run line that creates it |
 | `could not find function` | Package not loaded | Use `library()` or check spelling |
 | `unexpected ')'` | Mismatched brackets | Count opening/closing brackets |
@@ -869,7 +871,13 @@ plot((seq_1)^2, xlab="time", ylab ="p in pop 1", type = "l", col = 'orange', lwd
 
 ## What is Tidy Data? {.smaller}
 
-![](images/week01_45_statistical_terms_table.jpeg){fig-align="center" width="70%"}
+| Term | Definition | Example |
+|:---|:---|:---|
+| *Measurement* | A single piece of recorded information reflecting a characteristic of interest (e.g. length of a leaf, pH of a water aliquot, mass of an individual, number of individuals per quadrat etc) | Protein content of the milk of a single female koala |
+| *Observation* | A single measured sampling or experimental unit (such as an individual, a quadrat, a site etc) | A small quantity of milk from a single koala |
+| *Population* | All the possible observations that could be measured and the unit of which wish to draw conclusions about (note a statistical population need not be a viable biological population) | The milk of all female koalas |
+| *Sample* | The (representative) subset of the population that are observed | A small quantity of milk collected from 15 captive female koalas^a^ |
+| *Variable* | A set of measurements of the same type that comprise the sample. The characteristic that differs (varies) from observation to observation | The protein content of koala milk. |
 
 ## What is Tidy Data? {.smaller}
 
@@ -951,7 +959,7 @@ Most bioinformatics programs work with FASTQ data
 **Reading:**
 
 | File Type | Function | Example |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | CSV | `read.csv()` | `read.csv('file.csv')` |
 | Tab-separated | `read.table()` | `read.table('file.txt', header=TRUE, sep='\t')` |
 | Excel | `read_excel()` | `read_excel('file.xlsx')` (requires `readxl`) |
@@ -959,7 +967,7 @@ Most bioinformatics programs work with FASTQ data
 **Writing:**
 
 | Task | Function |
-|:-----------------------------------|:-----------------------------------|
+|:---|:---|
 | Export as CSV | `write.csv(data, "output.csv", row.names=FALSE)` |
 | Export tab-separated | `write.table(data, "output.txt", sep="\t", row.names=FALSE)` |
 

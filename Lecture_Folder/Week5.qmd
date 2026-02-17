@@ -10,8 +10,10 @@ format:
     slide-number: true
     code-fold: false
     code-overflow: wrap
+    code-line-numbers: true
     highlight-style: github
     embed-resources: true
+    css: cresko_style.css
 execute:
   echo: true
   warning: false
@@ -183,7 +185,7 @@ A high $R^2$ does not necessarily mean the model is appropriate — always check
 When you fit a model with `lm()`, R stores many useful components in the returned object:
 
 | Component | Description | Accessor Function |
-|:------------------|:---------------------|:------------------------------|
+|:-----------------------|:-----------------------|:-----------------------|
 | `coefficients` | Estimated $\beta$ values | `coef()` |
 | `residuals` | Observed minus fitted values ($y_i - \hat{y}_i$) | `residuals()` or `resid()` |
 | `fitted.values` | Predicted values ($\hat{y}_i$) | `fitted()` |
@@ -699,7 +701,6 @@ summary(aov_bmp2)
 -   The ANOVA table decomposes variance into the model sum of squares ($SS_{Model}$) and residual sum of squares ($SS_{Error}$).
 -   It also tests whether the model explains a significant proportion of variance via the F-statistic.
 
-
 ## Using anova() to Compare Models {.smaller}
 
 The `anova()` function can also be applied to `lm` objects directly, and it is especially useful for comparing nested models:
@@ -729,7 +730,7 @@ anova(lm_bmp2)
 R provides a rich ecosystem of packages for fitting models of increasing complexity:
 
 | Package / Function | Use Case | Key Feature |
-|:--------------------|:----------------------|:---------------------------|
+|:-----------------------|:-----------------------|:-----------------------|
 | `lm()` | Simple/multiple linear regression | Coefficient estimates, $R^2$, F-test |
 | `aov()` | ANOVA-style linear models | Variance partitioning, F-table |
 | `glm()` | Generalized linear models | Non-normal response (logistic, Poisson) |
@@ -772,49 +773,46 @@ summary(glm_bmp2)
 
 ## How to report linear model statistics {.smaller}
 
-- Say what you found, and then put the statistics in parentheses.
-- Support the finding with the statistics, not the other way around.
-- Remember to include magnitude and direction of the finding.
-- Also, reference the figure that shows the relationship.
-\
-\
-\
+-   Say what you found, and then put the statistics in parentheses.
+-   Support the finding with the statistics, not the other way around.
+-   Remember to include magnitude and direction of the finding.
+-   Also, reference the figure that shows the relationship.\
+    \
+    \
 
 ::: callout-note
 We found that topical application of a cream containing the signaling molecule bone morphogenetic protein 2 (bmp-2) significantly increased the grip strength of patients in a clinical trial ($F_{1,198} = 272.7; p<2e^{-16}; R^2 = 0.58$), Specifically, an increase of 1mg/ml of bmp-2 was correlated with an increase of 1.64 kg of grip strength (Fig. 1)
 :::
 
-________________________
+------------------------------------------------------------------------
 
 # Residual Analysis {background-color="#2c3e50"}
 
 ## Why Residual Analysis? {.smaller}
 
-- Fitting a linear model is only the first step. 
-- Before we trust the model's coefficient estimates, p-values, and confidence intervals, we must verify that the **assumptions** underlying the model are reasonably met. 
-- If assumptions are violated, the standard errors and p-values may be unreliable, and our conclusions could be misleading.
-- Residual analysis is the primary diagnostic tool for checking these assumptions. 
-- By examining patterns in the residuals ($e_i = y_i - \hat{y}_i$), we can detect violations that aren't obvious from the raw data alone.
+-   Fitting a linear model is only the first step.
+-   Before we trust the model's coefficient estimates, p-values, and confidence intervals, we must verify that the **assumptions** underlying the model are reasonably met.
+-   If assumptions are violated, the standard errors and p-values may be unreliable, and our conclusions could be misleading.
+-   Residual analysis is the primary diagnostic tool for checking these assumptions.
+-   By examining patterns in the residuals ($e_i = y_i - \hat{y}_i$), we can detect violations that aren't obvious from the raw data alone.
 
 ## Assumptions of Linear Regression {.smaller}
 
 Linear regression makes four key assumptions, often remembered by the acronym **LINE**:
 
-- **L — Linearity**: The relationship between $x$ and $y$ is linear. The expected value of $y$ is a straight-line function of $x$.
+-   **L — Linearity**: The relationship between $x$ and $y$ is linear. The expected value of $y$ is a straight-line function of $x$.
 
-- **I — Independence**: The residuals are independent of each other. Knowing one residual gives no information about another. Violations often occur with time series or spatially structured data.
+-   **I — Independence**: The residuals are independent of each other. Knowing one residual gives no information about another. Violations often occur with time series or spatially structured data.
 
-- **N — Normality**: The residuals follow a normal distribution at each value of $x$: $\epsilon_i \sim N(0, \sigma^2)$. This assumption is most important for small sample sizes; with large $n$, the Central Limit Theorem makes inference robust to moderate departures.
+-   **N — Normality**: The residuals follow a normal distribution at each value of $x$: $\epsilon_i \sim N(0, \sigma^2)$. This assumption is most important for small sample sizes; with large $n$, the Central Limit Theorem makes inference robust to moderate departures.
 
-- **E — Equal variance (Homoscedasticity)**: The variance of the residuals is constant across all values of $x$: $\text{Var}(\epsilon_i) = \sigma^2$ for all $i$. When variance changes with $x$ (heteroscedasticity), standard errors become biased.
+-   **E — Equal variance (Homoscedasticity)**: The variance of the residuals is constant across all values of $x$: $\text{Var}(\epsilon_i) = \sigma^2$ for all $i$. When variance changes with $x$ (heteroscedasticity), standard errors become biased.
 
 ## Visualizing the Assumptions {.smaller}
 
 The figure below illustrates what the conditional distributions of $y$ should look like at each value of $x$ under a well-specified linear model: each distribution is normal, centered on the regression line, and has equal spread.
 
 ![](images/week05_31_regression_conditional_distributions.jpeg){fig-align="center" width="80%"}
-
-
 
 ## Spotting Assumption Violations {.smaller}
 
@@ -832,20 +830,20 @@ The figure below illustrates what the conditional distributions of $y$ should lo
 
 Understanding what different residual patterns mean helps you decide how to fix model problems:
 
-- **Funnel shape** (variance increases with fitted values): Heteroscedasticity. Consider a variance-stabilizing transformation (e.g., log) or use weighted least squares.
+-   **Funnel shape** (variance increases with fitted values): Heteroscedasticity. Consider a variance-stabilizing transformation (e.g., log) or use weighted least squares.
 
-- **Curved pattern** (U-shape or arch): The relationship is nonlinear. Consider adding polynomial terms (e.g., $x^2$) or using a different model.
+-   **Curved pattern** (U-shape or arch): The relationship is nonlinear. Consider adding polynomial terms (e.g., $x^2$) or using a different model.
 
-- **Clusters or groups**: There may be a missing categorical variable or subgroup structure in the data (recall Simpson's Paradox).
+-   **Clusters or groups**: There may be a missing categorical variable or subgroup structure in the data (recall Simpson's Paradox).
 
-- **Systematic pattern over time/order**: Autocorrelation among residuals. Consider time-series models or including a time covariate.
+-   **Systematic pattern over time/order**: Autocorrelation among residuals. Consider time-series models or including a time covariate.
 
 ## What Each Residual Plot Tells You {.smaller}
 
 The standard `plot(lm_object)` in R produces four diagnostic plots. Each one targets a specific assumption:
 
 | Plot | Name | What It Checks | What to Look For |
-|:----------|:---------------|:------------------|:---------------------|
+|:-----------------|:-----------------|:-----------------|:-----------------|
 | 1 | Residuals vs. Fitted | Linearity & equal variance | No pattern; random scatter around 0 |
 | 2 | Normal Q-Q | Normality of residuals | Points follow the diagonal line |
 | 3 | Scale-Location | Homoscedasticity | Flat trend line; no fan shape |
@@ -900,7 +898,6 @@ library(ggfortify)
 autoplot(my_lm, which = 1:4, ncol = 2)
 ```
 
-
 ## Outlier Leverage and Influence {.smaller}
 
 ![](images/week05_35_penalizing_model_complexity.jpeg){fig-align="center" width="90%"}
@@ -908,17 +905,18 @@ autoplot(my_lm, which = 1:4, ncol = 2)
 ## Outlier Leverage and Influence {.smaller}
 
 -   **Leverage**: How much of an outlier in x-space
+
 -   **Residual**: How much of an outlier in y-space
+
 -   **Cook's D**: Overall influence on fitted model
 
-- A point with high leverage doesn't necessarily distort the model — only if it also has a large residual. 
-- Cook's distance combines both: it measures how much all the fitted values would change if that single observation were removed.
+-   A point with high leverage doesn't necessarily distort the model — only if it also has a large residual.
+
+-   Cook's distance combines both: it measures how much all the fitted values would change if that single observation were removed.
 
 ::: callout-warning
 Cook's D ≥ 1 indicates highly influential observations, and a rough rule of thumb is 4/n. Investigate these points — they may be data entry errors, measurement problems, or genuinely unusual cases.
 :::
-
-
 
 ------------------------------------------------------------------------
 
@@ -926,8 +924,8 @@ Cook's D ≥ 1 indicates highly influential observations, and a rough rule of th
 
 ## BMP2 Model {.smaller}
 
-- The residuals vs. fitted values plot is our primary tool for checking linearity and homoscedasticity. 
-- If the model is well-specified, we expect to see a random cloud of points centered around zero with no systematic pattern.
+-   The residuals vs. fitted values plot is our primary tool for checking linearity and homoscedasticity.
+-   If the model is well-specified, we expect to see a random cloud of points centered around zero with no systematic pattern.
 
 ```{r}
 #| label: resid-bmp2-code
@@ -977,9 +975,8 @@ ggplot(bmp2_diag, aes(x = fitted, y = residuals)) +
   theme_minimal(base_size = 14)
 ```
 
-
-- The loess smoother (orange line) helps visualize any systematic trend. 
-- If it stays close to zero across the range of fitted values, linearity is satisfied.
+-   The loess smoother (orange line) helps visualize any systematic trend.
+-   If it stays close to zero across the range of fitted values, linearity is satisfied.
 
 ## Exercise Model {.smaller}
 
@@ -1030,7 +1027,6 @@ ggplot(exercise_diag, aes(x = fitted, y = residuals)) +
   ) +
   theme_minimal(base_size = 14)
 ```
-
 
 ::: callout-important
 Look carefully at the loess smoother — does it show curvature? If the residuals show a systematic curved pattern, this suggests a nonlinear relationship that a straight line cannot capture.
@@ -1090,25 +1086,27 @@ autoplot(lm_exercise, which = 1:4, ncol = 2) +
 
 ## Fibroblast Cell Culture BMP/Sox9 Experiment {.smaller}
 
-- A colleague has shared data from a cell culture experiment measuring BMP4 and SOX9 gene expression (relative expression units from qPCR). 
-- They want to model BMP4 expression as a function of SOX9 expression across 80 samples.
+-   A colleague has shared data from a cell culture experiment measuring BMP4 and SOX9 gene expression (relative expression units from qPCR).
 
-- However, they suspect there may be some **data entry errors** and **outliers** in the dataset. 
-- Your job is to fit a linear model, use diagnostic plots to identify the problematic observations, decide which to remove, and then refit the model.
+-   They want to model BMP4 expression as a function of SOX9 expression across 80 samples.
 
-- Download the file `cell_culture_expression.csv` and move through the slides
+-   However, they suspect there may be some **data entry errors** and **outliers** in the dataset.
+
+-   Your job is to fit a linear model, use diagnostic plots to identify the problematic observations, decide which to remove, and then refit the model.
+
+-   Download the file `cell_culture_expression.csv` and move through the slides
 
 ## Types of Outliers to Watch For {.smaller}
 
 Before we dive in, recall the different ways an observation can be unusual:
 
-- **Data entry errors**: Values that are off by an order of magnitude (e.g., someone typed 165 instead of 16.5). These are unambiguously wrong and should be corrected or removed.
+-   **Data entry errors**: Values that are off by an order of magnitude (e.g., someone typed 165 instead of 16.5). These are unambiguously wrong and should be corrected or removed.
 
-- **High leverage points**: Observations with extreme predictor ($x$) values. They have outsized *potential* to influence the fit, but may not actually distort it if they fall near the regression line.
+-   **High leverage points**: Observations with extreme predictor ($x$) values. They have outsized *potential* to influence the fit, but may not actually distort it if they fall near the regression line.
 
-- **High residual points**: Observations far from the fitted line in the $y$ direction but with typical $x$ values. These inflate the residual variance but may not drastically shift the slope.
+-   **High residual points**: Observations far from the fitted line in the $y$ direction but with typical $x$ values. These inflate the residual variance but may not drastically shift the slope.
 
-- **High influence points**: The most dangerous — observations with *both* high leverage and a large residual. These can pull the entire regression line toward them, distorting slope and intercept estimates. Cook's distance captures this combined effect.
+-   **High influence points**: The most dangerous — observations with *both* high leverage and a large residual. These can pull the entire regression line toward them, distorting slope and intercept estimates. Cook's distance captures this combined effect.
 
 ## Import and Plot — Code {.smaller}
 
@@ -1158,11 +1156,7 @@ ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
   theme_minimal(base_size = 14)
 ```
 
-
-
 ## Fit the Initial Model {.smaller}
-
-
 
 ```{r}
 #| label: outlier-lm-raw-code
@@ -1175,7 +1169,6 @@ glance(lm_expr_raw) |> kable(digits = 4)
 ```
 
 \
-
 
 ```{r}
 #| label: outlier-lm-raw-output
@@ -1198,8 +1191,8 @@ glance(lm_expr_raw) |> kable(digits = 4)
 
 \
 
-- Notice that the $R^2$ is lower than we might expect for a direct regulatory relationship. 
-- Some of the unexplained variance is likely due to the outliers pulling the fit.
+-   Notice that the $R^2$ is lower than we might expect for a direct regulatory relationship.
+-   Some of the unexplained variance is likely due to the outliers pulling the fit.
 
 ## Visualize the Fit — Code {.smaller}
 
@@ -1220,7 +1213,6 @@ ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
   ) +
   theme_minimal(base_size = 14)
 ```
-
 
 ## Visualize the Fit with Outliers Present {.smaller}
 
@@ -1243,9 +1235,8 @@ ggplot(expr, aes(x = sox9_expression, y = bmp4_expression)) +
   theme_minimal(base_size = 14)
 ```
 
-
-
 ## Diagnostic Plots to Identify Outliers {.smaller}
+
 ```{r}
 #| label: outlier-diag-code
 #| echo: true
@@ -1255,9 +1246,8 @@ autoplot(lm_expr_raw, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-- Examine the four panels. Which observations are flagged by R with their row numbers? 
-- Pay attention to the Residuals vs. Leverage plot — points near or beyond the Cook's distance contour lines are the most influential.
-
+-   Examine the four panels. Which observations are flagged by R with their row numbers?
+-   Pay attention to the Residuals vs. Leverage plot — points near or beyond the Cook's distance contour lines are the most influential.
 
 ## Diagnostic Plots to Identify Outliers {.smaller}
 
@@ -1272,13 +1262,11 @@ autoplot(lm_expr_raw, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-
-
 ## Cook's Distance {.smaller}
 
-- We can extract Cook's distance values and identify the most influential observations programmatically.
-- A common threshold for Cook's distance is $4/n$. Values exceeding this warrant closer inspection. 
-- Values approaching or exceeding 1 are almost certainly problematic.
+-   We can extract Cook's distance values and identify the most influential observations programmatically.
+-   A common threshold for Cook's distance is $4/n$. Values exceeding this warrant closer inspection.
+-   Values approaching or exceeding 1 are almost certainly problematic.
 
 \
 \
@@ -1328,8 +1316,6 @@ expr_diag |>
   arrange(desc(cooks_d)) |>
   kable(digits = 4)
 ```
-
-
 
 ## Visualizing Cook's Distance {.smaller}
 
@@ -1389,13 +1375,13 @@ ggplot(expr_diag, aes(x = row_num, y = cooks_d)) +
 
 Look at the flagged observations and think about what kind of outlier each one is:
 
-- **SC012** and **SC055**: BMP4 values around 100–165 when the rest of the data is in the 0–50 range. These are almost certainly **data entry errors** — values off by an order of magnitude (someone forgot a decimal point). These should be removed or corrected.
+-   **SC012** and **SC055**: BMP4 values around 100–165 when the rest of the data is in the 0–50 range. These are almost certainly **data entry errors** — values off by an order of magnitude (someone forgot a decimal point). These should be removed or corrected.
 
-- **SC037**: SOX9 value around 28 when the rest of the data is in the 0.5–8 range. Another likely **data entry error** with the same order-of-magnitude pattern.
+-   **SC037**: SOX9 value around 28 when the rest of the data is in the 0.5–8 range. Another likely **data entry error** with the same order-of-magnitude pattern.
 
-- **SC060**: High SOX9 (13.8) but very low BMP4 (8.5). This is a **high influence point** — extreme in x-space *and* far from the expected trend. It pulls the regression line down at the right end.
+-   **SC060**: High SOX9 (13.8) but very low BMP4 (8.5). This is a **high influence point** — extreme in x-space *and* far from the expected trend. It pulls the regression line down at the right end.
 
-- **SC045**: Moderate SOX9 (4.2) but very high BMP4 (25.5). A **high residual point** — not extreme in x-space, but far above the fitted line.
+-   **SC045**: Moderate SOX9 (4.2) but very high BMP4 (25.5). A **high residual point** — not extreme in x-space, but far above the fitted line.
 
 ::: callout-important
 Data entry errors should always be corrected or removed. For other outliers, the decision is more nuanced — document your reasoning!
@@ -1403,8 +1389,8 @@ Data entry errors should always be corrected or removed. For other outliers, the
 
 ## Remove the Problematic Observations {.smaller}
 
-- We will remove the three clear data entry errors (SC012, SC037, SC055) and the high influence point (SC060). 
-- We keep SC045 for now — it has a large residual but isn't clearly erroneous, and it doesn't have enough leverage to distort the fit badly.
+-   We will remove the three clear data entry errors (SC012, SC037, SC055) and the high influence point (SC060).
+-   We keep SC045 for now — it has a large residual but isn't clearly erroneous, and it doesn't have enough leverage to distort the fit badly.
 
 ```{r}
 #| label: outlier-remove-code
@@ -1445,6 +1431,7 @@ Always document which observations you removed and why. Never silently drop data
 :::
 
 ## Refit the Model on Clean Data {.smaller}
+
 ```{r}
 #| label: outlier-refit-code
 #| echo: true
@@ -1478,12 +1465,8 @@ glance(lm_expr_clean) |> kable(digits = 4)
 
 \
 
-- Compare the $R^2$ before and after cleaning. 
-- The relationship between SOX9 and BMP4 should now be much clearer, and the coefficient estimates more trustworthy.
-
-
-
-
+-   Compare the $R^2$ before and after cleaning.
+-   The relationship between SOX9 and BMP4 should now be much clearer, and the coefficient estimates more trustworthy.
 
 ## Compare Fits — Before and After {.smaller}
 
@@ -1556,7 +1539,6 @@ autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-
 ```{r}
 #| label: outlier-resid-clean-output
 #| echo: false
@@ -1567,7 +1549,6 @@ autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
 autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
-
 
 ## Outlier Exercise Summary {.smaller}
 
@@ -1585,7 +1566,7 @@ autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
 5.  **Outlier removal can dramatically improve** $R^2$ **and coefficient estimates**, but it must be justified by evidence, not by a desire for better-looking results.
 :::
 
-_______________________________
+------------------------------------------------------------------------
 
 # The Eugenics History of Statistics
 
@@ -1686,7 +1667,6 @@ knitr::include_graphics("images/IMAGES2.017.jpeg")
     -   "The Gene" by Siddhartha Mukherjee
     -   "Control" by Adam Rutherford
 
-
 ------------------------------------------------------------------------
 
 # Polynomial Regression: When Linear Isn't Enough {background-color="#2c3e50"}
@@ -1701,7 +1681,9 @@ $$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i$$
 
 This is still a **linear model** in the statistical sense (the parameters $\beta$ enter linearly), but the relationship between $y$ and $x$ is now curved. A quadratic term can capture a U-shape or inverted-U pattern that a straight line would miss.
 
-## Fitting a Polynomial Model: Grip Strength \~ Exercise {.smaller}
+## Power and Polynomial Relationships {.smaller}
+
+![Power and polynomial relationships in regressionFitting a Polynomial Model: Grip Strength \~ Exercise](images/week10_30_power_polynomial_relationships.jpeg){alt="Power and polynomial relationships in regression" fig-align="center" width="90%"}
 
 In R, we use `poly(x, degree)` inside the `lm()` formula, or equivalently `I(x^2)`:
 
@@ -1982,7 +1964,41 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-## Key Takeaways: Model Diagnostics {.smaller}
+##  {.smaller}
+
+## Case Study in Model Selection: Beetle Horn Allometry {.smaller}
+
+![Emlen 2001 beetle horn vs wing length data](images/week10_31_beetle_data_emlen_2001.jpeg){alt="Emlen 2001 beetle horn vs wing length data" fig-align="center" width="90%"}
+
+Data from Emlen, D.J. 2001. *Costs and the diversification of exaggerated animal structures.* Science 291: 1534-1536.
+
+## Linear Regression Fit {.smaller}
+
+![Linear regression on beetle data](images/week10_32_linear_regression_beetle.jpeg){alt="Linear regression on beetle data" fig-align="center" width="90%"}
+
+## Quadratic Regression Fit {.smaller}
+
+![Quadratic (polynomial degree 2) regression](images/week10_33_quadratic_regression_beetle.jpeg){alt="Quadratic (polynomial degree 2) regression" fig-align="center" width="90%"}
+
+## Cubic Regression Fit {.smaller}
+
+![Cubic (polynomial degree 3) regression](images/week10_34_cubic_regression_beetle.jpeg){alt="Cubic (polynomial degree 3) regression" fig-align="center" width="90%"}
+
+## Higher-Order Polynomials {.smaller}
+
+![Polynomial degree 5 regression](images/week10_35_poly5_regression_beetle.jpeg){alt="Polynomial degree 5 regression" fig-align="center" width="90%"}
+
+## 
+
+![Polynomial degree 10 regression - overfitting!](images/week10_36_poly10_regression_beetle.jpeg){alt="Polynomial degree 10 regression - overfitting!" fig-align="center" width="90%"}
+
+## Model Selection Visualization {.smaller}
+
+![Log-likelihood and R² vs polynomial degree](images/week10_37_model_selection_plots.jpeg){alt="Log-likelihood and R² vs polynomial degree" fig-align="center" width="90%"}
+
+## Mallow's Cp Statistic {.smaller}
+
+![Cp statistic for model selectionKey Takeaways: Model Diagnostics](images/week10_38_cp_statistic_formula.jpeg){alt="Cp statistic for model selection" fig-align="center" width="90%"}
 
 ::: callout-tip
 ## Summary

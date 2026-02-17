@@ -10,8 +10,10 @@ format:
     slide-number: true
     code-fold: false
     code-overflow: wrap
+    code-line-numbers: true
     highlight-style: github
     embed-resources: true
+    css: cresko_style.css
 execute:
   echo: true
   warning: false
@@ -614,7 +616,7 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
 ## Model II Regression Methods {.smaller}
 
 | Method | Abbreviation | Description |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | **Major Axis** | MA | Minimizes perpendicular distances to the line |
 | **Standard Major Axis** | SMA | Geometric mean regression; scales both axes equally |
 | **Ranged Major Axis** | RMA | Accounts for range differences between X and Y |
@@ -1072,7 +1074,7 @@ y_{ij} = \mu + \varepsilon_{ij}
 ## ANOVA Table — Equations {.smaller}
 
 | Source | SS | df | MS |
-|:-----------------|:-----------------|:-----------------|:-----------------|
+|:---|:---|:---|:---|
 | Between groups | $\displaystyle\sum_{i=1}^{p} n_i(\bar{y}_i - \bar{y})^2$ | $p - 1$ | $\dfrac{SS_{between}}{p - 1}$ |
 | Residual (within) | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{n_i} (y_{ij} - \bar{y}_i)^2$ | $\displaystyle\sum_{i=1}^{p} n_i - p$ | $\dfrac{SS_{within}}{\sum n_i - p}$ |
 | Total | $\displaystyle\sum_{i=1}^{p}\sum_{j=1}^{n_i} (y_{ij} - \bar{y})^2$ | $\displaystyle\sum_{i=1}^{p} n_i - 1$ |  |
@@ -1378,9 +1380,9 @@ anova(iris_lm) |>
 
 ## On Your Own ANOVA {.smaller}
 
--   Take a look at the dataset `Drerio_development.csv`
+-   Take a look at the dataset `Drerio_development_complete.csv`
 
--   You will find a mixture of categorical and continuous variables.
+-   You will find a mixture of categorical and contious variables.
 
 -   Create a linear regression model that relates `length` to `age`. Do the same thing for `weight` and `age`
 
@@ -1406,7 +1408,7 @@ anova(iris_lm) |>
 -   Several methods available, each with different trade-offs:
 
 | Method | Description | When to Use |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | **Tukey HSD** | All pairwise comparisons, controls family-wise error | Default choice for balanced designs |
 | **Bonferroni** | Divides $\alpha$ by number of tests | Conservative; few planned comparisons |
 | **Dunnett** | Compares each group to a control | Treatment vs. control designs |
@@ -1785,7 +1787,7 @@ lm(rate ~ temp + species, data = crickets)
 ## Parallel vs Interaction: When to Use {.smaller}
 
 | Model | Use When | R Formula |
-|:-----------------------|:-----------------------|:-----------------------|
+|:---|:---|:---|
 | **Parallel Slopes** | Effect of covariate is same across groups | `y ~ x + group` |
 | **Interaction** | Effect of covariate differs by group | `y ~ x * group` |
 
