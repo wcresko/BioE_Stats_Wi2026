@@ -28,7 +28,7 @@ title: "Lectures"
 
 [Implant Degredataion](Lecture_Folder/data/implant_degradation.csv)
 
-[Stickleback Lipid](Lecture_Folder/data/RNAseq_lipid.tsv)
+[Stickleback Lipid](Lecture_Folder/data/RNAseq_lipid.tbassv)
 
 ### Lectures
 
