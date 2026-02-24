@@ -28,7 +28,11 @@ title: "Lectures"
 
 [Implant Degredataion](Lecture_Folder/data/implant_degradation.csv)
 
-[Stickleback Lipid](Lecture_Folder/data/RNAseq_lipid.tbassv)
+[Stickleback Lipid](Lecture_Folder/data/RNAseq_lipid.tsv)
+
+[Mouse GLP-1](Lecture_Folder/data/glp1_simple.tsv)
+
+[Mouse GLP-1 with diet differences](Lecture_Folder/data/glp1_diet.tsv)
 
 ### Lectures
 
@@ -45,3 +49,5 @@ title: "Lectures"
 [Lecture_6](Lecture_Folder/Week6.html)
 
 [Lecture_7](Lecture_Folder/Week7.html)
+
+[Lecture_8](Lecture_Folder/Week8.html)

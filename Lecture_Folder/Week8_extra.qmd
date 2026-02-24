@@ -108,69 +108,42 @@ library(splines)      # Spline basis functions
 ```
 :::
 
-**Datasets for This Week:** 
-
-- `glp1_simple.csv`
-- `glp1_diet.csv`
-- `scaffold_degradation_data.csv` 
-
-**Additional datasets from packages**: 
-
-- `lung` (survival package)
+**Datasets for This Week:** `glp1_simple.csv`, `glp1_diet.csv`, `scaffold_degradation_data.csv` — all in the `data/` folder. Additional datasets from packages: `lung` (survival package)
 
 # Finish Linear Mixed Models {background-color="#d4edda"}
 
 ## Where We Left Off
 
-Last week we introduced the concept of linear mixed models — models that partition variability into 
-
-- **fixed effects** (treatments you manipulate) and 
-- **random effects** (nuisance grouping variables like subjects, batches, or labs).
+Last week we introduced the concept of linear mixed models — models that partition variability into **fixed effects** (treatments you manipulate) and **random effects** (nuisance grouping variables like subjects, batches, or labs).
 
 Today we'll build intuition for *why* mixed models work by starting with a simple example and progressively adding complexity. We'll see how moving from a fixed-effects-only model to a random-effects model changes our residuals, our inference, and our understanding of the data.
 
 ::: callout-tip
 ### Key Insight
 
-The core idea: subjects (mice, batches, patients) differ from each other in systematic ways. If we ignore this, we either 
-
-- waste degrees of freedom (treating each subject as a fixed effect) or 
-- inflate Type I error (ignoring the grouping entirely). 
-
-Mixed models solve both problems.
+The core idea: subjects (mice, batches, patients) differ from each other in systematic ways. If we ignore this, we either waste degrees of freedom (treating each subject as a fixed effect) or inflate Type I error (ignoring the grouping entirely). Mixed models solve both problems.
 :::
 
-## GLP-1 Weight Loss Study in Mice
+## Building Intuition: The GLP-1 Weight Loss Study
 
-We'll work through two versions of a GLP-1 receptor agonist weight loss experiment.
+We'll work through two versions of a GLP-1 receptor agonist weight loss experiment:
 
-- **Simple version:**
-
-  - 6 mice, all on GLP-1
-  - weighed weekly for 10 weeks
-  - introduces random intercepts
-  
-- **Extended version:** 
-
-  - 12 mice on GLP-1
-  - half on high-protein diet and half on low-protein diet
-  - introduces random slopes and treatment interactions
+1.  **Simple version:** 6 mice, all on GLP-1, weighed weekly for 10 weeks — introduces random intercepts
+2.  **Extended version:** 12 mice on GLP-1, half on high-protein diet and half on low-protein diet — introduces random slopes and treatment interactions
 
 For each, we'll fit three models of increasing sophistication and compare how well they capture the data structure.
 
-# Random Intercepts {background-color="#d4edda"}
+# Example 1: Six Mice on GLP-1 {background-color="#d4edda"}
 
 ## The Experiment
 
-- Six mice are placed on a GLP-1 receptor agonist (semaglutide). 
-- Each mouse is weighed weekly for 10 weeks. 
-- All mice lose weight over time, but they start at different baseline weights and lose weight at slightly different rates.
+Six mice are placed on a GLP-1 receptor agonist (semaglutide). Each mouse is weighed weekly for 10 weeks. All mice lose weight over time, but they start at different baseline weights and lose weight at slightly different rates.
 
 **The statistical question:** Is there a significant decline in weight over the 10-week treatment period?
 
 **The complication:** Repeated measurements on the same mouse are not independent — each mouse has its own baseline weight, creating within-subject correlation.
 
-## Read in the Dataset
+## Generate the Dataset
 
 ::: panel-tabset
 ### Output
@@ -256,7 +229,7 @@ ggplot(glp1_simple, aes(x = week, y = weight,
 -   A standard `lm()` that ignores mouse identity would treat all 66 points as independent, which they clearly aren't
 :::
 
-## Model 1a: Ignoring the Mouse Effect (Naive linear model)
+## Model 1a: Ignoring the Grouping (Naive lm)
 
 ::: panel-tabset
 ### Output
@@ -289,7 +262,7 @@ summary(mod_naive)
 -   The standard error for the slope is inflated, making our test of the time effect less powerful
 :::
 
-## Model 1b: Mouse as a Fixed Effect (naive factorial)
+## Model 1b: Mouse as a Fixed Effect (Parallel Slopes)
 
 ::: panel-tabset
 ### Output
@@ -322,7 +295,7 @@ summary(mod_fixed)
 -   **The problem:** this uses 5 extra degrees of freedom (one per additional mouse) just for a nuisance variable. With 6 mice this is manageable, but imagine 100 subjects — you'd burn 99 df on intercepts you don't care about. And you can't generalize: these specific intercepts only apply to *these* 6 mice.
 :::
 
-## Model 1c: Random Intercept Model Using `lmer`
+## Model 1c: Random Intercept Model (lmer)
 
 ::: panel-tabset
 ### Output
@@ -1984,7 +1957,7 @@ anova(mod_noint_ml, mod_full_ml)
 ## lme4 Formula Syntax Quick Reference
 
 | Random Effect | Syntax | Meaning |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Random intercept | `(1 \| group)` | Each group has its own baseline |
 | Random slope | `(1 + x \| group)` | Each group has its own baseline AND slope for x |
 | No correlation | `(1 + x \|\| group)` | Independent random intercept and slope |
@@ -2467,7 +2440,7 @@ table(Predicted = pred_class, Actual = implant_data$failure)
 ## Model Evaluation Metrics
 
 | Metric        | Formula                                                     |
-|:----------------|:------------------------------------------------------|
+|:--------------|:------------------------------------------------------------|
 | **Accuracy**  | $(TP + TN) / (TP + TN + FP + FN)$                           |
 | **Precision** | $TP / (TP + FP)$                                            |
 | **Recall**    | $TP / (TP + FN)$                                            |
@@ -2622,7 +2595,7 @@ exp(confint(pois_model))
 ## Poisson vs. Quasi-Poisson vs. Negative Binomial
 
 | Model | Dispersion | Use When | R Function |
-|:-----------------|:-----------------|:-----------------|:-----------------|
+|:---|:---|:---|:---|
 | **Poisson** | φ ≈ 1 | Variance ≈ mean | `glm(..., family = poisson)` |
 | **Quasi-Poisson** | φ \> 1 | Mild overdispersion | `glm(..., family = quasipoisson)` |
 | **Neg. Binomial** | φ \>\> 1 | Severe overdispersion | `MASS::glm.nb()` |
@@ -2754,7 +2727,7 @@ elastic_cv <- cv.glmnet(X_train, y_train, alpha = 0.5, nfolds = 10)
 ### When to Use
 
 | Method          | Use When                                                |
-|:-----------------|:-----------------------------------------------------|
+|:----------------|:--------------------------------------------------------|
 | **Ridge**       | Many predictors, most relevant; multicollinearity       |
 | **Lasso**       | Feature selection important; many irrelevant predictors |
 | **Elastic Net** | Groups of correlated predictors; best of both worlds    |

@@ -1209,16 +1209,7 @@ Bill Cresko
 </div>
 </div>
 </div>
-<p><strong>Datasets for This Week:</strong></p>
-<ul>
-<li><code>glp1_simple.csv</code></li>
-<li><code>glp1_diet.csv</code></li>
-<li><code>scaffold_degradation_data.csv</code></li>
-</ul>
-<p><strong>Additional datasets from packages</strong>:</p>
-<ul>
-<li><code>lung</code> (survival package)</li>
-</ul>
+<p><strong>Datasets for This Week:</strong> <code>glp1_simple.csv</code>, <code>glp1_diet.csv</code>, <code>scaffold_degradation_data.csv</code> — all in the <code>data/</code> folder. Additional datasets from packages: <code>lung</code> (survival package)</p>
 </section></section>
 <section>
 <section id="finish-linear-mixed-models" class="title-slide slide level1 center" data-background-color="#d4edda">
@@ -1227,11 +1218,7 @@ Bill Cresko
 </section>
 <section id="where-we-left-off" class="slide level2">
 <h2>Where We Left Off</h2>
-<p>Last week we introduced the concept of linear mixed models — models that partition variability into</p>
-<ul>
-<li><strong>fixed effects</strong> (treatments you manipulate) and</li>
-<li><strong>random effects</strong> (nuisance grouping variables like subjects, batches, or labs).</li>
-</ul>
+<p>Last week we introduced the concept of linear mixed models — models that partition variability into <strong>fixed effects</strong> (treatments you manipulate) and <strong>random effects</strong> (nuisance grouping variables like subjects, batches, or labs).</p>
 <p>Today we’ll build intuition for <em>why</em> mixed models work by starting with a simple example and progressively adding complexity. We’ll see how moving from a fixed-effects-only model to a random-effects model changes our residuals, our inference, and our understanding of the data.</p>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -1242,52 +1229,33 @@ Bill Cresko
 <p><strong>Key Insight</strong></p>
 </div>
 <div class="callout-content">
-<p>The core idea: subjects (mice, batches, patients) differ from each other in systematic ways. If we ignore this, we either</p>
-<ul>
-<li>waste degrees of freedom (treating each subject as a fixed effect) or</li>
-<li>inflate Type I error (ignoring the grouping entirely).</li>
-</ul>
-<p>Mixed models solve both problems.</p>
+<p>The core idea: subjects (mice, batches, patients) differ from each other in systematic ways. If we ignore this, we either waste degrees of freedom (treating each subject as a fixed effect) or inflate Type I error (ignoring the grouping entirely). Mixed models solve both problems.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="glp-1-weight-loss-study-in-mice" class="slide level2">
-<h2>GLP-1 Weight Loss Study in Mice</h2>
-<p>We’ll work through two versions of a GLP-1 receptor agonist weight loss experiment.</p>
-<ul>
-<li><p><strong>Simple version:</strong></p>
-<ul>
-<li>6 mice, all on GLP-1</li>
-<li>weighed weekly for 10 weeks</li>
-<li>introduces random intercepts</li>
-</ul></li>
-<li><p><strong>Extended version:</strong></p>
-<ul>
-<li>12 mice on GLP-1</li>
-<li>half on high-protein diet and half on low-protein diet</li>
-<li>introduces random slopes and treatment interactions</li>
-</ul></li>
-</ul>
+<section id="building-intuition-the-glp-1-weight-loss-study" class="slide level2">
+<h2>Building Intuition: The GLP-1 Weight Loss Study</h2>
+<p>We’ll work through two versions of a GLP-1 receptor agonist weight loss experiment:</p>
+<ol type="1">
+<li><strong>Simple version:</strong> 6 mice, all on GLP-1, weighed weekly for 10 weeks — introduces random intercepts</li>
+<li><strong>Extended version:</strong> 12 mice on GLP-1, half on high-protein diet and half on low-protein diet — introduces random slopes and treatment interactions</li>
+</ol>
 <p>For each, we’ll fit three models of increasing sophistication and compare how well they capture the data structure.</p>
 </section></section>
 <section>
-<section id="random-intercepts" class="title-slide slide level1 center" data-background-color="#d4edda">
-<h1>Random Intercepts</h1>
+<section id="example-1-six-mice-on-glp-1" class="title-slide slide level1 center" data-background-color="#d4edda">
+<h1>Example 1: Six Mice on GLP-1</h1>
 
 </section>
 <section id="the-experiment" class="slide level2">
 <h2>The Experiment</h2>
-<ul>
-<li>Six mice are placed on a GLP-1 receptor agonist (semaglutide).</li>
-<li>Each mouse is weighed weekly for 10 weeks.</li>
-<li>All mice lose weight over time, but they start at different baseline weights and lose weight at slightly different rates.</li>
-</ul>
+<p>Six mice are placed on a GLP-1 receptor agonist (semaglutide). Each mouse is weighed weekly for 10 weeks. All mice lose weight over time, but they start at different baseline weights and lose weight at slightly different rates.</p>
 <p><strong>The statistical question:</strong> Is there a significant decline in weight over the 10-week treatment period?</p>
 <p><strong>The complication:</strong> Repeated measurements on the same mouse are not independent — each mouse has its own baseline weight, creating within-subject correlation.</p>
 </section>
-<section id="read-in-the-dataset" class="slide level2">
-<h2>Read in the Dataset</h2>
+<section id="generate-the-dataset" class="slide level2">
+<h2>Generate the Dataset</h2>
 <div class="panel-tabset">
 <ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default href="#tabset-2-1">Output</a></li><li><a href="#tabset-2-2">Code</a></li><li><a href="#tabset-2-3">Explanation</a></li></ul>
 <div class="tab-content">
@@ -1431,8 +1399,8 @@ Bill Cresko
 </div>
 </div>
 </section>
-<section id="model-1a-ignoring-the-mouse-effect-naive-linear-model" class="slide level2">
-<h2>Model 1a: Ignoring the Mouse Effect (Naive linear model)</h2>
+<section id="model-1a-ignoring-the-grouping-naive-lm" class="slide level2">
+<h2>Model 1a: Ignoring the Grouping (Naive lm)</h2>
 <div class="panel-tabset">
 <ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default href="#tabset-4-1">Output</a></li><li><a href="#tabset-4-2">Code</a></li><li><a href="#tabset-4-3">Explanation</a></li></ul>
 <div class="tab-content">
@@ -1478,8 +1446,8 @@ F-statistic: 29.13 on 1 and 64 DF,  p-value: 1.052e-06</code></pre>
 </div>
 </div>
 </section>
-<section id="model-1b-mouse-as-a-fixed-effect-naive-factorial" class="slide level2">
-<h2>Model 1b: Mouse as a Fixed Effect (naive factorial)</h2>
+<section id="model-1b-mouse-as-a-fixed-effect-parallel-slopes" class="slide level2">
+<h2>Model 1b: Mouse as a Fixed Effect (Parallel Slopes)</h2>
 <div class="panel-tabset">
 <ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default href="#tabset-5-1">Output</a></li><li><a href="#tabset-5-2">Code</a></li><li><a href="#tabset-5-3">Explanation</a></li></ul>
 <div class="tab-content">
@@ -1530,8 +1498,8 @@ F-statistic:   217 on 6 and 59 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="model-1c-random-intercept-model-using-lmer" class="slide level2">
-<h2>Model 1c: Random Intercept Model Using <code>lmer</code></h2>
+<section id="model-1c-random-intercept-model-lmer" class="slide level2">
+<h2>Model 1c: Random Intercept Model (lmer)</h2>
 <div class="panel-tabset">
 <ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default href="#tabset-6-1">Output</a></li><li><a href="#tabset-6-2">Code</a></li><li><a href="#tabset-6-3">Explanation</a></li></ul>
 <div class="tab-content">
@@ -4247,8 +4215,8 @@ load_cycles       1.000 1.000  1.000</code></pre>
 <h2>Model Evaluation Metrics</h2>
 <table class="caption-top">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 76%">
+<col style="width: 19%">
+<col style="width: 80%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -4604,8 +4572,8 @@ load_cycles       1.000 1.000  1.000</code></pre>
 <div id="tabset-55-2">
 <table class="caption-top">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 75%">
+<col style="width: 22%">
+<col style="width: 77%">
 </colgroup>
 <thead>
 <tr class="header">
