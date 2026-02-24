@@ -108,65 +108,108 @@ library(splines)      # Spline basis functions
 ```
 :::
 
-**Datasets for This Week:** 
+**Datasets for This Week:**
 
-- `glp1_simple.csv`
-- `glp1_diet.csv`
-- `scaffold_degradation_data.csv` 
+-   `glp1_simple.csv`
+-   `glp1_diet.csv`
+-   `scaffold_degradation_data.csv`
 
-**Additional datasets from packages**: 
+**Additional datasets from packages**:
 
-- `lung` (survival package)
+-   `lung` (survival package)
 
 # Finish Linear Mixed Models {background-color="#d4edda"}
 
 ## Where We Left Off
 
-Last week we introduced the concept of linear mixed models — models that partition variability into 
+Last week we introduced the concept of linear mixed models — models that partition variability into
 
-- **fixed effects** (treatments you manipulate) and 
-- **random effects** (nuisance grouping variables like subjects, batches, or labs).
+-   **fixed effects** (treatments you manipulate) and
+-   **random effects** (nuisance grouping variables like subjects, batches, or labs).
 
-Today we'll build intuition for *why* mixed models work by starting with a simple example and progressively adding complexity. We'll see how moving from a fixed-effects-only model to a random-effects model changes our residuals, our inference, and our understanding of the data.
+Today we'll build intuition for *why* mixed models work by starting with a simple example and progressively adding complexity.
 
 ::: callout-tip
 ### Key Insight
 
-The core idea: subjects (mice, batches, patients) differ from each other in systematic ways. If we ignore this, we either 
+The core idea: subjects (mice, batches, patients) differ from each other in systematic ways. If we ignore this, we either
 
-- waste degrees of freedom (treating each subject as a fixed effect) or 
-- inflate Type I error (ignoring the grouping entirely). 
+-   waste degrees of freedom (treating each subject as a fixed effect) or
+-   inflate Type I error (ignoring the grouping entirely).
 
 Mixed models solve both problems.
 :::
+
+## Fixed vs. Random Effects — A Quick Review
+
+::::: columns
+::: {.column width="48%"}
+**Fixed Effects**
+
+-   Specific, repeatable levels
+-   You care about *these* levels
+-   Treatment conditions, drug doses, scaffold coatings
+-   Estimated as regression coefficients (β)
+:::
+
+::: {.column width="48%"}
+**Random Effects**
+
+-   Levels are a *sample* from a larger population
+-   You care about the *variability*, not specific levels
+-   Batches, labs, technicians, patients
+-   Estimated as variance components (σ²)
+:::
+:::::
+
+::: callout-tip
+### Rule of Thumb
+
+Ask: "If I repeated this experiment, would I use *these exact same* levels?" If yes → fixed. If you'd get a new random sample → random.
+:::
+
+## The Mixed Model Equation
+
+$$\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon}$$
+
+Where:
+
+::: incremental
+-   $\mathbf{y}$ — vector of observed responses (degradation rates)
+-   $\mathbf{X}\boldsymbol{\beta}$ — fixed effects (treatment, temperature, their interaction)
+-   $\mathbf{Z}\mathbf{u}$ — random effects, where $\mathbf{u} \sim N(\mathbf{0}, \mathbf{G})$
+-   $\boldsymbol{\varepsilon}$ — residual error, where $\boldsymbol{\varepsilon} \sim N(\mathbf{0}, \mathbf{R})$
+-   Random effects **shrink** estimates toward the grand mean — partial pooling
+:::
+
+# Starting simple - putting mice on a diet drug
 
 ## GLP-1 Weight Loss Study in Mice
 
 We'll work through two versions of a GLP-1 receptor agonist weight loss experiment.
 
-- **Simple version:**
+-   **Simple version:**
 
-  - 6 mice, all on GLP-1
-  - weighed weekly for 10 weeks
-  - introduces random intercepts
-  
-- **Extended version:** 
+    -   6 mice, all on GLP-1
+    -   weighed weekly for 7 weeks
+    -   introduces random intercepts
 
-  - 12 mice on GLP-1
-  - half on high-protein diet and half on low-protein diet
-  - introduces random slopes and treatment interactions
+-   **Extended version:**
+
+    -   12 mice on GLP-1
+    -   half on high-protein diet and half on low-protein diet
+    -   weighed weekly for 7 weeks
+    -   introduces random slopes and treatment interactions
 
 For each, we'll fit three models of increasing sophistication and compare how well they capture the data structure.
 
-# Random Intercepts {background-color="#d4edda"}
+## The Experiment - random intercepts
 
-## The Experiment
+-   Six mice are placed on a GLP-1 receptor agonist (semaglutide).
+-   Each mouse is weighed weekly for 7 weeks.
+-   All mice lose weight over time, but they start at different baseline weights and lose weight at slightly different rates.
 
-- Six mice are placed on a GLP-1 receptor agonist (semaglutide). 
-- Each mouse is weighed weekly for 10 weeks. 
-- All mice lose weight over time, but they start at different baseline weights and lose weight at slightly different rates.
-
-**The statistical question:** Is there a significant decline in weight over the 10-week treatment period?
+**The statistical question:** Is there a significant decline in weight over the 7-week treatment period?
 
 **The complication:** Repeated measurements on the same mouse are not independent — each mouse has its own baseline weight, creating within-subject correlation.
 
@@ -203,10 +246,10 @@ head(glp1_simple)
 
 ### Explanation
 
--   6 mice (M1–M6), each weighed weekly for 10 weeks (weeks 0–10), yielding 66 observations
--   Each mouse starts at a different baseline weight (\~30–38 g)
--   All mice lose weight at approximately 0.45 g/week, with small individual variation
--   Residual measurement noise is roughly 0.6 g
+-   6 mice (M1–M6), each weighed weekly for 7 weeks (weeks 0–7), yielding 48 observations
+-   Each mouse starts at a different baseline weight (\~29–37 g)
+-   All mice lose weight at approximately 0.31 g/week, with small individual variation
+-   Residual measurement noise is roughly 0.5 g
 -   This creates the classic repeated-measures structure: observations nested within subjects, with both between-subject and within-subject variability
 :::
 
@@ -226,7 +269,7 @@ ggplot(glp1_simple, aes(x = week, y = weight, color = mouse_id, group = mouse_id
   geom_point(size = 2, alpha = 0.7) +
   scale_color_brewer(palette = "Set2") +
   labs(
-    title = "GLP-1 Weight Loss Study: 6 Mice Over 10 Weeks",
+    title = "GLP-1 Weight Loss Study: 6 Mice Over 7 Weeks",
     subtitle = "Each line represents one mouse — note different starting weights",
     x = "Week", y = "Weight (g)", color = "Mouse"
   )
@@ -244,7 +287,7 @@ ggplot(glp1_simple, aes(x = week, y = weight,
   geom_line(alpha = 0.6, linewidth = 0.8) +
   geom_point(size = 2, alpha = 0.7) +
   scale_color_brewer(palette = "Set2") +
-  labs(title = "GLP-1 Weight Loss Study: 6 Mice Over 10 Weeks",
+  labs(title = "GLP-1 Weight Loss Study: 6 Mice Over 7 Weeks",
        x = "Week", y = "Weight (g)", color = "Mouse")
 ```
 
@@ -253,7 +296,7 @@ ggplot(glp1_simple, aes(x = week, y = weight,
 -   All mice show a clear downward trend — the GLP-1 drug is working
 -   But the lines are separated vertically — mice start at different weights (M1 may be heavier than M6)
 -   The lines are roughly parallel, suggesting similar rates of weight loss
--   A standard `lm()` that ignores mouse identity would treat all 66 points as independent, which they clearly aren't
+-   A standard `lm()` that ignores mouse identity would treat all 48 points as independent, which they clearly aren't
 :::
 
 ## Model 1a: Ignoring the Mouse Effect (Naive linear model)
@@ -283,10 +326,10 @@ summary(mod_naive)
 
 ### Explanation
 
--   This model treats all 66 observations as independent — it ignores the mouse grouping entirely
+-   This model treats all 48 observations as independent — it ignores the mouse grouping entirely
 -   The slope estimate for `week` captures the average weight loss, but the residual variance is inflated because it includes **both** measurement noise **and** between-mouse variability
 -   The $R^2$ is lower than it should be because the model can't explain why some points are consistently high (heavy mice) and others consistently low (light mice)
--   The standard error for the slope is inflated, making our test of the time effect less powerful
+-   The standard error for the slope is so inflated that the effect of week is **not statistically significant** (p ≈ 0.07) — even though the drug is clearly working when you look at the plot!
 :::
 
 ## Model 1b: Mouse as a Fixed Effect (naive factorial)
@@ -355,6 +398,24 @@ summary(mod_ri)
 -   The random effects table shows how much variance is attributable to between-mouse differences vs. within-mouse residual noise
 -   The **Intraclass Correlation (ICC)** = $\frac{\sigma^2_{mouse}}{\sigma^2_{mouse} + \sigma^2_{resid}}$ tells you what proportion of the total variance is between mice
 :::
+
+## The Core Insight: Where Do the Residuals Come From?
+
+::: panel-tabset
+
+### Residual comparison
+
+![](images/residual_comparison.svg){fig-align="center" width="95%"}
+
+### Interpretation
+- On the left, the naive model fits **one line** so the residuals are larger. 
+- On the right, the mixed model gives **each mouse its own line** and the residuals shrink to tiny measurement noise.
+- The naive model's residuals are dominated by **between-mouse differences**. 
+- The mixed model removes this systematic component, leaving only random measurement noise. 
+- That 37-fold reduction in SSR is what transforms the standard error from 0.17 to 0.03 and flips the p-value from **0.07 (NS) to < 0.001**.
+
+:::
+
 
 ## Comparing Residuals Across the Three Models
 
@@ -430,6 +491,8 @@ cat("SSR (lmer): ", sum(glp1_simple$resid_lmer^2), "\n")
 -   The key insight: the random intercept model is just as good at explaining the data, but it's more **parsimonious** and allows **generalization** to new mice.
 :::
 
+
+
 ## Summary: Example 1 Model Comparison
 
 ::: panel-tabset
@@ -473,16 +536,23 @@ comparison_df %>%
 ### Explanation
 
 -   All three models agree on the direction and approximate magnitude of the weekly weight loss
--   The **naive model** has the largest SE because between-mouse variance inflates the residual — it also has the most residual df but that's misleading since observations aren't independent
--   The **fixed mouse model** has the smallest SE but burns df on nuisance parameters and can't generalize
--   The **lmer model** provides a good compromise: an appropriately sized SE, honest accounting for the non-independence, and results that generalize to the population of mice
+-   The **naive model** has a dramatically inflated SE because between-mouse variance is lumped into the residual — this makes the slope *non-significant* (p ≈ 0.07) even though the drug is clearly working
+-   The **fixed mouse model** removes between-mouse variance, producing a much smaller SE and a significant result — but it burns df on nuisance parameters and can't generalize
+-   The **lmer model** achieves the same SE reduction more efficiently: by modeling mouse as a random effect it partitions out the between-mouse variance, correctly identifies the significant weight loss trend, and generalizes to the population of mice
+-   **This is the key lesson:** when between-subject variance is large relative to the treatment effect, ignoring the grouping structure can cause you to *miss* a real effect. The mixed model recovers the power you lose by properly accounting for the data structure.
 :::
 
 # Example 2: GLP-1 with Two Diet Groups {background-color="#d4edda"}
 
 ## Extending the Design
 
-Now suppose we have 12 mice, all on GLP-1, but randomized into two diet groups: 6 on a **high-protein diet** and 6 on a **low-protein diet**. We measure weight weekly for 10 weeks.
+Now suppose we have
+
+- 12 mice, all on GLP-1
+- but randomized into two diet groups: 
+    - 6 on a **high-protein diet** 
+    - 6 on a **low-protein diet**
+- We measure weight weekly for 7 weeks
 
 **The statistical question:** Does diet type affect the rate of GLP-1-induced weight loss?
 
@@ -523,7 +593,7 @@ head(glp1_diet)
 
 ### Explanation
 
--   12 mice total: 6 per diet group, each weighed weekly for 10 weeks (132 observations)
+-   12 mice total: 6 per diet group, each weighed weekly for 7 weeks (96 observations)
 -   High-protein mice lose \~0.30 g/week; low-protein mice lose \~0.55 g/week
 -   Individual mice vary around their group mean slope — this is the random slope variability
 -   Starting weights vary between mice — the random intercept
@@ -547,7 +617,7 @@ ggplot(glp1_diet, aes(x = week, y = weight, color = mouse_id,
   geom_point(size = 1.5, alpha = 0.7) +
   facet_wrap(~diet) +
   labs(
-    title = "GLP-1 + Diet Study: 12 Mice Over 10 Weeks",
+    title = "GLP-1 + Diet Study: 12 Mice Over 7 Weeks",
     subtitle = "Low-protein mice show steeper weight loss trajectories",
     x = "Week", y = "Weight (g)", color = "Mouse"
   ) +
@@ -604,7 +674,7 @@ summary(mod2_naive)
 ### Explanation
 
 -   The `week:diet` interaction tests whether the slopes differ between diet groups
--   But this model treats all 132 observations as independent — it doesn't know that the 11 measurements on mouse M1 are correlated
+-   But this model treats all 96 observations as independent — it doesn't know that the 8 measurements on mouse M1 are correlated
 -   This inflates the effective sample size and can produce **spuriously significant** results
 -   The standard error for the interaction term is artificially small
 :::
@@ -782,9 +852,9 @@ comp2 %>%
 ### Explanation
 
 -   All models estimate a similar interaction effect (the difference in slopes between diets)
--   The **naive model** has the smallest SE — but this is misleadingly small because it treats all 132 observations as independent
+-   The **naive model** has the smallest SE — but this is misleadingly small because it treats all 96 observations as independent
 -   The **lmer model** has a larger (and more honest) SE that accounts for within-mouse correlation
--   The lmer p-value is the one you should report — it properly accounts for the fact that you have 12 independent experimental units (mice), not 132
+-   The lmer p-value is the one you should report — it properly accounts for the fact that you have 12 independent experimental units (mice), not 96
 -   If the naive model gives p \< 0.001 and the lmer gives p = 0.04, both are "significant," but the naive model gives you false confidence in the precision of the estimate
 :::
 
@@ -793,7 +863,7 @@ comp2 %>%
 ::: callout-important
 ### Three Models, Three Philosophies
 
-1.  **Naive `lm()`**: Pretend all observations are independent. Fast, simple, wrong. Inflated Type I error.
+1.  **Naive `lm()`**: Pretend all observations are independent. Fast, simple, wrong. Can inflate Type I error *or* reduce power depending on the design — as we saw, the simple GLP-1 model *missed* a real effect because between-mouse variance swamped the signal.
 2.  **Fixed effects `lm()` + subject**: Give each subject its own intercept. Correct residuals, but wastes df and can't generalize.
 3.  **Mixed model `lmer()`**: Treat subjects as random draws from a population. Efficient, generalizable, and honest about uncertainty.
 
@@ -864,13 +934,7 @@ diet_trends$contrasts
 -   This is the mixed-model equivalent of testing the `week × diet` interaction, but expressed as a comparison of estimated rates
 :::
 
-## Choosing the Right Statistical Model
 
-When selecting a model, the nature of your response variable guides the choice:
-
-![](images/model_decision_flowchart.svg){fig-align="center" width="90%"}
-
-The remainder of this lecture introduces the methods on the right side of this flowchart: GLMs (logistic, Poisson), regularization, splines, and survival analysis.
 
 # Applying lme4 to a Complex Bioengineering Design {background-color="#d4edda"}
 
@@ -884,49 +948,9 @@ The mouse GLP-1 examples had one random grouping factor (mouse). Real bioenginee
 
 We'll now work through a realistic scaffold degradation experiment that demonstrates nested and crossed random effects, model comparison, and the full lme4/lmerTest workflow.
 
-## Fixed vs. Random Effects — A Quick Review
 
-::::: columns
-::: {.column width="48%"}
-**Fixed Effects**
 
--   Specific, repeatable levels
--   You care about *these* levels
--   Treatment conditions, drug doses, scaffold coatings
--   Estimated as regression coefficients (β)
-:::
-
-::: {.column width="48%"}
-**Random Effects**
-
--   Levels are a *sample* from a larger population
--   You care about the *variability*, not specific levels
--   Batches, labs, technicians, patients
--   Estimated as variance components (σ²)
-:::
-:::::
-
-::: callout-tip
-### Rule of Thumb
-
-Ask: "If I repeated this experiment, would I use *these exact same* levels?" If yes → fixed. If you'd get a new random sample → random.
-:::
-
-## The Mixed Model Equation
-
-$$\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon}$$
-
-Where:
-
-::: incremental
--   $\mathbf{y}$ — vector of observed responses (degradation rates)
--   $\mathbf{X}\boldsymbol{\beta}$ — fixed effects (treatment, temperature, their interaction)
--   $\mathbf{Z}\mathbf{u}$ — random effects, where $\mathbf{u} \sim N(\mathbf{0}, \mathbf{G})$
--   $\boldsymbol{\varepsilon}$ — residual error, where $\boldsymbol{\varepsilon} \sim N(\mathbf{0}, \mathbf{R})$
--   Random effects **shrink** estimates toward the grand mean — partial pooling
-:::
-
-# The Scaffold Degradation Dataset {background-color="#d4edda"}
+## The Scaffold Degradation Dataset {background-color="#d4edda"}
 
 ## Study Design
 
@@ -1985,11 +2009,11 @@ anova(mod_noint_ml, mod_full_ml)
 
 | Random Effect | Syntax | Meaning |
 |------------------------|------------------------|------------------------|
-| Random intercept | `(1 \| group)` | Each group has its own baseline |
-| Random slope | `(1 + x \| group)` | Each group has its own baseline AND slope for x |
-| No correlation | `(1 + x \|\| group)` | Independent random intercept and slope |
-| Nested | `(1 \| A) + (1 \| A:B)` | B nested within A |
-| Crossed | `(1 \| A) + (1 \| B)` | A and B fully crossed |
+| Random intercept | `(1 | group)` | Each group has its own baseline |
+| Random slope | `(1 + x | group)` | Each group has its own baseline AND slope for x |
+| No correlation | `(1 + x || group)` | Independent random intercept and slope |
+| Nested | `(1 | A) + (1 | A:B)` | B nested within A |
+| Crossed | `(1 | A) + (1 | B)` | A and B fully crossed |
 
 ::: callout-tip
 ### The Comparison Rule
@@ -2056,6 +2080,12 @@ GLMs extend linear models to handle response variables that are not normally dis
 -   No overly **influential observations**
 -   **Linearity** between predictors and the link function (not between predictors and raw response)
 -   **Appropriate dispersion** (variance matches the assumed distribution)
+
+## Choosing the Right Statistical Model
+
+
+![](images/model_decision_flowchart.svg){fig-align="center" width="90%"}
+
 
 ## GLM in R
 
@@ -2179,7 +2209,6 @@ testOutliers(sim_res)      # outlier detection
 -   DHARMa works for any `glm`, `glmer`, `glmmTMB`, or `gam` model — making it the universal diagnostic tool for GLMs.
 :::
 
-# BREAK {background-color="#e74c3c"}
 
 # Logistic Regression {background-color="#d4edda"}
 
@@ -2304,7 +2333,8 @@ exp(coef(model))
 ```
 :::
 
-$\exp(\beta_1)$ is the **multiplicative change in odds** for a 1-unit increase in the predictor. For example, if $\exp(\beta_1) = 1.35$, a one-unit increase in mpg multiplies the odds of manual transmission by 1.35 (a 35% increase).
+- $\exp(\beta_1)$ is the **multiplicative change in odds** for a 1-unit increase in the predictor. 
+- For example, if $\exp(\beta_1) = 1.35$, a one-unit increase in mpg multiplies the odds of manual transmission by 1.35 (a 35% increase).
 
 ::: callout-tip
 ### Interpreting Odds Ratios
@@ -2467,7 +2497,7 @@ table(Predicted = pred_class, Actual = implant_data$failure)
 ## Model Evaluation Metrics
 
 | Metric        | Formula                                                     |
-|:----------------|:------------------------------------------------------|
+|:------------------|:----------------------------------------------------|
 | **Accuracy**  | $(TP + TN) / (TP + TN + FP + FN)$                           |
 | **Precision** | $TP / (TP + FP)$                                            |
 | **Recall**    | $TP / (TP + FN)$                                            |
@@ -2754,7 +2784,7 @@ elastic_cv <- cv.glmnet(X_train, y_train, alpha = 0.5, nfolds = 10)
 ### When to Use
 
 | Method          | Use When                                                |
-|:-----------------|:-----------------------------------------------------|
+|:-------------------|:---------------------------------------------------|
 | **Ridge**       | Many predictors, most relevant; multicollinearity       |
 | **Lasso**       | Feature selection important; many irrelevant predictors |
 | **Elastic Net** | Groups of correlated predictors; best of both worlds    |
