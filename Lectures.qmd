@@ -34,6 +34,8 @@ title: "Lectures"
 
 [Mouse GLP-1 with diet differences](Lecture_Folder/data/glp1_diet.csv)
 
+[Bad Bill - scaffold data](Lecture_Folder/data/scaffold_degradation_data.csv)
+
 ### Lectures
 
 [Lecture_1](Lecture_Folder/Week1.html)
