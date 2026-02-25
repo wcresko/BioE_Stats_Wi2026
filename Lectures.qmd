@@ -30,9 +30,9 @@ title: "Lectures"
 
 [Stickleback Lipid](Lecture_Folder/data/RNAseq_lipid.tsv)
 
-[Mouse GLP-1](Lecture_Folder/data/glp1_simple.tsv)
+[Mouse GLP-1](Lecture_Folder/data/glp1_simple.csv)
 
-[Mouse GLP-1 with diet differences](Lecture_Folder/data/glp1_diet.tsv)
+[Mouse GLP-1 with diet differences](Lecture_Folder/data/glp1_diet.csv)
 
 ### Lectures
 
