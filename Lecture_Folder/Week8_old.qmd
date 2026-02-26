@@ -127,7 +127,7 @@ Last week we introduced the concept of linear mixed models — models that parti
 -   **fixed effects** (treatments you manipulate) and
 -   **random effects** (nuisance grouping variables like subjects, batches, or labs).
 
-Today we'll build intuition for *why* mixed models work by starting with a simple example and progressively adding complexity. We'll see how moving from a fixed-effects-only model to a random-effects model changes our residuals, our inference, and our understanding of the data.
+Today we'll build intuition for *why* mixed models work by starting with a simple example and progressively adding complexity.
 
 ::: callout-tip
 ### Key Insight
@@ -139,6 +139,50 @@ The core idea: subjects (mice, batches, patients) differ from each other in syst
 
 Mixed models solve both problems.
 :::
+
+## Fixed vs. Random Effects — A Quick Review
+
+::::: columns
+::: {.column width="48%"}
+**Fixed Effects**
+
+-   Specific, repeatable levels
+-   You care about *these* levels
+-   Treatment conditions, drug doses, scaffold coatings
+-   Estimated as regression coefficients (β)
+:::
+
+::: {.column width="48%"}
+**Random Effects**
+
+-   Levels are a *sample* from a larger population
+-   You care about the *variability*, not specific levels
+-   Batches, labs, technicians, patients
+-   Estimated as variance components (σ²)
+:::
+:::::
+
+::: callout-tip
+### Rule of Thumb
+
+Ask: "If I repeated this experiment, would I use *these exact same* levels?" If yes → fixed. If you'd get a new random sample → random.
+:::
+
+## The Mixed Model Equation
+
+$$\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon}$$
+
+Where:
+
+::: incremental
+-   $\mathbf{y}$ — vector of observed responses (degradation rates)
+-   $\mathbf{X}\boldsymbol{\beta}$ — fixed effects (treatment, temperature, their interaction)
+-   $\mathbf{Z}\mathbf{u}$ — random effects, where $\mathbf{u} \sim N(\mathbf{0}, \mathbf{G})$
+-   $\boldsymbol{\varepsilon}$ — residual error, where $\boldsymbol{\varepsilon} \sim N(\mathbf{0}, \mathbf{R})$
+-   Random effects **shrink** estimates toward the grand mean — partial pooling
+:::
+
+# Starting simple - putting mice on a diet drug
 
 ## GLP-1 Weight Loss Study in Mice
 
@@ -159,9 +203,7 @@ We'll work through two versions of a GLP-1 receptor agonist weight loss experime
 
 For each, we'll fit three models of increasing sophistication and compare how well they capture the data structure.
 
-# Random Intercepts {background-color="#d4edda"}
-
-## The Experiment
+## The Experiment - random intercepts
 
 -   Six mice are placed on a GLP-1 receptor agonist (semaglutide).
 -   Each mouse is weighed weekly for 7 weeks.
@@ -357,6 +399,24 @@ summary(mod_ri)
 -   The **Intraclass Correlation (ICC)** = $\frac{\sigma^2_{mouse}}{\sigma^2_{mouse} + \sigma^2_{resid}}$ tells you what proportion of the total variance is between mice
 :::
 
+## The Core Insight: Where Do the Residuals Come From?
+
+::: panel-tabset
+
+### Residual comparison
+
+![](images/residual_comparison.svg){fig-align="center" width="95%"}
+
+### Interpretation
+- On the left, the naive model fits **one line** so the residuals are larger. 
+- On the right, the mixed model gives **each mouse its own line** and the residuals shrink to tiny measurement noise.
+- The naive model's residuals are dominated by **between-mouse differences**. 
+- The mixed model removes this systematic component, leaving only random measurement noise. 
+- That 37-fold reduction in SSR is what transforms the standard error from 0.17 to 0.03 and flips the p-value from **0.07 (NS) to < 0.001**.
+
+:::
+
+
 ## Comparing Residuals Across the Three Models
 
 ::: panel-tabset
@@ -430,6 +490,8 @@ cat("SSR (lmer): ", sum(glp1_simple$resid_lmer^2), "\n")
 -   **Bottom panel (lmer):** The random intercept model achieves nearly identical residuals to the fixed-effect model, but uses far fewer parameters. The SSR values are very similar because both approaches account for the between-mouse variation.
 -   The key insight: the random intercept model is just as good at explaining the data, but it's more **parsimonious** and allows **generalization** to new mice.
 :::
+
+
 
 ## Summary: Example 1 Model Comparison
 
@@ -886,49 +948,9 @@ The mouse GLP-1 examples had one random grouping factor (mouse). Real bioenginee
 
 We'll now work through a realistic scaffold degradation experiment that demonstrates nested and crossed random effects, model comparison, and the full lme4/lmerTest workflow.
 
-## Fixed vs. Random Effects — A Quick Review
 
-::::: columns
-::: {.column width="48%"}
-**Fixed Effects**
 
--   Specific, repeatable levels
--   You care about *these* levels
--   Treatment conditions, drug doses, scaffold coatings
--   Estimated as regression coefficients (β)
-:::
-
-::: {.column width="48%"}
-**Random Effects**
-
--   Levels are a *sample* from a larger population
--   You care about the *variability*, not specific levels
--   Batches, labs, technicians, patients
--   Estimated as variance components (σ²)
-:::
-:::::
-
-::: callout-tip
-### Rule of Thumb
-
-Ask: "If I repeated this experiment, would I use *these exact same* levels?" If yes → fixed. If you'd get a new random sample → random.
-:::
-
-## The Mixed Model Equation
-
-$$\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon}$$
-
-Where:
-
-::: incremental
--   $\mathbf{y}$ — vector of observed responses (degradation rates)
--   $\mathbf{X}\boldsymbol{\beta}$ — fixed effects (treatment, temperature, their interaction)
--   $\mathbf{Z}\mathbf{u}$ — random effects, where $\mathbf{u} \sim N(\mathbf{0}, \mathbf{G})$
--   $\boldsymbol{\varepsilon}$ — residual error, where $\boldsymbol{\varepsilon} \sim N(\mathbf{0}, \mathbf{R})$
--   Random effects **shrink** estimates toward the grand mean — partial pooling
-:::
-
-# The Scaffold Degradation Dataset {background-color="#d4edda"}
+## The Scaffold Degradation Dataset {background-color="#d4edda"}
 
 ## Study Design
 
@@ -1987,11 +2009,11 @@ anova(mod_noint_ml, mod_full_ml)
 
 | Random Effect | Syntax | Meaning |
 |------------------------|------------------------|------------------------|
-| Random intercept | `(1 \| group)` | Each group has its own baseline |
-| Random slope | `(1 + x \| group)` | Each group has its own baseline AND slope for x |
-| No correlation | `(1 + x \|\| group)` | Independent random intercept and slope |
-| Nested | `(1 \| A) + (1 \| A:B)` | B nested within A |
-| Crossed | `(1 \| A) + (1 \| B)` | A and B fully crossed |
+| Random intercept | `(1 | group)` | Each group has its own baseline |
+| Random slope | `(1 + x | group)` | Each group has its own baseline AND slope for x |
+| No correlation | `(1 + x || group)` | Independent random intercept and slope |
+| Nested | `(1 | A) + (1 | A:B)` | B nested within A |
+| Crossed | `(1 | A) + (1 | B)` | A and B fully crossed |
 
 ::: callout-tip
 ### The Comparison Rule
@@ -2061,11 +2083,9 @@ GLMs extend linear models to handle response variables that are not normally dis
 
 ## Choosing the Right Statistical Model
 
-When selecting a model, the nature of your response variable guides the choice:
 
 ![](images/model_decision_flowchart.svg){fig-align="center" width="90%"}
 
-The remainder of this lecture introduces the methods on the right side of this flowchart: GLMs (logistic, Poisson), regularization, splines, and survival analysis.
 
 ## GLM in R
 
@@ -2189,7 +2209,6 @@ testOutliers(sim_res)      # outlier detection
 -   DHARMa works for any `glm`, `glmer`, `glmmTMB`, or `gam` model — making it the universal diagnostic tool for GLMs.
 :::
 
-# BREAK {background-color="#e74c3c"}
 
 # Logistic Regression {background-color="#d4edda"}
 
@@ -2314,7 +2333,8 @@ exp(coef(model))
 ```
 :::
 
-$\exp(\beta_1)$ is the **multiplicative change in odds** for a 1-unit increase in the predictor. For example, if $\exp(\beta_1) = 1.35$, a one-unit increase in mpg multiplies the odds of manual transmission by 1.35 (a 35% increase).
+- $\exp(\beta_1)$ is the **multiplicative change in odds** for a 1-unit increase in the predictor. 
+- For example, if $\exp(\beta_1) = 1.35$, a one-unit increase in mpg multiplies the odds of manual transmission by 1.35 (a 35% increase).
 
 ::: callout-tip
 ### Interpreting Odds Ratios
