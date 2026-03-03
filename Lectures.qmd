@@ -2,11 +2,34 @@
 title: "Lectures"
 ---
 
+### Lectures
+
+[Lecture_1](Lecture_Folder/Week1.html)
+
+[Lecture_2](Lecture_Folder/Week2.html)
+
+[Lecture_3](Lecture_Folder/Week3.html)
+
+[Lecture_4](Lecture_Folder/Week4.html)
+
+[Lecture_5](Lecture_Folder/Week5.html)
+
+[Lecture_6](Lecture_Folder/Week6.html)
+
+[Lecture_7](Lecture_Folder/Week7.html)
+
+[Lecture_8](Lecture_Folder/Week8.html)
+
+[Lecture_9](Lecture_Folder/Week9.html)
+
+
+
 ### Quarto Templates for Class Notes
 
 [Quarto_Template](Lecture_Folder/Week1_BioE_Stats_Analysis_Template.qmd)
 
 [Quarto_Template_in_Text](Lecture_Folder/Week1_BioE_Stats_Analysis_Template.txt)
+
 
 ### Datasets for in Class Exercises
 
@@ -34,22 +57,13 @@ title: "Lectures"
 
 [Mouse GLP-1 with diet differences](Lecture_Folder/data/glp1_diet.csv)
 
-[Bad Bill - scaffold data](Lecture_Folder/data/scaffold_degradation_data.csv)
+[Scaffold degredation data](Lecture_Folder/data/scaffold_degradation_data.csv)
 
-### Lectures
+[Scaffold porosity data](Lecture_Folder/data/scaffold_porosity.csv)
 
-[Lecture_1](Lecture_Folder/Week1.html)
+[Scaffold cell growth data](Lecture_Folder/data/scaffold_cell_growth.csv)
 
-[Lecture_2](Lecture_Folder/Week2.html)
+[Nanoparticle delivery data](Lecture_Folder/data/nanoparticle_delivery.csv)
 
-[Lecture_3](Lecture_Folder/Week3.html)
+[Biomaterial Properties Data](Lecture_Folder/data/biomaterial_properties_hd.csv)
 
-[Lecture_4](Lecture_Folder/Week4.html)
-
-[Lecture_5](Lecture_Folder/Week5.html)
-
-[Lecture_6](Lecture_Folder/Week6.html)
-
-[Lecture_7](Lecture_Folder/Week7.html)
-
-[Lecture_8](Lecture_Folder/Week8.html)

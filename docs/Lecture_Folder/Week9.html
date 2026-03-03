@@ -442,7 +442,7 @@
   <meta name="generator" content="quarto-1.7.30">
 
   <meta name="author" content="Bill Cresko">
-  <title>Statistics for Bioengineering - Week 9</title>
+  <title>BioEngineering Statistics Winter 2026 – Statistics for Bioengineering - Week 9</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -1187,23 +1187,23 @@ Bill Cresko
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href></a><span class="co"># Install new packages (run once)</span></span>
-<span id="cb1-2"><a href></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;splines&quot;</span>, <span class="st">&quot;mgcv&quot;</span>, <span class="st">&quot;survival&quot;</span>, <span class="st">&quot;survminer&quot;</span>,</span>
-<span id="cb1-3"><a href></a>                    <span class="st">&quot;rpart&quot;</span>, <span class="st">&quot;rpart.plot&quot;</span>, <span class="st">&quot;randomForest&quot;</span>, <span class="st">&quot;brms&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Install new packages (run once)</span></span>
+<span id="cb1-2"><a></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;splines&quot;</span>, <span class="st">&quot;mgcv&quot;</span>, <span class="st">&quot;survival&quot;</span>, <span class="st">&quot;survminer&quot;</span>,</span>
+<span id="cb1-3"><a></a>                    <span class="st">&quot;rpart&quot;</span>, <span class="st">&quot;rpart.plot&quot;</span>, <span class="st">&quot;randomForest&quot;</span>, <span class="st">&quot;brms&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation &amp; visualization</span></span>
-<span id="cb2-2"><a href></a><span class="fu">library</span>(splines)      <span class="co"># Natural and B-splines</span></span>
-<span id="cb2-3"><a href></a><span class="fu">library</span>(mgcv)         <span class="co"># GAMs with automatic smoothness</span></span>
-<span id="cb2-4"><a href></a><span class="fu">library</span>(survival)     <span class="co"># Survival analysis</span></span>
-<span id="cb2-5"><a href></a><span class="fu">library</span>(survminer)    <span class="co"># Survival curve visualization</span></span>
-<span id="cb2-6"><a href></a><span class="fu">library</span>(boot)         <span class="co"># Bootstrap and cross-validation</span></span>
-<span id="cb2-7"><a href></a><span class="fu">library</span>(rpart)        <span class="co"># Decision trees (CART)</span></span>
-<span id="cb2-8"><a href></a><span class="fu">library</span>(rpart.plot)   <span class="co"># Tree visualization</span></span>
-<span id="cb2-9"><a href></a><span class="fu">library</span>(randomForest) <span class="co"># Random forest ensemble</span></span>
-<span id="cb2-10"><a href></a><span class="fu">library</span>(brms)         <span class="co"># Bayesian regression with Stan</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation &amp; visualization</span></span>
+<span id="cb2-2"><a></a><span class="fu">library</span>(splines)      <span class="co"># Natural and B-splines</span></span>
+<span id="cb2-3"><a></a><span class="fu">library</span>(mgcv)         <span class="co"># GAMs with automatic smoothness</span></span>
+<span id="cb2-4"><a></a><span class="fu">library</span>(survival)     <span class="co"># Survival analysis</span></span>
+<span id="cb2-5"><a></a><span class="fu">library</span>(survminer)    <span class="co"># Survival curve visualization</span></span>
+<span id="cb2-6"><a></a><span class="fu">library</span>(boot)         <span class="co"># Bootstrap and cross-validation</span></span>
+<span id="cb2-7"><a></a><span class="fu">library</span>(rpart)        <span class="co"># Decision trees (CART)</span></span>
+<span id="cb2-8"><a></a><span class="fu">library</span>(rpart.plot)   <span class="co"># Tree visualization</span></span>
+<span id="cb2-9"><a></a><span class="fu">library</span>(randomForest) <span class="co"># Random forest ensemble</span></span>
+<span id="cb2-10"><a></a><span class="fu">library</span>(brms)         <span class="co"># Bayesian regression with Stan</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1285,11 +1285,11 @@ Bill Cresko
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href></a><span class="co"># ggplot2 LOESS with different spans</span></span>
-<span id="cb3-2"><a href></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb3-3"><a href></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb3-4"><a href></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">span =</span> <span class="fl">0.3</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb3-5"><a href></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">span =</span> <span class="fl">0.75</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="co"># ggplot2 LOESS with different spans</span></span>
+<span id="cb3-2"><a></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb3-3"><a></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">span =</span> <span class="fl">0.3</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">span =</span> <span class="fl">0.75</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="from-exploration-to-inference-splines" class="slide level2">
@@ -1314,19 +1314,19 @@ Bill Cresko
 <div class="tab-content">
 <div id="tabset-2-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href></a><span class="co"># Natural splines — you choose degrees of freedom</span></span>
-<span id="cb4-2"><a href></a><span class="fu">library</span>(splines)</span>
-<span id="cb4-3"><a href></a>model_ns <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">ns</span>(x, <span class="at">df =</span> <span class="dv">4</span>), <span class="at">data =</span> mydata)</span>
-<span id="cb4-4"><a href></a></span>
-<span id="cb4-5"><a href></a><span class="co"># Smoothing splines — CV selects smoothness</span></span>
-<span id="cb4-6"><a href></a>smooth_fit <span class="ot">&lt;-</span> <span class="fu">smooth.spline</span>(x, y, <span class="at">cv =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-7"><a href></a></span>
-<span id="cb4-8"><a href></a><span class="co"># GAMs — automatic smoothness selection</span></span>
-<span id="cb4-9"><a href></a><span class="fu">library</span>(mgcv)</span>
-<span id="cb4-10"><a href></a>gam_model <span class="ot">&lt;-</span> <span class="fu">gam</span>(y <span class="sc">~</span> <span class="fu">s</span>(x), <span class="at">data =</span> mydata)</span>
-<span id="cb4-11"><a href></a></span>
-<span id="cb4-12"><a href></a><span class="co"># Thin plate spline for 2D spatial data</span></span>
-<span id="cb4-13"><a href></a>model_tp <span class="ot">&lt;-</span> <span class="fu">gam</span>(z <span class="sc">~</span> <span class="fu">s</span>(x, y, <span class="at">bs =</span> <span class="st">&quot;tp&quot;</span>), <span class="at">data =</span> spatial_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="co"># Natural splines — you choose degrees of freedom</span></span>
+<span id="cb4-2"><a></a><span class="fu">library</span>(splines)</span>
+<span id="cb4-3"><a></a>model_ns <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">ns</span>(x, <span class="at">df =</span> <span class="dv">4</span>), <span class="at">data =</span> mydata)</span>
+<span id="cb4-4"><a></a></span>
+<span id="cb4-5"><a></a><span class="co"># Smoothing splines — CV selects smoothness</span></span>
+<span id="cb4-6"><a></a>smooth_fit <span class="ot">&lt;-</span> <span class="fu">smooth.spline</span>(x, y, <span class="at">cv =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-7"><a></a></span>
+<span id="cb4-8"><a></a><span class="co"># GAMs — automatic smoothness selection</span></span>
+<span id="cb4-9"><a></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb4-10"><a></a>gam_model <span class="ot">&lt;-</span> <span class="fu">gam</span>(y <span class="sc">~</span> <span class="fu">s</span>(x), <span class="at">data =</span> mydata)</span>
+<span id="cb4-11"><a></a></span>
+<span id="cb4-12"><a></a><span class="co"># Thin plate spline for 2D spatial data</span></span>
+<span id="cb4-13"><a></a>model_tp <span class="ot">&lt;-</span> <span class="fu">gam</span>(z <span class="sc">~</span> <span class="fu">s</span>(x, y, <span class="at">bs =</span> <span class="st">&quot;tp&quot;</span>), <span class="at">data =</span> spatial_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-2-2">
@@ -1386,9 +1386,9 @@ Bill Cresko
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href></a><span class="co"># Load the scaffold porosity dataset</span></span>
-<span id="cb5-2"><a href></a>porosity_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/scaffold_porosity.csv&quot;</span>)</span>
-<span id="cb5-3"><a href></a><span class="fu">glimpse</span>(porosity_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co"># Load the scaffold porosity dataset</span></span>
+<span id="cb5-2"><a></a>porosity_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/scaffold_porosity.csv&quot;</span>)</span>
+<span id="cb5-3"><a></a><span class="fu">glimpse</span>(porosity_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exploring-the-data-porosity-and-proliferation" class="slide level2">
@@ -1410,15 +1410,15 @@ Bill Cresko
 </div>
 <div id="tabset-3-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href></a><span class="co"># Load from CSV</span></span>
-<span id="cb6-2"><a href></a>porosity_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/scaffold_porosity.csv&quot;</span>)</span>
-<span id="cb6-3"><a href></a></span>
-<span id="cb6-4"><a href></a><span class="co"># Overlay linear and LOESS fits</span></span>
-<span id="cb6-5"><a href></a><span class="fu">ggplot</span>(porosity_data, <span class="fu">aes</span>(<span class="at">x =</span> porosity, <span class="at">y =</span> proliferation)) <span class="sc">+</span></span>
-<span id="cb6-6"><a href></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb6-7"><a href></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">span =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">&quot;green4&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-8"><a href></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb6-9"><a href></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Porosity (%)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proliferation Index&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># Load from CSV</span></span>
+<span id="cb6-2"><a></a>porosity_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/scaffold_porosity.csv&quot;</span>)</span>
+<span id="cb6-3"><a></a></span>
+<span id="cb6-4"><a></a><span class="co"># Overlay linear and LOESS fits</span></span>
+<span id="cb6-5"><a></a><span class="fu">ggplot</span>(porosity_data, <span class="fu">aes</span>(<span class="at">x =</span> porosity, <span class="at">y =</span> proliferation)) <span class="sc">+</span></span>
+<span id="cb6-6"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">span =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">&quot;green4&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Porosity (%)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proliferation Index&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-3-3">
@@ -1450,24 +1450,24 @@ Bill Cresko
 </div>
 <div id="tabset-4-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href></a><span class="fu">library</span>(splines)</span>
-<span id="cb7-2"><a href></a><span class="fu">library</span>(mgcv)</span>
-<span id="cb7-3"><a href></a></span>
-<span id="cb7-4"><a href></a><span class="co"># Linear — misses the curvature</span></span>
-<span id="cb7-5"><a href></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(proliferation <span class="sc">~</span> porosity, <span class="at">data =</span> porosity_data)</span>
-<span id="cb7-6"><a href></a></span>
-<span id="cb7-7"><a href></a><span class="co"># Polynomial (degree 4) — captures curvature, dangerous at edges</span></span>
-<span id="cb7-8"><a href></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(proliferation <span class="sc">~</span> <span class="fu">poly</span>(porosity, <span class="dv">4</span>), <span class="at">data =</span> porosity_data)</span>
-<span id="cb7-9"><a href></a></span>
-<span id="cb7-10"><a href></a><span class="co"># Natural splines (df = 4) — captures curvature, safe at edges</span></span>
-<span id="cb7-11"><a href></a>m3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(proliferation <span class="sc">~</span> <span class="fu">ns</span>(porosity, <span class="at">df =</span> <span class="dv">4</span>), <span class="at">data =</span> porosity_data)</span>
-<span id="cb7-12"><a href></a></span>
-<span id="cb7-13"><a href></a><span class="co"># GAM — automatic smoothness selection</span></span>
-<span id="cb7-14"><a href></a>m4 <span class="ot">&lt;-</span> <span class="fu">gam</span>(proliferation <span class="sc">~</span> <span class="fu">s</span>(porosity), <span class="at">data =</span> porosity_data)</span>
-<span id="cb7-15"><a href></a></span>
-<span id="cb7-16"><a href></a><span class="co"># Compare with AIC</span></span>
-<span id="cb7-17"><a href></a><span class="fu">AIC</span>(m1, m2, m3)</span>
-<span id="cb7-18"><a href></a><span class="fu">summary</span>(m4)  <span class="co"># includes significance test for smooth term</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">library</span>(splines)</span>
+<span id="cb7-2"><a></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb7-3"><a></a></span>
+<span id="cb7-4"><a></a><span class="co"># Linear — misses the curvature</span></span>
+<span id="cb7-5"><a></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(proliferation <span class="sc">~</span> porosity, <span class="at">data =</span> porosity_data)</span>
+<span id="cb7-6"><a></a></span>
+<span id="cb7-7"><a></a><span class="co"># Polynomial (degree 4) — captures curvature, dangerous at edges</span></span>
+<span id="cb7-8"><a></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(proliferation <span class="sc">~</span> <span class="fu">poly</span>(porosity, <span class="dv">4</span>), <span class="at">data =</span> porosity_data)</span>
+<span id="cb7-9"><a></a></span>
+<span id="cb7-10"><a></a><span class="co"># Natural splines (df = 4) — captures curvature, safe at edges</span></span>
+<span id="cb7-11"><a></a>m3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(proliferation <span class="sc">~</span> <span class="fu">ns</span>(porosity, <span class="at">df =</span> <span class="dv">4</span>), <span class="at">data =</span> porosity_data)</span>
+<span id="cb7-12"><a></a></span>
+<span id="cb7-13"><a></a><span class="co"># GAM — automatic smoothness selection</span></span>
+<span id="cb7-14"><a></a>m4 <span class="ot">&lt;-</span> <span class="fu">gam</span>(proliferation <span class="sc">~</span> <span class="fu">s</span>(porosity), <span class="at">data =</span> porosity_data)</span>
+<span id="cb7-15"><a></a></span>
+<span id="cb7-16"><a></a><span class="co"># Compare with AIC</span></span>
+<span id="cb7-17"><a></a><span class="fu">AIC</span>(m1, m2, m3)</span>
+<span id="cb7-18"><a></a><span class="fu">summary</span>(m4)  <span class="co"># includes significance test for smooth term</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-4-3">
@@ -1536,8 +1536,8 @@ Bill Cresko
 <div class="callout-content">
 <p>Load the scaffold porosity dataset (<code>data/scaffold_porosity.csv</code>) and explore different smoothing approaches:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href></a><span class="co"># Starter code</span></span>
-<span id="cb8-2"><a href></a>porosity_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/scaffold_porosity.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="co"># Starter code</span></span>
+<span id="cb8-2"><a></a>porosity_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/scaffold_porosity.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Tasks:</p>
 <ol type="1">
@@ -1688,9 +1688,9 @@ Bill Cresko
 </ul>
 </div>
 <div id="tabset-6-3">
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href></a>h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T &lt; t + \Delta t \mid T \geq t)}{\Delta t}</span>
-<span id="cb9-2"><a href></a></span>
-<span id="cb9-3"><a href></a>S(t) = \exp\left(-\int_0^t h(u)\,du\right)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a></a>h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T &lt; t + \Delta t \mid T \geq t)}{\Delta t}</span>
+<span id="cb9-2"><a></a></span>
+<span id="cb9-3"><a></a>S(t) = \exp\left(-\int_0^t h(u)\,du\right)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1807,11 +1807,11 @@ Bill Cresko
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href></a><span class="co"># Load the implant failure dataset</span></span>
-<span id="cb10-2"><a href></a>implant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/implant_failure.csv&quot;</span>)</span>
-<span id="cb10-3"><a href></a>implant<span class="sc">$</span>material <span class="ot">&lt;-</span> <span class="fu">factor</span>(implant<span class="sc">$</span>material)</span>
-<span id="cb10-4"><a href></a>implant<span class="sc">$</span>coating <span class="ot">&lt;-</span> <span class="fu">factor</span>(implant<span class="sc">$</span>coating)</span>
-<span id="cb10-5"><a href></a><span class="fu">glimpse</span>(implant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="co"># Load the implant failure dataset</span></span>
+<span id="cb10-2"><a></a>implant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/implant_failure.csv&quot;</span>)</span>
+<span id="cb10-3"><a></a>implant<span class="sc">$</span>material <span class="ot">&lt;-</span> <span class="fu">factor</span>(implant<span class="sc">$</span>material)</span>
+<span id="cb10-4"><a></a>implant<span class="sc">$</span>coating <span class="ot">&lt;-</span> <span class="fu">factor</span>(implant<span class="sc">$</span>coating)</span>
+<span id="cb10-5"><a></a><span class="fu">glimpse</span>(implant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="load-and-inspect-the-data" class="slide level2">
@@ -1959,16 +1959,16 @@ First 8 rows:</code></pre>
 </div>
 <div id="tabset-8-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href></a><span class="co"># Load and inspect</span></span>
-<span id="cb17-2"><a href></a>implant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/implant_failure.csv&quot;</span>)</span>
-<span id="cb17-3"><a href></a>implant<span class="sc">$</span>material <span class="ot">&lt;-</span> <span class="fu">factor</span>(implant<span class="sc">$</span>material)</span>
-<span id="cb17-4"><a href></a>implant<span class="sc">$</span>coating <span class="ot">&lt;-</span> <span class="fu">factor</span>(implant<span class="sc">$</span>coating)</span>
-<span id="cb17-5"><a href></a></span>
-<span id="cb17-6"><a href></a><span class="fu">dim</span>(implant)</span>
-<span id="cb17-7"><a href></a><span class="fu">str</span>(implant)</span>
-<span id="cb17-8"><a href></a><span class="fu">table</span>(implant<span class="sc">$</span>event)     <span class="co"># 0 = censored, 1 = failure</span></span>
-<span id="cb17-9"><a href></a><span class="fu">table</span>(implant<span class="sc">$</span>material)  <span class="co"># material distribution</span></span>
-<span id="cb17-10"><a href></a><span class="fu">head</span>(implant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="co"># Load and inspect</span></span>
+<span id="cb17-2"><a></a>implant <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/implant_failure.csv&quot;</span>)</span>
+<span id="cb17-3"><a></a>implant<span class="sc">$</span>material <span class="ot">&lt;-</span> <span class="fu">factor</span>(implant<span class="sc">$</span>material)</span>
+<span id="cb17-4"><a></a>implant<span class="sc">$</span>coating <span class="ot">&lt;-</span> <span class="fu">factor</span>(implant<span class="sc">$</span>coating)</span>
+<span id="cb17-5"><a></a></span>
+<span id="cb17-6"><a></a><span class="fu">dim</span>(implant)</span>
+<span id="cb17-7"><a></a><span class="fu">str</span>(implant)</span>
+<span id="cb17-8"><a></a><span class="fu">table</span>(implant<span class="sc">$</span>event)     <span class="co"># 0 = censored, 1 = failure</span></span>
+<span id="cb17-9"><a></a><span class="fu">table</span>(implant<span class="sc">$</span>material)  <span class="co"># material distribution</span></span>
+<span id="cb17-10"><a></a><span class="fu">head</span>(implant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-8-3">
@@ -2024,28 +2024,28 @@ First 8 rows:</code></pre>
 </div>
 <div id="tabset-9-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href></a><span class="fu">library</span>(survival)</span>
-<span id="cb18-2"><a href></a></span>
-<span id="cb18-3"><a href></a><span class="co"># Create survival object and fit KM curve</span></span>
-<span id="cb18-4"><a href></a>surv_obj <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> implant<span class="sc">$</span>time_years, <span class="at">event =</span> implant<span class="sc">$</span>event)</span>
-<span id="cb18-5"><a href></a>km_fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(surv_obj <span class="sc">~</span> <span class="dv">1</span>)  <span class="co"># Overall survival (no grouping)</span></span>
-<span id="cb18-6"><a href></a></span>
-<span id="cb18-7"><a href></a><span class="co"># Summary at specific time points</span></span>
-<span id="cb18-8"><a href></a><span class="fu">summary</span>(km_fit, <span class="at">times =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">10</span>))</span>
-<span id="cb18-9"><a href></a></span>
-<span id="cb18-10"><a href></a><span class="co"># Plot with ggplot</span></span>
-<span id="cb18-11"><a href></a>km_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb18-12"><a href></a>  <span class="at">time =</span> km_fit<span class="sc">$</span>time,</span>
-<span id="cb18-13"><a href></a>  <span class="at">surv =</span> km_fit<span class="sc">$</span>surv,</span>
-<span id="cb18-14"><a href></a>  <span class="at">upper =</span> km_fit<span class="sc">$</span>upper,</span>
-<span id="cb18-15"><a href></a>  <span class="at">lower =</span> km_fit<span class="sc">$</span>lower</span>
-<span id="cb18-16"><a href></a>)</span>
-<span id="cb18-17"><a href></a></span>
-<span id="cb18-18"><a href></a><span class="fu">ggplot</span>(km_df, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> surv)) <span class="sc">+</span></span>
-<span id="cb18-19"><a href></a>  <span class="fu">geom_step</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">color =</span> <span class="st">&quot;#2c3e50&quot;</span>) <span class="sc">+</span></span>
-<span id="cb18-20"><a href></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper), <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
-<span id="cb18-21"><a href></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (years)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Survival Probability&quot;</span>,</span>
-<span id="cb18-22"><a href></a>       <span class="at">title =</span> <span class="st">&quot;Kaplan-Meier Curve: Overall Implant Survival&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">library</span>(survival)</span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a><span class="co"># Create survival object and fit KM curve</span></span>
+<span id="cb18-4"><a></a>surv_obj <span class="ot">&lt;-</span> <span class="fu">Surv</span>(<span class="at">time =</span> implant<span class="sc">$</span>time_years, <span class="at">event =</span> implant<span class="sc">$</span>event)</span>
+<span id="cb18-5"><a></a>km_fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(surv_obj <span class="sc">~</span> <span class="dv">1</span>)  <span class="co"># Overall survival (no grouping)</span></span>
+<span id="cb18-6"><a></a></span>
+<span id="cb18-7"><a></a><span class="co"># Summary at specific time points</span></span>
+<span id="cb18-8"><a></a><span class="fu">summary</span>(km_fit, <span class="at">times =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">10</span>))</span>
+<span id="cb18-9"><a></a></span>
+<span id="cb18-10"><a></a><span class="co"># Plot with ggplot</span></span>
+<span id="cb18-11"><a></a>km_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-12"><a></a>  <span class="at">time =</span> km_fit<span class="sc">$</span>time,</span>
+<span id="cb18-13"><a></a>  <span class="at">surv =</span> km_fit<span class="sc">$</span>surv,</span>
+<span id="cb18-14"><a></a>  <span class="at">upper =</span> km_fit<span class="sc">$</span>upper,</span>
+<span id="cb18-15"><a></a>  <span class="at">lower =</span> km_fit<span class="sc">$</span>lower</span>
+<span id="cb18-16"><a></a>)</span>
+<span id="cb18-17"><a></a></span>
+<span id="cb18-18"><a></a><span class="fu">ggplot</span>(km_df, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> surv)) <span class="sc">+</span></span>
+<span id="cb18-19"><a></a>  <span class="fu">geom_step</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">color =</span> <span class="st">&quot;#2c3e50&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-20"><a></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper), <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb18-21"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Time (years)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Survival Probability&quot;</span>,</span>
+<span id="cb18-22"><a></a>       <span class="at">title =</span> <span class="st">&quot;Kaplan-Meier Curve: Overall Implant Survival&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-9-3">
@@ -2077,15 +2077,15 @@ First 8 rows:</code></pre>
 </div>
 <div id="tabset-10-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href></a><span class="co"># KM curves stratified by material</span></span>
-<span id="cb19-2"><a href></a>km_material <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time_years, event) <span class="sc">~</span> material, <span class="at">data =</span> implant)</span>
-<span id="cb19-3"><a href></a><span class="fu">summary</span>(km_material)</span>
-<span id="cb19-4"><a href></a></span>
-<span id="cb19-5"><a href></a><span class="co"># Quick plot with base R</span></span>
-<span id="cb19-6"><a href></a><span class="fu">plot</span>(km_material, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb19-7"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (years)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival Probability&quot;</span>,</span>
-<span id="cb19-8"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Implant Survival by Material&quot;</span>)</span>
-<span id="cb19-9"><a href></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="fu">levels</span>(implant<span class="sc">$</span>material), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="co"># KM curves stratified by material</span></span>
+<span id="cb19-2"><a></a>km_material <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time_years, event) <span class="sc">~</span> material, <span class="at">data =</span> implant)</span>
+<span id="cb19-3"><a></a><span class="fu">summary</span>(km_material)</span>
+<span id="cb19-4"><a></a></span>
+<span id="cb19-5"><a></a><span class="co"># Quick plot with base R</span></span>
+<span id="cb19-6"><a></a><span class="fu">plot</span>(km_material, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb19-7"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Time (years)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival Probability&quot;</span>,</span>
+<span id="cb19-8"><a></a>     <span class="at">main =</span> <span class="st">&quot;Implant Survival by Material&quot;</span>)</span>
+<span id="cb19-9"><a></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="fu">levels</span>(implant<span class="sc">$</span>material), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-10-3">
@@ -2142,12 +2142,12 @@ material=titanium      70       50     73.6     7.551   15.4324
 </div>
 <div id="tabset-11-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href></a><span class="co"># Log-rank test: are the survival curves significantly different?</span></span>
-<span id="cb21-2"><a href></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(time_years, event) <span class="sc">~</span> material, <span class="at">data =</span> implant)</span>
-<span id="cb21-3"><a href></a></span>
-<span id="cb21-4"><a href></a><span class="co"># Pairwise log-rank tests (if &gt;2 groups)</span></span>
-<span id="cb21-5"><a href></a><span class="fu">pairwise_survdiff</span>(<span class="fu">Surv</span>(time_years, event) <span class="sc">~</span> material,</span>
-<span id="cb21-6"><a href></a>                  <span class="at">data =</span> implant, <span class="at">p.adjust.method =</span> <span class="st">&quot;BH&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="co"># Log-rank test: are the survival curves significantly different?</span></span>
+<span id="cb21-2"><a></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(time_years, event) <span class="sc">~</span> material, <span class="at">data =</span> implant)</span>
+<span id="cb21-3"><a></a></span>
+<span id="cb21-4"><a></a><span class="co"># Pairwise log-rank tests (if &gt;2 groups)</span></span>
+<span id="cb21-5"><a></a><span class="fu">pairwise_survdiff</span>(<span class="fu">Surv</span>(time_years, event) <span class="sc">~</span> material,</span>
+<span id="cb21-6"><a></a>                  <span class="at">data =</span> implant, <span class="at">p.adjust.method =</span> <span class="st">&quot;BH&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-11-3">
@@ -2216,14 +2216,14 @@ Score (logrank) test = 67.53  on 6 df,   p=1e-12</code></pre>
 </div>
 <div id="tabset-12-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href></a><span class="co"># Cox proportional hazards model</span></span>
-<span id="cb23-2"><a href></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time_years, event) <span class="sc">~</span> material <span class="sc">+</span> coating <span class="sc">+</span></span>
-<span id="cb23-3"><a href></a>                     patient_age <span class="sc">+</span> activity_level <span class="sc">+</span> bmi,</span>
-<span id="cb23-4"><a href></a>                   <span class="at">data =</span> implant)</span>
-<span id="cb23-5"><a href></a><span class="fu">summary</span>(cox_model)</span>
-<span id="cb23-6"><a href></a></span>
-<span id="cb23-7"><a href></a><span class="co"># Hazard ratios with 95% CI</span></span>
-<span id="cb23-8"><a href></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">HR =</span> <span class="fu">coef</span>(cox_model), <span class="fu">confint</span>(cox_model)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="co"># Cox proportional hazards model</span></span>
+<span id="cb23-2"><a></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time_years, event) <span class="sc">~</span> material <span class="sc">+</span> coating <span class="sc">+</span></span>
+<span id="cb23-3"><a></a>                     patient_age <span class="sc">+</span> activity_level <span class="sc">+</span> bmi,</span>
+<span id="cb23-4"><a></a>                   <span class="at">data =</span> implant)</span>
+<span id="cb23-5"><a></a><span class="fu">summary</span>(cox_model)</span>
+<span id="cb23-6"><a></a></span>
+<span id="cb23-7"><a></a><span class="co"># Hazard ratios with 95% CI</span></span>
+<span id="cb23-8"><a></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">HR =</span> <span class="fu">coef</span>(cox_model), <span class="fu">confint</span>(cox_model)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-12-3">
@@ -2260,21 +2260,21 @@ Score (logrank) test = 67.53  on 6 df,   p=1e-12</code></pre>
 </div>
 <div id="tabset-13-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href></a><span class="co"># Extract hazard ratios and CIs</span></span>
-<span id="cb24-2"><a href></a>hr_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb24-3"><a href></a>  <span class="at">term =</span> <span class="fu">names</span>(<span class="fu">coef</span>(cox_model)),</span>
-<span id="cb24-4"><a href></a>  <span class="at">hr =</span> <span class="fu">exp</span>(<span class="fu">coef</span>(cox_model)),</span>
-<span id="cb24-5"><a href></a>  <span class="at">lower =</span> <span class="fu">exp</span>(<span class="fu">confint</span>(cox_model)[, <span class="dv">1</span>]),</span>
-<span id="cb24-6"><a href></a>  <span class="at">upper =</span> <span class="fu">exp</span>(<span class="fu">confint</span>(cox_model)[, <span class="dv">2</span>])</span>
-<span id="cb24-7"><a href></a>)</span>
-<span id="cb24-8"><a href></a></span>
-<span id="cb24-9"><a href></a><span class="co"># Forest plot</span></span>
-<span id="cb24-10"><a href></a><span class="fu">ggplot</span>(hr_df, <span class="fu">aes</span>(<span class="at">x =</span> hr, <span class="at">y =</span> <span class="fu">reorder</span>(term, hr))) <span class="sc">+</span></span>
-<span id="cb24-11"><a href></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb24-12"><a href></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> lower, <span class="at">xmax =</span> upper), <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb24-13"><a href></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb24-14"><a href></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Hazard Ratio (95% CI)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb24-15"><a href></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="co"># Extract hazard ratios and CIs</span></span>
+<span id="cb24-2"><a></a>hr_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb24-3"><a></a>  <span class="at">term =</span> <span class="fu">names</span>(<span class="fu">coef</span>(cox_model)),</span>
+<span id="cb24-4"><a></a>  <span class="at">hr =</span> <span class="fu">exp</span>(<span class="fu">coef</span>(cox_model)),</span>
+<span id="cb24-5"><a></a>  <span class="at">lower =</span> <span class="fu">exp</span>(<span class="fu">confint</span>(cox_model)[, <span class="dv">1</span>]),</span>
+<span id="cb24-6"><a></a>  <span class="at">upper =</span> <span class="fu">exp</span>(<span class="fu">confint</span>(cox_model)[, <span class="dv">2</span>])</span>
+<span id="cb24-7"><a></a>)</span>
+<span id="cb24-8"><a></a></span>
+<span id="cb24-9"><a></a><span class="co"># Forest plot</span></span>
+<span id="cb24-10"><a></a><span class="fu">ggplot</span>(hr_df, <span class="fu">aes</span>(<span class="at">x =</span> hr, <span class="at">y =</span> <span class="fu">reorder</span>(term, hr))) <span class="sc">+</span></span>
+<span id="cb24-11"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb24-12"><a></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> lower, <span class="at">xmax =</span> upper), <span class="at">height =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb24-13"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-14"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Hazard Ratio (95% CI)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-15"><a></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-13-3">
@@ -2315,13 +2315,13 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-14-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href></a><span class="co"># Test proportional hazards assumption</span></span>
-<span id="cb26-2"><a href></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(cox_model)</span>
-<span id="cb26-3"><a href></a><span class="fu">print</span>(ph_test)  <span class="co"># p &gt; 0.05 = assumption OK</span></span>
-<span id="cb26-4"><a href></a></span>
-<span id="cb26-5"><a href></a><span class="co"># Visual check: Schoenfeld residuals vs time</span></span>
-<span id="cb26-6"><a href></a><span class="fu">plot</span>(ph_test)</span>
-<span id="cb26-7"><a href></a><span class="co"># Horizontal lines = assumption met; trends = violation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="co"># Test proportional hazards assumption</span></span>
+<span id="cb26-2"><a></a>ph_test <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(cox_model)</span>
+<span id="cb26-3"><a></a><span class="fu">print</span>(ph_test)  <span class="co"># p &gt; 0.05 = assumption OK</span></span>
+<span id="cb26-4"><a></a></span>
+<span id="cb26-5"><a></a><span class="co"># Visual check: Schoenfeld residuals vs time</span></span>
+<span id="cb26-6"><a></a><span class="fu">plot</span>(ph_test)</span>
+<span id="cb26-7"><a></a><span class="co"># Horizontal lines = assumption met; trends = violation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-14-3">
@@ -2354,18 +2354,18 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-15-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href></a><span class="co"># Kaplan-Meier by treatment</span></span>
-<span id="cb27-2"><a href></a>km_scaffold <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time_to_50, event) <span class="sc">~</span> treatment, </span>
-<span id="cb27-3"><a href></a>                        <span class="at">data =</span> scaffold_surv)</span>
-<span id="cb27-4"><a href></a></span>
-<span id="cb27-5"><a href></a><span class="co"># Log-rank test: do coatings differ in degradation time?</span></span>
-<span id="cb27-6"><a href></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(time_to_50, event) <span class="sc">~</span> treatment, <span class="at">data =</span> scaffold_surv)</span>
-<span id="cb27-7"><a href></a></span>
-<span id="cb27-8"><a href></a><span class="co"># Cox model: hazard ratios for coating types</span></span>
-<span id="cb27-9"><a href></a>cox_scaffold <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time_to_50, event) <span class="sc">~</span> treatment <span class="sc">+</span> temperature,</span>
-<span id="cb27-10"><a href></a>                       <span class="at">data =</span> scaffold_surv)</span>
-<span id="cb27-11"><a href></a><span class="fu">summary</span>(cox_scaffold)</span>
-<span id="cb27-12"><a href></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">HR =</span> <span class="fu">coef</span>(cox_scaffold), <span class="fu">confint</span>(cox_scaffold)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="co"># Kaplan-Meier by treatment</span></span>
+<span id="cb27-2"><a></a>km_scaffold <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time_to_50, event) <span class="sc">~</span> treatment, </span>
+<span id="cb27-3"><a></a>                        <span class="at">data =</span> scaffold_surv)</span>
+<span id="cb27-4"><a></a></span>
+<span id="cb27-5"><a></a><span class="co"># Log-rank test: do coatings differ in degradation time?</span></span>
+<span id="cb27-6"><a></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(time_to_50, event) <span class="sc">~</span> treatment, <span class="at">data =</span> scaffold_surv)</span>
+<span id="cb27-7"><a></a></span>
+<span id="cb27-8"><a></a><span class="co"># Cox model: hazard ratios for coating types</span></span>
+<span id="cb27-9"><a></a>cox_scaffold <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time_to_50, event) <span class="sc">~</span> treatment <span class="sc">+</span> temperature,</span>
+<span id="cb27-10"><a></a>                       <span class="at">data =</span> scaffold_surv)</span>
+<span id="cb27-11"><a></a><span class="fu">summary</span>(cox_scaffold)</span>
+<span id="cb27-12"><a></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">HR =</span> <span class="fu">coef</span>(cox_scaffold), <span class="fu">confint</span>(cox_scaffold)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-15-3">
@@ -2572,7 +2572,7 @@ GLOBAL         6.63840  6 0.36</code></pre>
 <p><span class="math display">\[\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}\]</span></p>
 </div>
 <div id="tabset-16-2">
-<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a href></a>\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a></a>\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2604,28 +2604,28 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-17-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb29-2"><a href></a>x_pop <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span>
-<span id="cb29-3"><a href></a>y_pop <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> x_pop <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb29-4"><a href></a></span>
-<span id="cb29-5"><a href></a><span class="fu">set.seed</span>(<span class="dv">0</span>)</span>
-<span id="cb29-6"><a href></a>idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1000</span>, <span class="dv">25</span>)</span>
-<span id="cb29-7"><a href></a>x_samp <span class="ot">&lt;-</span> x_pop[idx]; y_samp <span class="ot">&lt;-</span> y_pop[idx]</span>
-<span id="cb29-8"><a href></a></span>
-<span id="cb29-9"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb29-10"><a href></a></span>
-<span id="cb29-11"><a href></a><span class="co"># Linear model: appropriate fit</span></span>
-<span id="cb29-12"><a href></a><span class="fu">plot</span>(x_pop, y_pop, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
-<span id="cb29-13"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Linear Model (Appropriate)&quot;</span>)</span>
-<span id="cb29-14"><a href></a><span class="fu">points</span>(x_samp, y_samp, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb29-15"><a href></a><span class="fu">abline</span>(<span class="fu">lm</span>(y_samp <span class="sc">~</span> x_samp), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb29-16"><a href></a></span>
-<span id="cb29-17"><a href></a><span class="co"># LOESS: overfitting the sample noise</span></span>
-<span id="cb29-18"><a href></a><span class="fu">plot</span>(x_pop, y_pop, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
-<span id="cb29-19"><a href></a>     <span class="at">main =</span> <span class="st">&quot;LOESS Model (Overfit)&quot;</span>)</span>
-<span id="cb29-20"><a href></a><span class="fu">points</span>(x_samp, y_samp, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb29-21"><a href></a><span class="fu">lines</span>(<span class="fu">sort</span>(x_samp), <span class="fu">predict</span>(<span class="fu">loess</span>(y_samp <span class="sc">~</span> x_samp))[<span class="fu">order</span>(x_samp)],</span>
-<span id="cb29-22"><a href></a>      <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb29-2"><a></a>x_pop <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb29-3"><a></a>y_pop <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> x_pop <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb29-4"><a></a></span>
+<span id="cb29-5"><a></a><span class="fu">set.seed</span>(<span class="dv">0</span>)</span>
+<span id="cb29-6"><a></a>idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1000</span>, <span class="dv">25</span>)</span>
+<span id="cb29-7"><a></a>x_samp <span class="ot">&lt;-</span> x_pop[idx]; y_samp <span class="ot">&lt;-</span> y_pop[idx]</span>
+<span id="cb29-8"><a></a></span>
+<span id="cb29-9"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb29-10"><a></a></span>
+<span id="cb29-11"><a></a><span class="co"># Linear model: appropriate fit</span></span>
+<span id="cb29-12"><a></a><span class="fu">plot</span>(x_pop, y_pop, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb29-13"><a></a>     <span class="at">main =</span> <span class="st">&quot;Linear Model (Appropriate)&quot;</span>)</span>
+<span id="cb29-14"><a></a><span class="fu">points</span>(x_samp, y_samp, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb29-15"><a></a><span class="fu">abline</span>(<span class="fu">lm</span>(y_samp <span class="sc">~</span> x_samp), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb29-16"><a></a></span>
+<span id="cb29-17"><a></a><span class="co"># LOESS: overfitting the sample noise</span></span>
+<span id="cb29-18"><a></a><span class="fu">plot</span>(x_pop, y_pop, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.5</span>,</span>
+<span id="cb29-19"><a></a>     <span class="at">main =</span> <span class="st">&quot;LOESS Model (Overfit)&quot;</span>)</span>
+<span id="cb29-20"><a></a><span class="fu">points</span>(x_samp, y_samp, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb29-21"><a></a><span class="fu">lines</span>(<span class="fu">sort</span>(x_samp), <span class="fu">predict</span>(<span class="fu">loess</span>(y_samp <span class="sc">~</span> x_samp))[<span class="fu">order</span>(x_samp)],</span>
+<span id="cb29-22"><a></a>      <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2712,29 +2712,29 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-18-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href></a><span class="co"># LOOCV to select optimal polynomial degree</span></span>
-<span id="cb30-2"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb30-3"><a href></a>n <span class="ot">&lt;-</span> <span class="dv">80</span></span>
-<span id="cb30-4"><a href></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">6</span>)</span>
-<span id="cb30-5"><a href></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>x <span class="sc">-</span> <span class="fl">0.5</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">1.5</span>)</span>
-<span id="cb30-6"><a href></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y)</span>
-<span id="cb30-7"><a href></a></span>
-<span id="cb30-8"><a href></a>cv_errors <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
-<span id="cb30-9"><a href></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb30-10"><a href></a>  cv_err <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb30-11"><a href></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
-<span id="cb30-12"><a href></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, d), <span class="at">data =</span> df[<span class="sc">-</span>i, ])</span>
-<span id="cb30-13"><a href></a>    pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, df[i, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb30-14"><a href></a>    cv_err <span class="ot">&lt;-</span> cv_err <span class="sc">+</span> (df<span class="sc">$</span>y[i] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb30-15"><a href></a>  }</span>
-<span id="cb30-16"><a href></a>  cv_errors[d] <span class="ot">&lt;-</span> cv_err <span class="sc">/</span> n</span>
-<span id="cb30-17"><a href></a>}</span>
-<span id="cb30-18"><a href></a></span>
-<span id="cb30-19"><a href></a><span class="co"># The &quot;elbow&quot; shows where adding complexity stops helping</span></span>
-<span id="cb30-20"><a href></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, cv_errors, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
-<span id="cb30-21"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Polynomial Degree&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;LOOCV MSE&quot;</span>,</span>
-<span id="cb30-22"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Cross-Validation for Model Selection&quot;</span>)</span>
-<span id="cb30-23"><a href></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">which.min</span>(cv_errors), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a><span class="co"># LOOCV to select optimal polynomial degree</span></span>
+<span id="cb30-2"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb30-3"><a></a>n <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb30-4"><a></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">6</span>)</span>
+<span id="cb30-5"><a></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span><span class="sc">*</span>x <span class="sc">-</span> <span class="fl">0.5</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">1.5</span>)</span>
+<span id="cb30-6"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y)</span>
+<span id="cb30-7"><a></a></span>
+<span id="cb30-8"><a></a>cv_errors <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
+<span id="cb30-9"><a></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb30-10"><a></a>  cv_err <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb30-11"><a></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb30-12"><a></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, d), <span class="at">data =</span> df[<span class="sc">-</span>i, ])</span>
+<span id="cb30-13"><a></a>    pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, df[i, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb30-14"><a></a>    cv_err <span class="ot">&lt;-</span> cv_err <span class="sc">+</span> (df<span class="sc">$</span>y[i] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb30-15"><a></a>  }</span>
+<span id="cb30-16"><a></a>  cv_errors[d] <span class="ot">&lt;-</span> cv_err <span class="sc">/</span> n</span>
+<span id="cb30-17"><a></a>}</span>
+<span id="cb30-18"><a></a></span>
+<span id="cb30-19"><a></a><span class="co"># The &quot;elbow&quot; shows where adding complexity stops helping</span></span>
+<span id="cb30-20"><a></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, cv_errors, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
+<span id="cb30-21"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Polynomial Degree&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;LOOCV MSE&quot;</span>,</span>
+<span id="cb30-22"><a></a>     <span class="at">main =</span> <span class="st">&quot;Cross-Validation for Model Selection&quot;</span>)</span>
+<span id="cb30-23"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">which.min</span>(cv_errors), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-18-3">
@@ -2823,11 +2823,11 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href></a><span class="co"># Load the biomaterial screening dataset</span></span>
-<span id="cb31-2"><a href></a>biomat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/biomaterial_screening.csv&quot;</span>)</span>
-<span id="cb31-3"><a href></a>biomat<span class="sc">$</span>coating <span class="ot">&lt;-</span> <span class="fu">factor</span>(biomat<span class="sc">$</span>coating)</span>
-<span id="cb31-4"><a href></a>biomat<span class="sc">$</span>compat_score <span class="ot">&lt;-</span> <span class="fu">factor</span>(biomat<span class="sc">$</span>compat_score)</span>
-<span id="cb31-5"><a href></a><span class="fu">glimpse</span>(biomat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a><span class="co"># Load the biomaterial screening dataset</span></span>
+<span id="cb31-2"><a></a>biomat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/biomaterial_screening.csv&quot;</span>)</span>
+<span id="cb31-3"><a></a>biomat<span class="sc">$</span>coating <span class="ot">&lt;-</span> <span class="fu">factor</span>(biomat<span class="sc">$</span>coating)</span>
+<span id="cb31-4"><a></a>biomat<span class="sc">$</span>compat_score <span class="ot">&lt;-</span> <span class="fu">factor</span>(biomat<span class="sc">$</span>compat_score)</span>
+<span id="cb31-5"><a></a><span class="fu">glimpse</span>(biomat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="what-are-decision-trees" class="slide level2">
@@ -2875,11 +2875,11 @@ GLOBAL         6.63840  6 0.36</code></pre>
 <p>where <span class="math inline">\(p_k\)</span> is the proportion of class <span class="math inline">\(k\)</span> in the node.</p>
 </div>
 <div id="tabset-19-3">
-<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a href></a>G = 1 - \sum_{k=1}^{K} p_k^2</span>
-<span id="cb32-2"><a href></a></span>
-<span id="cb32-3"><a href></a>H = -\sum_{k=1}^{K} p_k \log_2(p_k)</span>
-<span id="cb32-4"><a href></a></span>
-<span id="cb32-5"><a href></a>MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \bar{y})^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a></a>G = 1 - \sum_{k=1}^{K} p_k^2</span>
+<span id="cb32-2"><a></a></span>
+<span id="cb32-3"><a></a>H = -\sum_{k=1}^{K} p_k \log_2(p_k)</span>
+<span id="cb32-4"><a></a></span>
+<span id="cb32-5"><a></a>MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \bar{y})^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2906,17 +2906,17 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-20-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href></a><span class="fu">library</span>(rpart)</span>
-<span id="cb33-2"><a href></a><span class="fu">library</span>(rpart.plot)</span>
-<span id="cb33-3"><a href></a></span>
-<span id="cb33-4"><a href></a><span class="co"># Fit classification tree</span></span>
-<span id="cb33-5"><a href></a>tree_model <span class="ot">&lt;-</span> <span class="fu">rpart</span>(compat_score <span class="sc">~</span> porosity <span class="sc">+</span> stiffness <span class="sc">+</span> coating <span class="sc">+</span> roughness,</span>
-<span id="cb33-6"><a href></a>                    <span class="at">data =</span> biomat, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>,</span>
-<span id="cb33-7"><a href></a>                    <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="fl">0.02</span>, <span class="at">maxdepth =</span> <span class="dv">4</span>))</span>
-<span id="cb33-8"><a href></a></span>
-<span id="cb33-9"><a href></a><span class="fu">rpart.plot</span>(tree_model, <span class="at">type =</span> <span class="dv">4</span>, <span class="at">extra =</span> <span class="dv">104</span>,</span>
-<span id="cb33-10"><a href></a>           <span class="at">box.palette =</span> <span class="fu">c</span>(<span class="st">&quot;#e74c3c&quot;</span>, <span class="st">&quot;#27ae60&quot;</span>),</span>
-<span id="cb33-11"><a href></a>           <span class="at">main =</span> <span class="st">&quot;Biomaterial Biocompatibility Classification Tree&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a><span class="fu">library</span>(rpart)</span>
+<span id="cb33-2"><a></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb33-3"><a></a></span>
+<span id="cb33-4"><a></a><span class="co"># Fit classification tree</span></span>
+<span id="cb33-5"><a></a>tree_model <span class="ot">&lt;-</span> <span class="fu">rpart</span>(compat_score <span class="sc">~</span> porosity <span class="sc">+</span> stiffness <span class="sc">+</span> coating <span class="sc">+</span> roughness,</span>
+<span id="cb33-6"><a></a>                    <span class="at">data =</span> biomat, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>,</span>
+<span id="cb33-7"><a></a>                    <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="fl">0.02</span>, <span class="at">maxdepth =</span> <span class="dv">4</span>))</span>
+<span id="cb33-8"><a></a></span>
+<span id="cb33-9"><a></a><span class="fu">rpart.plot</span>(tree_model, <span class="at">type =</span> <span class="dv">4</span>, <span class="at">extra =</span> <span class="dv">104</span>,</span>
+<span id="cb33-10"><a></a>           <span class="at">box.palette =</span> <span class="fu">c</span>(<span class="st">&quot;#e74c3c&quot;</span>, <span class="st">&quot;#27ae60&quot;</span>),</span>
+<span id="cb33-11"><a></a>           <span class="at">main =</span> <span class="st">&quot;Biomaterial Biocompatibility Classification Tree&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-20-3">
@@ -2950,23 +2950,23 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-21-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href></a><span class="co"># Step 1: Grow a complex tree (low cp allows many splits)</span></span>
-<span id="cb34-2"><a href></a>big_tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(compat_score <span class="sc">~</span> porosity <span class="sc">+</span> stiffness <span class="sc">+</span> coating <span class="sc">+</span> roughness,</span>
-<span id="cb34-3"><a href></a>                  <span class="at">data =</span> biomat, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>,</span>
-<span id="cb34-4"><a href></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="fl">0.001</span>, <span class="at">minsplit =</span> <span class="dv">5</span>))</span>
-<span id="cb34-5"><a href></a></span>
-<span id="cb34-6"><a href></a><span class="co"># Step 2: Examine the CP table (cross-validated error)</span></span>
-<span id="cb34-7"><a href></a><span class="fu">printcp</span>(big_tree)</span>
-<span id="cb34-8"><a href></a><span class="fu">plotcp</span>(big_tree)</span>
-<span id="cb34-9"><a href></a></span>
-<span id="cb34-10"><a href></a><span class="co"># Step 3: Find optimal cp using 1-SE rule</span></span>
-<span id="cb34-11"><a href></a>optimal_cp <span class="ot">&lt;-</span> big_tree<span class="sc">$</span>cptable[<span class="fu">which.min</span>(big_tree<span class="sc">$</span>cptable[, <span class="st">&quot;xerror&quot;</span>]), <span class="st">&quot;CP&quot;</span>]</span>
-<span id="cb34-12"><a href></a></span>
-<span id="cb34-13"><a href></a><span class="co"># Step 4: Prune to optimal complexity</span></span>
-<span id="cb34-14"><a href></a>pruned_tree <span class="ot">&lt;-</span> <span class="fu">prune</span>(big_tree, <span class="at">cp =</span> optimal_cp)</span>
-<span id="cb34-15"><a href></a></span>
-<span id="cb34-16"><a href></a><span class="co"># Step 5: Visualize the pruned tree</span></span>
-<span id="cb34-17"><a href></a><span class="fu">rpart.plot</span>(pruned_tree, <span class="at">type =</span> <span class="dv">4</span>, <span class="at">extra =</span> <span class="dv">104</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a><span class="co"># Step 1: Grow a complex tree (low cp allows many splits)</span></span>
+<span id="cb34-2"><a></a>big_tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(compat_score <span class="sc">~</span> porosity <span class="sc">+</span> stiffness <span class="sc">+</span> coating <span class="sc">+</span> roughness,</span>
+<span id="cb34-3"><a></a>                  <span class="at">data =</span> biomat, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>,</span>
+<span id="cb34-4"><a></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="fl">0.001</span>, <span class="at">minsplit =</span> <span class="dv">5</span>))</span>
+<span id="cb34-5"><a></a></span>
+<span id="cb34-6"><a></a><span class="co"># Step 2: Examine the CP table (cross-validated error)</span></span>
+<span id="cb34-7"><a></a><span class="fu">printcp</span>(big_tree)</span>
+<span id="cb34-8"><a></a><span class="fu">plotcp</span>(big_tree)</span>
+<span id="cb34-9"><a></a></span>
+<span id="cb34-10"><a></a><span class="co"># Step 3: Find optimal cp using 1-SE rule</span></span>
+<span id="cb34-11"><a></a>optimal_cp <span class="ot">&lt;-</span> big_tree<span class="sc">$</span>cptable[<span class="fu">which.min</span>(big_tree<span class="sc">$</span>cptable[, <span class="st">&quot;xerror&quot;</span>]), <span class="st">&quot;CP&quot;</span>]</span>
+<span id="cb34-12"><a></a></span>
+<span id="cb34-13"><a></a><span class="co"># Step 4: Prune to optimal complexity</span></span>
+<span id="cb34-14"><a></a>pruned_tree <span class="ot">&lt;-</span> <span class="fu">prune</span>(big_tree, <span class="at">cp =</span> optimal_cp)</span>
+<span id="cb34-15"><a></a></span>
+<span id="cb34-16"><a></a><span class="co"># Step 5: Visualize the pruned tree</span></span>
+<span id="cb34-17"><a></a><span class="fu">rpart.plot</span>(pruned_tree, <span class="at">type =</span> <span class="dv">4</span>, <span class="at">extra =</span> <span class="dv">104</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-21-3">
@@ -3064,17 +3064,17 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-22-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href></a><span class="co"># Regression tree uses method = &quot;anova&quot;</span></span>
-<span id="cb35-2"><a href></a>reg_tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(cell_growth <span class="sc">~</span> porosity <span class="sc">+</span> fiber_diameter <span class="sc">+</span> crosslink_density,</span>
-<span id="cb35-3"><a href></a>                  <span class="at">data =</span> scaffold_reg, <span class="at">method =</span> <span class="st">&quot;anova&quot;</span>,</span>
-<span id="cb35-4"><a href></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="fl">0.02</span>))</span>
-<span id="cb35-5"><a href></a></span>
-<span id="cb35-6"><a href></a><span class="co"># Visualize</span></span>
-<span id="cb35-7"><a href></a><span class="fu">rpart.plot</span>(reg_tree, <span class="at">type =</span> <span class="dv">4</span>, <span class="at">digits =</span> <span class="dv">3</span>)</span>
-<span id="cb35-8"><a href></a></span>
-<span id="cb35-9"><a href></a><span class="co"># Check predictions</span></span>
-<span id="cb35-10"><a href></a>pred_vals <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg_tree, scaffold_reg)</span>
-<span id="cb35-11"><a href></a><span class="fu">cor</span>(scaffold_reg<span class="sc">$</span>cell_growth, pred_vals)<span class="sc">^</span><span class="dv">2</span>  <span class="co"># R-squared</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a><span class="co"># Regression tree uses method = &quot;anova&quot;</span></span>
+<span id="cb35-2"><a></a>reg_tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(cell_growth <span class="sc">~</span> porosity <span class="sc">+</span> fiber_diameter <span class="sc">+</span> crosslink_density,</span>
+<span id="cb35-3"><a></a>                  <span class="at">data =</span> scaffold_reg, <span class="at">method =</span> <span class="st">&quot;anova&quot;</span>,</span>
+<span id="cb35-4"><a></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="fl">0.02</span>))</span>
+<span id="cb35-5"><a></a></span>
+<span id="cb35-6"><a></a><span class="co"># Visualize</span></span>
+<span id="cb35-7"><a></a><span class="fu">rpart.plot</span>(reg_tree, <span class="at">type =</span> <span class="dv">4</span>, <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb35-8"><a></a></span>
+<span id="cb35-9"><a></a><span class="co"># Check predictions</span></span>
+<span id="cb35-10"><a></a>pred_vals <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg_tree, scaffold_reg)</span>
+<span id="cb35-11"><a></a><span class="fu">cor</span>(scaffold_reg<span class="sc">$</span>cell_growth, pred_vals)<span class="sc">^</span><span class="dv">2</span>  <span class="co"># R-squared</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-22-3">
@@ -3219,25 +3219,25 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-23-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href></a><span class="fu">library</span>(randomForest)</span>
-<span id="cb36-2"><a href></a></span>
-<span id="cb36-3"><a href></a><span class="co"># Fit random forest — 500 trees, mtry = 2 features per split</span></span>
-<span id="cb36-4"><a href></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb36-5"><a href></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(compat_score <span class="sc">~</span> porosity <span class="sc">+</span> stiffness <span class="sc">+</span> coating <span class="sc">+</span> roughness,</span>
-<span id="cb36-6"><a href></a>                         <span class="at">data =</span> biomat, <span class="at">ntree =</span> <span class="dv">500</span>, <span class="at">mtry =</span> <span class="dv">2</span>, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb36-7"><a href></a></span>
-<span id="cb36-8"><a href></a><span class="co"># Out-of-bag error and confusion matrix</span></span>
-<span id="cb36-9"><a href></a><span class="fu">print</span>(rf_model)</span>
-<span id="cb36-10"><a href></a></span>
-<span id="cb36-11"><a href></a><span class="co"># OOB error convergence plot — does error stabilize?</span></span>
-<span id="cb36-12"><a href></a><span class="fu">plot</span>(rf_model)</span>
-<span id="cb36-13"><a href></a></span>
-<span id="cb36-14"><a href></a><span class="co"># Variable importance — which features matter most?</span></span>
-<span id="cb36-15"><a href></a><span class="fu">varImpPlot</span>(rf_model)</span>
-<span id="cb36-16"><a href></a><span class="fu">importance</span>(rf_model)</span>
-<span id="cb36-17"><a href></a></span>
-<span id="cb36-18"><a href></a><span class="co"># OOB confusion matrix</span></span>
-<span id="cb36-19"><a href></a>rf_model<span class="sc">$</span>confusion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb36-2"><a></a></span>
+<span id="cb36-3"><a></a><span class="co"># Fit random forest — 500 trees, mtry = 2 features per split</span></span>
+<span id="cb36-4"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb36-5"><a></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(compat_score <span class="sc">~</span> porosity <span class="sc">+</span> stiffness <span class="sc">+</span> coating <span class="sc">+</span> roughness,</span>
+<span id="cb36-6"><a></a>                         <span class="at">data =</span> biomat, <span class="at">ntree =</span> <span class="dv">500</span>, <span class="at">mtry =</span> <span class="dv">2</span>, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-7"><a></a></span>
+<span id="cb36-8"><a></a><span class="co"># Out-of-bag error and confusion matrix</span></span>
+<span id="cb36-9"><a></a><span class="fu">print</span>(rf_model)</span>
+<span id="cb36-10"><a></a></span>
+<span id="cb36-11"><a></a><span class="co"># OOB error convergence plot — does error stabilize?</span></span>
+<span id="cb36-12"><a></a><span class="fu">plot</span>(rf_model)</span>
+<span id="cb36-13"><a></a></span>
+<span id="cb36-14"><a></a><span class="co"># Variable importance — which features matter most?</span></span>
+<span id="cb36-15"><a></a><span class="fu">varImpPlot</span>(rf_model)</span>
+<span id="cb36-16"><a></a><span class="fu">importance</span>(rf_model)</span>
+<span id="cb36-17"><a></a></span>
+<span id="cb36-18"><a></a><span class="co"># OOB confusion matrix</span></span>
+<span id="cb36-19"><a></a>rf_model<span class="sc">$</span>confusion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-23-3">
@@ -3274,13 +3274,13 @@ GLOBAL         6.63840  6 0.36</code></pre>
 </div>
 <div id="tabset-24-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href></a><span class="co"># Random forest regression</span></span>
-<span id="cb37-2"><a href></a>rf_reg <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(cell_growth <span class="sc">~</span> porosity <span class="sc">+</span> fiber_diameter <span class="sc">+</span> crosslink_density,</span>
-<span id="cb37-3"><a href></a>                       <span class="at">data =</span> scaffold_reg, <span class="at">ntree =</span> <span class="dv">500</span>, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-4"><a href></a></span>
-<span id="cb37-5"><a href></a><span class="co"># Compare with single tree</span></span>
-<span id="cb37-6"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Single Tree R²:&quot;</span>, <span class="fu">cor</span>(<span class="fu">predict</span>(reg_tree), scaffold_reg<span class="sc">$</span>cell_growth)<span class="sc">^</span><span class="dv">2</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb37-7"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Random Forest R²:&quot;</span>, <span class="fu">cor</span>(<span class="fu">predict</span>(rf_reg), scaffold_reg<span class="sc">$</span>cell_growth)<span class="sc">^</span><span class="dv">2</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a></a><span class="co"># Random forest regression</span></span>
+<span id="cb37-2"><a></a>rf_reg <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(cell_growth <span class="sc">~</span> porosity <span class="sc">+</span> fiber_diameter <span class="sc">+</span> crosslink_density,</span>
+<span id="cb37-3"><a></a>                       <span class="at">data =</span> scaffold_reg, <span class="at">ntree =</span> <span class="dv">500</span>, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-4"><a></a></span>
+<span id="cb37-5"><a></a><span class="co"># Compare with single tree</span></span>
+<span id="cb37-6"><a></a><span class="fu">cat</span>(<span class="st">&quot;Single Tree R²:&quot;</span>, <span class="fu">cor</span>(<span class="fu">predict</span>(reg_tree), scaffold_reg<span class="sc">$</span>cell_growth)<span class="sc">^</span><span class="dv">2</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-7"><a></a><span class="fu">cat</span>(<span class="st">&quot;Random Forest R²:&quot;</span>, <span class="fu">cor</span>(<span class="fu">predict</span>(rf_reg), scaffold_reg<span class="sc">$</span>cell_growth)<span class="sc">^</span><span class="dv">2</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-24-3">
@@ -3510,23 +3510,23 @@ From this matrix we can compute:</code></pre>
 </div>
 <div id="tabset-25-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.99</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
-<span id="cb44-2"><a href></a>odds <span class="ot">&lt;-</span> p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> p)</span>
-<span id="cb44-3"><a href></a>log_odds <span class="ot">&lt;-</span> <span class="fu">log</span>(odds)</span>
-<span id="cb44-4"><a href></a></span>
-<span id="cb44-5"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb44-6"><a href></a></span>
-<span id="cb44-7"><a href></a><span class="co"># Probability vs Odds — asymmetric!</span></span>
-<span id="cb44-8"><a href></a><span class="fu">plot</span>(p, odds, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;#2980b9&quot;</span>,</span>
-<span id="cb44-9"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Odds&quot;</span>,</span>
-<span id="cb44-10"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Odds grow exponentially&quot;</span>)</span>
-<span id="cb44-11"><a href></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">1</span>, <span class="at">v =</span> <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;gray50&quot;</span>)</span>
-<span id="cb44-12"><a href></a></span>
-<span id="cb44-13"><a href></a><span class="co"># Probability vs Log Odds — symmetric!</span></span>
-<span id="cb44-14"><a href></a><span class="fu">plot</span>(p, log_odds, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;#27ae60&quot;</span>,</span>
-<span id="cb44-15"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Log Odds (logit)&quot;</span>,</span>
-<span id="cb44-16"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Log odds are symmetric&quot;</span>)</span>
-<span id="cb44-17"><a href></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">v =</span> <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;gray50&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.99</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb44-2"><a></a>odds <span class="ot">&lt;-</span> p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> p)</span>
+<span id="cb44-3"><a></a>log_odds <span class="ot">&lt;-</span> <span class="fu">log</span>(odds)</span>
+<span id="cb44-4"><a></a></span>
+<span id="cb44-5"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb44-6"><a></a></span>
+<span id="cb44-7"><a></a><span class="co"># Probability vs Odds — asymmetric!</span></span>
+<span id="cb44-8"><a></a><span class="fu">plot</span>(p, odds, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;#2980b9&quot;</span>,</span>
+<span id="cb44-9"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Odds&quot;</span>,</span>
+<span id="cb44-10"><a></a>     <span class="at">main =</span> <span class="st">&quot;Odds grow exponentially&quot;</span>)</span>
+<span id="cb44-11"><a></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">1</span>, <span class="at">v =</span> <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;gray50&quot;</span>)</span>
+<span id="cb44-12"><a></a></span>
+<span id="cb44-13"><a></a><span class="co"># Probability vs Log Odds — symmetric!</span></span>
+<span id="cb44-14"><a></a><span class="fu">plot</span>(p, log_odds, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;#27ae60&quot;</span>,</span>
+<span id="cb44-15"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Probability&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Log Odds (logit)&quot;</span>,</span>
+<span id="cb44-16"><a></a>     <span class="at">main =</span> <span class="st">&quot;Log odds are symmetric&quot;</span>)</span>
+<span id="cb44-17"><a></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">v =</span> <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;gray50&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-25-3">
@@ -3588,19 +3588,19 @@ cell adhesion by 8.5 times compared to uncoated scaffolds</code></pre>
 </div>
 <div id="tabset-26-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href></a><span class="co"># 2x2 contingency table</span></span>
-<span id="cb53-2"><a href></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(coating_data<span class="sc">$</span>coating, coating_data<span class="sc">$</span>adhesion)</span>
-<span id="cb53-3"><a href></a></span>
-<span id="cb53-4"><a href></a><span class="co"># Manual odds ratio calculation</span></span>
-<span id="cb53-5"><a href></a>odds_uncoated <span class="ot">&lt;-</span> tab[<span class="st">&quot;uncoated&quot;</span>, <span class="st">&quot;Adhesion&quot;</span>] <span class="sc">/</span> tab[<span class="st">&quot;uncoated&quot;</span>, <span class="st">&quot;No Adhesion&quot;</span>]</span>
-<span id="cb53-6"><a href></a>odds_coated   <span class="ot">&lt;-</span> tab[<span class="st">&quot;RGD-coated&quot;</span>, <span class="st">&quot;Adhesion&quot;</span>] <span class="sc">/</span> tab[<span class="st">&quot;RGD-coated&quot;</span>, <span class="st">&quot;No Adhesion&quot;</span>]</span>
-<span id="cb53-7"><a href></a>OR <span class="ot">&lt;-</span> odds_coated <span class="sc">/</span> odds_uncoated</span>
-<span id="cb53-8"><a href></a></span>
-<span id="cb53-9"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Odds Ratio:&quot;</span>, OR)</span>
-<span id="cb53-10"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Log Odds Ratio:&quot;</span>, <span class="fu">log</span>(OR))</span>
-<span id="cb53-11"><a href></a></span>
-<span id="cb53-12"><a href></a><span class="co"># Or use Fisher&#39;s exact test</span></span>
-<span id="cb53-13"><a href></a><span class="fu">fisher.test</span>(tab)  <span class="co"># gives OR with confidence interval</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a></a><span class="co"># 2x2 contingency table</span></span>
+<span id="cb53-2"><a></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(coating_data<span class="sc">$</span>coating, coating_data<span class="sc">$</span>adhesion)</span>
+<span id="cb53-3"><a></a></span>
+<span id="cb53-4"><a></a><span class="co"># Manual odds ratio calculation</span></span>
+<span id="cb53-5"><a></a>odds_uncoated <span class="ot">&lt;-</span> tab[<span class="st">&quot;uncoated&quot;</span>, <span class="st">&quot;Adhesion&quot;</span>] <span class="sc">/</span> tab[<span class="st">&quot;uncoated&quot;</span>, <span class="st">&quot;No Adhesion&quot;</span>]</span>
+<span id="cb53-6"><a></a>odds_coated   <span class="ot">&lt;-</span> tab[<span class="st">&quot;RGD-coated&quot;</span>, <span class="st">&quot;Adhesion&quot;</span>] <span class="sc">/</span> tab[<span class="st">&quot;RGD-coated&quot;</span>, <span class="st">&quot;No Adhesion&quot;</span>]</span>
+<span id="cb53-7"><a></a>OR <span class="ot">&lt;-</span> odds_coated <span class="sc">/</span> odds_uncoated</span>
+<span id="cb53-8"><a></a></span>
+<span id="cb53-9"><a></a><span class="fu">cat</span>(<span class="st">&quot;Odds Ratio:&quot;</span>, OR)</span>
+<span id="cb53-10"><a></a><span class="fu">cat</span>(<span class="st">&quot;Log Odds Ratio:&quot;</span>, <span class="fu">log</span>(OR))</span>
+<span id="cb53-11"><a></a></span>
+<span id="cb53-12"><a></a><span class="co"># Or use Fisher&#39;s exact test</span></span>
+<span id="cb53-13"><a></a><span class="fu">fisher.test</span>(tab)  <span class="co"># gives OR with confidence interval</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-26-3">
@@ -3650,10 +3650,10 @@ cell adhesion by 8.5 times compared to uncoated scaffolds</code></pre>
 <div class="callout-content">
 <p>Using the biomaterial screening dataset, predict scaffold biocompatibility from material properties:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href></a><span class="co"># Load the biomaterial screening data</span></span>
-<span id="cb54-2"><a href></a>biomat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/biomaterial_screening.csv&quot;</span>)</span>
-<span id="cb54-3"><a href></a>biomat<span class="sc">$</span>coating <span class="ot">&lt;-</span> <span class="fu">factor</span>(biomat<span class="sc">$</span>coating)</span>
-<span id="cb54-4"><a href></a>biomat<span class="sc">$</span>compat_binary <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(biomat<span class="sc">$</span>compat_score <span class="sc">==</span> <span class="st">&quot;biocompatible&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a></a><span class="co"># Load the biomaterial screening data</span></span>
+<span id="cb54-2"><a></a>biomat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/biomaterial_screening.csv&quot;</span>)</span>
+<span id="cb54-3"><a></a>biomat<span class="sc">$</span>coating <span class="ot">&lt;-</span> <span class="fu">factor</span>(biomat<span class="sc">$</span>coating)</span>
+<span id="cb54-4"><a></a>biomat<span class="sc">$</span>compat_binary <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(biomat<span class="sc">$</span>compat_score <span class="sc">==</span> <span class="st">&quot;biocompatible&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Tasks:</p>
 <ol type="1">
@@ -3715,7 +3715,7 @@ cell adhesion by 8.5 times compared to uncoated scaffolds</code></pre>
 <p>Or more simply: <span class="math display">\[\text{Posterior} \propto \text{Likelihood} \times \text{Prior}\]</span></p>
 </div>
 <div id="tabset-27-2">
-<div class="sourceCode" id="cb55"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb55-1"><a href></a>P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb55-1"><a></a>P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-27-3">
 <ul>
@@ -3746,21 +3746,21 @@ cell adhesion by 8.5 times compared to uncoated scaffolds</code></pre>
 </div>
 <div id="tabset-28-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
-<span id="cb56-2"><a href></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb56-3"><a href></a></span>
-<span id="cb56-4"><a href></a><span class="co"># Prior: Beta(2, 2) — slight belief coin is fair</span></span>
-<span id="cb56-5"><a href></a><span class="fu">plot</span>(theta, <span class="fu">dbeta</span>(theta, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
-<span id="cb56-6"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Prior: Beta(2,2)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ (prob of heads)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>)</span>
-<span id="cb56-7"><a href></a></span>
-<span id="cb56-8"><a href></a><span class="co"># Likelihood (binomial): 7 heads out of 10 flips</span></span>
-<span id="cb56-9"><a href></a><span class="fu">plot</span>(theta, <span class="fu">dbinom</span>(<span class="dv">7</span>, <span class="dv">10</span>, theta), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>,</span>
-<span id="cb56-10"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Likelihood: 7/10 heads&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Likelihood&quot;</span>)</span>
-<span id="cb56-11"><a href></a></span>
-<span id="cb56-12"><a href></a><span class="co"># Posterior: Beta(2+7, 2+3) = Beta(9, 5)</span></span>
-<span id="cb56-13"><a href></a><span class="fu">plot</span>(theta, <span class="fu">dbeta</span>(theta, <span class="dv">9</span>, <span class="dv">5</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>,</span>
-<span id="cb56-14"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Posterior: Beta(9,5)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>)</span>
-<span id="cb56-15"><a href></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>, <span class="dv">5</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb56-2"><a></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb56-3"><a></a></span>
+<span id="cb56-4"><a></a><span class="co"># Prior: Beta(2, 2) — slight belief coin is fair</span></span>
+<span id="cb56-5"><a></a><span class="fu">plot</span>(theta, <span class="fu">dbeta</span>(theta, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>,</span>
+<span id="cb56-6"><a></a>     <span class="at">main =</span> <span class="st">&quot;Prior: Beta(2,2)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ (prob of heads)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>)</span>
+<span id="cb56-7"><a></a></span>
+<span id="cb56-8"><a></a><span class="co"># Likelihood (binomial): 7 heads out of 10 flips</span></span>
+<span id="cb56-9"><a></a><span class="fu">plot</span>(theta, <span class="fu">dbinom</span>(<span class="dv">7</span>, <span class="dv">10</span>, theta), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>,</span>
+<span id="cb56-10"><a></a>     <span class="at">main =</span> <span class="st">&quot;Likelihood: 7/10 heads&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Likelihood&quot;</span>)</span>
+<span id="cb56-11"><a></a></span>
+<span id="cb56-12"><a></a><span class="co"># Posterior: Beta(2+7, 2+3) = Beta(9, 5)</span></span>
+<span id="cb56-13"><a></a><span class="fu">plot</span>(theta, <span class="fu">dbeta</span>(theta, <span class="dv">9</span>, <span class="dv">5</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>,</span>
+<span id="cb56-14"><a></a>     <span class="at">main =</span> <span class="st">&quot;Posterior: Beta(9,5)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;θ&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>)</span>
+<span id="cb56-15"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>, <span class="dv">5</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3790,12 +3790,12 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 </div>
 <div id="tabset-29-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href></a><span class="co"># Posterior: Beta(9, 5)</span></span>
-<span id="cb61-2"><a href></a>posterior_mean <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">/</span> (<span class="dv">9</span> <span class="sc">+</span> <span class="dv">5</span>)</span>
-<span id="cb61-3"><a href></a>credible_interval <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>, <span class="dv">5</span>)</span>
-<span id="cb61-4"><a href></a></span>
-<span id="cb61-5"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Posterior mean:&quot;</span>, <span class="fu">round</span>(posterior_mean, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb61-6"><a href></a><span class="fu">cat</span>(<span class="st">&quot;95% Credible Interval:&quot;</span>, <span class="fu">round</span>(credible_interval, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a></a><span class="co"># Posterior: Beta(9, 5)</span></span>
+<span id="cb61-2"><a></a>posterior_mean <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">/</span> (<span class="dv">9</span> <span class="sc">+</span> <span class="dv">5</span>)</span>
+<span id="cb61-3"><a></a>credible_interval <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>, <span class="dv">5</span>)</span>
+<span id="cb61-4"><a></a></span>
+<span id="cb61-5"><a></a><span class="fu">cat</span>(<span class="st">&quot;Posterior mean:&quot;</span>, <span class="fu">round</span>(posterior_mean, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb61-6"><a></a><span class="fu">cat</span>(<span class="st">&quot;95% Credible Interval:&quot;</span>, <span class="fu">round</span>(credible_interval, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3819,14 +3819,14 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 </div>
 <div id="tabset-30-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb62-2"><a href></a>beta1_samples <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="fl">2.3</span>, <span class="at">sd =</span> <span class="fl">0.4</span>)</span>
-<span id="cb62-3"><a href></a></span>
-<span id="cb62-4"><a href></a><span class="fu">hist</span>(beta1_samples, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">border =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb62-5"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Posterior Distribution of Slope&quot;</span>,</span>
-<span id="cb62-6"><a href></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(beta[<span class="dv">1</span>]), <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb62-7"><a href></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">quantile</span>(beta1_samples, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb62-8"><a href></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(beta1_samples), <span class="at">col =</span> <span class="st">&quot;darkblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb62-2"><a></a>beta1_samples <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="fl">2.3</span>, <span class="at">sd =</span> <span class="fl">0.4</span>)</span>
+<span id="cb62-3"><a></a></span>
+<span id="cb62-4"><a></a><span class="fu">hist</span>(beta1_samples, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">border =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb62-5"><a></a>     <span class="at">main =</span> <span class="st">&quot;Posterior Distribution of Slope&quot;</span>,</span>
+<span id="cb62-6"><a></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(beta[<span class="dv">1</span>]), <span class="at">probability =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb62-7"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">quantile</span>(beta1_samples, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb62-8"><a></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(beta1_samples), <span class="at">col =</span> <span class="st">&quot;darkblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3867,51 +3867,51 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <div class="tab-content">
 <div id="tabset-31-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href></a><span class="co"># Install: install.packages(&quot;brms&quot;)</span></span>
-<span id="cb63-2"><a href></a><span class="fu">library</span>(brms)</span>
-<span id="cb63-3"><a href></a></span>
-<span id="cb63-4"><a href></a><span class="co"># Frequentist linear regression (for comparison)</span></span>
-<span id="cb63-5"><a href></a>freq_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(cell_growth <span class="sc">~</span> porosity <span class="sc">+</span> fiber_diameter <span class="sc">+</span> crosslink_density,</span>
-<span id="cb63-6"><a href></a>                 <span class="at">data =</span> scaffold_reg)</span>
-<span id="cb63-7"><a href></a><span class="fu">summary</span>(freq_model)</span>
-<span id="cb63-8"><a href></a></span>
-<span id="cb63-9"><a href></a><span class="co"># Bayesian equivalent with brms — formula syntax is nearly identical!</span></span>
-<span id="cb63-10"><a href></a>bayes_model <span class="ot">&lt;-</span> <span class="fu">brm</span>(cell_growth <span class="sc">~</span> porosity <span class="sc">+</span> fiber_diameter <span class="sc">+</span> crosslink_density,</span>
-<span id="cb63-11"><a href></a>                   <span class="at">data =</span> scaffold_reg,</span>
-<span id="cb63-12"><a href></a>                   <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
-<span id="cb63-13"><a href></a>                   <span class="at">prior =</span> <span class="fu">c</span>(</span>
-<span id="cb63-14"><a href></a>                     <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> <span class="st">&quot;b&quot;</span>),        <span class="co"># weakly informative for slopes</span></span>
-<span id="cb63-15"><a href></a>                     <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">5</span>, <span class="dv">10</span>), <span class="at">class =</span> <span class="st">&quot;Intercept&quot;</span>),</span>
-<span id="cb63-16"><a href></a>                     <span class="fu">prior</span>(<span class="fu">cauchy</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">class =</span> <span class="st">&quot;sigma&quot;</span>)</span>
-<span id="cb63-17"><a href></a>                   ),</span>
-<span id="cb63-18"><a href></a>                   <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>,</span>
-<span id="cb63-19"><a href></a>                   <span class="at">seed =</span> <span class="dv">42</span>)</span>
-<span id="cb63-20"><a href></a></span>
-<span id="cb63-21"><a href></a><span class="co"># Posterior summary — note: 95% credible intervals, not confidence intervals</span></span>
-<span id="cb63-22"><a href></a><span class="fu">summary</span>(bayes_model)</span>
-<span id="cb63-23"><a href></a></span>
-<span id="cb63-24"><a href></a><span class="co"># 95% credible intervals</span></span>
-<span id="cb63-25"><a href></a><span class="fu">posterior_summary</span>(bayes_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a></a><span class="co"># Install: install.packages(&quot;brms&quot;)</span></span>
+<span id="cb63-2"><a></a><span class="fu">library</span>(brms)</span>
+<span id="cb63-3"><a></a></span>
+<span id="cb63-4"><a></a><span class="co"># Frequentist linear regression (for comparison)</span></span>
+<span id="cb63-5"><a></a>freq_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(cell_growth <span class="sc">~</span> porosity <span class="sc">+</span> fiber_diameter <span class="sc">+</span> crosslink_density,</span>
+<span id="cb63-6"><a></a>                 <span class="at">data =</span> scaffold_reg)</span>
+<span id="cb63-7"><a></a><span class="fu">summary</span>(freq_model)</span>
+<span id="cb63-8"><a></a></span>
+<span id="cb63-9"><a></a><span class="co"># Bayesian equivalent with brms — formula syntax is nearly identical!</span></span>
+<span id="cb63-10"><a></a>bayes_model <span class="ot">&lt;-</span> <span class="fu">brm</span>(cell_growth <span class="sc">~</span> porosity <span class="sc">+</span> fiber_diameter <span class="sc">+</span> crosslink_density,</span>
+<span id="cb63-11"><a></a>                   <span class="at">data =</span> scaffold_reg,</span>
+<span id="cb63-12"><a></a>                   <span class="at">family =</span> <span class="fu">gaussian</span>(),</span>
+<span id="cb63-13"><a></a>                   <span class="at">prior =</span> <span class="fu">c</span>(</span>
+<span id="cb63-14"><a></a>                     <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> <span class="st">&quot;b&quot;</span>),        <span class="co"># weakly informative for slopes</span></span>
+<span id="cb63-15"><a></a>                     <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">5</span>, <span class="dv">10</span>), <span class="at">class =</span> <span class="st">&quot;Intercept&quot;</span>),</span>
+<span id="cb63-16"><a></a>                     <span class="fu">prior</span>(<span class="fu">cauchy</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">class =</span> <span class="st">&quot;sigma&quot;</span>)</span>
+<span id="cb63-17"><a></a>                   ),</span>
+<span id="cb63-18"><a></a>                   <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>,</span>
+<span id="cb63-19"><a></a>                   <span class="at">seed =</span> <span class="dv">42</span>)</span>
+<span id="cb63-20"><a></a></span>
+<span id="cb63-21"><a></a><span class="co"># Posterior summary — note: 95% credible intervals, not confidence intervals</span></span>
+<span id="cb63-22"><a></a><span class="fu">summary</span>(bayes_model)</span>
+<span id="cb63-23"><a></a></span>
+<span id="cb63-24"><a></a><span class="co"># 95% credible intervals</span></span>
+<span id="cb63-25"><a></a><span class="fu">posterior_summary</span>(bayes_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-31-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href></a><span class="co"># Plot posterior distributions of all coefficients</span></span>
-<span id="cb64-2"><a href></a><span class="fu">plot</span>(bayes_model)</span>
-<span id="cb64-3"><a href></a></span>
-<span id="cb64-4"><a href></a><span class="co"># Posterior predictive check: does the model generate</span></span>
-<span id="cb64-5"><a href></a><span class="co"># data that looks like the real data?</span></span>
-<span id="cb64-6"><a href></a><span class="fu">pp_check</span>(bayes_model, <span class="at">ndraws =</span> <span class="dv">50</span>)</span>
-<span id="cb64-7"><a href></a></span>
-<span id="cb64-8"><a href></a><span class="co"># Extract posterior draws for custom analysis</span></span>
-<span id="cb64-9"><a href></a>draws <span class="ot">&lt;-</span> <span class="fu">as_draws_df</span>(bayes_model)</span>
-<span id="cb64-10"><a href></a></span>
-<span id="cb64-11"><a href></a><span class="co"># Probability that porosity effect is positive</span></span>
-<span id="cb64-12"><a href></a><span class="fu">cat</span>(<span class="st">&quot;P(porosity effect &gt; 0) =&quot;</span>, <span class="fu">mean</span>(draws<span class="sc">$</span>b_porosity <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
-<span id="cb64-13"><a href></a></span>
-<span id="cb64-14"><a href></a><span class="co"># Probability that crosslink_density is the strongest predictor</span></span>
-<span id="cb64-15"><a href></a><span class="fu">cat</span>(<span class="st">&quot;P(|crosslink| &gt; |porosity|) =&quot;</span>,</span>
-<span id="cb64-16"><a href></a>    <span class="fu">mean</span>(<span class="fu">abs</span>(draws<span class="sc">$</span>b_crosslink_density) <span class="sc">&gt;</span> <span class="fu">abs</span>(draws<span class="sc">$</span>b_porosity)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a></a><span class="co"># Plot posterior distributions of all coefficients</span></span>
+<span id="cb64-2"><a></a><span class="fu">plot</span>(bayes_model)</span>
+<span id="cb64-3"><a></a></span>
+<span id="cb64-4"><a></a><span class="co"># Posterior predictive check: does the model generate</span></span>
+<span id="cb64-5"><a></a><span class="co"># data that looks like the real data?</span></span>
+<span id="cb64-6"><a></a><span class="fu">pp_check</span>(bayes_model, <span class="at">ndraws =</span> <span class="dv">50</span>)</span>
+<span id="cb64-7"><a></a></span>
+<span id="cb64-8"><a></a><span class="co"># Extract posterior draws for custom analysis</span></span>
+<span id="cb64-9"><a></a>draws <span class="ot">&lt;-</span> <span class="fu">as_draws_df</span>(bayes_model)</span>
+<span id="cb64-10"><a></a></span>
+<span id="cb64-11"><a></a><span class="co"># Probability that porosity effect is positive</span></span>
+<span id="cb64-12"><a></a><span class="fu">cat</span>(<span class="st">&quot;P(porosity effect &gt; 0) =&quot;</span>, <span class="fu">mean</span>(draws<span class="sc">$</span>b_porosity <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb64-13"><a></a></span>
+<span id="cb64-14"><a></a><span class="co"># Probability that crosslink_density is the strongest predictor</span></span>
+<span id="cb64-15"><a></a><span class="fu">cat</span>(<span class="st">&quot;P(|crosslink| &gt; |porosity|) =&quot;</span>,</span>
+<span id="cb64-16"><a></a>    <span class="fu">mean</span>(<span class="fu">abs</span>(draws<span class="sc">$</span>b_crosslink_density) <span class="sc">&gt;</span> <span class="fu">abs</span>(draws<span class="sc">$</span>b_porosity)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-31-3">
@@ -3950,17 +3950,17 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <li>Which method performs best? Examine variable importance from the random forest — which nanoparticle properties matter most for uptake?</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href></a><span class="co"># Starter code</span></span>
-<span id="cb65-2"><a href></a>np_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/nanoparticle_delivery.csv&quot;</span>)</span>
-<span id="cb65-3"><a href></a>np_data<span class="sc">$</span>uptake_class <span class="ot">&lt;-</span> <span class="fu">factor</span>(np_data<span class="sc">$</span>uptake_class,</span>
-<span id="cb65-4"><a href></a>                                <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;high&quot;</span>))</span>
-<span id="cb65-5"><a href></a></span>
-<span id="cb65-6"><a href></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb65-7"><a href></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(np_data), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(np_data))</span>
-<span id="cb65-8"><a href></a>train <span class="ot">&lt;-</span> np_data[train_idx, ]</span>
-<span id="cb65-9"><a href></a>test  <span class="ot">&lt;-</span> np_data[<span class="sc">-</span>train_idx, ]</span>
-<span id="cb65-10"><a href></a></span>
-<span id="cb65-11"><a href></a><span class="co"># Your analysis here: fit both models, compare on test set</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a></a><span class="co"># Starter code</span></span>
+<span id="cb65-2"><a></a>np_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/nanoparticle_delivery.csv&quot;</span>)</span>
+<span id="cb65-3"><a></a>np_data<span class="sc">$</span>uptake_class <span class="ot">&lt;-</span> <span class="fu">factor</span>(np_data<span class="sc">$</span>uptake_class,</span>
+<span id="cb65-4"><a></a>                                <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;high&quot;</span>))</span>
+<span id="cb65-5"><a></a></span>
+<span id="cb65-6"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb65-7"><a></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(np_data), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(np_data))</span>
+<span id="cb65-8"><a></a>train <span class="ot">&lt;-</span> np_data[train_idx, ]</span>
+<span id="cb65-9"><a></a>test  <span class="ot">&lt;-</span> np_data[<span class="sc">-</span>train_idx, ]</span>
+<span id="cb65-10"><a></a></span>
+<span id="cb65-11"><a></a><span class="co"># Your analysis here: fit both models, compare on test set</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3991,27 +3991,28 @@ Interpretation: There&#39;s a 95% probability the true</code></pre>
 <li>Why is sensitivity particularly important in cancer diagnosis?</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href></a><span class="co"># Starter code</span></span>
-<span id="cb66-2"><a href></a><span class="fu">library</span>(mlbench)</span>
-<span id="cb66-3"><a href></a><span class="fu">data</span>(BreastCancer)</span>
-<span id="cb66-4"><a href></a>bc <span class="ot">&lt;-</span> BreastCancer <span class="sc">|&gt;</span></span>
-<span id="cb66-5"><a href></a>  <span class="fu">select</span>(<span class="sc">-</span>Id) <span class="sc">|&gt;</span></span>
-<span id="cb66-6"><a href></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
-<span id="cb66-7"><a href></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="sc">-</span>Class, as.numeric))</span>
-<span id="cb66-8"><a href></a></span>
-<span id="cb66-9"><a href></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb66-10"><a href></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(bc), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(bc))</span>
-<span id="cb66-11"><a href></a>train <span class="ot">&lt;-</span> bc[train_idx, ]</span>
-<span id="cb66-12"><a href></a>test  <span class="ot">&lt;-</span> bc[<span class="sc">-</span>train_idx, ]</span>
-<span id="cb66-13"><a href></a></span>
-<span id="cb66-14"><a href></a><span class="co"># Your analysis here: fit 2 models, compare on test set</span></span>
-<span id="cb66-15"><a href></a><span class="co"># Pay special attention to sensitivity for malignant detection</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a></a><span class="co"># Starter code</span></span>
+<span id="cb66-2"><a></a><span class="fu">library</span>(mlbench)</span>
+<span id="cb66-3"><a></a><span class="fu">data</span>(BreastCancer)</span>
+<span id="cb66-4"><a></a>bc <span class="ot">&lt;-</span> BreastCancer <span class="sc">|&gt;</span></span>
+<span id="cb66-5"><a></a>  <span class="fu">select</span>(<span class="sc">-</span>Id) <span class="sc">|&gt;</span></span>
+<span id="cb66-6"><a></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
+<span id="cb66-7"><a></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="sc">-</span>Class, as.numeric))</span>
+<span id="cb66-8"><a></a></span>
+<span id="cb66-9"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb66-10"><a></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(bc), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(bc))</span>
+<span id="cb66-11"><a></a>train <span class="ot">&lt;-</span> bc[train_idx, ]</span>
+<span id="cb66-12"><a></a>test  <span class="ot">&lt;-</span> bc[<span class="sc">-</span>train_idx, ]</span>
+<span id="cb66-13"><a></a></span>
+<span id="cb66-14"><a></a><span class="co"># Your analysis here: fit 2 models, compare on test set</span></span>
+<span id="cb66-15"><a></a><span class="co"># Pay special attention to sensitivity for malignant detection</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
 </section>
 <section class="slide level2">
+
 
 
 </section></section>
