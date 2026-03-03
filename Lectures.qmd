@@ -33,37 +33,44 @@ title: "Lectures"
 
 ### Datasets for in Class Exercises
 
-[Stickleback_RNAseq_Data_Set](Lecture_Folder/Sdata/tickle_RNAseq.tsv)
+#### Week 2
 
-[Knee_Injury_Data_Set](Lecture_Folder/data/knee_injury.csv)
+- [Stickleback RNAseq Data](Lecture_Folder/data/Stickle_RNAseq.tsv)
+- [Knee Injury Data](Lecture_Folder/data/knee_injury.csv)
 
-[Grip_Strength_Data_Set](Lecture_Folder/data/grip_strength.csv)
+#### Week 5
 
-[Cell_Culture_Data](Lecture_Folder/cdata/ell_culture_expression.csv)
+- [Grip Strength Data](Lecture_Folder/data/grip_strength_data.csv)
+- [Cell Culture Expression Data](Lecture_Folder/data/cell_culture_expression.csv)
 
-[Zebrafish_Development](Lecture_Folder/data/Drerio_development.csv)
+#### Week 6
 
-[Hydrogel Drug Release](Lecture_Folder/data/hydrogel_drug_release.csv)
+- [Zebrafish Development Data](Lecture_Folder/data/Drerio_development.csv)
+- [Zebrafish Development Complete Data](Lecture_Folder/data/Drerio_development_complete.csv)
 
-[Nanofiber tensile strength](Lecture_Folder/data/nanofiber_tensile_strength.csv)
+#### Week 7
 
-[Cell Proliferation Assay](Lecture_Folder/data/cell_proliferation_assay.csv)
+- [Hydrogel Drug Release](Lecture_Folder/data/hydrogel_drug_release.csv)
+- [Nanofiber Tensile Strength](Lecture_Folder/data/nanofiber_tensile_strength.csv)
+- [Cell Proliferation Assay](Lecture_Folder/data/cell_proliferation_assay.csv)
+- [Implant Degradation](Lecture_Folder/data/implant_degradation.csv)
+- [Stickleback Lipid RNAseq](Lecture_Folder/data/RNAseq_lipid.tsv)
 
-[Implant Degredataion](Lecture_Folder/data/implant_degradation.csv)
+#### Week 8
 
-[Stickleback Lipid](Lecture_Folder/data/RNAseq_lipid.tsv)
+- [Mouse GLP-1](Lecture_Folder/data/glp1_simple.csv)
+- [Mouse GLP-1 with Diet Differences](Lecture_Folder/data/glp1_diet.csv)
+- [Scaffold Degradation Data](Lecture_Folder/data/scaffold_degradation_data.csv)
 
-[Mouse GLP-1](Lecture_Folder/data/glp1_simple.csv)
+#### Week 9
 
-[Mouse GLP-1 with diet differences](Lecture_Folder/data/glp1_diet.csv)
+- [Scaffold Porosity Data](Lecture_Folder/data/scaffold_porosity.csv)
+- [Scaffold Cell Growth Data](Lecture_Folder/data/scaffold_cell_growth.csv)
+- [Implant Failure Data](Lecture_Folder/data/implant_failure.csv)
+- [Biomaterial Screening Data](Lecture_Folder/data/biomaterial_screening.csv)
+- [Nanoparticle Delivery Data](Lecture_Folder/data/nanoparticle_delivery.csv)
 
-[Scaffold degredation data](Lecture_Folder/data/scaffold_degradation_data.csv)
+#### Supplemental
 
-[Scaffold porosity data](Lecture_Folder/data/scaffold_porosity.csv)
-
-[Scaffold cell growth data](Lecture_Folder/data/scaffold_cell_growth.csv)
-
-[Nanoparticle delivery data](Lecture_Folder/data/nanoparticle_delivery.csv)
-
-[Biomaterial Properties Data](Lecture_Folder/data/biomaterial_properties_hd.csv)
+- [Biomaterial Properties Data](Lecture_Folder/data/biomaterial_properties_hd.csv)
 
