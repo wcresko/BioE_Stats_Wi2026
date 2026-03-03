@@ -2746,7 +2746,7 @@ Understanding odds is essential for interpreting logistic regression:
 We'll use a simulated dataset of orthopedic implant failures to walk through logistic regression step by step. This dataset mirrors real implant quality testing scenarios.
 
 | Variable | Type | Units | Description |
-|:-----------------|:---------------|:---------------|:----------------------|
+|:----------------|:----------------|:----------------|:---------------------|
 | `surface_roughness` | Continuous | μm | Average surface roughness of the implant (Ra) |
 | `coating_thickness` | Continuous | nm | Thickness of the hydroxyapatite coating |
 | `load_cycles` | Continuous | millions | Number of mechanical load cycles applied |
@@ -3075,8 +3075,6 @@ The confusion matrix is the foundation for evaluating classification models. It 
 
 ![](images/confusion_matrix_metrics.svg){fig-align="center" width="95%"}
 
-
-
 ## Confusion Matrix for Implant Failure Model
 
 ::: panel-tabset
@@ -3287,7 +3285,6 @@ coords(roc_obj, "best", ret = c("threshold", "sensitivity", "specificity"))
 -   For medical devices, you might choose a **lower threshold** to maximize sensitivity (catch all failures), accepting more false positives
 :::
 
-
 ------------------------------------------------------------------------
 
 # Poisson Regression {background-color="#d4edda"}
@@ -3339,7 +3336,7 @@ Rate ratios are **multiplicative**: a rate ratio of 2 means the expected count d
 We'll model bacterial colony counts on agar plates with different surface coatings and cell seeding densities.
 
 | Variable | Type | Units | Description |
-|:-----------------|:---------------|:---------------|:----------------------|
+|:----------------|:----------------|:----------------|:---------------------|
 | `coating` | Categorical (3 levels) | — | Surface coating: None, Fibronectin, Collagen |
 | `seeding` | Continuous | cells/mL | Initial cell seeding density (1,000–5,000) |
 | `colonies` | Count (integer) | — | Number of bacterial colonies counted on the plate |
@@ -3631,7 +3628,7 @@ testZeroInflation(sim_res)  # are there too many zeros?
 ## Poisson vs. Quasi-Poisson vs. Negative Binomial
 
 | Model | Dispersion | Use When | R Function |
-|:----------------|:-------------------|:----------------|:-------------------|
+|:----------------|:------------------|:----------------|:------------------|
 | **Poisson** | φ ≈ 1 | Variance ≈ mean | `glm(..., family = poisson)` |
 | **Quasi-Poisson** | φ \> 1 | Mild overdispersion | `glm(..., family = quasipoisson)` |
 | **Neg. Binomial** | φ \>\> 1 | Severe overdispersion | `MASS::glm.nb()` |
@@ -3699,20 +3696,19 @@ anova(pois_model, test = "Chisq")
 -   The **analysis of deviance** (`anova()` with `test = "Chisq"`) provides formal tests for each predictor's contribution.
 :::
 
-
 # LOESS: Exploratory Smoothing {background-color="#d4edda"}
 
 ## When Linear Isn't Enough
 
-- Before fitting formal non-linear models, you often need to **explore** whether a non-linear relationship exists. 
+-   Before fitting formal non-linear models, you often need to **explore** whether a non-linear relationship exists.
 
-- LOESS (Locally Estimated Scatterplot Smoothing) is the go-to tool for this
+-   LOESS (Locally Estimated Scatterplot Smoothing) is the go-to tool for this
 
-- It's built into `ggplot2` as `geom_smooth()` and requires no assumptions about functional form.
+-   It's built into `ggplot2` as `geom_smooth()` and requires no assumptions about functional form.
 
-- LOESS answers the question: "Is there a trend in these data, and what does it look like?" 
+-   LOESS answers the question: "Is there a trend in these data, and what does it look like?"
 
-- It's exploratory, not inferential — use it to guide model selection, not to report final results.
+-   It's exploratory, not inferential — use it to guide model selection, not to report final results.
 
 ## LOESS and Splines: Choosing the Right Tool
 
@@ -3811,7 +3807,6 @@ ggplot(data, aes(x, y)) +
   geom_smooth(method = "loess", span = 0.3, color = "red") +
   geom_smooth(method = "loess", span = 0.75, color = "blue")
 ```
-
 
 # Splines for Model Building {background-color="#d4edda"}
 
@@ -4021,7 +4016,7 @@ Standard linear regression struggles when:
 ## Comparing Regularization Methods
 
 | Method | Penalty | Variable Selection | Handles Correlation | R Parameter |
-|:-------------|:-------------|:---------------|:----------------|:-------------|
+|:--------------|:--------------|:--------------|:--------------|:--------------|
 | **Ridge (L2)** | $\lambda \sum \beta_j^2$ | No (shrinks all) | Yes | `alpha = 0` |
 | **Lasso (L1)** | $\lambda \sum |\beta_j|$ | Yes (zeros some) | Picks one of group | `alpha = 1` |
 | **Elastic Net** | Both L1 + L2 | Yes | Yes | `0 < alpha < 1` |
@@ -4123,7 +4118,7 @@ elastic_cv <- cv.glmnet(X_train, y_train, alpha = 0.5, nfolds = 10)
 ### When to Use
 
 | Method          | Use When                                                |
-|:--------------------|:--------------------------------------------------|
+|:---------------------|:-------------------------------------------------|
 | **Ridge**       | Many predictors, most relevant; multicollinearity       |
 | **Lasso**       | Feature selection important; many irrelevant predictors |
 | **Elastic Net** | Groups of correlated predictors; best of both worlds    |
@@ -4307,7 +4302,7 @@ $$S(t) = P(T > t)$$
 ### Bioengineering Examples
 
 | Application          | Event              | Time Scale  | Typical S(t) shape    |
-|:---------------------|:-------------------|:------------|:----------------------|
+|:------------------|:----------------|:----------------|:-------------------|
 | Implant testing      | Structural failure | Days/Months | Gradual decline       |
 | Drug delivery        | Drug depletion     | Hours/Days  | Steep initial decline |
 | Cell culture         | Cell death         | Hours       | Varies by condition   |
@@ -4410,7 +4405,7 @@ legend("bottomleft", c("Event (X) — failure observed", "Censored (O) — still
 We'll use the `lung` dataset from the `survival` package — a classic clinical dataset often used to teach survival analysis.
 
 | Variable | Type | Description |
-|:-----------------------|:----------------|:------------------------------|
+|:-----------------------|:-----------------|:-----------------------------|
 | `time` | Continuous (integer) | Survival time in days |
 | `status` | Binary (1/2) | 1 = censored, 2 = dead |
 | `age` | Continuous | Age in years |

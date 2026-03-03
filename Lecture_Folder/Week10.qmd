@@ -25,29 +25,27 @@ editor: visual
 #| label: setup
 #| include: false
 
-# Core data manipulation and visualization
+# Core packages
 library(tidyverse)
 library(knitr)
 library(readxl)
 
-# Statistical analysis packages
-library(MASS)        # LDA, robust regression
-library(pwr)         # Power analysis
-library(boot)        # Bootstrap methods
-library(car)         # Companion to Applied Regression
-library(survival)    # Survival analysis
-library(nlme)        # Mixed effects models
-library(broom)       # Tidy model output
-library(emmeans)     # Estimated marginal means
-library(vegan)       # Ecological ordination (PCoA, NMDS, PERMANOVA)
-library(rpart)       # Decision trees
-library(randomForest) # Random forests
-library(e1071)       # SVM
+# Multivariate and ordination
+library(MASS)         # LDA
+library(vegan)        # Community ecology ordination
+library(Rtsne)        # t-SNE
+library(umap)         # UMAP
+library(ape)          # PCoA
 
-# Set consistent theme for all plots
+# Clustering
+library(cluster)      # Clustering algorithms
+library(dendextend)   # Dendrogram visualization
+
+# Classification
+library(nnet)         # Neural networks
+
+# Set consistent theme
 theme_set(theme_minimal(base_size = 14))
-
-# Set seed for reproducibility
 set.seed(2026)
 ```
 
@@ -56,17 +54,21 @@ set.seed(2026)
 ## Week 10 Topics
 
 ::: incremental
--   Multivariate statistics overview
--   MANOVA
+-   Introduction to multivariate statistics
+-   MANOVA: multivariate analysis of variance
 -   Discriminant Function Analysis (DFA / LDA)
 -   Principal Component Analysis (PCA)
--   PCoA and NMDS
--   t-SNE and UMAP
--   Decision trees and random forests
+-   PCoA and NMDS ordination
+-   Comparing dimensionality reduction methods (t-SNE, UMAP)
+-   Hierarchical and K-means clustering
+-   Brief introduction to neural networks
+-   Course summary and method selection guide
 :::
 
 ::: callout-note
-**Readings:** Chapters 38–39
+**Readings:** Chapters 36--40
+
+**Final project due next week**
 :::
 
 ## Packages for This Week
@@ -79,8 +81,8 @@ set.seed(2026)
 #| echo: true
 
 # Install new packages (run once)
-install.packages(c("MASS", "Rtsne", "umap", "vegan",
-                   "mvnormtest", "mvoutlier", "rpart", "randomForest"))
+install.packages(c("vegan", "Rtsne", "umap", "ape",
+                    "cluster", "dendextend", "nnet"))
 ```
 
 ### Load
@@ -89,19 +91,17 @@ install.packages(c("MASS", "Rtsne", "umap", "vegan",
 #| eval: false
 #| echo: true
 
-library(tidyverse)      # Data manipulation & visualization
-library(MASS)           # Linear discriminant analysis (LDA)
-library(car)            # Multivariate tests
-library(Rtsne)          # t-SNE dimensionality reduction
-library(umap)           # UMAP dimensionality reduction
-library(vegan)          # NMDS and ecological ordination
-library(mvnormtest)     # Multivariate normality tests
-library(rpart)          # Decision trees
-library(randomForest)   # Random forests
+library(tidyverse)    # Data manipulation & visualization
+library(MASS)         # LDA and discriminant analysis
+library(vegan)        # Community ecology ordination
+library(Rtsne)        # t-SNE implementation
+library(umap)         # UMAP implementation
+library(ape)          # PCoA
+library(cluster)      # Clustering algorithms (silhouette, etc.)
+library(dendextend)   # Enhanced dendrogram visualization
+library(nnet)         # Single-layer neural networks
 ```
 :::
-
-**Built-in datasets:** `iris` (PCA, LDA, t-SNE, UMAP examples)
 
 ## Experimental Design Overview
 
@@ -163,50 +163,47 @@ box()
 
 **The PCA pipeline transforms data through matrix operations:**
 
-::::: columns
+:::::: columns
 ::: {.column width="33%"}
 **(a) Original Data Matrix**
 
-|         | $v_1$ | $v_2$ | $\ldots$ | $v_k$ |
-|:--------|:------|:------|:---------|:------|
-| $O_1$   |       |       |          |       |
-| $O_2$   |       |       |          |       |
-| $O_3$   |       |       |          |       |
-| $\vdots$|       |       |          |       |
-| $O_n$   |       |       |          |       |
+|          | $v_1$ | $v_2$ | $\ldots$ | $v_k$ |
+|:---------|:------|:------|:---------|:------|
+| $O_1$    |       |       |          |       |
+| $O_2$    |       |       |          |       |
+| $O_3$    |       |       |          |       |
+| $\vdots$ |       |       |          |       |
+| $O_n$    |       |       |          |       |
 
-*Objects × Variables*
-*Observational data*
+*Objects × Variables* *Observational data*
 :::
 
 ::: {.column width="33%"}
 **(b) Correlation Matrix**
 
-|         | $v_1$ | $v_2$ | $\ldots$ | $v_k$ |
-|:--------|:------|:------|:---------|:------|
-| $v_1$   |       |       |          |       |
-| $v_2$   |       |       |          |       |
-| $\vdots$|       |       |          |       |
-| $v_k$   |       |       |          |       |
+|          | $v_1$ | $v_2$ | $\ldots$ | $v_k$ |
+|:---------|:------|:------|:---------|:------|
+| $v_1$    |       |       |          |       |
+| $v_2$    |       |       |          |       |
+| $\vdots$ |       |       |          |       |
+| $v_k$    |       |       |          |       |
 
-*Variables × Variables*
-*Correlation coefficients*
+*Variables × Variables* *Correlation coefficients*
 :::
 
 ::: {.column width="33%"}
 **(c) Factor Matrix**
 
-|         | $F_1$ | $F_2$ | $\ldots$ | $F_m$ |
-|:--------|:------|:------|:---------|:------|
-| $v_1$   |       |       |          |       |
-| $v_2$   |       |       |          |       |
-| $\vdots$|       |       |          |       |
-| $v_k$   |       |       |          |       |
+|          | $F_1$ | $F_2$ | $\ldots$ | $F_m$ |
+|:---------|:------|:------|:---------|:------|
+| $v_1$    |       |       |          |       |
+| $v_2$    |       |       |          |       |
+| $\vdots$ |       |       |          |       |
+| $v_k$    |       |       |          |       |
 
-*Variables × Factors*
-*Factor loadings*
+*Variables × Factors* *Factor loadings*
 :::
-:::::
+::::::
 
 **Original data matrix → Correlation matrix → Factor matrix**
 
@@ -216,40 +213,40 @@ box()
 
 ## DRAFT: Data → Correlation and Distance Matrices
 
-::::: columns
+:::::: columns
 ::: {.column width="33%"}
 **Data Matrix** (Objects × Variables)
 
-|         | 1       | 2       | 3       |
-|:--------|:--------|:--------|:--------|
-| 1       | $y_{11}$| $y_{12}$| $y_{13}$|
-| 2       | $y_{21}$| $y_{22}$| $y_{23}$|
-| 3       | $y_{31}$| $y_{32}$| $y_{33}$|
+|     | 1        | 2        | 3        |
+|:----|:---------|:---------|:---------|
+| 1   | $y_{11}$ | $y_{12}$ | $y_{13}$ |
+| 2   | $y_{21}$ | $y_{22}$ | $y_{23}$ |
+| 3   | $y_{31}$ | $y_{32}$ | $y_{33}$ |
 :::
 
 ::: {.column width="33%"}
 **↗ Correlation Matrix** (Variables × Variables)
 
-|   | 1       | 2       | 3       |
-|:--|:--------|:--------|:--------|
-| 1 | 1       | $r_{12}$| $r_{13}$|
-| 2 | $r_{21}$| 1       | $r_{23}$|
-| 3 | $r_{31}$| $r_{32}$| 1       |
+|     | 1        | 2        | 3        |
+|:----|:---------|:---------|:---------|
+| 1   | 1        | $r_{12}$ | $r_{13}$ |
+| 2   | $r_{21}$ | 1        | $r_{23}$ |
+| 3   | $r_{31}$ | $r_{32}$ | 1        |
 :::
 
 ::: {.column width="33%"}
 **↘ Distance Matrix** (Objects × Objects)
 
-|   | 1       | 2       | 3       |
-|:--|:--------|:--------|:--------|
-| 1 | 0       | $d_{12}$| $d_{13}$|
-| 2 | $d_{21}$| 0       | $d_{23}$|
-| 3 | $d_{31}$| $d_{32}$| 0       |
+|     | 1        | 2        | 3        |
+|:----|:---------|:---------|:---------|
+| 1   | 0        | $d_{12}$ | $d_{13}$ |
+| 2   | $d_{21}$ | 0        | $d_{23}$ |
+| 3   | $d_{31}$ | $d_{32}$ | 0        |
 :::
-:::::
+::::::
 
-- **Correlation matrix** → used for PCA, factor analysis (relationships among *variables*)
-- **Distance matrix** → used for clustering, ordination (relationships among *objects*)
+-   **Correlation matrix** → used for PCA, factor analysis (relationships among *variables*)
+-   **Distance matrix** → used for clustering, ordination (relationships among *objects*)
 
 ## Variance-Covariance and Eigenvalues
 
@@ -282,7 +279,7 @@ plot(1:length(eigenvalues), eigenvalues, type = "b",
 ## DRAFT: Dissimilarity / Distance Formulas
 
 | Dissimilarity | Equation |
-|:--------------|:---------|
+|:---|:---|
 | **Minkowski** | $\left(\displaystyle\sum_{j=1}^{p} \lvert y_{1j} - y_{2j} \rvert^{\lambda}\right)^{1/\lambda}$ |
 | **Euclidean** ($\lambda = 2$) | $\sqrt{\displaystyle\sum_{j=1}^{p}(y_{1j} - y_{2j})^2}$ |
 | **City block / Manhattan** ($\lambda = 1$) | $\displaystyle\sum_{j=1}^{p}\lvert y_{1j} - y_{2j}\rvert$ |
@@ -1190,97 +1187,633 @@ plot(ef, p.max = 0.05, col = "red", lwd = 2)
 
 ------------------------------------------------------------------------
 
-# t-SNE and UMAP {background-color="#2c3e50"}
+# Expanded: t-SNE and UMAP {background-color="#2c3e50"}
 
-## What is t-SNE?
-
-**t-Distributed Stochastic Neighbor Embedding** — a non-linear dimensionality reduction method:
-
--   Preserves **local structure** (nearby points stay nearby)
--   Excellent for visualization of high-dimensional clusters
--   Not for inference or preserving global structure
-
-| Parameter     | Description                            | Typical Values |
-|:--------------|:---------------------------------------|:---------------|
-| perplexity    | Balance between local/global structure | 5–50           |
-| iterations    | Number of optimization steps           | 1000+          |
-| learning_rate | Step size for optimization             | 100–1000       |
-
-## t-SNE in R
+## Simulated data: Creating our example dataset
 
 ::: panel-tabset
 ### Code
 
 ```{r}
-#| eval: false
-#| echo: true
+#| label: sim-data
+#| eval: true
+
+# Simulate 4 clusters in 10-dimensional space
+# (think: 4 cell types measured across 10 genes)
+set.seed(42)
+n_per_cluster <- 75
+n_dims <- 10
+
+# Cluster centers in 10D space
+centers <- matrix(c(
+  rep(0, n_dims),                        # Cluster 1: origin
+  c(5, 5, rep(0, n_dims - 2)),           # Cluster 2: shifted in dims 1-2
+  c(0, 0, 5, 5, rep(0, n_dims - 4)),     # Cluster 3: shifted in dims 3-4
+  c(3, 3, 3, 3, 3, rep(0, n_dims - 5))   # Cluster 4: shifted in dims 1-5
+), nrow = 4, byrow = TRUE)
+
+# Generate data with noise
+sim_data <- do.call(rbind, lapply(1:4, function(i) {
+  sweep(matrix(rnorm(n_per_cluster * n_dims, sd = 1.2), ncol = n_dims),
+        2, centers[i, ], "+")
+}))
+
+# Create labels and data frame
+cluster_labels <- factor(rep(paste("Type", LETTERS[1:4]), each = n_per_cluster))
+sim_df <- as.data.frame(sim_data)
+colnames(sim_df) <- paste0("Gene_", 1:n_dims)
+sim_df$CellType <- cluster_labels
+
+cat("Simulated dataset:", nrow(sim_df), "cells x", n_dims, "genes\n")
+cat("Cell types:", levels(cluster_labels), "\n")
+cat("Cells per type:", n_per_cluster, "\n")
+```
+
+### Output
+
+```{r}
+#| label: sim-data-summary
+#| echo: false
+
+# Show a summary of the data structure
+sim_df |>
+  group_by(CellType) |>
+  summarise(
+    n = n(),
+    across(Gene_1:Gene_3, \(x) round(mean(x), 2), .names = "mean_{.col}")
+  ) |>
+  knitr::kable(caption = "Summary: mean expression for first 3 genes by cell type")
+```
+
+### Interpretation
+
+**What we simulated:**
+
+-   300 "cells" from 4 cell types, each measured across 10 genes
+-   Clusters are separated by **different subsets of genes** — this mimics real biology where cell types differ in specific gene modules
+-   Added Gaussian noise (sd = 1.2) — realistic measurement noise
+-   The clusters overlap somewhat, especially Types A and D
+
+**Why this is a good teaching example:**
+
+-   10 dimensions is too many to visualize directly, but few enough to understand
+-   The cluster structure has both linear and non-linear separability
+-   Different methods will reveal different aspects of this structure
+:::
+
+# t-SNE {background-color="#2c3e50"}
+
+## t-SNE vs UMAP: Algorithm comparison
+
+![](images/tsne_vs_umap_algorithm.svg){fig-align="center" width="95%"}
+
+## t-SNE on simulated data
+
+::: panel-tabset
+### Code
+
+```{r}
+#| label: tsne-code
+#| eval: true
 
 library(Rtsne)
 
-# Run t-SNE
-tsne_result <- Rtsne(iris[, 1:4],
-                     perplexity = 30,
-                     dims = 2,
-                     verbose = TRUE)
+# Run t-SNE with default perplexity
+tsne_result <- Rtsne(sim_df[, 1:n_dims], 
+                     perplexity = 30, 
+                     dims = 2, 
+                     verbose = FALSE,
+                     check_duplicates = FALSE)
 
-# Plot
-plot(tsne_result$Y, col = iris$Species, pch = 19,
-     xlab = "t-SNE 1", ylab = "t-SNE 2",
-     main = "t-SNE of Iris Data")
-legend("topright", levels(iris$Species), col = 1:3, pch = 19)
+# Store results
+tsne_df <- data.frame(
+  tSNE1 = tsne_result$Y[, 1],
+  tSNE2 = tsne_result$Y[, 2],
+  CellType = sim_df$CellType
+)
+head(tsne_df)
 ```
 
-### Important Notes
+### Output
 
--   Results depend on random initialization — set a seed!
--   Perplexity affects results significantly
--   **Don't interpret distances between clusters** — only within-cluster structure is meaningful
--   Not deterministic — run multiple times and compare
+```{r}
+#| label: tsne-plot
+#| echo: false
+#| fig-width: 10
+#| fig-height: 5
+
+par(mfrow = c(1, 2), mar = c(4, 4, 3, 1))
+
+# t-SNE scatter
+colors <- c("#e74c3c", "#27ae60", "#3498db", "#9b59b6")
+plot(tsne_df$tSNE1, tsne_df$tSNE2, 
+     col = colors[tsne_df$CellType], pch = 19, cex = 0.8,
+     xlab = "t-SNE 1", ylab = "t-SNE 2",
+     main = "t-SNE (perplexity = 30)")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.8)
+
+# Compare with lower perplexity
+tsne_low <- Rtsne(sim_df[, 1:n_dims], perplexity = 5, dims = 2, 
+                  verbose = FALSE, check_duplicates = FALSE)
+plot(tsne_low$Y[, 1], tsne_low$Y[, 2], 
+     col = colors[sim_df$CellType], pch = 19, cex = 0.8,
+     xlab = "t-SNE 1", ylab = "t-SNE 2",
+     main = "t-SNE (perplexity = 5)")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.8)
+```
+
+### Interpretation
+
+**What t-SNE reveals:**
+
+-   The clusters are well-separated visually — t-SNE excels at pulling apart groups
+-   **Perplexity = 30** gives a balanced view of local structure
+-   **Perplexity = 5** focuses on very local neighborhoods — may fragment clusters or create spurious sub-groups
+
+**Critical warnings:**
+
+-   The **distances between clusters are NOT meaningful** — don't conclude Type A is "closer to" Type B based on the plot
+-   **Cluster sizes** don't reflect the number of points — all groups have 75 cells but may appear different sizes
+-   Re-running without `set.seed()` will produce a **different layout** (stochastic algorithm)
 :::
 
-## What is UMAP?
-
-**Uniform Manifold Approximation and Projection** — similar goals to t-SNE but with key advantages:
-
--   Faster computation (scales better to large datasets)
--   Better preserves **global structure** (relative cluster positions are meaningful)
--   More reproducible
--   Can project new data onto an existing embedding
-
-| Parameter    | Description                     | Typical Values |
-|:-------------|:--------------------------------|:---------------|
-| n_neighbors  | Size of local neighborhood      | 5–50           |
-| min_dist     | Minimum distance between points | 0.001–0.5      |
-| n_components | Number of output dimensions     | 2–3            |
-
-## UMAP in R
+## t-SNE: Effect of perplexity
 
 ::: panel-tabset
 ### Code
 
 ```{r}
-#| eval: false
-#| echo: true
+#| label: tsne-perplexity
+#| eval: true
+
+# Run t-SNE at multiple perplexity values
+perplexities <- c(5, 15, 30, 50)
+tsne_multi <- lapply(perplexities, function(p) {
+  res <- Rtsne(sim_df[, 1:n_dims], perplexity = p, dims = 2, 
+               verbose = FALSE, check_duplicates = FALSE)
+  data.frame(tSNE1 = res$Y[, 1], tSNE2 = res$Y[, 2], 
+             CellType = sim_df$CellType, 
+             Perplexity = paste("perplexity =", p))
+})
+tsne_compare <- do.call(rbind, tsne_multi)
+```
+
+### Output
+
+```{r}
+#| label: tsne-perplexity-plot
+#| echo: false
+#| fig-width: 12
+#| fig-height: 4
+
+par(mfrow = c(1, 4), mar = c(4, 4, 3, 1))
+colors <- c("#e74c3c", "#27ae60", "#3498db", "#9b59b6")
+for (p in perplexities) {
+  sub <- tsne_compare[tsne_compare$Perplexity == paste("perplexity =", p), ]
+  plot(sub$tSNE1, sub$tSNE2, col = colors[sub$CellType], pch = 19, cex = 0.7,
+       xlab = "t-SNE 1", ylab = "t-SNE 2",
+       main = paste("Perplexity =", p))
+  if (p == 5) legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.6)
+}
+```
+
+### Interpretation
+
+**Perplexity dramatically changes the output:**
+
+-   **Perplexity = 5**: Very local — may over-fragment real groups
+-   **Perplexity = 15**: Starts to show coherent clusters
+-   **Perplexity = 30**: Balanced view — typical default choice
+-   **Perplexity = 50**: Broader view — clusters may start merging
+
+**Best practice:** Always run t-SNE at multiple perplexity values and compare. No single setting tells the full story. A good rule of thumb is perplexity between sqrt(n)/2 to sqrt(n), but always explore.
+:::
+
+# UMAP {background-color="#2c3e50"}
+
+## UMAP on simulated data
+
+::: panel-tabset
+### Code
+
+```{r}
+#| label: umap-code
+#| eval: true
 
 library(umap)
 
-# Run UMAP
-umap_result <- umap(iris[, 1:4])
+# Run UMAP with default settings
+umap_config <- umap.defaults
+umap_config$n_neighbors <- 15
+umap_config$min_dist <- 0.1
+umap_config$random_state <- 42
 
-# Plot
-plot(umap_result$layout, col = iris$Species, pch = 19,
-     xlab = "UMAP 1", ylab = "UMAP 2",
-     main = "UMAP of Iris Data")
-legend("topright", levels(iris$Species), col = 1:3, pch = 19)
+umap_result <- umap(sim_df[, 1:n_dims], config = umap_config)
+
+# Store results
+umap_df <- data.frame(
+  UMAP1 = umap_result$layout[, 1],
+  UMAP2 = umap_result$layout[, 2],
+  CellType = sim_df$CellType
+)
+head(umap_df)
 ```
 
-### Comparing Methods
+### Output
 
-| Method | Speed  | Global Structure | Local Structure | Reproducible |
-|:-------|:-------|:-----------------|:----------------|:-------------|
-| PCA    | Fast   | Preserved        | Less accurate   | Yes          |
-| t-SNE  | Slow   | Lost             | Excellent       | No           |
-| UMAP   | Medium | Good             | Excellent       | Mostly       |
+```{r}
+#| label: umap-plot
+#| echo: false
+#| fig-width: 10
+#| fig-height: 5
+
+par(mfrow = c(1, 2), mar = c(4, 4, 3, 1))
+colors <- c("#e74c3c", "#27ae60", "#3498db", "#9b59b6")
+
+# Default UMAP
+plot(umap_df$UMAP1, umap_df$UMAP2, 
+     col = colors[umap_df$CellType], pch = 19, cex = 0.8,
+     xlab = "UMAP 1", ylab = "UMAP 2",
+     main = "UMAP (n_neighbors=15, min_dist=0.1)")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.8)
+
+# UMAP with different settings
+umap_config2 <- umap_config
+umap_config2$n_neighbors <- 50
+umap_config2$min_dist <- 0.5
+umap_result2 <- umap(sim_df[, 1:n_dims], config = umap_config2)
+plot(umap_result2$layout[, 1], umap_result2$layout[, 2], 
+     col = colors[sim_df$CellType], pch = 19, cex = 0.8,
+     xlab = "UMAP 1", ylab = "UMAP 2",
+     main = "UMAP (n_neighbors=50, min_dist=0.5)")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.8)
+```
+
+### Interpretation
+
+**What UMAP shows:**
+
+-   Clusters are clearly separated with good visual structure
+-   **n_neighbors = 15, min_dist = 0.1** (left): Tighter clusters, emphasizes local structure
+-   **n_neighbors = 50, min_dist = 0.5** (right): More spread out, emphasizes broader topology
+
+**Compared to t-SNE:**
+
+-   UMAP tends to preserve more of the **global structure** — relative positions of clusters are more consistent across runs
+-   UMAP is **much faster** — scales better to large datasets
+-   Still stochastic — set a random seed!
+-   Inter-cluster distances are still **not directly interpretable** like PCA
+:::
+
+## UMAP: Varying n_neighbors
+
+::: panel-tabset
+### Code
+
+```{r}
+#| label: umap-neighbors
+#| eval: true
+
+# UMAP at different n_neighbors values
+neighbors <- c(5, 15, 30, 50)
+umap_multi <- lapply(neighbors, function(nn) {
+  cfg <- umap.defaults
+  cfg$n_neighbors <- nn
+  cfg$min_dist <- 0.1
+  cfg$random_state <- 42
+  res <- umap(sim_df[, 1:n_dims], config = cfg)
+  data.frame(UMAP1 = res$layout[, 1], UMAP2 = res$layout[, 2], 
+             CellType = sim_df$CellType,
+             n_neighbors = paste("n_neighbors =", nn))
+})
+umap_compare <- do.call(rbind, umap_multi)
+```
+
+### Output
+
+```{r}
+#| label: umap-neighbors-plot
+#| echo: false
+#| fig-width: 12
+#| fig-height: 4
+
+par(mfrow = c(1, 4), mar = c(4, 4, 3, 1))
+colors <- c("#e74c3c", "#27ae60", "#3498db", "#9b59b6")
+for (nn in neighbors) {
+  sub <- umap_compare[umap_compare$n_neighbors == paste("n_neighbors =", nn), ]
+  plot(sub$UMAP1, sub$UMAP2, col = colors[sub$CellType], pch = 19, cex = 0.7,
+       xlab = "UMAP 1", ylab = "UMAP 2",
+       main = paste("n_neighbors =", nn))
+  if (nn == 5) legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.6)
+}
+```
+
+### Interpretation
+
+**n_neighbors controls the local-global trade-off:**
+
+-   **n_neighbors = 5**: Very local — clusters may fragment
+-   **n_neighbors = 15**: Good balance — typical default
+-   **n_neighbors = 30**: More global context incorporated
+-   **n_neighbors = 50**: Broad topology preserved, clusters may begin to merge
+
+**min_dist** (held constant at 0.1 here) controls how tightly points pack together — lower values create denser clusters, higher values spread points out.
+:::
+
+# Comparing All Three {background-color="#2c3e50"}
+
+## Side-by-side comparison
+
+::: panel-tabset
+### Code
+
+```{r}
+#| label: side-by-side
+#| eval: true
+
+# All three methods on the same dataset
+# PCA, t-SNE, UMAP already computed above
+
+# Combine for comparison
+comparison <- data.frame(
+  Method = rep(c("PCA", "t-SNE", "UMAP"), each = nrow(sim_df)),
+  Dim1 = c(pca_scores$PC1, tsne_df$tSNE1, umap_df$UMAP1),
+  Dim2 = c(pca_scores$PC2, tsne_df$tSNE2, umap_df$UMAP2),
+  CellType = rep(sim_df$CellType, 3)
+)
+```
+
+### Output
+
+```{r}
+#| label: side-by-side-plot
+#| echo: false
+#| fig-width: 14
+#| fig-height: 5
+
+par(mfrow = c(1, 3), mar = c(4, 4, 3, 1))
+colors <- c("#e74c3c", "#27ae60", "#3498db", "#9b59b6")
+
+# PCA
+sub <- comparison[comparison$Method == "PCA", ]
+plot(sub$Dim1, sub$Dim2, col = colors[sub$CellType], pch = 19, cex = 0.9,
+     xlab = paste0("PC1 (", round(var_prop[1]*100, 1), "%)"),
+     ylab = paste0("PC2 (", round(var_prop[2]*100, 1), "%)"),
+     main = "PCA")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.7)
+
+# t-SNE
+sub <- comparison[comparison$Method == "t-SNE", ]
+plot(sub$Dim1, sub$Dim2, col = colors[sub$CellType], pch = 19, cex = 0.9,
+     xlab = "t-SNE 1", ylab = "t-SNE 2",
+     main = "t-SNE (perplexity = 30)")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.7)
+
+# UMAP
+sub <- comparison[comparison$Method == "UMAP", ]
+plot(sub$Dim1, sub$Dim2, col = colors[sub$CellType], pch = 19, cex = 0.9,
+     xlab = "UMAP 1", ylab = "UMAP 2",
+     main = "UMAP (n_neighbors = 15)")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.7)
+```
+
+### Interpretation
+
+**All three methods identify the same 4 clusters, but with different visual characteristics:**
+
+-   **PCA**: Clusters partially overlap because it projects along linear axes of maximum variance. PC1 vs PC2 captures only part of total variance — remaining structure is in higher PCs. Distances are directly interpretable.
+
+-   **t-SNE**: Clusters are pulled apart into well-separated "islands." Visually dramatic, but inter-cluster distances are meaningless. Cluster sizes may not reflect true group sizes.
+
+-   **UMAP**: Similar to t-SNE but tends to preserve more of the relative positioning between clusters. The overall topology is more consistent across runs.
+
+**Key takeaway:** These methods are *complementary*, not competing. Use PCA for quantitative analysis and feature selection, t-SNE/UMAP for visualization.
+:::
+
+# Interpreting Plots {background-color="#2c3e50"}
+
+## What do distances mean?
+
+![](images/interpreting_distances.svg){fig-align="center" width="95%"}
+
+## Reproducibility: Stochastic methods
+
+::: panel-tabset
+### Code
+
+```{r}
+#| label: reproducibility
+#| eval: true
+
+# Demonstrate stochastic nature of t-SNE
+# Run t-SNE 3 times WITHOUT setting seed
+tsne_runs <- lapply(1:3, function(i) {
+  res <- Rtsne(sim_df[, 1:n_dims], perplexity = 30, dims = 2, 
+               verbose = FALSE, check_duplicates = FALSE)
+  data.frame(tSNE1 = res$Y[, 1], tSNE2 = res$Y[, 2], 
+             CellType = sim_df$CellType, Run = paste("Run", i))
+})
+tsne_runs_df <- do.call(rbind, tsne_runs)
+```
+
+### Output
+
+```{r}
+#| label: reproducibility-plot
+#| echo: false
+#| fig-width: 14
+#| fig-height: 4
+
+par(mfrow = c(1, 3), mar = c(4, 4, 3, 1))
+colors <- c("#e74c3c", "#27ae60", "#3498db", "#9b59b6")
+for (r in paste("Run", 1:3)) {
+  sub <- tsne_runs_df[tsne_runs_df$Run == r, ]
+  plot(sub$tSNE1, sub$tSNE2, col = colors[sub$CellType], pch = 19, cex = 0.7,
+       xlab = "t-SNE 1", ylab = "t-SNE 2", main = r)
+  if (r == "Run 1") legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.6)
+}
+```
+
+### Interpretation
+
+**Same data, same parameters, different results!**
+
+Each run produces a different spatial arrangement because t-SNE (and UMAP) use random initialization and stochastic optimization. The clusters are the same, but their positions and orientations change.
+
+**Solution — always set a random seed:**
+
+``` r
+set.seed(42)
+tsne_result <- Rtsne(data, perplexity = 30)
+```
+
+For UMAP in R:
+
+``` r
+umap_config$random_state <- 42
+umap_result <- umap(data, config = umap_config)
+```
+
+PCA does **not** have this issue — it is fully deterministic.
+:::
+
+# Combining Methods {background-color="#2c3e50"}
+
+## The standard scRNA-seq pipeline
+
+![](images/pca_umap_pipeline.svg){fig-align="center" width="95%"}
+
+## PCA then UMAP in practice
+
+::: panel-tabset
+### Code
+
+```{r}
+#| label: pipeline-code
+#| eval: true
+
+# Standard workflow: PCA first, then UMAP on top PCs
+# Step 1: PCA (already done)
+n_pcs <- 5  # Keep top 5 PCs (our data only has 10 dims)
+pca_input <- pca_result$x[, 1:n_pcs]
+
+# Step 2: UMAP on PC space
+umap_config_pipe <- umap.defaults
+umap_config_pipe$n_neighbors <- 15
+umap_config_pipe$min_dist <- 0.1
+umap_config_pipe$random_state <- 42
+
+umap_on_pca <- umap(pca_input, config = umap_config_pipe)
+
+# Compare: UMAP on raw data vs UMAP on PCA
+umap_raw_df <- umap_df  # already computed
+umap_pca_df <- data.frame(
+  UMAP1 = umap_on_pca$layout[, 1],
+  UMAP2 = umap_on_pca$layout[, 2],
+  CellType = sim_df$CellType
+)
+```
+
+### Output
+
+```{r}
+#| label: pipeline-plot
+#| echo: false
+#| fig-width: 10
+#| fig-height: 5
+
+par(mfrow = c(1, 2), mar = c(4, 4, 3, 1))
+colors <- c("#e74c3c", "#27ae60", "#3498db", "#9b59b6")
+
+plot(umap_raw_df$UMAP1, umap_raw_df$UMAP2, 
+     col = colors[umap_raw_df$CellType], pch = 19, cex = 0.8,
+     xlab = "UMAP 1", ylab = "UMAP 2",
+     main = "UMAP on Raw Data (10 dims)")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.7)
+
+plot(umap_pca_df$UMAP1, umap_pca_df$UMAP2, 
+     col = colors[umap_pca_df$CellType], pch = 19, cex = 0.8,
+     xlab = "UMAP 1", ylab = "UMAP 2",
+     main = "UMAP on PCA (5 PCs)")
+legend("topright", levels(cluster_labels), col = colors, pch = 19, cex = 0.7)
+```
+
+### Interpretation
+
+**Why PCA before UMAP?**
+
+-   **Noise reduction**: PCA removes uninformative variance (noise in genes that don't distinguish cell types)
+-   **Speed**: UMAP runs faster on 30-50 PCs than on 20,000 genes
+-   **Denoising**: Suppresses technical noise without distorting major biological patterns
+
+In our 10-dimensional example, the difference is subtle. But with real scRNA-seq data (20,000+ genes), the PCA preprocessing step dramatically improves both speed and quality.
+
+**This is standard in tools like Seurat and Scanpy:**
+
+``` r
+# Seurat workflow
+obj <- RunPCA(obj, npcs = 50)
+obj <- RunUMAP(obj, dims = 1:30)  # UMAP on first 30 PCs
+```
+:::
+
+# When to Use Each Method {background-color="#2c3e50"}
+
+## Decision guide
+
+:::::: columns
+::: {.column width="33%"}
+### PCA
+
+-   Linear relationships dominate
+-   Need interpretable axes
+-   Preprocessing / noise reduction
+-   Feature selection via loadings
+-   Very large datasets
+-   Full reproducibility required
+-   **Always run first**
+:::
+
+::: {.column width="33%"}
+### t-SNE
+
+-   Small to medium datasets
+-   Focus on local / fine-grained cluster structure
+-   Exploring results of complex models
+-   When local relationships matter most
+-   Have time to explore perplexity settings
+:::
+
+::: {.column width="34%"}
+### UMAP
+
+-   Large datasets
+-   Balance of local and global structure
+-   General-purpose visualization
+-   Default choice for scRNA-seq
+-   Need faster computation than t-SNE
+-   Want more consistent global topology
+:::
+::::::
+
+# Summary {background-color="#2c3e50"}
+
+## Summary table
+
+|   | PCA | t-SNE | UMAP |
+|:---|:---|:---|:---|
+| **Linear/Non-linear** | Linear | Non-linear | Non-linear |
+| **Global vs Local** | Global | Local | Local + Global |
+| **Scalability** | Excellent | Limited | Good |
+| **Reproducibility** | Deterministic | Stochastic | Stochastic |
+| **Interpretability** | High (loadings, variance) | Low | Low |
+| **Distances meaningful?** | Yes | No | Partially |
+| **Hyperparameters** | \# of PCs | Perplexity, LR, iterations | n_neighbors, min_dist |
+| **Typical use** | Preprocessing + analysis | Visualization | Visualization |
+
+## Key takeaways
+
+1.  **PCA** is your workhorse for dimensionality reduction as a preprocessing step — fast, interpretable, and reproducible
+2.  **t-SNE** and **UMAP** excel at visualization of complex, non-linear structure
+3.  **UMAP** has largely replaced t-SNE in practice due to better scalability and global structure preservation
+4.  **Don't over-interpret** distances between clusters in t-SNE/UMAP plots
+5.  **Always set a random seed** when using stochastic methods
+6.  **Combine methods** — use PCA first, then UMAP/t-SNE for visualization
+7.  **Explore hyperparameters** — a single embedding is never the full story
+
+## Scalability and Performance
+
+| Feature | PCA | t-SNE | UMAP |
+|:---|:---|:---|:---|
+| **Time complexity** | O(min(p3, n3)) | O(n2) or O(n log n) | O(n1.14) |
+| **Memory** | Low | High | Moderate |
+| **10K cells** | Seconds | Minutes | Seconds |
+| **100K cells** | Seconds | Hours/impractical | Minutes |
+| **1M cells** | Minutes | Impractical | \~30 min |
+| **New data projection** | Yes (rotation matrix) | No (must refit) | Yes (transform) |
+
+::: callout-tip
+For large datasets (\>50K observations), always run PCA first to reduce dimensions, then apply t-SNE or UMAP on the top PCs. This is standard practice in single-cell genomics.
 :::
 
 ## When to Use Each Dimensionality Reduction Method
@@ -1295,54 +1828,115 @@ legend("topright", levels(iris$Species), col = 1:3, pch = 19)
 -   **UMAP**: Large datasets, when you need both global and local structure preserved
 :::
 
-# BREAK {background-color="#e74c3c"}
+------------------------------------------------------------------------
 
-# Decision Trees and Random Forests {background-color="#2c3e50"}
+## From Dimensionality Reduction to Clustering
 
-## Decision Trees
+We have seen how **PCA, t-SNE, and UMAP** help us visualize structure in high-dimensional data. But visualization alone does not tell us **how many groups** exist or **which observations belong together**.
 
--   Supervised learning using tree-like decision structure
--   Easy to interpret and visualize
--   Handle both numerical and categorical data
--   No assumptions about data distribution
+**Clustering** methods formalize this by assigning observations to groups based on similarity. These unsupervised methods complement dimensionality reduction:
 
-![Decision tree structure](images/week09_14_decision_tree_structure_illust.jpeg){fig-align="center" width="70%"}
+-   Use **PCA/UMAP** to visualize, then **clustering** to assign group labels
+-   Use clustering on original high-dimensional data, then **project** clusters into reduced space
+-   Common in bioengineering for cell population identification, biomaterial formulation grouping, and patient stratification
 
-## Decision Tree Example: Injury Risk
+------------------------------------------------------------------------
 
-![Bioengineering decision tree example for injury risk](images/week09_23_decision_tree_bioe_example.pdf){fig-align="center" width="85%"}
+## Hydrogel Formulation Dataset
 
-## How Decision Trees Work
+::: callout-note
+### Study Description
 
-1.  Start with entire dataset at root
-2.  Find best feature and split point (minimize impurity)
-3.  Create branches for each outcome
-4.  Repeat until stopping criteria met
-5.  Assign predictions to leaf nodes
+A biomaterials lab synthesized 250 hydrogel formulations for wound healing applications, varying polymer concentration, crosslinker ratio, growth factor loading, swelling ratio, degradation rate, and compressive modulus. The goal is to identify natural groupings among formulations that might correspond to distinct performance profiles --- without using any predefined labels.
+:::
 
-## Splitting Criteria
+| Variable           | Type       | Description                  | Units       |
+|:-------------------|:-----------|:-----------------------------|:------------|
+| `polymer_conc`     | Continuous | Polymer concentration        | \% w/v      |
+| `crosslinker`      | Continuous | Crosslinker-to-polymer ratio | molar ratio |
+| `growth_factor`    | Continuous | Growth factor loading        | ng/mL       |
+| `swelling`         | Continuous | Equilibrium swelling ratio   | ---         |
+| `degradation_rate` | Continuous | Mass loss rate constant      | day⁻¹       |
+| `compressive_mod`  | Continuous | Compressive modulus          | kPa         |
+
+```{r}
+#| label: hydrogel-load
+#| eval: false
+#| echo: true
+
+# Load the hydrogel formulation dataset
+hydrogel <- read_csv("data/hydrogel_formulations.csv")
+glimpse(hydrogel)
+```
+
+# Hierarchical Clustering {background-color="#2c3e50"}
+
+## What is Hierarchical Clustering?
+
+Creates a tree-like structure (**dendrogram**) of nested clusters.
+
+**Two main types:**
+
+1.  **Agglomerative (Bottom-up):** Start with each point as its own cluster, merge closest clusters iteratively
+2.  **Divisive (Top-down):** Start with all points in one cluster, split iteratively
+
+## Dendrogram Example
+
+![](images/week09_16_dendrogram_2_1.jpg){fig-align="center" width="80%"}
+
+## DRAFT: Hierarchical Clustering Dendrogram
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 6
+
+# Generate clustered data
+set.seed(123)
+n <- 100
+x <- rbind(
+  matrix(rnorm(n * 2, mean = 0, sd = 1), ncol = 2),
+  matrix(rnorm(n * 2, mean = 4, sd = 1.2), ncol = 2),
+  matrix(rnorm(n/2 * 2, mean = c(8, 0), sd = 1), ncol = 2)
+)
+
+# Hierarchical clustering with complete linkage
+d <- dist(x)
+hc <- hclust(d, method = "complete")
+
+par(mar = c(2, 5, 3, 1))
+plot(hc, main = "Cluster Dendrogram", xlab = "", sub = "",
+     cex = 0.5, cex.main = 1.5, cex.lab = 1.2)
+```
+
+Cut the tree at different heights to get different numbers of clusters.
+
+## Linkage Methods
 
 ::: panel-tabset
 ### Equations
 
-**Gini Impurity (classification):** $$Gini = 1 - \sum_{i=1}^{n} p_i^2$$
+**Single Linkage (Minimum):** $$d(C_i, C_j) = \min_{x \in C_i, y \in C_j} d(x, y)$$
 
-**Entropy (classification):** $$Entropy = -\sum_{i=1}^{n} p_i \log_2(p_i)$$
+**Complete Linkage (Maximum):** $$d(C_i, C_j) = \max_{x \in C_i, y \in C_j} d(x, y)$$
 
-**MSE (regression trees):** $$MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2$$
+**Average Linkage:** $$d(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum_{x \in C_i} \sum_{y \in C_j} d(x, y)$$
+
+**Ward's Method:** Minimizes within-cluster sum of squares
 
 ### LaTeX
 
 ``` text
-Gini = 1 - \sum_{i=1}^{n} p_i^2
+d_{single}(C_i, C_j) = \min_{x \in C_i, y \in C_j} d(x, y)
 
-Entropy = -\sum_{i=1}^{n} p_i \log_2(p_i)
+d_{complete}(C_i, C_j) = \max_{x \in C_i, y \in C_j} d(x, y)
 
-MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2
+d_{average}(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum \sum d(x, y)
 ```
 :::
 
-## Decision Trees in R
+## Hierarchical Clustering in R: Hydrogel Formulations
 
 ::: panel-tabset
 ### Code
@@ -1351,201 +1945,266 @@ MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2
 #| eval: false
 #| echo: true
 
-library(rpart)
+# Scale the hydrogel features
+hydrogel_scaled <- hydrogel |>
+  select(polymer_conc, crosslinker, growth_factor,
+         swelling, degradation_rate, compressive_mod) |>
+  scale()
 
-# Fit a classification tree
-tree_model <- rpart(Species ~ ., data = iris, method = "class")
+# Calculate distance matrix
+dist_matrix <- dist(hydrogel_scaled, method = "euclidean")
 
-# Plot the tree
-plot(tree_model, margin = 0.1)
-text(tree_model, use.n = TRUE, cex = 0.8)
+# Hierarchical clustering with Ward's method
+hclust_ward <- hclust(dist_matrix, method = "ward.D2")
 
-# Predict
-tree_pred <- predict(tree_model, test_data, type = "class")
-table(Predicted = tree_pred, Actual = test_data$Species)
+# Plot dendrogram
+plot(hclust_ward, main = "Hydrogel Formulation Dendrogram",
+     xlab = "", sub = "", cex = 0.5)
+
+# Cut tree to get clusters
+clusters <- cutree(hclust_ward, k = 3)
+hydrogel$cluster <- factor(clusters)
 ```
 
-### Pruning
+### Enhanced Dendrograms
 
 ```{r}
 #| eval: false
 #| echo: true
 
-# View complexity parameter table
-printcp(tree_model)
+library(dendextend)
 
-# Prune to optimal tree (minimize cross-validated error)
-optimal_cp <- tree_model$cptable[which.min(tree_model$cptable[, "xerror"]), "CP"]
-pruned_tree <- prune(tree_model, cp = optimal_cp)
+dend <- as.dendrogram(hclust_ward)
+
+dend |>
+  color_branches(k = 3) |>
+  color_labels(k = 3) |>
+  plot(main = "Hydrogel Clusters (k = 3)")
+
+rect.dendrogram(dend, k = 3, border = "red")
 ```
 :::
 
-## Decision Tree: Complete Pruning Workflow
+## Silhouette Analysis and Cophenetic Correlation
 
 ::: panel-tabset
-### Output
-
-```{r}
-#| label: tree-pruning-output
-#| echo: false
-#| eval: true
-#| fig-width: 10
-#| fig-height: 4
-
-library(rpart)
-tree_full <- rpart(Species ~ ., data = iris, method = "class",
-                   control = rpart.control(cp = 0.001))
-par(mfrow = c(1, 2))
-plotcp(tree_full, main = "CP Plot: Cross-Validation Error")
-optimal_cp <- tree_full$cptable[which.min(tree_full$cptable[, "xerror"]), "CP"]
-pruned <- prune(tree_full, cp = optimal_cp)
-plot(pruned, margin = 0.15)
-text(pruned, use.n = TRUE, cex = 0.8)
-title("Pruned Decision Tree")
-```
-
-### Code
-
-```{r}
-#| label: tree-pruning-code
-#| echo: true
-#| eval: false
-
-library(rpart)
-
-# Step 1: Grow a complex tree (low cp)
-tree_full <- rpart(Species ~ ., data = iris, method = "class",
-                   control = rpart.control(cp = 0.001))
-
-# Step 2: Plot CV error by complexity parameter
-plotcp(tree_full)
-
-# Step 3: Find optimal cp (1-SE rule)
-cp_table <- tree_full$cptable
-optimal_cp <- cp_table[which.min(cp_table[, "xerror"]), "CP"]
-
-# Step 4: Prune
-pruned_tree <- prune(tree_full, cp = optimal_cp)
-
-# Step 5: Better visualization with rpart.plot
-# install.packages("rpart.plot")
-library(rpart.plot)
-rpart.plot(pruned_tree, type = 4, extra = 104,
-           box.palette = "BuGn",
-           main = "Pruned Classification Tree")
-```
-:::
-
-## Random Forests
-
-Address decision tree limitations through **ensemble learning**:
-
--   Build many trees on **bootstrap samples** of the data
--   Randomly select a subset of **features at each split**
--   Average predictions across all trees (reduces variance)
-
-**Advantages:** Reduces overfitting, more stable predictions, handles high-dimensional data, provides variable importance measures
-
-## Random Forests in R
-
-::: panel-tabset
-### Code
+### Silhouette
 
 ```{r}
 #| eval: false
 #| echo: true
 
-library(randomForest)
+library(cluster)
 
-# Fit random forest
-rf_model <- randomForest(Species ~ ., data = iris,
-                         ntree = 500, mtry = 2, importance = TRUE)
+# Silhouette scores for different k
+silhouette_scores <- numeric(9)
+for (k in 2:10) {
+  clust <- cutree(hclust_ward, k = k)
+  sil <- silhouette(clust, dist_matrix)
+  silhouette_scores[k - 1] <- mean(sil[, "sil_width"])
+}
 
-# View confusion matrix
-print(rf_model)
-
-# Variable importance
-importance(rf_model)
-varImpPlot(rf_model, main = "Variable Importance")
+plot(2:10, silhouette_scores, type = "b",
+     xlab = "Number of Clusters",
+     ylab = "Average Silhouette Score",
+     main = "Optimal Cluster Count for Hydrogel Data")
 ```
 
-### Key Parameters
+### Cophenetic Correlation
 
-| Parameter | Description                | Default             |
-|:----------|:---------------------------|:--------------------|
-| ntree     | Number of trees            | 500                 |
-| mtry      | Features sampled per split | √p (classification) |
-| nodesize  | Minimum terminal node size | 1 (classification)  |
+```{r}
+#| eval: false
+#| echo: true
+
+# Cophenetic correlation: how well does the dendrogram
+# preserve original pairwise distances?
+cophenetic_dist <- cophenetic(hclust_ward)
+coph_corr <- cor(dist_matrix, cophenetic_dist)
+cat("Cophenetic correlation:", round(coph_corr, 3))
+# Values closer to 1 = better preservation
+```
 :::
 
-## Random Forest: Variable Importance
+## Clustered Heatmap: Hydrogel Properties
+
+Clustered heatmaps show both the data and the hierarchical clustering simultaneously --- ubiquitous in genomics and biomaterials research.
 
 ::: panel-tabset
 ### Output
 
 ```{r}
-#| label: rf-varimp-output
+#| label: heatmap-output
 #| echo: false
 #| eval: true
-#| fig-width: 10
-#| fig-height: 4
+#| fig-width: 8
+#| fig-height: 6
 
-library(randomForest)
-set.seed(42)
-rf_model <- randomForest(Species ~ ., data = iris,
-                         ntree = 500, mtry = 2, importance = TRUE)
-par(mfrow = c(1, 2))
-varImpPlot(rf_model, main = "Variable Importance")
+# Generate hydrogel data for rendering
+set.seed(2026)
+hydrogel_sim <- data.frame(
+  polymer_conc = c(rnorm(80, 8, 1.5), rnorm(90, 15, 2), rnorm(80, 22, 1.5)),
+  crosslinker = c(rnorm(80, 0.3, 0.05), rnorm(90, 0.6, 0.08), rnorm(80, 0.4, 0.06)),
+  growth_factor = c(rnorm(80, 50, 10), rnorm(90, 100, 15), rnorm(80, 200, 30)),
+  swelling = c(rnorm(80, 15, 2), rnorm(90, 8, 1.5), rnorm(80, 12, 2)),
+  degradation_rate = c(rnorm(80, 0.05, 0.01), rnorm(90, 0.02, 0.005), rnorm(80, 0.08, 0.015)),
+  compressive_mod = c(rnorm(80, 10, 2), rnorm(90, 50, 8), rnorm(80, 25, 5))
+)
+hydrogel_mat <- as.matrix(hydrogel_sim)
+heatmap(hydrogel_mat, scale = "column",
+        col = hcl.colors(50, "RdYlBu"),
+        main = "Clustered Heatmap: Hydrogel Formulations",
+        labRow = NA)
 ```
 
 ### Code
 
 ```{r}
-#| label: rf-varimp-code
+#| label: heatmap-code
 #| echo: true
 #| eval: false
 
-# Variable importance — two measures
-varImpPlot(rf_model)
+# Create matrix from hydrogel features
+hydrogel_mat <- hydrogel |>
+  select(polymer_conc, crosslinker, growth_factor,
+         swelling, degradation_rate, compressive_mod) |>
+  as.matrix()
 
-# MeanDecreaseAccuracy: how much accuracy drops when variable is permuted
-# MeanDecreaseGini: total decrease in Gini impurity from that variable
-
-# Extract numerical importance
-importance(rf_model)
-
-# Partial dependence plots — effect of one variable on prediction
-# install.packages("pdp")
-library(pdp)
-partial(rf_model, pred.var = "Petal.Length", plot = TRUE,
-        rug = TRUE, plot.engine = "ggplot2")
-
-partial(rf_model, pred.var = "Petal.Width", plot = TRUE,
-        rug = TRUE, plot.engine = "ggplot2")
+# Base R heatmap
+heatmap(hydrogel_mat, scale = "column",
+        col = hcl.colors(50, "RdYlBu"),
+        main = "Clustered Heatmap: Hydrogel Formulations",
+        labRow = NA)
 ```
 
-### Interpreting Importance
+### When to Use
 
--   **Mean Decrease Accuracy**: More reliable; measures prediction degradation when variable is shuffled
--   **Mean Decrease Gini**: Biased toward variables with many categories; faster to compute
--   **Partial dependence**: Shows the marginal effect of a variable, averaging over all other variables
--   Use importance to identify key drivers, not for formal hypothesis testing
+-   **Gene expression** across samples and conditions
+-   **Biomaterial properties** across formulations
+-   **Multi-analyte assays** (cytokine panels, metabolomics)
+-   Any matrix where you want to see patterns in both rows and columns
 :::
 
-## ROC Curves and AUC
+------------------------------------------------------------------------
 
-**ROC** (Receiver Operating Characteristic) curves summarize classifier performance across all thresholds:
+# K-Means Clustering {background-color="#2c3e50"}
 
--   Plots True Positive Rate vs. False Positive Rate
--   **AUC** (Area Under Curve) is a single-number summary
--   0.5 = random guessing, 1.0 = perfect classification
+## What is K-Means?
 
-| AUC     | Interpretation |
-|:--------|:---------------|
-| 0.5–0.7 | Poor           |
-| 0.7–0.8 | Fair           |
-| 0.8–0.9 | Good           |
-| \> 0.9  | Excellent      |
+K-means partitions data into **k clusters** by minimizing within-cluster variance:
+
+::: panel-tabset
+### Algorithm
+
+1.  **Initialize** k cluster centers (randomly or with k-means++)
+2.  **Assign** each point to its nearest center
+3.  **Update** each center to the mean of its assigned points
+4.  **Repeat** steps 2–3 until convergence
+
+### Equation
+
+$$\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2$$
+
+Where $\mu_j$ is the centroid of cluster $C_j$.
+
+### LaTeX
+
+``` text
+\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2
+```
+:::
+
+## K-Means in R: Hydrogel Formulations
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: kmeans-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 4
+
+set.seed(2026)
+hydrogel_km <- data.frame(
+  polymer_conc = c(rnorm(80, 8, 1.5), rnorm(90, 15, 2), rnorm(80, 22, 1.5)),
+  crosslinker = c(rnorm(80, 0.3, 0.05), rnorm(90, 0.6, 0.08), rnorm(80, 0.4, 0.06)),
+  growth_factor = c(rnorm(80, 50, 10), rnorm(90, 100, 15), rnorm(80, 200, 30)),
+  swelling = c(rnorm(80, 15, 2), rnorm(90, 8, 1.5), rnorm(80, 12, 2)),
+  degradation_rate = c(rnorm(80, 0.05, 0.01), rnorm(90, 0.02, 0.005), rnorm(80, 0.08, 0.015)),
+  compressive_mod = c(rnorm(80, 10, 2), rnorm(90, 50, 8), rnorm(80, 25, 5))
+)
+hydrogel_scaled <- scale(hydrogel_km)
+
+par(mfrow = c(1, 2))
+# Elbow method
+wss <- sapply(1:10, function(k) kmeans(hydrogel_scaled, k, nstart = 25)$tot.withinss)
+plot(1:10, wss, type = "b", pch = 19, col = "steelblue",
+     xlab = "Number of Clusters (k)", ylab = "Total Within-Cluster SS",
+     main = "Elbow Method")
+
+# K-means k=3
+km_fit <- kmeans(hydrogel_scaled, 3, nstart = 25)
+plot(hydrogel_km$polymer_conc, hydrogel_km$compressive_mod,
+     col = c("steelblue", "coral", "forestgreen")[km_fit$cluster],
+     pch = 19, xlab = "Polymer Concentration (% w/v)",
+     ylab = "Compressive Modulus (kPa)",
+     main = "K-Means Clusters (k = 3)")
+```
+
+### Code
+
+```{r}
+#| label: kmeans-code
+#| echo: true
+#| eval: false
+
+# Scale features
+hydrogel_scaled <- hydrogel |>
+  select(polymer_conc, crosslinker, growth_factor,
+         swelling, degradation_rate, compressive_mod) |>
+  scale()
+
+# Elbow method
+wss <- sapply(1:10, function(k) {
+  kmeans(hydrogel_scaled, k, nstart = 25)$tot.withinss
+})
+plot(1:10, wss, type = "b", pch = 19,
+     xlab = "k", ylab = "Total Within-SS", main = "Elbow Method")
+
+# Fit k-means
+set.seed(2026)
+km_fit <- kmeans(hydrogel_scaled, centers = 3, nstart = 25)
+
+# Visualize
+plot(hydrogel$polymer_conc, hydrogel$compressive_mod,
+     col = km_fit$cluster, pch = 19,
+     xlab = "Polymer Concentration (% w/v)",
+     ylab = "Compressive Modulus (kPa)")
+
+# Examine cluster characteristics
+hydrogel |>
+  mutate(cluster = km_fit$cluster) |>
+  group_by(cluster) |>
+  summarise(across(where(is.numeric), \(x) round(mean(x), 2)))
+```
+:::
+
+## K-Means vs. Hierarchical Clustering
+
+| Feature             | K-Means               | Hierarchical          |
+|:--------------------|:----------------------|:----------------------|
+| **Must specify k?** | Yes (in advance)      | No (cut tree later)   |
+| **Cluster shape**   | Spherical             | Any shape             |
+| **Scalability**     | Fast (large datasets) | Slow (O(n²) or O(n³)) |
+| **Deterministic?**  | No (random init)      | Yes                   |
+| **Visualization**   | Scatter plots         | Dendrograms           |
+
+::: callout-tip
+Use the **elbow method** or **silhouette scores** to choose k for k-means. Consider running both methods and comparing results for robustness.
+:::
+
+------------------------------------------------------------------------
 
 ## Brief Introduction to Neural Networks
 
