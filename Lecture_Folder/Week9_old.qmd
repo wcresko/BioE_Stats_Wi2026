@@ -112,15 +112,14 @@ library(brms)         # Bayesian regression with Stan
 
 ## When Linear Isn't Enough
 
--   In bioengineering and biology, many relationships are fundamentally non-linear
+- In bioengineering and biology, many relationships are fundamentally non-linear
+    - cell proliferation peaks at an optimal scaffold porosity, 
+    - drug release follows saturation kinetics, and 
+    - tissue mechanical properties change non-monotonically with composition. 
+    
+- We need tools that can both **explore** and **model** these curved relationships.
 
-    -   cell proliferation peaks at an optimal scaffold porosity,
-    -   drug release follows saturation kinetics, and
-    -   tissue mechanical properties change non-monotonically with composition.
-
--   We need tools that can both **explore** and **model** these curved relationships.
-
--   This section covers two complementary approaches: **LOESS** for flexible exploration and **splines** for formal inference. Together they form a powerful toolkit for non-linear modeling.
+- This section covers two complementary approaches: **LOESS** for flexible exploration and **splines** for formal inference. Together they form a powerful toolkit for non-linear modeling.
 
 ## LOESS and Splines: Choosing the Right Tool
 
@@ -128,8 +127,9 @@ library(brms)         # Bayesian regression with Stan
 
 ## LOESS: How It Works
 
--   LOESS (Locally Estimated Scatterplot Smoothing) fits local polynomial regressions at each point, weighting nearby observations more heavily.
--   It is exploratory — use it to discover the shape of a relationship before fitting a formal model.
+- LOESS (Locally Estimated Scatterplot Smoothing) fits local polynomial regressions at each point, weighting nearby observations more heavily. 
+- It is exploratory — use it to discover the shape of a relationship before fitting a formal model.
+
 
 **The algorithm:**
 
@@ -221,9 +221,9 @@ ggplot(data, aes(x, y)) +
 
 ## From Exploration to Inference: Splines
 
--   Once LOESS reveals a non-linear relationship, you need formal tools to model it.
--   **Splines** are piecewise polynomials that create smooth curves by fitting different segments between data points (knots).
--   Unlike LOESS, splines produce models you can use for inference — coefficients, p-values, and predictions.
+- Once LOESS reveals a non-linear relationship, you need formal tools to model it. 
+- **Splines** are piecewise polynomials that create smooth curves by fitting different segments between data points (knots). 
+- Unlike LOESS, splines produce models you can use for inference — coefficients, p-values, and predictions.
 
 **Types of Spline Fitting:**
 
@@ -453,12 +453,13 @@ Tasks:
 5.  Based on your best model, what porosity level maximizes cell proliferation? Use `predict()` on a fine grid of porosity values.
 :::
 
+
 # Survival Analysis {background-color="#d4edda"}
 
 ## From Curves to Time: What Comes Next?
 
--   We have seen how **LOESS and splines** let us model non-linear relationships between a predictor and a continuous outcome.
--   But what happens when our outcome is not a number --- it is an **event that may or may not happen**, and **when** it happens matters?
+- We have seen how **LOESS and splines** let us model non-linear relationships between a predictor and a continuous outcome. 
+- But what happens when our outcome is not a number --- it is an **event that may or may not happen**, and **when** it happens matters?
 
 In bioengineering, we frequently ask:
 
@@ -468,10 +469,11 @@ In bioengineering, we frequently ask:
 
 **Survival analysis** gives us the statistical framework for these time-to-event questions --- including the challenge of **censoring**, where some subjects have not experienced the event yet.
 
+
 ## What is Survival Analysis?
 
--   Survival analysis is a family of statistical methods for analyzing **time-to-event** data — the time elapsed until a specific event occurs.
--   Unlike standard regression, survival analysis handles a unique feature of biomedical and engineering data: **censoring**.
+- Survival analysis is a family of statistical methods for analyzing **time-to-event** data — the time elapsed until a specific event occurs. 
+- Unlike standard regression, survival analysis handles a unique feature of biomedical and engineering data: **censoring**.
 
 ![](images/survival_concepts.svg){fig-align="center" width="95%"}
 
@@ -508,7 +510,7 @@ $$S(t) = P(T > t)$$
 ### Bioengineering Examples
 
 | Application          | Event              | Time Scale  | Typical S(t) shape    |
-|:-----------------|:-----------------|:-----------------|:------------------|
+|:------------------|:----------------|:----------------|:-------------------|
 | Implant testing      | Structural failure | Days/Months | Gradual decline       |
 | Drug delivery        | Drug depletion     | Hours/Days  | Steep initial decline |
 | Cell culture         | Cell death         | Hours       | Varies by condition   |
@@ -928,18 +930,17 @@ pairwise_survdiff(Surv(time_years, event) ~ material,
 
 ## The Cox Proportional Hazards Model
 
--   The **Cox proportional hazards model** is the workhorse of survival regression.
--   It models how covariates affect the hazard rate **without specifying the baseline hazard shape** — a semi-parametric approach that provides remarkable flexibility.
+- The **Cox proportional hazards model** is the workhorse of survival regression. 
+- It models how covariates affect the hazard rate **without specifying the baseline hazard shape** — a semi-parametric approach that provides remarkable flexibility.
 
 The model assumes:
 
 $$h(t \mid X) = h_0(t) \cdot \exp(\beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p)$$
 
--   Where $h_0(t)$ is an unspecified baseline hazard and $\exp(\beta_j)$ is the **hazard ratio** for a one-unit increase in $X_j$.
+- Where $h_0(t)$ is an unspecified baseline hazard and $\exp(\beta_j)$ is the **hazard ratio** for a one-unit increase in $X_j$.
 
--   **The key assumption** is **proportional hazards**: the ratio of hazards between any two groups remains constant over time.
-
--   If PEEK implants fail at 1.5× the rate of titanium implants at 1 year, they should also fail at 1.5× the rate at 5 years.
+- **The key assumption** is **proportional hazards**: the ratio of hazards between any two groups remains constant over time. 
+- If PEEK implants fail at 1.5× the rate of titanium implants at 1 year, they should also fail at 1.5× the rate at 5 years.
 
 ## Cox Model: Implant Failure Risk Factors
 
@@ -1173,21 +1174,22 @@ exp(cbind(HR = coef(cox_scaffold), confint(cox_scaffold)))
 
 ------------------------------------------------------------------------
 
+
 # Introduction to Statistical Learning {background-color="#2c3e50"}
 
 ## Transitioning to Statistical Learning
 
--   So far in this course, we have focused on **inference** --- estimating parameters, testing hypotheses, and building models grounded in probability theory. Now we shift toward **prediction** and **pattern recognition**.
+- So far in this course, we have focused on **inference** --- estimating parameters, testing hypotheses, and building models grounded in probability theory. Now we shift toward **prediction** and **pattern recognition**.
 
--   **Statistical learning** (also called machine learning) asks a different question: given data, can we build a model that **accurately predicts** outcomes for new, unseen observations?
+- **Statistical learning** (also called machine learning) asks a different question: given data, can we build a model that **accurately predicts** outcomes for new, unseen observations?
 
--   This shift requires new concepts ---
+- This shift requires new concepts --- 
 
-    -   **overfitting**
-    -   **bias-variance tradeoff**
-    -   **cross-validation**
-
--   before we dive into specific algorithms.
+    - **overfitting**
+    - **bias-variance tradeoff**
+    - **cross-validation** 
+    
+- before we dive into specific algorithms.
 
 ## What is Statistical Learning?
 
@@ -1226,28 +1228,31 @@ exp(cbind(HR = coef(cox_scaffold), confint(cox_scaffold)))
 -   **Transformers** — attention-based, NLP and protein structure
 -   **Autoencoders** — dimensionality reduction, anomaly detection
 -   **GANs** — synthetic data generation, image augmentation
+
 :::
 ::::
 :::::::
+
 
 ## General Steps for Machine Learning
 
 ![The ML workflow from data to predictions](images/week09_05_the_ml_workflow_from_data_to_p.jpg){fig-align="center" width="90%"}
 
+
 ## What's Coming: Bias-Variance and Cross-Validation
 
--   Before we dive into specific ML algorithms, we need two foundational concepts that apply to **every** predictive model:
+- Before we dive into specific ML algorithms, we need two foundational concepts that apply to **every** predictive model:
 
--   **Bias-Variance Tradeoff** — Every model makes two types of errors.
+- **Bias-Variance Tradeoff** — Every model makes two types of errors. 
+    - **Bias** comes from oversimplifying (e.g., fitting a line to curved data). 
+    - **Variance** comes from being too sensitive to the particular training sample (e.g., a very wiggly fit that changes dramatically with different data). 
 
-    -   **Bias** comes from oversimplifying (e.g., fitting a line to curved data).
-    -   **Variance** comes from being too sensitive to the particular training sample (e.g., a very wiggly fit that changes dramatically with different data).
+- Finding the sweet spot between these is the central challenge of machine learning.
 
--   Finding the sweet spot between these is the central challenge of machine learning.
-
--   **Cross-Validation** — How do we know if our model will work on new data? We can't just test on the training data (that rewards memorization). Cross-validation provides honest estimates of predictive performance by systematically holding out portions of the data for testing.
+- **Cross-Validation** — How do we know if our model will work on new data? We can't just test on the training data (that rewards memorization). Cross-validation provides honest estimates of predictive performance by systematically holding out portions of the data for testing.
 
 These tools will guide every modeling decision we make from here forward.
+
 
 ## Overfitting vs. Underfitting
 
@@ -1279,14 +1284,15 @@ These tools will guide every modeling decision we make from here forward.
 
 Understanding these two sources of error is fundamental to all machine learning:
 
--   **Bias** is the error from incorrect assumptions in the model.
-    -   A model with high bias "underfits" — it misses relevant relationships.
-    -   Think of fitting a straight line through clearly curved data.
-    -   No matter how much data you collect, the line will always be wrong because the model structure itself is too simple.
--   **Variance** is the error from sensitivity to fluctuations in the training data.
-    -   A model with high variance "overfits" — it captures noise as if it were signal.
-    -   Think of fitting a 20th-degree polynomial to 25 data points.
-    -   It hits every point perfectly, but a different random sample would produce a completely different wiggly curve.
+- **Bias** is the error from incorrect assumptions in the model. 
+    - A model with high bias "underfits" — it misses relevant relationships. 
+    - Think of fitting a straight line through clearly curved data. 
+    - No matter how much data you collect, the line will always be wrong because the model structure itself is too simple.
+
+- **Variance** is the error from sensitivity to fluctuations in the training data. 
+    - A model with high variance "overfits" — it captures noise as if it were signal. 
+    - Think of fitting a 20th-degree polynomial to 25 data points. 
+    - It hits every point perfectly, but a different random sample would produce a completely different wiggly curve.
 
 The **irreducible error** (noise) represents the fundamental randomness in the data that no model can capture — biological variability, measurement error, unmeasured confounders.
 
@@ -1307,6 +1313,7 @@ $$\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
 -   **Bias**: error from incorrect model assumptions (too simple)
 -   **Variance**: error from sensitivity to training data (too complex)
 -   Goal: balance flexibility with stability
+
 
 ## Bias-Variance Tradeoff — Visualized
 
@@ -1430,20 +1437,21 @@ lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)],
 ```
 :::
 
+
 # Cross-Validation {background-color="#2c3e50"}
 
 ## What is Cross-Validation?
 
--   Cross-validation is our primary tool for estimating how well a model will perform on **new, unseen data**.
--   The core idea is simple: repeatedly split your data into training and testing portions, fit the model on the training portion, and evaluate on the testing portion.
+- Cross-validation is our primary tool for estimating how well a model will perform on **new, unseen data**. 
+- The core idea is simple: repeatedly split your data into training and testing portions, fit the model on the training portion, and evaluate on the testing portion.
 
 ![](images/week09_06_crossvalidation1.png){fig-align="center" width="70%"}
 
-**Why we need it:**
+**Why we need it:** 
 
--   Training error (how well the model fits its own data) is always optimistic — it rewards memorization.
--   Test error (how well it predicts new data) is what actually matters.
--   Cross-validation gives an honest estimate of test error without requiring a separate dataset.
+- Training error (how well the model fits its own data) is always optimistic — it rewards memorization. 
+- Test error (how well it predicts new data) is what actually matters. 
+- Cross-validation gives an honest estimate of test error without requiring a separate dataset.
 
 ## K-Fold Cross-Validation
 
@@ -1549,47 +1557,65 @@ abline(v = which.min(cv_errors), lty = 2, col = "red")
 -   Connects directly to model selection from Week 7
 :::
 
+
+
 # Decision Trees - ClAssification and Regression Trees (CART) {background-color="#2c3e50"}
 
 ## Tree-Based Methods
 
--   Now that we understand **overfitting**, **bias-variance tradeoff**, and **cross-validation**, we can apply these concepts to our first machine learning algorithms.
+- Now that we understand **overfitting**, **bias-variance tradeoff**, and **cross-validation**, we can apply these concepts to our first machine learning algorithms.
 
--   **Decision trees** are an excellent starting point because they are intuitive, visually interpretable, and directly applicable to bioengineering classification and regression problems.
+- **Decision trees** are an excellent starting point because they are intuitive, visually interpretable, and directly applicable to bioengineering classification and regression problems. 
+- They also serve as building blocks for powerful ensemble methods like **random forests**.
 
--   They also serve as building blocks for powerful ensemble methods like **random forests**.
+- We will use two bioengineering datasets: 
+    - one for classification tree (biomaterial screening) and 
+    - one for regression tree (scaffold cell growth).
 
--   We will use two bioengineering datasets:
+## Biomaterial Screening Dataset
 
-    -   one for classification tree (biomaterial screening) and
-    -   one for regression tree (scaffold cell growth).
+::: callout-note
+### Study Description
+
+A biomaterials research group screened 200 scaffold formulations for biocompatibility. Each scaffold varied in porosity, mechanical stiffness, surface coating (none, collagen, or RGD peptide), and surface roughness. After 14 days of cell culture, each scaffold was classified as biocompatible or incompatible based on cell viability thresholds.
+:::
+
+| Variable | Type | Description | Units / Levels |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| `porosity` | Continuous | Scaffold porosity | \% (20--85) |
+| `stiffness` | Continuous | Compressive modulus | kPa |
+| `coating` | Categorical | Surface coating type | none, collagen, RGD |
+| `roughness` | Continuous | Average surface roughness (Ra) | μm |
+| `compat_score` | Binary | Biocompatibility classification | biocompatible / incompatible |
+
+```{r}
+#| label: biocompat-load
+#| eval: false
+#| echo: true
+
+# Load the biomaterial screening dataset
+biomat <- read_csv("data/biomaterial_screening.csv")
+biomat$coating <- factor(biomat$coating)
+biomat$compat_score <- factor(biomat$compat_score)
+glimpse(biomat)
+```
 
 ## What are Decision Trees?
 
-Decision trees are **supervised learning** models that recursively partition the feature space using simple if-then rules. They are among the most interpretable machine learning methods available and are widely used in biomedical and engineering applications.
+Decision trees are **supervised learning** models that recursively partition the feature space using simple if-then rules. They are among the most interpretable machine learning methods.
 
 **Key properties:**
 
--   Handle both **classification** (predicting a category) and **regression** (predicting a continuous value) — often called CART (Classification And Regression Trees)
--   Make **no assumptions** about the distribution of the data — no normality, no linearity required
--   Naturally capture **interactions** between predictors without specifying them explicitly
--   Produce predictions in the form of a **tree of if-then rules** that any collaborator, clinician, or regulator can follow
--   Are **robust to scale** — no need to standardize predictors
+-   Handle both classification and regression
+-   No assumptions about data distribution
+-   Naturally handle interactions between predictors
+-   Easy to visualize and explain to collaborators
 
 ::: callout-note
 ### CART = Classification And Regression Trees
 
-The most common algorithm is CART (Breiman et al., 1984), which uses **greedy binary splitting** — at each step, it finds the single best split that minimizes impurity (classification) or residual error (regression). This simplicity makes trees extremely fast to fit and easy to explain.
+The most common algorithm is CART (Breiman, 1984), which uses **greedy binary splitting** — at each step, it finds the single best split that minimizes impurity.
 :::
-
-## **How classification and regression trees differ:**
-
-| Feature | Classification Tree | Regression Tree |
-|:----------------|:-----------------------------|:------------------------|
-| Outcome | Categorical (class label) | Continuous (numeric) |
-| Splitting criterion | Gini impurity or entropy | Residual sum of squares (RSS) |
-| Leaf prediction | Majority class | Mean of responses in leaf |
-| Evaluation | Accuracy, AUC | RMSE, R² |
 
 ## How CART Works
 
@@ -1623,158 +1649,9 @@ MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \bar{y})^2
 ```
 :::
 
-# Classification
+## CART Classification: Step-by-Step
 
-## Splitting Criterion: Gini Impurity
-
-Gini impurity measures how "mixed" a node is — a value of 0 means the node is perfectly pure (all one class), and higher values indicate more mixing.
-
-::: panel-tabset
-### Equation
-
-$$G = 1 - \sum_{k=1}^{K} p_k^2$$
-
-where $p_k$ is the proportion of observations in class $k$ in the node.
-
-**Weighted Gini after a split:**
-
-$$G_{split} = \frac{n_L}{n} G_L + \frac{n_R}{n} G_R$$
-
-The best split is the one that produces the **largest reduction** in weighted Gini:
-
-$$\Delta G = G_{parent} - G_{split}$$
-
-### LaTeX
-
-``` text
-G = 1 - \sum_{k=1}^{K} p_k^2
-
-G_{split} = \frac{n_L}{n} G_L + \frac{n_R}{n} G_R
-
-\Delta G = G_{parent} - G_{split}
-```
-
-### Worked Example
-
-**Before split:** 100 observations, 50 biocompatible / 50 incompatible
-
-$$G_{parent} = 1 - (0.5^2 + 0.5^2) = 1 - 0.5 = 0.50$$
-
-**After splitting on coating = RGD:**
-
--   Left child (RGD, n=40): 35 biocompatible, 5 incompatible → $G_L = 1 - (0.875^2 + 0.125^2) = 0.219$
--   Right child (no RGD, n=60): 15 biocompatible, 45 incompatible → $G_R = 1 - (0.25^2 + 0.75^2) = 0.375$
-
-$$G_{split} = \frac{40}{100}(0.219) + \frac{60}{100}(0.375) = 0.088 + 0.225 = 0.313$$
-
-$$\Delta G = 0.50 - 0.313 = 0.187 \quad \text{(substantial improvement!)}$$
-
-### Interpretation
-
--   **G = 0**: Node is perfectly pure (all one class) — leaf reached
--   **G = 0.5**: Maximum impurity for two-class problems (50/50 split)
--   **G close to 0**: Strong class separation — good split
--   Gini is fast to compute and the default in `rpart`
--   It is **not** the same as the Gini coefficient from economics
--   For $K = 2$ classes: $G = 2 p_1 (1 - p_1)$, which peaks at $p_1 = 0.5$
-:::
-
-## Splitting Criterion: Entropy and Information Gain
-
-Entropy measures the amount of **disorder or uncertainty** in a node. It is borrowed from information theory (Shannon entropy) and is an alternative to Gini impurity.
-
-::: panel-tabset
-### Equation
-
-$$H = -\sum_{k=1}^{K} p_k \log_2(p_k)$$
-
-**Information Gain** — the reduction in entropy after a split:
-
-$$IG = H_{parent} - \left( \frac{n_L}{n} H_L + \frac{n_R}{n} H_R \right)$$
-
-CART maximizes information gain, equivalently minimizing the weighted entropy of child nodes.
-
-### LaTeX
-
-``` text
-H = -\sum_{k=1}^{K} p_k \log_2(p_k)
-
-IG = H_{parent} - \left( \frac{n_L}{n} H_L + \frac{n_R}{n} H_R \right)
-```
-
-### Gini vs. Entropy
-
-| Property | Gini Impurity | Entropy |
-|:---------------------|:-----------------------------|:-------------------|
-| **Range** | 0 to 0.5 (binary) | 0 to 1 bit (binary) |
-| **Computation** | Faster (no log) | Slightly slower |
-| **Sensitivity** | Less sensitive to class imbalance | More sensitive |
-| **Shape** | Slightly flatter curve | Sharper at extremes |
-| **In practice** | Default in `rpart`, scikit-learn | Often gives very similar splits |
-
-In the vast majority of real datasets, Gini and entropy produce **nearly identical trees**. The choice rarely matters — but Gini is preferred for speed.
-
-### Worked Example
-
-Same 100 observations, 50 biocompatible / 50 incompatible:
-
-$$H_{parent} = -(0.5 \log_2 0.5 + 0.5 \log_2 0.5) = -(-0.5 - 0.5) = 1.0 \text{ bit}$$
-
-After the same RGD coating split:
-
--   Left (n=40): $H_L = -(0.875 \log_2 0.875 + 0.125 \log_2 0.125) = 0.544$
--   Right (n=60): $H_R = -(0.25 \log_2 0.25 + 0.75 \log_2 0.75) = 0.811$
-
-$$IG = 1.0 - \left(\frac{40}{100}(0.544) + \frac{60}{100}(0.811)\right) = 1.0 - 0.704 = 0.296 \text{ bits}$$
-:::
-
-## Biomaterial Screening Dataset
-
-::: callout-note
-### Study Description
-
-A biomaterials research group screened 200 scaffold formulations for biocompatibility. Each scaffold varied in porosity, mechanical stiffness, surface coating (none, collagen, or RGD peptide), and surface roughness. After 14 days of cell culture, each scaffold was classified as biocompatible or incompatible based on cell viability thresholds.
-:::
-
-| Variable | Type | Description | Units / Levels |
-|:-----------------|:-----------------|:-----------------|:-----------------|
-| `porosity` | Continuous | Scaffold porosity | \% (20--85) |
-| `stiffness` | Continuous | Compressive modulus | kPa |
-| `coating` | Categorical | Surface coating type | none, collagen, RGD |
-| `roughness` | Continuous | Average surface roughness (Ra) | μm |
-| `compat_score` | Binary | Biocompatibility classification | biocompatible / incompatible |
-
-```{r}
-#| label: biocompat-load
-#| eval: false
-#| echo: true
-
-# Load the biomaterial screening dataset
-biomat <- read_csv("data/biomaterial_screening.csv")
-biomat$coating <- factor(biomat$coating)
-biomat$compat_score <- factor(biomat$compat_score)
-glimpse(biomat)
-```
-
-## CART Classification: The Algorithm
-
-::: panel-tabset
-### Algorithm Steps
-
-![](images/cart_classification_flow.svg){fig-align="center" width="95%"}
-
-### How to Read This Diagram
-
-Each step occurs at every node during tree construction:
-
-1.  **Start at Root** — all training observations enter the tree as a single node; the majority class becomes the initial prediction
-2.  **Find Best Split** — exhaustively try every feature and every possible threshold; select the one that maximally reduces Gini impurity
-3.  **Split the Node** — partition the observations into two child nodes based on the winning feature + threshold
-4.  **Recurse** — repeat Steps 2–3 independently within each child node
-5.  **Stop + Label** — stop when a termination criterion is met (minimum node size, maximum depth, or CP threshold); label each leaf with its majority class
-
-This is a **greedy top-down algorithm**: each split is locally optimal, not globally optimal. A different first split might produce a better tree overall, but the search space is too large to evaluate exhaustively.
-:::
+![](images/cart_classification_steps.svg){fig-align="center" width="95%"}
 
 ## Decision Tree: Biomaterial Biocompatibility
 
@@ -1848,7 +1725,6 @@ rpart.plot(tree_model, type = 4, extra = 104,
 -   This is interpretable enough to share directly with materials science collaborators
 :::
 
-
 ## Overfitting and Pruning
 
 A fully grown tree memorizes the training data. **Pruning** removes branches that don't improve generalization.
@@ -1914,78 +1790,6 @@ rpart.plot(pruned_tree, type = 4, extra = 104)
 -   A simpler tree is easier to interpret and often predicts better on new data
 :::
 
-## Cost-Complexity Pruning: The Full Procedure
-
-![](images/cart_pruning_steps.svg){fig-align="center" width="95%"}
-
-::: callout-important
-### The 1-SE Rule (Recommended)
-
-Rather than choosing the tree with **minimum** CV error, the 1-SE rule selects the **simplest tree** whose CV error is within one standard error of the minimum. This gives a parsimonious tree that is nearly as accurate as the best model — a good trade-off between interpretability and fit.
-
-In R: `cp = tree$cptable[which.min(tree$cptable[,"xerror"]),"CP"]` finds the minimum, then find the smallest tree within `+1*xstd` of that minimum.
-:::
-
-# Regression Trees
-## The Logic Behind Regression Trees
-
-Decision trees also work for **continuous outcomes**. Instead of Gini impurity, the splitting criterion is **Residual Sum of Squares (RSS)**:
-
-::: panel-tabset
-### Equation
-
-At each node, the algorithm finds the split that minimizes the combined within-group variance of the two child nodes:
-
-$$\text{RSS}_{split} = \sum_{i \in \text{Left}} (y_i - \bar{y}_L)^2 + \sum_{i \in \text{Right}} (y_i - \bar{y}_R)^2$$
-
-The best split minimizes $\text{RSS}_{split}$. Equivalently, it **maximizes the reduction in RSS**:
-
-$$\Delta \text{RSS} = \text{RSS}_{parent} - \text{RSS}_{split}$$
-
-### LaTeX
-
-``` text
-\text{RSS}_{split} = \sum_{i \in \text{Left}} (y_i - \bar{y}_L)^2 + \sum_{i \in \text{Right}} (y_i - \bar{y}_R)^2
-
-\Delta \text{RSS} = \text{RSS}_{parent} - \text{RSS}_{split}
-```
-
-### Key Differences from Classification
-
-| Feature | Classification Tree | Regression Tree |
-|:----------------|:-----------------------------|:------------------------|
-| Splitting criterion | Gini impurity / Entropy | Residual Sum of Squares |
-| Leaf prediction | Majority class vote | Mean of leaf responses (ȳ) |
-| Prediction type | Discrete class label | Continuous constant (step function) |
-| Performance metric | Accuracy, AUC | RMSE, R² |
-| Pruning objective | Misclassification rate | RSS / MSE |
-
-### Intuition
-
-The algorithm is searching for the feature and threshold that **divide the data into groups that are as homogeneous in y as possible**. Within each group, the prediction is simply the group mean. This creates a **piecewise constant (step-function) prediction surface** — a key limitation that random forests substantially overcome.
-:::
-
-## Regression Tree: Step-by-Step
-
-::: panel-tabset
-### Algorithm Flow
-
-![](images/cart_regression_flow.svg){fig-align="center" width="95%"}
-
-### Notes
-
-The regression CART algorithm is structurally identical to classification CART — the only difference is the objective function at each split:
-
-
-After fitting, each **leaf node** covers a region of predictor space and predicts the **mean response** of all training observations in that region. This step-function structure means regression trees can approximate non-linear relationships but produce discontinuous predictions.
-
-**Practical considerations:**
-
--   More splits → lower training RSS, but higher test error (overfitting)
--   Cost-complexity pruning (same α / cp mechanism as classification) controls complexity
--   With strong predictors, trees can capture non-linear relationships and interactions without specifying them
-:::
-
 ## Scaffold Cell Growth Dataset
 
 ::: callout-note
@@ -1995,12 +1799,19 @@ Researchers fabricated 150 electrospun scaffolds with varying porosity, fiber di
 :::
 
 | Variable            | Type       | Description                | Units           |
-|:----------------|:----------------|:---------------------|:----------------|
+|:----------------|:---------------|:----------------------|:---------------|
 | `porosity`          | Continuous | Scaffold porosity          | \% (20--85)     |
 | `fiber_diameter`    | Continuous | Average fiber diameter     | nm              |
 | `crosslink_density` | Continuous | Degree of crosslinking     | fraction (0--1) |
 | `cell_growth`       | Continuous | Cell growth index at day 7 | AU              |
 
+## Regression Trees
+
+Decision trees also work for continuous outcomes. Instead of Gini impurity, the splitting criterion is **residual sum of squares (RSS)** — at each split, the algorithm minimizes the combined variance within the two child nodes.
+
+## CART Regression: Step-by-Step
+
+![](images/cart_regression_steps.svg){fig-align="center" width="95%"}
 
 ## Regression Tree: Scaffold Cell Growth
 
@@ -2073,39 +1884,20 @@ cor(scaffold_reg$cell_growth, pred_vals)^2  # R-squared
 
 ## Handling Missing Data in CART
 
-Decision trees have a built-in mechanism for missing data called **surrogate splits** — a major practical advantage over most regression-based methods.
+Decision trees have a built-in approach to missing data called **surrogate splits**:
 
-**How surrogate splits work for both classification and regression:**
+When a splitting variable is missing for an observation, CART identifies **surrogate variables** — other predictors that produce nearly the same split. The observation is then routed using the best available surrogate.
 
-1.  At each node, CART first identifies the **primary split** — the feature and threshold that best reduces impurity/RSS
-2.  It then ranks all **other predictors** by how well they *mimic* that primary split (i.e., assign the same observations to left/right child)
-3.  When a test observation has a missing value for the primary split variable, CART substitutes the **best available surrogate**
-4.  If all surrogates are also missing, the observation is sent to the **majority child node** (classification) or the **larger child node** (regression)
+**How it works:**
 
-**Example:** In the scaffold dataset, the primary split might be `crosslink_density ≥ 0.55`. If crosslink density is missing for a new scaffold, CART checks whether `porosity` or `fiber_diameter` makes a similar split — e.g., `porosity ≥ 60%` agrees 78% of the time, making it a good surrogate.
+1.  At each node, CART records the **primary split** (e.g., porosity ≥ 55%)
+2.  It also ranks all other variables by how well they **mimic** this split
+3.  If porosity is missing for an observation, the best surrogate (e.g., stiffness ≥ 42 kPa, which agrees with the porosity split 85% of the time) is used instead
+4.  If all surrogates are also missing, the observation goes to the **majority child node**
 
-
-## Handling Missing Data in CART
-
-
-**Classification vs. Regression with missing data**
-
--   **Classification surrogates:** evaluated by their agreement rate — what fraction of observations go to the same child as the primary split
--   **Regression surrogates:** evaluated by the RSS reduction — does the surrogate produce a similar reduction in variance as the primary split?
--   In both cases, the surrogate ordering is pre-computed at training time, so prediction with missing values is fast
--   `rpart` in R automatically computes and stores surrogate splits; the default `maxsurrogate = 5` stores the top 5 alternatives per node
-
-
-```{r}
-#| echo: true
-#| eval: false
-
-# Inspect surrogate splits
-summary(tree_model)  # Prints primary + surrogate splits at each node
-
-# rpart handles missing values automatically during prediction
-predict(tree_model, newdata = test_data_with_NAs)  # No error needed
-```
+::: callout-tip
+This is a major practical advantage of tree-based methods. Unlike most regression approaches, CART can handle missing values without imputation. Random Forests inherit this capability from their constituent trees.
+:::
 
 ## CART Summary: Strengths and Weaknesses
 
@@ -2132,79 +1924,19 @@ predict(tree_model, newdata = test_data_with_NAs)  # No error needed
 These weaknesses — especially the high variance and overfitting tendency — are precisely what **random forests** were designed to address.
 :::
 
-
 ------------------------------------------------------------------------
 
 # Random Forests {background-color="#2c3e50"}
 
-## Why Do We Need Random Forests?
+## Bootstrap Aggregating (Bagging) and Out-of-Bag Estimation
 
-- We just saw that single decision trees are **interpretable but fragile**. 
+Before diving into random forests, we need to understand the two key ideas they build on: **bagging** and **OOB estimation**. Bagging creates diverse training sets by sampling with replacement, and OOB estimation provides free validation without a separate test set.
 
-- Small changes in the training data can produce very different trees. 
+![](images/bagging_oob_diagram.svg){fig-align="center" width="95%"}
 
-- This is the **high variance** problem: the model is fitting noise, not signal.
+## From One Tree to Many: The Random Forest Algorithm
 
-::: callout-warning
-### The Core Problem with Single Trees
-
--   **Greedy splitting** — each split is locally optimal, not globally optimal; a different first split might give a better overall tree
--   **High variance** — bootstrap a new sample from the same population and you often get a completely different tree structure
--   **Instability** — variable importance estimates from a single tree are unreliable
--   **Step-function predictions** — regression trees produce discontinuous predictions with sharp boundaries
-
-A single tree's training accuracy can be high while its test accuracy is poor — classic overfitting.
-:::
-
-## The solution: combine many trees
-
-- If we can build many diverse, somewhat accurate trees and combine their predictions, the errors will tend to **cancel out**. 
-- This is the principle of **ensemble learning**, and random forests are its most successful implementation for decision trees.
-
-| Problem | Random Forest Solution |
-|:------------------------|:--------------------------------------------------|
-| High variance per tree | Average 500+ trees — variance drops by \~B |
-| Trees correlated | Random feature selection at each split — decorrelates trees |
-| No free validation set | Out-of-Bag (OOB) estimation — free internal cross-validation |
-| Unstable variable importance | Permutation-based importance over all 500 trees |
-
-## Bootstrap Aggregating (Bagging)
-
-- Before diving into random forests, we need to understand the two key ideas they build on: 
-    - **bagging** and 
-    - **out-of-bag (OOB) estimation**.
-
-## Bootstrap Aggregating (Bagging)
-
-**Bagging** (Bootstrap AGGregatING):
-
-1.  Draw $B$ bootstrap samples from the training data (sample **with replacement**, same size $n$)
-2.  Each bootstrap sample contains \~63% unique observations; the remaining \~37% are **not sampled** (out-of-bag)
-3.  Fit one decision tree on each bootstrap sample — all $B$ trees are independent
-4.  **Aggregate predictions:**
-    -   Classification: majority vote across all $B$ trees
-    -   Regression: average of all $B$ predicted values
-
-
-
-**Why does this help?** If we have $B$ independent trees each with variance $\sigma^2$, the variance of their average is $\sigma^2 / B$. In practice trees are correlated (not independent), so the reduction is smaller, but still substantial.
-
-## Bootstrap Aggregating (Bagging)
-
-**Out-of-Bag (OOB) Estimation:**
-
-- The \~37% of observations not used to train each tree serve as a **natural held-out test set** for that tree. 
-
-- For each observation, we average predictions from all trees that did *not* train on it. 
-
-- This gives a nearly unbiased estimate of generalization error — **no separate validation set needed**.
-
-
-
-## The Random Forest Algorithm
-
-- A single decision tree is interpretable but often has high variance — small changes in data can produce very different trees. 
-- **Random Forests** solve this by averaging many decorrelated trees.
+A single decision tree is interpretable but often has high variance — small changes in data can produce very different trees. **Random Forests** solve this by averaging many decorrelated trees.
 
 **The Random Forest algorithm:**
 
@@ -2218,26 +1950,19 @@ A single tree's training accuracy can be high while its test accuracy is poor �
 
 If one predictor is very strong, every tree in a simple bagging ensemble would split on it first, making the trees correlated. Random feature selection **decorrelates** the trees, reducing variance of the ensemble. This is the key innovation of random forests over basic bagging.
 :::
-## Bagging and OOB: Workflow
 
-![](images/bagging_oob_diagram.svg){fig-align="center" width="95%"}
+## Random Forest: Classification Example
 
-
-## Random Forest: Classification — OOB Error Convergence
-
-- We return to the **biomaterial screening dataset** (200 scaffolds, 4 properties, biocompatible/incompatible). 
-- Earlier, a single CART tree identified coating type and stiffness as important predictors. 
-- Now we fit a forest of 500 trees. 
-- Each tree sees a different bootstrap sample and considers only 2 random features at each split.
+We return to the **biomaterial screening dataset** (200 scaffolds, 4 properties, biocompatible/incompatible). Earlier, a single CART tree identified coating type and stiffness as important predictors. Now we fit a forest of 500 trees. The key difference: each tree sees a different bootstrap sample and considers only a random subset of features at each split, producing a diverse ensemble that is far more stable than any single tree.
 
 ::: panel-tabset
-### OOB Error Plot
+### Output
 
 ```{r}
-#| label: rf-oob-output
+#| label: rf-class-output
 #| echo: false
 #| eval: true
-#| fig-width: 8
+#| fig-width: 10
 #| fig-height: 5
 
 library(randomForest)
@@ -2246,95 +1971,56 @@ set.seed(2026)
 rf_model <- randomForest(compat_score ~ porosity + stiffness + coating + roughness,
                          data = biomat, ntree = 500, mtry = 2, importance = TRUE)
 
+par(mfrow = c(1, 2))
 # OOB error convergence
-plot(rf_model, main = "OOB Error vs. Number of Trees",
-     col = c("black", "#e74c3c", "#2980b9"), lwd = 2)
-legend("topright", colnames(rf_model$err.rate),
-       col = c("black", "#e74c3c", "#2980b9"), lty = 1:3, lwd = 2, cex = 0.9)
+plot(rf_model, main = "OOB Error vs. Number of Trees")
+legend("topright", colnames(rf_model$err.rate), col = 1:3, lty = 1:3, cex = 0.8)
+
+# Variable importance
+varImpPlot(rf_model, main = "Variable Importance", pch = 19)
 ```
 
 ### Code
 
 ```{r}
-#| label: rf-oob-code
+#| label: rf-class-code
 #| echo: true
 #| eval: false
 
 library(randomForest)
 
+# Fit random forest — 500 trees, mtry = 2 features per split
 set.seed(2026)
 rf_model <- randomForest(compat_score ~ porosity + stiffness + coating + roughness,
                          data = biomat, ntree = 500, mtry = 2, importance = TRUE)
 
-# OOB error by number of trees — use to choose ntree
-plot(rf_model, main = "OOB Error vs. Number of Trees")
-legend("topright", colnames(rf_model$err.rate), col = 1:3, lty = 1:3)
-
-# Summary includes OOB confusion matrix and error rate
+# Out-of-bag error and confusion matrix
 print(rf_model)
-```
 
-### Interpretation
+# OOB error convergence plot — does error stabilize?
+plot(rf_model)
 
--   The OOB error converges as more trees are added — typically \~200 trees suffices
--   The **overall OOB error** (black line) is a free, near-unbiased estimate of test error — no separate validation set needed
--   Per-class error rates (colored lines) reveal if one class is harder to classify — important in imbalanced datasets
--   If error is still decreasing at 500 trees, increase `ntree`
-:::
-
-## Random Forest: Classification — Variable Importance
-
-::: panel-tabset
-### Variable Importance Plots
-
-```{r}
-#| label: rf-varimp-output
-#| echo: false
-#| eval: true
-#| fig-width: 9
-#| fig-height: 5
-
-varImpPlot(rf_model, main = "Variable Importance — Biomaterial Biocompatibility",
-           pch = 19, col = "#2c3e50", cex = 1.2)
-```
-
-### Code
-
-```{r}
-#| label: rf-varimp-code
-#| echo: true
-#| eval: false
-
-# Variable importance — two measures
-varImpPlot(rf_model, main = "Variable Importance", pch = 19)
-
-# Numeric values
+# Variable importance — which features matter most?
+varImpPlot(rf_model)
 importance(rf_model)
 
 # OOB confusion matrix
 rf_model$confusion
 ```
 
-### Interpreting the Two Measures
+### Interpretation
 
-**Mean Decrease Accuracy (left panel):** How much does the OOB accuracy drop when we randomly permute this variable's values? A large drop means the variable is important — shuffling it badly hurts predictions.
-
-**Mean Decrease Gini (right panel):** Total reduction in node impurity across all trees from splits on this variable. Faster to compute but slightly biased toward continuous variables with many possible thresholds.
-
+-   **OOB error**: Each tree is trained on \~63% of data; the remaining \~37% (out-of-bag) provides a free validation estimate — no separate test set needed!
+-   **Variable importance** (two measures):
+    -   **MeanDecreaseAccuracy**: How much OOB accuracy drops when a variable is randomly permuted — most reliable
+    -   **MeanDecreaseGini**: Total decrease in Gini impurity across all splits on that variable — faster but biased toward continuous variables
+-   Coating type and stiffness emerge as the strongest predictors of biocompatibility
+-   Compare to the single CART tree: the forest gives more **stable** importance rankings
 :::
 
-## Random Forest: Regression — Setup
+## Random Forest: Regression Example
 
-- We return to the **scaffold cell growth dataset** (150 electrospun scaffolds, 3 properties). The single regression tree achieved R² ≈ 0.71, but its step-function predictions were coarse — a plateau over the crosslink density × porosity space.
-
-- **The random forest hypothesis:** By averaging 500 trees, each trained on a slightly different bootstrap sample with random feature selection, we can: 1. Smooth out the staircase prediction surface 2. Reduce variance without meaningfully increasing bias 3. Get reliable variable importance estimates across all three scaffold properties 4. Use OOB predictions as honest out-of-sample estimates (no test set needed)
-
-- **Key parameters:**
-    - `ntree = 500` — 500 bootstrap samples + trees
-    - `mtry = 1` — at each split, consider only 1 of 3 predictors (≈ p/3 for regression)
-    - `importance = TRUE` — compute permutation-based variable importance
-
-## Random Forest: Regression — Results
+For the **scaffold cell growth dataset** (150 scaffolds, 3 properties, continuous cell growth index), we saw that a single regression tree produced step-function predictions with modest R². The random forest averages 500 such trees, each trained on a different bootstrap sample with random feature subsets. This smooths out the staircase effect and dramatically improves prediction accuracy.
 
 ::: panel-tabset
 ### Output
@@ -2348,24 +2034,21 @@ rf_model$confusion
 
 set.seed(42)
 rf_reg <- randomForest(cell_growth ~ porosity + fiber_diameter + crosslink_density,
-                       data = scaffold_reg, ntree = 500, mtry = 1, importance = TRUE)
+                       data = scaffold_reg, ntree = 500, importance = TRUE)
 
 par(mfrow = c(1, 2))
 # Predicted vs actual
 rf_pred <- predict(rf_reg, scaffold_reg)
 plot(scaffold_reg$cell_growth, rf_pred, pch = 16, col = "#3498db80",
      xlab = "Actual Cell Growth", ylab = "RF Predicted",
-     main = sprintf("Random Forest  (R² = %.3f)", cor(scaffold_reg$cell_growth, rf_pred)^2),
-     cex.main = 1.0)
+     main = sprintf("Random Forest (R² = %.3f)", cor(scaffold_reg$cell_growth, rf_pred)^2))
 abline(0, 1, col = "red", lwd = 2, lty = 2)
-legend("topleft", "Ideal", col = "red", lty = 2, lwd = 2, cex = 0.8)
 
 # Compare with single tree
 tree_pred <- predict(reg_tree, scaffold_reg)
 plot(scaffold_reg$cell_growth, tree_pred, pch = 16, col = "#e67e2280",
-     xlab = "Actual Cell Growth", ylab = "Single Tree Predicted",
-     main = sprintf("Single Tree  (R² = %.3f)", cor(scaffold_reg$cell_growth, tree_pred)^2),
-     cex.main = 1.0)
+     xlab = "Actual Cell Growth", ylab = "Tree Predicted",
+     main = sprintf("Single Tree (R² = %.3f)", cor(scaffold_reg$cell_growth, tree_pred)^2))
 abline(0, 1, col = "red", lwd = 2, lty = 2)
 ```
 
@@ -2376,26 +2059,20 @@ abline(0, 1, col = "red", lwd = 2, lty = 2)
 #| echo: true
 #| eval: false
 
-# Random forest regression — p/3 features per split is default for regression
+# Random forest regression
 rf_reg <- randomForest(cell_growth ~ porosity + fiber_diameter + crosslink_density,
-                       data = scaffold_reg, ntree = 500, mtry = 1, importance = TRUE)
+                       data = scaffold_reg, ntree = 500, importance = TRUE)
 
-# Compare performance metrics
-cat("Single Tree R²:", cor(predict(reg_tree, scaffold_reg), scaffold_reg$cell_growth)^2, "\n")
-cat("Random Forest R²:", cor(predict(rf_reg, scaffold_reg), scaffold_reg$cell_growth)^2, "\n")
-cat("Random Forest OOB MSE:", rf_reg$mse[500], "\n")  # Honest estimate
-
-# Variable importance
-varImpPlot(rf_reg, main = "Variable Importance — Cell Growth")
-importance(rf_reg)
+# Compare with single tree
+cat("Single Tree R²:", cor(predict(reg_tree), scaffold_reg$cell_growth)^2, "\n")
+cat("Random Forest R²:", cor(predict(rf_reg), scaffold_reg$cell_growth)^2, "\n")
 ```
 
 ### Interpretation
 
--   The random forest **dramatically outperforms** the single tree — the scatterplot points hug the diagonal far more tightly
--   Averaging 500 trees eliminates the step-function artifact; predictions are now a smooth surface over the predictor space
--   The **OOB R²** (stored in `rf_reg$rsq[500]`) is the honest out-of-sample estimate — typically lower than training R²
--   **Variable importance:** crosslink density dominates; porosity is secondary; fiber diameter contributes less — consistent with the regression tree but more reliable due to averaging across 500 trees
+-   The random forest dramatically outperforms the single tree — smoother predictions, higher R²
+-   Averaging 500 trees reduces the "staircase" effect of individual trees
+-   The OOB R² (not shown here) is the honest estimate; training R² is optimistic
 :::
 
 ## Decision Trees vs. Random Forests
@@ -2415,22 +2092,28 @@ importance(rf_reg)
 Use **decision trees** when interpretability is paramount (explaining results to clinicians, regulators). Use **random forests** when prediction accuracy matters most. You can always fit both — the single tree tells you *what matters*, the forest tells you *how well you can predict*.
 :::
 
-# Understanding Odds, Log Odds, and Odds Ratios {background-color="#d4edda"}
+## ROC Curves and AUC
 
-## From Predictions to Effect Sizes
+**ROC** (Receiver Operating Characteristic) curves summarize classifier performance across all thresholds:
 
-- Our random forest classifiers produce **predictions** — for each scaffold, a probability of being biocompatible. 
+-   Plots True Positive Rate vs. False Positive Rate
+-   **AUC** (Area Under Curve) is a single-number summary
+-   0.5 = random guessing, 1.0 = perfect classification
 
-- We can threshold those probabilities to get a confusion matrix, and we can summarize performance across all thresholds with a **ROC curve and AUC**. 
+| AUC     | Interpretation |
+|:--------|:---------------|
+| 0.5–0.7 | Poor           |
+| 0.7–0.8 | Fair           |
+| 0.8–0.9 | Good           |
+| \> 0.9  | Excellent      |
 
-- But predictions alone don't answer a different question: **by how much does a specific factor (like coating type) change the probability of an outcome?**
+------------------------------------------------------------------------
 
-For that, we need the language of **odds and odds ratios** — and we need to understand why we can't just compare probabilities directly.
+## From Prediction to Interpretation: Understanding Odds
 
+Our random forest classifier produces predictions and a **confusion matrix** — a table of correct and incorrect classifications. But when we need to **quantify the strength of an effect** (how much does a treatment increase or decrease the probability of an outcome?), we need the language of **odds and odds ratios**.
 
-## From Predictions to Effect Sizes
-
-Let's use the confusion matrix from our biomaterial random forest to motivate the ROC curve, then move to odds and log odds to quantify effects.
+Let's use the confusion matrix from our biomaterial classification to motivate this:
 
 ```{r}
 #| echo: false
@@ -2438,121 +2121,21 @@ Let's use the confusion matrix from our biomaterial random forest to motivate th
 
 cat("=== Random Forest OOB Confusion Matrix ===\n")
 print(rf_model$confusion)
-cat("\nSensitivity (biocompatible correctly identified):",
-    round(rf_model$confusion["biocompatible","biocompatible"] /
-          sum(rf_model$confusion["biocompatible",1:2]), 3), "\n")
-cat("Specificity (incompatible correctly identified):  ",
-    round(rf_model$confusion["incompatible","incompatible"] /
-          sum(rf_model$confusion["incompatible",1:2]), 3), "\n")
+cat("\nFrom this matrix we can compute:\n")
+cat("- Sensitivity (true biocompatible rate)\n")
+cat("- Specificity (true incompatible rate)\n")
+cat("- And the ODDS of correct classification for each group\n")
 ```
 
-## ROC Curves and AUC
+This bridges directly to **logistic regression**, where the model coefficients are log odds ratios.
 
-When a classifier outputs a **probability** (rather than just a class), we can vary the classification threshold and measure performance at each point. The **ROC curve** visualizes this trade-off.
+------------------------------------------------------------------------
 
-::: panel-tabset
-### Concept
-
-**At any threshold** $t$, classify observation as positive if $\hat{p} \geq t$:
-
-$$\text{Sensitivity (TPR)} = \frac{\text{True Positives}}{\text{True Positives + False Negatives}}$$
-
-$$\text{1 - Specificity (FPR)} = \frac{\text{False Positives}}{\text{False Positives + True Negatives}}$$
-
-The ROC curve plots **TPR vs. FPR** as the threshold varies from 1 → 0. A perfect classifier hugs the top-left corner; a random classifier follows the diagonal.
-
-**AUC (Area Under Curve)** summarizes the ROC curve with a single number:
-
-| AUC       | Interpretation                              |
-|:----------|:--------------------------------------------|
-| 0.50      | Random guessing — no predictive information |
-| 0.70–0.80 | Fair — useful but imperfect                 |
-| 0.80–0.90 | Good — solid predictive performance         |
-| 0.90–0.95 | Excellent                                   |
-| \> 0.95   | Outstanding — check for data leakage!       |
-
-### Visualization
-
-```{r}
-#| label: roc-output
-#| echo: false
-#| eval: true
-#| fig-width: 8
-#| fig-height: 5
-
-# Get OOB probability predictions from random forest
-set.seed(2026)
-rf_probs <- predict(rf_model, type = "prob")[, "biocompatible"]
-actual_bin <- as.integer(biomat$compat_score == "biocompatible")
-
-# Manual ROC calculation
-thresholds <- seq(0, 1, by = 0.01)
-tpr <- sapply(thresholds, function(t) {
-  pred <- as.integer(rf_probs >= t)
-  sum(pred == 1 & actual_bin == 1) / sum(actual_bin == 1)
-})
-fpr <- sapply(thresholds, function(t) {
-  pred <- as.integer(rf_probs >= t)
-  sum(pred == 1 & actual_bin == 0) / sum(actual_bin == 0)
-})
-
-# AUC via trapezoidal rule
-auc_val <- abs(sum(diff(fpr[order(fpr)]) * (tpr[order(fpr)][-1] + tpr[order(fpr)][-length(tpr)])/2))
-
-plot(fpr, tpr, type = "l", lwd = 3, col = "#2980b9",
-     xlab = "False Positive Rate (1 - Specificity)",
-     ylab = "True Positive Rate (Sensitivity)",
-     main = sprintf("ROC Curve — Biomaterial RF Classifier  (AUC = %.3f)", auc_val),
-     cex.main = 1.0)
-abline(0, 1, lty = 2, col = "gray50")
-# Mark optimal threshold (Youden's J)
-j_stat <- tpr - fpr
-opt_idx <- which.max(j_stat)
-points(fpr[opt_idx], tpr[opt_idx], pch = 19, col = "#e74c3c", cex = 1.5)
-text(fpr[opt_idx] + 0.06, tpr[opt_idx] - 0.03,
-     sprintf("Optimal threshold\n(J = %.2f)", j_stat[opt_idx]),
-     col = "#e74c3c", cex = 0.8)
-legend("bottomright", c("RF Classifier", "Random (AUC = 0.5)", "Optimal threshold"),
-       col = c("#2980b9", "gray50", "#e74c3c"), lty = c(1,2,NA), pch = c(NA,NA,19),
-       lwd = c(3,1,NA), cex = 0.8)
-```
-
-### Code
-
-```{r}
-#| label: roc-code
-#| echo: true
-#| eval: false
-
-# Get probability predictions from random forest
-rf_probs <- predict(rf_model, type = "prob")[, "biocompatible"]
-actual_bin <- as.integer(biomat$compat_score == "biocompatible")
-
-# Using pROC package (recommended)
-library(pROC)
-roc_obj <- roc(actual_bin, rf_probs)
-plot(roc_obj, col = "#2980b9", lwd = 2,
-     main = sprintf("ROC Curve (AUC = %.3f)", auc(roc_obj)))
-abline(0, 1, lty = 2, col = "gray")
-
-# Optimal threshold (Youden's J = sensitivity + specificity - 1)
-coords(roc_obj, "best", ret = c("threshold", "sensitivity", "specificity"))
-```
-
-### Choosing a Threshold
-
-The ROC curve shows you the **trade-off landscape** — you choose the threshold based on your clinical/engineering context:
-
--   **High sensitivity needed** (e.g., cancer screening): move threshold lower → catch more positives, accept more false alarms
--   **High specificity needed** (e.g., regulatory approval): move threshold higher → fewer false positives, risk missing some
--   **Balanced** (Youden's J = TPR − FPR): choose the point on the ROC curve closest to the top-left corner
--   AUC is useful for **comparing classifiers** independent of any specific threshold
-:::
+# Understanding Odds, Log Odds, and Odds Ratios {background-color="#d4edda"}
 
 ## Why Do We Need Odds?
 
-- In bioengineering, we often work with **binary outcomes**: implant success/failure, cell adhesion yes/no, biocompatible/incompatible. W
-- While probabilities (0 to 1) are intuitive, they have mathematical limitations for modeling.
+In bioengineering, we often work with **binary outcomes**: implant success/failure, cell adhesion yes/no, biocompatible/incompatible. While probabilities (0 to 1) are intuitive, they have mathematical limitations for modeling.
 
 **The conversion:**
 
@@ -2570,34 +2153,13 @@ $$\text{Odds} = \frac{p}{1-p} \qquad \text{Log Odds} = \ln\left(\frac{p}{1-p}\ri
 
 ![](images/odds_log_odds_numberline.svg){fig-align="center" width="95%"}
 
-- On the **probability scale**, 0.25 and 0.75 are equally far from 0.50 — symmetric around the midpoint.
+::: callout-important
+### Key Insight
 
-- On the **odds scale**, 0.33 and 3.0 are *not* equally far from 1.0 — the scale is asymmetric: compressed between 0 and 1, and unbounded above 1. A treatment that doubles the odds looks larger than one that halves them.
+On the probability scale, 0.25 and 0.75 are equally far from 0.50. On the odds scale, 0.33 and 3.0 are **not** equally far from 1.0 — the scale is asymmetric, compressed below 1 and stretched above 1. The **log transformation** restores symmetry: log(0.33) = −1.10 and log(3.0) = +1.10 are equidistant from 0.
+:::
 
-- The **log transformation** restores symmetry: log(0.33) = −1.10 and log(3.0) = +1.10 are equidistant from zero. This is why logistic regression models **log odds**, not raw probabilities or odds.
-
-
-
-## Odds Ratios: Why They're Symmetric
-
-![](images/odds_ratio_symmetry.svg){fig-align="center" width="95%"}
-
-An **odds ratio (OR)** compares the odds of an outcome between two groups:
-
-$$OR = \frac{\text{Odds}_{\text{treated}}}{\text{Odds}_{\text{control}}} = \frac{p_T / (1-p_T)}{p_C / (1-p_C)}$$
-
-- OR = 0.25 and OR = 4.0 represent **equally strong but opposite effects**, yet on the odds ratio scale they appear at very different distances from the null (OR = 1). 
-
-- On the **log odds ratio scale** (bottom), log(0.25) = −1.39 and log(4.0) = +1.39 are perfectly symmetric around zero — this is why we interpret and model log odds ratios.
-
-**Key rules for odds ratios:**
-
--   OR = 1: no association between group and outcome
--   OR \> 1: group has higher odds of outcome
--   OR \< 1: group has lower odds (protective)
--   OR and 1/OR represent the same magnitude of effect — just in opposite directions
-
-## Visualizing the Odds and Log Odds Ratio
+## Visualizing the Odds Transformation
 
 ::: panel-tabset
 ### Output
@@ -2671,15 +2233,9 @@ abline(h = 0, v = 0.5, lty = 2, col = "gray50")
 -   Equal changes in log odds correspond to equal changes in effect strength, regardless of the baseline probability
 :::
 
-## Odds Ratio: Bioengineering Example
+## Odds Ratios for Comparing Groups
 
-- **Research question:** Does RGD peptide surface coating increase the odds of cell adhesion to a scaffold?
-
-- We ran a controlled experiment: 200 scaffolds randomly assigned to receive either standard coating (uncoated) or RGD peptide coating. 
-
-- After 24 hours of cell seeding, each scaffold was scored as having achieved adequate cell adhesion (yes/no). 
-
-- This gives us a classic 2×2 contingency table.
+![](images/odds_ratio_symmetry.svg){fig-align="center" width="95%"}
 
 ## Odds Ratio: Bioengineering Example
 
@@ -2765,47 +2321,37 @@ $$\ln\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots$$
 -   The logit link function transforms the bounded probability (0,1) to the unbounded log-odds scale (−∞, +∞), making linear modeling appropriate
 :::
 
+------------------------------------------------------------------------
 
-## Wisconsin Breast Cancer Dataset — Data Dictionary
-
-::: callout-note
-**Why include this dataset?** The Wisconsin Breast Cancer dataset (`mlbench::BreastCancer`) is one of the most widely-cited classification benchmarks in machine learning. Including it in our course gives you a connection to 30+ years of published ML literature and a way to benchmark your results against the field.
-:::
-
-**Study context:** Fine-needle aspirate (FNA) biopsies were taken from 699 breast masses at the University of Wisconsin Hospital (Dr. William H. Wolberg, 1989–1991). Features are computed from digitized images of the FNA — describing the nuclei of cells present in the image. The outcome is a pathological diagnosis: benign or malignant.
-
-## Wisconsin Breast Cancer Dataset — Data Dictionary
-
-| Variable | Type | Description |
-|:-----------------------|:----------------|:------------------------------|
-| `Cl.thickness` | Ordinal (1–10) | Clump thickness — benign cells tend to be grouped in monolayers |
-| `Cell.size` | Ordinal (1–10) | Uniformity of cell size — cancerous cells vary more |
-| `Cell.shape` | Ordinal (1–10) | Uniformity of cell shape |
-| `Marg.adhesion` | Ordinal (1–10) | Marginal adhesion — single cells tend to be cancerous |
-| `Epith.c.size` | Ordinal (1–10) | Single epithelial cell size |
-| `Bare.nuclei` | Ordinal (1–10) | Bare nuclei — more common in cancerous cells |
-| `Bl.cromatin` | Ordinal (1–10) | Bland chromatin texture |
-| `Normal.nucleoli` | Ordinal (1–10) | Normal nucleoli |
-| `Mitoses` | Ordinal (1–10) | Mitosis rate — measure of cell division |
-| `Class` | Binary | **Outcome:** benign (458) vs. malignant (241) |
-
-**Clinical importance:** Sensitivity (correctly identifying malignant cases) is far more important than specificity — a false negative means a cancer goes undetected.
-
-## R Exercise: Wisconsin Breast Cancer Classification
+## R Exercise: Logistic Regression
 
 ::: callout-tip
-## Exercise: Classic Benchmark Dataset
+## Exercise
 
-The Wisconsin Breast Cancer dataset is one of the most widely-used classification benchmarks in machine learning. It contains 699 observations of fine-needle aspirate (FNA) measurements from breast masses, classified as malignant or benign.
+Using the biomaterial screening dataset, predict scaffold biocompatibility from material properties:
 
-1.  Load the data with `data(BreastCancer, package = "mlbench")`
-2.  Explore the class distribution --- how balanced are the classes?
-3.  Train and compare a **Random Forest** (500 trees; examine variable importance)
-4.  Create a confusion matrix and calculate odds and log odds?
-5.  Why is sensitivity particularly important in cancer diagnosis (note - this is a seque into Bayesian analysis)?
+```{r}
+#| eval: false
+#| echo: true
 
+# Load the biomaterial screening data
+biomat <- read_csv("data/biomaterial_screening.csv")
+biomat$coating <- factor(biomat$coating)
+biomat$compat_binary <- ifelse(biomat$compat_score == "biocompatible", 1, 0)
+```
+
+Tasks:
+
+1.  Fit logistic regression: `compat_binary ~ porosity + stiffness + coating + roughness`
+2.  Interpret the odds ratios (exponentiated coefficients) --- which properties most affect biocompatibility?
+3.  Predict probability of biocompatibility for: porosity = 60%, stiffness = 50 kPa, collagen coating, roughness = 2.0 µm
+4.  Create a confusion matrix and calculate accuracy
+5.  Does adding an interaction term (`porosity:coating`) improve the model? Compare with AIC.
 :::
 
+------------------------------------------------------------------------
+
+# BREAK {background-color="#e74c3c"}
 
 ------------------------------------------------------------------------
 
@@ -2813,11 +2359,9 @@ The Wisconsin Breast Cancer dataset is one of the most widely-used classificatio
 
 ## An Alternative Framework: Bayesian Statistics
 
-- So far we have used **frequentist** methods — parameters are fixed unknowns, and we use data to estimate them with confidence intervals and p-values. 
+So far we have used **frequentist** methods — parameters are fixed unknowns, and we use data to estimate them with confidence intervals and p-values. There is an elegant alternative: **Bayesian statistics**, where parameters have **probability distributions** that are updated as we observe data.
 
-- There is an elegant alternative: **Bayesian statistics**, where parameters have **probability distributions** that are updated as we observe data.
-
-- This approach naturally incorporates prior knowledge and provides intuitive probability statements about parameters — "there is a 95% probability the effect is between 0.3 and 1.2" rather than the frequentist version which refers to hypothetical repeated samples.
+This approach naturally incorporates prior knowledge and provides intuitive probability statements about parameters — "there is a 95% probability the effect is between 0.3 and 1.2" rather than the frequentist version which refers to hypothetical repeated samples.
 
 ## Frequentist vs. Bayesian
 
@@ -2858,27 +2402,7 @@ P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}
 -   The posterior is a compromise between the prior and the data
 :::
 
-## The Logic of Bayesian Inference
-
-![](images/bayesian_updating_flow.svg){fig-align="center" width="95%"}
-
-## Bayesian Estimation: The Coin Flip
-
-**Setup:** We have a possibly biased coin. We want to estimate $\theta$ = probability of heads. We observe flips and update our belief about $\theta$ after each batch of data.
-
-**Why the Beta distribution?** We need a prior over a probability (0 to 1). The Beta distribution is the natural choice — it is the **conjugate prior** for the Binomial likelihood, meaning the posterior is also a Beta distribution (see next slides).
-
-$$\theta \sim \text{Beta}(\alpha, \beta) \qquad \text{Prior belief about } \theta$$
-
-$$\text{Data: } X \sim \text{Binomial}(n, \theta) \qquad \text{n flips, X heads}$$
-
-$$\theta | X \sim \text{Beta}(\alpha + X, \;\beta + n - X) \qquad \text{Posterior}$$
-
-The parameters $\alpha$ and $\beta$ can be thought of as **pseudo-counts** of prior "successes" and "failures" — they represent how many imaginary heads/tails we've already seen before collecting data.
-
 ## Bayesian Estimation: Coin Flip Example
-
-Starting with a weakly informative prior Beta(2,2) — slight belief the coin is fair — we observe 7 heads in 10 flips:
 
 ::: panel-tabset
 ### Output
@@ -2891,26 +2415,17 @@ Starting with a weakly informative prior Beta(2,2) — slight belief the coin is
 #| fig-height: 4
 
 par(mfrow = c(1, 3))
-theta <- seq(0, 1, length.out = 200)
+theta <- seq(0, 1, length.out = 100)
 
-plot(theta, dbeta(theta, 2, 2), type = "l", lwd = 2.5, col = "#2980b9",
-     main = "Prior: Beta(2, 2)", xlab = expression(theta~"(prob of heads)"), ylab = "Density",
-     cex.main = 1.1)
-abline(v = 0.5, lty = 2, col = "gray50")
-mtext("Weak belief coin is fair", side = 3, cex = 0.75, col = "#2980b9")
+plot(theta, dbeta(theta, 2, 2), type = "l", lwd = 2, col = "steelblue",
+     main = "Prior: Beta(2,2)", xlab = "θ (prob of heads)", ylab = "Density")
 
-plot(theta, dbinom(7, 10, theta), type = "l", lwd = 2.5, col = "#e74c3c",
-     main = "Likelihood: 7 heads / 10 flips", xlab = expression(theta), ylab = "L(θ | data)",
-     cex.main = 1.1)
-abline(v = 0.7, lty = 2, col = "gray50")
-mtext("Data alone favors θ ≈ 0.70", side = 3, cex = 0.75, col = "#e74c3c")
+plot(theta, dbinom(7, 10, theta), type = "l", lwd = 2, col = "coral",
+     main = "Likelihood: 7/10 heads", xlab = "θ", ylab = "Likelihood")
 
-plot(theta, dbeta(theta, 9, 5), type = "l", lwd = 2.5, col = "#27ae60",
-     main = "Posterior: Beta(9, 5)", xlab = expression(theta), ylab = "Density",
-     cex.main = 1.1)
-abline(v = qbeta(c(0.025, 0.975), 9, 5), lty = 2, col = "#e74c3c", lwd = 1.5)
-abline(v = 9/(9+5), lty = 1, col = "#27ae60", lwd = 1.5)
-mtext("Posterior mean = 0.643", side = 3, cex = 0.75, col = "#27ae60")
+plot(theta, dbeta(theta, 9, 5), type = "l", lwd = 2, col = "darkgreen",
+     main = "Posterior: Beta(9,5)", xlab = "θ", ylab = "Density")
+abline(v = qbeta(c(0.025, 0.975), 9, 5), lty = 2, col = "red")
 ```
 
 ### Code
@@ -2920,288 +2435,61 @@ mtext("Posterior mean = 0.643", side = 3, cex = 0.75, col = "#27ae60")
 #| echo: true
 #| eval: false
 
-theta <- seq(0, 1, length.out = 200)
+par(mfrow = c(1, 3))
+theta <- seq(0, 1, length.out = 100)
 
-# Prior: Beta(2, 2) — represents ~2 imaginary heads and 2 imaginary tails
-prior <- dbeta(theta, 2, 2)
+# Prior: Beta(2, 2) — slight belief coin is fair
+plot(theta, dbeta(theta, 2, 2), type = "l", lwd = 2, col = "steelblue",
+     main = "Prior: Beta(2,2)", xlab = "θ (prob of heads)", ylab = "Density")
 
-# Likelihood: 7 heads out of 10 flips
-likelihood <- dbinom(7, 10, theta)
+# Likelihood (binomial): 7 heads out of 10 flips
+plot(theta, dbinom(7, 10, theta), type = "l", lwd = 2, col = "coral",
+     main = "Likelihood: 7/10 heads", xlab = "θ", ylab = "Likelihood")
 
-# Posterior: Beta(alpha + X, beta + n - X) = Beta(2+7, 2+3) = Beta(9, 5)
-posterior <- dbeta(theta, 9, 5)
-
-# Posterior summary
-posterior_mean <- 9 / (9 + 5)
-credible_interval <- qbeta(c(0.025, 0.975), 9, 5)
-cat("Posterior mean:", round(posterior_mean, 3))
-cat("95% Credible Interval:", round(credible_interval, 3))
+# Posterior: Beta(2+7, 2+3) = Beta(9, 5)
+plot(theta, dbeta(theta, 9, 5), type = "l", lwd = 2, col = "darkgreen",
+     main = "Posterior: Beta(9,5)", xlab = "θ", ylab = "Density")
+abline(v = qbeta(c(0.025, 0.975), 9, 5), lty = 2, col = "red")
 ```
 :::
 
-## Bayesian Updating: Effect of Sample Size
-
-As we collect more data, the posterior becomes increasingly dominated by the likelihood — **data overwhelms the prior**.
+## Credible Intervals
 
 ::: panel-tabset
-### Sequential Updating
+### Output
 
 ```{r}
-#| label: bayes-sequential-output
 #| echo: false
 #| eval: true
-#| fig-width: 10
-#| fig-height: 5
 
-# True theta = 0.65 (biased coin)
-set.seed(42)
-true_theta <- 0.65
-flip_counts <- c(5, 15, 50, 200)
-alpha_prior <- 2; beta_prior <- 2
+posterior_mean <- 9 / (9 + 5)
+credible_interval <- qbeta(c(0.025, 0.975), 9, 5)
 
-theta_seq <- seq(0, 1, length.out = 300)
-cols <- c("#e74c3c", "#e67e22", "#2980b9", "#27ae60")
-
-par(mfrow = c(1, 4))
-for (i in seq_along(flip_counts)) {
-  n <- flip_counts[i]
-  x <- rbinom(1, n, true_theta)  # Heads observed
-  alpha_post <- alpha_prior + x
-  beta_post  <- beta_prior + (n - x)
-  
-  post_mean <- alpha_post / (alpha_post + beta_post)
-  ci <- qbeta(c(0.025, 0.975), alpha_post, beta_post)
-  
-  plot(theta_seq, dbeta(theta_seq, alpha_prior, beta_prior),
-       type = "l", lwd = 1.5, col = "lightblue", lty = 2,
-       xlab = expression(theta), ylab = "Density",
-       main = sprintf("n = %d flips
-%d heads", n, x),
-       ylim = c(0, max(dbeta(theta_seq, alpha_post, beta_post)) * 1.15),
-       cex.main = 1.0)
-  lines(theta_seq, dbeta(theta_seq, alpha_post, beta_post),
-        lwd = 2.5, col = cols[i])
-  abline(v = true_theta, lty = 3, col = "gray40")
-  abline(v = ci, lty = 2, col = cols[i], lwd = 1.2)
-  text(true_theta + 0.02, par("usr")[4] * 0.9, expression(theta["true"]),
-       col = "gray40", cex = 0.8)
-  mtext(sprintf("95%% CI: [%.2f, %.2f]", ci[1], ci[2]),
-        side = 3, cex = 0.65, col = cols[i])
-}
+cat("Posterior mean:", round(posterior_mean, 3), "\n")
+cat("95% Credible Interval:", round(credible_interval, 3), "\n")
+cat("\nInterpretation: There's a 95% probability the true\n")
+cat("probability of heads is between", round(credible_interval[1], 2),
+    "and", round(credible_interval[2], 2))
 ```
 
 ### Code
 
 ```{r}
-#| label: bayes-sequential-code
 #| echo: true
 #| eval: false
 
-alpha_prior <- 2; beta_prior <- 2  # Prior: Beta(2, 2)
-flip_counts <- c(5, 15, 50, 200)
-
-for (n in flip_counts) {
-  x <- sum(rbinom(n, 1, true_theta))  # Simulate flips
-  alpha_post <- alpha_prior + x
-  beta_post  <- beta_prior + (n - x)
-  
-  post_mean <- alpha_post / (alpha_post + beta_post)
-  ci <- qbeta(c(0.025, 0.975), alpha_post, beta_post)
-  cat(sprintf("n=%3d: %d heads, posterior mean=%.3f, 95%%CI=[%.3f, %.3f]\n",
-              n, x, post_mean, ci[1], ci[2]))
-}
-```
-
-### Key Takeaway
-
--   With few flips (n=5), the posterior is strongly influenced by the prior — wide and uncertain
--   As n increases, the posterior **narrows and converges toward the true θ = 0.65**
--   The dashed blue line (prior) becomes increasingly irrelevant — data dominates
--   With n=200, the 95% credible interval barely spans 0.10 units
--   **Practical implication:** With informative priors and small samples, Bayesian analysis provides regularization; with large samples, Bayesian and frequentist results converge
-:::
-
-## Credible Intervals vs. Confidence Intervals
-
-::: panel-tabset
-### Credible Interval
-
-A **95% Bayesian credible interval** $[a, b]$ means:
-
-$$P(a \leq \theta \leq b \mid \text{data}) = 0.95$$
-
-There is a **95% probability that the true parameter lies in this interval**, given the observed data and our prior. This is the direct, intuitive interpretation most people want.
-
-**For our coin flip example (posterior Beta(9,5)):**
-
-```{r}
-#| echo: false
-#| eval: true
-
+# Posterior: Beta(9, 5)
 posterior_mean <- 9 / (9 + 5)
 credible_interval <- qbeta(c(0.025, 0.975), 9, 5)
-cat("Posterior mean:", round(posterior_mean, 3), "
-")
-cat("95% Credible Interval: [", round(credible_interval[1], 3),
-    ",", round(credible_interval[2], 3), "]
-")
-cat("
-Interpretation: There is a 95% probability that the true
-")
-cat("probability of heads is between",
-    round(credible_interval[1], 2), "and",
-    round(credible_interval[2], 2), "given our data and prior.
-")
-```
 
-### Confidence Interval (Comparison)
-
-A **95% frequentist confidence interval** $[a, b]$ means:
-
-> If we repeated this experiment many times and computed a 95% CI each time, 95% of those intervals would contain the true parameter $\theta$.
-
-**It does NOT mean:** "There is a 95% probability that $\theta$ is in $[a, b]$."
-
-The parameter $\theta$ is fixed (but unknown) in the frequentist framework — it either is or isn't in any given interval. The probability refers to the *procedure*, not the *parameter*.
-
-| Property | Credible Interval | Confidence Interval |
-|:----------------|:------------------------|:-----------------------------|
-| **Framework** | Bayesian | Frequentist |
-| **θ treated as** | Random variable (has distribution) | Fixed unknown constant |
-| **Statement** | P(θ ∈ \[a,b\] \| data) = 0.95 | 95% of such intervals cover θ |
-| **Direct probability on θ?** | ✓ Yes | ✗ No |
-| **Depends on prior?** | ✓ Yes | ✗ No |
-| **Numeric values** | Often very similar (large n) | Often very similar (large n) |
-
-### Highest Density Interval (HDI)
-
-A **Highest Density Interval** (HDI) is a special type of credible interval containing the most probable values:
-
--   The HDI is the **shortest** interval containing 95% of the posterior probability
--   For symmetric posteriors, the HDI equals the equal-tailed CI
--   For skewed posteriors, the HDI is preferred — it always contains the mode
-
-```{r}
-#| echo: false
-#| eval: true
-#| fig-width: 7
-#| fig-height: 3.5
-
-theta_seq <- seq(0, 1, length.out = 300)
-dens <- dbeta(theta_seq, 9, 5)
-ci <- qbeta(c(0.025, 0.975), 9, 5)
-
-plot(theta_seq, dens, type = "l", lwd = 2.5, col = "#27ae60",
-     xlab = expression(theta), ylab = "Posterior density",
-     main = "Posterior Beta(9,5) with 95% Credible Interval")
-polygon(c(ci[1], theta_seq[theta_seq >= ci[1] & theta_seq <= ci[2]], ci[2]),
-        c(0, dens[theta_seq >= ci[1] & theta_seq <= ci[2]], 0),
-        col = rgb(39/255, 174/255, 96/255, 0.25), border = NA)
-abline(v = ci, lty = 2, col = "#e74c3c", lwd = 2)
-abline(v = 9/(9+5), lty = 1, col = "#27ae60", lwd = 2)
-legend("topleft", c("Posterior", "Mean", "95% CI"),
-       col = c("#27ae60", "#27ae60", "#e74c3c"),
-       lty = c(1, 1, 2), lwd = c(2.5, 2, 2), cex = 0.85)
+cat("Posterior mean:", round(posterior_mean, 3), "\n")
+cat("95% Credible Interval:", round(credible_interval, 3))
 ```
 :::
 
-## Conjugate Prior Distributions
-
-A **conjugate prior** is a prior distribution that, when combined with a specific likelihood, produces a posterior in the **same family** as the prior. This makes Bayesian updating analytically tractable — no numerical integration needed.
+## Bayesian Linear Regression Concept
 
 ::: panel-tabset
-### Beta-Binomial (Proportion)
-
-**Setting:** Estimating a proportion $\theta$ (e.g., probability of biocompatibility)
-
-$$\text{Prior:} \quad \theta \sim \text{Beta}(\alpha, \beta)$$ $$\text{Likelihood:} \quad X \mid \theta \sim \text{Binomial}(n, \theta)$$ $$\text{Posterior:} \quad \theta \mid X \sim \text{Beta}(\alpha + X, \;\beta + n - X)$$
-
-**Interpretation of hyperparameters:** - $\alpha$ = prior successes (e.g., $\alpha=2$ imaginary prior "biocompatible" observations) - $\beta$ = prior failures - Posterior mean = $\frac{\alpha + X}{\alpha + \beta + n}$ — a weighted average of prior and observed proportions
-
-```{r}
-#| echo: true
-#| eval: false
-
-# Prior: Beta(2, 2) — weak belief in fairness
-# Data: 7 biocompatible out of 10 scaffolds
-alpha_post <- 2 + 7   # = 9
-beta_post  <- 2 + 3   # = 5
-cat("Posterior mean:", alpha_post / (alpha_post + beta_post))
-cat("95% CI:", qbeta(c(0.025, 0.975), alpha_post, beta_post))
-```
-
-### Normal-Normal (Mean)
-
-**Setting:** Estimating a mean $\mu$ (e.g., mean cell growth, mean scaffold porosity)
-
-$$\text{Prior:} \quad \mu \sim \mathcal{N}(\mu_0, \tau_0^2)$$ $$\text{Likelihood:} \quad y_i \mid \mu \sim \mathcal{N}(\mu, \sigma^2) \quad (\sigma^2 \text{ known})$$ $$\text{Posterior:} \quad \mu \mid \mathbf{y} \sim \mathcal{N}\!\left(\frac{\frac{\mu_0}{\tau_0^2} + \frac{n\bar{y}}{\sigma^2}}{\frac{1}{\tau_0^2} + \frac{n}{\sigma^2}},\; \left(\frac{1}{\tau_0^2} + \frac{n}{\sigma^2}\right)^{-1}\right)$$
-
-The posterior mean is a **precision-weighted average** of the prior mean and the observed sample mean — larger $n$ gives more weight to the data.
-
-### Gamma-Poisson (Count Rate)
-
-**Setting:** Estimating a rate $\lambda$ (e.g., bacterial colony count rate)
-
-$$\text{Prior:} \quad \lambda \sim \text{Gamma}(a, b)$$ $$\text{Likelihood:} \quad X \mid \lambda \sim \text{Poisson}(\lambda)$$ $$\text{Posterior:} \quad \lambda \mid X_1{,}\ldots{,}X_n \sim \text{Gamma}\!\left(a + \sum X_i,\; b + n\right)$$
-
-The posterior mean $= (a + \sum X_i)/(b + n)$ — a shrinkage estimator that pulls the observed rate toward the prior.
-
-### Why Conjugacy Matters
-
-| Benefit | Description |
-|:-----------------------------|:-----------------------------------------|
-| **Analytic solution** | No MCMC sampling needed — exact posterior in closed form |
-| **Interpretable updates** | Clear "prior counts + data counts" structure |
-| **Fast computation** | Instant updates as new data arrives (sequential Bayesian) |
-| **Good for teaching** | Makes Bayesian mechanics transparent |
-
-**Limitation:** Conjugate families are limited. Real-world models with multiple parameters, non-linear effects, or hierarchical structure require MCMC samplers like Stan (used by brms).
-:::
-
-## Bayesian Linear Regression: Concept and Equations
-
-In frequentist linear regression, we estimate $\beta$ by minimizing RSS. In the Bayesian framework, **every parameter has a prior distribution**, and we update it to a **posterior distribution** after observing data.
-
-::: panel-tabset
-### The Model
-
-**Simple linear regression** (one predictor, one response):
-
-$$y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad \epsilon_i \sim \mathcal{N}(0, \sigma^2)$$
-
-**Bayesian formulation — specify priors:**
-
-$$\beta_0 \sim \mathcal{N}(\mu_{\beta_0},\; \sigma_{\beta_0}^2), \qquad \beta_1 \sim \mathcal{N}(\mu_{\beta_1},\; \sigma_{\beta_1}^2), \qquad \sigma \sim \text{HalfCauchy}(0, \tau)$$
-
-**Posterior (Bayes' theorem):**
-
-$$P(\beta_0, \beta_1, \sigma \mid \mathbf{y}, \mathbf{x}) \propto \underbrace{P(\mathbf{y} \mid \beta_0, \beta_1, \sigma, \mathbf{x})}_{\text{Likelihood}} \times \underbrace{P(\beta_0)P(\beta_1)P(\sigma)}_{\text{Priors}}$$
-
-The posterior is a **joint distribution over all three parameters** — we can summarize it with marginal posteriors for each.
-
-### LaTeX
-
-``` text
-y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad \epsilon_i \sim \mathcal{N}(0, \sigma^2)
-
-\beta_j \sim \mathcal{N}(\mu_j, \sigma_j^2)
-
-P(\boldsymbol{\beta}, \sigma \mid \mathbf{y}) \propto 
-  P(\mathbf{y} \mid \boldsymbol{\beta}, \sigma) \times P(\boldsymbol{\beta}) P(\sigma)
-```
-
-### Prior Choices
-
-**Weakly informative priors (default in brms):**
-
-| Parameter | Prior | Rationale |
-|:-------------------------|:-----------------|:---------------------------|
-| $\beta_0$ (intercept) | $\mathcal{N}(0, 10)$ | Centered at 0, wide — minimal constraint |
-| $\beta_j$ (slopes) | $\mathcal{N}(0, 5)$ | Weakly regularizing — shrinks large slopes |
-| $\sigma$ | HalfCauchy(0, 2) | Heavy-tailed — allows large residual SD |
-
-Weakly informative priors are **not flat (uninformative)** — they encode the belief that extreme values are unlikely, providing mild regularization without strong influence on the posterior when data are abundant.
-
 ### Output
 
 ```{r}
@@ -3212,23 +2500,32 @@ Weakly informative priors are **not flat (uninformative)** — they encode the b
 #| fig-height: 4
 
 set.seed(42)
-beta0_samples <- rnorm(5000, mean = 1.5, sd = 0.6)
-beta1_samples <- rnorm(5000, mean = 2.3, sd = 0.4)
-
-par(mfrow = c(1, 2))
-hist(beta0_samples, breaks = 50, col = "#bbdefb", border = "white",
-     main = expression("Posterior: " * beta[0] * " (Intercept)"),
-     xlab = expression(beta[0]), probability = TRUE, cex.main = 1.0)
-abline(v = quantile(beta0_samples, c(0.025, 0.975)), col = "red", lwd = 2, lty = 2)
-abline(v = mean(beta0_samples), col = "darkblue", lwd = 2)
+beta1_samples <- rnorm(10000, mean = 2.3, sd = 0.4)
 
 hist(beta1_samples, breaks = 50, col = "lightblue", border = "white",
-     main = expression("Posterior: " * beta[1] * " (Slope)"),
-     xlab = expression(beta[1]), probability = TRUE, cex.main = 1.0)
+     main = "Posterior Distribution of Slope",
+     xlab = expression(beta[1]), probability = TRUE)
 abline(v = quantile(beta1_samples, c(0.025, 0.975)), col = "red", lwd = 2, lty = 2)
 abline(v = mean(beta1_samples), col = "darkblue", lwd = 2)
 legend("topright", c("Posterior mean", "95% CI"),
-       col = c("darkblue", "red"), lwd = 2, lty = c(1, 2), cex = 0.8)
+       col = c("darkblue", "red"), lwd = 2, lty = c(1, 2))
+```
+
+### Code
+
+```{r}
+#| label: bayes-lm-code
+#| echo: true
+#| eval: false
+
+set.seed(42)
+beta1_samples <- rnorm(10000, mean = 2.3, sd = 0.4)
+
+hist(beta1_samples, breaks = 50, col = "lightblue", border = "white",
+     main = "Posterior Distribution of Slope",
+     xlab = expression(beta[1]), probability = TRUE)
+abline(v = quantile(beta1_samples, c(0.025, 0.975)), col = "red", lwd = 2, lty = 2)
+abline(v = mean(beta1_samples), col = "darkblue", lwd = 2)
 ```
 :::
 
@@ -3250,25 +2547,7 @@ legend("topright", c("Posterior mean", "95% CI"),
 -   **rstanarm**: Easy Bayesian regression with Stan backend
 -   **BayesFactor**: Bayesian hypothesis testing
 
-## Bayesian Regression with brms: Setup
-
-We return to the **scaffold cell growth dataset** (150 scaffolds with porosity, fiber diameter, and crosslink density). We previously fit this with a regression tree and a random forest. Now we fit the same model within the Bayesian framework using `brms`.
-
-**Why brms for this dataset?** - We have **prior domain knowledge**: cell growth should increase with crosslink density (positive slope expected) - We can express this as a weakly informative prior: $\beta_{\text{crosslink}} \sim \mathcal{N}(2, 2)$ — centered positive but uncertain - We get **probability statements**: "What is P(porosity effect \> 0)?" — not possible in frequentist framework - We get **full posterior predictive distributions** for new scaffolds — not just point predictions
-
-**Key differences from frequentist (integrated):**
-
-| Feature | Frequentist (lm) | Bayesian (brms) |
-|:-----------------|:--------------------------|:--------------------------|
-| **Parameter estimates** | Point estimates | Full posterior distributions |
-| **Uncertainty** | Confidence intervals | Credible intervals |
-| **Interpretation** | "95% of such CIs cover true value" | "95% probability θ is in this range" |
-| **Prior knowledge** | Not used | Explicitly encoded as priors |
-| **Model complexity** | AIC/BIC for comparison | WAIC, LOO-CV |
-| **Predictions** | Point ± SE | Full predictive distribution |
-| **First-run speed** | Fast | Slow (Stan compiles); subsequent: fast |
-
-## Bayesian Regression with brms: Fitting and Interpretation
+## Bayesian Regression with brms
 
 ::: panel-tabset
 ### Code
@@ -3277,30 +2556,31 @@ We return to the **scaffold cell growth dataset** (150 scaffolds with porosity, 
 #| echo: true
 #| eval: false
 
+# Install: install.packages("brms")
 library(brms)
 
-# Frequentist reference model
+# Frequentist linear regression (for comparison)
 freq_model <- lm(cell_growth ~ porosity + fiber_diameter + crosslink_density,
                  data = scaffold_reg)
 summary(freq_model)
 
-# Bayesian model — nearly identical formula syntax
-bayes_model <- brm(
-  cell_growth ~ porosity + fiber_diameter + crosslink_density,
-  data    = scaffold_reg,
-  family  = gaussian(),
-  prior   = c(
-    prior(normal(0, 5),   class = "b"),           # Weakly informative slopes
-    prior(normal(2, 2),   class = "b",            # Positive prior for crosslink
-          coef = "crosslink_density"),
-    prior(normal(5, 10),  class = "Intercept"),   # Wide intercept prior
-    prior(cauchy(0, 2),   class = "sigma")        # Half-Cauchy for residual SD
-  ),
-  chains = 4, iter = 2000, warmup = 1000,
-  seed = 42, cores = 4
-)
+# Bayesian equivalent with brms — formula syntax is nearly identical!
+bayes_model <- brm(cell_growth ~ porosity + fiber_diameter + crosslink_density,
+                   data = scaffold_reg,
+                   family = gaussian(),
+                   prior = c(
+                     prior(normal(0, 5), class = "b"),        # weakly informative for slopes
+                     prior(normal(5, 10), class = "Intercept"),
+                     prior(cauchy(0, 2), class = "sigma")
+                   ),
+                   chains = 4, iter = 2000, warmup = 1000,
+                   seed = 42)
 
-summary(bayes_model)         # Posterior means, SDs, credible intervals
+# Posterior summary — note: 95% credible intervals, not confidence intervals
+summary(bayes_model)
+
+# 95% credible intervals
+posterior_summary(bayes_model)
 ```
 
 ### Posterior Visualization
@@ -3309,35 +2589,104 @@ summary(bayes_model)         # Posterior means, SDs, credible intervals
 #| echo: true
 #| eval: false
 
-# Plot posterior distributions of all parameters
+# Plot posterior distributions of all coefficients
 plot(bayes_model)
 
-# Posterior predictive check — does model generate realistic data?
+# Posterior predictive check: does the model generate
+# data that looks like the real data?
 pp_check(bayes_model, ndraws = 50)
 
-# Extract posterior draws
+# Extract posterior draws for custom analysis
 draws <- as_draws_df(bayes_model)
 
 # Probability that porosity effect is positive
 cat("P(porosity effect > 0) =", mean(draws$b_porosity > 0))
 
-# Probability that crosslink density is strongest predictor
+# Probability that crosslink_density is the strongest predictor
 cat("P(|crosslink| > |porosity|) =",
     mean(abs(draws$b_crosslink_density) > abs(draws$b_porosity)))
-
-# 95% Credible intervals for all coefficients
-posterior_summary(bayes_model)
 ```
 
-### Interpreting the Output
+### Key Differences from Frequentist
 
-The `summary(bayes_model)` output gives for each parameter:
-
--   **Estimate**: Posterior mean — analogous to the frequentist point estimate
--   **Est.Error**: Posterior standard deviation — analogous to the standard error
--   **l-95% CI, u-95% CI**: 95% credible interval — directly interpretable as probability statement
--   **Rhat**: Convergence diagnostic — values close to 1.00 indicate MCMC chains converged
--   **Bulk ESS / Tail ESS**: Effective sample size — should be \> 400 for reliable inference
-
-With weak priors and n=150, the Bayesian and frequentist estimates will be very similar. The advantage of brms shows when: (1) the sample is small, (2) we have meaningful prior information, or (3) we need probability statements about parameters.
+-   **Credible intervals** have a direct probability interpretation (unlike CIs)
+-   **Posterior predictive checks** tell you if the model is adequate
+-   With weak priors and enough data, Bayesian and frequentist results converge
+-   brms supports the same formula syntax as lm/glm, plus mixed models, GAMs, and more
+-   **brms** compiles Stan models behind the scenes — first run is slow, subsequent runs are fast
 :::
+
+------------------------------------------------------------------------
+
+## R Exercise: Comparing Classification Methods
+
+::: callout-tip
+## Exercise: Nanoparticle Delivery Optimization
+
+Using the nanoparticle dataset (`data/nanoparticle_delivery.csv`), compare **two classification methods** for predicting cellular uptake class (low/medium/high):
+
+1.  Load and explore the dataset; check for class balance
+2.  Split into training (70%) and test (30%) sets
+3.  Train and evaluate:
+    a.  **Decision Tree** (rpart, with pruning)
+    b.  **Random Forest** (500 trees)
+4.  Compare test-set accuracy and confusion matrices
+5.  Which method performs best? Examine variable importance from the random forest --- which nanoparticle properties matter most for uptake?
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Starter code
+np_data <- read_csv("data/nanoparticle_delivery.csv")
+np_data$uptake_class <- factor(np_data$uptake_class,
+                                levels = c("low", "medium", "high"))
+
+set.seed(2026)
+train_idx <- sample(nrow(np_data), 0.7 * nrow(np_data))
+train <- np_data[train_idx, ]
+test  <- np_data[-train_idx, ]
+
+# Your analysis here: fit both models, compare on test set
+```
+:::
+
+## R Exercise: Wisconsin Breast Cancer Classification
+
+::: callout-tip
+## Exercise: Classic Benchmark Dataset
+
+The Wisconsin Breast Cancer dataset is one of the most widely-used classification benchmarks in machine learning. It contains 699 observations of fine-needle aspirate (FNA) measurements from breast masses, classified as malignant or benign.
+
+1.  Load the data with `data(BreastCancer, package = "mlbench")` and clean missing values
+2.  Explore the class distribution --- how balanced are the classes?
+3.  Split into training (70%) and test (30%) sets
+4.  Train and compare:
+    a.  **Decision Tree** (rpart with pruning via `cp`)
+    b.  **Random Forest** (500 trees; examine variable importance)
+5.  Create confusion matrices for each method --- which has the best sensitivity (true positive rate for malignant)?
+6.  Why is sensitivity particularly important in cancer diagnosis?
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Starter code
+library(mlbench)
+data(BreastCancer)
+bc <- BreastCancer |>
+  select(-Id) |>
+  drop_na() |>
+  mutate(across(-Class, as.numeric))
+
+set.seed(2026)
+train_idx <- sample(nrow(bc), 0.7 * nrow(bc))
+train <- bc[train_idx, ]
+test  <- bc[-train_idx, ]
+
+# Your analysis here: fit 2 models, compare on test set
+# Pay special attention to sensitivity for malignant detection
+```
+:::
+
+------------------------------------------------------------------------

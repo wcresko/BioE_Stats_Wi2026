@@ -30,11 +30,11 @@
   <text x="273" y="65" text-anchor="middle" class="highlight" fill="#3498db">p = 0.25</text>
   <text x="658" y="65" text-anchor="middle" class="highlight" fill="#e67e22">p = 0.75</text>
   <!-- Annotation: compressed right side -->
-  <text x="760" y="118" class="small" fill="#999">compressed &rarr;</text>
+  <text x="760" y="118" class="small" fill="#999">compressed →</text>
 
   <!-- Odds Scale (0 to infinity, asymmetric) -->
   <text x="60" y="185" text-anchor="end" class="axis-label">Odds</text>
-  <text x="60" y="200" text-anchor="end" class="small">(0 to &infin;)</text>
+  <text x="60" y="200" text-anchor="end" class="small">(0 to ∞)</text>
   <line x1="80" y1="190" x2="850" y2="190" stroke="#2c3e50" stroke-width="2"/>
   <line x1="80" y1="185" x2="80" y2="195" stroke="#2c3e50" stroke-width="2"/>
   <text x="80" y="215" text-anchor="middle" class="label">0</text>
@@ -45,7 +45,7 @@
   <line x1="700" y1="185" x2="700" y2="195" stroke="#2c3e50" stroke-width="2"/>
   <text x="700" y="215" text-anchor="middle" class="label">3</text>
   <line x1="850" y1="185" x2="850" y2="195" stroke="#2c3e50" stroke-width="2"/>
-  <text x="850" y="215" text-anchor="middle" class="label">&infin;</text>
+  <text x="850" y="215" text-anchor="middle" class="label">∞</text>
   <!-- Markers -->
   <circle cx="235" cy="190" r="6" fill="#3498db" opacity="0.8"/>
   <circle cx="700" cy="190" r="6" fill="#e67e22" opacity="0.8"/>
@@ -55,26 +55,26 @@
   <path d="M235,230 L390,240" stroke="#3498db" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
   <path d="M700,230 L390,240" stroke="#e67e22" stroke-width="1" fill="none" stroke-dasharray="4,3"/>
   <text x="270" y="248" class="small" fill="#3498db">155px</text>
-  <text x="590" y="248" class="small" fill="#e67e22">310px &mdash; same effect looks bigger!</text>
+  <text x="590" y="248" class="small" fill="#e67e22">310px — same effect looks bigger!</text>
 
   <!-- Log Odds Scale (-inf to +inf, SYMMETRIC) -->
   <text x="60" y="305" text-anchor="end" class="axis-label">Log Odds</text>
-  <text x="60" y="320" text-anchor="end" class="small">(&minus;&infin; to +&infin;)</text>
+  <text x="60" y="320" text-anchor="end" class="small">(−∞ to +∞)</text>
   <line x1="80" y1="310" x2="850" y2="310" stroke="#2c3e50" stroke-width="2"/>
   <line x1="80" y1="305" x2="80" y2="315" stroke="#2c3e50" stroke-width="2"/>
-  <text x="80" y="335" text-anchor="middle" class="label">&minus;&infin;</text>
+  <text x="80" y="335" text-anchor="middle" class="label">−∞</text>
   <line x1="272" y1="305" x2="272" y2="315" stroke="#2c3e50" stroke-width="2"/>
-  <text x="272" y="335" text-anchor="middle" class="label">&minus;1.10</text>
+  <text x="272" y="335" text-anchor="middle" class="label">−1.10</text>
   <line x1="465" y1="305" x2="465" y2="315" stroke="#e74c3c" stroke-width="3"/>
   <text x="465" y="335" text-anchor="middle" class="label" fill="#e74c3c" font-weight="bold">0</text>
   <line x1="658" y1="305" x2="658" y2="315" stroke="#2c3e50" stroke-width="2"/>
   <text x="658" y="335" text-anchor="middle" class="label">+1.10</text>
   <line x1="850" y1="305" x2="850" y2="315" stroke="#2c3e50" stroke-width="2"/>
-  <text x="850" y="335" text-anchor="middle" class="label">+&infin;</text>
+  <text x="850" y="335" text-anchor="middle" class="label">+∞</text>
   <!-- Markers -->
   <circle cx="272" cy="310" r="6" fill="#3498db" opacity="0.8"/>
   <circle cx="658" cy="310" r="6" fill="#e67e22" opacity="0.8"/>
-  <text x="272" y="295" text-anchor="middle" class="highlight" fill="#3498db">&minus;1.10</text>
+  <text x="272" y="295" text-anchor="middle" class="highlight" fill="#3498db">−1.10</text>
   <text x="658" y="295" text-anchor="middle" class="highlight" fill="#e67e22">+1.10</text>
   <!-- Symmetry annotation -->
   <path d="M272,350 L465,365" stroke="#27ae60" stroke-width="2" fill="none"/>
