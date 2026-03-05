@@ -442,7 +442,7 @@
   <meta name="generator" content="quarto-1.7.30">
 
   <meta name="author" content="Bill Cresko">
-  <title>Statistics for Bioengineering - Week 10</title>
+  <title>BioEngineering Statistics Winter 2026 – Statistics for Bioengineering - Week 10</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -1189,22 +1189,22 @@ Bill Cresko
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href></a><span class="co"># Install new packages (run once)</span></span>
-<span id="cb1-2"><a href></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;vegan&quot;</span>, <span class="st">&quot;Rtsne&quot;</span>, <span class="st">&quot;umap&quot;</span>, <span class="st">&quot;ape&quot;</span>,</span>
-<span id="cb1-3"><a href></a>                    <span class="st">&quot;cluster&quot;</span>, <span class="st">&quot;dendextend&quot;</span>, <span class="st">&quot;nnet&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Install new packages (run once)</span></span>
+<span id="cb1-2"><a></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;vegan&quot;</span>, <span class="st">&quot;Rtsne&quot;</span>, <span class="st">&quot;umap&quot;</span>, <span class="st">&quot;ape&quot;</span>,</span>
+<span id="cb1-3"><a></a>                    <span class="st">&quot;cluster&quot;</span>, <span class="st">&quot;dendextend&quot;</span>, <span class="st">&quot;nnet&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation &amp; visualization</span></span>
-<span id="cb2-2"><a href></a><span class="fu">library</span>(MASS)         <span class="co"># LDA and discriminant analysis</span></span>
-<span id="cb2-3"><a href></a><span class="fu">library</span>(vegan)        <span class="co"># Community ecology ordination</span></span>
-<span id="cb2-4"><a href></a><span class="fu">library</span>(Rtsne)        <span class="co"># t-SNE implementation</span></span>
-<span id="cb2-5"><a href></a><span class="fu">library</span>(umap)         <span class="co"># UMAP implementation</span></span>
-<span id="cb2-6"><a href></a><span class="fu">library</span>(ape)          <span class="co"># PCoA</span></span>
-<span id="cb2-7"><a href></a><span class="fu">library</span>(cluster)      <span class="co"># Clustering algorithms (silhouette, etc.)</span></span>
-<span id="cb2-8"><a href></a><span class="fu">library</span>(dendextend)   <span class="co"># Enhanced dendrogram visualization</span></span>
-<span id="cb2-9"><a href></a><span class="fu">library</span>(nnet)         <span class="co"># Single-layer neural networks</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation &amp; visualization</span></span>
+<span id="cb2-2"><a></a><span class="fu">library</span>(MASS)         <span class="co"># LDA and discriminant analysis</span></span>
+<span id="cb2-3"><a></a><span class="fu">library</span>(vegan)        <span class="co"># Community ecology ordination</span></span>
+<span id="cb2-4"><a></a><span class="fu">library</span>(Rtsne)        <span class="co"># t-SNE implementation</span></span>
+<span id="cb2-5"><a></a><span class="fu">library</span>(umap)         <span class="co"># UMAP implementation</span></span>
+<span id="cb2-6"><a></a><span class="fu">library</span>(ape)          <span class="co"># PCoA</span></span>
+<span id="cb2-7"><a></a><span class="fu">library</span>(cluster)      <span class="co"># Clustering algorithms (silhouette, etc.)</span></span>
+<span id="cb2-8"><a></a><span class="fu">library</span>(dendextend)   <span class="co"># Enhanced dendrogram visualization</span></span>
+<span id="cb2-9"><a></a><span class="fu">library</span>(nnet)         <span class="co"># Single-layer neural networks</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1610,7 +1610,7 @@ Bill Cresko
 <p><span class="math display">\[H_0: \boldsymbol{\mu}_1 = \boldsymbol{\mu}_2 = \ldots = \boldsymbol{\mu}_k\]</span></p>
 </div>
 <div id="tabset-2-2">
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href></a>H_0: \boldsymbol{\mu}_1 = \boldsymbol{\mu}_2 = \ldots = \boldsymbol{\mu}_k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a></a>H_0: \boldsymbol{\mu}_1 = \boldsymbol{\mu}_2 = \ldots = \boldsymbol{\mu}_k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1692,17 +1692,17 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 </div>
 <div id="tabset-4-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href></a>iris_manova <span class="ot">&lt;-</span> <span class="fu">manova</span>(<span class="fu">cbind</span>(Sepal.Length, Sepal.Width,</span>
-<span id="cb5-2"><a href></a>                            Petal.Length, Petal.Width) <span class="sc">~</span> Species,</span>
-<span id="cb5-3"><a href></a>                      <span class="at">data =</span> iris)</span>
-<span id="cb5-4"><a href></a></span>
-<span id="cb5-5"><a href></a><span class="co"># Different test statistics</span></span>
-<span id="cb5-6"><a href></a><span class="fu">summary</span>(iris_manova, <span class="at">test =</span> <span class="st">&quot;Pillai&quot;</span>)</span>
-<span id="cb5-7"><a href></a><span class="fu">summary</span>(iris_manova, <span class="at">test =</span> <span class="st">&quot;Wilks&quot;</span>)</span>
-<span id="cb5-8"><a href></a><span class="fu">summary</span>(iris_manova, <span class="at">test =</span> <span class="st">&quot;Hotelling-Lawley&quot;</span>)</span>
-<span id="cb5-9"><a href></a></span>
-<span id="cb5-10"><a href></a><span class="co"># Follow up with univariate ANOVAs</span></span>
-<span id="cb5-11"><a href></a><span class="fu">summary.aov</span>(iris_manova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>iris_manova <span class="ot">&lt;-</span> <span class="fu">manova</span>(<span class="fu">cbind</span>(Sepal.Length, Sepal.Width,</span>
+<span id="cb5-2"><a></a>                            Petal.Length, Petal.Width) <span class="sc">~</span> Species,</span>
+<span id="cb5-3"><a></a>                      <span class="at">data =</span> iris)</span>
+<span id="cb5-4"><a></a></span>
+<span id="cb5-5"><a></a><span class="co"># Different test statistics</span></span>
+<span id="cb5-6"><a></a><span class="fu">summary</span>(iris_manova, <span class="at">test =</span> <span class="st">&quot;Pillai&quot;</span>)</span>
+<span id="cb5-7"><a></a><span class="fu">summary</span>(iris_manova, <span class="at">test =</span> <span class="st">&quot;Wilks&quot;</span>)</span>
+<span id="cb5-8"><a></a><span class="fu">summary</span>(iris_manova, <span class="at">test =</span> <span class="st">&quot;Hotelling-Lawley&quot;</span>)</span>
+<span id="cb5-9"><a></a></span>
+<span id="cb5-10"><a></a><span class="co"># Follow up with univariate ANOVAs</span></span>
+<span id="cb5-11"><a></a><span class="fu">summary.aov</span>(iris_manova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1748,14 +1748,14 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 </div>
 <div id="tabset-5-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href></a>iris_numeric <span class="ot">&lt;-</span> iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb6-2"><a href></a>center <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(iris_numeric)</span>
-<span id="cb6-3"><a href></a>cov_matrix <span class="ot">&lt;-</span> <span class="fu">cov</span>(iris_numeric)</span>
-<span id="cb6-4"><a href></a>mahal_dist <span class="ot">&lt;-</span> <span class="fu">mahalanobis</span>(iris_numeric, center, cov_matrix)</span>
-<span id="cb6-5"><a href></a></span>
-<span id="cb6-6"><a href></a><span class="fu">plot</span>(mahal_dist, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">main =</span> <span class="st">&quot;Mahalanobis Distances&quot;</span>,</span>
-<span id="cb6-7"><a href></a>     <span class="at">ylab =</span> <span class="st">&quot;Mahalanobis Distance&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Observation&quot;</span>)</span>
-<span id="cb6-8"><a href></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">4</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>iris_numeric <span class="ot">&lt;-</span> iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb6-2"><a></a>center <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(iris_numeric)</span>
+<span id="cb6-3"><a></a>cov_matrix <span class="ot">&lt;-</span> <span class="fu">cov</span>(iris_numeric)</span>
+<span id="cb6-4"><a></a>mahal_dist <span class="ot">&lt;-</span> <span class="fu">mahalanobis</span>(iris_numeric, center, cov_matrix)</span>
+<span id="cb6-5"><a></a></span>
+<span id="cb6-6"><a></a><span class="fu">plot</span>(mahal_dist, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">main =</span> <span class="st">&quot;Mahalanobis Distances&quot;</span>,</span>
+<span id="cb6-7"><a></a>     <span class="at">ylab =</span> <span class="st">&quot;Mahalanobis Distance&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Observation&quot;</span>)</span>
+<span id="cb6-8"><a></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">4</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1769,35 +1769,35 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 <div class="tab-content">
 <div id="tabset-6-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href></a><span class="co"># Step 1: MANOVA</span></span>
-<span id="cb7-2"><a href></a>manova_result <span class="ot">&lt;-</span> <span class="fu">manova</span>(<span class="fu">cbind</span>(Sepal.Length, Sepal.Width,</span>
-<span id="cb7-3"><a href></a>                               Petal.Length, Petal.Width) <span class="sc">~</span> Species,</span>
-<span id="cb7-4"><a href></a>                         <span class="at">data =</span> iris)</span>
-<span id="cb7-5"><a href></a><span class="fu">summary</span>(manova_result, <span class="at">test =</span> <span class="st">&quot;Pillai&quot;</span>)</span>
-<span id="cb7-6"><a href></a></span>
-<span id="cb7-7"><a href></a><span class="co"># Step 2: Univariate follow-up ANOVAs</span></span>
-<span id="cb7-8"><a href></a><span class="fu">summary.aov</span>(manova_result)</span>
-<span id="cb7-9"><a href></a></span>
-<span id="cb7-10"><a href></a><span class="co"># Step 3: Post-hoc pairwise comparisons for each response</span></span>
-<span id="cb7-11"><a href></a><span class="fu">library</span>(emmeans)</span>
-<span id="cb7-12"><a href></a><span class="cf">for</span> (var <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>,</span>
-<span id="cb7-13"><a href></a>              <span class="st">&quot;Petal.Length&quot;</span>, <span class="st">&quot;Petal.Width&quot;</span>)) {</span>
-<span id="cb7-14"><a href></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">---&quot;</span>, var, <span class="st">&quot;---</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb7-15"><a href></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.formula</span>(<span class="fu">paste</span>(var, <span class="st">&quot;~ Species&quot;</span>)), <span class="at">data =</span> iris)</span>
-<span id="cb7-16"><a href></a>  em <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(fit, pairwise <span class="sc">~</span> Species, <span class="at">adjust =</span> <span class="st">&quot;bonferroni&quot;</span>)</span>
-<span id="cb7-17"><a href></a>  <span class="fu">print</span>(em<span class="sc">$</span>contrasts)</span>
-<span id="cb7-18"><a href></a>}</span>
-<span id="cb7-19"><a href></a></span>
-<span id="cb7-20"><a href></a><span class="co"># Step 4: Effect sizes (eta-squared for each variable)</span></span>
-<span id="cb7-21"><a href></a><span class="fu">library</span>(car)</span>
-<span id="cb7-22"><a href></a><span class="cf">for</span> (var <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>,</span>
-<span id="cb7-23"><a href></a>              <span class="st">&quot;Petal.Length&quot;</span>, <span class="st">&quot;Petal.Width&quot;</span>)) {</span>
-<span id="cb7-24"><a href></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.formula</span>(<span class="fu">paste</span>(var, <span class="st">&quot;~ Species&quot;</span>)), <span class="at">data =</span> iris)</span>
-<span id="cb7-25"><a href></a>  aov_table <span class="ot">&lt;-</span> <span class="fu">Anova</span>(fit, <span class="at">type =</span> <span class="st">&quot;II&quot;</span>)</span>
-<span id="cb7-26"><a href></a>  ss_group <span class="ot">&lt;-</span> aov_table<span class="sc">$</span><span class="st">`</span><span class="at">Sum Sq</span><span class="st">`</span>[<span class="dv">1</span>]</span>
-<span id="cb7-27"><a href></a>  ss_total <span class="ot">&lt;-</span> <span class="fu">sum</span>(aov_table<span class="sc">$</span><span class="st">`</span><span class="at">Sum Sq</span><span class="st">`</span>)</span>
-<span id="cb7-28"><a href></a>  <span class="fu">cat</span>(var, <span class="st">&quot;eta² =&quot;</span>, <span class="fu">round</span>(ss_group <span class="sc">/</span> ss_total, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb7-29"><a href></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="co"># Step 1: MANOVA</span></span>
+<span id="cb7-2"><a></a>manova_result <span class="ot">&lt;-</span> <span class="fu">manova</span>(<span class="fu">cbind</span>(Sepal.Length, Sepal.Width,</span>
+<span id="cb7-3"><a></a>                               Petal.Length, Petal.Width) <span class="sc">~</span> Species,</span>
+<span id="cb7-4"><a></a>                         <span class="at">data =</span> iris)</span>
+<span id="cb7-5"><a></a><span class="fu">summary</span>(manova_result, <span class="at">test =</span> <span class="st">&quot;Pillai&quot;</span>)</span>
+<span id="cb7-6"><a></a></span>
+<span id="cb7-7"><a></a><span class="co"># Step 2: Univariate follow-up ANOVAs</span></span>
+<span id="cb7-8"><a></a><span class="fu">summary.aov</span>(manova_result)</span>
+<span id="cb7-9"><a></a></span>
+<span id="cb7-10"><a></a><span class="co"># Step 3: Post-hoc pairwise comparisons for each response</span></span>
+<span id="cb7-11"><a></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb7-12"><a></a><span class="cf">for</span> (var <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>,</span>
+<span id="cb7-13"><a></a>              <span class="st">&quot;Petal.Length&quot;</span>, <span class="st">&quot;Petal.Width&quot;</span>)) {</span>
+<span id="cb7-14"><a></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">---&quot;</span>, var, <span class="st">&quot;---</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-15"><a></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.formula</span>(<span class="fu">paste</span>(var, <span class="st">&quot;~ Species&quot;</span>)), <span class="at">data =</span> iris)</span>
+<span id="cb7-16"><a></a>  em <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(fit, pairwise <span class="sc">~</span> Species, <span class="at">adjust =</span> <span class="st">&quot;bonferroni&quot;</span>)</span>
+<span id="cb7-17"><a></a>  <span class="fu">print</span>(em<span class="sc">$</span>contrasts)</span>
+<span id="cb7-18"><a></a>}</span>
+<span id="cb7-19"><a></a></span>
+<span id="cb7-20"><a></a><span class="co"># Step 4: Effect sizes (eta-squared for each variable)</span></span>
+<span id="cb7-21"><a></a><span class="fu">library</span>(car)</span>
+<span id="cb7-22"><a></a><span class="cf">for</span> (var <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;Sepal.Length&quot;</span>, <span class="st">&quot;Sepal.Width&quot;</span>,</span>
+<span id="cb7-23"><a></a>              <span class="st">&quot;Petal.Length&quot;</span>, <span class="st">&quot;Petal.Width&quot;</span>)) {</span>
+<span id="cb7-24"><a></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.formula</span>(<span class="fu">paste</span>(var, <span class="st">&quot;~ Species&quot;</span>)), <span class="at">data =</span> iris)</span>
+<span id="cb7-25"><a></a>  aov_table <span class="ot">&lt;-</span> <span class="fu">Anova</span>(fit, <span class="at">type =</span> <span class="st">&quot;II&quot;</span>)</span>
+<span id="cb7-26"><a></a>  ss_group <span class="ot">&lt;-</span> aov_table<span class="sc">$</span><span class="st">`</span><span class="at">Sum Sq</span><span class="st">`</span>[<span class="dv">1</span>]</span>
+<span id="cb7-27"><a></a>  ss_total <span class="ot">&lt;-</span> <span class="fu">sum</span>(aov_table<span class="sc">$</span><span class="st">`</span><span class="at">Sum Sq</span><span class="st">`</span>)</span>
+<span id="cb7-28"><a></a>  <span class="fu">cat</span>(var, <span class="st">&quot;eta² =&quot;</span>, <span class="fu">round</span>(ss_group <span class="sc">/</span> ss_total, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-29"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-6-2">
@@ -1898,15 +1898,15 @@ Petal.Width  -2.8104603 -2.83918785</code></pre>
 </div>
 <div id="tabset-7-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href></a><span class="fu">library</span>(MASS)</span>
-<span id="cb9-2"><a href></a></span>
-<span id="cb9-3"><a href></a><span class="co"># Fit LDA model</span></span>
-<span id="cb9-4"><a href></a>iris_lda <span class="ot">&lt;-</span> <span class="fu">lda</span>(Species <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width <span class="sc">+</span></span>
-<span id="cb9-5"><a href></a>                         Petal.Length <span class="sc">+</span> Petal.Width,</span>
-<span id="cb9-6"><a href></a>               <span class="at">data =</span> iris)</span>
-<span id="cb9-7"><a href></a></span>
-<span id="cb9-8"><a href></a><span class="co"># View discriminant function coefficients</span></span>
-<span id="cb9-9"><a href></a>iris_lda<span class="sc">$</span>scaling</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">library</span>(MASS)</span>
+<span id="cb9-2"><a></a></span>
+<span id="cb9-3"><a></a><span class="co"># Fit LDA model</span></span>
+<span id="cb9-4"><a></a>iris_lda <span class="ot">&lt;-</span> <span class="fu">lda</span>(Species <span class="sc">~</span> Sepal.Length <span class="sc">+</span> Sepal.Width <span class="sc">+</span></span>
+<span id="cb9-5"><a></a>                         Petal.Length <span class="sc">+</span> Petal.Width,</span>
+<span id="cb9-6"><a></a>               <span class="at">data =</span> iris)</span>
+<span id="cb9-7"><a></a></span>
+<span id="cb9-8"><a></a><span class="co"># View discriminant function coefficients</span></span>
+<span id="cb9-9"><a></a>iris_lda<span class="sc">$</span>scaling</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1930,11 +1930,11 @@ Predicted    setosa versicolor virginica
 </div>
 <div id="tabset-8-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href></a><span class="co"># Make predictions</span></span>
-<span id="cb11-2"><a href></a>iris_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(iris_lda)</span>
-<span id="cb11-3"><a href></a></span>
-<span id="cb11-4"><a href></a><span class="co"># Confusion matrix</span></span>
-<span id="cb11-5"><a href></a><span class="fu">table</span>(<span class="at">Predicted =</span> iris_pred<span class="sc">$</span>class, <span class="at">Actual =</span> iris<span class="sc">$</span>Species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="co"># Make predictions</span></span>
+<span id="cb11-2"><a></a>iris_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(iris_lda)</span>
+<span id="cb11-3"><a></a></span>
+<span id="cb11-4"><a></a><span class="co"># Confusion matrix</span></span>
+<span id="cb11-5"><a></a><span class="fu">table</span>(<span class="at">Predicted =</span> iris_pred<span class="sc">$</span>class, <span class="at">Actual =</span> iris<span class="sc">$</span>Species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1958,13 +1958,13 @@ Predicted    setosa versicolor virginica
 </div>
 <div id="tabset-9-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href></a>lda_scores <span class="ot">&lt;-</span> <span class="fu">predict</span>(iris_lda)<span class="sc">$</span>x</span>
-<span id="cb12-2"><a href></a><span class="fu">plot</span>(lda_scores[, <span class="dv">1</span>], lda_scores[, <span class="dv">2</span>],</span>
-<span id="cb12-3"><a href></a>     <span class="at">col =</span> <span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species), <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb12-4"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;LD1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;LD2&quot;</span>,</span>
-<span id="cb12-5"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Linear Discriminant Analysis — Iris Data&quot;</span>)</span>
-<span id="cb12-6"><a href></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">levels</span>(iris<span class="sc">$</span>Species),</span>
-<span id="cb12-7"><a href></a>       <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>lda_scores <span class="ot">&lt;-</span> <span class="fu">predict</span>(iris_lda)<span class="sc">$</span>x</span>
+<span id="cb12-2"><a></a><span class="fu">plot</span>(lda_scores[, <span class="dv">1</span>], lda_scores[, <span class="dv">2</span>],</span>
+<span id="cb12-3"><a></a>     <span class="at">col =</span> <span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species), <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb12-4"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;LD1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;LD2&quot;</span>,</span>
+<span id="cb12-5"><a></a>     <span class="at">main =</span> <span class="st">&quot;Linear Discriminant Analysis — Iris Data&quot;</span>)</span>
+<span id="cb12-6"><a></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">levels</span>(iris<span class="sc">$</span>Species),</span>
+<span id="cb12-7"><a></a>       <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1991,19 +1991,19 @@ Levels: setosa versicolor virginica</code></pre>
 </div>
 <div id="tabset-10-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href></a><span class="co"># Create new observations</span></span>
-<span id="cb15-2"><a href></a>new_flowers <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb15-3"><a href></a>  <span class="at">Sepal.Length =</span> <span class="fu">c</span>(<span class="fl">5.0</span>, <span class="fl">6.5</span>, <span class="fl">7.0</span>),</span>
-<span id="cb15-4"><a href></a>  <span class="at">Sepal.Width  =</span> <span class="fu">c</span>(<span class="fl">3.5</span>, <span class="fl">3.0</span>, <span class="fl">3.2</span>),</span>
-<span id="cb15-5"><a href></a>  <span class="at">Petal.Length  =</span> <span class="fu">c</span>(<span class="fl">1.4</span>, <span class="fl">4.5</span>, <span class="fl">6.0</span>),</span>
-<span id="cb15-6"><a href></a>  <span class="at">Petal.Width   =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">1.5</span>, <span class="fl">2.0</span>)</span>
-<span id="cb15-7"><a href></a>)</span>
-<span id="cb15-8"><a href></a></span>
-<span id="cb15-9"><a href></a><span class="co"># Predict species</span></span>
-<span id="cb15-10"><a href></a><span class="fu">predict</span>(iris_lda, new_flowers)<span class="sc">$</span>class</span>
-<span id="cb15-11"><a href></a></span>
-<span id="cb15-12"><a href></a><span class="co"># Get posterior probabilities</span></span>
-<span id="cb15-13"><a href></a><span class="fu">round</span>(<span class="fu">predict</span>(iris_lda, new_flowers)<span class="sc">$</span>posterior, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="co"># Create new observations</span></span>
+<span id="cb15-2"><a></a>new_flowers <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-3"><a></a>  <span class="at">Sepal.Length =</span> <span class="fu">c</span>(<span class="fl">5.0</span>, <span class="fl">6.5</span>, <span class="fl">7.0</span>),</span>
+<span id="cb15-4"><a></a>  <span class="at">Sepal.Width  =</span> <span class="fu">c</span>(<span class="fl">3.5</span>, <span class="fl">3.0</span>, <span class="fl">3.2</span>),</span>
+<span id="cb15-5"><a></a>  <span class="at">Petal.Length  =</span> <span class="fu">c</span>(<span class="fl">1.4</span>, <span class="fl">4.5</span>, <span class="fl">6.0</span>),</span>
+<span id="cb15-6"><a></a>  <span class="at">Petal.Width   =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">1.5</span>, <span class="fl">2.0</span>)</span>
+<span id="cb15-7"><a></a>)</span>
+<span id="cb15-8"><a></a></span>
+<span id="cb15-9"><a></a><span class="co"># Predict species</span></span>
+<span id="cb15-10"><a></a><span class="fu">predict</span>(iris_lda, new_flowers)<span class="sc">$</span>class</span>
+<span id="cb15-11"><a></a></span>
+<span id="cb15-12"><a></a><span class="co"># Get posterior probabilities</span></span>
+<span id="cb15-13"><a></a><span class="fu">round</span>(<span class="fu">predict</span>(iris_lda, new_flowers)<span class="sc">$</span>posterior, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2070,48 +2070,48 @@ Levels: setosa versicolor virginica</code></pre>
 <div class="tab-content">
 <div id="tabset-11-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href></a><span class="fu">library</span>(MASS)</span>
-<span id="cb16-2"><a href></a></span>
-<span id="cb16-3"><a href></a><span class="co"># LOOCV for LDA (built into MASS::lda!)</span></span>
-<span id="cb16-4"><a href></a>lda_cv <span class="ot">&lt;-</span> <span class="fu">lda</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris, <span class="at">CV =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-5"><a href></a></span>
-<span id="cb16-6"><a href></a><span class="co"># Honest classification accuracy</span></span>
-<span id="cb16-7"><a href></a>cv_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(lda_cv<span class="sc">$</span>class <span class="sc">==</span> iris<span class="sc">$</span>Species)</span>
-<span id="cb16-8"><a href></a><span class="fu">cat</span>(<span class="st">&quot;LDA LOOCV Accuracy:&quot;</span>, <span class="fu">round</span>(cv_accuracy, <span class="dv">3</span>))</span>
-<span id="cb16-9"><a href></a></span>
-<span id="cb16-10"><a href></a><span class="co"># Confusion matrix from CV</span></span>
-<span id="cb16-11"><a href></a><span class="fu">table</span>(<span class="at">Predicted =</span> lda_cv<span class="sc">$</span>class, <span class="at">Actual =</span> iris<span class="sc">$</span>Species)</span>
-<span id="cb16-12"><a href></a></span>
-<span id="cb16-13"><a href></a><span class="co"># Compare with resubstitution (training accuracy — optimistic!)</span></span>
-<span id="cb16-14"><a href></a>lda_train <span class="ot">&lt;-</span> <span class="fu">lda</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris)</span>
-<span id="cb16-15"><a href></a>train_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda_train, iris)<span class="sc">$</span>class</span>
-<span id="cb16-16"><a href></a>train_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(train_pred <span class="sc">==</span> iris<span class="sc">$</span>Species)</span>
-<span id="cb16-17"><a href></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Training Accuracy:&quot;</span>, <span class="fu">round</span>(train_accuracy, <span class="dv">3</span>))</span>
-<span id="cb16-18"><a href></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">CV Accuracy:     &quot;</span>, <span class="fu">round</span>(cv_accuracy, <span class="dv">3</span>))</span>
-<span id="cb16-19"><a href></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Difference:      &quot;</span>, <span class="fu">round</span>(train_accuracy <span class="sc">-</span> cv_accuracy, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">library</span>(MASS)</span>
+<span id="cb16-2"><a></a></span>
+<span id="cb16-3"><a></a><span class="co"># LOOCV for LDA (built into MASS::lda!)</span></span>
+<span id="cb16-4"><a></a>lda_cv <span class="ot">&lt;-</span> <span class="fu">lda</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris, <span class="at">CV =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-5"><a></a></span>
+<span id="cb16-6"><a></a><span class="co"># Honest classification accuracy</span></span>
+<span id="cb16-7"><a></a>cv_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(lda_cv<span class="sc">$</span>class <span class="sc">==</span> iris<span class="sc">$</span>Species)</span>
+<span id="cb16-8"><a></a><span class="fu">cat</span>(<span class="st">&quot;LDA LOOCV Accuracy:&quot;</span>, <span class="fu">round</span>(cv_accuracy, <span class="dv">3</span>))</span>
+<span id="cb16-9"><a></a></span>
+<span id="cb16-10"><a></a><span class="co"># Confusion matrix from CV</span></span>
+<span id="cb16-11"><a></a><span class="fu">table</span>(<span class="at">Predicted =</span> lda_cv<span class="sc">$</span>class, <span class="at">Actual =</span> iris<span class="sc">$</span>Species)</span>
+<span id="cb16-12"><a></a></span>
+<span id="cb16-13"><a></a><span class="co"># Compare with resubstitution (training accuracy — optimistic!)</span></span>
+<span id="cb16-14"><a></a>lda_train <span class="ot">&lt;-</span> <span class="fu">lda</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris)</span>
+<span id="cb16-15"><a></a>train_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda_train, iris)<span class="sc">$</span>class</span>
+<span id="cb16-16"><a></a>train_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(train_pred <span class="sc">==</span> iris<span class="sc">$</span>Species)</span>
+<span id="cb16-17"><a></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Training Accuracy:&quot;</span>, <span class="fu">round</span>(train_accuracy, <span class="dv">3</span>))</span>
+<span id="cb16-18"><a></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">CV Accuracy:     &quot;</span>, <span class="fu">round</span>(cv_accuracy, <span class="dv">3</span>))</span>
+<span id="cb16-19"><a></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Difference:      &quot;</span>, <span class="fu">round</span>(train_accuracy <span class="sc">-</span> cv_accuracy, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-11-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href></a><span class="co"># Compare LDA vs. KNN vs. SVM via 10-fold CV</span></span>
-<span id="cb17-2"><a href></a><span class="fu">library</span>(caret)</span>
-<span id="cb17-3"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb17-4"><a href></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="at">number =</span> <span class="dv">10</span>)</span>
-<span id="cb17-5"><a href></a></span>
-<span id="cb17-6"><a href></a><span class="co"># LDA</span></span>
-<span id="cb17-7"><a href></a>lda_cv_fit <span class="ot">&lt;-</span> <span class="fu">train</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris, <span class="at">method =</span> <span class="st">&quot;lda&quot;</span>,</span>
-<span id="cb17-8"><a href></a>                    <span class="at">trControl =</span> ctrl)</span>
-<span id="cb17-9"><a href></a><span class="co"># KNN</span></span>
-<span id="cb17-10"><a href></a>knn_cv_fit <span class="ot">&lt;-</span> <span class="fu">train</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris, <span class="at">method =</span> <span class="st">&quot;knn&quot;</span>,</span>
-<span id="cb17-11"><a href></a>                    <span class="at">trControl =</span> ctrl, <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>))</span>
-<span id="cb17-12"><a href></a><span class="co"># SVM</span></span>
-<span id="cb17-13"><a href></a>svm_cv_fit <span class="ot">&lt;-</span> <span class="fu">train</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris, <span class="at">method =</span> <span class="st">&quot;svmRadial&quot;</span>,</span>
-<span id="cb17-14"><a href></a>                    <span class="at">trControl =</span> ctrl)</span>
-<span id="cb17-15"><a href></a></span>
-<span id="cb17-16"><a href></a><span class="co"># Compare results</span></span>
-<span id="cb17-17"><a href></a>results <span class="ot">&lt;-</span> <span class="fu">resamples</span>(<span class="fu">list</span>(<span class="at">LDA =</span> lda_cv_fit, <span class="at">KNN =</span> knn_cv_fit, <span class="at">SVM =</span> svm_cv_fit))</span>
-<span id="cb17-18"><a href></a><span class="fu">summary</span>(results)</span>
-<span id="cb17-19"><a href></a><span class="fu">dotplot</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="co"># Compare LDA vs. KNN vs. SVM via 10-fold CV</span></span>
+<span id="cb17-2"><a></a><span class="fu">library</span>(caret)</span>
+<span id="cb17-3"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb17-4"><a></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="at">number =</span> <span class="dv">10</span>)</span>
+<span id="cb17-5"><a></a></span>
+<span id="cb17-6"><a></a><span class="co"># LDA</span></span>
+<span id="cb17-7"><a></a>lda_cv_fit <span class="ot">&lt;-</span> <span class="fu">train</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris, <span class="at">method =</span> <span class="st">&quot;lda&quot;</span>,</span>
+<span id="cb17-8"><a></a>                    <span class="at">trControl =</span> ctrl)</span>
+<span id="cb17-9"><a></a><span class="co"># KNN</span></span>
+<span id="cb17-10"><a></a>knn_cv_fit <span class="ot">&lt;-</span> <span class="fu">train</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris, <span class="at">method =</span> <span class="st">&quot;knn&quot;</span>,</span>
+<span id="cb17-11"><a></a>                    <span class="at">trControl =</span> ctrl, <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>))</span>
+<span id="cb17-12"><a></a><span class="co"># SVM</span></span>
+<span id="cb17-13"><a></a>svm_cv_fit <span class="ot">&lt;-</span> <span class="fu">train</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> iris, <span class="at">method =</span> <span class="st">&quot;svmRadial&quot;</span>,</span>
+<span id="cb17-14"><a></a>                    <span class="at">trControl =</span> ctrl)</span>
+<span id="cb17-15"><a></a></span>
+<span id="cb17-16"><a></a><span class="co"># Compare results</span></span>
+<span id="cb17-17"><a></a>results <span class="ot">&lt;-</span> <span class="fu">resamples</span>(<span class="fu">list</span>(<span class="at">LDA =</span> lda_cv_fit, <span class="at">KNN =</span> knn_cv_fit, <span class="at">SVM =</span> svm_cv_fit))</span>
+<span id="cb17-18"><a></a><span class="fu">summary</span>(results)</span>
+<span id="cb17-19"><a></a><span class="fu">dotplot</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2172,11 +2172,11 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </div>
 <div id="tabset-12-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href></a><span class="co"># PCA on iris data (excluding species)</span></span>
-<span id="cb19-2"><a href></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-3"><a href></a></span>
-<span id="cb19-4"><a href></a><span class="co"># Variance explained</span></span>
-<span id="cb19-5"><a href></a><span class="fu">summary</span>(pca_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="co"># PCA on iris data (excluding species)</span></span>
+<span id="cb19-2"><a></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-3"><a></a></span>
+<span id="cb19-4"><a></a><span class="co"># Variance explained</span></span>
+<span id="cb19-5"><a></a><span class="fu">summary</span>(pca_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2200,7 +2200,7 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </div>
 <div id="tabset-13-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href></a><span class="fu">biplot</span>(pca_result, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;gray&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a><span class="fu">biplot</span>(pca_result, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;gray&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2224,11 +2224,11 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </div>
 <div id="tabset-14-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href></a>var_explained <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca_result<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb21-2"><a href></a></span>
-<span id="cb21-3"><a href></a><span class="fu">plot</span>(var_explained, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb21-4"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Principal Component&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Proportion of Variance&quot;</span>,</span>
-<span id="cb21-5"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Scree Plot&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a>var_explained <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca_result<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a><span class="fu">plot</span>(var_explained, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb21-4"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Principal Component&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Proportion of Variance&quot;</span>,</span>
+<span id="cb21-5"><a></a>     <span class="at">main =</span> <span class="st">&quot;Scree Plot&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2253,20 +2253,20 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </div>
 <div id="tabset-15-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href></a><span class="co"># View the rotation (loadings) matrix</span></span>
-<span id="cb22-2"><a href></a>pca_result<span class="sc">$</span>rotation</span>
-<span id="cb22-3"><a href></a></span>
-<span id="cb22-4"><a href></a><span class="co"># Loadings barplot</span></span>
-<span id="cb22-5"><a href></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
-<span id="cb22-6"><a href></a><span class="fu">barplot</span>(<span class="fu">sort</span>(pca_result<span class="sc">$</span>rotation[, <span class="dv">1</span>]), <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">las =</span> <span class="dv">1</span>,</span>
-<span id="cb22-7"><a href></a>        <span class="at">main =</span> <span class="st">&quot;PC1 Loadings&quot;</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>)</span>
-<span id="cb22-8"><a href></a><span class="fu">barplot</span>(<span class="fu">sort</span>(pca_result<span class="sc">$</span>rotation[, <span class="dv">2</span>]), <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">las =</span> <span class="dv">1</span>,</span>
-<span id="cb22-9"><a href></a>        <span class="at">main =</span> <span class="st">&quot;PC2 Loadings&quot;</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>)</span>
-<span id="cb22-10"><a href></a></span>
-<span id="cb22-11"><a href></a><span class="co"># For many variables, use a heatmap of loadings</span></span>
-<span id="cb22-12"><a href></a><span class="fu">heatmap</span>(pca_result<span class="sc">$</span>rotation, <span class="at">scale =</span> <span class="st">&quot;column&quot;</span>,</span>
-<span id="cb22-13"><a href></a>        <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;RdBu&quot;</span>),</span>
-<span id="cb22-14"><a href></a>        <span class="at">main =</span> <span class="st">&quot;PCA Loadings Heatmap&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="co"># View the rotation (loadings) matrix</span></span>
+<span id="cb22-2"><a></a>pca_result<span class="sc">$</span>rotation</span>
+<span id="cb22-3"><a></a></span>
+<span id="cb22-4"><a></a><span class="co"># Loadings barplot</span></span>
+<span id="cb22-5"><a></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb22-6"><a></a><span class="fu">barplot</span>(<span class="fu">sort</span>(pca_result<span class="sc">$</span>rotation[, <span class="dv">1</span>]), <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">las =</span> <span class="dv">1</span>,</span>
+<span id="cb22-7"><a></a>        <span class="at">main =</span> <span class="st">&quot;PC1 Loadings&quot;</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>)</span>
+<span id="cb22-8"><a></a><span class="fu">barplot</span>(<span class="fu">sort</span>(pca_result<span class="sc">$</span>rotation[, <span class="dv">2</span>]), <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">las =</span> <span class="dv">1</span>,</span>
+<span id="cb22-9"><a></a>        <span class="at">main =</span> <span class="st">&quot;PC2 Loadings&quot;</span>, <span class="at">col =</span> <span class="st">&quot;coral&quot;</span>)</span>
+<span id="cb22-10"><a></a></span>
+<span id="cb22-11"><a></a><span class="co"># For many variables, use a heatmap of loadings</span></span>
+<span id="cb22-12"><a></a><span class="fu">heatmap</span>(pca_result<span class="sc">$</span>rotation, <span class="at">scale =</span> <span class="st">&quot;column&quot;</span>,</span>
+<span id="cb22-13"><a></a>        <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;RdBu&quot;</span>),</span>
+<span id="cb22-14"><a></a>        <span class="at">main =</span> <span class="st">&quot;PCA Loadings Heatmap&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-15-3">
@@ -2298,23 +2298,23 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </div>
 <div id="tabset-16-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb23-2"><a href></a></span>
-<span id="cb23-3"><a href></a><span class="co"># Extract scores and add grouping variable</span></span>
-<span id="cb23-4"><a href></a>pca_scores <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_result<span class="sc">$</span>x)</span>
-<span id="cb23-5"><a href></a>pca_scores<span class="sc">$</span>Species <span class="ot">&lt;-</span> iris<span class="sc">$</span>Species</span>
-<span id="cb23-6"><a href></a>var_exp <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> pca_result<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca_result<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>), <span class="dv">1</span>)</span>
-<span id="cb23-7"><a href></a></span>
-<span id="cb23-8"><a href></a><span class="co"># ggplot PCA with 95% confidence ellipses</span></span>
-<span id="cb23-9"><a href></a><span class="fu">ggplot</span>(pca_scores, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2, <span class="at">color =</span> Species)) <span class="sc">+</span></span>
-<span id="cb23-10"><a href></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb23-11"><a href></a>  <span class="fu">stat_ellipse</span>(<span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb23-12"><a href></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC1 (&quot;</span>, var_exp[<span class="dv">1</span>], <span class="st">&quot;%)&quot;</span>),</span>
-<span id="cb23-13"><a href></a>       <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC2 (&quot;</span>, var_exp[<span class="dv">2</span>], <span class="st">&quot;%)&quot;</span>),</span>
-<span id="cb23-14"><a href></a>       <span class="at">title =</span> <span class="st">&quot;PCA with 95% Confidence Ellipses&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-15"><a href></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;steelblue&quot;</span>, <span class="st">&quot;coral&quot;</span>, <span class="st">&quot;forestgreen&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb23-16"><a href></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
-<span id="cb23-17"><a href></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb23-2"><a></a></span>
+<span id="cb23-3"><a></a><span class="co"># Extract scores and add grouping variable</span></span>
+<span id="cb23-4"><a></a>pca_scores <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_result<span class="sc">$</span>x)</span>
+<span id="cb23-5"><a></a>pca_scores<span class="sc">$</span>Species <span class="ot">&lt;-</span> iris<span class="sc">$</span>Species</span>
+<span id="cb23-6"><a></a>var_exp <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> pca_result<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca_result<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>), <span class="dv">1</span>)</span>
+<span id="cb23-7"><a></a></span>
+<span id="cb23-8"><a></a><span class="co"># ggplot PCA with 95% confidence ellipses</span></span>
+<span id="cb23-9"><a></a><span class="fu">ggplot</span>(pca_scores, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2, <span class="at">color =</span> Species)) <span class="sc">+</span></span>
+<span id="cb23-10"><a></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb23-11"><a></a>  <span class="fu">stat_ellipse</span>(<span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb23-12"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC1 (&quot;</span>, var_exp[<span class="dv">1</span>], <span class="st">&quot;%)&quot;</span>),</span>
+<span id="cb23-13"><a></a>       <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC2 (&quot;</span>, var_exp[<span class="dv">2</span>], <span class="st">&quot;%)&quot;</span>),</span>
+<span id="cb23-14"><a></a>       <span class="at">title =</span> <span class="st">&quot;PCA with 95% Confidence Ellipses&quot;</span>) <span class="sc">+</span></span>
+<span id="cb23-15"><a></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;steelblue&quot;</span>, <span class="st">&quot;coral&quot;</span>, <span class="st">&quot;forestgreen&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb23-16"><a></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb23-17"><a></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2341,18 +2341,18 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-17-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href></a><span class="fu">library</span>(vegan)</span>
-<span id="cb24-2"><a href></a></span>
-<span id="cb24-3"><a href></a><span class="co"># Calculate distance matrix</span></span>
-<span id="cb24-4"><a href></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(my_data, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span>
-<span id="cb24-5"><a href></a></span>
-<span id="cb24-6"><a href></a><span class="co"># Run PCoA</span></span>
-<span id="cb24-7"><a href></a>pcoa_result <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(dist_matrix, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">eig =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-8"><a href></a></span>
-<span id="cb24-9"><a href></a><span class="co"># Plot</span></span>
-<span id="cb24-10"><a href></a><span class="fu">plot</span>(pcoa_result<span class="sc">$</span>points, <span class="at">col =</span> group_factor, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb24-11"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;PCoA1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PCoA2&quot;</span>,</span>
-<span id="cb24-12"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Principal Coordinates Analysis&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="fu">library</span>(vegan)</span>
+<span id="cb24-2"><a></a></span>
+<span id="cb24-3"><a></a><span class="co"># Calculate distance matrix</span></span>
+<span id="cb24-4"><a></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(my_data, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span>
+<span id="cb24-5"><a></a></span>
+<span id="cb24-6"><a></a><span class="co"># Run PCoA</span></span>
+<span id="cb24-7"><a></a>pcoa_result <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(dist_matrix, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">eig =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-8"><a></a></span>
+<span id="cb24-9"><a></a><span class="co"># Plot</span></span>
+<span id="cb24-10"><a></a><span class="fu">plot</span>(pcoa_result<span class="sc">$</span>points, <span class="at">col =</span> group_factor, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb24-11"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;PCoA1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PCoA2&quot;</span>,</span>
+<span id="cb24-12"><a></a>     <span class="at">main =</span> <span class="st">&quot;Principal Coordinates Analysis&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-17-2">
@@ -2383,30 +2383,30 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </div>
 <div id="tabset-18-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href></a><span class="fu">library</span>(vegan)</span>
-<span id="cb25-2"><a href></a></span>
-<span id="cb25-3"><a href></a><span class="co"># Calculate Bray-Curtis dissimilarity</span></span>
-<span id="cb25-4"><a href></a>dist_bc <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(community_data, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span>
-<span id="cb25-5"><a href></a></span>
-<span id="cb25-6"><a href></a><span class="co"># Run PCoA</span></span>
-<span id="cb25-7"><a href></a>pcoa_res <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(dist_bc, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">eig =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-8"><a href></a></span>
-<span id="cb25-9"><a href></a><span class="co"># Percent variance explained</span></span>
-<span id="cb25-10"><a href></a>var_exp <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> pcoa_res<span class="sc">$</span>eig[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">/</span></span>
-<span id="cb25-11"><a href></a>                 <span class="fu">sum</span>(pcoa_res<span class="sc">$</span>eig[pcoa_res<span class="sc">$</span>eig <span class="sc">&gt;</span> <span class="dv">0</span>]), <span class="dv">1</span>)</span>
-<span id="cb25-12"><a href></a></span>
-<span id="cb25-13"><a href></a><span class="co"># Plot with group labels</span></span>
-<span id="cb25-14"><a href></a><span class="fu">plot</span>(pcoa_res<span class="sc">$</span>points, <span class="at">col =</span> treatment, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb25-15"><a href></a>     <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;PCoA1 (&quot;</span>, var_exp[<span class="dv">1</span>], <span class="st">&quot;%)&quot;</span>),</span>
-<span id="cb25-16"><a href></a>     <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;PCoA2 (&quot;</span>, var_exp[<span class="dv">2</span>], <span class="st">&quot;%)&quot;</span>),</span>
-<span id="cb25-17"><a href></a>     <span class="at">main =</span> <span class="st">&quot;PCoA (Bray-Curtis)&quot;</span>)</span>
-<span id="cb25-18"><a href></a></span>
-<span id="cb25-19"><a href></a><span class="co"># PERMANOVA: test if groups differ in multivariate space</span></span>
-<span id="cb25-20"><a href></a>adonis_result <span class="ot">&lt;-</span> <span class="fu">adonis2</span>(dist_bc <span class="sc">~</span> treatment, <span class="at">permutations =</span> <span class="dv">999</span>)</span>
-<span id="cb25-21"><a href></a><span class="fu">print</span>(adonis_result)</span>
-<span id="cb25-22"><a href></a></span>
-<span id="cb25-23"><a href></a><span class="co"># Effect size: R² from PERMANOVA</span></span>
-<span id="cb25-24"><a href></a><span class="fu">cat</span>(<span class="st">&quot;R² =&quot;</span>, <span class="fu">round</span>(adonis_result<span class="sc">$</span>R2[<span class="dv">1</span>], <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a><span class="fu">library</span>(vegan)</span>
+<span id="cb25-2"><a></a></span>
+<span id="cb25-3"><a></a><span class="co"># Calculate Bray-Curtis dissimilarity</span></span>
+<span id="cb25-4"><a></a>dist_bc <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(community_data, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span>
+<span id="cb25-5"><a></a></span>
+<span id="cb25-6"><a></a><span class="co"># Run PCoA</span></span>
+<span id="cb25-7"><a></a>pcoa_res <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(dist_bc, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">eig =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-8"><a></a></span>
+<span id="cb25-9"><a></a><span class="co"># Percent variance explained</span></span>
+<span id="cb25-10"><a></a>var_exp <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> pcoa_res<span class="sc">$</span>eig[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">/</span></span>
+<span id="cb25-11"><a></a>                 <span class="fu">sum</span>(pcoa_res<span class="sc">$</span>eig[pcoa_res<span class="sc">$</span>eig <span class="sc">&gt;</span> <span class="dv">0</span>]), <span class="dv">1</span>)</span>
+<span id="cb25-12"><a></a></span>
+<span id="cb25-13"><a></a><span class="co"># Plot with group labels</span></span>
+<span id="cb25-14"><a></a><span class="fu">plot</span>(pcoa_res<span class="sc">$</span>points, <span class="at">col =</span> treatment, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb25-15"><a></a>     <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;PCoA1 (&quot;</span>, var_exp[<span class="dv">1</span>], <span class="st">&quot;%)&quot;</span>),</span>
+<span id="cb25-16"><a></a>     <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;PCoA2 (&quot;</span>, var_exp[<span class="dv">2</span>], <span class="st">&quot;%)&quot;</span>),</span>
+<span id="cb25-17"><a></a>     <span class="at">main =</span> <span class="st">&quot;PCoA (Bray-Curtis)&quot;</span>)</span>
+<span id="cb25-18"><a></a></span>
+<span id="cb25-19"><a></a><span class="co"># PERMANOVA: test if groups differ in multivariate space</span></span>
+<span id="cb25-20"><a></a>adonis_result <span class="ot">&lt;-</span> <span class="fu">adonis2</span>(dist_bc <span class="sc">~</span> treatment, <span class="at">permutations =</span> <span class="dv">999</span>)</span>
+<span id="cb25-21"><a></a><span class="fu">print</span>(adonis_result)</span>
+<span id="cb25-22"><a></a></span>
+<span id="cb25-23"><a></a><span class="co"># Effect size: R² from PERMANOVA</span></span>
+<span id="cb25-24"><a></a><span class="fu">cat</span>(<span class="st">&quot;R² =&quot;</span>, <span class="fu">round</span>(adonis_result<span class="sc">$</span>R2[<span class="dv">1</span>], <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-18-3">
@@ -2472,26 +2472,26 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-19-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href></a><span class="fu">library</span>(vegan)</span>
-<span id="cb26-2"><a href></a></span>
-<span id="cb26-3"><a href></a><span class="co"># Run NMDS</span></span>
-<span id="cb26-4"><a href></a>nmds_result <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(my_data, <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb26-5"><a href></a></span>
-<span id="cb26-6"><a href></a><span class="co"># Check stress value</span></span>
-<span id="cb26-7"><a href></a><span class="fu">print</span>(nmds_result<span class="sc">$</span>stress)</span>
-<span id="cb26-8"><a href></a></span>
-<span id="cb26-9"><a href></a><span class="co"># Stress plot: visualize fit between ordination and original distances</span></span>
-<span id="cb26-10"><a href></a><span class="fu">stressplot</span>(nmds_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="fu">library</span>(vegan)</span>
+<span id="cb26-2"><a></a></span>
+<span id="cb26-3"><a></a><span class="co"># Run NMDS</span></span>
+<span id="cb26-4"><a></a>nmds_result <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(my_data, <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-5"><a></a></span>
+<span id="cb26-6"><a></a><span class="co"># Check stress value</span></span>
+<span id="cb26-7"><a></a><span class="fu">print</span>(nmds_result<span class="sc">$</span>stress)</span>
+<span id="cb26-8"><a></a></span>
+<span id="cb26-9"><a></a><span class="co"># Stress plot: visualize fit between ordination and original distances</span></span>
+<span id="cb26-10"><a></a><span class="fu">stressplot</span>(nmds_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-19-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href></a><span class="co"># Color by grouping variable</span></span>
-<span id="cb27-2"><a href></a><span class="fu">plot</span>(nmds_result<span class="sc">$</span>points, <span class="at">col =</span> group_factor, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb27-3"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;NMDS1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;NMDS2&quot;</span>,</span>
-<span id="cb27-4"><a href></a>     <span class="at">main =</span> <span class="st">&quot;NMDS Ordination&quot;</span>)</span>
-<span id="cb27-5"><a href></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">levels</span>(group_factor),</span>
-<span id="cb27-6"><a href></a>       <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(group_factor), <span class="at">pch =</span> <span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="co"># Color by grouping variable</span></span>
+<span id="cb27-2"><a></a><span class="fu">plot</span>(nmds_result<span class="sc">$</span>points, <span class="at">col =</span> group_factor, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb27-3"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;NMDS1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;NMDS2&quot;</span>,</span>
+<span id="cb27-4"><a></a>     <span class="at">main =</span> <span class="st">&quot;NMDS Ordination&quot;</span>)</span>
+<span id="cb27-5"><a></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">levels</span>(group_factor),</span>
+<span id="cb27-6"><a></a>       <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(group_factor), <span class="at">pch =</span> <span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -2562,30 +2562,30 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-20-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href></a><span class="fu">library</span>(vegan)</span>
-<span id="cb28-2"><a href></a></span>
-<span id="cb28-3"><a href></a><span class="co"># Fit NMDS</span></span>
-<span id="cb28-4"><a href></a>nmds <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(community_data, <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">trymax =</span> <span class="dv">100</span>)</span>
-<span id="cb28-5"><a href></a></span>
-<span id="cb28-6"><a href></a><span class="co"># PERMANOVA — test group differences on the distance matrix</span></span>
-<span id="cb28-7"><a href></a>dist_bc <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(community_data, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span>
-<span id="cb28-8"><a href></a>perm_result <span class="ot">&lt;-</span> <span class="fu">adonis2</span>(dist_bc <span class="sc">~</span> treatment, <span class="at">permutations =</span> <span class="dv">999</span>)</span>
-<span id="cb28-9"><a href></a><span class="fu">print</span>(perm_result)</span>
-<span id="cb28-10"><a href></a></span>
-<span id="cb28-11"><a href></a><span class="co"># Check dispersion homogeneity (assumption of PERMANOVA)</span></span>
-<span id="cb28-12"><a href></a>disp <span class="ot">&lt;-</span> <span class="fu">betadisper</span>(dist_bc, treatment)</span>
-<span id="cb28-13"><a href></a><span class="fu">permutest</span>(disp, <span class="at">permutations =</span> <span class="dv">999</span>)</span>
-<span id="cb28-14"><a href></a></span>
-<span id="cb28-15"><a href></a><span class="co"># envfit — fit environmental variables onto ordination</span></span>
-<span id="cb28-16"><a href></a>env_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pH =</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(community_data), <span class="dv">7</span>, <span class="fl">0.5</span>),</span>
-<span id="cb28-17"><a href></a>                       <span class="at">temperature =</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(community_data), <span class="dv">37</span>, <span class="dv">2</span>))</span>
-<span id="cb28-18"><a href></a>ef <span class="ot">&lt;-</span> <span class="fu">envfit</span>(nmds, env_data, <span class="at">permutations =</span> <span class="dv">999</span>)</span>
-<span id="cb28-19"><a href></a><span class="fu">print</span>(ef)</span>
-<span id="cb28-20"><a href></a></span>
-<span id="cb28-21"><a href></a><span class="co"># Plot NMDS with envfit vectors</span></span>
-<span id="cb28-22"><a href></a><span class="fu">plot</span>(nmds, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">main =</span> <span class="st">&quot;NMDS with Environmental Vectors&quot;</span>)</span>
-<span id="cb28-23"><a href></a><span class="fu">points</span>(nmds, <span class="at">col =</span> treatment, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb28-24"><a href></a><span class="fu">plot</span>(ef, <span class="at">p.max =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a><span class="fu">library</span>(vegan)</span>
+<span id="cb28-2"><a></a></span>
+<span id="cb28-3"><a></a><span class="co"># Fit NMDS</span></span>
+<span id="cb28-4"><a></a>nmds <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(community_data, <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">trymax =</span> <span class="dv">100</span>)</span>
+<span id="cb28-5"><a></a></span>
+<span id="cb28-6"><a></a><span class="co"># PERMANOVA — test group differences on the distance matrix</span></span>
+<span id="cb28-7"><a></a>dist_bc <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(community_data, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span>
+<span id="cb28-8"><a></a>perm_result <span class="ot">&lt;-</span> <span class="fu">adonis2</span>(dist_bc <span class="sc">~</span> treatment, <span class="at">permutations =</span> <span class="dv">999</span>)</span>
+<span id="cb28-9"><a></a><span class="fu">print</span>(perm_result)</span>
+<span id="cb28-10"><a></a></span>
+<span id="cb28-11"><a></a><span class="co"># Check dispersion homogeneity (assumption of PERMANOVA)</span></span>
+<span id="cb28-12"><a></a>disp <span class="ot">&lt;-</span> <span class="fu">betadisper</span>(dist_bc, treatment)</span>
+<span id="cb28-13"><a></a><span class="fu">permutest</span>(disp, <span class="at">permutations =</span> <span class="dv">999</span>)</span>
+<span id="cb28-14"><a></a></span>
+<span id="cb28-15"><a></a><span class="co"># envfit — fit environmental variables onto ordination</span></span>
+<span id="cb28-16"><a></a>env_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pH =</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(community_data), <span class="dv">7</span>, <span class="fl">0.5</span>),</span>
+<span id="cb28-17"><a></a>                       <span class="at">temperature =</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(community_data), <span class="dv">37</span>, <span class="dv">2</span>))</span>
+<span id="cb28-18"><a></a>ef <span class="ot">&lt;-</span> <span class="fu">envfit</span>(nmds, env_data, <span class="at">permutations =</span> <span class="dv">999</span>)</span>
+<span id="cb28-19"><a></a><span class="fu">print</span>(ef)</span>
+<span id="cb28-20"><a></a></span>
+<span id="cb28-21"><a></a><span class="co"># Plot NMDS with envfit vectors</span></span>
+<span id="cb28-22"><a></a><span class="fu">plot</span>(nmds, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">main =</span> <span class="st">&quot;NMDS with Environmental Vectors&quot;</span>)</span>
+<span id="cb28-23"><a></a><span class="fu">points</span>(nmds, <span class="at">col =</span> treatment, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb28-24"><a></a><span class="fu">plot</span>(ef, <span class="at">p.max =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-20-2">
@@ -2614,41 +2614,41 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-21-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href></a><span class="co"># Simulate 4 clusters in 10-dimensional space</span></span>
-<span id="cb29-2"><a href></a><span class="co"># (think: 4 cell types measured across 10 genes)</span></span>
-<span id="cb29-3"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb29-4"><a href></a>n_per_cluster <span class="ot">&lt;-</span> <span class="dv">75</span></span>
-<span id="cb29-5"><a href></a>n_dims <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb29-6"><a href></a></span>
-<span id="cb29-7"><a href></a><span class="co"># Cluster centers in 10D space</span></span>
-<span id="cb29-8"><a href></a>centers <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
-<span id="cb29-9"><a href></a>  <span class="fu">rep</span>(<span class="dv">0</span>, n_dims),                        <span class="co"># Cluster 1: origin</span></span>
-<span id="cb29-10"><a href></a>  <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="fu">rep</span>(<span class="dv">0</span>, n_dims <span class="sc">-</span> <span class="dv">2</span>)),           <span class="co"># Cluster 2: shifted in dims 1-2</span></span>
-<span id="cb29-11"><a href></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="fu">rep</span>(<span class="dv">0</span>, n_dims <span class="sc">-</span> <span class="dv">4</span>)),     <span class="co"># Cluster 3: shifted in dims 3-4</span></span>
-<span id="cb29-12"><a href></a>  <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="fu">rep</span>(<span class="dv">0</span>, n_dims <span class="sc">-</span> <span class="dv">5</span>))   <span class="co"># Cluster 4: shifted in dims 1-5</span></span>
-<span id="cb29-13"><a href></a>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-14"><a href></a></span>
-<span id="cb29-15"><a href></a><span class="co"># Generate data with noise</span></span>
-<span id="cb29-16"><a href></a>sim_data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="cf">function</span>(i) {</span>
-<span id="cb29-17"><a href></a>  <span class="fu">sweep</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n_per_cluster <span class="sc">*</span> n_dims, <span class="at">sd =</span> <span class="fl">1.2</span>), <span class="at">ncol =</span> n_dims),</span>
-<span id="cb29-18"><a href></a>        <span class="dv">2</span>, centers[i, ], <span class="st">&quot;+&quot;</span>)</span>
-<span id="cb29-19"><a href></a>}))</span>
-<span id="cb29-20"><a href></a></span>
-<span id="cb29-21"><a href></a><span class="co"># Create labels and data frame</span></span>
-<span id="cb29-22"><a href></a>cluster_labels <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">paste</span>(<span class="st">&quot;Type&quot;</span>, LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]), <span class="at">each =</span> n_per_cluster))</span>
-<span id="cb29-23"><a href></a>sim_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sim_data)</span>
-<span id="cb29-24"><a href></a><span class="fu">colnames</span>(sim_df) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Gene_&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n_dims)</span>
-<span id="cb29-25"><a href></a>sim_df<span class="sc">$</span>CellType <span class="ot">&lt;-</span> cluster_labels</span>
-<span id="cb29-26"><a href></a></span>
-<span id="cb29-27"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Simulated dataset:&quot;</span>, <span class="fu">nrow</span>(sim_df), <span class="st">&quot;cells x&quot;</span>, n_dims, <span class="st">&quot;genes</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="co"># Simulate 4 clusters in 10-dimensional space</span></span>
+<span id="cb29-2"><a></a><span class="co"># (think: 4 cell types measured across 10 genes)</span></span>
+<span id="cb29-3"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb29-4"><a></a>n_per_cluster <span class="ot">&lt;-</span> <span class="dv">75</span></span>
+<span id="cb29-5"><a></a>n_dims <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb29-6"><a></a></span>
+<span id="cb29-7"><a></a><span class="co"># Cluster centers in 10D space</span></span>
+<span id="cb29-8"><a></a>centers <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(</span>
+<span id="cb29-9"><a></a>  <span class="fu">rep</span>(<span class="dv">0</span>, n_dims),                        <span class="co"># Cluster 1: origin</span></span>
+<span id="cb29-10"><a></a>  <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="fu">rep</span>(<span class="dv">0</span>, n_dims <span class="sc">-</span> <span class="dv">2</span>)),           <span class="co"># Cluster 2: shifted in dims 1-2</span></span>
+<span id="cb29-11"><a></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="fu">rep</span>(<span class="dv">0</span>, n_dims <span class="sc">-</span> <span class="dv">4</span>)),     <span class="co"># Cluster 3: shifted in dims 3-4</span></span>
+<span id="cb29-12"><a></a>  <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="fu">rep</span>(<span class="dv">0</span>, n_dims <span class="sc">-</span> <span class="dv">5</span>))   <span class="co"># Cluster 4: shifted in dims 1-5</span></span>
+<span id="cb29-13"><a></a>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-14"><a></a></span>
+<span id="cb29-15"><a></a><span class="co"># Generate data with noise</span></span>
+<span id="cb29-16"><a></a>sim_data <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="cf">function</span>(i) {</span>
+<span id="cb29-17"><a></a>  <span class="fu">sweep</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n_per_cluster <span class="sc">*</span> n_dims, <span class="at">sd =</span> <span class="fl">1.2</span>), <span class="at">ncol =</span> n_dims),</span>
+<span id="cb29-18"><a></a>        <span class="dv">2</span>, centers[i, ], <span class="st">&quot;+&quot;</span>)</span>
+<span id="cb29-19"><a></a>}))</span>
+<span id="cb29-20"><a></a></span>
+<span id="cb29-21"><a></a><span class="co"># Create labels and data frame</span></span>
+<span id="cb29-22"><a></a>cluster_labels <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">paste</span>(<span class="st">&quot;Type&quot;</span>, LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]), <span class="at">each =</span> n_per_cluster))</span>
+<span id="cb29-23"><a></a>sim_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sim_data)</span>
+<span id="cb29-24"><a></a><span class="fu">colnames</span>(sim_df) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Gene_&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n_dims)</span>
+<span id="cb29-25"><a></a>sim_df<span class="sc">$</span>CellType <span class="ot">&lt;-</span> cluster_labels</span>
+<span id="cb29-26"><a></a></span>
+<span id="cb29-27"><a></a><span class="fu">cat</span>(<span class="st">&quot;Simulated dataset:&quot;</span>, <span class="fu">nrow</span>(sim_df), <span class="st">&quot;cells x&quot;</span>, n_dims, <span class="st">&quot;genes</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Simulated dataset: 300 cells x 10 genes</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Cell types:&quot;</span>, <span class="fu">levels</span>(cluster_labels), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a><span class="fu">cat</span>(<span class="st">&quot;Cell types:&quot;</span>, <span class="fu">levels</span>(cluster_labels), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Cell types: Type A Type B Type C Type D </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Cells per type:&quot;</span>, n_per_cluster, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a><span class="fu">cat</span>(<span class="st">&quot;Cells per type:&quot;</span>, n_per_cluster, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Cells per type: 75 </code></pre>
 </div>
@@ -2736,22 +2736,22 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-22-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href></a><span class="fu">library</span>(Rtsne)</span>
-<span id="cb35-2"><a href></a></span>
-<span id="cb35-3"><a href></a><span class="co"># Run t-SNE with default perplexity</span></span>
-<span id="cb35-4"><a href></a>tsne_result <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], </span>
-<span id="cb35-5"><a href></a>                     <span class="at">perplexity =</span> <span class="dv">30</span>, </span>
-<span id="cb35-6"><a href></a>                     <span class="at">dims =</span> <span class="dv">2</span>, </span>
-<span id="cb35-7"><a href></a>                     <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb35-8"><a href></a>                     <span class="at">check_duplicates =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb35-9"><a href></a></span>
-<span id="cb35-10"><a href></a><span class="co"># Store results</span></span>
-<span id="cb35-11"><a href></a>tsne_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb35-12"><a href></a>  <span class="at">tSNE1 =</span> tsne_result<span class="sc">$</span>Y[, <span class="dv">1</span>],</span>
-<span id="cb35-13"><a href></a>  <span class="at">tSNE2 =</span> tsne_result<span class="sc">$</span>Y[, <span class="dv">2</span>],</span>
-<span id="cb35-14"><a href></a>  <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType</span>
-<span id="cb35-15"><a href></a>)</span>
-<span id="cb35-16"><a href></a><span class="fu">head</span>(tsne_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a><span class="fu">library</span>(Rtsne)</span>
+<span id="cb35-2"><a></a></span>
+<span id="cb35-3"><a></a><span class="co"># Run t-SNE with default perplexity</span></span>
+<span id="cb35-4"><a></a>tsne_result <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], </span>
+<span id="cb35-5"><a></a>                     <span class="at">perplexity =</span> <span class="dv">30</span>, </span>
+<span id="cb35-6"><a></a>                     <span class="at">dims =</span> <span class="dv">2</span>, </span>
+<span id="cb35-7"><a></a>                     <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb35-8"><a></a>                     <span class="at">check_duplicates =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb35-9"><a></a></span>
+<span id="cb35-10"><a></a><span class="co"># Store results</span></span>
+<span id="cb35-11"><a></a>tsne_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb35-12"><a></a>  <span class="at">tSNE1 =</span> tsne_result<span class="sc">$</span>Y[, <span class="dv">1</span>],</span>
+<span id="cb35-13"><a></a>  <span class="at">tSNE2 =</span> tsne_result<span class="sc">$</span>Y[, <span class="dv">2</span>],</span>
+<span id="cb35-14"><a></a>  <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType</span>
+<span id="cb35-15"><a></a>)</span>
+<span id="cb35-16"><a></a><span class="fu">head</span>(tsne_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       tSNE1    tSNE2 CellType
 1 -3.5352324 12.62404   Type A
@@ -2798,16 +2798,16 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-23-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href></a><span class="co"># Run t-SNE at multiple perplexity values</span></span>
-<span id="cb37-2"><a href></a>perplexities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">50</span>)</span>
-<span id="cb37-3"><a href></a>tsne_multi <span class="ot">&lt;-</span> <span class="fu">lapply</span>(perplexities, <span class="cf">function</span>(p) {</span>
-<span id="cb37-4"><a href></a>  res <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">perplexity =</span> p, <span class="at">dims =</span> <span class="dv">2</span>, </span>
-<span id="cb37-5"><a href></a>               <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">check_duplicates =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb37-6"><a href></a>  <span class="fu">data.frame</span>(<span class="at">tSNE1 =</span> res<span class="sc">$</span>Y[, <span class="dv">1</span>], <span class="at">tSNE2 =</span> res<span class="sc">$</span>Y[, <span class="dv">2</span>], </span>
-<span id="cb37-7"><a href></a>             <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType, </span>
-<span id="cb37-8"><a href></a>             <span class="at">Perplexity =</span> <span class="fu">paste</span>(<span class="st">&quot;perplexity =&quot;</span>, p))</span>
-<span id="cb37-9"><a href></a>})</span>
-<span id="cb37-10"><a href></a>tsne_compare <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, tsne_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a></a><span class="co"># Run t-SNE at multiple perplexity values</span></span>
+<span id="cb37-2"><a></a>perplexities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">50</span>)</span>
+<span id="cb37-3"><a></a>tsne_multi <span class="ot">&lt;-</span> <span class="fu">lapply</span>(perplexities, <span class="cf">function</span>(p) {</span>
+<span id="cb37-4"><a></a>  res <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">perplexity =</span> p, <span class="at">dims =</span> <span class="dv">2</span>, </span>
+<span id="cb37-5"><a></a>               <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">check_duplicates =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-6"><a></a>  <span class="fu">data.frame</span>(<span class="at">tSNE1 =</span> res<span class="sc">$</span>Y[, <span class="dv">1</span>], <span class="at">tSNE2 =</span> res<span class="sc">$</span>Y[, <span class="dv">2</span>], </span>
+<span id="cb37-7"><a></a>             <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType, </span>
+<span id="cb37-8"><a></a>             <span class="at">Perplexity =</span> <span class="fu">paste</span>(<span class="st">&quot;perplexity =&quot;</span>, p))</span>
+<span id="cb37-9"><a></a>})</span>
+<span id="cb37-10"><a></a>tsne_compare <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, tsne_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-23-2">
@@ -2846,23 +2846,23 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-24-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href></a><span class="fu">library</span>(umap)</span>
-<span id="cb38-2"><a href></a></span>
-<span id="cb38-3"><a href></a><span class="co"># Run UMAP with default settings</span></span>
-<span id="cb38-4"><a href></a>umap_config <span class="ot">&lt;-</span> umap.defaults</span>
-<span id="cb38-5"><a href></a>umap_config<span class="sc">$</span>n_neighbors <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb38-6"><a href></a>umap_config<span class="sc">$</span>min_dist <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb38-7"><a href></a>umap_config<span class="sc">$</span>random_state <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb38-8"><a href></a></span>
-<span id="cb38-9"><a href></a>umap_result <span class="ot">&lt;-</span> <span class="fu">umap</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">config =</span> umap_config)</span>
-<span id="cb38-10"><a href></a></span>
-<span id="cb38-11"><a href></a><span class="co"># Store results</span></span>
-<span id="cb38-12"><a href></a>umap_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb38-13"><a href></a>  <span class="at">UMAP1 =</span> umap_result<span class="sc">$</span>layout[, <span class="dv">1</span>],</span>
-<span id="cb38-14"><a href></a>  <span class="at">UMAP2 =</span> umap_result<span class="sc">$</span>layout[, <span class="dv">2</span>],</span>
-<span id="cb38-15"><a href></a>  <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType</span>
-<span id="cb38-16"><a href></a>)</span>
-<span id="cb38-17"><a href></a><span class="fu">head</span>(umap_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a></a><span class="fu">library</span>(umap)</span>
+<span id="cb38-2"><a></a></span>
+<span id="cb38-3"><a></a><span class="co"># Run UMAP with default settings</span></span>
+<span id="cb38-4"><a></a>umap_config <span class="ot">&lt;-</span> umap.defaults</span>
+<span id="cb38-5"><a></a>umap_config<span class="sc">$</span>n_neighbors <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb38-6"><a></a>umap_config<span class="sc">$</span>min_dist <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb38-7"><a></a>umap_config<span class="sc">$</span>random_state <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb38-8"><a></a></span>
+<span id="cb38-9"><a></a>umap_result <span class="ot">&lt;-</span> <span class="fu">umap</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">config =</span> umap_config)</span>
+<span id="cb38-10"><a></a></span>
+<span id="cb38-11"><a></a><span class="co"># Store results</span></span>
+<span id="cb38-12"><a></a>umap_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb38-13"><a></a>  <span class="at">UMAP1 =</span> umap_result<span class="sc">$</span>layout[, <span class="dv">1</span>],</span>
+<span id="cb38-14"><a></a>  <span class="at">UMAP2 =</span> umap_result<span class="sc">$</span>layout[, <span class="dv">2</span>],</span>
+<span id="cb38-15"><a></a>  <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType</span>
+<span id="cb38-16"><a></a>)</span>
+<span id="cb38-17"><a></a><span class="fu">head</span>(umap_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      UMAP1    UMAP2 CellType
 1 -6.955577 3.696915   Type A
@@ -2910,19 +2910,19 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-25-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href></a><span class="co"># UMAP at different n_neighbors values</span></span>
-<span id="cb40-2"><a href></a>neighbors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">50</span>)</span>
-<span id="cb40-3"><a href></a>umap_multi <span class="ot">&lt;-</span> <span class="fu">lapply</span>(neighbors, <span class="cf">function</span>(nn) {</span>
-<span id="cb40-4"><a href></a>  cfg <span class="ot">&lt;-</span> umap.defaults</span>
-<span id="cb40-5"><a href></a>  cfg<span class="sc">$</span>n_neighbors <span class="ot">&lt;-</span> nn</span>
-<span id="cb40-6"><a href></a>  cfg<span class="sc">$</span>min_dist <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb40-7"><a href></a>  cfg<span class="sc">$</span>random_state <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb40-8"><a href></a>  res <span class="ot">&lt;-</span> <span class="fu">umap</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">config =</span> cfg)</span>
-<span id="cb40-9"><a href></a>  <span class="fu">data.frame</span>(<span class="at">UMAP1 =</span> res<span class="sc">$</span>layout[, <span class="dv">1</span>], <span class="at">UMAP2 =</span> res<span class="sc">$</span>layout[, <span class="dv">2</span>], </span>
-<span id="cb40-10"><a href></a>             <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType,</span>
-<span id="cb40-11"><a href></a>             <span class="at">n_neighbors =</span> <span class="fu">paste</span>(<span class="st">&quot;n_neighbors =&quot;</span>, nn))</span>
-<span id="cb40-12"><a href></a>})</span>
-<span id="cb40-13"><a href></a>umap_compare <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, umap_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a></a><span class="co"># UMAP at different n_neighbors values</span></span>
+<span id="cb40-2"><a></a>neighbors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">50</span>)</span>
+<span id="cb40-3"><a></a>umap_multi <span class="ot">&lt;-</span> <span class="fu">lapply</span>(neighbors, <span class="cf">function</span>(nn) {</span>
+<span id="cb40-4"><a></a>  cfg <span class="ot">&lt;-</span> umap.defaults</span>
+<span id="cb40-5"><a></a>  cfg<span class="sc">$</span>n_neighbors <span class="ot">&lt;-</span> nn</span>
+<span id="cb40-6"><a></a>  cfg<span class="sc">$</span>min_dist <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb40-7"><a></a>  cfg<span class="sc">$</span>random_state <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb40-8"><a></a>  res <span class="ot">&lt;-</span> <span class="fu">umap</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">config =</span> cfg)</span>
+<span id="cb40-9"><a></a>  <span class="fu">data.frame</span>(<span class="at">UMAP1 =</span> res<span class="sc">$</span>layout[, <span class="dv">1</span>], <span class="at">UMAP2 =</span> res<span class="sc">$</span>layout[, <span class="dv">2</span>], </span>
+<span id="cb40-10"><a></a>             <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType,</span>
+<span id="cb40-11"><a></a>             <span class="at">n_neighbors =</span> <span class="fu">paste</span>(<span class="st">&quot;n_neighbors =&quot;</span>, nn))</span>
+<span id="cb40-12"><a></a>})</span>
+<span id="cb40-13"><a></a>umap_compare <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, umap_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-25-2">
@@ -2961,18 +2961,18 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-26-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href></a><span class="co"># Run PCA on sim_df (the same dataset used for t-SNE and UMAP)</span></span>
-<span id="cb41-2"><a href></a>pca_sim <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb41-3"><a href></a>pca_sim_scores <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_sim<span class="sc">$</span>x)</span>
-<span id="cb41-4"><a href></a>var_prop <span class="ot">&lt;-</span> pca_sim<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca_sim<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb41-5"><a href></a></span>
-<span id="cb41-6"><a href></a><span class="co"># Combine all three for comparison</span></span>
-<span id="cb41-7"><a href></a>comparison <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb41-8"><a href></a>  <span class="at">Method =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;PCA&quot;</span>, <span class="st">&quot;t-SNE&quot;</span>, <span class="st">&quot;UMAP&quot;</span>), <span class="at">each =</span> <span class="fu">nrow</span>(sim_df)),</span>
-<span id="cb41-9"><a href></a>  <span class="at">Dim1 =</span> <span class="fu">c</span>(pca_sim_scores<span class="sc">$</span>PC1, tsne_df<span class="sc">$</span>tSNE1, umap_df<span class="sc">$</span>UMAP1),</span>
-<span id="cb41-10"><a href></a>  <span class="at">Dim2 =</span> <span class="fu">c</span>(pca_sim_scores<span class="sc">$</span>PC2, tsne_df<span class="sc">$</span>tSNE2, umap_df<span class="sc">$</span>UMAP2),</span>
-<span id="cb41-11"><a href></a>  <span class="at">CellType =</span> <span class="fu">rep</span>(sim_df<span class="sc">$</span>CellType, <span class="dv">3</span>)</span>
-<span id="cb41-12"><a href></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a></a><span class="co"># Run PCA on sim_df (the same dataset used for t-SNE and UMAP)</span></span>
+<span id="cb41-2"><a></a>pca_sim <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-3"><a></a>pca_sim_scores <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_sim<span class="sc">$</span>x)</span>
+<span id="cb41-4"><a></a>var_prop <span class="ot">&lt;-</span> pca_sim<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(pca_sim<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb41-5"><a></a></span>
+<span id="cb41-6"><a></a><span class="co"># Combine all three for comparison</span></span>
+<span id="cb41-7"><a></a>comparison <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb41-8"><a></a>  <span class="at">Method =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;PCA&quot;</span>, <span class="st">&quot;t-SNE&quot;</span>, <span class="st">&quot;UMAP&quot;</span>), <span class="at">each =</span> <span class="fu">nrow</span>(sim_df)),</span>
+<span id="cb41-9"><a></a>  <span class="at">Dim1 =</span> <span class="fu">c</span>(pca_sim_scores<span class="sc">$</span>PC1, tsne_df<span class="sc">$</span>tSNE1, umap_df<span class="sc">$</span>UMAP1),</span>
+<span id="cb41-10"><a></a>  <span class="at">Dim2 =</span> <span class="fu">c</span>(pca_sim_scores<span class="sc">$</span>PC2, tsne_df<span class="sc">$</span>tSNE2, umap_df<span class="sc">$</span>UMAP2),</span>
+<span id="cb41-11"><a></a>  <span class="at">CellType =</span> <span class="fu">rep</span>(sim_df<span class="sc">$</span>CellType, <span class="dv">3</span>)</span>
+<span id="cb41-12"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-26-2">
@@ -3014,15 +3014,15 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-27-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href></a><span class="co"># Demonstrate stochastic nature of t-SNE</span></span>
-<span id="cb42-2"><a href></a><span class="co"># Run t-SNE 3 times WITHOUT setting seed</span></span>
-<span id="cb42-3"><a href></a>tsne_runs <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(i) {</span>
-<span id="cb42-4"><a href></a>  res <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">perplexity =</span> <span class="dv">30</span>, <span class="at">dims =</span> <span class="dv">2</span>, </span>
-<span id="cb42-5"><a href></a>               <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">check_duplicates =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb42-6"><a href></a>  <span class="fu">data.frame</span>(<span class="at">tSNE1 =</span> res<span class="sc">$</span>Y[, <span class="dv">1</span>], <span class="at">tSNE2 =</span> res<span class="sc">$</span>Y[, <span class="dv">2</span>], </span>
-<span id="cb42-7"><a href></a>             <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType, <span class="at">Run =</span> <span class="fu">paste</span>(<span class="st">&quot;Run&quot;</span>, i))</span>
-<span id="cb42-8"><a href></a>})</span>
-<span id="cb42-9"><a href></a>tsne_runs_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, tsne_runs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a></a><span class="co"># Demonstrate stochastic nature of t-SNE</span></span>
+<span id="cb42-2"><a></a><span class="co"># Run t-SNE 3 times WITHOUT setting seed</span></span>
+<span id="cb42-3"><a></a>tsne_runs <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(i) {</span>
+<span id="cb42-4"><a></a>  res <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(sim_df[, <span class="dv">1</span><span class="sc">:</span>n_dims], <span class="at">perplexity =</span> <span class="dv">30</span>, <span class="at">dims =</span> <span class="dv">2</span>, </span>
+<span id="cb42-5"><a></a>               <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">check_duplicates =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb42-6"><a></a>  <span class="fu">data.frame</span>(<span class="at">tSNE1 =</span> res<span class="sc">$</span>Y[, <span class="dv">1</span>], <span class="at">tSNE2 =</span> res<span class="sc">$</span>Y[, <span class="dv">2</span>], </span>
+<span id="cb42-7"><a></a>             <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType, <span class="at">Run =</span> <span class="fu">paste</span>(<span class="st">&quot;Run&quot;</span>, i))</span>
+<span id="cb42-8"><a></a>})</span>
+<span id="cb42-9"><a></a>tsne_runs_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, tsne_runs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-27-2">
@@ -3040,11 +3040,11 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <p><strong>Same data, same parameters, different results!</strong></p>
 <p>Each run produces a different spatial arrangement because t-SNE (and UMAP) use random initialization and stochastic optimization. The clusters are the same, but their positions and orientations change.</p>
 <p><strong>Solution — always set a random seed:</strong></p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb43-2"><a href></a>tsne_result <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(data, <span class="at">perplexity =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb43-2"><a></a>tsne_result <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(data, <span class="at">perplexity =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For UMAP in R:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href></a>umap_config<span class="sc">$</span>random_state <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb44-2"><a href></a>umap_result <span class="ot">&lt;-</span> <span class="fu">umap</span>(data, <span class="at">config =</span> umap_config)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a></a>umap_config<span class="sc">$</span>random_state <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb44-2"><a></a>umap_result <span class="ot">&lt;-</span> <span class="fu">umap</span>(data, <span class="at">config =</span> umap_config)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>PCA does <strong>not</strong> have this issue — it is fully deterministic.</p>
 </div>
 </div>
@@ -3066,26 +3066,26 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-28-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href></a><span class="co"># Standard workflow: PCA first, then UMAP on top PCs</span></span>
-<span id="cb45-2"><a href></a><span class="co"># Step 1: PCA on sim_df (10-dimensional cell type data)</span></span>
-<span id="cb45-3"><a href></a>n_pcs <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Keep top 5 PCs (our data only has 10 dims)</span></span>
-<span id="cb45-4"><a href></a>pca_input <span class="ot">&lt;-</span> pca_sim<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span>n_pcs]</span>
-<span id="cb45-5"><a href></a></span>
-<span id="cb45-6"><a href></a><span class="co"># Step 2: UMAP on PC space</span></span>
-<span id="cb45-7"><a href></a>umap_config_pipe <span class="ot">&lt;-</span> umap.defaults</span>
-<span id="cb45-8"><a href></a>umap_config_pipe<span class="sc">$</span>n_neighbors <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb45-9"><a href></a>umap_config_pipe<span class="sc">$</span>min_dist <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb45-10"><a href></a>umap_config_pipe<span class="sc">$</span>random_state <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb45-11"><a href></a></span>
-<span id="cb45-12"><a href></a>umap_on_pca <span class="ot">&lt;-</span> <span class="fu">umap</span>(pca_input, <span class="at">config =</span> umap_config_pipe)</span>
-<span id="cb45-13"><a href></a></span>
-<span id="cb45-14"><a href></a><span class="co"># Compare: UMAP on raw data vs UMAP on PCA</span></span>
-<span id="cb45-15"><a href></a>umap_raw_df <span class="ot">&lt;-</span> umap_df  <span class="co"># already computed</span></span>
-<span id="cb45-16"><a href></a>umap_pca_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb45-17"><a href></a>  <span class="at">UMAP1 =</span> umap_on_pca<span class="sc">$</span>layout[, <span class="dv">1</span>],</span>
-<span id="cb45-18"><a href></a>  <span class="at">UMAP2 =</span> umap_on_pca<span class="sc">$</span>layout[, <span class="dv">2</span>],</span>
-<span id="cb45-19"><a href></a>  <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType</span>
-<span id="cb45-20"><a href></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a></a><span class="co"># Standard workflow: PCA first, then UMAP on top PCs</span></span>
+<span id="cb45-2"><a></a><span class="co"># Step 1: PCA on sim_df (10-dimensional cell type data)</span></span>
+<span id="cb45-3"><a></a>n_pcs <span class="ot">&lt;-</span> <span class="dv">5</span>  <span class="co"># Keep top 5 PCs (our data only has 10 dims)</span></span>
+<span id="cb45-4"><a></a>pca_input <span class="ot">&lt;-</span> pca_sim<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span>n_pcs]</span>
+<span id="cb45-5"><a></a></span>
+<span id="cb45-6"><a></a><span class="co"># Step 2: UMAP on PC space</span></span>
+<span id="cb45-7"><a></a>umap_config_pipe <span class="ot">&lt;-</span> umap.defaults</span>
+<span id="cb45-8"><a></a>umap_config_pipe<span class="sc">$</span>n_neighbors <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb45-9"><a></a>umap_config_pipe<span class="sc">$</span>min_dist <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb45-10"><a></a>umap_config_pipe<span class="sc">$</span>random_state <span class="ot">&lt;-</span> <span class="dv">42</span></span>
+<span id="cb45-11"><a></a></span>
+<span id="cb45-12"><a></a>umap_on_pca <span class="ot">&lt;-</span> <span class="fu">umap</span>(pca_input, <span class="at">config =</span> umap_config_pipe)</span>
+<span id="cb45-13"><a></a></span>
+<span id="cb45-14"><a></a><span class="co"># Compare: UMAP on raw data vs UMAP on PCA</span></span>
+<span id="cb45-15"><a></a>umap_raw_df <span class="ot">&lt;-</span> umap_df  <span class="co"># already computed</span></span>
+<span id="cb45-16"><a></a>umap_pca_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb45-17"><a></a>  <span class="at">UMAP1 =</span> umap_on_pca<span class="sc">$</span>layout[, <span class="dv">1</span>],</span>
+<span id="cb45-18"><a></a>  <span class="at">UMAP2 =</span> umap_on_pca<span class="sc">$</span>layout[, <span class="dv">2</span>],</span>
+<span id="cb45-19"><a></a>  <span class="at">CellType =</span> sim_df<span class="sc">$</span>CellType</span>
+<span id="cb45-20"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-28-2">
@@ -3108,9 +3108,9 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </ul>
 <p>In our 10-dimensional example, the difference is subtle. But with real scRNA-seq data (20,000+ genes), the PCA preprocessing step dramatically improves both speed and quality.</p>
 <p><strong>This is standard in tools like Seurat and Scanpy:</strong></p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href></a><span class="co"># Seurat workflow</span></span>
-<span id="cb46-2"><a href></a>obj <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(obj, <span class="at">npcs =</span> <span class="dv">50</span>)</span>
-<span id="cb46-3"><a href></a>obj <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(obj, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)  <span class="co"># UMAP on first 30 PCs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a></a><span class="co"># Seurat workflow</span></span>
+<span id="cb46-2"><a></a>obj <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(obj, <span class="at">npcs =</span> <span class="dv">50</span>)</span>
+<span id="cb46-3"><a></a>obj <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(obj, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)  <span class="co"># UMAP on first 30 PCs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3413,9 +3413,9 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href></a><span class="co"># Load the hydrogel formulation dataset</span></span>
-<span id="cb47-2"><a href></a>hydrogel <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/hydrogel_formulations.csv&quot;</span>)</span>
-<span id="cb47-3"><a href></a><span class="fu">glimpse</span>(hydrogel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a></a><span class="co"># Load the hydrogel formulation dataset</span></span>
+<span id="cb47-2"><a></a>hydrogel <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/hydrogel_formulations.csv&quot;</span>)</span>
+<span id="cb47-3"><a></a><span class="fu">glimpse</span>(hydrogel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
 <section>
@@ -3453,11 +3453,11 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <p><strong>Ward’s Method:</strong> Minimizes within-cluster sum of squares</p>
 </div>
 <div id="tabset-29-2">
-<div class="sourceCode" id="cb48"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb48-1"><a href></a>d_{single}(C_i, C_j) = \min_{x \in C_i, y \in C_j} d(x, y)</span>
-<span id="cb48-2"><a href></a></span>
-<span id="cb48-3"><a href></a>d_{complete}(C_i, C_j) = \max_{x \in C_i, y \in C_j} d(x, y)</span>
-<span id="cb48-4"><a href></a></span>
-<span id="cb48-5"><a href></a>d_{average}(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum \sum d(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb48-1"><a></a>d_{single}(C_i, C_j) = \min_{x \in C_i, y \in C_j} d(x, y)</span>
+<span id="cb48-2"><a></a></span>
+<span id="cb48-3"><a></a>d_{complete}(C_i, C_j) = \max_{x \in C_i, y \in C_j} d(x, y)</span>
+<span id="cb48-4"><a></a></span>
+<span id="cb48-5"><a></a>d_{average}(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum \sum d(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3469,39 +3469,39 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-30-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href></a><span class="co"># Scale the hydrogel features</span></span>
-<span id="cb49-2"><a href></a>hydrogel_scaled <span class="ot">&lt;-</span> hydrogel <span class="sc">|&gt;</span></span>
-<span id="cb49-3"><a href></a>  <span class="fu">select</span>(polymer_conc, crosslinker, growth_factor,</span>
-<span id="cb49-4"><a href></a>         swelling, degradation_rate, compressive_mod) <span class="sc">|&gt;</span></span>
-<span id="cb49-5"><a href></a>  <span class="fu">scale</span>()</span>
-<span id="cb49-6"><a href></a></span>
-<span id="cb49-7"><a href></a><span class="co"># Calculate distance matrix</span></span>
-<span id="cb49-8"><a href></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">dist</span>(hydrogel_scaled, <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>)</span>
-<span id="cb49-9"><a href></a></span>
-<span id="cb49-10"><a href></a><span class="co"># Hierarchical clustering with Ward&#39;s method</span></span>
-<span id="cb49-11"><a href></a>hclust_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_matrix, <span class="at">method =</span> <span class="st">&quot;ward.D2&quot;</span>)</span>
-<span id="cb49-12"><a href></a></span>
-<span id="cb49-13"><a href></a><span class="co"># Plot dendrogram</span></span>
-<span id="cb49-14"><a href></a><span class="fu">plot</span>(hclust_ward, <span class="at">main =</span> <span class="st">&quot;Hydrogel Formulation Dendrogram&quot;</span>,</span>
-<span id="cb49-15"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">sub =</span> <span class="st">&quot;&quot;</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span>
-<span id="cb49-16"><a href></a></span>
-<span id="cb49-17"><a href></a><span class="co"># Cut tree to get clusters</span></span>
-<span id="cb49-18"><a href></a>clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_ward, <span class="at">k =</span> <span class="dv">3</span>)</span>
-<span id="cb49-19"><a href></a>hydrogel<span class="sc">$</span>cluster <span class="ot">&lt;-</span> <span class="fu">factor</span>(clusters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a></a><span class="co"># Scale the hydrogel features</span></span>
+<span id="cb49-2"><a></a>hydrogel_scaled <span class="ot">&lt;-</span> hydrogel <span class="sc">|&gt;</span></span>
+<span id="cb49-3"><a></a>  <span class="fu">select</span>(polymer_conc, crosslinker, growth_factor,</span>
+<span id="cb49-4"><a></a>         swelling, degradation_rate, compressive_mod) <span class="sc">|&gt;</span></span>
+<span id="cb49-5"><a></a>  <span class="fu">scale</span>()</span>
+<span id="cb49-6"><a></a></span>
+<span id="cb49-7"><a></a><span class="co"># Calculate distance matrix</span></span>
+<span id="cb49-8"><a></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">dist</span>(hydrogel_scaled, <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>)</span>
+<span id="cb49-9"><a></a></span>
+<span id="cb49-10"><a></a><span class="co"># Hierarchical clustering with Ward&#39;s method</span></span>
+<span id="cb49-11"><a></a>hclust_ward <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_matrix, <span class="at">method =</span> <span class="st">&quot;ward.D2&quot;</span>)</span>
+<span id="cb49-12"><a></a></span>
+<span id="cb49-13"><a></a><span class="co"># Plot dendrogram</span></span>
+<span id="cb49-14"><a></a><span class="fu">plot</span>(hclust_ward, <span class="at">main =</span> <span class="st">&quot;Hydrogel Formulation Dendrogram&quot;</span>,</span>
+<span id="cb49-15"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">sub =</span> <span class="st">&quot;&quot;</span>, <span class="at">cex =</span> <span class="fl">0.5</span>)</span>
+<span id="cb49-16"><a></a></span>
+<span id="cb49-17"><a></a><span class="co"># Cut tree to get clusters</span></span>
+<span id="cb49-18"><a></a>clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_ward, <span class="at">k =</span> <span class="dv">3</span>)</span>
+<span id="cb49-19"><a></a>hydrogel<span class="sc">$</span>cluster <span class="ot">&lt;-</span> <span class="fu">factor</span>(clusters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-30-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href></a><span class="fu">library</span>(dendextend)</span>
-<span id="cb50-2"><a href></a></span>
-<span id="cb50-3"><a href></a>dend <span class="ot">&lt;-</span> <span class="fu">as.dendrogram</span>(hclust_ward)</span>
-<span id="cb50-4"><a href></a></span>
-<span id="cb50-5"><a href></a>dend <span class="sc">|&gt;</span></span>
-<span id="cb50-6"><a href></a>  <span class="fu">color_branches</span>(<span class="at">k =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
-<span id="cb50-7"><a href></a>  <span class="fu">color_labels</span>(<span class="at">k =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
-<span id="cb50-8"><a href></a>  <span class="fu">plot</span>(<span class="at">main =</span> <span class="st">&quot;Hydrogel Clusters (k = 3)&quot;</span>)</span>
-<span id="cb50-9"><a href></a></span>
-<span id="cb50-10"><a href></a><span class="fu">rect.dendrogram</span>(dend, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">border =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a></a><span class="fu">library</span>(dendextend)</span>
+<span id="cb50-2"><a></a></span>
+<span id="cb50-3"><a></a>dend <span class="ot">&lt;-</span> <span class="fu">as.dendrogram</span>(hclust_ward)</span>
+<span id="cb50-4"><a></a></span>
+<span id="cb50-5"><a></a>dend <span class="sc">|&gt;</span></span>
+<span id="cb50-6"><a></a>  <span class="fu">color_branches</span>(<span class="at">k =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-7"><a></a>  <span class="fu">color_labels</span>(<span class="at">k =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-8"><a></a>  <span class="fu">plot</span>(<span class="at">main =</span> <span class="st">&quot;Hydrogel Clusters (k = 3)&quot;</span>)</span>
+<span id="cb50-9"><a></a></span>
+<span id="cb50-10"><a></a><span class="fu">rect.dendrogram</span>(dend, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">border =</span> <span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3514,30 +3514,30 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-31-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href></a><span class="fu">library</span>(cluster)</span>
-<span id="cb51-2"><a href></a></span>
-<span id="cb51-3"><a href></a><span class="co"># Silhouette scores for different k</span></span>
-<span id="cb51-4"><a href></a>silhouette_scores <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">9</span>)</span>
-<span id="cb51-5"><a href></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb51-6"><a href></a>  clust <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_ward, <span class="at">k =</span> k)</span>
-<span id="cb51-7"><a href></a>  sil <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(clust, dist_matrix)</span>
-<span id="cb51-8"><a href></a>  silhouette_scores[k <span class="sc">-</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">mean</span>(sil[, <span class="st">&quot;sil_width&quot;</span>])</span>
-<span id="cb51-9"><a href></a>}</span>
-<span id="cb51-10"><a href></a></span>
-<span id="cb51-11"><a href></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, silhouette_scores, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb51-12"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of Clusters&quot;</span>,</span>
-<span id="cb51-13"><a href></a>     <span class="at">ylab =</span> <span class="st">&quot;Average Silhouette Score&quot;</span>,</span>
-<span id="cb51-14"><a href></a>     <span class="at">main =</span> <span class="st">&quot;Optimal Cluster Count for Hydrogel Data&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a></a><span class="fu">library</span>(cluster)</span>
+<span id="cb51-2"><a></a></span>
+<span id="cb51-3"><a></a><span class="co"># Silhouette scores for different k</span></span>
+<span id="cb51-4"><a></a>silhouette_scores <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">9</span>)</span>
+<span id="cb51-5"><a></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb51-6"><a></a>  clust <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_ward, <span class="at">k =</span> k)</span>
+<span id="cb51-7"><a></a>  sil <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(clust, dist_matrix)</span>
+<span id="cb51-8"><a></a>  silhouette_scores[k <span class="sc">-</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">mean</span>(sil[, <span class="st">&quot;sil_width&quot;</span>])</span>
+<span id="cb51-9"><a></a>}</span>
+<span id="cb51-10"><a></a></span>
+<span id="cb51-11"><a></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, silhouette_scores, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb51-12"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Number of Clusters&quot;</span>,</span>
+<span id="cb51-13"><a></a>     <span class="at">ylab =</span> <span class="st">&quot;Average Silhouette Score&quot;</span>,</span>
+<span id="cb51-14"><a></a>     <span class="at">main =</span> <span class="st">&quot;Optimal Cluster Count for Hydrogel Data&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-31-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href></a><span class="co"># Cophenetic correlation: how well does the dendrogram</span></span>
-<span id="cb52-2"><a href></a><span class="co"># preserve original pairwise distances?</span></span>
-<span id="cb52-3"><a href></a>cophenetic_dist <span class="ot">&lt;-</span> <span class="fu">cophenetic</span>(hclust_ward)</span>
-<span id="cb52-4"><a href></a>coph_corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(dist_matrix, cophenetic_dist)</span>
-<span id="cb52-5"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Cophenetic correlation:&quot;</span>, <span class="fu">round</span>(coph_corr, <span class="dv">3</span>))</span>
-<span id="cb52-6"><a href></a><span class="co"># Values closer to 1 = better preservation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a></a><span class="co"># Cophenetic correlation: how well does the dendrogram</span></span>
+<span id="cb52-2"><a></a><span class="co"># preserve original pairwise distances?</span></span>
+<span id="cb52-3"><a></a>cophenetic_dist <span class="ot">&lt;-</span> <span class="fu">cophenetic</span>(hclust_ward)</span>
+<span id="cb52-4"><a></a>coph_corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(dist_matrix, cophenetic_dist)</span>
+<span id="cb52-5"><a></a><span class="fu">cat</span>(<span class="st">&quot;Cophenetic correlation:&quot;</span>, <span class="fu">round</span>(coph_corr, <span class="dv">3</span>))</span>
+<span id="cb52-6"><a></a><span class="co"># Values closer to 1 = better preservation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3562,17 +3562,17 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </div>
 <div id="tabset-32-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href></a><span class="co"># Create matrix from hydrogel features</span></span>
-<span id="cb53-2"><a href></a>hydrogel_mat <span class="ot">&lt;-</span> hydrogel <span class="sc">|&gt;</span></span>
-<span id="cb53-3"><a href></a>  <span class="fu">select</span>(polymer_conc, crosslinker, growth_factor,</span>
-<span id="cb53-4"><a href></a>         swelling, degradation_rate, compressive_mod) <span class="sc">|&gt;</span></span>
-<span id="cb53-5"><a href></a>  <span class="fu">as.matrix</span>()</span>
-<span id="cb53-6"><a href></a></span>
-<span id="cb53-7"><a href></a><span class="co"># Base R heatmap</span></span>
-<span id="cb53-8"><a href></a><span class="fu">heatmap</span>(hydrogel_mat, <span class="at">scale =</span> <span class="st">&quot;column&quot;</span>,</span>
-<span id="cb53-9"><a href></a>        <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;RdYlBu&quot;</span>),</span>
-<span id="cb53-10"><a href></a>        <span class="at">main =</span> <span class="st">&quot;Clustered Heatmap: Hydrogel Formulations&quot;</span>,</span>
-<span id="cb53-11"><a href></a>        <span class="at">labRow =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a></a><span class="co"># Create matrix from hydrogel features</span></span>
+<span id="cb53-2"><a></a>hydrogel_mat <span class="ot">&lt;-</span> hydrogel <span class="sc">|&gt;</span></span>
+<span id="cb53-3"><a></a>  <span class="fu">select</span>(polymer_conc, crosslinker, growth_factor,</span>
+<span id="cb53-4"><a></a>         swelling, degradation_rate, compressive_mod) <span class="sc">|&gt;</span></span>
+<span id="cb53-5"><a></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb53-6"><a></a></span>
+<span id="cb53-7"><a></a><span class="co"># Base R heatmap</span></span>
+<span id="cb53-8"><a></a><span class="fu">heatmap</span>(hydrogel_mat, <span class="at">scale =</span> <span class="st">&quot;column&quot;</span>,</span>
+<span id="cb53-9"><a></a>        <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="st">&quot;RdYlBu&quot;</span>),</span>
+<span id="cb53-10"><a></a>        <span class="at">main =</span> <span class="st">&quot;Clustered Heatmap: Hydrogel Formulations&quot;</span>,</span>
+<span id="cb53-11"><a></a>        <span class="at">labRow =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-32-3">
@@ -3613,7 +3613,7 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <p>Where <span class="math inline">\(\mu_j\)</span> is the centroid of cluster <span class="math inline">\(C_j\)</span>.</p>
 </div>
 <div id="tabset-33-3">
-<div class="sourceCode" id="cb54"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb54-1"><a href></a>\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb54-1"><a></a>\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3636,34 +3636,34 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </div>
 <div id="tabset-34-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href></a><span class="co"># Scale features</span></span>
-<span id="cb55-2"><a href></a>hydrogel_scaled <span class="ot">&lt;-</span> hydrogel <span class="sc">|&gt;</span></span>
-<span id="cb55-3"><a href></a>  <span class="fu">select</span>(polymer_conc, crosslinker, growth_factor,</span>
-<span id="cb55-4"><a href></a>         swelling, degradation_rate, compressive_mod) <span class="sc">|&gt;</span></span>
-<span id="cb55-5"><a href></a>  <span class="fu">scale</span>()</span>
-<span id="cb55-6"><a href></a></span>
-<span id="cb55-7"><a href></a><span class="co"># Elbow method</span></span>
-<span id="cb55-8"><a href></a>wss <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(k) {</span>
-<span id="cb55-9"><a href></a>  <span class="fu">kmeans</span>(hydrogel_scaled, k, <span class="at">nstart =</span> <span class="dv">25</span>)<span class="sc">$</span>tot.withinss</span>
-<span id="cb55-10"><a href></a>})</span>
-<span id="cb55-11"><a href></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, wss, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb55-12"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;k&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Total Within-SS&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Elbow Method&quot;</span>)</span>
-<span id="cb55-13"><a href></a></span>
-<span id="cb55-14"><a href></a><span class="co"># Fit k-means</span></span>
-<span id="cb55-15"><a href></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb55-16"><a href></a>km_fit <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(hydrogel_scaled, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
-<span id="cb55-17"><a href></a></span>
-<span id="cb55-18"><a href></a><span class="co"># Visualize</span></span>
-<span id="cb55-19"><a href></a><span class="fu">plot</span>(hydrogel<span class="sc">$</span>polymer_conc, hydrogel<span class="sc">$</span>compressive_mod,</span>
-<span id="cb55-20"><a href></a>     <span class="at">col =</span> km_fit<span class="sc">$</span>cluster, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb55-21"><a href></a>     <span class="at">xlab =</span> <span class="st">&quot;Polymer Concentration (% w/v)&quot;</span>,</span>
-<span id="cb55-22"><a href></a>     <span class="at">ylab =</span> <span class="st">&quot;Compressive Modulus (kPa)&quot;</span>)</span>
-<span id="cb55-23"><a href></a></span>
-<span id="cb55-24"><a href></a><span class="co"># Examine cluster characteristics</span></span>
-<span id="cb55-25"><a href></a>hydrogel <span class="sc">|&gt;</span></span>
-<span id="cb55-26"><a href></a>  <span class="fu">mutate</span>(<span class="at">cluster =</span> km_fit<span class="sc">$</span>cluster) <span class="sc">|&gt;</span></span>
-<span id="cb55-27"><a href></a>  <span class="fu">group_by</span>(cluster) <span class="sc">|&gt;</span></span>
-<span id="cb55-28"><a href></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a></a><span class="co"># Scale features</span></span>
+<span id="cb55-2"><a></a>hydrogel_scaled <span class="ot">&lt;-</span> hydrogel <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a></a>  <span class="fu">select</span>(polymer_conc, crosslinker, growth_factor,</span>
+<span id="cb55-4"><a></a>         swelling, degradation_rate, compressive_mod) <span class="sc">|&gt;</span></span>
+<span id="cb55-5"><a></a>  <span class="fu">scale</span>()</span>
+<span id="cb55-6"><a></a></span>
+<span id="cb55-7"><a></a><span class="co"># Elbow method</span></span>
+<span id="cb55-8"><a></a>wss <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(k) {</span>
+<span id="cb55-9"><a></a>  <span class="fu">kmeans</span>(hydrogel_scaled, k, <span class="at">nstart =</span> <span class="dv">25</span>)<span class="sc">$</span>tot.withinss</span>
+<span id="cb55-10"><a></a>})</span>
+<span id="cb55-11"><a></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, wss, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb55-12"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;k&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Total Within-SS&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Elbow Method&quot;</span>)</span>
+<span id="cb55-13"><a></a></span>
+<span id="cb55-14"><a></a><span class="co"># Fit k-means</span></span>
+<span id="cb55-15"><a></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb55-16"><a></a>km_fit <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(hydrogel_scaled, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb55-17"><a></a></span>
+<span id="cb55-18"><a></a><span class="co"># Visualize</span></span>
+<span id="cb55-19"><a></a><span class="fu">plot</span>(hydrogel<span class="sc">$</span>polymer_conc, hydrogel<span class="sc">$</span>compressive_mod,</span>
+<span id="cb55-20"><a></a>     <span class="at">col =</span> km_fit<span class="sc">$</span>cluster, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb55-21"><a></a>     <span class="at">xlab =</span> <span class="st">&quot;Polymer Concentration (% w/v)&quot;</span>,</span>
+<span id="cb55-22"><a></a>     <span class="at">ylab =</span> <span class="st">&quot;Compressive Modulus (kPa)&quot;</span>)</span>
+<span id="cb55-23"><a></a></span>
+<span id="cb55-24"><a></a><span class="co"># Examine cluster characteristics</span></span>
+<span id="cb55-25"><a></a>hydrogel <span class="sc">|&gt;</span></span>
+<span id="cb55-26"><a></a>  <span class="fu">mutate</span>(<span class="at">cluster =</span> km_fit<span class="sc">$</span>cluster) <span class="sc">|&gt;</span></span>
+<span id="cb55-27"><a></a>  <span class="fu">group_by</span>(cluster) <span class="sc">|&gt;</span></span>
+<span id="cb55-28"><a></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(<span class="fu">mean</span>(x), <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -3751,36 +3751,36 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <div class="tab-content">
 <div id="tabset-35-1">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href></a><span class="fu">library</span>(nnet)</span>
-<span id="cb56-2"><a href></a></span>
-<span id="cb56-3"><a href></a><span class="co"># Scale predictors for neural network</span></span>
-<span id="cb56-4"><a href></a>iris_scaled <span class="ot">&lt;-</span> iris</span>
-<span id="cb56-5"><a href></a>iris_scaled[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
-<span id="cb56-6"><a href></a></span>
-<span id="cb56-7"><a href></a><span class="co"># Train/test split</span></span>
-<span id="cb56-8"><a href></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb56-9"><a href></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(iris_scaled), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(iris_scaled))</span>
-<span id="cb56-10"><a href></a>train <span class="ot">&lt;-</span> iris_scaled[train_idx, ]</span>
-<span id="cb56-11"><a href></a>test  <span class="ot">&lt;-</span> iris_scaled[<span class="sc">-</span>train_idx, ]</span>
-<span id="cb56-12"><a href></a></span>
-<span id="cb56-13"><a href></a><span class="co"># Fit single hidden layer neural network</span></span>
-<span id="cb56-14"><a href></a>nn_model <span class="ot">&lt;-</span> <span class="fu">nnet</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> train,</span>
-<span id="cb56-15"><a href></a>                 <span class="at">size =</span> <span class="dv">5</span>,       <span class="co"># 5 hidden neurons</span></span>
-<span id="cb56-16"><a href></a>                 <span class="at">decay =</span> <span class="fl">0.01</span>,   <span class="co"># weight decay (regularization)</span></span>
-<span id="cb56-17"><a href></a>                 <span class="at">maxit =</span> <span class="dv">500</span>,</span>
-<span id="cb56-18"><a href></a>                 <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb56-19"><a href></a></span>
-<span id="cb56-20"><a href></a><span class="co"># Predictions and accuracy</span></span>
-<span id="cb56-21"><a href></a>nn_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(nn_model, test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb56-22"><a href></a>accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(nn_pred <span class="sc">==</span> test<span class="sc">$</span>Species)</span>
-<span id="cb56-23"><a href></a><span class="fu">cat</span>(<span class="st">&quot;Neural Network Accuracy:&quot;</span>, <span class="fu">round</span>(accuracy, <span class="dv">3</span>))</span>
-<span id="cb56-24"><a href></a><span class="fu">table</span>(<span class="at">Predicted =</span> nn_pred, <span class="at">Actual =</span> test<span class="sc">$</span>Species)</span>
-<span id="cb56-25"><a href></a></span>
-<span id="cb56-26"><a href></a><span class="co"># Compare with random forest</span></span>
-<span id="cb56-27"><a href></a><span class="fu">library</span>(randomForest)</span>
-<span id="cb56-28"><a href></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> train)</span>
-<span id="cb56-29"><a href></a>rf_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, test)</span>
-<span id="cb56-30"><a href></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Random Forest Accuracy:&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(rf_pred <span class="sc">==</span> test<span class="sc">$</span>Species), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a></a><span class="fu">library</span>(nnet)</span>
+<span id="cb56-2"><a></a></span>
+<span id="cb56-3"><a></a><span class="co"># Scale predictors for neural network</span></span>
+<span id="cb56-4"><a></a>iris_scaled <span class="ot">&lt;-</span> iris</span>
+<span id="cb56-5"><a></a>iris_scaled[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb56-6"><a></a></span>
+<span id="cb56-7"><a></a><span class="co"># Train/test split</span></span>
+<span id="cb56-8"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb56-9"><a></a>train_idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(iris_scaled), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(iris_scaled))</span>
+<span id="cb56-10"><a></a>train <span class="ot">&lt;-</span> iris_scaled[train_idx, ]</span>
+<span id="cb56-11"><a></a>test  <span class="ot">&lt;-</span> iris_scaled[<span class="sc">-</span>train_idx, ]</span>
+<span id="cb56-12"><a></a></span>
+<span id="cb56-13"><a></a><span class="co"># Fit single hidden layer neural network</span></span>
+<span id="cb56-14"><a></a>nn_model <span class="ot">&lt;-</span> <span class="fu">nnet</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> train,</span>
+<span id="cb56-15"><a></a>                 <span class="at">size =</span> <span class="dv">5</span>,       <span class="co"># 5 hidden neurons</span></span>
+<span id="cb56-16"><a></a>                 <span class="at">decay =</span> <span class="fl">0.01</span>,   <span class="co"># weight decay (regularization)</span></span>
+<span id="cb56-17"><a></a>                 <span class="at">maxit =</span> <span class="dv">500</span>,</span>
+<span id="cb56-18"><a></a>                 <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb56-19"><a></a></span>
+<span id="cb56-20"><a></a><span class="co"># Predictions and accuracy</span></span>
+<span id="cb56-21"><a></a>nn_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(nn_model, test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb56-22"><a></a>accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(nn_pred <span class="sc">==</span> test<span class="sc">$</span>Species)</span>
+<span id="cb56-23"><a></a><span class="fu">cat</span>(<span class="st">&quot;Neural Network Accuracy:&quot;</span>, <span class="fu">round</span>(accuracy, <span class="dv">3</span>))</span>
+<span id="cb56-24"><a></a><span class="fu">table</span>(<span class="at">Predicted =</span> nn_pred, <span class="at">Actual =</span> test<span class="sc">$</span>Species)</span>
+<span id="cb56-25"><a></a></span>
+<span id="cb56-26"><a></a><span class="co"># Compare with random forest</span></span>
+<span id="cb56-27"><a></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb56-28"><a></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Species <span class="sc">~</span> ., <span class="at">data =</span> train)</span>
+<span id="cb56-29"><a></a>rf_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, test)</span>
+<span id="cb56-30"><a></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Random Forest Accuracy:&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(rf_pred <span class="sc">==</span> test<span class="sc">$</span>Species), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-35-2">
@@ -3817,26 +3817,26 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 <li>Compare PCA results with an LDA — do the same variables dominate?</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href></a><span class="co"># Starter code</span></span>
-<span id="cb57-2"><a href></a><span class="fu">data</span>(iris)</span>
-<span id="cb57-3"><a href></a>iris_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb57-4"><a href></a><span class="fu">summary</span>(iris_pca)</span>
-<span id="cb57-5"><a href></a></span>
-<span id="cb57-6"><a href></a><span class="co"># Scree plot</span></span>
-<span id="cb57-7"><a href></a>var_explained <span class="ot">&lt;-</span> iris_pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(iris_pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb57-8"><a href></a><span class="fu">barplot</span>(var_explained, <span class="at">names.arg =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>),</span>
-<span id="cb57-9"><a href></a>        <span class="at">ylab =</span> <span class="st">&quot;Proportion of Variance&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Scree Plot&quot;</span>)</span>
-<span id="cb57-10"><a href></a></span>
-<span id="cb57-11"><a href></a><span class="co"># PCA plot colored by species</span></span>
-<span id="cb57-12"><a href></a><span class="fu">plot</span>(iris_pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
-<span id="cb57-13"><a href></a>     <span class="at">col =</span> <span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species) <span class="sc">+</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb57-14"><a href></a>     <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC1 (&quot;</span>, <span class="fu">round</span>(var_explained[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">&quot;%)&quot;</span>),</span>
-<span id="cb57-15"><a href></a>     <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC2 (&quot;</span>, <span class="fu">round</span>(var_explained[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">&quot;%)&quot;</span>),</span>
-<span id="cb57-16"><a href></a>     <span class="at">main =</span> <span class="st">&quot;PCA of Iris Dataset&quot;</span>)</span>
-<span id="cb57-17"><a href></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">levels</span>(iris<span class="sc">$</span>Species), <span class="at">col =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb57-18"><a href></a></span>
-<span id="cb57-19"><a href></a><span class="co"># Examine loadings</span></span>
-<span id="cb57-20"><a href></a><span class="fu">print</span>(iris_pca<span class="sc">$</span>rotation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a></a><span class="co"># Starter code</span></span>
+<span id="cb57-2"><a></a><span class="fu">data</span>(iris)</span>
+<span id="cb57-3"><a></a>iris_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb57-4"><a></a><span class="fu">summary</span>(iris_pca)</span>
+<span id="cb57-5"><a></a></span>
+<span id="cb57-6"><a></a><span class="co"># Scree plot</span></span>
+<span id="cb57-7"><a></a>var_explained <span class="ot">&lt;-</span> iris_pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(iris_pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb57-8"><a></a><span class="fu">barplot</span>(var_explained, <span class="at">names.arg =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>),</span>
+<span id="cb57-9"><a></a>        <span class="at">ylab =</span> <span class="st">&quot;Proportion of Variance&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Scree Plot&quot;</span>)</span>
+<span id="cb57-10"><a></a></span>
+<span id="cb57-11"><a></a><span class="co"># PCA plot colored by species</span></span>
+<span id="cb57-12"><a></a><span class="fu">plot</span>(iris_pca<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
+<span id="cb57-13"><a></a>     <span class="at">col =</span> <span class="fu">as.numeric</span>(iris<span class="sc">$</span>Species) <span class="sc">+</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb57-14"><a></a>     <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC1 (&quot;</span>, <span class="fu">round</span>(var_explained[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">&quot;%)&quot;</span>),</span>
+<span id="cb57-15"><a></a>     <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;PC2 (&quot;</span>, <span class="fu">round</span>(var_explained[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">&quot;%)&quot;</span>),</span>
+<span id="cb57-16"><a></a>     <span class="at">main =</span> <span class="st">&quot;PCA of Iris Dataset&quot;</span>)</span>
+<span id="cb57-17"><a></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">levels</span>(iris<span class="sc">$</span>Species), <span class="at">col =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb57-18"><a></a></span>
+<span id="cb57-19"><a></a><span class="co"># Examine loadings</span></span>
+<span id="cb57-20"><a></a><span class="fu">print</span>(iris_pca<span class="sc">$</span>rotation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -4160,6 +4160,7 @@ Cumulative Proportion  0.7296 0.9581 0.99482 1.00000</code></pre>
 </section></section>
 <section id="section" class="title-slide slide level1 center" data-background-color="#2c3e50">
 <h1></h1>
+
 
 </section>
     </div>
