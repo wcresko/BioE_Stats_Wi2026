@@ -22,6 +22,8 @@ title: "Lectures"
 
 [Lecture_9](Lecture_Folder/Week9.html)
 
+[Lecture_10](Lecture_Folder/Week9.html)
+
 
 
 ### Quarto Templates for Class Notes
