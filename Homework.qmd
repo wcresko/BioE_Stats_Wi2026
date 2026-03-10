@@ -12,6 +12,8 @@ title: "Homeworks"
 
 [Homework 4](Homework_Folder/HW4_2026.qmd)
 
+[Term Project](Homework_Folder/Term_Project_2026.qmd)
+
 ------------------------------------------------------------------------
 
 ### Data Sets for Homeworks
