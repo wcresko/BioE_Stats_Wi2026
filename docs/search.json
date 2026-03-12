@@ -6608,6 +6608,41 @@
     "text": "SNE: Stochastic Neighbor Embedding\nSNE (Hinton & Roweis, 2002) introduced the probability-based approach to dimensionality reduction. For each pair of points, SNE defines a probability that reflects their similarity:\nIn high-dimensional space: The probability that point \\(x_j\\) is a neighbor of point \\(x_i\\) follows a Gaussian:\n\\[p_{j|i} = \\frac{\\exp(-||x_i - x_j||^2 / 2\\sigma_i^2)}{\\sum_{k \\neq i} \\exp(-||x_i - x_k||^2 / 2\\sigma_i^2)}\\]\nEach point \\(x_i\\) gets its own \\(\\sigma_i\\), set so that the effective number of neighbors matches the user-specified perplexity — a smooth measure of neighborhood size.\nIn low-dimensional space: The same formula is applied to the 2D coordinates \\(y_i\\), giving probabilities \\(q_{j|i}\\).\nOptimization: SNE minimizes the KL divergence between P and Q — a measure of how different the two probability distributions are — by moving the 2D points via gradient descent."
   },
   {
+    "objectID": "Lecture_Folder/Week10.html#what-is-kl-divergence",
+    "href": "Lecture_Folder/Week10.html#what-is-kl-divergence",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "What is KL Divergence?",
+    "text": "What is KL Divergence?\nKullback-Leibler (KL) divergence measures how different two probability distributions are. In the context of t-SNE, it quantifies the mismatch between the high-dimensional neighborhood probabilities (\\(P\\)) and the low-dimensional embedding probabilities (\\(Q\\)).\n\nEquationLaTeXInterpretation\n\n\n\\[D_{KL}(P \\| Q) = \\sum_{i} \\sum_{j \\neq i} p_{ij} \\log \\frac{p_{ij}}{q_{ij}}\\]\nWhere:\n\n\\(p_{ij}\\) = probability that points \\(i\\) and \\(j\\) are neighbors in high-dimensional space (Gaussian kernel)\n\\(q_{ij}\\) = probability that points \\(i\\) and \\(j\\) are neighbors in low-dimensional embedding (t-distribution kernel)\n\n\n\nD_{KL}(P \\| Q) = \\sum_{i} \\sum_{j \\neq i} p_{ij} \\log \\frac{p_{ij}}{q_{ij}}\n\n\n\nKL = 0 means the two distributions are identical — the low-D embedding perfectly preserves the high-D neighborhood structure\nKL &gt; 0 means there is mismatch — points that are neighbors in high-D are not neighbors in low-D, or vice versa\nThe \\(p_{ij} \\log(p_{ij}/q_{ij})\\) term means KL divergence heavily penalizes cases where \\(p_{ij}\\) is large (true neighbors) but \\(q_{ij}\\) is small (placed far apart in embedding). It cares less about the reverse.\nThis asymmetry is why t-SNE is excellent at preserving local structure but does not preserve global distances between clusters"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#kl-divergence-a-critical-asymmetry",
+    "href": "Lecture_Folder/Week10.html#kl-divergence-a-critical-asymmetry",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "KL Divergence: A Critical Asymmetry",
+    "text": "KL Divergence: A Critical Asymmetry\nThe KL divergence used by t-SNE has an important asymmetric penalty structure:\nHeavily penalized: If \\(p_{ij}\\) is large (points are true neighbors in high-D) but \\(q_{ij}\\) is small (they’re far apart in the embedding) → the \\(\\log(p/q)\\) term is large and positive → strong gradient pulls them together.\nWeakly penalized: If \\(p_{ij}\\) is small (points are distant in high-D) but \\(q_{ij}\\) is large (they end up close in the embedding) → \\(p_{ij}\\) is near zero, so the entire \\(p \\cdot \\log(p/q)\\) term is near zero → weak penalty.\nWhat this means in practice:\n\nt-SNE faithfully preserves neighborhoods — if two points are close in high-D, they will be close in the embedding\nt-SNE does not prevent false neighborhoods — distant points may end up close in the embedding\nThe relative positions and distances between clusters in a t-SNE plot are not meaningful\n\n\n\n\n\n\n\nImportant\n\n\nThis asymmetry is the single most important thing to understand about t-SNE. It is why you should never interpret the distance between clusters in a t-SNE plot as reflecting biological similarity."
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#high-d-distances-probability-distributions",
+    "href": "Lecture_Folder/Week10.html#high-d-distances-probability-distributions",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "High-D Distances → Probability Distributions",
+    "text": "High-D Distances → Probability Distributions"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#minimizing-kl-divergence-by-gradient-descent",
+    "href": "Lecture_Folder/Week10.html#minimizing-kl-divergence-by-gradient-descent",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Minimizing KL Divergence by Gradient Descent",
+    "text": "Minimizing KL Divergence by Gradient Descent\nt-SNE minimizes the KL divergence between \\(P\\) and \\(Q\\) using gradient descent — the same optimization strategy used in neural networks and many other machine learning methods.\n\nAlgorithmEquationLaTeXInterpretation\n\n\n\nCompute \\(P\\): From the high-D data, calculate pairwise similarity probabilities using Gaussian kernels (bandwidth set by perplexity)\nInitialize \\(Y\\): Place all points randomly in 2D (or use PCA initialization)\nCompute \\(Q\\): From the current 2D positions, calculate pairwise similarity probabilities using the t-distribution kernel\nCompute gradient: \\(\\frac{\\partial D_{KL}}{\\partial y_i} = 4 \\sum_{j} (p_{ij} - q_{ij})(y_i - y_j)(1 + ||y_i - y_j||^2)^{-1}\\)\nUpdate positions: \\(Y^{(t+1)} = Y^{(t)} - \\eta \\cdot \\nabla D_{KL} + \\alpha(Y^{(t)} - Y^{(t-1)})\\)\nRepeat steps 3–5 for 500–1000 iterations until convergence\n\n\n\n\\[\\frac{\\partial D_{KL}}{\\partial y_i} = 4 \\sum_{j} (p_{ij} - q_{ij})(y_i - y_j)(1 + ||y_i - y_j||^2)^{-1}\\]\nThe gradient has an intuitive interpretation:\n\nWhen \\(p_{ij} &gt; q_{ij}\\): points \\(i\\) and \\(j\\) should be closer → attractive force\nWhen \\(p_{ij} &lt; q_{ij}\\): points \\(i\\) and \\(j\\) should be farther → repulsive force\nThe \\((1 + ||y_i - y_j||^2)^{-1}\\) factor comes from the t-distribution and prevents overcrowding\n\n\n\n\\frac{\\partial D_{KL}}{\\partial y_i} = 4 \\sum_{j} (p_{ij} - q_{ij})(y_i - y_j)(1 + ||y_i - y_j||^2)^{-1}\n\n\n\nThe gradient is a sum of forces on each point in the embedding. Same-group neighbors exert attractive forces; distant points exert repulsive forces.\nThe learning rate (\\(\\eta\\)) controls step size — too large and the optimization oscillates, too small and it converges slowly.\nThe momentum term (\\(\\alpha\\)) helps the optimization escape shallow local minima by carrying forward previous movement.\nEarly exaggeration (multiplying \\(P\\) by 4 for the first 50–250 iterations) creates stronger attractive forces early on, helping clusters form before fine-tuning their positions."
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#t-sne-optimization-from-random-to-clustered",
+    "href": "Lecture_Folder/Week10.html#t-sne-optimization-from-random-to-clustered",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "t-SNE Optimization: From Random to Clustered",
+    "text": "t-SNE Optimization: From Random to Clustered"
+  },
+  {
     "objectID": "Lecture_Folder/Week10.html#from-sne-to-t-sne-solving-the-crowding-problem",
     "href": "Lecture_Folder/Week10.html#from-sne-to-t-sne-solving-the-crowding-problem",
     "title": "Statistics for Bioengineering - Week 10",
@@ -6647,7 +6682,14 @@
     "href": "Lecture_Folder/Week10.html#umap-uniform-manifold-approximation-and-projection",
     "title": "Statistics for Bioengineering - Week 10",
     "section": "UMAP: Uniform Manifold Approximation and Projection",
-    "text": "UMAP: Uniform Manifold Approximation and Projection\nUMAP (McInnes, Healy & Melville, 2018) achieves similar goals to t-SNE but approaches the problem from algebraic topology rather than information theory. The core assumption is that the data lies on a manifold — a curved surface embedded in high-dimensional space — and that the manifold is locally approximately uniform.\nThe UMAP pipeline:\n\nBuild a local neighborhood graph — For each point, find its k nearest neighbors and assign edge weights based on distance. Crucially, each point normalizes distances relative to its own nearest neighbor, ensuring points in sparse regions of the data are still connected to their local neighbors.\nCreate a fuzzy simplicial set — The local neighborhood graphs from each point are combined into a single global weighted graph using a fuzzy union operation. If point A considers B a neighbor or B considers A a neighbor, an edge exists between them (with membership strength \\(w = a + b - a \\cdot b\\)).\nOptimize a low-D layout — Initialize points in 2D (via spectral embedding or randomly), then use stochastic gradient descent to minimize the cross-entropy between the high-D and low-D graph edge weights. Connected points are attracted together; disconnected points are repelled."
+    "text": "UMAP: Uniform Manifold Approximation and Projection\n\nUMAP (McInnes, Healy & Melville, 2018) achieves similar goals to t-SNE but approaches the problem from algebraic topology rather than information theory.\nThe core assumption is that the data lies on a manifold — a curved surface embedded in high-dimensional space — and that the manifold is locally approximately uniform."
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#the-umap-pipeline",
+    "href": "Lecture_Folder/Week10.html#the-umap-pipeline",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "The UMAP pipeline",
+    "text": "The UMAP pipeline\n\nBuild a local neighborhood graph — For each point, find its k nearest neighbors and assign edge weights based on distance. Crucially, each point normalizes distances relative to its own nearest neighbor, ensuring points in sparse regions of the data are still connected to their local neighbors.\nCreate a fuzzy simplicial set — The local neighborhood graphs from each point are combined into a single global weighted graph using a fuzzy union operation. If point A considers B a neighbor or B considers A a neighbor, an edge exists between them (with membership strength \\(w = a + b - a \\cdot b\\)).\nOptimize a low-D layout — Initialize points in 2D (via spectral embedding or randomly), then use stochastic gradient descent to minimize the cross-entropy between the high-D and low-D graph edge weights. Connected points are attracted together; disconnected points are repelled."
   },
   {
     "objectID": "Lecture_Folder/Week10.html#umap-algorithm-from-neighborhoods-to-embeddings",
@@ -6662,6 +6704,20 @@
     "title": "Statistics for Bioengineering - Week 10",
     "section": "UMAP Algorithm: From Neighborhoods to Embeddings",
     "text": "UMAP Algorithm: From Neighborhoods to Embeddings"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#umap-cross-entropy-optimization",
+    "href": "Lecture_Folder/Week10.html#umap-cross-entropy-optimization",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "UMAP Cross-Entropy Optimization",
+    "text": "UMAP Cross-Entropy Optimization"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#how-umaps-cross-entropy-differs-from-t-snes-kl-divergence",
+    "href": "Lecture_Folder/Week10.html#how-umaps-cross-entropy-differs-from-t-snes-kl-divergence",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "How UMAP’s Cross-Entropy Differs from t-SNE’s KL Divergence",
+    "text": "How UMAP’s Cross-Entropy Differs from t-SNE’s KL Divergence\nUMAP minimizes cross-entropy between the high-D fuzzy graph weights (\\(w_{ij}\\)) and the low-D embedding weights (\\(v_{ij}\\)):\n\nEquationInterpretationLaTeX\n\n\n\\[CE = -\\sum_{i,j} \\left[ w_{ij} \\log(v_{ij}) + (1 - w_{ij}) \\log(1 - v_{ij}) \\right]\\]\n\n\nThe cross-entropy loss has two terms that work together:\n\nAttraction term \\(w_{ij} \\log(v_{ij})\\): When \\(w_{ij}\\) is large (true neighbors) but \\(v_{ij}\\) is small (far apart in embedding), this term produces a large penalty → pulls connected points together\nRepulsion term \\((1 - w_{ij}) \\log(1 - v_{ij})\\): When \\(w_{ij}\\) is small (not neighbors) but \\(v_{ij}\\) is large (close in embedding), this term produces a large penalty → pushes disconnected points apart\n\nUnlike KL divergence which only strongly penalizes missed neighbors, cross-entropy symmetrically penalizes both types of error. This is why UMAP tends to better preserve global topology — clusters that are distant in the original data remain distant in the embedding.\n\n\nCE = -\\sum_{i,j} [ w_{ij} \\log(v_{ij}) + (1 - w_{ij}) \\log(1 - v_{ij}) ]"
   },
   {
     "objectID": "Lecture_Folder/Week10.html#umaps-key-parameters",
@@ -6682,7 +6738,7 @@
     "href": "Lecture_Folder/Week10.html#key-differences-between-t-sne-and-umap",
     "title": "Statistics for Bioengineering - Week 10",
     "section": "Key Differences Between t-SNE and UMAP",
-    "text": "Key Differences Between t-SNE and UMAP\nDespite the similarities, three differences matter in practice:\n1. Speed and scalability: UMAP uses stochastic gradient descent with negative sampling, giving it approximately O(n) time per epoch versus t-SNE’s O(n log n) with Barnes-Hut approximation. For datasets above ~50,000 points, UMAP is dramatically faster.\n2. Global structure preservation: t-SNE’s KL divergence is asymmetric — it heavily penalizes placing true neighbors far apart (good), but barely penalizes placing distant points close together. This means the relative positions of clusters in a t-SNE plot are essentially meaningless. UMAP’s cross-entropy loss is symmetric, meaning it also pushes distant points apart, better preserving the global topology. Clusters that are biologically related tend to appear closer together in UMAP than in t-SNE.\n3. Theoretical foundation: UMAP is grounded in topological data analysis, which provides theoretical justification for why the algorithm works and for the meaning of its parameters. t-SNE is more heuristic — the t-distribution was chosen because it works well, not because it follows from a mathematical theory.\n\n\n\n\n\n\nNote\n\n\nFor most bioengineering applications, UMAP is now the default choice for non-linear visualization due to its speed and better global structure preservation. t-SNE remains valuable for small datasets where you want to carefully explore local structure at multiple perplexity settings."
+    "text": "Key Differences Between t-SNE and UMAP\n1. Speed and scalability\n\nUMAP: ~O(n) per epoch with negative sampling\nt-SNE: O(n log n) with Barnes-Hut approximation\nFor &gt;50,000 points, UMAP is dramatically faster\n\n2. Global structure preservation\n\nt-SNE’s KL divergence is asymmetric — relative cluster positions are meaningless\nUMAP’s cross-entropy is symmetric — cluster distances are more meaningful\nResult: UMAP better preserves overall data topology\n\n3. Theoretical foundation\n\nUMAP: grounded in algebraic topology (Riemannian geometry, fuzzy simplicial sets)\nt-SNE: heuristic — t-distribution chosen empirically because it works well\n\n\n\n\n\n\n\nNote\n\n\nFor most bioengineering applications, UMAP is now the default choice for non-linear visualization due to its speed and better global structure preservation."
   },
   {
     "objectID": "Lecture_Folder/Week10.html#umap-on-inflammation-data",
@@ -6727,48 +6783,6 @@
     "text": "Overview of Clustering Methods"
   },
   {
-    "objectID": "Lecture_Folder/Week10.html#choosing-a-clustering-method",
-    "href": "Lecture_Folder/Week10.html#choosing-a-clustering-method",
-    "title": "Statistics for Bioengineering - Week 10",
-    "section": "Choosing a Clustering Method",
-    "text": "Choosing a Clustering Method\n\n\n\n\n\n\n\n\n\nQuestion\nK-Means\nHierarchical\nKNN\n\n\n\n\nSupervised?\nNo\nNo\nYes (needs labels)\n\n\nNeed to specify k?\nYes, in advance\nNo, cut tree later\nYes (k neighbors)\n\n\nCluster shape\nSpherical\nAny shape\nFlexible boundaries\n\n\nScalability\nExcellent (large n)\nPoor (O(n²))\nModerate\n\n\nDeterministic?\nNo (random init)\nYes\nYes\n\n\nOutput\nCluster assignments\nDendrogram\nPredicted class\n\n\n\n\n\n\n\n\n\nNote\n\n\nK-Means and Hierarchical clustering are unsupervised — they discover groups without using any labels. KNN is supervised — it requires labeled training data and classifies new observations based on their nearest labeled neighbors."
-  },
-  {
-    "objectID": "Lecture_Folder/Week10.html#what-is-hierarchical-clustering",
-    "href": "Lecture_Folder/Week10.html#what-is-hierarchical-clustering",
-    "title": "Statistics for Bioengineering - Week 10",
-    "section": "What is Hierarchical Clustering?",
-    "text": "What is Hierarchical Clustering?\nCreates a tree-like structure (dendrogram) of nested clusters by iteratively merging the most similar observations or groups.\nAgglomerative (bottom-up) algorithm:\n\nStart with each observation as its own cluster\nFind the two closest clusters\nMerge them into one cluster\nRepeat until all observations are in one cluster\nCut the dendrogram at a chosen height to get k clusters"
-  },
-  {
-    "objectID": "Lecture_Folder/Week10.html#linkage-methods",
-    "href": "Lecture_Folder/Week10.html#linkage-methods",
-    "title": "Statistics for Bioengineering - Week 10",
-    "section": "Linkage Methods",
-    "text": "Linkage Methods\n\nEquationsLaTeXInterpretation\n\n\nSingle Linkage (Minimum): \\[d(C_i, C_j) = \\min_{x \\in C_i, y \\in C_j} d(x, y)\\]\nComplete Linkage (Maximum): \\[d(C_i, C_j) = \\max_{x \\in C_i, y \\in C_j} d(x, y)\\]\nAverage Linkage: \\[d(C_i, C_j) = \\frac{1}{|C_i||C_j|} \\sum_{x \\in C_i} \\sum_{y \\in C_j} d(x, y)\\]\nWard’s Method: Minimizes within-cluster sum of squares at each step\n\n\nd_{single}(C_i, C_j) = \\min_{x \\in C_i, y \\in C_j} d(x, y)\nd_{complete}(C_i, C_j) = \\max_{x \\in C_i, y \\in C_j} d(x, y)\nd_{average}(C_i, C_j) = \\frac{1}{|C_i||C_j|} \\sum \\sum d(x, y)\n\n\nSingle linkage can create elongated, “chaining” clusters. Complete linkage produces compact, roughly spherical clusters. Average linkage is a compromise between the two. Ward’s method (recommended default) tends to produce balanced, similarly-sized clusters — it is the most common choice for biological data."
-  },
-  {
-    "objectID": "Lecture_Folder/Week10.html#hierarchical-clustering-inflammation-data",
-    "href": "Lecture_Folder/Week10.html#hierarchical-clustering-inflammation-data",
-    "title": "Statistics for Bioengineering - Week 10",
-    "section": "Hierarchical Clustering: Inflammation Data",
-    "text": "Hierarchical Clustering: Inflammation Data\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Scale the gene expression data\ninflam_scaled &lt;- scale(inflam[, gene_cols])\n\n# Distance matrix\ndist_mat_clust &lt;- dist(inflam_scaled)\n\n# Hierarchical clustering with Ward's method\nhc_ward &lt;- hclust(dist_mat_clust, method = \"ward.D2\")\n\n# Enhanced dendrogram\nlibrary(dendextend)\ndend &lt;- as.dendrogram(hc_ward)\ndend &lt;- color_branches(dend, k = 4)\nplot(dend, main = \"Hierarchical Clustering (Ward's)\", \n     leaflab = \"none\", ylab = \"Ward's Linkage Distance\")\nrect.dendrogram(dend, k = 4, border = \"gray40\", lty = 2)\n\n# Cut tree to get 4 clusters and examine membership\nclusters_hc &lt;- cutree(hc_ward, k = 4)\ntable(clusters_hc, paste(inflam$strain, inflam$treatment))\n\n\n\n\nThe dendrogram shows two major branches corresponding to Drug vs. Placebo, with each branch further splitting by strain\nCutting the tree at k = 4 recovers the four experimental groups almost perfectly\nThe height at which branches merge reflects the dissimilarity between groups — the Drug/Placebo split occurs at a much greater height than the within-treatment strain split, consistent with the PCA results showing treatment as the dominant axis"
-  },
-  {
-    "objectID": "Lecture_Folder/Week10.html#cluster-validation-silhouette-analysis",
-    "href": "Lecture_Folder/Week10.html#cluster-validation-silhouette-analysis",
-    "title": "Statistics for Bioengineering - Week 10",
-    "section": "Cluster Validation: Silhouette Analysis",
-    "text": "Cluster Validation: Silhouette Analysis\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(cluster)\n\n# Test multiple k values\nsil_scores &lt;- sapply(2:8, function(k) {\n  cl &lt;- cutree(hc_ward, k = k)\n  mean(silhouette(cl, dist_mat_clust)[, \"sil_width\"])\n})\nplot(2:8, sil_scores, type = \"b\", pch = 19,\n     xlab = \"k\", ylab = \"Avg Silhouette Width\")\n\n# Detailed silhouette for chosen k\nsil_4 &lt;- silhouette(cutree(hc_ward, k = 4), dist_mat_clust)\nplot(sil_4, main = \"Silhouette (k = 4)\")\n\n\n\n\nThe silhouette score ranges from -1 to 1: values near 1 indicate well-clustered observations, values near 0 indicate borderline observations, and negative values indicate potentially misclassified observations\nThe optimal k has the highest average silhouette width\nFor our data, k = 2 (Drug vs. Placebo) may score highest due to the strong treatment effect, but k = 4 captures both treatment and strain structure\nThe silhouette plot at k = 4 confirms that most observations are well-assigned to their cluster"
-  },
-  {
-    "objectID": "Lecture_Folder/Week10.html#clustered-heatmap",
-    "href": "Lecture_Folder/Week10.html#clustered-heatmap",
-    "title": "Statistics for Bioengineering - Week 10",
-    "section": "Clustered Heatmap",
-    "text": "Clustered Heatmap\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Select top 30 most variable genes\ngene_vars &lt;- apply(inflam_scaled, 2, var)\ntop_30 &lt;- names(sort(gene_vars, decreasing = TRUE))[1:30]\n\n# Create row-side color bar for experimental groups\ngroup_colors_map &lt;- c(\"BALB_c_Drug\" = \"#3498db\", \"BALB_c_Placebo\" = \"#e74c3c\",\n                       \"C57BL6_Drug\" = \"#2ecc71\", \"C57BL6_Placebo\" = \"#9b59b6\")\nrow_groups &lt;- paste(inflam$strain, inflam$treatment, sep = \"_\")\nrow_colors &lt;- group_colors_map[row_groups]\n\n# Clustered heatmap with group annotations\nheatmap(inflam_scaled[, top_30], scale = \"none\",\n        col = hcl.colors(50, \"RdBu\"),\n        main = \"Top 30 Variable Genes\",\n        labRow = NA, xlab = \"Genes\", ylab = \"Mice\",\n        RowSideColors = row_colors)\n\n\n\n\nThe clustered heatmap simultaneously clusters both the mice (rows) and the genes (columns), revealing blocks of co-expressed genes\nThe colored sidebar on the left shows the four experimental groups — you can see how the hierarchical clustering of mice (row dendrogram) aligns with the true group membership\nTwo major row blocks correspond to Drug and Placebo groups, with gene blocks consistently upregulated (red) or downregulated (blue) across treatment groups\nThis visualization is ubiquitous in genomics and is especially useful for identifying gene modules — groups of genes that respond together to the treatment"
-  },
-  {
     "objectID": "Lecture_Folder/Week10.html#why-k-means",
     "href": "Lecture_Folder/Week10.html#why-k-means",
     "title": "Statistics for Bioengineering - Week 10",
@@ -6794,14 +6808,84 @@
     "href": "Lecture_Folder/Week10.html#k-means-inflammation-data",
     "title": "Statistics for Bioengineering - Week 10",
     "section": "K-Means: Inflammation Data",
-    "text": "K-Means: Inflammation Data\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Scale the data\ninflam_scaled &lt;- scale(inflam[, gene_cols])\n\n# Elbow method to choose k\nset.seed(2026)\nwss &lt;- sapply(1:8, function(k) {\n  kmeans(inflam_scaled, k, nstart = 25)$tot.withinss\n})\nplot(1:8, wss, type = \"b\", pch = 19,\n     xlab = \"k\", ylab = \"Total Within-SS\", main = \"Elbow Method\")\n\n# Fit k-means with k = 4\nset.seed(2026)\nkm_fit &lt;- kmeans(inflam_scaled, centers = 4, nstart = 25)\n\n# Visualize in PCA space\nplot(pca_scores$PC1, pca_scores$PC2, \n     col = km_fit$cluster, pch = 19)\n\n# Compare clusters to actual groups\ntable(Cluster = km_fit$cluster, \n      Group = paste(inflam$strain, inflam$treatment))\n\n\n\n\nThe elbow plot shows a clear bend at k = 2 (Drug vs. Placebo — the dominant signal) and a secondary bend at k = 4 (the four experimental groups)\nWith k = 4, the k-means clusters almost perfectly correspond to the true experimental groups, confirming that the gene expression profiles are strongly structured by treatment and strain\nThe nstart = 25 argument runs the algorithm 25 times with different random starting points and keeps the best solution, reducing sensitivity to initialization"
+    "text": "K-Means: Inflammation Data\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Scale the data\ninflam_scaled &lt;- scale(inflam[, gene_cols])\n\n# Elbow method to choose k\nset.seed(2026)\nwss &lt;- sapply(1:8, function(k) {\n  kmeans(inflam_scaled, k, nstart = 25)$tot.withinss\n})\nplot(1:8, wss, type = \"b\", pch = 19,\n     xlab = \"k\", ylab = \"Total Within-SS\", main = \"Elbow Method\")\n\n# Fit k-means with k = 4\nset.seed(2026)\nkm_fit &lt;- kmeans(inflam_scaled, centers = 4, nstart = 25)\n\n# Dendrogram of cluster centers shows relationships\ncenter_dist &lt;- dist(km_fit$centers)\ncenter_hc &lt;- hclust(center_dist, method = \"ward.D2\")\nplot(as.dendrogram(center_hc), main = \"K-Means Cluster Centers\")\n\n# Compare clusters to actual groups\ntable(Cluster = km_fit$cluster, \n      Group = paste(inflam$strain, inflam$treatment))\n\n\n\n\nThe elbow plot shows a clear bend at k = 2 (Drug vs. Placebo — the dominant signal) and a secondary bend at k = 4 (the four experimental groups)\nThe dendrogram of cluster centers shows how the four K-means clusters relate to each other — the two Drug clusters are more similar to each other than to the Placebo clusters, mirroring the hierarchical structure of our experiment\nWith k = 4, the k-means clusters almost perfectly correspond to the true experimental groups, confirming that the gene expression profiles are strongly structured by treatment and strain\nThe nstart = 25 argument runs the algorithm 25 times with different random starting points and keeps the best solution, reducing sensitivity to initialization"
   },
   {
-    "objectID": "Lecture_Folder/Week10.html#k-means-vs.-hierarchical-clustering",
-    "href": "Lecture_Folder/Week10.html#k-means-vs.-hierarchical-clustering",
+    "objectID": "Lecture_Folder/Week10.html#k-medoids-a-robust-alternative-to-k-means",
+    "href": "Lecture_Folder/Week10.html#k-medoids-a-robust-alternative-to-k-means",
     "title": "Statistics for Bioengineering - Week 10",
-    "section": "K-Means vs. Hierarchical Clustering",
-    "text": "K-Means vs. Hierarchical Clustering\n\n\n\nFeature\nK-Means\nHierarchical\n\n\n\n\nMust specify k?\nYes (in advance)\nNo (cut tree later)\n\n\nCluster shape\nSpherical\nAny shape\n\n\nScalability\nFast (large datasets)\nSlow (O(n²) or O(n³))\n\n\nDeterministic?\nNo (random init)\nYes\n\n\nVisualization\nScatter plots\nDendrograms\n\n\nNested structure?\nNo\nYes (dendrogram shows hierarchy)\n\n\n\n\n\n\n\n\n\nTip\n\n\nUse the elbow method or silhouette scores to choose k for k-means. Consider running both k-means and hierarchical clustering and comparing results — agreement between methods increases confidence in the groupings."
+    "section": "K-Medoids: A Robust Alternative to K-Means",
+    "text": "K-Medoids: A Robust Alternative to K-Means\nK-Medoids (also called PAM — Partitioning Around Medoids) is similar to K-means but uses actual data points as cluster centers rather than computed means.\nKey differences from K-means:\n\nMedoid = the data point that minimizes the sum of distances to all other points in its cluster (an actual observation, not a computed average)\nMore robust to outliers — a single extreme observation can shift a mean dramatically but has less effect on which point is chosen as medoid\nWorks with any distance metric — not limited to Euclidean distance (important for biological data where Bray-Curtis or Manhattan may be more appropriate)"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#k-medoids-a-robust-alternative-to-k-means-1",
+    "href": "Lecture_Folder/Week10.html#k-medoids-a-robust-alternative-to-k-means-1",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "K-Medoids: A Robust Alternative to K-Means",
+    "text": "K-Medoids: A Robust Alternative to K-Means\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(cluster)\n\n# PAM clustering\npam_fit &lt;- pam(inflam_scaled, k = 4)\n\n# Medoids are actual data points\ninflam[pam_fit$id.med, c(\"mouse_id\", \"strain\", \"treatment\")]\n\n# Compare to true groups\ntable(Cluster = pam_fit$clustering,\n      Group = paste(inflam$strain, inflam$treatment))\n\n\n\n\nK-medoids identifies four clusters that closely match the experimental groups, similar to K-means\nThe star symbols mark the medoids — these are actual mice in the dataset that best represent each cluster center\nUnlike K-means centroids (which are computed averages that may not correspond to any real observation), medoids are interpretable biological samples\nK-medoids is preferred over K-means when you need robustness to outliers or when using non-Euclidean distances"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#what-is-hierarchical-clustering",
+    "href": "Lecture_Folder/Week10.html#what-is-hierarchical-clustering",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "What is Hierarchical Clustering?",
+    "text": "What is Hierarchical Clustering?\nCreates a tree-like structure (dendrogram) of nested clusters by iteratively merging the most similar observations or groups.\nAgglomerative (bottom-up) algorithm:\n\nStart with each observation as its own cluster\nFind the two closest clusters\nMerge them into one cluster\nRepeat until all observations are in one cluster\nCut the dendrogram at a chosen height to get k clusters"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#linkage-methods",
+    "href": "Lecture_Folder/Week10.html#linkage-methods",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Linkage Methods",
+    "text": "Linkage Methods\n\nEquationsLaTeXInterpretation\n\n\nSingle Linkage (Minimum): \\[d(C_i, C_j) = \\min_{x \\in C_i, y \\in C_j} d(x, y)\\]\nComplete Linkage (Maximum): \\[d(C_i, C_j) = \\max_{x \\in C_i, y \\in C_j} d(x, y)\\]\nAverage Linkage: \\[d(C_i, C_j) = \\frac{1}{|C_i||C_j|} \\sum_{x \\in C_i} \\sum_{y \\in C_j} d(x, y)\\]\nWard’s Method: Minimizes within-cluster sum of squares at each step\n\n\nd_{single}(C_i, C_j) = \\min_{x \\in C_i, y \\in C_j} d(x, y)\nd_{complete}(C_i, C_j) = \\max_{x \\in C_i, y \\in C_j} d(x, y)\nd_{average}(C_i, C_j) = \\frac{1}{|C_i||C_j|} \\sum \\sum d(x, y)\n\n\nSingle linkage can create elongated, “chaining” clusters. Complete linkage produces compact, roughly spherical clusters. Average linkage is a compromise between the two. Ward’s method (recommended default) tends to produce balanced, similarly-sized clusters — it is the most common choice for biological data."
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#divisive-hierarchical-clustering",
+    "href": "Lecture_Folder/Week10.html#divisive-hierarchical-clustering",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Divisive Hierarchical Clustering",
+    "text": "Divisive Hierarchical Clustering\nWhile agglomerative clustering works bottom-up (merging), divisive clustering works top-down (splitting):\nDivisive (top-down) algorithm:\n\nStart with all observations in a single cluster\nFind the cluster with the largest diameter (most internal dissimilarity)\nSplit it into two sub-clusters\nRepeat until each observation is its own cluster\n\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(cluster)\n\n# DIANA = DIvisive ANAlysis\ndiana_fit &lt;- diana(inflam_scaled)\n\n# Plot the divisive dendrogram\nplot(as.dendrogram(diana_fit), \n     main = \"Divisive Clustering (DIANA)\")\n\n# Cut to get clusters\ndiana_clusters &lt;- cutree(as.hclust(diana_fit), k = 4)\ntable(diana_clusters, paste(inflam$strain, inflam$treatment))\n\n\n\n\nDivisive clustering starts from the top and splits downward — the first split separates Drug vs. Placebo (the strongest signal), then each branch splits by strain\nThe divisive dendrogram often looks different from agglomerative dendrograms because it makes globally optimal splits at each step, while agglomerative methods make locally optimal merges\nDIANA (DIvisive ANAlysis) from the cluster package is the most common implementation\nDivisive methods can be more informative when the major structure in the data is a few large groups, because the top splits are made with all the data available"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#hierarchical-clustering-inflammation-data",
+    "href": "Lecture_Folder/Week10.html#hierarchical-clustering-inflammation-data",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Hierarchical Clustering: Inflammation Data",
+    "text": "Hierarchical Clustering: Inflammation Data\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Scale the gene expression data\ninflam_scaled &lt;- scale(inflam[, gene_cols])\n\n# Distance matrix\ndist_mat_clust &lt;- dist(inflam_scaled)\n\n# Hierarchical clustering with Ward's method\nhc_ward &lt;- hclust(dist_mat_clust, method = \"ward.D2\")\n\n# Enhanced dendrogram\nlibrary(dendextend)\ndend &lt;- as.dendrogram(hc_ward)\ndend &lt;- color_branches(dend, k = 4)\nplot(dend, main = \"Hierarchical Clustering (Ward's)\", \n     leaflab = \"none\", ylab = \"Ward's Linkage Distance\")\nrect.dendrogram(dend, k = 4, border = \"gray40\", lty = 2)\n\n# Cut tree to get 4 clusters and examine membership\nclusters_hc &lt;- cutree(hc_ward, k = 4)\ntable(clusters_hc, paste(inflam$strain, inflam$treatment))\n\n\n\n\nThe dendrogram shows two major branches corresponding to Drug vs. Placebo, with each branch further splitting by strain\nCutting the tree at k = 4 recovers the four experimental groups almost perfectly\nThe height at which branches merge reflects the dissimilarity between groups — the Drug/Placebo split occurs at a much greater height than the within-treatment strain split, consistent with the PCA results showing treatment as the dominant axis"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#what-is-silhouette-analysis",
+    "href": "Lecture_Folder/Week10.html#what-is-silhouette-analysis",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "What is Silhouette Analysis?",
+    "text": "What is Silhouette Analysis?\nSilhouette analysis measures how well each observation fits within its assigned cluster compared to the next-best alternative cluster. It provides a per-observation quality score that helps you evaluate whether your clustering is meaningful.\nFor each observation \\(i\\) in cluster \\(C_k\\):\n\n\\(a(i)\\) = average distance from \\(i\\) to all other points in its own cluster (measures cohesion — how tightly packed the cluster is)\n\\(b(i)\\) = average distance from \\(i\\) to all points in the nearest neighboring cluster (measures separation — how far away the next cluster is)\n\\(s(i) = \\frac{b(i) - a(i)}{\\max(a(i), b(i))}\\) — the silhouette score"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#what-is-silhouette-analysis-1",
+    "href": "Lecture_Folder/Week10.html#what-is-silhouette-analysis-1",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "What is Silhouette Analysis?",
+    "text": "What is Silhouette Analysis?\nInterpreting the score:\n\n\\(s(i)\\) close to +1: The observation is well inside its cluster and far from the nearest other cluster — a confident assignment\n\\(s(i)\\) close to 0: The observation lies on the boundary between two clusters — ambiguous membership\n\\(s(i)\\) negative: The observation is closer to a different cluster than its own — likely misclassified\n\nThe average silhouette width across all observations summarizes overall clustering quality. Values above 0.5 indicate reasonable structure; above 0.7 indicates strong structure. Comparing average silhouette across different values of \\(k\\) helps identify the optimal number of clusters."
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#cluster-validation-silhouette-analysis",
+    "href": "Lecture_Folder/Week10.html#cluster-validation-silhouette-analysis",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Cluster Validation: Silhouette Analysis",
+    "text": "Cluster Validation: Silhouette Analysis\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(cluster)\n\n# Test multiple k values\nsil_scores &lt;- sapply(2:8, function(k) {\n  cl &lt;- cutree(hc_ward, k = k)\n  mean(silhouette(cl, dist_mat_clust)[, \"sil_width\"])\n})\nplot(2:8, sil_scores, type = \"b\", pch = 19,\n     xlab = \"k\", ylab = \"Avg Silhouette Width\")\n\n# Detailed silhouette for chosen k\nsil_4 &lt;- silhouette(cutree(hc_ward, k = 4), dist_mat_clust)\nplot(sil_4, main = \"Silhouette (k = 4)\")\n\n\n\n\nThe silhouette score ranges from -1 to 1: values near 1 indicate well-clustered observations, values near 0 indicate borderline observations, and negative values indicate potentially misclassified observations\nThe optimal k has the highest average silhouette width\nFor our data, k = 2 (Drug vs. Placebo) may score highest due to the strong treatment effect, but k = 4 captures both treatment and strain structure\nThe silhouette plot at k = 4 confirms that most observations are well-assigned to their cluster"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#clustered-heatmap",
+    "href": "Lecture_Folder/Week10.html#clustered-heatmap",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Clustered Heatmap",
+    "text": "Clustered Heatmap\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Select top 30 most variable genes\ngene_vars &lt;- apply(inflam_scaled, 2, var)\ntop_30 &lt;- names(sort(gene_vars, decreasing = TRUE))[1:30]\n\n# Create row-side color bar for experimental groups\ngroup_colors_map &lt;- c(\"BALB_c_Drug\" = \"#3498db\", \"BALB_c_Placebo\" = \"#e74c3c\",\n                       \"C57BL6_Drug\" = \"#2ecc71\", \"C57BL6_Placebo\" = \"#9b59b6\")\nrow_groups &lt;- paste(inflam$strain, inflam$treatment, sep = \"_\")\nrow_colors &lt;- group_colors_map[row_groups]\n\n# Clustered heatmap with group annotations\nheatmap(inflam_scaled[, top_30], scale = \"none\",\n        col = hcl.colors(50, \"RdBu\"),\n        main = \"Top 30 Variable Genes\",\n        labRow = NA, xlab = \"Genes\", ylab = \"Mice\",\n        RowSideColors = row_colors)\n\n\n\n\nThe clustered heatmap simultaneously clusters both the mice (rows) and the genes (columns), revealing blocks of co-expressed genes\nThe colored sidebar on the left shows the four experimental groups — you can see how the hierarchical clustering of mice (row dendrogram) aligns with the true group membership\nTwo major row blocks correspond to Drug and Placebo groups, with gene blocks consistently upregulated (red) or downregulated (blue) across treatment groups\nThis visualization is ubiquitous in genomics and is especially useful for identifying gene modules — groups of genes that respond together to the treatment"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#when-would-you-use-instance-based-classification",
+    "href": "Lecture_Folder/Week10.html#when-would-you-use-instance-based-classification",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "When Would You Use Instance-Based Classification?",
+    "text": "When Would You Use Instance-Based Classification?\nInstance-based methods classify new observations by comparing them directly to existing labeled or clustered data, rather than fitting a parametric model. They are especially useful when:\n\nDecision boundaries are complex — you cannot easily draw a straight line (or even a curved surface) between groups, but the groups are locally separable\nYou have a reference dataset with known labels and want to classify new, incoming samples against it\nThe data has irregular cluster shapes — elongated, curved, or ring-shaped groups that K-means and hierarchical methods struggle with\nYou want minimal model assumptions — no assumptions about distributions, variance, or functional form\n\nTwo key instance-based approaches:\n\nKNN (K-Nearest Neighbors): A supervised method — classifies new points based on the majority vote of their \\(k\\) closest labeled training points\nDBSCAN: An unsupervised method — discovers clusters based on local density without requiring you to specify \\(k\\) in advance"
   },
   {
     "objectID": "Lecture_Folder/Week10.html#what-is-knn",
@@ -6825,18 +6909,39 @@
     "text": "KNN: Classifying Mouse Samples\n\nOutputCodeInterpretation\n\n\n\n\nKNN Classification (k = 5)\n\n\nTest set accuracy: 1 \n\n\nConfusion Matrix:\n\n\n                Actual\nPredicted        BALB_c_Drug BALB_c_Placebo C57BL6_Drug C57BL6_Placebo\n  BALB_c_Drug              8              0           0              0\n  BALB_c_Placebo           0              4           0              0\n  C57BL6_Drug              0              0           7              0\n  C57BL6_Placebo           0              0           0              5\n\n\n\n\n\nlibrary(class)\n\n# Prepare data\ninflam$group &lt;- paste(inflam$strain, inflam$treatment, sep = \"_\")\ninflam_scaled &lt;- scale(inflam[, gene_cols])\n\n# Train/test split (70/30)\nset.seed(2026)\ntrain_idx &lt;- sample(nrow(inflam), 0.7 * nrow(inflam))\ntrain_data &lt;- inflam_scaled[train_idx, ]\ntest_data &lt;- inflam_scaled[-train_idx, ]\ntrain_labels &lt;- inflam$group[train_idx]\ntest_labels &lt;- inflam$group[-train_idx]\n\n# KNN classification\nknn_pred &lt;- knn(train = train_data, test = test_data, \n                cl = train_labels, k = 5)\n\n# Evaluate\nmean(knn_pred == test_labels)  # Accuracy\ntable(Predicted = knn_pred, Actual = test_labels)\n\n\n\n\nKNN achieves very high accuracy on this dataset because the four experimental groups are well-separated in the 100-dimensional gene expression space\nThe confusion matrix shows which groups, if any, get confused — with strong drug and strain effects, most misclassifications (if any) occur between same-treatment groups that differ only by strain (the weaker signal)\nWe split the data into training and test sets to get an honest estimate of performance — training accuracy would be unrealistically high because the algorithm memorizes training data"
   },
   {
+    "objectID": "Lecture_Folder/Week10.html#understanding-how-k-affects-knn",
+    "href": "Lecture_Folder/Week10.html#understanding-how-k-affects-knn",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Understanding How K Affects KNN",
+    "text": "Understanding How K Affects KNN\nChoosing the right \\(K\\) in KNN is a bias-variance tradeoff, just like choosing model complexity in regression:\nSmall K (e.g., K = 1–3): The classifier makes decisions based on very few neighbors. This means it can capture fine-grained, irregular decision boundaries — but it is also highly sensitive to individual noisy observations. A single mislabeled or unusual training point can flip the prediction for nearby test points. This is high variance, low bias.\nLarge K (e.g., K = 15–25): The classifier averages over many neighbors, producing smoother, more stable decision boundaries. It is less sensitive to noise but may miss real local patterns — for example, a small subcluster of one class embedded within a larger class could be overwhelmed by majority votes from the surrounding class. This is low variance, high bias."
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#understanding-how-k-affects-knn-1",
+    "href": "Lecture_Folder/Week10.html#understanding-how-k-affects-knn-1",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Understanding How K Affects KNN",
+    "text": "Understanding How K Affects KNN\nPractical guidance for choosing K:\n\nStart with \\(K = \\sqrt{n}\\) as a rough heuristic (where \\(n\\) is the training set size)\nUse cross-validation to systematically test multiple K values and select the one with highest accuracy\nFor binary classification, use odd values of K to avoid ties\nIf classes are well-separated (as in our inflammation data), many values of K will work equally well — the choice matters most when classes overlap"
+  },
+  {
     "objectID": "Lecture_Folder/Week10.html#choosing-k-in-knn",
     "href": "Lecture_Folder/Week10.html#choosing-k-in-knn",
     "title": "Statistics for Bioengineering - Week 10",
     "section": "Choosing K in KNN",
-    "text": "Choosing K in KNN\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Test multiple k values\nk_values &lt;- seq(1, 25, by = 2)\naccuracies &lt;- sapply(k_values, function(k) {\n  pred &lt;- knn(train = train_data, test = test_data, \n              cl = train_labels, k = k)\n  mean(pred == test_labels)\n})\n\nplot(k_values, accuracies, type = \"b\", pch = 19,\n     xlab = \"K\", ylab = \"Test Accuracy\",\n     main = \"KNN Accuracy vs. K\")\n\n\n\n\nSmall K (e.g., K = 1) makes very local decisions — high variance, may overfit to noise\nLarge K makes smoother decisions — may underfit and miss real boundaries\nThe optimal K balances bias and variance\nUse odd values of K for binary classification to avoid ties\nCross-validation gives a more robust estimate than a single train/test split\nFor this well-separated dataset, many values of K work well — in datasets with more overlap between groups, the choice of K matters more"
+    "text": "Choosing K in KNN\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n# Test multiple k values\nk_values &lt;- seq(1, 25, by = 2)\naccuracies &lt;- sapply(k_values, function(k) {\n  pred &lt;- knn(train = train_data, test = test_data, \n              cl = train_labels, k = k)\n  mean(pred == test_labels)\n})\n\nplot(k_values, accuracies, type = \"b\", pch = 19,\n     xlab = \"K\", ylab = \"Test Accuracy\",\n     main = \"KNN Accuracy vs. K\")\n\n\n\n\nFor this well-separated dataset, accuracy is high across most values of K\nIn datasets with more group overlap, you would see a clear peak — performance degrades at very small K (overfitting to noise) and very large K (undersmoothing boundaries)\nThe dashed red line marks the best accuracy — the optimal K balances bias and variance\nUse odd values of K for binary classification to avoid ties\nCross-validation gives a more robust estimate than a single train/test split"
   },
   {
-    "objectID": "Lecture_Folder/Week10.html#when-to-use-knn-in-bioengineering",
-    "href": "Lecture_Folder/Week10.html#when-to-use-knn-in-bioengineering",
+    "objectID": "Lecture_Folder/Week10.html#dbscan-density-based-clustering",
+    "href": "Lecture_Folder/Week10.html#dbscan-density-based-clustering",
     "title": "Statistics for Bioengineering - Week 10",
-    "section": "When to Use KNN in Bioengineering",
-    "text": "When to Use KNN in Bioengineering\nKNN is a good choice when:\n\nYou have labeled training data and want to classify new observations into known categories\nDecision boundaries are non-linear — KNN naturally handles complex class boundaries without specifying a model form\nYou need a quick baseline classifier before investing in more complex methods like random forests or SVMs\nSample sizes are moderate (100s to low 1000s) — KNN scales poorly to very large datasets\n\nBioengineering examples:\n\nCell type classification — given expression profiles of labeled cell types, classify new unlabeled cells\nImplant outcome prediction — given patient features from previous implant recipients with known outcomes (success/failure), predict outcome for a new patient\nTissue identification — given spectroscopic signatures from known tissue types, classify biopsy samples\nDrug response classification — given gene expression profiles of known responders/non-responders, classify a new patient’s likely response\n\n\n\n\n\n\n\nTip\n\n\nKNN works best when the number of features is moderate relative to the sample size. With very high-dimensional data (e.g., 20,000 genes), reduce dimensions first with PCA and apply KNN on the top PCs."
+    "section": "DBSCAN: Density-Based Clustering",
+    "text": "DBSCAN: Density-Based Clustering\nDBSCAN (Density-Based Spatial Clustering of Applications with Noise) finds clusters as regions of high density separated by regions of low density. Unlike K-means, it does not require specifying the number of clusters in advance.\nAlgorithm:\n\nFor each point, count how many other points fall within radius \\(\\epsilon\\) (epsilon)\nCore points have at least minPts neighbors within \\(\\epsilon\\)\nBorder points fall within \\(\\epsilon\\) of a core point but have fewer than minPts neighbors\nNoise points are neither core nor border — they are not assigned to any cluster\nConnect all core points that are within \\(\\epsilon\\) of each other into the same cluster\n\nKey parameters:\n\n\\(\\epsilon\\) (eps): The neighborhood radius — how close points must be to be considered neighbors\nminPts: Minimum number of points to form a dense region (a rule of thumb is minPts \\(\\geq\\) number of dimensions + 1)\n\n\n\n\n\n\n\nTip\n\n\nDBSCAN excels at finding clusters of arbitrary shape (crescents, rings, elongated structures) and automatically identifies outliers as noise. It struggles with clusters of very different densities."
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#dbscan-inflammation-data",
+    "href": "Lecture_Folder/Week10.html#dbscan-inflammation-data",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "DBSCAN: Inflammation Data",
+    "text": "DBSCAN: Inflammation Data\n\nOutputCodeInterpretation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(dbscan)\n\n# Use PCA-reduced data\npca_2d &lt;- pca_scores[, c(\"PC1\", \"PC2\")]\n\n# k-distance plot helps choose eps\nkNNdistplot(pca_2d, k = 4)  # Look for the \"elbow\"\n\n# Run DBSCAN\ndb_fit &lt;- dbscan(pca_2d, eps = 2.5, minPts = 4)\n\n# Cluster 0 = noise points\ntable(db_fit$cluster)\ntable(Cluster = db_fit$cluster, \n      Group = paste(inflam$strain, inflam$treatment))\n\n\n\n\nDBSCAN automatically discovers the number of clusters — it finds the dense regions and marks sparse points as noise (shown as gray X’s)\nThe k-distance plot helps you choose \\(\\epsilon\\): plot the distance to each point’s k-th nearest neighbor, sorted from largest to smallest — the “elbow” suggests a good \\(\\epsilon\\) threshold\nFor our well-separated inflammation data, DBSCAN recovers the experimental groups without needing to specify k = 4 in advance\nDBSCAN’s ability to identify noise points makes it valuable for quality control — outlier samples that don’t fit any group are flagged automatically"
   },
   {
     "objectID": "Lecture_Folder/Week10.html#knn-important-considerations",
@@ -6846,53 +6951,81 @@
     "text": "KNN: Important Considerations\nStrengths:\n\nSimple, intuitive, no training phase\nWorks well when decision boundaries are non-linear\nNaturally handles multi-class problems\nGood baseline for classification tasks\n\nLimitations:\n\nComputationally expensive at prediction time (calculates all distances)\nSensitive to irrelevant features — all dimensions contribute equally to distance\nSensitive to feature scaling — must standardize\n“Curse of dimensionality” — distance becomes less meaningful in very high dimensions\nNo model to interpret — unlike logistic regression, you can’t examine coefficients\n\n\n\n\n\n\n\nTip\n\n\nFor high-dimensional data like gene expression, consider running PCA first to reduce dimensions, then applying KNN on the top PCs. This reduces noise and computation time."
   },
   {
+    "objectID": "Lecture_Folder/Week10.html#when-to-use-each-clustering-method",
+    "href": "Lecture_Folder/Week10.html#when-to-use-each-clustering-method",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "When to Use Each Clustering Method",
+    "text": "When to Use Each Clustering Method\n\n\n\n\n\n\n\n\nScenario\nRecommended Method\nWhy\n\n\n\n\nKnown number of groups, large data\nK-means\nFast, scalable, spherical clusters\n\n\nNeed robustness to outliers\nK-medoids (PAM)\nUses actual data points as centers\n\n\nWant to explore hierarchical structure\nAgglomerative (Ward’s)\nDendrogram reveals nested groups\n\n\nMajor group splits are most important\nDivisive (DIANA)\nTop-down splits find global structure\n\n\nClusters have arbitrary shapes\nDBSCAN\nFinds density-based regions\n\n\nHave labeled training data\nKNN\nSupervised, flexible boundaries\n\n\nDon’t know how many clusters\nDBSCAN or hierarchical\nNo need to pre-specify k"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#choosing-a-clustering-method-decision-flowchart",
+    "href": "Lecture_Folder/Week10.html#choosing-a-clustering-method-decision-flowchart",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Choosing a Clustering Method: Decision Flowchart",
+    "text": "Choosing a Clustering Method: Decision Flowchart\nStart here:\n\nDo you have labeled training data?\n\nYes → KNN (supervised classification)\nNo → continue to step 2\n\nDo you know how many clusters to expect?\n\nYes → K-means (fast) or K-medoids (robust to outliers)\nNo → continue to step 3\n\nDo you want to see hierarchical relationships?\n\nYes → Hierarchical clustering (agglomerative with Ward’s method)\nNo → continue to step 4\n\nDo your clusters have irregular shapes or varying density?\n\nYes → DBSCAN (density-based, handles arbitrary shapes)\nNo → K-means with silhouette analysis to choose k\n\n\n\n\n\n\n\n\nTip\n\n\nWhen in doubt, run multiple methods and compare. Agreement between methods increases confidence. Disagreement tells you the data structure is ambiguous — which is also valuable information."
+  },
+  {
     "objectID": "Lecture_Folder/Week10.html#which-method-should-i-use",
     "href": "Lecture_Folder/Week10.html#which-method-should-i-use",
     "title": "Statistics for Bioengineering - Week 10",
     "section": "Which Method Should I Use?",
-    "text": "Which Method Should I Use?\nStart by asking these questions:\n\nWhat is your goal? Inference (understanding) vs. Prediction\nWhat type is your response variable? Continuous, binary, count, time-to-event, multivariate\nHow many predictors? Few vs. many; continuous vs. categorical vs. mixed\nSample size? Small (n &lt; 30), moderate (30–200), large (200+)"
+    "text": "Which Method Should I Use?\nStart by asking these questions:\n\nWhat is your goal? Inference (understanding) vs. Prediction vs. Exploration\nWhat type is your response variable? Continuous, binary, count, time-to-event, multivariate\nHow many predictors? Few vs. many; continuous vs. categorical vs. mixed\nSample size? Small (n &lt; 30), moderate (30-200), large (200+)\nDo you need to account for non-independence? Repeated measures, nested designs, batch effects"
   },
   {
-    "objectID": "Lecture_Folder/Week10.html#method-selection-inference",
-    "href": "Lecture_Folder/Week10.html#method-selection-inference",
+    "objectID": "Lecture_Folder/Week10.html#method-selection-comparing-two-groups",
+    "href": "Lecture_Folder/Week10.html#method-selection-comparing-two-groups",
     "title": "Statistics for Bioengineering - Week 10",
-    "section": "Method Selection: Inference",
-    "text": "Method Selection: Inference\n\n\n\n\n\n\n\n\n\nResponse\nPredictors\nMethod\nWeek\n\n\n\n\nContinuous\n1 continuous\nSimple regression\n6\n\n\nContinuous\nMultiple continuous\nMultiple regression\n7\n\n\nContinuous\nContinuous + categorical\nANCOVA\n7\n\n\nContinuous\n1 categorical (2 groups)\nt-test / ANOVA\n6\n\n\nContinuous\nMultiple categorical\nMultifactor ANOVA\n7\n\n\nContinuous\nCategorical (repeated)\nRepeated measures / mixed model\n7–8\n\n\nBinary\nContinuous/mixed\nLogistic regression\n8\n\n\nCount\nContinuous/mixed\nPoisson / negative binomial regression\n8\n\n\nTime-to-event\nContinuous/mixed\nCox proportional hazards\n8–9"
+    "section": "Method Selection: Comparing Two Groups",
+    "text": "Method Selection: Comparing Two Groups\n\n\n\n\n\n\n\n\n\nData Type\nParametric\nNon-Parametric\nWeek\n\n\n\n\nContinuous, 2 independent groups\nTwo-sample t-test\nMann-Whitney U\n3\n\n\nContinuous, 2 paired groups\nPaired t-test\nWilcoxon signed-rank\n3-4\n\n\nCategorical, 2 groups\n\\(\\chi^2\\) test\nFisher’s exact test\n4\n\n\nBinary outcome\nTwo-proportion z-test\nFisher’s exact test\n4"
   },
   {
-    "objectID": "Lecture_Folder/Week10.html#method-selection-prediction-exploration",
-    "href": "Lecture_Folder/Week10.html#method-selection-prediction-exploration",
+    "objectID": "Lecture_Folder/Week10.html#method-selection-comparing-multiple-groups",
+    "href": "Lecture_Folder/Week10.html#method-selection-comparing-multiple-groups",
     "title": "Statistics for Bioengineering - Week 10",
-    "section": "Method Selection: Prediction & Exploration",
-    "text": "Method Selection: Prediction & Exploration\n\n\n\nGoal\nData Type\nMethod\nWeek\n\n\n\n\nClassify\nLabeled, few features\nLogistic regression, LDA\n8\n\n\nClassify\nLabeled, complex boundaries\nKNN, random forest\n9–10\n\n\nReduce dimensions\nContinuous\nPCA\n10\n\n\nReduce dimensions\nDistance/dissimilarity\nPCoA, NMDS\n10\n\n\nVisualize clusters\nHigh-dimensional\nt-SNE, UMAP\n10\n\n\nFind groups\nNo labels\nK-means, hierarchical clustering\n10\n\n\nTest group differences\nDistance matrix\nPERMANOVA\n10"
+    "section": "Method Selection: Comparing Multiple Groups",
+    "text": "Method Selection: Comparing Multiple Groups\n\n\n\n\n\n\n\n\n\nDesign\nMethod\nPost Hoc\nWeek\n\n\n\n\n1 factor, $$3 groups\nOne-way ANOVA\nTukey HSD, Dunnett\n6\n\n\n1 factor, non-normal\nKruskal-Wallis\nDunn’s test\n4\n\n\n2+ factors, balanced\nFactorial ANOVA\nemmeans contrasts\n7\n\n\nNested groups\nNested ANOVA\nemmeans\n7\n\n\nRepeated observations\nRepeated measures / mixed model\nemmeans\n7-8"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#method-selection-modeling-relationships",
+    "href": "Lecture_Folder/Week10.html#method-selection-modeling-relationships",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Method Selection: Modeling Relationships",
+    "text": "Method Selection: Modeling Relationships\n\n\n\n\n\n\n\n\n\nResponse\nPredictors\nMethod\nWeek\n\n\n\n\nContinuous\n1 continuous\nSimple linear regression\n5\n\n\nContinuous\nMultiple continuous\nMultiple regression\n7\n\n\nContinuous\nContinuous + categorical\nANCOVA\n7\n\n\nContinuous\nAny (non-independence)\nLinear mixed model (lme4)\n8\n\n\nBinary\nContinuous/mixed\nLogistic regression\n8\n\n\nCount\nContinuous/mixed\nPoisson / negative binomial\n8\n\n\nTime-to-event\nContinuous/mixed\nCox proportional hazards\n8-9\n\n\nContinuous\nSmooth/nonlinear\nGAM / LOESS / splines\n9"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#method-selection-prediction-machine-learning",
+    "href": "Lecture_Folder/Week10.html#method-selection-prediction-machine-learning",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Method Selection: Prediction & Machine Learning",
+    "text": "Method Selection: Prediction & Machine Learning\n\n\n\n\n\n\n\n\n\nGoal\nData Type\nMethod\nWeek\n\n\n\n\nClassify\nLabeled, interpretable\nLogistic regression\n8\n\n\nClassify\nLabeled, complex boundaries\nKNN, random forest, CART\n9-10\n\n\nPredict\nContinuous, complex\nRandom forest, Bayesian (brms)\n9\n\n\nReduce dimensions\nContinuous\nPCA\n10\n\n\nReduce dimensions\nDistance/dissimilarity\nPCoA, NMDS\n10\n\n\nVisualize clusters\nHigh-dimensional\nt-SNE, UMAP\n10\n\n\nFind groups\nNo labels\nK-means, hierarchical, DBSCAN\n10\n\n\nTest group differences\nDistance matrix\nPERMANOVA\n10"
   },
   {
     "objectID": "Lecture_Folder/Week10.html#reporting-effect-sizes",
     "href": "Lecture_Folder/Week10.html#reporting-effect-sizes",
     "title": "Statistics for Bioengineering - Week 10",
     "section": "Reporting Effect Sizes",
-    "text": "Reporting Effect Sizes\nP-values tell you whether an effect exists; effect sizes tell you how large it is. Always report both.\n\n\n\n\n\n\n\n\nMethod\nEffect Size Measure\nR Code\n\n\n\n\nt-test\nCohen’s d\neffectsize::cohens_d()\n\n\nANOVA\nη² (eta-squared), ω²\neffectsize::eta_squared()\n\n\nRegression\nR², partial R²\nsummary(model)$r.squared\n\n\nLogistic regression\nOdds ratio\nexp(coef(model))\n\n\nCox PH\nHazard ratio\nexp(coef(model))\n\n\nPERMANOVA\nR²\nadonis2() output\n\n\n\n\n\n\n\n\n\nImportant\n\n\n“Statistical significance does not imply practical importance.” A tiny effect can be highly significant with a large enough sample. Effect sizes help you assess whether the difference matters in your bioengineering application."
-  },
-  {
-    "objectID": "Lecture_Folder/Week10.html#reproducibility-checklist",
-    "href": "Lecture_Folder/Week10.html#reproducibility-checklist",
-    "title": "Statistics for Bioengineering - Week 10",
-    "section": "Reproducibility Checklist",
-    "text": "Reproducibility Checklist\nFor every analysis in this course and beyond:\n\nSet a seed (set.seed()) for any analysis involving randomness\nReport package versions (sessionInfo() or renv::snapshot())\nUse relative paths and organized project directories\nDocument your analysis in Quarto/R Markdown (literate programming)\nReport effect sizes alongside p-values\nShare your code — reproducibility requires transparency"
+    "text": "Reporting Effect Sizes\nP-values tell you whether an effect exists; effect sizes tell you how large it is. Always report both.\n\n\n\n\n\n\n\n\nMethod\nEffect Size Measure\nR Code\n\n\n\n\nt-test\nCohen’s d\neffectsize::cohens_d()\n\n\nANOVA\n\\(\\eta^2\\) (eta-squared), \\(\\omega^2\\)\neffectsize::eta_squared()\n\n\nRegression\n\\(R^2\\), partial \\(R^2\\)\nsummary(model)$r.squared\n\n\nLogistic regression\nOdds ratio\nexp(coef(model))\n\n\nCox PH\nHazard ratio\nexp(coef(model))\n\n\nPERMANOVA\n\\(R^2\\)\nadonis2() output\n\n\n\n\n\n\n\n\n\nImportant\n\n\n“Statistical significance does not imply practical importance.” A tiny effect can be highly significant with a large enough sample. Effect sizes help you assess whether the difference matters in your bioengineering application."
   },
   {
     "objectID": "Lecture_Folder/Week10.html#congratulations",
     "href": "Lecture_Folder/Week10.html#congratulations",
     "title": "Statistics for Bioengineering - Week 10",
     "section": "Congratulations!",
-    "text": "Congratulations!\nYou’ve made it through Statistics for Bioengineering! Over 10 weeks, you’ve built a comprehensive toolkit:\n\nWeeks 1–3: Foundations — experimental design, probability, distributions, sampling, and descriptive statistics\nWeek 4: Hypothesis testing — t-tests, confidence intervals, power analysis, and multiple testing correction\nWeek 5: Non-parametric methods — rank-based tests, bootstrapping, and permutation tests\nWeek 6: Simple linear regression and correlation — model fitting, diagnostics, and ANOVA\nWeek 7: Multiple regression, ANCOVA, factorial ANOVA, nested designs, and repeated measures\nWeek 8: Linear mixed models (lme4), generalized linear models (logistic and Poisson), and survival analysis\nWeek 9: Nonlinear smoothing (GAMs, splines), statistical learning (CART, random forests), and introduction to Bayesian inference (brms)\nWeek 10: Multivariate methods — PCA, PCoA, NMDS, t-SNE, UMAP, hierarchical clustering, K-means, and KNN\n\nSkills you’ve developed: R programming, data visualization with ggplot2, reproducible analysis with Quarto, model diagnostics, effect size reporting, and critical evaluation of statistical methods."
+    "text": "Congratulations!\n\nWeeks 1-2: Foundations — R programming, Unix, Quarto, tidy data, ggplot2, probability distributions, confidence intervals, and experimental design\nWeek 3: Hypothesis testing — t-tests, significance, power analysis, and multiple testing correction\nWeek 4: Categorical and non-parametric methods — \\(\\chi^2\\) tests, Fisher’s exact, Wilcoxon, Kruskal-Wallis, and bootstrapping\nWeek 5: Correlation and simple linear regression — model fitting, diagnostics, residual analysis\nWeek 6: ANOVA — single-factor designs, planned and post hoc comparisons, assumption checking\nWeek 7: Complex designs — multiple regression, ANCOVA, factorial and nested ANOVA, random effects\nWeek 8: Advanced modeling — linear mixed models (lme4), GLMs (logistic, Poisson), and survival analysis\nWeek 9: Modern methods — LOESS/splines, CART, random forests, cross-validation, and Bayesian inference (brms)\nWeek 10: Multivariate and unsupervised ML — PCA, PCoA, NMDS, t-SNE, UMAP, clustering (hierarchical, K-means, K-medoids, DBSCAN), and KNN\n\nSkills you’ve developed: R programming, data visualization with ggplot2, reproducible analysis with Quarto, model diagnostics, effect size reporting, and critical evaluation of statistical methods."
   },
   {
     "objectID": "Lecture_Folder/Week10.html#want-to-learn-more",
     "href": "Lecture_Folder/Week10.html#want-to-learn-more",
     "title": "Statistics for Bioengineering - Week 10",
     "section": "Want to Learn More?",
-    "text": "Want to Learn More?\nThe University of Oregon offers many courses that build on what you’ve learned here:\nData Science (CIS/DSCI):\n\nDSCI 631: Machine Learning — deep dive into supervised and unsupervised learning\nDSCI 632: Deep Learning — neural networks, CNNs, transformers\nCIS 472: Introduction to Artificial Intelligence\n\nComputer Science (CIS):\n\nCIS 410/510: Computational Science — numerical methods and simulation\nCIS 471: Introduction to Natural Language Processing\n\nBiology (BI):\n\nBI 610/611: Biostatistics I & II — advanced biological statistics\nBI 682: Bioinformatics and Genomics\n\nKnight Campus / Bioengineering:\n\nResearch rotations applying these methods to your own data!\nJournal clubs on methods papers in your field\n\nPsychology (PSY):\n\nPSY 611/612: Quantitative Methods in Psychology — mixed models, SEM, multilevel modeling\n\n\n\n\n\n\n\nNote\n\n\nThe best way to solidify these skills is to apply them to your own research data in your term project and beyond. The methods you’ve learned form the foundation for nearly all quantitative bioengineering research."
+    "text": "Want to Learn More?\nThe University of Oregon offers many courses that build on what you’ve learned here:\nComputer Science (CIS):\n\nCIS 322: Introduction to Software Engineering\nCIS 415: Operating Systems — systems programming foundations\nCIS 422: Software Methodology — project-based software development\nCIS 425: Principles of Programming Languages — foundations for understanding R, Python, and beyond\nCIS 431: Introduction to Parallel Computing — essential for large-scale data\nCIS 441: Introduction to Computer Graphics — visualization foundations\nCIS 471: Introduction to Natural Language Processing\nCIS 472: Introduction to Artificial Intelligence\nCIS 410/510: Computational Science — numerical methods and simulation\n\nData Science (CIS/DSCI):\n\nDSCI 631: Machine Learning — deep dive into supervised and unsupervised learning\nDSCI 632: Deep Learning — neural networks, CNNs, transformers\nDSCI 633: Natural Language Processing — text analysis and language models"
+  },
+  {
+    "objectID": "Lecture_Folder/Week10.html#want-to-learn-more-1",
+    "href": "Lecture_Folder/Week10.html#want-to-learn-more-1",
+    "title": "Statistics for Bioengineering - Week 10",
+    "section": "Want to Learn More?",
+    "text": "Want to Learn More?\nBiology (BI):\n\nBI 610/611: Biostatistics I & II — advanced biological statistics\nBI 682: Bioinformatics and Genomics\n\nKnight Campus / Bioengineering:\n\nResearch rotations applying these methods to your own data!\nJournal clubs on methods papers in your field\n\nPsychology (PSY):\n\nPSY 611/612: Quantitative Methods in Psychology — mixed models, SEM, multilevel modeling\n\n\n\n\n\n\n\nNote\n\n\nThe best way to solidify these skills is to apply them to your own research data in your term project and beyond. The methods you’ve learned form the foundation for nearly all quantitative bioengineering research."
   },
   {
     "objectID": "index.html",

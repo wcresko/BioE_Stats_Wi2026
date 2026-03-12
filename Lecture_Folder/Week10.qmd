@@ -119,9 +119,9 @@ In bioengineering research, we rarely measure just one variable at a time.
 
 **Unsupervised methods** address this by discovering structure in the data without requiring predefined labels or categories. They answer questions like:
 
-- Are there natural groupings among these samples?
-- Which variables contribute most to differences?
-- Can we reduce 100 measurements to a few meaningful dimensions?
+-   Are there natural groupings among these samples?
+-   Which variables contribute most to differences?
+-   Can we reduce 100 measurements to a few meaningful dimensions?
 
 ## When to Use Unsupervised Multivariate Methods
 
@@ -1236,7 +1236,7 @@ The key steps are:
 2.  **Initialize a low-D layout** — Place all points in 2D (randomly or via PCA)
 3.  **Optimize** — Iteratively move points in 2D until the low-D neighborhood structure matches the high-D neighborhood structure as closely as possible
 
-The methods differ in *how* they define neighborhoods, *what* they optimize, and *how* they handle the mismatch between high-D and low-D space.
+The methods differ in *how* they define neighborhoods, *what* they optimize, and *how* they handle the mismatch between high-D and low-D space. 
 
 ## SNE: Stochastic Neighbor Embedding
 
@@ -1251,6 +1251,98 @@ Each point $x_i$ gets its own $\sigma_i$, set so that the effective number of ne
 **In low-dimensional space:** The same formula is applied to the 2D coordinates $y_i$, giving probabilities $q_{j|i}$.
 
 **Optimization:** SNE minimizes the **KL divergence** between P and Q — a measure of how different the two probability distributions are — by moving the 2D points via gradient descent.
+
+## What is KL Divergence?
+
+**Kullback-Leibler (KL) divergence** measures how different two probability distributions are. In the context of t-SNE, it quantifies the mismatch between the high-dimensional neighborhood probabilities ($P$) and the low-dimensional embedding probabilities ($Q$).
+
+::: panel-tabset
+### Equation
+
+$$D_{KL}(P \| Q) = \sum_{i} \sum_{j \neq i} p_{ij} \log \frac{p_{ij}}{q_{ij}}$$
+
+Where:
+
+-   $p_{ij}$ = probability that points $i$ and $j$ are neighbors in **high-dimensional** space (Gaussian kernel)
+-   $q_{ij}$ = probability that points $i$ and $j$ are neighbors in **low-dimensional** embedding (t-distribution kernel)
+
+### LaTeX
+
+``` text
+D_{KL}(P \| Q) = \sum_{i} \sum_{j \neq i} p_{ij} \log \frac{p_{ij}}{q_{ij}}
+```
+
+### Interpretation
+
+-   **KL = 0** means the two distributions are identical — the low-D embedding perfectly preserves the high-D neighborhood structure
+-   **KL \> 0** means there is mismatch — points that are neighbors in high-D are not neighbors in low-D, or vice versa
+-   The $p_{ij} \log(p_{ij}/q_{ij})$ term means KL divergence **heavily penalizes** cases where $p_{ij}$ is large (true neighbors) but $q_{ij}$ is small (placed far apart in embedding). It cares less about the reverse.
+-   This **asymmetry** is why t-SNE is excellent at preserving local structure but does not preserve global distances between clusters
+:::
+
+## KL Divergence: A Critical Asymmetry
+
+The KL divergence used by t-SNE has an important asymmetric penalty structure:
+
+**Heavily penalized:** If $p_{ij}$ is large (points are true neighbors in high-D) but $q_{ij}$ is small (they're far apart in the embedding) → the $\log(p/q)$ term is large and positive → strong gradient pulls them together.
+
+**Weakly penalized:** If $p_{ij}$ is small (points are distant in high-D) but $q_{ij}$ is large (they end up close in the embedding) → $p_{ij}$ is near zero, so the entire $p \cdot \log(p/q)$ term is near zero → weak penalty.
+
+**What this means in practice:**
+
+-   t-SNE **faithfully preserves neighborhoods** — if two points are close in high-D, they will be close in the embedding
+-   t-SNE **does not prevent false neighborhoods** — distant points may end up close in the embedding
+-   The relative positions and distances between clusters in a t-SNE plot are **not meaningful**
+
+::: callout-important
+This asymmetry is the single most important thing to understand about t-SNE. It is why you should never interpret the distance between clusters in a t-SNE plot as reflecting biological similarity.
+:::
+
+## High-D Distances → Probability Distributions
+
+![](images/kl_divergence_distances.svg){fig-align="center" width="95%"}
+
+## Minimizing KL Divergence by Gradient Descent
+
+t-SNE minimizes the KL divergence between $P$ and $Q$ using **gradient descent** — the same optimization strategy used in neural networks and many other machine learning methods.
+
+::: panel-tabset
+### Algorithm
+
+1.  **Compute** $P$: From the high-D data, calculate pairwise similarity probabilities using Gaussian kernels (bandwidth set by perplexity)
+2.  **Initialize** $Y$: Place all points randomly in 2D (or use PCA initialization)
+3.  **Compute** $Q$: From the current 2D positions, calculate pairwise similarity probabilities using the t-distribution kernel
+4.  **Compute gradient:** $\frac{\partial D_{KL}}{\partial y_i} = 4 \sum_{j} (p_{ij} - q_{ij})(y_i - y_j)(1 + ||y_i - y_j||^2)^{-1}$
+5.  **Update positions:** $Y^{(t+1)} = Y^{(t)} - \eta \cdot \nabla D_{KL} + \alpha(Y^{(t)} - Y^{(t-1)})$
+6.  **Repeat** steps 3–5 for 500–1000 iterations until convergence
+
+### Equation
+
+$$\frac{\partial D_{KL}}{\partial y_i} = 4 \sum_{j} (p_{ij} - q_{ij})(y_i - y_j)(1 + ||y_i - y_j||^2)^{-1}$$
+
+The gradient has an intuitive interpretation:
+
+-   When $p_{ij} > q_{ij}$: points $i$ and $j$ should be closer → **attractive force**
+-   When $p_{ij} < q_{ij}$: points $i$ and $j$ should be farther → **repulsive force**
+-   The $(1 + ||y_i - y_j||^2)^{-1}$ factor comes from the t-distribution and prevents overcrowding
+
+### LaTeX
+
+``` text
+\frac{\partial D_{KL}}{\partial y_i} = 4 \sum_{j} (p_{ij} - q_{ij})(y_i - y_j)(1 + ||y_i - y_j||^2)^{-1}
+```
+
+### Interpretation
+
+-   The gradient is a sum of **forces** on each point in the embedding. Same-group neighbors exert attractive forces; distant points exert repulsive forces.
+-   The **learning rate** ($\eta$) controls step size — too large and the optimization oscillates, too small and it converges slowly.
+-   The **momentum** term ($\alpha$) helps the optimization escape shallow local minima by carrying forward previous movement.
+-   **Early exaggeration** (multiplying $P$ by 4 for the first 50–250 iterations) creates stronger attractive forces early on, helping clusters form before fine-tuning their positions.
+:::
+
+## t-SNE Optimization: From Random to Clustered
+
+![](images/kl_divergence_1d_optimization.svg){fig-align="center" width="95%"}
 
 ## From SNE to t-SNE: Solving the Crowding Problem
 
@@ -1405,9 +1497,11 @@ for (p in c(5, 10, 15, 25)) {
 
 ## UMAP: Uniform Manifold Approximation and Projection
 
-UMAP (McInnes, Healy & Melville, 2018) achieves similar goals to t-SNE but approaches the problem from **algebraic topology** rather than information theory. The core assumption is that the data lies on a **manifold** — a curved surface embedded in high-dimensional space — and that the manifold is locally approximately uniform.
+- UMAP (McInnes, Healy & Melville, 2018) achieves similar goals to t-SNE but approaches the problem from **algebraic topology** rather than information theory. 
 
-**The UMAP pipeline:**
+- The core assumption is that the data lies on a **manifold** — a curved surface embedded in high-dimensional space — and that the manifold is locally approximately uniform.
+
+## The UMAP pipeline
 
 1.  **Build a local neighborhood graph** — For each point, find its k nearest neighbors and assign edge weights based on distance. Crucially, each point normalizes distances relative to its *own* nearest neighbor, ensuring points in sparse regions of the data are still connected to their local neighbors.
 
@@ -1417,20 +1511,47 @@ UMAP (McInnes, Healy & Melville, 2018) achieves similar goals to t-SNE but appro
 
 ## UMAP Algorithm: From Neighborhoods to Embeddings
 
-- The diagram on the next slide walks through UMAP's three stages. 
-- Read left to right: first, each point builds a local neighborhood weighted by distance from its nearest neighbor. 
-- Then, all local views are merged into a single fuzzy weighted graph — edge thickness reflects connection strength. 
-- Finally, UMAP arranges points in 2D so that the low-D graph's edge weights match the high-D graph as closely as possible, using stochastic gradient descent on a cross-entropy loss.
+-   The diagram on the next slide walks through UMAP's three stages.
+-   Read left to right: first, each point builds a local neighborhood weighted by distance from its nearest neighbor.
+-   Then, all local views are merged into a single fuzzy weighted graph — edge thickness reflects connection strength.
+-   Finally, UMAP arranges points in 2D so that the low-D graph's edge weights match the high-D graph as closely as possible, using stochastic gradient descent on a cross-entropy loss.
 
 ::: callout-note
 The key difference from t-SNE is in how neighborhoods are defined. UMAP normalizes distances *locally* — each point's scale is set by its own nearest-neighbor distance — and combines neighborhoods with a fuzzy union rather than symmetrized conditional probabilities. This local normalization is what allows UMAP to handle data where different regions have very different densities.
 :::
 
-
 ## UMAP Algorithm: From Neighborhoods to Embeddings
 
 ![](images/umap_algorithm.svg){fig-align="center" width="95%"}
 
+## UMAP Cross-Entropy Optimization
+
+![](images/umap_cross_entropy_optimization.svg){fig-align="center" width="95%"}
+
+## How UMAP's Cross-Entropy Differs from t-SNE's KL Divergence
+
+UMAP minimizes **cross-entropy** between the high-D fuzzy graph weights ($w_{ij}$) and the low-D embedding weights ($v_{ij}$):
+
+::: panel-tabset
+### Equation
+
+$$CE = -\sum_{i,j} \left[ w_{ij} \log(v_{ij}) + (1 - w_{ij}) \log(1 - v_{ij}) \right]$$
+
+### Interpretation
+
+The cross-entropy loss has **two terms** that work together:
+
+-   **Attraction term** $w_{ij} \log(v_{ij})$: When $w_{ij}$ is large (true neighbors) but $v_{ij}$ is small (far apart in embedding), this term produces a large penalty → pulls connected points together
+-   **Repulsion term** $(1 - w_{ij}) \log(1 - v_{ij})$: When $w_{ij}$ is small (not neighbors) but $v_{ij}$ is large (close in embedding), this term produces a large penalty → pushes disconnected points apart
+
+Unlike KL divergence which only strongly penalizes missed neighbors, cross-entropy **symmetrically** penalizes both types of error. This is why UMAP tends to better preserve global topology — clusters that are distant in the original data remain distant in the embedding.
+
+### LaTeX
+
+``` text
+CE = -\sum_{i,j} [ w_{ij} \log(v_{ij}) + (1 - w_{ij}) \log(1 - v_{ij}) ]
+```
+:::
 
 ## UMAP's Key Parameters
 
@@ -1452,19 +1573,27 @@ Start with `n_neighbors = 15` and `min_dist = 0.1` as defaults, then explore. Un
 
 ![](images/tsne_vs_umap_comparison.svg){fig-align="center" width="95%"}
 
-
 ## Key Differences Between t-SNE and UMAP
 
-Despite the similarities, three differences matter in practice:
+**1. Speed and scalability**
 
-**1. Speed and scalability:** UMAP uses stochastic gradient descent with negative sampling, giving it approximately O(n) time per epoch versus t-SNE's O(n log n) with Barnes-Hut approximation. For datasets above \~50,000 points, UMAP is dramatically faster.
+-   UMAP: \~O(n) per epoch with negative sampling
+-   t-SNE: O(n log n) with Barnes-Hut approximation
+-   For \>50,000 points, UMAP is dramatically faster
 
-**2. Global structure preservation:** t-SNE's KL divergence is asymmetric — it heavily penalizes placing true neighbors far apart (good), but barely penalizes placing distant points close together. This means the *relative positions* of clusters in a t-SNE plot are essentially meaningless. UMAP's cross-entropy loss is symmetric, meaning it also pushes distant points apart, better preserving the global topology. Clusters that are biologically related tend to appear closer together in UMAP than in t-SNE.
+**2. Global structure preservation**
 
-**3. Theoretical foundation:** UMAP is grounded in topological data analysis, which provides theoretical justification for why the algorithm works and for the meaning of its parameters. t-SNE is more heuristic — the t-distribution was chosen because it works well, not because it follows from a mathematical theory.
+-   t-SNE's KL divergence is asymmetric — relative cluster positions are meaningless
+-   UMAP's cross-entropy is symmetric — cluster distances are more meaningful
+-   Result: UMAP better preserves overall data topology
+
+**3. Theoretical foundation**
+
+-   UMAP: grounded in algebraic topology (Riemannian geometry, fuzzy simplicial sets)
+-   t-SNE: heuristic — t-distribution chosen empirically because it works well
 
 ::: callout-note
-For most bioengineering applications, UMAP is now the default choice for non-linear visualization due to its speed and better global structure preservation. t-SNE remains valuable for small datasets where you want to carefully explore local structure at multiple perplexity settings.
+For most bioengineering applications, UMAP is now the default choice for non-linear visualization due to its speed and better global structure preservation.
 :::
 
 ## UMAP on Inflammation Data
@@ -1688,22 +1817,219 @@ Dimensionality reduction shows us structure. **Clustering** formalizes that stru
 
 ![](images/clustering_methods_overview.svg){fig-align="center" width="95%"}
 
-## Choosing a Clustering Method
+# Partitioning Methods: K-Means and K-Medoids {background-color="#2c3e50"}
 
-| Question | K-Means | Hierarchical | KNN |
-|:-----------------|:-----------------|:-----------------|:-----------------|
-| **Supervised?** | No | No | Yes (needs labels) |
-| **Need to specify k?** | Yes, in advance | No, cut tree later | Yes (k neighbors) |
-| **Cluster shape** | Spherical | Any shape | Flexible boundaries |
-| **Scalability** | Excellent (large n) | Poor (O(n²)) | Moderate |
-| **Deterministic?** | No (random init) | Yes | Yes |
-| **Output** | Cluster assignments | Dendrogram | Predicted class |
+## Why K-Means?
 
-::: callout-note
-**K-Means** and **Hierarchical clustering** are **unsupervised** — they discover groups without using any labels. **KNN** is **supervised** — it requires labeled training data and classifies new observations based on their nearest labeled neighbors.
+K-means is the most widely used partitioning method in data science. Unlike hierarchical clustering, which builds a full tree and lets you choose how many clusters after the fact, K-means directly partitions the data into a **pre-specified number of groups**.
+
+**Typical bioengineering applications:**
+
+-   **Cell population identification** — assigning single cells to k populations based on marker expression
+-   **Biomaterial formulation grouping** — partitioning hundreds of formulations into distinct performance tiers
+-   **Patient stratification** — dividing patients into k molecular subtypes for targeted therapy
+-   **Image segmentation** — grouping pixels by intensity or color in microscopy images
+
+K-means is fast, scalable, and easy to implement — making it the default first-pass clustering method for most large datasets.
+
+## What is K-Means?
+
+K-means partitions data into **k clusters** by minimizing the total within-cluster sum of squares — the sum of squared distances from each point to its assigned cluster centroid.
+
+::: panel-tabset
+### Algorithm
+
+1.  **Choose k** — the number of clusters (must be specified in advance)
+2.  **Initialize** k cluster centers (randomly, or with k-means++ which spreads initial centers apart)
+3.  **Assign** each observation to the nearest center (using Euclidean distance)
+4.  **Update** each center to be the mean of all observations assigned to it
+5.  **Repeat** steps 3–4 until assignments stop changing (convergence)
+6.  **Re-run** multiple times with different random starts (`nstart`) and keep the best solution
+
+### Equation
+
+$$\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2$$
+
+Where $\mu_j$ is the centroid of cluster $C_j$.
+
+### LaTeX
+
+``` text
+\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2
+```
 :::
 
-# Hierarchical Clustering {background-color="#2c3e50"}
+## K-Means: Key Parameters and Assumptions
+
+**Parameters:**
+
+-   **k** — the number of clusters. Must be chosen in advance. Use the elbow method or silhouette scores to guide your choice.
+-   **nstart** — number of random initializations. Always use `nstart = 25` or higher. K-means can converge to local optima, so multiple starts help find the best solution.
+-   **iter.max** — maximum iterations (default 10 in R; increase for complex data).
+
+**Assumptions:**
+
+-   Clusters are roughly **spherical** (equal variance in all directions)
+-   Clusters are roughly **equal size** (large clusters don't overwhelm small ones)
+-   Variables are on **comparable scales** (always standardize first!)
+-   The data actually contains **k distinct groups** (K-means will always partition into k groups, even if no real clusters exist)
+
+::: callout-warning
+K-means always finds k clusters, even in random noise. Always validate results with silhouette scores, visualization, and domain knowledge.
+:::
+
+## K-Means: Inflammation Data
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: kmeans-inflam-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+
+# Scale data for clustering
+inflam_scaled <- scale(inflam[, gene_cols])
+
+# Elbow method
+set.seed(2026)
+wss <- sapply(1:8, function(k) kmeans(inflam_scaled, k, nstart = 25)$tot.withinss)
+plot(1:8, wss, type = "b", pch = 19, col = "#2c3e50",
+     xlab = "Number of Clusters (k)", ylab = "Total Within-Cluster SS",
+     main = "Elbow Method")
+
+# K-means with k=4, show dendrogram of cluster centers
+set.seed(2026)
+km_fit <- kmeans(inflam_scaled, centers = 4, nstart = 25)
+
+# Dendrogram of cluster centers
+center_dist <- dist(km_fit$centers)
+center_hc <- hclust(center_dist, method = "ward.D2")
+dend_km <- as.dendrogram(center_hc)
+dend_km <- color_branches(dend_km, k = 4)
+plot(dend_km, main = "Dendrogram of K-Means Cluster Centers",
+     ylab = "Distance Between Centers", leaflab = "perpendicular")
+```
+
+### Code
+
+```{r}
+#| label: kmeans-inflam-code
+#| echo: true
+#| eval: false
+
+# Scale the data
+inflam_scaled <- scale(inflam[, gene_cols])
+
+# Elbow method to choose k
+set.seed(2026)
+wss <- sapply(1:8, function(k) {
+  kmeans(inflam_scaled, k, nstart = 25)$tot.withinss
+})
+plot(1:8, wss, type = "b", pch = 19,
+     xlab = "k", ylab = "Total Within-SS", main = "Elbow Method")
+
+# Fit k-means with k = 4
+set.seed(2026)
+km_fit <- kmeans(inflam_scaled, centers = 4, nstart = 25)
+
+# Dendrogram of cluster centers shows relationships
+center_dist <- dist(km_fit$centers)
+center_hc <- hclust(center_dist, method = "ward.D2")
+plot(as.dendrogram(center_hc), main = "K-Means Cluster Centers")
+
+# Compare clusters to actual groups
+table(Cluster = km_fit$cluster, 
+      Group = paste(inflam$strain, inflam$treatment))
+```
+
+### Interpretation
+
+-   The elbow plot shows a clear bend at k = 2 (Drug vs. Placebo — the dominant signal) and a secondary bend at k = 4 (the four experimental groups)
+-   The dendrogram of cluster centers shows how the four K-means clusters relate to each other — the two Drug clusters are more similar to each other than to the Placebo clusters, mirroring the hierarchical structure of our experiment
+-   With k = 4, the k-means clusters almost perfectly correspond to the true experimental groups, confirming that the gene expression profiles are strongly structured by treatment and strain
+-   The `nstart = 25` argument runs the algorithm 25 times with different random starting points and keeps the best solution, reducing sensitivity to initialization
+:::
+
+## K-Medoids: A Robust Alternative to K-Means
+
+**K-Medoids** (also called PAM — Partitioning Around Medoids) is similar to K-means but uses **actual data points** as cluster centers rather than computed means.
+
+**Key differences from K-means:**
+
+-   **Medoid** = the data point that minimizes the sum of distances to all other points in its cluster (an actual observation, not a computed average)
+-   **More robust to outliers** — a single extreme observation can shift a mean dramatically but has less effect on which point is chosen as medoid
+-   **Works with any distance metric** — not limited to Euclidean distance (important for biological data where Bray-Curtis or Manhattan may be more appropriate)
+
+## K-Medoids: A Robust Alternative to K-Means
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: kmedoids-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+library(cluster)
+
+# Run PAM (Partitioning Around Medoids) with k = 4
+set.seed(2026)
+pam_fit <- pam(inflam_scaled, k = 4)
+
+# Plot in PCA space
+par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+
+plot(pca_scores$PC1, pca_scores$PC2, 
+     col = c("#3498db", "#e74c3c", "#2ecc71", "#9b59b6")[pam_fit$clustering],
+     pch = 19, cex = 1.2,
+     xlab = paste0("PC1 (", var_pct[1], "%)"),
+     ylab = paste0("PC2 (", var_pct[2], "%)"),
+     main = "K-Medoids Clusters (k=4) in PCA Space")
+# Mark medoids
+points(pca_scores$PC1[pam_fit$id.med], pca_scores$PC2[pam_fit$id.med],
+       pch = 8, cex = 2.5, lwd = 2, col = "black")
+legend("topright", "Medoid", pch = 8, col = "black", cex = 0.8)
+
+# Silhouette plot
+plot(pam_fit, which.plots = 2, main = "K-Medoids Silhouette (k = 4)")
+```
+
+### Code
+
+```{r}
+#| label: kmedoids-code
+#| echo: true
+#| eval: false
+
+library(cluster)
+
+# PAM clustering
+pam_fit <- pam(inflam_scaled, k = 4)
+
+# Medoids are actual data points
+inflam[pam_fit$id.med, c("mouse_id", "strain", "treatment")]
+
+# Compare to true groups
+table(Cluster = pam_fit$clustering,
+      Group = paste(inflam$strain, inflam$treatment))
+```
+
+### Interpretation
+
+-   K-medoids identifies four clusters that closely match the experimental groups, similar to K-means
+-   The star symbols mark the **medoids** — these are actual mice in the dataset that best represent each cluster center
+-   Unlike K-means centroids (which are computed averages that may not correspond to any real observation), medoids are interpretable biological samples
+-   K-medoids is preferred over K-means when you need robustness to outliers or when using non-Euclidean distances
+:::
+
+# Hierarchical Clustering: Agglomerative and Divisive {background-color="#2c3e50"}
 
 ## What is Hierarchical Clustering?
 
@@ -1741,6 +2067,67 @@ d_{average}(C_i, C_j) = \frac{1}{|C_i||C_j|} \sum \sum d(x, y)
 ### Interpretation
 
 **Single linkage** can create elongated, "chaining" clusters. **Complete linkage** produces compact, roughly spherical clusters. **Average linkage** is a compromise between the two. **Ward's method** (recommended default) tends to produce balanced, similarly-sized clusters — it is the most common choice for biological data.
+:::
+
+## Divisive Hierarchical Clustering
+
+While agglomerative clustering works **bottom-up** (merging), **divisive clustering** works **top-down** (splitting):
+
+**Divisive (top-down) algorithm:**
+
+1.  Start with all observations in a single cluster
+2.  Find the cluster with the largest diameter (most internal dissimilarity)
+3.  Split it into two sub-clusters
+4.  Repeat until each observation is its own cluster
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: diana-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+# Divisive clustering with DIANA
+diana_fit <- diana(inflam_scaled)
+
+par(mar = c(6, 6, 3, 1))
+dend_diana <- as.dendrogram(diana_fit)
+dend_diana <- color_branches(dend_diana, k = 4)
+plot(dend_diana, main = "Divisive Hierarchical Clustering (DIANA)",
+     leaflab = "none", ylab = "Divisive Coefficient Distance")
+rect.dendrogram(dend_diana, k = 4, border = c("#3498db", "#e74c3c", "#2ecc71", "#9b59b6"), lty = 2, lwd = 1.5)
+```
+
+### Code
+
+```{r}
+#| label: diana-code
+#| echo: true
+#| eval: false
+
+library(cluster)
+
+# DIANA = DIvisive ANAlysis
+diana_fit <- diana(inflam_scaled)
+
+# Plot the divisive dendrogram
+plot(as.dendrogram(diana_fit), 
+     main = "Divisive Clustering (DIANA)")
+
+# Cut to get clusters
+diana_clusters <- cutree(as.hclust(diana_fit), k = 4)
+table(diana_clusters, paste(inflam$strain, inflam$treatment))
+```
+
+### Interpretation
+
+-   Divisive clustering starts from the top and splits downward — the first split separates Drug vs. Placebo (the strongest signal), then each branch splits by strain
+-   The divisive dendrogram often looks different from agglomerative dendrograms because it makes globally optimal splits at each step, while agglomerative methods make locally optimal merges
+-   **DIANA** (DIvisive ANAlysis) from the `cluster` package is the most common implementation
+-   Divisive methods can be more informative when the major structure in the data is a few large groups, because the top splits are made with all the data available
 :::
 
 ## Hierarchical Clustering: Inflammation Data
@@ -1822,6 +2209,26 @@ table(clusters_hc, paste(inflam$strain, inflam$treatment))
 -   Cutting the tree at k = 4 recovers the four experimental groups almost perfectly
 -   The height at which branches merge reflects the dissimilarity between groups — the Drug/Placebo split occurs at a much greater height than the within-treatment strain split, consistent with the PCA results showing treatment as the dominant axis
 :::
+
+## What is Silhouette Analysis?
+
+**Silhouette analysis** measures how well each observation fits within its assigned cluster compared to the next-best alternative cluster. It provides a per-observation quality score that helps you evaluate whether your clustering is meaningful.
+
+For each observation $i$ in cluster $C_k$:
+
+1.  $a(i)$ = average distance from $i$ to all other points in its own cluster (measures **cohesion** — how tightly packed the cluster is)
+2.  $b(i)$ = average distance from $i$ to all points in the nearest neighboring cluster (measures **separation** — how far away the next cluster is)
+3.  $s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$ — the silhouette score
+
+## What is Silhouette Analysis?
+
+**Interpreting the score:**
+
+-   $s(i)$ close to +1: The observation is well inside its cluster and far from the nearest other cluster — a confident assignment
+-   $s(i)$ close to 0: The observation lies on the boundary between two clusters — ambiguous membership
+-   $s(i)$ negative: The observation is closer to a different cluster than its own — likely misclassified
+
+The **average silhouette width** across all observations summarizes overall clustering quality. Values above 0.5 indicate reasonable structure; above 0.7 indicates strong structure. Comparing average silhouette across different values of $k$ helps identify the optimal number of clusters.
 
 ## Cluster Validation: Silhouette Analysis
 
@@ -1953,154 +2360,21 @@ heatmap(inflam_scaled[, top_30], scale = "none",
 -   This visualization is ubiquitous in genomics and is especially useful for identifying gene modules — groups of genes that respond together to the treatment
 :::
 
-# K-Means Clustering {background-color="#2c3e50"}
+# Instance-Based Methods: KNN and DBSCAN {background-color="#2c3e50"}
 
-## Why K-Means?
+## When Would You Use Instance-Based Classification?
 
-K-means is the most widely used partitioning method in data science. Unlike hierarchical clustering, which builds a full tree and lets you choose how many clusters after the fact, K-means directly partitions the data into a **pre-specified number of groups**.
+Instance-based methods classify new observations by comparing them directly to existing labeled or clustered data, rather than fitting a parametric model. They are especially useful when:
 
-**Typical bioengineering applications:**
+-   **Decision boundaries are complex** — you cannot easily draw a straight line (or even a curved surface) between groups, but the groups are locally separable
+-   **You have a reference dataset** with known labels and want to classify new, incoming samples against it
+-   **The data has irregular cluster shapes** — elongated, curved, or ring-shaped groups that K-means and hierarchical methods struggle with
+-   **You want minimal model assumptions** — no assumptions about distributions, variance, or functional form
 
--   **Cell population identification** — assigning single cells to k populations based on marker expression
--   **Biomaterial formulation grouping** — partitioning hundreds of formulations into distinct performance tiers
--   **Patient stratification** — dividing patients into k molecular subtypes for targeted therapy
--   **Image segmentation** — grouping pixels by intensity or color in microscopy images
+**Two key instance-based approaches:**
 
-K-means is fast, scalable, and easy to implement — making it the default first-pass clustering method for most large datasets.
-
-## What is K-Means?
-
-K-means partitions data into **k clusters** by minimizing the total within-cluster sum of squares — the sum of squared distances from each point to its assigned cluster centroid.
-
-::: panel-tabset
-### Algorithm
-
-1.  **Choose k** — the number of clusters (must be specified in advance)
-2.  **Initialize** k cluster centers (randomly, or with k-means++ which spreads initial centers apart)
-3.  **Assign** each observation to the nearest center (using Euclidean distance)
-4.  **Update** each center to be the mean of all observations assigned to it
-5.  **Repeat** steps 3–4 until assignments stop changing (convergence)
-6.  **Re-run** multiple times with different random starts (`nstart`) and keep the best solution
-
-### Equation
-
-$$\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2$$
-
-Where $\mu_j$ is the centroid of cluster $C_j$.
-
-### LaTeX
-
-``` text
-\min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2
-```
-:::
-
-## K-Means: Key Parameters and Assumptions
-
-**Parameters:**
-
--   **k** — the number of clusters. Must be chosen in advance. Use the elbow method or silhouette scores to guide your choice.
--   **nstart** — number of random initializations. Always use `nstart = 25` or higher. K-means can converge to local optima, so multiple starts help find the best solution.
--   **iter.max** — maximum iterations (default 10 in R; increase for complex data).
-
-**Assumptions:**
-
--   Clusters are roughly **spherical** (equal variance in all directions)
--   Clusters are roughly **equal size** (large clusters don't overwhelm small ones)
--   Variables are on **comparable scales** (always standardize first!)
--   The data actually contains **k distinct groups** (K-means will always partition into k groups, even if no real clusters exist)
-
-::: callout-warning
-K-means always finds k clusters, even in random noise. Always validate results with silhouette scores, visualization, and domain knowledge.
-:::
-
-## K-Means: Inflammation Data
-
-::: panel-tabset
-### Output
-
-```{r}
-#| label: kmeans-inflam-output
-#| echo: false
-#| eval: true
-#| fig-width: 10
-#| fig-height: 4
-
-par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
-
-# Elbow method
-set.seed(2026)
-wss <- sapply(1:8, function(k) kmeans(inflam_scaled, k, nstart = 25)$tot.withinss)
-plot(1:8, wss, type = "b", pch = 19, col = "#2c3e50",
-     xlab = "Number of Clusters (k)", ylab = "Total Within-Cluster SS",
-     main = "Elbow Method")
-
-# K-means with k=4, visualized in PCA space
-set.seed(2026)
-km_fit <- kmeans(inflam_scaled, centers = 4, nstart = 25)
-
-plot(pca_scores$PC1, pca_scores$PC2, 
-     col = c("#3498db", "#e74c3c", "#2ecc71", "#9b59b6")[km_fit$cluster],
-     pch = 19, cex = 1.2,
-     xlab = paste0("PC1 (", var_pct[1], "%)"),
-     ylab = paste0("PC2 (", var_pct[2], "%)"),
-     main = "K-Means Clusters (k=4) in PCA Space")
-```
-
-### Code
-
-```{r}
-#| label: kmeans-inflam-code
-#| echo: true
-#| eval: false
-
-# Scale the data
-inflam_scaled <- scale(inflam[, gene_cols])
-
-# Elbow method to choose k
-set.seed(2026)
-wss <- sapply(1:8, function(k) {
-  kmeans(inflam_scaled, k, nstart = 25)$tot.withinss
-})
-plot(1:8, wss, type = "b", pch = 19,
-     xlab = "k", ylab = "Total Within-SS", main = "Elbow Method")
-
-# Fit k-means with k = 4
-set.seed(2026)
-km_fit <- kmeans(inflam_scaled, centers = 4, nstart = 25)
-
-# Visualize in PCA space
-plot(pca_scores$PC1, pca_scores$PC2, 
-     col = km_fit$cluster, pch = 19)
-
-# Compare clusters to actual groups
-table(Cluster = km_fit$cluster, 
-      Group = paste(inflam$strain, inflam$treatment))
-```
-
-### Interpretation
-
--   The elbow plot shows a clear bend at k = 2 (Drug vs. Placebo — the dominant signal) and a secondary bend at k = 4 (the four experimental groups)
--   With k = 4, the k-means clusters almost perfectly correspond to the true experimental groups, confirming that the gene expression profiles are strongly structured by treatment and strain
--   The `nstart = 25` argument runs the algorithm 25 times with different random starting points and keeps the best solution, reducing sensitivity to initialization
-:::
-
-## K-Means vs. Hierarchical Clustering
-
-| Feature | K-Means | Hierarchical |
-|:---|:---|:---|
-| **Must specify k?** | Yes (in advance) | No (cut tree later) |
-| **Cluster shape** | Spherical | Any shape |
-| **Scalability** | Fast (large datasets) | Slow (O(n²) or O(n³)) |
-| **Deterministic?** | No (random init) | Yes |
-| **Visualization** | Scatter plots | Dendrograms |
-| **Nested structure?** | No | Yes (dendrogram shows hierarchy) |
-
-::: callout-tip
-Use the **elbow method** or **silhouette scores** to choose k for k-means. Consider running both k-means and hierarchical clustering and comparing results — agreement between methods increases confidence in the groupings.
-:::
-
-# K-Nearest Neighbors (KNN) {background-color="#2c3e50"}
+-   **KNN (K-Nearest Neighbors):** A **supervised** method — classifies new points based on the majority vote of their $k$ closest labeled training points
+-   **DBSCAN:** An **unsupervised** method — discovers clusters based on local density without requiring you to specify $k$ in advance
 
 ## What is KNN?
 
@@ -2129,7 +2403,7 @@ Unlike k-means (unsupervised), **K-Nearest Neighbors** is a **supervised** class
 ### Output
 
 ```{r}
-#| label: knn-output
+#| label: knn-output-v2
 #| echo: false
 #| eval: true
 
@@ -2157,7 +2431,7 @@ print(table(Predicted = knn_pred, Actual = test_labels))
 ### Code
 
 ```{r}
-#| label: knn-code
+#| label: knn-code-v2
 #| echo: true
 #| eval: false
 
@@ -2191,13 +2465,30 @@ table(Predicted = knn_pred, Actual = test_labels)
 -   We split the data into training and test sets to get an honest estimate of performance — training accuracy would be unrealistically high because the algorithm memorizes training data
 :::
 
+## Understanding How K Affects KNN
+
+Choosing the right $K$ in KNN is a bias-variance tradeoff, just like choosing model complexity in regression:
+
+**Small K (e.g., K = 1–3):** The classifier makes decisions based on very few neighbors. This means it can capture fine-grained, irregular decision boundaries — but it is also highly sensitive to individual noisy observations. A single mislabeled or unusual training point can flip the prediction for nearby test points. This is **high variance, low bias**.
+
+**Large K (e.g., K = 15–25):** The classifier averages over many neighbors, producing smoother, more stable decision boundaries. It is less sensitive to noise but may miss real local patterns — for example, a small subcluster of one class embedded within a larger class could be overwhelmed by majority votes from the surrounding class. This is **low variance, high bias**.
+
+## Understanding How K Affects KNN
+
+**Practical guidance for choosing K:**
+
+-   Start with $K = \sqrt{n}$ as a rough heuristic (where $n$ is the training set size)
+-   Use **cross-validation** to systematically test multiple K values and select the one with highest accuracy
+-   For binary classification, use **odd values** of K to avoid ties
+-   If classes are well-separated (as in our inflammation data), many values of K will work equally well — the choice matters most when classes overlap
+
 ## Choosing K in KNN
 
 ::: panel-tabset
 ### Output
 
 ```{r}
-#| label: knn-tune-output
+#| label: knn-tune-output-v2
 #| echo: false
 #| eval: true
 #| fig-width: 8
@@ -2220,7 +2511,7 @@ abline(h = max(accuracies), lty = 2, col = "red")
 ### Code
 
 ```{r}
-#| label: knn-tune-code
+#| label: knn-tune-code-v2
 #| echo: true
 #| eval: false
 
@@ -2239,32 +2530,110 @@ plot(k_values, accuracies, type = "b", pch = 19,
 
 ### Interpretation
 
--   **Small K** (e.g., K = 1) makes very local decisions — high variance, may overfit to noise
--   **Large K** makes smoother decisions — may underfit and miss real boundaries
--   The optimal K balances bias and variance
+-   For this well-separated dataset, accuracy is high across most values of K
+-   In datasets with more group overlap, you would see a clear peak — performance degrades at very small K (overfitting to noise) and very large K (undersmoothing boundaries)
+-   The dashed red line marks the best accuracy — the optimal K balances bias and variance
 -   Use odd values of K for binary classification to avoid ties
 -   Cross-validation gives a more robust estimate than a single train/test split
--   For this well-separated dataset, many values of K work well — in datasets with more overlap between groups, the choice of K matters more
 :::
 
-## When to Use KNN in Bioengineering
+## DBSCAN: Density-Based Clustering
 
-**KNN is a good choice when:**
+**DBSCAN** (Density-Based Spatial Clustering of Applications with Noise) finds clusters as regions of high density separated by regions of low density. Unlike K-means, it **does not require specifying the number of clusters** in advance.
 
--   **You have labeled training data** and want to classify new observations into known categories
--   **Decision boundaries are non-linear** — KNN naturally handles complex class boundaries without specifying a model form
--   **You need a quick baseline classifier** before investing in more complex methods like random forests or SVMs
--   **Sample sizes are moderate** (100s to low 1000s) — KNN scales poorly to very large datasets
+**Algorithm:**
 
-**Bioengineering examples:**
+1.  For each point, count how many other points fall within radius $\epsilon$ (epsilon)
+2.  **Core points** have at least `minPts` neighbors within $\epsilon$
+3.  **Border points** fall within $\epsilon$ of a core point but have fewer than `minPts` neighbors
+4.  **Noise points** are neither core nor border — they are not assigned to any cluster
+5.  Connect all core points that are within $\epsilon$ of each other into the same cluster
 
--   **Cell type classification** — given expression profiles of labeled cell types, classify new unlabeled cells
--   **Implant outcome prediction** — given patient features from previous implant recipients with known outcomes (success/failure), predict outcome for a new patient
--   **Tissue identification** — given spectroscopic signatures from known tissue types, classify biopsy samples
--   **Drug response classification** — given gene expression profiles of known responders/non-responders, classify a new patient's likely response
+**Key parameters:**
+
+-   $\epsilon$ (eps): The neighborhood radius — how close points must be to be considered neighbors
+-   **minPts**: Minimum number of points to form a dense region (a rule of thumb is `minPts` $\geq$ number of dimensions + 1)
 
 ::: callout-tip
-KNN works best when the number of features is moderate relative to the sample size. With very high-dimensional data (e.g., 20,000 genes), reduce dimensions first with PCA and apply KNN on the top PCs.
+DBSCAN excels at finding clusters of arbitrary shape (crescents, rings, elongated structures) and automatically identifies outliers as noise. It struggles with clusters of very different densities.
+:::
+
+## DBSCAN: Inflammation Data
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: dbscan-output
+#| echo: false
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+# Using a simple DBSCAN implementation via the cluster-adjacent approach
+# We'll use the dbscan package if available, otherwise demonstrate the concept
+if (requireNamespace("dbscan", quietly = TRUE)) {
+  library(dbscan)
+  
+  # Use PCA-reduced data for cleaner visualization
+  pca_2d <- pca_scores[, c("PC1", "PC2")]
+  
+  par(mfrow = c(1, 2), mar = c(5, 5, 3, 2))
+  
+  # k-distance plot to choose eps
+  kNNdistplot(pca_2d, k = 4)
+  abline(h = 2.5, lty = 2, col = "red")
+  title("k-Distance Plot (choose eps at elbow)")
+  
+  # Run DBSCAN
+  db_fit <- dbscan(pca_2d, eps = 2.5, minPts = 4)
+  
+  # Plot results (0 = noise)
+  cluster_colors <- c("gray70", "#3498db", "#e74c3c", "#27ae60", "#9b59b6")
+  plot(pca_2d$PC1, pca_2d$PC2, 
+       col = cluster_colors[db_fit$cluster + 1],
+       pch = ifelse(db_fit$cluster == 0, 4, 19), cex = 1.2,
+       xlab = paste0("PC1 (", var_pct[1], "%)"),
+       ylab = paste0("PC2 (", var_pct[2], "%)"),
+       main = "DBSCAN Clusters in PCA Space")
+  legend("topright", c("Noise", paste("Cluster", 1:max(db_fit$cluster))),
+         col = cluster_colors[1:(max(db_fit$cluster)+1)], 
+         pch = c(4, rep(19, max(db_fit$cluster))), cex = 0.7)
+} else {
+  cat("Install the dbscan package: install.packages('dbscan')\n")
+}
+```
+
+### Code
+
+```{r}
+#| label: dbscan-code
+#| echo: true
+#| eval: false
+
+library(dbscan)
+
+# Use PCA-reduced data
+pca_2d <- pca_scores[, c("PC1", "PC2")]
+
+# k-distance plot helps choose eps
+kNNdistplot(pca_2d, k = 4)  # Look for the "elbow"
+
+# Run DBSCAN
+db_fit <- dbscan(pca_2d, eps = 2.5, minPts = 4)
+
+# Cluster 0 = noise points
+table(db_fit$cluster)
+table(Cluster = db_fit$cluster, 
+      Group = paste(inflam$strain, inflam$treatment))
+```
+
+### Interpretation
+
+-   DBSCAN automatically discovers the number of clusters — it finds the dense regions and marks sparse points as noise (shown as gray X's)
+-   The k-distance plot helps you choose $\epsilon$: plot the distance to each point's k-th nearest neighbor, sorted from largest to smallest — the "elbow" suggests a good $\epsilon$ threshold
+-   For our well-separated inflammation data, DBSCAN recovers the experimental groups without needing to specify k = 4 in advance
+-   DBSCAN's ability to identify noise points makes it valuable for quality control — outlier samples that don't fit any group are flagged automatically
 :::
 
 ## KNN: Important Considerations
@@ -2288,85 +2657,130 @@ KNN works best when the number of features is moderate relative to the sample si
 For high-dimensional data like gene expression, consider running PCA first to reduce dimensions, then applying KNN on the top PCs. This reduces noise and computation time.
 :::
 
+# Comparing Clustering Approaches {background-color="#2c3e50"}
+
+## When to Use Each Clustering Method
+
+| Scenario | Recommended Method | Why |
+|:-----------------------|:-----------------------|:-----------------------|
+| **Known number of groups, large data** | K-means | Fast, scalable, spherical clusters |
+| **Need robustness to outliers** | K-medoids (PAM) | Uses actual data points as centers |
+| **Want to explore hierarchical structure** | Agglomerative (Ward's) | Dendrogram reveals nested groups |
+| **Major group splits are most important** | Divisive (DIANA) | Top-down splits find global structure |
+| **Clusters have arbitrary shapes** | DBSCAN | Finds density-based regions |
+| **Have labeled training data** | KNN | Supervised, flexible boundaries |
+| **Don't know how many clusters** | DBSCAN or hierarchical | No need to pre-specify k |
+
+## Choosing a Clustering Method: Decision Flowchart
+
+**Start here:**
+
+1.  **Do you have labeled training data?**
+    -   Yes → **KNN** (supervised classification)
+    -   No → continue to step 2
+2.  **Do you know how many clusters to expect?**
+    -   Yes → **K-means** (fast) or **K-medoids** (robust to outliers)
+    -   No → continue to step 3
+3.  **Do you want to see hierarchical relationships?**
+    -   Yes → **Hierarchical clustering** (agglomerative with Ward's method)
+    -   No → continue to step 4
+4.  **Do your clusters have irregular shapes or varying density?**
+    -   Yes → **DBSCAN** (density-based, handles arbitrary shapes)
+    -   No → **K-means** with silhouette analysis to choose k
+
+::: callout-tip
+When in doubt, **run multiple methods and compare**. Agreement between methods increases confidence. Disagreement tells you the data structure is ambiguous — which is also valuable information.
+:::
+
 ------------------------------------------------------------------------
 
-# Course Summary: Choosing the Right Method {background-color="#2c3e50"}
+# Pulling it all together {background-color="#2c3e50"}
 
 ## Which Method Should I Use?
 
 **Start by asking these questions:**
 
-1.  **What is your goal?** Inference (understanding) vs. Prediction
+1.  **What is your goal?** Inference (understanding) vs. Prediction vs. Exploration
 2.  **What type is your response variable?** Continuous, binary, count, time-to-event, multivariate
 3.  **How many predictors?** Few vs. many; continuous vs. categorical vs. mixed
-4.  **Sample size?** Small (n \< 30), moderate (30–200), large (200+)
+4.  **Sample size?** Small (n \< 30), moderate (30-200), large (200+)
+5.  **Do you need to account for non-independence?** Repeated measures, nested designs, batch effects
 
-## Method Selection: Inference
+## Method Selection: Comparing Two Groups
 
-| Response | Predictors | Method | Week |
+| Data Type | Parametric | Non-Parametric | Week |
 |:-----------------|:-----------------|:-----------------|:-----------------|
-| Continuous | 1 continuous | Simple regression | 6 |
-| Continuous | Multiple continuous | Multiple regression | 7 |
-| Continuous | Continuous + categorical | ANCOVA | 7 |
-| Continuous | 1 categorical (2 groups) | t-test / ANOVA | 6 |
-| Continuous | Multiple categorical | Multifactor ANOVA | 7 |
-| Continuous | Categorical (repeated) | Repeated measures / mixed model | 7–8 |
-| Binary | Continuous/mixed | Logistic regression | 8 |
-| Count | Continuous/mixed | Poisson / negative binomial regression | 8 |
-| Time-to-event | Continuous/mixed | Cox proportional hazards | 8–9 |
+| Continuous, 2 independent groups | Two-sample t-test | Mann-Whitney U | 3 |
+| Continuous, 2 paired groups | Paired t-test | Wilcoxon signed-rank | 3-4 |
+| Categorical, 2 groups | $\chi^2$ test | Fisher's exact test | 4 |
+| Binary outcome | Two-proportion z-test | Fisher's exact test | 4 |
 
-## Method Selection: Prediction & Exploration
+## Method Selection: Comparing Multiple Groups
+
+| Design | Method | Post Hoc | Week |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| 1 factor, \$\geq\$3 groups | One-way ANOVA | Tukey HSD, Dunnett | 6 |
+| 1 factor, non-normal | Kruskal-Wallis | Dunn's test | 4 |
+| 2+ factors, balanced | Factorial ANOVA | emmeans contrasts | 7 |
+| Nested groups | Nested ANOVA | emmeans | 7 |
+| Repeated observations | Repeated measures / mixed model | emmeans | 7-8 |
+
+## Method Selection: Modeling Relationships
+
+| Response      | Predictors               | Method                      | Week |
+|:-------------|:--------------------|:----------------------|:-------------|
+| Continuous    | 1 continuous             | Simple linear regression    | 5    |
+| Continuous    | Multiple continuous      | Multiple regression         | 7    |
+| Continuous    | Continuous + categorical | ANCOVA                      | 7    |
+| Continuous    | Any (non-independence)   | Linear mixed model (lme4)   | 8    |
+| Binary        | Continuous/mixed         | Logistic regression         | 8    |
+| Count         | Continuous/mixed         | Poisson / negative binomial | 8    |
+| Time-to-event | Continuous/mixed         | Cox proportional hazards    | 8-9  |
+| Continuous    | Smooth/nonlinear         | GAM / LOESS / splines       | 9    |
+
+## Method Selection: Prediction & Machine Learning
 
 | Goal | Data Type | Method | Week |
-|:---|:---|:---|:---|
-| Classify | Labeled, few features | Logistic regression, LDA | 8 |
-| Classify | Labeled, complex boundaries | KNN, random forest | 9–10 |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| Classify | Labeled, interpretable | Logistic regression | 8 |
+| Classify | Labeled, complex boundaries | KNN, random forest, CART | 9-10 |
+| Predict | Continuous, complex | Random forest, Bayesian (brms) | 9 |
 | Reduce dimensions | Continuous | PCA | 10 |
 | Reduce dimensions | Distance/dissimilarity | PCoA, NMDS | 10 |
 | Visualize clusters | High-dimensional | t-SNE, UMAP | 10 |
-| Find groups | No labels | K-means, hierarchical clustering | 10 |
+| Find groups | No labels | K-means, hierarchical, DBSCAN | 10 |
 | Test group differences | Distance matrix | PERMANOVA | 10 |
 
 ## Reporting Effect Sizes
 
 P-values tell you **whether** an effect exists; effect sizes tell you **how large** it is. Always report both.
 
-| Method              | Effect Size Measure  | R Code                      |
+| Method | Effect Size Measure | R Code |
 |:--------------------|:---------------------|:----------------------------|
-| t-test              | Cohen's d            | `effectsize::cohens_d()`    |
-| ANOVA               | η² (eta-squared), ω² | `effectsize::eta_squared()` |
-| Regression          | R², partial R²       | `summary(model)$r.squared`  |
-| Logistic regression | Odds ratio           | `exp(coef(model))`          |
-| Cox PH              | Hazard ratio         | `exp(coef(model))`          |
-| PERMANOVA           | R²                   | `adonis2()` output          |
+| t-test | Cohen's d | `effectsize::cohens_d()` |
+| ANOVA | $\eta^2$ (eta-squared), $\omega^2$ | `effectsize::eta_squared()` |
+| Regression | $R^2$, partial $R^2$ | `summary(model)$r.squared` |
+| Logistic regression | Odds ratio | `exp(coef(model))` |
+| Cox PH | Hazard ratio | `exp(coef(model))` |
+| PERMANOVA | $R^2$ | `adonis2()` output |
 
 ::: callout-important
 "Statistical significance does not imply practical importance." A tiny effect can be highly significant with a large enough sample. Effect sizes help you assess whether the difference matters in your bioengineering application.
 :::
 
-## Reproducibility Checklist
+# The journey has just begun
 
-For every analysis in this course and beyond:
+## Congratulations!
 
-1.  **Set a seed** (`set.seed()`) for any analysis involving randomness
-2.  **Report package versions** (`sessionInfo()` or `renv::snapshot()`)
-3.  **Use relative paths** and organized project directories
-4.  **Document your analysis** in Quarto/R Markdown (literate programming)
-5.  **Report effect sizes** alongside p-values
-6.  **Share your code** — reproducibility requires transparency
-
-## Congratulations! {background-color="#27ae60"}
-
-You've made it through **Statistics for Bioengineering**! Over 10 weeks, you've built a comprehensive toolkit:
-
--   **Weeks 1–3:** Foundations — experimental design, probability, distributions, sampling, and descriptive statistics
--   **Week 4:** Hypothesis testing — t-tests, confidence intervals, power analysis, and multiple testing correction
--   **Week 5:** Non-parametric methods — rank-based tests, bootstrapping, and permutation tests
--   **Week 6:** Simple linear regression and correlation — model fitting, diagnostics, and ANOVA
--   **Week 7:** Multiple regression, ANCOVA, factorial ANOVA, nested designs, and repeated measures
--   **Week 8:** Linear mixed models (lme4), generalized linear models (logistic and Poisson), and survival analysis
--   **Week 9:** Nonlinear smoothing (GAMs, splines), statistical learning (CART, random forests), and introduction to Bayesian inference (brms)
--   **Week 10:** Multivariate methods — PCA, PCoA, NMDS, t-SNE, UMAP, hierarchical clustering, K-means, and KNN
+-   **Weeks 1-2:** Foundations — R programming, Unix, Quarto, tidy data, ggplot2, probability distributions, confidence intervals, and experimental design
+-   **Week 3:** Hypothesis testing — t-tests, significance, power analysis, and multiple testing correction
+-   **Week 4:** Categorical and non-parametric methods — $\chi^2$ tests, Fisher's exact, Wilcoxon, Kruskal-Wallis, and bootstrapping
+-   **Week 5:** Correlation and simple linear regression — model fitting, diagnostics, residual analysis
+-   **Week 6:** ANOVA — single-factor designs, planned and post hoc comparisons, assumption checking
+-   **Week 7:** Complex designs — multiple regression, ANCOVA, factorial and nested ANOVA, random effects
+-   **Week 8:** Advanced modeling — linear mixed models (lme4), GLMs (logistic, Poisson), and survival analysis
+-   **Week 9:** Modern methods — LOESS/splines, CART, random forests, cross-validation, and Bayesian inference (brms)
+-   **Week 10:** Multivariate and unsupervised ML — PCA, PCoA, NMDS, t-SNE, UMAP, clustering (hierarchical, K-means, K-medoids, DBSCAN), and KNN
 
 **Skills you've developed:** R programming, data visualization with ggplot2, reproducible analysis with Quarto, model diagnostics, effect size reporting, and critical evaluation of statistical methods.
 
@@ -2374,16 +2788,25 @@ You've made it through **Statistics for Bioengineering**! Over 10 weeks, you've 
 
 The University of Oregon offers many courses that build on what you've learned here:
 
+**Computer Science (CIS):**
+
+-   CIS 322: Introduction to Software Engineering
+-   CIS 415: Operating Systems — systems programming foundations
+-   CIS 422: Software Methodology — project-based software development
+-   CIS 425: Principles of Programming Languages — foundations for understanding R, Python, and beyond
+-   CIS 431: Introduction to Parallel Computing — essential for large-scale data
+-   CIS 441: Introduction to Computer Graphics — visualization foundations
+-   CIS 471: Introduction to Natural Language Processing
+-   CIS 472: Introduction to Artificial Intelligence
+-   CIS 410/510: Computational Science — numerical methods and simulation
+
 **Data Science (CIS/DSCI):**
 
 -   DSCI 631: Machine Learning — deep dive into supervised and unsupervised learning
 -   DSCI 632: Deep Learning — neural networks, CNNs, transformers
--   CIS 472: Introduction to Artificial Intelligence
+-   DSCI 633: Natural Language Processing — text analysis and language models
 
-**Computer Science (CIS):**
-
--   CIS 410/510: Computational Science — numerical methods and simulation
--   CIS 471: Introduction to Natural Language Processing
+## Want to Learn More?
 
 **Biology (BI):**
 
@@ -2403,4 +2826,6 @@ The University of Oregon offers many courses that build on what you've learned h
 The best way to solidify these skills is to **apply them to your own research data** in your term project and beyond. The methods you've learned form the foundation for nearly all quantitative bioengineering research.
 :::
 
-#  {background-color="#2c3e50"}
+##  {background-color="#2c3e50"}
+
+![](images/happy_graduates.svg){fig-align="center" width="85%"}
