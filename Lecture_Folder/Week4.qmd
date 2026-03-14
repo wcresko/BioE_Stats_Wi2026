@@ -574,7 +574,7 @@ r = \frac{Cov(X,Y)}{s_x \cdot s_y}
 
 ## Covariance and Correlation
 
-![](images/week05_11_week8_correlation.jpg){fig-align="center" width="60%"}
+![](images/week_04_S25_week8_correlation.jpg){fig-align="center" width="60%"}
 
 ## Visualizing Different Correlations in R
 
@@ -712,11 +712,11 @@ cor.test(mtcars$mpg, mtcars$wt)
 
 **Warning**: Correlation does NOT imply causation without randomization!
 
-![](images/week05_13_divorce_versus_margarine_1.jpg){fig-align="center" width="80%"}
+![](images/week_04_S30_divorce_versus_margarine_1.jpg){fig-align="center" width="80%"}
 
 ## Anscombe's Quartet
 
-![](images/week05_25_anscombes_quartet_four_datasets.jpeg){fig-align="center" width="90%"}
+![](images/week_04_S31_anscombes_quartet_four_datasets.jpeg){fig-align="center" width="90%"}
 
 All four datasets have identical: mean of x (9), variance of x (11), mean of y (7.5), correlation (0.816), and regression line ($y = 3.00 + 0.50x$).
 
@@ -804,15 +804,15 @@ $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 -   $\beta_1$: slope
 -   $\epsilon_i$: error/residual
 
-![](images/week05_10_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
+![](images/week_04_S35_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
 ## 
 
-![](images/week05_24_linear_relationship_types_scatterplots.jpeg){fig-align="center" width="90%"}
+![](images/week_04_S36_linear_relationship_types_scatterplots.jpeg){fig-align="center" width="90%"}
 
 ## 
 
-![](images/week05_23_regression_slope_intercept_diagrams.jpeg){fig-align="center" width="90%"}
+![](images/week_04_S37_regression_slope_intercept_diagrams.jpeg){fig-align="center" width="90%"}
 
 ## Many Methods Are Linear Models
 

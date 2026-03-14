@@ -132,7 +132,7 @@ This week we continue with the biological motivations, interpretation, and assum
 
 ## ANCOVA: Neanderthal vs. Modern Human
 
-![](images/week10_12_neanderthal_human_skulls_skeletons.jpeg){fig-align="center" width="90%"}
+![](images/week_07_S07_neanderthal_human_skulls_skeletons.jpeg){fig-align="center" width="90%"}
 
 ## Brain-Body Mass Regression
 
@@ -1625,13 +1625,13 @@ In many bioengineering experiments, factors are organized **hierarchically** rat
 
 ## Nested Analysis: Walking Stick Insect
 
-![](images/week07_01_walking_stick_insect_femur.jpeg){fig-align="center" width="90%"}
+![](images/week_07_S57_walking_stick_insect_femur.jpeg){fig-align="center" width="90%"}
 
 A classic example: measuring femur length of walking stick insects. Multiple measurements are taken per individual — the measurements are **nested within** individuals.
 
 ## Nested Design: Within-Individual Measurements
 
-![](images/week07_03_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
+![](images/week_07_S58_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
 
 ## Femur Length Variation Within Individuals
 
@@ -1702,7 +1702,7 @@ ggplot(femur_df, aes(x = individual, y = femur_length)) +
 
 ## Hierarchical Variance Decomposition
 
-![](images/week07_05_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
+![](images/week_07_S60_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
 
 In a nested design, total variance is partitioned hierarchically:
 
@@ -3012,7 +3012,7 @@ When predictors are highly correlated, coefficient estimates become unstable, st
 
 ## Checking for Multicollinearity
 
-![](images/week07_25_multicollinearity_scatterplot_matrix.jpeg){fig-align="center" width="70%"}
+![](images/week_07_S100_multicollinearity_scatterplot_matrix.jpeg){fig-align="center" width="70%"}
 
 ## Scatterplot Matrix for Collinearity: Stickleback Data
 
@@ -3348,7 +3348,7 @@ If two or more models fit the data almost equally well, prefer the simpler model
 
 ## Overfitting with Polynomials
 
-![](images/week07_26_beetle_wing_horn_overfitting.jpeg){fig-align="center" width="80%"}
+![](images/week_07_S110_beetle_wing_horn_overfitting.jpeg){fig-align="center" width="80%"}
 
 The log-likelihood and $R^2$ always increase with more parameters — but this does not mean the model is better!
 

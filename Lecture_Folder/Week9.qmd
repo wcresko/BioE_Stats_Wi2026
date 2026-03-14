@@ -124,7 +124,7 @@ library(brms)         # Bayesian regression with Stan
 
 ## LOESS and Splines: Choosing the Right Tool
 
-![](images/loess_splines_comparison.svg){fig-align="center" width="95%"}
+![](images/week_08_S118_loess_splines_comparison.svg){fig-align="center" width="95%"}
 
 ## LOESS: How It Works
 
@@ -187,13 +187,13 @@ for (x0 in focal_pts) {
 
 ## LOESS Animation
 
-![](images/week08_04_loess_animation.gif){fig-align="center" width="80%"}
+![](images/week_08_S121_loess_animation.gif){fig-align="center" width="80%"}
 
 ## LOESS with Different Spans
 
 The span parameter controls the smoothness — smaller values create more flexible fits:
 
-![](images/week08_05_loess_multi_span_animation.gif){fig-align="center" width="80%"}
+![](images/week_08_S122_loess_multi_span_animation.gif){fig-align="center" width="80%"}
 
 ## The Span Parameter
 
@@ -473,7 +473,7 @@ In bioengineering, we frequently ask:
 -   Survival analysis is a family of statistical methods for analyzing **time-to-event** data — the time elapsed until a specific event occurs.
 -   Unlike standard regression, survival analysis handles a unique feature of biomedical and engineering data: **censoring**.
 
-![](images/survival_concepts.svg){fig-align="center" width="95%"}
+![](images/week_08_S140_survival_concepts.svg){fig-align="center" width="95%"}
 
 ## Why Can't We Just Use Standard Regression?
 
@@ -1232,7 +1232,7 @@ exp(cbind(HR = coef(cox_scaffold), confint(cox_scaffold)))
 
 ## General Steps for Machine Learning
 
-![The ML workflow from data to predictions](images/week09_05_the_ml_workflow_from_data_to_p.jpg){fig-align="center" width="90%"}
+![The ML workflow from data to predictions](images/week_09_S42_the_ml_workflow_from_data_to_p.jpg){fig-align="center" width="90%"}
 
 ## What's Coming: Bias-Variance and Cross-Validation
 
@@ -1437,7 +1437,7 @@ lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)],
 -   Cross-validation is our primary tool for estimating how well a model will perform on **new, unseen data**.
 -   The core idea is simple: repeatedly split your data into training and testing portions, fit the model on the training portion, and evaluate on the testing portion.
 
-![](images/week09_06_crossvalidation1.png){fig-align="center" width="70%"}
+![](images/week_09_S52_crossvalidation1.png){fig-align="center" width="70%"}
 
 **Why we need it:**
 
@@ -1449,7 +1449,7 @@ lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)],
 
 The most common approach splits data into **K equally-sized folds** and cycles through them:
 
-![](images/week09_09_crossvalidation4.png){fig-align="center" width="80%"}
+![](images/week_09_S53_crossvalidation4.png){fig-align="center" width="80%"}
 
 **Process:**
 
@@ -1464,7 +1464,7 @@ This ensures every observation gets used for both training and testing exactly o
 
 Cross-validation is most powerful when used to **compare models** of different complexity. The model with the lowest CV error achieves the best bias-variance tradeoff.
 
-![](images/week09_12_crossvalidation7.png){fig-align="center" width="80%"}
+![](images/week_09_S54_crossvalidation7.png){fig-align="center" width="80%"}
 
 | K      | Description           | Properties                       |
 |:-------|:----------------------|:---------------------------------|
@@ -1761,7 +1761,7 @@ glimpse(biomat)
 ::: panel-tabset
 ### Algorithm Steps
 
-![](images/cart_classification_flow.svg){fig-align="center" width="95%"}
+![](images/week_09_S65_cart_classification_flow.svg){fig-align="center" width="95%"}
 
 ### How to Read This Diagram
 
@@ -1916,7 +1916,7 @@ rpart.plot(pruned_tree, type = 4, extra = 104)
 
 ## Cost-Complexity Pruning: The Full Procedure
 
-![](images/cart_pruning_steps.svg){fig-align="center" width="95%"}
+![](images/week_09_S68_cart_pruning_steps.svg){fig-align="center" width="95%"}
 
 ::: callout-important
 ### The 1-SE Rule (Recommended)
@@ -1970,7 +1970,7 @@ The algorithm is searching for the feature and threshold that **divide the data 
 ::: panel-tabset
 ### Algorithm Flow
 
-![](images/cart_regression_flow.svg){fig-align="center" width="95%"}
+![](images/week_09_S71_cart_regression_flow.svg){fig-align="center" width="95%"}
 
 ### Notes
 
@@ -2220,7 +2220,7 @@ If one predictor is very strong, every tree in a simple bagging ensemble would s
 :::
 ## Bagging and OOB: Workflow
 
-![](images/bagging_oob_diagram.svg){fig-align="center" width="95%"}
+![](images/week_09_S84_bagging_oob_diagram.svg){fig-align="center" width="95%"}
 
 
 ## Random Forest: Classification — OOB Error Convergence
@@ -2568,7 +2568,7 @@ $$\text{Odds} = \frac{p}{1-p} \qquad \text{Log Odds} = \ln\left(\frac{p}{1-p}\ri
 
 ## The Asymmetry Problem
 
-![](images/odds_log_odds_numberline.svg){fig-align="center" width="95%"}
+![](images/week_09_S95_odds_log_odds_numberline.svg){fig-align="center" width="95%"}
 
 - On the **probability scale**, 0.25 and 0.75 are equally far from 0.50 — symmetric around the midpoint.
 
@@ -2580,7 +2580,7 @@ $$\text{Odds} = \frac{p}{1-p} \qquad \text{Log Odds} = \ln\left(\frac{p}{1-p}\ri
 
 ## Odds Ratios: Why They're Symmetric
 
-![](images/odds_ratio_symmetry.svg){fig-align="center" width="95%"}
+![](images/week_09_S96_odds_ratio_symmetry.svg){fig-align="center" width="95%"}
 
 An **odds ratio (OR)** compares the odds of an outcome between two groups:
 
@@ -2860,7 +2860,7 @@ P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}
 
 ## The Logic of Bayesian Inference
 
-![](images/bayesian_updating_flow.svg){fig-align="center" width="95%"}
+![](images/week_09_S109_bayesian_updating_flow.svg){fig-align="center" width="95%"}
 
 ## Bayesian Estimation: The Coin Flip
 
