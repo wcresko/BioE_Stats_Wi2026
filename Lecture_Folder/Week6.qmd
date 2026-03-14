@@ -115,11 +115,11 @@ The overall goal is to create something like a report to share with a collaborat
 -   Last week we discussed how Galton developed the concept of regression to the mean using height data from parents and their children.
 -   This week we need to confront the darker side of that history — the statistical methods we use daily were developed in the service of eugenics.
 
-![](images/week05_10_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
+![](images/week_04_S35_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
 ## Galton as the Father of Eugenics
 
-![](images/week6_Galton.jpeg){fig-align="center"}
+![](images/week_05_S94_galton.jpeg){fig-align="center"}
 
 -   Francis Galton: Darwin's half cousin
 -   Studied human variation and genetic inheritance
@@ -138,7 +138,7 @@ The overall goal is to create something like a report to share with a collaborat
 -   Developer of Fishers exact test, analysis of variance (ANOVA), null hypothesis, p values, maximum likelihood, probability density functions
 -   Founding Chairman of the University of Cambridge Eugenics Society
 
-![](images/week6_fisher.jpeg){fig-align="center" width="20%"}
+![](images/week_05_S100_fisher.jpeg){fig-align="center" width="20%"}
 
 ## RA Fisher and Eugenics
 
@@ -148,14 +148,14 @@ The overall goal is to create something like a report to share with a collaborat
 
 ## Eugenics in the U.S.
 
-![](images/IMAGES2.014.jpeg){fig-align="center" width="50%"}
+![](images/week_05_S97_regression_formula_014.jpeg){fig-align="center" width="50%"}
 
 -   Galton's ideas were brought to the United States by Charles Davenport, a biologist who established the Eugenics Record Office at Cold Spring Harbor in 1910.
 -   G. Stanley Hall, a prominent psychologist who promoted the "child study" movement and was the first president of Clark University.
 
 ## 
 
-![](images/IMAGES2.015.jpeg){fig-align="center" width="80%"}
+![](images/week_05_S98_regression_formula_015.jpeg){fig-align="center" width="80%"}
 
 ## Eugenics societies in the U.S.
 
@@ -167,7 +167,7 @@ The overall goal is to create something like a report to share with a collaborat
 
 -   Competitions for the "perfect family" to encourage public consciousness and support for eugenics
 
-![](images/IMAGES2.013.jpeg){fig-align="center" width="50%"}
+![](images/week_05_S96_regression_formula_013.jpeg){fig-align="center" width="50%"}
 
 ## A direct line to Hitler and Nazism
 
@@ -175,7 +175,7 @@ The overall goal is to create something like a report to share with a collaborat
 -   By 1933, California had subjected more people to forceful sterilization than all other U.S. states combined.
 -   The forced sterilization program engineered by the Nazis was partly inspired by California's.
 
-![](images/IMAGES2.016.jpeg){fig-align="center" width="70%"}
+![](images/week_05_S102_regression_formula_016.jpeg){fig-align="center" width="70%"}
 
 ## Sterilizations continued in America
 
@@ -192,7 +192,7 @@ The overall goal is to create something like a report to share with a collaborat
 
 ## Interested in learning more?
 
-![](images/IMAGES2.017.jpeg){fig-align="center" width="20%"}
+![](images/week_05_S105_regression_formula_017.jpeg){fig-align="center" width="20%"}
 
 -   See also
     -   "The Gene" by Siddhartha Mukherjee
@@ -611,7 +611,7 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
 
 ## Types of Linear Regression
 
-![Model I (OLS) vs Model II regression types](images/week05_40_model_types_ols_ma_rma.jpeg){fig-align="center" width="80%"}
+![Model I (OLS) vs Model II regression types](images/week_05_S137_model_types_ols_ma_rma.jpeg){fig-align="center" width="80%"}
 
 ## Model II Regression Methods
 
@@ -626,7 +626,7 @@ The key insight is that OLS minimizes vertical distances (residuals in Y only), 
 
 ## When to Use Each Model Type
 
-![Guidelines for choosing between OLS, MA, and RMA regression](images/week05_42_when_to_use_model_types.jpeg){fig-align="center" width="90%"}
+![Guidelines for choosing between OLS, MA, and RMA regression](images/week_05_S141_when_to_use_model_types.jpeg){fig-align="center" width="90%"}
 
 ## Example: BMP4 vs. SOX9 Expression
 
@@ -1069,7 +1069,7 @@ y_{ij} = \mu + \varepsilon_{ij}
 
 ## ANOVA Table
 
-![](images/week06_18_anova_table_treatment_groups.jpeg){fig-align="center" width="100%"}
+![](images/week_06_S50_anova_table_treatment_groups.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: ANOVA Table and Reduced vs Full Model
 
@@ -1160,7 +1160,7 @@ F = \frac{MS_{groups}}{MS_{residuals}}
 
 ## An Example - Irises
 
-![The classic iris dataset](images/week06_16_the_classic_iris_dataset.jpeg){fig-align="center" width="70%"}
+![The classic iris dataset](images/week_06_S54_the_classic_iris_dataset.jpeg){fig-align="center" width="70%"}
 
 -   3 Different species: *Iris versicolor*, *Iris setosa*, and *Iris virginica*
 -   Length of sepal as a continuous variable

@@ -408,7 +408,7 @@ summary(mod_ri)
 ::: panel-tabset
 ### Residual comparison
 
-![](images/residual_comparison.svg){fig-align="center" width="95%"}
+![](images/week_08_S16_residual_comparison.svg){fig-align="center" width="95%"}
 
 ### Interpretation
 
@@ -2064,7 +2064,7 @@ This breaks down when the response is binary (0/1), a count (0, 1, 2, ...), or s
 
 Every GLM is defined by exactly three components:
 
-![](images/glm_components.svg){fig-align="center" width="95%"}
+![](images/week_08_S74_glm_components.svg){fig-align="center" width="95%"}
 
 ## Component 1: The Random Component
 
@@ -2251,7 +2251,7 @@ GLMs do **not** assume normality of residuals or constant variance. Instead, the
 
 ## Choosing the Right Statistical Model
 
-![](images/model_decision_flowchart.svg){fig-align="center" width="90%"}
+![](images/week_08_S80_model_decision_flowchart.svg){fig-align="center" width="90%"}
 
 ## The `glm()` Function in R
 
@@ -3049,7 +3049,7 @@ testOutliers(sim_res)       # outlier detection
 
 The **Receiver Operating Characteristic (ROC) curve** is the standard tool for evaluating how well a binary classifier discriminates between positive and negative cases.
 
-![](images/roc_auc_explained.svg){fig-align="center" width="95%"}
+![](images/week_08_S98_roc_auc_explained.svg){fig-align="center" width="95%"}
 
 ## How the ROC Curve Is Constructed
 
@@ -3073,7 +3073,7 @@ The ROC curve is created by sweeping a **decision threshold** from 0 to 1:
 
 The confusion matrix is the foundation for evaluating classification models. It cross-tabulates predicted vs. actual outcomes:
 
-![](images/confusion_matrix_metrics.svg){fig-align="center" width="95%"}
+![](images/week_08_S100_confusion_matrix_metrics.svg){fig-align="center" width="95%"}
 
 ## Confusion Matrix for Implant Failure Model
 
@@ -3712,13 +3712,13 @@ anova(pois_model, test = "Chisq")
 
 ## LOESS and Splines: Choosing the Right Tool
 
-![](images/loess_splines_comparison.svg){fig-align="center" width="95%"}
+![](images/week_08_S118_loess_splines_comparison.svg){fig-align="center" width="95%"}
 
 ## LOESS: How It Works
 
 LOESS fits local polynomial regressions at each point, weighting nearby observations more heavily:
 
-![](images/week08_03_loess_1.jpg){fig-align="center" width="80%"}
+![](images/week_08_S119_loess_1.jpg){fig-align="center" width="80%"}
 
 **The algorithm:**
 
@@ -3776,13 +3776,13 @@ for (x0 in focal_pts) {
 
 ## LOESS Animation
 
-![](images/week08_04_loess_animation.gif){fig-align="center" width="80%"}
+![](images/week_08_S121_loess_animation.gif){fig-align="center" width="80%"}
 
 ## LOESS with Different Spans
 
 The span parameter controls the smoothness — smaller values create more flexible fits:
 
-![](images/week08_05_loess_multi_span_animation.gif){fig-align="center" width="80%"}
+![](images/week_08_S122_loess_multi_span_animation.gif){fig-align="center" width="80%"}
 
 ## The Span Parameter
 
@@ -4267,7 +4267,7 @@ coef(lasso_cv, s = "lambda.min")
 
 Survival analysis is a family of statistical methods for analyzing **time-to-event** data — the time elapsed until a specific event occurs. Unlike standard regression, survival analysis handles a unique feature of biomedical and engineering data: **censoring**.
 
-![](images/survival_concepts.svg){fig-align="center" width="95%"}
+![](images/week_08_S140_survival_concepts.svg){fig-align="center" width="95%"}
 
 ## Why Can't We Just Use Standard Regression?
 

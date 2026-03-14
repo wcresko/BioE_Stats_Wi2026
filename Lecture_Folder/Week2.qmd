@@ -99,7 +99,7 @@ library(nycflights13) # NYC flights data for dplyr examples
 
 ## Tidyverse Family of Packages
 
-![Tidyverse packages overview](images/week02_10_tidyverse_packages.jpeg){#fig-week2-tidyverse fig-align="center" width="90%"}
+![Tidyverse packages overview](images/week_02_S08_tidyverse_packages.jpeg){#fig-week2-tidyverse fig-align="center" width="90%"}
 
 ```{r}
 #| label: load-tidyverse
@@ -111,7 +111,7 @@ library(tidyverse)
 
 ## A tibble - a tidyverse dataframe
 
-![](images/week02_11_mpg_tibble_variable_definitions.jpeg){fig-align="center" width="90%"}
+![](images/week_02_S09_mpg_tibble_variable_definitions.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: A tibble - mpg dataset
 
@@ -145,11 +145,11 @@ mpg
 
 ## A tibble - a tidyverse dataframe
 
-![](images/week02_12_tidy_data_variables_observations.jpeg){fig-align="center" width="90%"}
+![](images/week_02_S11_tidy_data_variables_observations.jpeg){fig-align="center" width="90%"}
 
 ## Types of variables in a tibble
 
-![dplyr functions](images/week02_13_r_vector_types_hierarchy.jpeg){#fig-week2-dplyr-functions fig-align="center" width="90%"}
+![dplyr functions](images/week_02_S12_r_vector_types_hierarchy.jpeg){#fig-week2-dplyr-functions fig-align="center" width="90%"}
 
 ## Key dplyr Verbs
 
@@ -180,7 +180,7 @@ arrange(flights, year, month, day)
 select(flights, year, month, day)
 ```
 
-![](images/week02_14_boolean_set_operations_venn.jpeg){fig-align="center" width="50%"}
+![](images/week_02_S14_boolean_set_operations_venn.jpeg){fig-align="center" width="50%"}
 
 ## Conditional Operators
 
@@ -271,7 +271,7 @@ More info: <https://ggplot2.tidyverse.org/>
 
 ## Grammar of Graphics
 
-![](images/week02_27_grammar_of_graphics_layers.jpeg){fig-align="center" width="90%"}
+![](images/week_02_S23_grammar_of_graphics_layers.jpeg){fig-align="center" width="90%"}
 
 ## Scatterplots
 
@@ -303,7 +303,7 @@ ggplot(mpg, aes(displ, hwy, color = class)) +
 
 ## Boxplots
 
-![](images/week02_28_boxplot.jpeg){fig-align="center" width="90%"}
+![](images/week_02_S25_boxplot.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Boxplot Anatomy with Normal Distribution
 
@@ -522,7 +522,7 @@ ggplot(d, aes(x=a, y=b)) +
 
 ## Choosing the Right Plot
 
-![](images/week02_33_flow_chart_for_choosing_data_v.jpeg){fig-align="center" width="90%"}
+![](images/week_02_S32_flow_chart_for_choosing_data_v.jpeg){fig-align="center" width="90%"}
 
 ## R Exercise: Data Visualization
 
@@ -540,35 +540,35 @@ ggplot(d, aes(x=a, y=b)) +
 
 ## Good, Bad, and Ugly
 
-![A ticker tape parade of confusion](images/week02_34_bad_ticker_tape_parade_of_data.jpeg){fig-align="center" width="75%"}
+![A ticker tape parade of confusion](images/week_02_S36_bad_ticker_tape_parade_of_data.jpeg){fig-align="center" width="75%"}
 
 ## A line to no understanding
 
-![](images/week02_35_bad_a_line_to_no_understanding.jpeg){fig-align="center" width="75%"}
+![](images/week_02_S37_bad_a_line_to_no_understanding.jpeg){fig-align="center" width="75%"}
 
 ## Wack a mole
 
-![](images/week02_48_displaying_temporal_patterns.jpeg){fig-align="center" width="80%"}
+![](images/week_02_S38_displaying_temporal_patterns.jpeg){fig-align="center" width="80%"}
 
 ## Disk of disinformation
 
-![](images/week02_46_choosing_appropriate_bin_width.jpeg){fig-align="center" width="80%"}
+![](images/week_02_S39_choosing_appropriate_bin_width.jpeg){fig-align="center" width="80%"}
 
 ## Steaming pie chart mess
 
-![](images/week02_47_relationships_between_variable.jpeg){fig-align="center" width="80%"}
+![](images/week_02_S40_relationships_between_variable.jpeg){fig-align="center" width="80%"}
 
 ## A bake sale of pie charts
 
-![](images/week02_36_bad_a_bake_sale_of_pie_charts.jpeg){fig-align="center" width="75%"}
+![](images/week_02_S41_bad_a_bake_sale_of_pie_charts.jpeg){fig-align="center" width="75%"}
 
 ## 
 
-![Minard's map of Napoleon's Russian campaign - Edward Tufte](images/week02_37_minards_map_of_napoleons_russi.jpeg){fig-align="center" width="80%"}
+![Minard's map of Napoleon's Russian campaign - Edward Tufte](images/week_02_S42_minards_map_of_napoleons_russi.jpeg){fig-align="center" width="80%"}
 
 ## 
 
-![Modern recreation of Minard-style data visualization](images/week02_38_modern_recreation_of_minard_st.jpeg){fig-align="center" width="80%"}
+![Modern recreation of Minard-style data visualization](images/week_02_S43_modern_recreation_of_minard_st.jpeg){fig-align="center" width="80%"}
 
 ## Principles of Effective Display
 
@@ -584,25 +584,25 @@ ggplot(d, aes(x=a, y=b)) +
 
 ## "Above All Else Show the Data"
 
-![](images/week02_39_tufte_1983.jpeg){#fig-align="center" width="80%"}
+![](images/week_02_S45_tufte_1983.jpeg){#fig-align="center" width="80%"}
 
 ## "Maximize the Data to Ink Ratio"
 
-![The Economist 2006](images/week02_40_the_economist_2006.jpeg){fig-align="center" width="80%"}
+![The Economist 2006](images/week_02_S46_the_economist_2006.jpeg){fig-align="center" width="80%"}
 
 ## Represent Magnitudes Honestly
 
-![Rattenborg et al. 1999 Nature](images/week02_41_rattenborg_et_al_1999_nature.jpeg){fig-align="center" width="70%"}
+![Rattenborg et al. 1999 Nature](images/week_02_S47_rattenborg_et_al_1999_nature.jpeg){fig-align="center" width="70%"}
 
 ## How NOT to Make a Figure
 
 ::::: columns
 ::: {.column width="50%"}
-![](images/week02_42_misleading_chart_truncated_yaxis.jpeg){fig-align="center"}
+![](images/week_02_S48_misleading_chart_truncated_yaxis.jpeg){fig-align="center"}
 :::
 
 ::: {.column width="50%"}
-![](images/week02_43_correct_unemployment_line_plot.jpeg){fig-align="center"}
+![](images/week_02_S48_correct_unemployment_line_plot.jpeg){fig-align="center"}
 :::
 :::::
 
@@ -624,7 +624,7 @@ We use sample statistics to **estimate** population parameters
 
 ## Accuracy vs. Precision
 
-![](images/week02_52_precision_vs_accuracy_target.jpeg){fig-align="center" width="50%"}
+![](images/week_02_S51_precision_vs_accuracy_target.jpeg){fig-align="center" width="50%"}
 
 -   **Accuracy**: closeness to true value
 -   **Precision**: closeness of repeated estimates to each other
@@ -845,7 +845,7 @@ abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 
 ## Common moments of distributions
 
-![](images/week02_80_population_sample_statistics_table.jpeg){fig-align="center" width="90%"}
+![](images/week_02_S61_population_sample_statistics_table.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Common moments of distributions
 
@@ -866,11 +866,11 @@ abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 
 ## A Bernouli Trial
 
-![](images/week02_74_coin_flip_probability.jpeg){fig-align="center" width="60%"}
+![](images/week_02_S64_coin_flip_probability.jpeg){fig-align="center" width="60%"}
 
 ## Probability of Independent Events
 
-![](images/week02_75_card_deck_probability_union.jpeg){fig-align="center" width="100%"}
+![](images/week_02_S65_card_deck_probability_union.jpeg){fig-align="center" width="100%"}
 
 ## Bernoulli Distribution
 
@@ -1051,7 +1051,7 @@ Where:
 
 ## Binomial Distribution
 
-![](images/week02_76_bell_shaped_histogram.jpeg){fig-align="center" width="100%"}
+![](images/week_02_S71_bell_shaped_histogram.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: Binomial Distribution - Bell Shape
 
@@ -1133,11 +1133,11 @@ Variables with variance \> mean are called "overdispersed" (common in RNA-seq da
 
 ::::: columns
 ::: {.column width="50%"}
-![Gene length by 500 nt bins](images/week02_77_gene_length_by_500_nt_bins.jpeg){fig-align="center"}
+![Gene length by 500 nt bins](images/week_02_S75_gene_length_by_500_nt_bins.jpeg){fig-align="center"}
 :::
 
 ::: {.column width="50%"}
-![Increasing λ values](images/week02_78_increasing_λ_values.jpeg){fig-align="center"}
+![Increasing λ values](images/week_02_S75_increasing_λ_values.jpeg){fig-align="center"}
 :::
 :::::
 
@@ -1379,7 +1379,7 @@ Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
 
 ## Normal Distribution
 
-![](images/week02_79_normal_distribution_68_95_99.jpeg){fig-align="center" width="90%"}
+![](images/week_02_S88_normal_distribution_68_95_99.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Normal Distribution - 68-95-99.7 Rule
 
@@ -1430,7 +1430,7 @@ text(0, 0.50, "99.7%", cex = 1.5, font = 2)
 
 ## Normal Distribution
 
-![](images/week02_81_normal_distributions_varying_params.jpeg){fig-align="center" width="50%"}
+![](images/week_02_S90_normal_distributions_varying_params.jpeg){fig-align="center" width="50%"}
 
 ## DRAFT: Normal Distributions - Varying Parameters
 
@@ -1480,11 +1480,11 @@ mtext(expression(mu * " = 50"), side = 1, line = 2.5, cex = 1)
 
 ## Why is the Normal Distribution Special?
 
-![](images/week02_82_living_histogram_height.jpeg){fig-align="center" width="100%"}
+![](images/week_02_S92_living_histogram_height.jpeg){fig-align="center" width="100%"}
 
 ## Why Normal is Special in Biology
 
-![](images/week02_83_galton_regression_to_mean.jpeg){fig-align="center" width="70%"}
+![](images/week_02_S93_galton_regression_to_mean.jpeg){fig-align="center" width="70%"}
 
 ## DRAFT: Galton's Regression to the Mean
 
@@ -1530,7 +1530,7 @@ text(64, 72, "y = 29.4 + 0.57x", cex = 1.1)
 
 ## Why Normal is Special in Biology
 
-![](images/week02_84_birth_data_visualization_art.jpeg){fig-align="center" width="100%"}
+![](images/week_02_S95_birth_data_visualization_art.jpeg){fig-align="center" width="100%"}
 
 ## Z-Scores of Normal distributions
 
@@ -1754,7 +1754,7 @@ This is why quantitative traits (height, weight, blood pressure) are approximate
 
 ## Sampling Variation of a Parameter
 
-![](images/week02_88_population_vs_sampling_distribution.jpeg){fig-align="center" width="100%"}
+![](images/week_02_S106_population_vs_sampling_distribution.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: Population vs Sampling Distribution
 
@@ -1792,7 +1792,7 @@ hist(sample_means, breaks = 40,
 
 ##
 
-![](images/week02_91_sampling_distribution_of_means.jpeg){fig-align="center" width="100%"}
+![](images/week_02_S108_sampling_distribution_of_means.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: Sampling Distribution of Means
 
@@ -1834,7 +1834,7 @@ mtext("Distribution of estimates of the\nmean from multiple samples",
 
 ## Estimation and Confidence Intervals
 
-![](images/week02_90_population_vs_single_sample.jpeg){fig-align="center" width="90%"}
+![](images/week_02_S110_population_vs_single_sample.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Population vs Single Sample
 
@@ -1881,7 +1881,7 @@ mtext("Distribution from\nOne sample of\n100 genes",
 
 ##
 
-![](images/week02_92_standard_error_confidence_interval.jpeg){fig-align="center" width="100%"}
+![](images/week_02_S112_standard_error_confidence_interval.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: Standard Error and Confidence Intervals
 
