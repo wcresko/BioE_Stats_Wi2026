@@ -3904,8 +3904,66 @@ for (x0 in c(-125, -55)) {
 
 ![](images/week_08_S121_loess_animation.gif){fig-align="center" width="80%"}
 
-::: {.aside}
-Source: Lecture material
+## LOESS Animation — How It's Built {.smaller}
+
+::: panel-tabset
+### Approach
+
+The animation sweeps a **focal point** across the x-axis. At each position:
+
+1. Tri-cube kernel weights are computed — nearby points get high weight (large, dark), distant points get near-zero weight (small, faint)
+2. A **weighted local regression** is fit using only the neighborhood
+3. The blue line shows the local fit at that focal point
+
+The result: you can *watch* LOESS building its smooth curve one local fit at a time.
+
+### Data Generation
+
+```python
+# Simulated non-linear trend (matches Week 9 R code)
+np.random.seed(42)
+n = 150
+day = np.random.uniform(-155, 0, n)
+margin = 0.05 * np.sin(day / 25) + 0.02 + np.random.normal(0, 0.025, n)
+```
+
+### Tri-cube Weights
+
+```python
+def tricube_weights(x_data, focal, span_frac, n):
+    """Compute tri-cube kernel weights for LOESS."""
+    dists = np.abs(x_data - focal)
+    h = np.sort(dists)[int(np.ceil(span_frac * n)) - 1]
+    u = dists / h
+    w = np.where(u < 1, (1 - u**3)**3, 0.0)
+    return w / w.max(), h
+```
+
+### Local Regression
+
+```python
+def local_regression(x_data, y_data, weights, focal, h):
+    """Fit weighted linear regression via WLS."""
+    W = np.diag(weights)
+    X = np.column_stack([np.ones_like(x_data), x_data])
+    beta = np.linalg.solve(X.T @ W @ X, X.T @ W @ y_data)
+
+    x_range = np.linspace(focal - h * 0.5, focal + h * 0.5, 50)
+    x_range = x_range[(x_range >= x_data.min()) & (x_range <= x_data.max())]
+    y_pred = beta[0] + beta[1] * x_range
+    return x_range, y_pred
+```
+
+### Regenerate
+
+To regenerate this GIF from the repository root:
+
+```bash
+python3 scripts/loess_animation.py
+```
+
+This produces both `week_08_S121_loess_animation.gif` and `week_08_S122_loess_multi_span_animation.gif` in `Lecture_Folder/images/`.
+
 :::
 
 ## LOESS with Different Spans
@@ -3914,8 +3972,48 @@ The span parameter controls the smoothness — smaller values create more flexib
 
 ![](images/week_08_S122_loess_multi_span_animation.gif){fig-align="center" width="80%"}
 
-::: {.aside}
-Source: Lecture material
+## Comparing Spans — How It's Built {.smaller}
+
+::: panel-tabset
+### Approach
+
+The same focal-point sweep runs **simultaneously** across four panels with different span values:
+
+| Span | Neighborhood | Behavior |
+|------|-------------|----------|
+| 0.10 | 10% of data | Very local — captures fine detail, noisy |
+| 0.15 | 15% of data | Slightly wider — still quite flexible |
+| 0.25 | 25% of data | Moderate — good balance |
+| 0.66 | 66% of data | Wide neighborhood — very smooth |
+
+Watch how wider spans recruit more weighted points (larger dark circles) and produce smoother, less variable local fits.
+
+### Key Code
+
+```python
+SPANS = [0.1, 0.15, 0.25, 0.66]
+
+fig, axes = plt.subplots(2, 2, sharex=True, sharey=True)
+for ax, span in zip(axes.flat, SPANS):
+    w, h = tricube_weights(day, x0, span, N_POINTS)
+
+    # Point size and darkness encode weight
+    sizes = 8 + 80 * w
+    alphas = 0.15 + 0.85 * w
+
+    ax.scatter(day, margin, s=sizes, c=colors, edgecolors='none')
+
+    # Local weighted regression at this focal point
+    x_line, y_line = local_regression(day, margin, w, x0, h)
+    ax.plot(x_line, y_line, color='blue', linewidth=2.5)
+    ax.set_title(f'{span}')
+```
+
+### Interpretation
+
+-   **Small spans (0.1, 0.15)**: Only a few nearby points are weighted — the local fit is highly responsive to local fluctuations but may overfit noise
+-   **Large spans (0.25, 0.66)**: Many points contribute — the fit is smoother and more stable but may miss sharp local features
+-   The animation makes the bias-variance tradeoff visible: watch how the blue regression line wiggles more in the top panels than the bottom
 :::
 
 ## The Span Parameter
