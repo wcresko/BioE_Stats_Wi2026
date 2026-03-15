@@ -2370,6 +2370,20 @@ for(n in c(5, 30, 100)) {
 ```
 :::
 
+## CLT in Action: Watch the Sampling Distribution Build
+
+This animation shows repeated sampling from a **skewed exponential population** (left). Each sample of n=25 produces a mean, which is added to the histogram on the right. Watch how:
+
+- The **distribution of means** becomes bell-shaped despite the skewed population
+- The **estimate** (red line) converges toward the true μ
+- The **SEM** (green bracket) shrinks as more samples are drawn
+
+![](images/week_02_clt_sampling_animation.gif){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: CLT sampling animation created with Python/matplotlib
+:::
+
 ## CLT in Quantitative Genetics
 
 **Why are complex traits normally distributed?**
@@ -2913,6 +2927,176 @@ cat("SEM (n=5):", round(sem_5, 4), "\nSEM (n=50):", round(sem_50, 4))
 -   SEM decreases with larger sample sizes, reflecting greater precision with more data
 -   Comparing SEM at n=5 vs n=50 shows how increasing sample size dramatically reduces estimation uncertainty
 :::
+
+## Interactive: How Sample Size Affects the Estimate and SEM {.smaller}
+
+Use the slider to change the sample size and observe how the **sampling distribution**, **estimate**, and **SEM** change. Each time, 500 samples of size *n* are drawn from a skewed population.
+
+```{ojs}
+//| echo: false
+
+viewof sampleSize = Inputs.range([2, 200], {
+  value: 10,
+  step: 1,
+  label: "Sample size (n):"
+})
+```
+
+```{ojs}
+//| echo: false
+
+// Seeded random number generator for reproducibility
+function mulberry32(a) {
+  return function() {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    var t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  }
+}
+
+// Generate exponential random variable using inverse CDF
+function randExp(rng, rate) {
+  return -Math.log(1 - rng()) / rate;
+}
+
+// Generate population (exponential with rate=0.5, mean=2)
+{
+  const rng = mulberry32(12345);
+  const popSize = 10000;
+  const population = Array.from({length: popSize}, () => randExp(rng, 0.5));
+
+  const trueMean = population.reduce((a, b) => a + b) / population.length;
+
+  // Draw 500 samples of size n and compute means
+  const nSamples = 500;
+  const n = sampleSize;
+  const sampleMeans = [];
+
+  const sampleRng = mulberry32(42);
+  for (let i = 0; i < nSamples; i++) {
+    let sum = 0;
+    for (let j = 0; j < n; j++) {
+      const idx = Math.floor(sampleRng() * popSize);
+      sum += population[idx];
+    }
+    sampleMeans.push(sum / n);
+  }
+
+  const grandMean = sampleMeans.reduce((a, b) => a + b) / sampleMeans.length;
+  const variance = sampleMeans.reduce((a, b) => a + (b - grandMean) ** 2, 0) / (sampleMeans.length - 1);
+  const sdMeans = Math.sqrt(variance);
+  const sem = sdMeans / Math.sqrt(nSamples);
+  const theoreticalSE = Math.sqrt(4) / Math.sqrt(n); // SD of Exp(0.5) = 1/rate = 2
+
+  // Create histogram data
+  const nBins = 35;
+  const minVal = Math.min(...sampleMeans);
+  const maxVal = Math.max(...sampleMeans);
+  const padding = (maxVal - minVal) * 0.1;
+  const binWidth = (maxVal - minVal + 2 * padding) / nBins;
+  const bins = Array.from({length: nBins}, (_, i) => {
+    const lo = minVal - padding + i * binWidth;
+    const hi = lo + binWidth;
+    const count = sampleMeans.filter(v => v >= lo && v < hi).length;
+    return {lo, hi, mid: (lo + hi) / 2, count};
+  });
+
+  const maxCount = Math.max(...bins.map(b => b.count));
+
+  return html`
+    <div style="display: flex; gap: 24px; align-items: flex-start; font-family: system-ui, sans-serif;">
+      <div style="flex: 1.3;">
+        <svg viewBox="0 0 500 300" style="width: 100%; max-width: 500px;">
+          <!-- Axes -->
+          <line x1="60" y1="250" x2="480" y2="250" stroke="#333" stroke-width="1.5"/>
+          <line x1="60" y1="250" x2="60" y2="20" stroke="#333" stroke-width="1.5"/>
+
+          <!-- Title -->
+          <text x="270" y="16" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">
+            Distribution of Sample Means (n = ${n})
+          </text>
+
+          <!-- Bars -->
+          ${bins.map(b => {
+            const barH = maxCount > 0 ? (b.count / maxCount) * 210 : 0;
+            const x = 60 + ((b.lo - (minVal - padding)) / (maxVal - minVal + 2 * padding)) * 420;
+            const w = (binWidth / (maxVal - minVal + 2 * padding)) * 420;
+            return svg`<rect x="${x}" y="${250 - barH}" width="${w - 1}" height="${barH}"
+                          fill="#3498DB" opacity="0.85" stroke="white" stroke-width="0.5"/>`;
+          })}
+
+          <!-- Grand mean line -->
+          ${(() => {
+            const x = 60 + ((grandMean - (minVal - padding)) / (maxVal - minVal + 2 * padding)) * 420;
+            return svg`<line x1="${x}" y1="250" x2="${x}" y2="25" stroke="#E74C3C" stroke-width="2.5"/>`;
+          })()}
+
+          <!-- True mean line -->
+          ${(() => {
+            const x = 60 + ((trueMean - (minVal - padding)) / (maxVal - minVal + 2 * padding)) * 420;
+            return svg`<line x1="${x}" y1="250" x2="${x}" y2="25" stroke="#F39C12" stroke-width="2" stroke-dasharray="6,4"/>`;
+          })()}
+
+          <!-- SEM bracket -->
+          ${(() => {
+            const cx = 60 + ((grandMean - (minVal - padding)) / (maxVal - minVal + 2 * padding)) * 420;
+            const left = 60 + ((grandMean - sdMeans - (minVal - padding)) / (maxVal - minVal + 2 * padding)) * 420;
+            const right = 60 + ((grandMean + sdMeans - (minVal - padding)) / (maxVal - minVal + 2 * padding)) * 420;
+            const y = 32;
+            return svg`
+              <line x1="${left}" y1="${y}" x2="${right}" y2="${y}" stroke="#2ECC71" stroke-width="2.5"/>
+              <line x1="${left}" y1="${y-5}" x2="${left}" y2="${y+5}" stroke="#2ECC71" stroke-width="2"/>
+              <line x1="${right}" y1="${y-5}" x2="${right}" y2="${y+5}" stroke="#2ECC71" stroke-width="2"/>
+              <text x="${cx}" y="${y - 8}" text-anchor="middle" font-size="11" font-weight="bold" fill="#2ECC71">
+                SD of means = ${sdMeans.toFixed(3)}
+              </text>
+            `;
+          })()}
+
+          <!-- X-axis labels -->
+          ${(() => {
+            const range = maxVal - minVal + 2 * padding;
+            const step = range / 5;
+            return Array.from({length: 6}, (_, i) => {
+              const val = minVal - padding + i * step;
+              const x = 60 + (i / 5) * 420;
+              return svg`<text x="${x}" y="268" text-anchor="middle" font-size="10" fill="#666">${val.toFixed(1)}</text>`;
+            });
+          })()}
+          <text x="270" y="290" text-anchor="middle" font-size="12" fill="#333">Sample Mean</text>
+          <text x="25" y="140" text-anchor="middle" font-size="12" fill="#333" transform="rotate(-90,25,140)">Count</text>
+        </svg>
+      </div>
+
+      <div style="flex: 0.7; padding-top: 20px;">
+        <div style="background: #f8f9fa; border-radius: 10px; padding: 18px; border: 1px solid #dee2e6;">
+          <div style="font-size: 14px; margin-bottom: 12px;">
+            <span style="display:inline-block; width:12px; height:3px; background:#E74C3C; margin-right:6px; vertical-align:middle;"></span>
+            <strong>Estimate (x̄):</strong> ${grandMean.toFixed(3)}
+          </div>
+          <div style="font-size: 14px; margin-bottom: 12px;">
+            <span style="display:inline-block; width:12px; height:3px; background:#F39C12; margin-right:6px; vertical-align:middle; border-top: 2px dashed #F39C12;"></span>
+            <strong>True μ:</strong> ${trueMean.toFixed(3)}
+          </div>
+          <div style="font-size: 14px; margin-bottom: 12px;">
+            <span style="display:inline-block; width:12px; height:3px; background:#2ECC71; margin-right:6px; vertical-align:middle;"></span>
+            <strong>SD of means:</strong> ${sdMeans.toFixed(3)}
+          </div>
+          <div style="font-size: 14px; margin-bottom: 16px;">
+            <strong>Theoretical SE:</strong> σ/√n = ${theoreticalSE.toFixed(3)}
+          </div>
+          <hr style="border: none; border-top: 1px solid #dee2e6; margin: 12px 0;">
+          <div style="font-size: 13px; color: #555;">
+            <strong>Key insight:</strong><br>
+            As <em>n</em> increases, the distribution narrows (SE ∝ 1/√n) and becomes more normal — regardless of population shape.
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+```
 
 ## Confidence Intervals
 
