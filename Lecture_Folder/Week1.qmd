@@ -130,6 +130,10 @@ Welcome to the course! This term we will build your skills in statistical thinki
 
 ![](images/week_01_S08_nakashima_chair_craftsmanship.jpeg){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: George Nakashima Conoid Chair, Nakashima Woodworkers
+:::
+
 ## 
 
 ![](images/week_01_S09_woodworking_tool_cabinet.jpeg){fig-align="center" width="100%"}
@@ -500,6 +504,10 @@ It will delete files you say to delete and override files with duplicate names!
 ## Why use R?
 
 ![](images/week_01_S62_week2_rpirate.jpeg){fig-align="center" width="60%"}
+
+::: {.aside}
+Source: imgflip.com
+:::
 
 -   Powerful, flexible, and free
 -   Runs on all platforms
@@ -1390,6 +1398,10 @@ Many published findings cannot be reproduced. Quarto helps by embedding analysis
 
 ![](images/week_01_S111_statistical_thinking_in_action.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Logos: R Project, GitHub (Octocat), UNIX (The Open Group), RStudio/Posit, Linux (Tux by Larry Ewing)
+:::
+
 ## The Importance of Organization
 
 ![](images/week_01_S112_messy_lab.jpg){fig-align="center" width="80%"}
@@ -1399,6 +1411,10 @@ Keeping your data, code, and analyses organized is crucial for reproducibility.
 ## Lab Notebook Example
 
 ![](images/week_01_S113_electronic_lab_notebook_for_re.png){width="80%"}
+
+::: {.aside}
+Source: V. Keith Hughitt, Electronic Lab Notebook
+:::
 
 # Quarto is a scientific organization and publishing system
 
@@ -1653,11 +1669,19 @@ gene_expression |>
 
 ![The pipe operator Mario meme](images/week_01_S126_w1_mario.jpeg){#fig-week2-pipe-mario fig-align="center" width="70%"}
 
+::: {.aside}
+Source: Mario character, Nintendo
+:::
+
 Pipes connect operations together, passing output from one function to the next.
 
 ## This is Not a Pipe
 
 ![This is not a pipe - Magritte](images/week_01_S127_w1_magritte.jpeg){#fig-week2-magritte fig-align="center" width="60%"}
+
+::: {.aside}
+Source: Rene Magritte, *La Trahison des images* (*The Treachery of Images*), 1929
+:::
 
 The R pipe (`|>` or `%>%`) is a way to chain operations - but remember, the map is not the territory!
 
