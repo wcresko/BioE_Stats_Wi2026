@@ -337,6 +337,17 @@ See the next slides for WSL2 installation
 | **Options**  | Change the behavior of a command                |
 | **Argument** | What the command should operate on              |
 
+## Shell Command Structure (SVG)
+
+![](images/week_01_S38_shell_command_anatomy.svg){fig-align="center" width="60%"}
+
+| Component    | Description                                     |
+|:-------------|:------------------------------------------------|
+| **Prompt**   | Indicates computer is ready to accept a command |
+| **Command**  | Tells computer to do a specific task            |
+| **Options**  | Change the behavior of a command                |
+| **Argument** | What the command should operate on              |
+
 # Navigation Commands {background-color="#2c3e50"}
 
 ## The way you normally navigate
@@ -356,29 +367,57 @@ See the next slides for WSL2 installation
 
 ![](images/week_01_S42_w1_file_structure.jpeg){fig-align="center" width="100%"}
 
-## 
+## File System Structure (SVG)
+
+![](images/week_01_S42_file_structure.svg){fig-align="center" width="100%"}
+
+##
 
 ![](images/week_01_S43_unix_file_hierarchy.jpeg){fig-align="center" width="90%"}
 
-## 
+## UNIX File Hierarchy (SVG)
+
+![](images/week_01_S43_unix_file_hierarchy.svg){fig-align="center" width="90%"}
+
+##
 
 ![](images/week_01_S44_unix_paths_highlighted.jpeg){fig-align="center" width="90%"}
 
-## 
+## Paths (SVG)
+
+![](images/week_01_S44_unix_paths_highlighted.svg){fig-align="center" width="90%"}
+
+##
 
 ![](images/week_01_S45_unix_dot_files.jpeg){fig-align="center" width="90%"}
 
-## 
+## Special Files -- 'dot' (SVG)
+
+![](images/week_01_S45_unix_dot_files.svg){fig-align="center" width="90%"}
+
+##
 
 ![](images/week_01_S46_unix_dot_current_dir.jpeg){fig-align="center" width="90%"}
 
-## 
+## Special Files -- 'dot' Self-Reference (SVG)
+
+![](images/week_01_S46_unix_dot_current_dir.svg){fig-align="center" width="90%"}
+
+##
 
 ![](images/week_01_S47_unix_dotdot_parent.jpeg){fig-align="center" width="90%"}
 
-## 
+## Special Files -- 'dot dot' (SVG)
+
+![](images/week_01_S47_unix_dotdot_parent.svg){fig-align="center" width="90%"}
+
+##
 
 ![](images/week_01_S48_unix_dotdot_navigation.jpeg){fig-align="center" width="90%"}
+
+## Special Files -- 'dot dot' Navigation (SVG)
+
+![](images/week_01_S48_unix_dotdot_navigation.svg){fig-align="center" width="90%"}
 
 ## Relative and Absolute Paths
 
@@ -1634,13 +1673,25 @@ The R pipe (`|>` or `%>%`) is a way to chain operations - but remember, the map 
 
 ![Pipe workflow step 3](images/week_01_S130_w1_pipes_3.jpeg){#fig-week2-pipes-3 fig-align="center" width="90%"}
 
+## Pipe Workflow - Step 3 (SVG)
+
+![Pipe workflow step 3 - command output to shell](images/week_01_S130_pipe_step3.svg){fig-align="center" width="90%"}
+
 ## Pipe Workflow - Step 4
 
 ![Pipe workflow step 4](images/week_01_S131_w1_pipes_4.jpeg){#fig-week2-pipes-4 fig-align="center" width="90%"}
 
+## Pipe Workflow - Step 4 (SVG)
+
+![Pipe workflow step 4 - redirect output to file](images/week_01_S131_pipe_step4.svg){fig-align="center" width="90%"}
+
 ## Pipe Workflow - Step 5
 
 ![Pipe workflow step 5](images/week_01_S132_w1_pipes_5.jpeg){#fig-week2-pipes-5 fig-align="center" width="90%"}
+
+## Pipe Workflow - Step 5 (SVG)
+
+![Pipe workflow step 5 - chained pipeline](images/week_01_S132_pipe_step5.svg){fig-align="center" width="90%"}
 
 ## Visualization
 
