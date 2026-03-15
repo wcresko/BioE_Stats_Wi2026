@@ -183,7 +183,7 @@ print(f"Total frames: {len(frames)}")
 
 # ── Save GIF ─────────────────────────────────────────────────────────
 output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                          '..', 'images')
+                          '..', 'Lecture_Folder', 'images')
 output_path = os.path.join(output_dir, 'week_02_clt_sampling_animation.gif')
 
 frames[0].save(
