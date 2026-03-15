@@ -161,6 +161,10 @@ abline(my_lm, col = "red", lwd = 2)
 
 ![](images/week_05_S08_residuals_least_squares_diagram.jpeg){fig-align="center" width="90%"}
 
+## (SVG)
+
+![](images/week_05_S08_residuals_least_squares_diagram.svg){fig-align="center" width="90%"}
+
 ## DRAFT: Residuals and Least Squares
 
 ::: panel-tabset
@@ -243,6 +247,10 @@ abline(v = mean(x), lty = 2, col = "gray50")
 
 ![](images/week_05_S10_regression_conditional_distributions.jpeg){fig-align="center" width="90%"}
 
+## (SVG)
+
+![](images/week_05_S10_regression_conditional_distributions.svg){fig-align="center" width="90%"}
+
 ## DRAFT: Regression Conditional Distributions
 
 ::: panel-tabset
@@ -313,6 +321,10 @@ for (xi in c(3, 7)) {
 ## Hypothesis Tests in Regression
 
 ![](images/week_05_S12_reduced_vs_full_model_residuals.jpeg){fig-align="center" width="90%"}
+
+## Hypothesis Tests in Regression (SVG)
+
+![](images/week_05_S12_reduced_vs_full_model_residuals.svg){fig-align="center" width="90%"}
 
 ## DRAFT: Reduced vs Full Model Residuals
 
@@ -501,6 +513,10 @@ where $p$ is the number of parameters estimated (2 for simple linear regression:
 ## Hypothesis Tests in Regression
 
 ![](images/week_05_S17_f_ratio_f_distribution_hypothesis.jpeg){fig-align="center" width="90%"}
+
+## Hypothesis Tests in Regression (SVG)
+
+![](images/week_05_S17_f_ratio_f_distribution_hypothesis.svg){fig-align="center" width="90%"}
 
 ## DRAFT: F-Ratio and the F-Distribution
 
@@ -1652,9 +1668,17 @@ The figure below illustrates what the conditional distributions of $y$ should lo
 
 ![](images/week_05_S10_regression_conditional_distributions.jpeg){fig-align="center" width="80%"}
 
+## Visualizing the Assumptions (SVG)
+
+![](images/week_05_S10_regression_conditional_distributions.svg){fig-align="center" width="80%"}
+
 ## Spotting Assumption Violations
 
 ![](images/week_05_S57_regression_residual_plots_homoscedasticity.jpeg){fig-align="center" width="90%"}
+
+## Spotting Assumption Violations (SVG)
+
+![](images/week_05_S57_regression_residual_plots_homoscedasticity.svg){fig-align="center" width="90%"}
 
 ## DRAFT: Homoscedasticity vs Heteroscedasticity
 
@@ -1742,6 +1766,10 @@ abline(h = 0, lty = 2)
 
 ![](images/week_05_S59_anscombes_quartet_regression_lines.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Anscombe, F.J. (1973). "Graphs in Statistical Analysis." *The American Statistician*, 27(1), 17-21.
+:::
+
 ## DRAFT: Anscombe's Quartet
 
 ::: panel-tabset
@@ -1798,6 +1826,10 @@ All four datasets have nearly identical summary statistics ($\bar{x}=9$, $\bar{y
 ## Spotting Assumption Violations
 
 ![](images/week_05_S61_residual_patterns_heteroscedasticity.jpeg){fig-align="center" width="90%"}
+
+## Spotting Assumption Violations (SVG)
+
+![](images/week_05_S61_residual_patterns_heteroscedasticity.svg){fig-align="center" width="90%"}
 
 ## DRAFT: Residual Patterns
 
@@ -1997,6 +2029,10 @@ check_model(my_lm)
 ## Outlier Leverage and Influence
 
 ![](images/week_05_S67_penalizing_model_complexity.jpeg){fig-align="center" width="90%"}
+
+## Outlier Leverage and Influence (SVG)
+
+![](images/week_05_S67_penalizing_model_complexity.svg){fig-align="center" width="90%"}
 
 ## DRAFT: Outlier Leverage and Influence
 
@@ -2916,6 +2952,10 @@ autoplot(lm_expr_clean, which = 1:4, ncol = 2) +
 
 ![](images/week_04_S35_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
+::: {.aside}
+Source: Galton, F. (1889). *Natural Inheritance.* Macmillan; Class data from 1999.
+:::
+
 ## DRAFT: Galton's Regression to the Mean
 
 ::::: columns
@@ -2984,6 +3024,10 @@ $$Y = 0.57x + 73.87$$
 
 ![](images/week_05_S94_galton.jpeg){fig.align="center"}
 
+::: {.aside}
+Source: Portrait of Sir Francis Galton, public domain.
+:::
+
 -   Francis Galton: Darwin's half cousin
 -   Studied human variation and genetic inheritance
     -   Human height, fingerprints, intelligence
@@ -3004,17 +3048,29 @@ $$Y = 0.57x + 73.87$$
 knitr::include_graphics("images/week_05_S96_regression_formula_013.jpeg")
 ```
 
+::: {.aside}
+Source: Eugenics Building at a state fair, ca. 1920s. American Philosophical Society.
+:::
+
 ## Galton, Charles Davenport & G. Stanley Hall
 
 ```{r, echo=FALSE, out.width='50%', fig.asp=.75, fig.align='center'}
 knitr::include_graphics("images/week_05_S97_regression_formula_014.jpeg")
 ```
 
+::: {.aside}
+Source: Historical photographs, public domain.
+:::
+
 ## Logo of the US eugenics society
 
 ```{r, echo=FALSE, out.width='80%', fig.asp=.75, fig.align='center'}
 knitr::include_graphics("images/week_05_S98_regression_formula_015.jpeg")
 ```
+
+::: {.aside}
+Source: Eugenics tree logo, American Eugenics Society, ca. 1920s. Public domain.
+:::
 
 -   American Eugenics Record Office (ERO) founded in Cold Springs Harbor
 
@@ -3033,6 +3089,10 @@ knitr::include_graphics("images/week_05_S98_regression_formula_015.jpeg")
 knitr::include_graphics("images/week_05_S100_fisher.jpeg")
 ```
 
+::: {.aside}
+Source: Portrait of R.A. Fisher, public domain.
+:::
+
 ## RA Fisher and Eugenics
 
 -   1/3rd of his work "The Genetical Theory of Natural Selection" discussed eugenics and his theory that the fall of civilizations was due to the fertility of their upper classes being diminished
@@ -3048,6 +3108,10 @@ knitr::include_graphics("images/week_05_S100_fisher.jpeg")
 ```{r, echo=FALSE, out.width='70%', fig.asp=.75, fig.align='center'}
 knitr::include_graphics("images/week_05_S102_regression_formula_016.jpeg")
 ```
+
+::: {.aside}
+Source: Historical photographs, public domain.
+:::
 
 ## Sterilizations continue in America
 
@@ -3068,6 +3132,10 @@ knitr::include_graphics("images/week_05_S102_regression_formula_016.jpeg")
 ```{r, echo=FALSE, out.width='20%', fig.asp=.75, fig.align='center'}
 knitr::include_graphics("images/week_05_S105_regression_formula_017.jpeg")
 ```
+
+::: {.aside}
+Source: Zimmer, C. (2018). *She Has Her Mother's Laugh.* Dutton.
+:::
 
 -   See also
     -   "The Gene" by Siddhartha Mukherjee
@@ -3106,6 +3174,10 @@ This is still a **linear model** in the statistical sense (the parameters $\beta
 ## Power and Polynomial Relationships
 
 ![Power and polynomial relationships in regressionFitting a Polynomial Model: Grip Strength \~ Exercise](images/week_05_S108_power_polynomial_relationships.jpeg){alt="Power and polynomial relationships in regression" fig-align="center" width="90%"}
+
+## Power and Polynomial Relationships (SVG)
+
+![](images/week_05_S108_power_polynomial_relationships.svg){fig-align="center" width="90%"}
 
 ## DRAFT: Power and Polynomial Relationships
 
@@ -3512,6 +3584,10 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
 
 ![Emlen 2001 beetle horn vs wing length data](images/week_05_S117_beetle_data_emlen_2001.jpeg){alt="Emlen 2001 beetle horn vs wing length data" fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Emlen, D.J. (2001). Costs and the diversification of exaggerated animal structures. *Science*, 291, 1534-1536.
+:::
+
 Data from Emlen, D.J. 2001. *Costs and the diversification of exaggerated animal structures.* Science 291: 1534-1536.
 
 ## DRAFT: Beetle Horn Allometry Data
@@ -3568,6 +3644,10 @@ plot(beetle$wing, beetle$horn, pch = 16, cex = 1.3,
 
 ![Linear regression on beetle data](images/week_05_S119_linear_regression_beetle.jpeg){alt="Linear regression on beetle data" fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Data from Emlen, D.J. (2001). *Science*, 291, 1534-1536.
+:::
+
 ## DRAFT: Linear Fit
 
 ::: panel-tabset
@@ -3609,6 +3689,10 @@ abline(fit1, lwd = 2, col = "red")
 ## Quadratic Regression Fit
 
 ![Quadratic (polynomial degree 2) regression](images/week_05_S121_quadratic_regression_beetle.jpeg){alt="Quadratic (polynomial degree 2) regression" fig-align="center" width="90%"}
+
+::: {.aside}
+Source: Data from Emlen, D.J. (2001). *Science*, 291, 1534-1536.
+:::
 
 ## DRAFT: Quadratic Fit
 
@@ -3656,6 +3740,10 @@ lines(xseq, predict(fit2, newdata = data.frame(wing = xseq)),
 
 ![Cubic (polynomial degree 3) regression](images/week_05_S123_cubic_regression_beetle.jpeg){alt="Cubic (polynomial degree 3) regression" fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Data from Emlen, D.J. (2001). *Science*, 291, 1534-1536.
+:::
+
 ## DRAFT: Cubic Fit
 
 ::: panel-tabset
@@ -3700,6 +3788,10 @@ lines(xseq, predict(fit3, newdata = data.frame(wing = xseq)),
 ## Higher-Order Polynomials
 
 ![Polynomial degree 5 regression](images/week_05_S125_poly5_regression_beetle.jpeg){alt="Polynomial degree 5 regression" fig-align="center" width="90%"}
+
+::: {.aside}
+Source: Data from Emlen, D.J. (2001). *Science*, 291, 1534-1536.
+:::
 
 ## DRAFT: Degree 5 Polynomial
 
@@ -3746,6 +3838,10 @@ lines(xseq, predict(fit5, newdata = data.frame(wing = xseq)),
 
 ![Polynomial degree 10 regression - overfitting!](images/week_05_S127_poly10_regression_beetle.jpeg){alt="Polynomial degree 10 regression - overfitting!" fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Data from Emlen, D.J. (2001). *Science*, 291, 1534-1536.
+:::
+
 ## DRAFT: Degree 10 Polynomial - Overfitting!
 
 ::: panel-tabset
@@ -3791,6 +3887,10 @@ lines(xseq, predict(fit10, newdata = data.frame(wing = xseq)),
 ## Model Selection Visualization
 
 ![Log-likelihood and R² vs polynomial degree](images/week_05_S129_model_selection_plots.jpeg){alt="Log-likelihood and R² vs polynomial degree" fig-align="center" width="90%"}
+
+::: {.aside}
+Source: Data from Emlen, D.J. (2001). *Science*, 291, 1534-1536.
+:::
 
 ## DRAFT: Model Selection - Log-Likelihood and R²
 
@@ -3857,6 +3957,23 @@ plot(degrees, r2, type = "b", pch = 16, cex = 1.5,
 ## Mallow's Cp Statistic
 
 ![Cp statistic for model selectionKey Takeaways: Model Diagnostics](images/week_05_S131_cp_statistic_formula.jpeg){alt="Cp statistic for model selection" fig-align="center" width="90%"}
+
+## Mallow's Cp Statistic (SVG)
+
+![](images/week_05_S131_cp_statistic_formula.svg){fig-align="center" width="90%"}
+
+## Mallow's Cp Statistic (LaTeX)
+
+$$C_p = \frac{SS_{\text{error}}}{\hat{\sigma}^2} - n + 2p$$
+
+- $SS_{\text{error}}$: error sum of squares for the model with $p$ predictors (incl. intercept)
+- $\hat{\sigma}^2$: error mean square of full model (e.g., all predictors)
+- $n$: sample size
+- $p$: number of predictors (including intercept)
+
+$C_p$ estimates mean square prediction error. (Related to AIC.)
+
+$2p$: sort of a penalty for including too many predictors. A feature shared with all other model selection criteria.
 
 ## DRAFT: Mallow's Cp Statistic
 
@@ -3938,6 +4055,14 @@ Not all regression is created equal! The choice depends on **measurement error**
 
 ![Model I (OLS) vs Model II regression types](images/week_05_S137_model_types_ols_ma_rma.jpeg){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: Figure 5.12, Logan, M. (2010). *Biostatistical Design and Analysis Using R.* Wiley-Blackwell.
+:::
+
+## Types of Linear Regression (SVG)
+
+![](images/week_05_S137_model_types_ols_ma_rma.svg){fig-align="center" width="80%"}
+
 ## DRAFT: Model I vs Model II Regression
 
 ::: panel-tabset
@@ -4003,6 +4128,10 @@ text(x[2] + 0.3, y[2] - 1.5, "2", cex = 1.5, col = "red")
 ## Regression Type Examples
 
 ![Comparison of OLS (Type I) and Type II regression methods](images/week_05_S139_regression_type_examples.jpeg){fig-align="center" width="90%"}
+
+::: {.aside}
+Source: Logan, M. (2010). *Biostatistical Design and Analysis Using R.* Wiley-Blackwell.
+:::
 
 ## DRAFT: OLS, MA, and RMA Comparison
 
@@ -4106,6 +4235,14 @@ abline(a = int_rma, b = slope_rma, lwd = 2)
 ## When to Use Each Model Type
 
 ![Guidelines for choosing between OLS, MA, and RMA regression](images/week_05_S141_when_to_use_model_types.jpeg){fig-align="center" width="90%"}
+
+::: {.aside}
+Source: Table 8.1, Logan, M. (2010). *Biostatistical Design and Analysis Using R.* Wiley-Blackwell; Legendre, P. (2013). Model II Regression Guide.
+:::
+
+## When to Use Each Model Type (SVG)
+
+![](images/week_05_S141_when_to_use_model_types.svg){fig-align="center" width="90%"}
 
 ## DRAFT: When to Use Each Regression Type
 

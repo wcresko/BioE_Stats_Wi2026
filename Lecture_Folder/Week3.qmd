@@ -128,6 +128,10 @@ $H_A$: The substitution **decreases** the catalytic rate
 
 ![](images/week_03_S07_null_alt_hypothesis_distributions.jpeg){fig-align="center" width="90%"}
 
+## Null and Alternative Hypotheses (SVG)
+
+![](images/week_03_S07_null_alt_hypothesis_distributions.svg){fig-align="center" width="90%"}
+
 ## DRAFT: Null and Alternative Hypotheses
 
 ::: panel-tabset
@@ -191,6 +195,10 @@ axis(1)
 ##
 
 ![](images/week_03_S09_effect_size_overlap_distributions.jpeg){fig-align="center" width="60%"}
+
+## (SVG)
+
+![](images/week_03_S09_effect_size_overlap_distributions.svg){fig-align="center" width="60%"}
 
 ## DRAFT: Effect Size and Distribution Overlap
 
@@ -259,6 +267,10 @@ abline(v = c(2, 6), lwd = 2)
 
 ![](images/week_03_S11_type_i_ii_error_matrix.jpeg){fig-align="center" width="90%"}
 
+## Type I and Type II Errors (SVG)
+
+![](images/week_03_S11_type_i_ii_error_matrix.svg){fig-align="center" width="90%"}
+
 ## DRAFT: Type I and Type II Errors
 
 |  | **Reject $H_0$** | **Retain $H_0$** |
@@ -279,6 +291,10 @@ abline(v = c(2, 6), lwd = 2)
 
 ![](images/week_03_S14_fisher_significance_excerpt.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: R. A. Fisher, "The Arrangement of Field Experiments," *Journal of the Ministry of Agriculture*, 1926
+:::
+
 # Statistical Sampling Distributions
 
 ## Statistical Sampling Distributions
@@ -294,6 +310,10 @@ abline(v = c(2, 6), lwd = 2)
 ## Statistical Sampling Distributions
 
 ![](images/week_03_S17_statistical_distributions_z_t_chi_f.jpeg){fig-align="center" width="70%"}
+
+## Statistical Sampling Distributions (SVG)
+
+![](images/week_03_S17_statistical_distributions_z_t_chi_f.svg){fig-align="center" width="70%"}
 
 ## DRAFT: Statistical Sampling Distributions
 
@@ -398,6 +418,10 @@ lines(x_f, df(x_f, df1 = 10, df2 = 20), lwd = 2, col = "blue")
 ## Statistical Null Distributions and p-Values
 
 ![Understanding p-values and null distributions](images/week_03_S19_understanding_p_values_and_nul.jpeg){fig-align="center" width="90%"}
+
+## Statistical Null Distributions and p-Values (SVG)
+
+![Understanding p-values and null distributions](images/week_03_S19_understanding_p_values_and_nul.svg){fig-align="center" width="90%"}
 
 ## DRAFT: Understanding p-Values
 
@@ -564,6 +588,10 @@ legend("topright", c("Normal", paste("df =", df_values)),
 
 ![](images/week_03_S24_one_tailed_critical_region.jpeg){fig-align="center" width="90%"}
 
+## One-Tailed Test (SVG)
+
+![](images/week_03_S24_one_tailed_critical_region.svg){fig-align="center" width="90%"}
+
 ## DRAFT: One-Tailed Test
 
 ::: panel-tabset
@@ -631,6 +659,10 @@ text(tc + 0.8, 0.10, expression(alpha == 0.05), cex = 1.3)
 ## Two-Tailed Test
 
 ![Critical regions in a two-tailed hypothesis test](images/week_03_S26_critical_regions_in_a_two_tail.jpeg){fig-align="center" width="90%"}
+
+## Two-Tailed Test (SVG)
+
+![Critical regions in a two-tailed hypothesis test](images/week_03_S26_critical_regions_in_a_two_tail.svg){fig-align="center" width="90%"}
 
 ## DRAFT: Two-Tailed Test
 
@@ -1168,6 +1200,10 @@ Statistical significance ≠ practical significance. Always report effect sizes!
 
 ![](images/week_03_S45_baron_munchausen_bootstrap.jpeg){fig-align="center" width="100%"}
 
+::: {.aside}
+Source: Illustration by Oskar Herrfurth; from *The Travels and Surprising Adventures of Baron Munchausen* by Rudolf Erich Raspe, 1785
+:::
+
 ## Why Bootstrap?
 
 -   Most estimates (not just the mean) lack simple SE formulas
@@ -1418,6 +1454,10 @@ A programmer's partner says: "Buy milk, and if they have eggs, get six." The pro
 
 ![](images/week_03_S55_permutation_null_distribution.jpeg){fig-align="center" width="40%"}
 
+## Permutation Test Example (SVG)
+
+![](images/week_03_S55_permutation_null_distribution.svg){fig-align="center" width="40%"}
+
 ## DRAFT: Permutation Null Distribution
 
 ::: panel-tabset
@@ -1637,6 +1677,10 @@ t.test(pop_equal_1, pop_equal_2)
 
 ![](images/week_03_S62_clinical_trial_data_table.jpeg){fig-align="center" width="90%"}
 
+## Clinical Trial Example (SVG)
+
+![](images/week_03_S62_clinical_trial_data_table.svg){fig-align="center" width="90%"}
+
 ## DRAFT: Clinical Trial Example
 
 |  | **Nonoxynol-9** |  | **Placebo** |  |
@@ -1697,6 +1741,10 @@ Studies without double-blinding exaggerate treatment effects by 16% on average (
 -   Minimizes standard error
 
 ![](images/week_03_S68_pooled_standard_error_formula.jpeg){fig-align="center" width="80%"}
+
+## Replication and Balance (SVG)
+
+![](images/week_03_S68_pooled_standard_error_formula.svg){fig-align="center" width="80%"}
 
 ## DRAFT: Pooled Standard Error Formula
 

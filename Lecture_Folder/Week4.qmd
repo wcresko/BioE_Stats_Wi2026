@@ -711,6 +711,10 @@ r = \frac{Cov(X,Y)}{s_x \cdot s_y}
 
 ![](images/week_04_S25_week8_correlation.jpg){fig-align="center" width="60%"}
 
+## Covariance and Correlation (SVG)
+
+![](images/week_04_S25_week8_correlation.svg){fig-align="center" width="60%"}
+
 ## Visualizing Different Correlations in R
 
 :::: panel-tabset
@@ -867,9 +871,23 @@ cor.test(mtcars$mpg, mtcars$wt)
 
 ![](images/week_04_S30_divorce_versus_margarine_1.jpg){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: Tyler Vigen, *Spurious Correlations*, tylervigen.com, 2015
+:::
+
 ## Anscombe's Quartet
 
 ![](images/week_04_S31_anscombes_quartet_four_datasets.jpeg){fig-align="center" width="90%"}
+
+All four datasets have identical: mean of x (9), variance of x (11), mean of y (7.5), correlation (0.816), and regression line ($y = 3.00 + 0.50x$).
+
+::: {.aside}
+Source: Anscombe, F.J. "Graphs in Statistical Analysis," *The American Statistician*, 1973
+:::
+
+## Anscombe's Quartet (SVG)
+
+![](images/week_04_S31_anscombes_quartet_four_datasets.svg){fig-align="center" width="90%"}
 
 All four datasets have identical: mean of x (9), variance of x (11), mean of y (7.5), correlation (0.816), and regression line ($y = 3.00 + 0.50x$).
 
@@ -983,13 +1001,25 @@ y_i = \beta_0 + \beta_1 x_i + \epsilon_i
 
 ![](images/week_04_S35_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
-## 
+::: {.aside}
+Source: Left: Galton, F. "Regression Towards Mediocrity in Hereditary Stature," *Journal of the Anthropological Institute*, 1886. Right: Genetics class data, 1999.
+:::
+
+##
 
 ![](images/week_04_S36_linear_relationship_types_scatterplots.jpeg){fig-align="center" width="90%"}
 
-## 
+## (SVG)
+
+![](images/week_04_S36_linear_relationship_types_scatterplots.svg){fig-align="center" width="90%"}
+
+##
 
 ![](images/week_04_S37_regression_slope_intercept_diagrams.jpeg){fig-align="center" width="90%"}
+
+## (SVG)
+
+![](images/week_04_S37_regression_slope_intercept_diagrams.svg){fig-align="center" width="90%"}
 
 ## Many Methods Are Linear Models
 

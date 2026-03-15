@@ -118,6 +118,10 @@ library(nycflights13) # NYC flights data for dplyr examples
 
 ![Tidyverse packages overview](images/week_02_S08_tidyverse_packages.jpeg){#fig-week2-tidyverse fig-align="center" width="90%"}
 
+::: {.aside}
+Source: [tidyverse.org](https://www.tidyverse.org/)
+:::
+
 ::: panel-tabset
 ### Output
 
@@ -185,6 +189,10 @@ mpg
 
 ![dplyr functions](images/week_02_S12_r_vector_types_hierarchy.jpeg){#fig-week2-dplyr-functions fig-align="center" width="90%"}
 
+## Types of variables in a tibble (SVG)
+
+![R vector types hierarchy](images/week_02_S12_r_vector_types_hierarchy.svg){fig-align="center" width="90%"}
+
 ## Key dplyr Verbs
 
 -   `dpylr` is a package in the `tidyverse` that gives you functions (aka verbs) to wrangle data.
@@ -237,6 +245,10 @@ select(flights, year, month, day)
 :::
 
 ![](images/week_02_S14_boolean_set_operations_venn.jpeg){fig-align="center" width="50%"}
+
+## Boolean Set Operations (SVG)
+
+![](images/week_02_S14_boolean_set_operations_venn.svg){fig-align="center" width="50%"}
 
 ## Conditional Operators
 
@@ -378,6 +390,10 @@ More info: <https://ggplot2.tidyverse.org/>
 
 ![](images/week_02_S23_grammar_of_graphics_layers.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Leland Wilkinson, *The Grammar of Graphics*, 1999
+:::
+
 ## Scatterplots
 
 ::: panel-tabset
@@ -415,6 +431,10 @@ ggplot(mpg, aes(displ, hwy, color = class)) +
 ## Boxplots
 
 ![](images/week_02_S25_boxplot.jpeg){fig-align="center" width="90%"}
+
+## Boxplots (SVG)
+
+![](images/week_02_S25_boxplot.svg){fig-align="center" width="90%"}
 
 ## DRAFT: Boxplot Anatomy with Normal Distribution
 
@@ -695,6 +715,10 @@ ggplot(d, aes(x=a, y=b)) +
 
 ![](images/week_02_S32_flow_chart_for_choosing_data_v.jpeg){fig-align="center" width="90%"}
 
+## Choosing the Right Plot (SVG)
+
+![](images/week_02_S32_flow_chart_for_choosing_data_v.svg){fig-align="center" width="90%"}
+
 ## R Exercise: Data Visualization
 
 ::: callout-tip
@@ -737,9 +761,17 @@ ggplot(d, aes(x=a, y=b)) +
 
 ![Minard's map of Napoleon's Russian campaign - Edward Tufte](images/week_02_S42_minards_map_of_napoleons_russi.jpeg){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: Charles Joseph Minard, 1869
+:::
+
 ## 
 
 ![Modern recreation of Minard-style data visualization](images/week_02_S43_modern_recreation_of_minard_st.jpeg){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: FiveThirtyEight
+:::
 
 ## Principles of Effective Display
 
@@ -757,13 +789,25 @@ ggplot(d, aes(x=a, y=b)) +
 
 ![](images/week_02_S45_tufte_1983.jpeg){#fig-align="center" width="80%"}
 
+::: {.aside}
+Source: Edward Tufte, *The Visual Display of Quantitative Information*, 1983
+:::
+
 ## "Maximize the Data to Ink Ratio"
 
 ![The Economist 2006](images/week_02_S46_the_economist_2006.jpeg){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: *The Economist*, 2006
+:::
+
 ## Represent Magnitudes Honestly
 
 ![Rattenborg et al. 1999 Nature](images/week_02_S47_rattenborg_et_al_1999_nature.jpeg){fig-align="center" width="70%"}
+
+::: {.aside}
+Source: Rattenborg et al., *Nature*, 1999
+:::
 
 ## How NOT to Make a Figure
 
@@ -777,7 +821,11 @@ ggplot(d, aes(x=a, y=b)) +
 :::
 :::::
 
-"Graphical excellence begins with telling the truth about the data" – Tufte 1983
+::: {.aside}
+Source: Fox News, 2011; Bureau of Labor Statistics data
+:::
+
+"Graphical excellence begins with telling the truth about the data" -- Tufte 1983
 
 # Parameters and Statistics {background-color="#2c3e50"}
 
@@ -796,6 +844,19 @@ We use sample statistics to **estimate** population parameters
 ## Accuracy vs. Precision
 
 ![](images/week_02_S51_precision_vs_accuracy_target.jpeg){fig-align="center" width="50%"}
+
+::: {.aside}
+Source: aPriori, Copyright 2004-2007
+:::
+
+-   **Accuracy**: closeness to true value
+-   **Precision**: closeness of repeated estimates to each other
+-   **Replication** quantifies variation
+-   **Randomization** avoids bias
+
+## Accuracy vs. Precision (SVG)
+
+![](images/week_02_S51_precision_vs_accuracy_target.svg){fig-align="center" width="50%"}
 
 -   **Accuracy**: closeness to true value
 -   **Precision**: closeness of repeated estimates to each other
@@ -1105,6 +1166,10 @@ abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 
 ![](images/week_02_S61_population_sample_statistics_table.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Whitlock & Schluter, *The Analysis of Biological Data*, Table 2.1
+:::
+
 ## DRAFT: Common moments of distributions
 
 **Table 2.1** Common population parameters and sample statistics
@@ -1129,6 +1194,10 @@ abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 ## Probability of Independent Events
 
 ![](images/week_02_S65_card_deck_probability_union.jpeg){fig-align="center" width="100%"}
+
+::: {.aside}
+Source: Whitlock & Schluter, *The Analysis of Biological Data*
+:::
 
 ## Bernoulli Distribution
 
@@ -1335,6 +1404,10 @@ Where:
 
 ![](images/week_02_S71_bell_shaped_histogram.jpeg){fig-align="center" width="100%"}
 
+## Binomial Distribution (SVG)
+
+![](images/week_02_S71_bell_shaped_histogram.svg){fig-align="center" width="100%"}
+
 ## DRAFT: Binomial Distribution - Bell Shape
 
 ::: panel-tabset
@@ -1461,6 +1534,10 @@ Variables with variance \> mean are called "overdispersed" (common in RNA-seq da
 ![Increasing λ values](images/week_02_S75_increasing_λ_values.jpeg){fig-align="center"}
 :::
 :::::
+
+::: {.aside}
+Source: Whitlock & Schluter, *The Analysis of Biological Data*
+:::
 
 ## DRAFT: Poisson Distribution Examples
 
@@ -1849,6 +1926,10 @@ Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
 
 ![](images/week_02_S88_normal_distribution_68_95_99.jpeg){fig-align="center" width="90%"}
 
+## Normal Distribution (SVG)
+
+![](images/week_02_S88_normal_distribution_68_95_99.svg){fig-align="center" width="90%"}
+
 ## DRAFT: Normal Distribution - 68-95-99.7 Rule
 
 ::: panel-tabset
@@ -1935,6 +2016,10 @@ polygon(c(-1, x_68, 1), c(0, dnorm(x_68), 0),
 ## Normal Distribution
 
 ![](images/week_02_S90_normal_distributions_varying_params.jpeg){fig-align="center" width="50%"}
+
+## Normal Distribution (SVG)
+
+![](images/week_02_S90_normal_distributions_varying_params.svg){fig-align="center" width="50%"}
 
 ## DRAFT: Normal Distributions - Varying Parameters
 
@@ -2023,6 +2108,10 @@ plot(x3, dnorm(x3, mean = 50, sd = 3), type = "l", lwd = 2,
 ## Why Normal is Special in Biology
 
 ![](images/week_02_S93_galton_regression_to_mean.jpeg){fig-align="center" width="70%"}
+
+::: {.aside}
+Source: Francis Galton, 1886; data from Galton's height study
+:::
 
 ## DRAFT: Galton's Regression to the Mean
 
@@ -2373,6 +2462,10 @@ This is why quantitative traits (height, weight, blood pressure) are approximate
 
 ![](images/week_02_S106_population_vs_sampling_distribution.jpeg){fig-align="center" width="100%"}
 
+::: {.aside}
+Source: Whitlock & Schluter, *The Analysis of Biological Data*
+:::
+
 ## DRAFT: Population vs Sampling Distribution
 
 ::: panel-tabset
@@ -2453,6 +2546,10 @@ hist(sample_means, breaks = 40,
 
 ![](images/week_02_S108_sampling_distribution_of_means.jpeg){fig-align="center" width="100%"}
 
+::: {.aside}
+Source: Whitlock & Schluter, *The Analysis of Biological Data*
+:::
+
 ## DRAFT: Sampling Distribution of Means
 
 ::: panel-tabset
@@ -2531,6 +2628,10 @@ segments(2411, 0, 2411, 1, lwd = 8, col = "#CC6633")
 ## Estimation and Confidence Intervals
 
 ![](images/week_02_S110_population_vs_single_sample.jpeg){fig-align="center" width="90%"}
+
+::: {.aside}
+Source: Whitlock & Schluter, *The Analysis of Biological Data*
+:::
 
 ## DRAFT: Population vs Single Sample
 
@@ -2619,6 +2720,10 @@ hist(single_sample, breaks = seq(0, 15000, by = 500),
 ##
 
 ![](images/week_02_S112_standard_error_confidence_interval.jpeg){fig-align="center" width="100%"}
+
+::: {.aside}
+Source: Whitlock & Schluter, *The Analysis of Biological Data*
+:::
 
 ## DRAFT: Standard Error and Confidence Intervals
 
