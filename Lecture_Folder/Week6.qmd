@@ -132,9 +132,17 @@ The overall goal is to create something like a report to share with a collaborat
 
 ![](images/week_04_S35_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
+::: {.aside}
+Source: Galton, F. (1889) *Natural Inheritance*; class data from Genetics course, 1999
+:::
+
 ## Galton as the Father of Eugenics
 
 ![](images/week_05_S94_galton.jpeg){fig-align="center"}
+
+::: {.aside}
+Source: Photograph of Francis Galton, c. 1890s (public domain)
+:::
 
 -   Francis Galton: Darwin's half cousin
 -   Studied human variation and genetic inheritance
@@ -155,6 +163,10 @@ The overall goal is to create something like a report to share with a collaborat
 
 ![](images/week_05_S100_fisher.jpeg){fig-align="center" width="20%"}
 
+::: {.aside}
+Source: Photograph of R.A. Fisher, c. 1910s (public domain)
+:::
+
 ## RA Fisher and Eugenics
 
 -   1/3rd of his work "The Genetical Theory of Natural Selection" discussed eugenics and his theory that the fall of civilizations was due to the fertility of their upper classes being diminished
@@ -165,12 +177,20 @@ The overall goal is to create something like a report to share with a collaborat
 
 ![](images/week_05_S97_regression_formula_014.jpeg){fig-align="center" width="50%"}
 
+::: {.aside}
+Source: Historical photographs of Francis Galton, Charles Davenport, G. Stanley Hall, and colleagues (public domain)
+:::
+
 -   Galton's ideas were brought to the United States by Charles Davenport, a biologist who established the Eugenics Record Office at Cold Spring Harbor in 1910.
 -   G. Stanley Hall, a prominent psychologist who promoted the "child study" movement and was the first president of Clark University.
 
 ## 
 
 ![](images/week_05_S98_regression_formula_015.jpeg){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: Eugenics tree logo, Second International Congress of Eugenics, 1921 (public domain)
+:::
 
 ## Eugenics societies in the U.S.
 
@@ -184,6 +204,10 @@ The overall goal is to create something like a report to share with a collaborat
 
 ![](images/week_05_S96_regression_formula_013.jpeg){fig-align="center" width="50%"}
 
+::: {.aside}
+Source: "Fittest Family" contest at a state fair, c. 1920s, American Philosophical Society (public domain)
+:::
+
 ## A direct line to Hitler and Nazism
 
 -   Eugenics existed in America (and England) before it became popular in Germany.
@@ -191,6 +215,10 @@ The overall goal is to create something like a report to share with a collaborat
 -   The forced sterilization program engineered by the Nazis was partly inspired by California's.
 
 ![](images/week_05_S102_regression_formula_016.jpeg){fig-align="center" width="70%"}
+
+::: {.aside}
+Source: Historical photographs of Galton, Davenport, Hall, and Hitler (public domain)
+:::
 
 ## Sterilizations continued in America
 
@@ -208,6 +236,10 @@ The overall goal is to create something like a report to share with a collaborat
 ## Interested in learning more?
 
 ![](images/week_05_S105_regression_formula_017.jpeg){fig-align="center" width="20%"}
+
+::: {.aside}
+Source: *She Has Her Mother's Laugh* by Carl Zimmer, Dutton/Penguin, 2018. Cover art copyright Penguin Random House.
+:::
 
 -   See also
     -   "The Gene" by Siddhartha Mukherjee
