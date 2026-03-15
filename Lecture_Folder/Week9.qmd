@@ -230,11 +230,19 @@ for (x0 in c(-125, -55)) {
 
 ![](images/week_08_S121_loess_animation.gif){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: LOESS animation created with R/ggplot2
+:::
+
 ## LOESS with Different Spans
 
 The span parameter controls the smoothness — smaller values create more flexible fits:
 
 ![](images/week_08_S122_loess_multi_span_animation.gif){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: LOESS multi-span animation created with R/ggplot2
+:::
 
 ## The Span Parameter
 
@@ -1333,6 +1341,10 @@ exp(cbind(HR = coef(cox_scaffold), confint(cox_scaffold)))
 
 ![The ML workflow from data to predictions](images/week_09_S42_the_ml_workflow_from_data_to_p.jpg){fig-align="center" width="90%"}
 
+## General Steps for Machine Learning (SVG)
+
+![The ML workflow from data to predictions](images/week_09_S42_ml_workflow.svg){fig-align="center" width="90%"}
+
 ## What's Coming: Bias-Variance and Cross-Validation
 
 -   Before we dive into specific ML algorithms, we need two foundational concepts that apply to **every** predictive model:
@@ -1584,6 +1596,13 @@ lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)],
 
 ![](images/week_09_S52_crossvalidation1.png){fig-align="center" width="70%"}
 
+## What is Cross-Validation? (SVG)
+
+-   Cross-validation is our primary tool for estimating how well a model will perform on **new, unseen data**.
+-   The core idea is simple: repeatedly split your data into training and testing portions, fit the model on the training portion, and evaluate on the testing portion.
+
+![](images/week_09_S52_crossvalidation_data_split.svg){fig-align="center" width="70%"}
+
 **Why we need it:**
 
 -   Training error (how well the model fits its own data) is always optimistic — it rewards memorization.
@@ -1605,11 +1624,38 @@ The most common approach splits data into **K equally-sized folds** and cycles t
 
 This ensures every observation gets used for both training and testing exactly once.
 
+## K-Fold Cross-Validation (SVG)
+
+The most common approach splits data into **K equally-sized folds** and cycles through them:
+
+![](images/week_09_S53_crossvalidation_kfold.svg){fig-align="center" width="80%"}
+
+**Process:**
+
+1.  Split data into K folds (typically K = 5 or 10)
+2.  For each fold: train on the other K − 1 folds, test on the held-out fold
+3.  Record the test error for each fold
+4.  Average across all K folds to get the **CV error estimate**
+
+This ensures every observation gets used for both training and testing exactly once.
+
 ## Using CV to Select Models
 
 Cross-validation is most powerful when used to **compare models** of different complexity. The model with the lowest CV error achieves the best bias-variance tradeoff.
 
 ![](images/week_09_S54_crossvalidation7.png){fig-align="center" width="80%"}
+
+| K      | Description           | Properties                       |
+|:-------|:----------------------|:---------------------------------|
+| K = 5  | 5-fold CV             | Good balance, common choice      |
+| K = 10 | 10-fold CV            | Most popular default             |
+| K = n  | Leave-one-out (LOOCV) | Maximum training data, expensive |
+
+## Using CV to Select Models (SVG)
+
+Cross-validation is most powerful when used to **compare models** of different complexity. The model with the lowest CV error achieves the best bias-variance tradeoff.
+
+![](images/week_09_S54_crossvalidation_5fold.svg){fig-align="center" width="80%"}
 
 | K      | Description           | Properties                       |
 |:-------|:----------------------|:---------------------------------|
