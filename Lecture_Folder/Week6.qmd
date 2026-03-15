@@ -694,6 +694,14 @@ The four diagnostic plots assess the polynomial model's assumptions. **Residuals
 
 ![Model I (OLS) vs Model II regression types](images/week_05_S137_model_types_ols_ma_rma.jpeg){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: Figure 5.12 from Logan, M. (2010) *Biostatistical Design and Analysis Using R*
+:::
+
+## Types of Linear Regression (SVG)
+
+![Model I (OLS) vs Model II regression types](images/week_06_S137_model_types_ols_ma_rma.svg){fig-align="center" width="80%"}
+
 ## Model II Regression Methods
 
 | Method | Abbreviation | Description |
@@ -708,6 +716,14 @@ The key insight is that OLS minimizes vertical distances (residuals in Y only), 
 ## When to Use Each Model Type
 
 ![Guidelines for choosing between OLS, MA, and RMA regression](images/week_05_S141_when_to_use_model_types.jpeg){fig-align="center" width="90%"}
+
+::: {.aside}
+Source: Adapted from Table 8.1 in Logan, M. (2010) *Biostatistical Design and Analysis Using R*; Legendre, P. (2013) *Model II Regression Guide*
+:::
+
+## When to Use Each Model Type (SVG)
+
+![Guidelines for choosing between OLS, MA, and RMA regression](images/week_06_S141_when_to_use_model_types.svg){fig-align="center" width="90%"}
 
 ## Example: BMP4 vs. SOX9 Expression
 
@@ -1200,6 +1216,10 @@ The reduced (null) model assumes all observations come from a single population 
 
 ![](images/week_06_S50_anova_table_treatment_groups.jpeg){fig-align="center" width="100%"}
 
+## ANOVA Table (SVG)
+
+![](images/week_06_S50_anova_table_treatment_groups.svg){fig-align="center" width="100%"}
+
 ## DRAFT: ANOVA Table and Reduced vs Full Model
 
 |  | **Df** | **Sum Sq** | **Mean Sq** | **F value** | **Pr(>F)** |
@@ -1350,6 +1370,10 @@ The F-statistic is the ratio of between-group variance ($MS_{groups}$) to within
 ## An Example - Irises
 
 ![The classic iris dataset](images/week_06_S54_the_classic_iris_dataset.jpeg){fig-align="center" width="70%"}
+
+::: {.aside}
+Source: Iris photographs, Wikimedia Commons (CC BY-SA 3.0). Dataset: Fisher, R.A. (1936) / Anderson, E. (1935)
+:::
 
 -   3 Different species: *Iris versicolor*, *Iris setosa*, and *Iris virginica*
 -   Length of sepal as a continuous variable
