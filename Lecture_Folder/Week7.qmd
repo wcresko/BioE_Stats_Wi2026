@@ -134,6 +134,10 @@ This week we continue with the biological motivations, interpretation, and assum
 
 ![](images/week_07_S07_neanderthal_human_skulls_skeletons.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Ruff et al., 1977; skull reconstructions and skeleton comparison images
+:::
+
 ## Brain-Body Mass Regression
 
 ::: panel-tabset
@@ -1724,11 +1728,19 @@ In many bioengineering experiments, factors are organized **hierarchically** rat
 
 ![](images/week_07_S57_walking_stick_insect_femur.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Walking stick insect specimen photograph, used for illustration of femur length measurement
+:::
+
 A classic example: measuring femur length of walking stick insects. Multiple measurements are taken per individual — the measurements are **nested within** individuals.
 
 ## Nested Design: Within-Individual Measurements
 
 ![](images/week_07_S58_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
+
+## Nested Design: Within-Individual Measurements (SVG)
+
+![](images/week_07_S58_nested_design_within_individuals.svg){fig-align="center" width="90%"}
 
 ## Femur Length Variation Within Individuals
 
@@ -1800,6 +1812,10 @@ ggplot(femur_df, aes(x = individual, y = femur_length)) +
 ## Hierarchical Variance Decomposition
 
 ![](images/week_07_S60_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
+
+## Hierarchical Variance Decomposition (SVG)
+
+![](images/week_07_S60_nested_design_hierarchy_diagram.svg){fig-align="center" width="90%"}
 
 In a nested design, total variance is partitioned hierarchically:
 
@@ -3201,6 +3217,10 @@ When predictors are highly correlated, coefficient estimates become unstable, st
 
 ![](images/week_07_S100_multicollinearity_scatterplot_matrix.jpeg){fig-align="center" width="70%"}
 
+::: {.aside}
+Source: Scatterplot matrix example illustrating multicollinearity among environmental variables (SO~4~^2-^, Cl^-^, Elevation)
+:::
+
 ## Scatterplot Matrix for Collinearity: Stickleback Data
 
 ::: panel-tabset
@@ -3543,6 +3563,10 @@ If two or more models fit the data almost equally well, prefer the simpler model
 ## Overfitting with Polynomials
 
 ![](images/week_07_S110_beetle_wing_horn_overfitting.jpeg){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: Emlen, D. J. 2001. Costs and the diversification of exaggerated animal structures. *Science* 291: 1534-1536.
+:::
 
 The log-likelihood and $R^2$ always increase with more parameters — but this does not mean the model is better!
 
