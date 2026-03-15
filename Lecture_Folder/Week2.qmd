@@ -1335,6 +1335,10 @@ Where:
 
 ![](images/week_02_S71_bell_shaped_histogram.jpeg){fig-align="center" width="100%"}
 
+## Binomial Distribution (SVG)
+
+![](images/week_02_S71_bell_shaped_histogram.svg){fig-align="center" width="100%"}
+
 ## DRAFT: Binomial Distribution - Bell Shape
 
 ::: panel-tabset
@@ -1849,6 +1853,10 @@ Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
 
 ![](images/week_02_S88_normal_distribution_68_95_99.jpeg){fig-align="center" width="90%"}
 
+## Normal Distribution (SVG)
+
+![](images/week_02_S88_normal_distribution_68_95_99.svg){fig-align="center" width="90%"}
+
 ## DRAFT: Normal Distribution - 68-95-99.7 Rule
 
 ::: panel-tabset
@@ -1935,6 +1943,10 @@ polygon(c(-1, x_68, 1), c(0, dnorm(x_68), 0),
 ## Normal Distribution
 
 ![](images/week_02_S90_normal_distributions_varying_params.jpeg){fig-align="center" width="50%"}
+
+## Normal Distribution (SVG)
+
+![](images/week_02_S90_normal_distributions_varying_params.svg){fig-align="center" width="50%"}
 
 ## DRAFT: Normal Distributions - Varying Parameters
 
