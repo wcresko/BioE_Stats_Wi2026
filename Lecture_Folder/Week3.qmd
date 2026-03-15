@@ -68,17 +68,28 @@ set.seed(2026)
 
 ## Packages for This Week
 
+::: panel-tabset
+### Install
+
 ```{r}
 #| eval: false
 #| echo: true
 
 # Install new packages (run once)
 install.packages("boot")
+```
+
+### Load
+
+```{r}
+#| eval: false
+#| echo: true
 
 # Load packages
 library(tidyverse)    # Data manipulation & visualization
 library(boot)         # Bootstrap methods for resampling
 ```
+:::
 
 ::: callout-tip
 The `boot` package provides tools for bootstrap resampling and confidence interval estimation.
@@ -119,7 +130,11 @@ $H_A$: The substitution **decreases** the catalytic rate
 
 ## DRAFT: Null and Alternative Hypotheses
 
+::: panel-tabset
+### Output
+
 ```{r}
+#| label: null-alt-draft-output
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -143,13 +158,47 @@ lines(x, dnorm(x, 4, 1.2), lwd = 3, col = "steelblue")
 axis(1)
 ```
 
+### Code
+
+```{r}
+#| label: null-alt-draft-code
+#| echo: true
+#| eval: false
+
+par(mfrow = c(1, 2), mar = c(4, 1, 3, 1))
+
+# Panel (a): well-separated distributions
+x <- seq(-5, 10, length.out = 500)
+plot(x, dnorm(x, 0, 0.8), type = "l", lwd = 3, col = "orchid",
+     axes = FALSE, xlab = "Values", ylab = "", main = "(a)")
+lines(x, dnorm(x, 4, 1.2), lwd = 3, col = "steelblue")
+axis(1)
+
+# Panel (b): overlapping distributions
+plot(x, dnorm(x, 2, 1.5), type = "l", lwd = 3, col = "orchid",
+     axes = FALSE, xlab = "Values", ylab = "", main = "(b)")
+lines(x, dnorm(x, 4, 1.2), lwd = 3, col = "steelblue")
+axis(1)
+```
+
+### Interpretation
+
+-   Panel (a): when null and alternative distributions are well separated, hypothesis testing has high power to detect a real effect
+-   Panel (b): when distributions overlap substantially, it becomes difficult to distinguish between the null and alternative hypotheses, increasing Type II error risk
+-   The degree of separation depends on the effect size and the variability (standard deviation) of each distribution
+:::
+
 ##
 
 ![](images/week_03_S09_effect_size_overlap_distributions.jpeg){fig-align="center" width="60%"}
 
 ## DRAFT: Effect Size and Distribution Overlap
 
+::: panel-tabset
+### Output
+
 ```{r}
+#| label: effect-overlap-draft-output
 #| echo: false
 #| eval: true
 #| fig-width: 6
@@ -173,6 +222,38 @@ plot(x, dnorm(x, 2, 2), type = "l", lwd = 3, col = "red",
 lines(x, dnorm(x, 6, 2), lwd = 3, col = "blue")
 abline(v = c(2, 6), lwd = 2)
 ```
+
+### Code
+
+```{r}
+#| label: effect-overlap-draft-code
+#| echo: true
+#| eval: false
+
+par(mfrow = c(2, 1), mar = c(3, 1, 3, 1))
+x <- seq(-5, 12, length.out = 500)
+
+# Panel A: small variance, clear separation
+plot(x, dnorm(x, 2, 1), type = "l", lwd = 3, col = "red",
+     axes = FALSE, xlab = "", ylab = "", main = "A",
+     ylim = c(0, 0.45), cex.main = 2)
+lines(x, dnorm(x, 6, 1), lwd = 3, col = "blue")
+abline(v = c(2, 6), lwd = 2)
+
+# Panel B: large variance, overlapping
+plot(x, dnorm(x, 2, 2), type = "l", lwd = 3, col = "red",
+     axes = FALSE, xlab = "", ylab = "", main = "B",
+     ylim = c(0, 0.25), cex.main = 2)
+lines(x, dnorm(x, 6, 2), lwd = 3, col = "blue")
+abline(v = c(2, 6), lwd = 2)
+```
+
+### Interpretation
+
+-   Panel A: with small variance (sd = 1), the same mean difference (4 units) produces clearly separated distributions that are easy to distinguish
+-   Panel B: with large variance (sd = 2), the distributions overlap substantially despite having the same mean difference
+-   This illustrates why effect size depends on both the magnitude of the difference and the variability within groups
+:::
 
 ## Type I and Type II Errors
 
@@ -216,7 +297,11 @@ abline(v = c(2, 6), lwd = 2)
 
 ## DRAFT: Statistical Sampling Distributions
 
+::: panel-tabset
+### Output
+
 ```{r}
+#| label: stat-dist-draft-output
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -268,13 +353,59 @@ text(0.7, 0.75, "c", col = "blue", cex = 1.2)
 text(1, 0.95, "d", col = "darkgreen", cex = 1.2)
 ```
 
+### Code
+
+```{r}
+#| label: stat-dist-draft-code
+#| echo: true
+#| eval: false
+
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+x <- seq(-4, 4, length.out = 500)
+
+# z distribution
+plot(x, dnorm(x), type = "l", lwd = 3, main = expression(italic(z)),
+     xlab = expression(italic(y)), ylab = expression(italic(P(y))))
+
+# chi-squared with varying df
+x_chi <- seq(0.01, 20, length.out = 500)
+plot(x_chi, dchisq(x_chi, df = 2), type = "l", lwd = 2,
+     main = expression(chi^2), col = "red")
+lines(x_chi, dchisq(x_chi, df = 5), lwd = 2, col = "black")
+lines(x_chi, dchisq(x_chi, df = 10), lwd = 2, col = "blue")
+
+# t distribution with varying df
+plot(x, dt(x, df = 2), type = "l", lwd = 2, main = expression(italic(t)))
+lines(x, dt(x, df = 5), lwd = 2, col = "red")
+lines(x, dt(x, df = 30), lwd = 2, col = "blue")
+
+# F distribution with varying df
+x_f <- seq(0.01, 6, length.out = 500)
+plot(x_f, df(x_f, df1 = 2, df2 = 5), type = "l", lwd = 2,
+     main = expression(italic(F)))
+lines(x_f, df(x_f, df1 = 5, df2 = 10), lwd = 2, col = "red")
+lines(x_f, df(x_f, df1 = 10, df2 = 20), lwd = 2, col = "blue")
+```
+
+### Interpretation
+
+-   The z (normal) distribution is symmetric and used when population parameters are known or sample sizes are large
+-   The chi-squared distribution is right-skewed and becomes more symmetric with increasing df; used for variance tests and goodness-of-fit
+-   The t-distribution has heavier tails than the normal for small df, approaching the normal as df increases; used for comparing means
+-   The F-distribution is right-skewed and used for comparing variances and in ANOVA; its shape depends on two df parameters
+:::
+
 ## Statistical Null Distributions and p-Values
 
 ![Understanding p-values and null distributions](images/week_03_S19_understanding_p_values_and_nul.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Understanding p-Values
 
+::: panel-tabset
+### Output
+
 ```{r}
+#| label: p-values-draft-output
 #| echo: false
 #| eval: true
 #| fig-width: 8
@@ -308,6 +439,40 @@ text(-3, 0.38, expression("Needed to calculate\n" * italic(P) * "-value for test
      cex = 1.2)
 ```
 
+### Code
+
+```{r}
+#| label: p-values-draft-code
+#| echo: true
+#| eval: false
+
+x <- seq(-4, 4, length.out = 500)
+y <- dnorm(x)
+obs_stat <- 1.8
+
+plot(x, y, type = "l", lwd = 3, col = "steelblue",
+     axes = FALSE, xlab = "", ylab = "",
+     ylim = c(-0.02, max(y) * 1.15))
+
+# Shade p-value region
+x_tail <- x[x >= obs_stat]
+polygon(c(obs_stat, x_tail, max(x_tail)),
+        c(0, dnorm(x_tail), 0),
+        col = rgb(1, 0.6, 0.4, 0.6), border = NA)
+lines(x, y, lwd = 3, col = "steelblue")
+
+# Axis and labels
+axis(1, at = c(obs_stat), labels = c("Observed statistic"), cex.axis = 1.1)
+segments(obs_stat, 0, obs_stat, dnorm(obs_stat), lwd = 2, col = "darkorange")
+```
+
+### Interpretation
+
+-   The blue curve represents the sampling distribution of the test statistic assuming the null hypothesis is true
+-   The shaded orange area is the p-value: the probability of observing a statistic as extreme or more extreme than the one calculated from the data
+-   A smaller shaded area (smaller p-value) provides stronger evidence against the null hypothesis
+:::
+
 # T-Tests {background-color="#2c3e50"}
 
 ## The t-Distribution
@@ -322,6 +487,12 @@ $$\large t = \frac{(\bar{y}_1-\bar{y}_2)}{s_{\bar{y}_1-\bar{y}_2}}$$
 ``` text
 \large t = \frac{(\bar{y}_1-\bar{y}_2)}{s_{\bar{y}_1-\bar{y}_2}}
 ```
+
+### Interpretation
+
+-   The t-statistic measures how many standard errors the difference between two group means is from zero
+-   Larger absolute t-values indicate stronger evidence against the null hypothesis of no difference
+-   The denominator standardizes by the variability within groups, so t increases with larger effects or less noise
 :::
 
 -   Compares group means
@@ -381,6 +552,12 @@ for(i in seq_along(df_values)) {
 legend("topright", c("Normal", paste("df =", df_values)),
        col = c("black", colors), lwd = 2, lty = c(2, rep(1, 4)))
 ```
+
+### Interpretation
+
+-   With low degrees of freedom (df = 1), the t-distribution has heavy tails, reflecting greater uncertainty with small samples
+-   As df increases, the t-distribution converges to the standard normal (dashed line), so critical values become less extreme
+-   This is why larger samples require smaller t-statistics to achieve significance -- the distribution tightens around zero
 :::
 
 ## One-Tailed Test
@@ -389,7 +566,11 @@ legend("topright", c("Normal", paste("df =", df_values)),
 
 ## DRAFT: One-Tailed Test
 
+::: panel-tabset
+### Output
+
 ```{r}
+#| label: one-tailed-draft-output
 #| echo: false
 #| eval: true
 #| fig-width: 8
@@ -414,13 +595,50 @@ arrows(tc + 0.5, 0.08, tc + 0.2, 0.02, length = 0.1, lwd = 2)
 text(tc + 0.8, 0.10, expression(alpha == 0.05), cex = 1.3)
 ```
 
+### Code
+
+```{r}
+#| label: one-tailed-draft-code
+#| echo: true
+#| eval: false
+
+x <- seq(-4, 4, length.out = 500)
+y <- dt(x, df = 20)
+tc <- qt(0.95, df = 20)
+
+plot(x, y, type = "l", lwd = 3, axes = FALSE,
+     xlab = "", ylab = expression(italic(P(t))),
+     main = "(b)")
+axis(1, at = c(0, tc), labels = c(expression(italic(t) == 0), expression(italic(t)[c])),
+     cex.axis = 1.2)
+
+# Shade alpha region
+x_tail <- x[x >= tc]
+polygon(c(tc, x_tail, max(x_tail)), c(0, dt(x_tail, df = 20), 0),
+        col = "gray80", border = NA)
+lines(x, y, lwd = 3)
+arrows(tc + 0.5, 0.08, tc + 0.2, 0.02, length = 0.1, lwd = 2)
+text(tc + 0.8, 0.10, expression(alpha == 0.05), cex = 1.3)
+```
+
+### Interpretation
+
+-   The one-tailed test concentrates the entire alpha = 0.05 rejection region in the upper tail, providing greater power to detect increases
+-   The critical value t_c is lower than in a two-tailed test, making it easier to reject when the effect is in the predicted direction
+-   Use one-tailed tests only when you have a strong directional hypothesis established before data collection
+:::
+
 ## Two-Tailed Test
 
 ![Critical regions in a two-tailed hypothesis test](images/week_03_S26_critical_regions_in_a_two_tail.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Two-Tailed Test
 
+::: panel-tabset
+### Output
+
 ```{r}
+#| label: two-tailed-draft-output
 #| echo: false
 #| eval: true
 #| fig-width: 8
@@ -452,6 +670,47 @@ text(-tc - 0.8, 0.10, expression(alpha == 0.025), cex = 1.2)
 arrows(tc + 0.5, 0.08, tc + 0.2, 0.02, length = 0.1, lwd = 2)
 text(tc + 0.8, 0.10, expression(alpha == 0.025), cex = 1.2)
 ```
+
+### Code
+
+```{r}
+#| label: two-tailed-draft-code
+#| echo: true
+#| eval: false
+
+x <- seq(-4, 4, length.out = 500)
+y <- dt(x, df = 20)
+tc <- qt(0.975, df = 20)
+
+plot(x, y, type = "l", lwd = 3, axes = FALSE,
+     xlab = "", ylab = expression(italic(P(t))),
+     main = "(a)")
+axis(1, at = c(-tc, 0, tc),
+     labels = c(expression(italic(t)[c]), expression(italic(t) == 0), expression(italic(t)[c])),
+     cex.axis = 1.2)
+
+# Shade left tail
+x_left <- x[x <= -tc]
+polygon(c(min(x_left), x_left, -tc), c(0, dt(x_left, df = 20), 0),
+        col = "gray80", border = NA)
+# Shade right tail
+x_right <- x[x >= tc]
+polygon(c(tc, x_right, max(x_right)), c(0, dt(x_right, df = 20), 0),
+        col = "gray80", border = NA)
+lines(x, y, lwd = 3)
+
+arrows(-tc - 0.5, 0.08, -tc - 0.2, 0.02, length = 0.1, lwd = 2)
+text(-tc - 0.8, 0.10, expression(alpha == 0.025), cex = 1.2)
+arrows(tc + 0.5, 0.08, tc + 0.2, 0.02, length = 0.1, lwd = 2)
+text(tc + 0.8, 0.10, expression(alpha == 0.025), cex = 1.2)
+```
+
+### Interpretation
+
+-   The two-tailed test splits the total alpha (0.05) equally between both tails, placing 0.025 in each rejection region
+-   A test statistic falling in either shaded region leads to rejection of the null hypothesis
+-   This is the default and most conservative approach when you have no prior expectation about the direction of the effect
+:::
 
 ## Visualizing Critical Regions in R
 
@@ -520,6 +779,12 @@ polygon(c(-4, x[x < -crit_2], -crit_2), c(0, dt(x[x < -crit_2], df), 0),
         col = "coral", border = NA)
 abline(v = c(-crit_2, crit_2), lty = 2, col = "red")
 ```
+
+### Interpretation
+
+-   The one-tailed test (left) places the entire alpha = 0.05 rejection region in one tail, providing more power to detect effects in a single direction
+-   The two-tailed test (right) splits alpha across both tails (0.025 each), testing for effects in either direction but requiring a larger test statistic to reject
+-   Choose one-tailed only when you have a strong prior reason to expect an effect in one specific direction
 :::
 
 ## Assumptions of Parametric t-Tests
@@ -599,9 +864,18 @@ heavy_tail <- rt(100, df = 3)
 qqnorm(heavy_tail, main = "Heavy-Tailed Data", pch = 19, col = "steelblue")
 qqline(heavy_tail, col = "red", lwd = 2)
 ```
+
+### Interpretation
+
+-   Normal data (left): points closely follow the reference line, confirming the data are approximately normally distributed
+-   Right-skewed data (center): points curve upward at the right end, indicating a long right tail typical of count data or reaction times
+-   Heavy-tailed data (right): points deviate at both extremes, showing more extreme values than a normal distribution would predict
 :::
 
 ## QQ Plots in R
+
+::: panel-tabset
+### Code
 
 ```{r}
 #| label: qq-basic-code
@@ -616,6 +890,13 @@ qqline(my_data, col = "red")
 library(car)
 qqPlot(my_data)  # Includes confidence envelope
 ```
+
+### Interpretation
+
+-   `qqnorm()` and `qqline()` provide a quick visual check of whether data follow a normal distribution
+-   The `car::qqPlot()` function adds a confidence envelope, making it easier to judge whether deviations from normality are statistically meaningful
+-   QQ plots are preferred over formal tests for assessing normality because they show the nature of any departures (skew, heavy tails, outliers)
+:::
 
 ## Interpreting QQ Plot Patterns for Normal Distribution
 
@@ -658,6 +939,12 @@ set.seed(42)
 normal_sample <- rnorm(30)
 shapiro.test(normal_sample)
 ```
+
+### Interpretation
+
+-   The Shapiro-Wilk test evaluates whether a sample comes from a normally distributed population; a high p-value (> 0.05) means we cannot reject normality
+-   This test works best for small to moderate sample sizes (n < 50); for larger samples, it detects trivial departures from normality
+-   Visual inspection with QQ plots is generally preferred because it reveals the nature and severity of non-normality
 :::
 
 ::: callout-note
@@ -696,6 +983,12 @@ t.test(sample_data, mu = 10)
 sample_data <- rnorm(30, mean = 10.5, sd = 2)
 t.test(sample_data, mu = 10)
 ```
+
+### Interpretation
+
+-   The one-sample t-test evaluates whether the sample mean differs significantly from a hypothesized population value (mu = 10)
+-   A significant result suggests the population mean is unlikely to be the hypothesized value
+-   The confidence interval provides a range of plausible values for the true population mean
 :::
 
 ## Two-Sample t-Test
@@ -727,6 +1020,32 @@ pop1 <- rnorm(n = 100, mean = 2, sd = 0.5)
 pop2 <- rnorm(n = 100, mean = 2.5, sd = 0.5)
 
 t.test(pop1, pop2)
+```
+
+### Interpretation
+
+-   The two-sample t-test compares the means of two independent groups to determine if they differ significantly
+-   A small p-value indicates that the observed difference between groups is unlikely under the null hypothesis of equal means
+-   The 95% confidence interval for the difference in means provides a range of plausible effect sizes
+
+### Try It
+
+```{r}
+#| label: t-test-try-it
+#| echo: true
+#| eval: false
+
+# Try changing the means, sd, or sample size and observe the effect on the p-value
+pop1 <- rnorm(n = 20, mean = 2, sd = 0.5)   # Try n = 10 or n = 500
+pop2 <- rnorm(n = 20, mean = 2.2, sd = 0.5) # Try mean = 3.0 for a larger effect
+
+t.test(pop1, pop2)
+
+# Try a one-sided test
+t.test(pop1, pop2, alternative = "less")
+
+# Try Welch's vs. Student's t-test
+t.test(pop1, pop2, var.equal = TRUE)  # Student's (assumes equal variance)
 ```
 :::
 
@@ -760,6 +1079,12 @@ after <- c(180, 170, 190, 165, 175)
 
 t.test(before, after, paired = TRUE)
 ```
+
+### Interpretation
+
+-   The paired t-test accounts for within-subject correlation by testing the mean of the differences rather than comparing independent groups
+-   A significant result indicates that the treatment produced a consistent directional change across subjects
+-   Paired designs are more powerful than independent designs when individual baseline variation is large
 :::
 
 ## In-Class Practice: T-test on real data
@@ -816,6 +1141,12 @@ diet_A_large <- rnorm(10000, 20, 2)
 diet_B_large <- rnorm(10000, 20.2, 2)
 cat("  p-value:", format(t.test(diet_A_large, diet_B_large)$p.value, scientific = TRUE), "\n")
 ```
+
+### Interpretation
+
+-   With a small sample (n=10), a tiny 1% difference in means is not statistically significant -- the test lacks power to detect such a small effect
+-   With a large sample (n=10,000), the same tiny difference becomes highly significant because the standard error shrinks with sample size
+-   This demonstrates that statistical significance alone does not imply practical importance -- always consider effect sizes alongside p-values
 :::
 
 ::: callout-warning
@@ -898,6 +1229,35 @@ hist(boot_means, breaks = 30, col = "steelblue",
      main = "Bootstrap Distribution of Means")
 abline(v = quantile(boot_means, c(0.025, 0.975)), col = "red", lwd = 2)
 ```
+
+### Interpretation
+
+-   The histogram shows the distribution of means from 1000 bootstrap resamples, approximating the sampling distribution of the mean
+-   The red vertical lines mark the 2.5th and 97.5th percentiles, forming a 95% bootstrap confidence interval
+-   The roughly normal shape of the bootstrap distribution illustrates the Central Limit Theorem in action
+
+### Try It
+
+```{r}
+#| label: bootstrap-try-it
+#| echo: true
+#| eval: false
+
+# Try bootstrapping the median instead of the mean
+set.seed(42)
+original_sample <- rnorm(50, mean = 10, sd = 3)
+
+boot_medians <- replicate(1000, median(sample(original_sample, replace = TRUE)))
+hist(boot_medians, breaks = 30, col = "darkolivegreen3",
+     main = "Bootstrap Distribution of Medians")
+abline(v = quantile(boot_medians, c(0.025, 0.975)), col = "red", lwd = 2)
+
+# Try with a skewed distribution (e.g., exponential)
+skewed_sample <- rexp(50, rate = 0.5)
+boot_means_skewed <- replicate(1000, mean(sample(skewed_sample, replace = TRUE)))
+hist(boot_means_skewed, breaks = 30, col = "plum",
+     main = "Bootstrap Means from Skewed Data")
+```
 :::
 
 ## Bootstrap Confidence Intervals
@@ -924,6 +1284,12 @@ quantile(boot_means, probs = c(0.025, 0.975))
 # 95% CI from bootstrap percentiles
 quantile(boot_means, probs = c(0.025, 0.975))
 ```
+
+### Interpretation
+
+-   The bootstrap 95% CI is constructed by taking the 2.5th and 97.5th percentiles of the resampled means
+-   This approach requires no assumptions about the shape of the sampling distribution, making it suitable for small or non-normal samples
+-   If the CI does not contain the hypothesized value, we can reject the null hypothesis at the 0.05 level
 :::
 
 The 2.5th and 97.5th percentiles provide a 95% confidence interval without normality assumptions.
@@ -932,20 +1298,46 @@ The 2.5th and 97.5th percentiles provide a 95% confidence interval without norma
 
 ## For Loops
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: for-loop
-#| echo: true
+#| label: for-loop-output
+#| echo: false
+#| eval: true
 
 for (i in 1:5) {
   print(i^2)
 }
 ```
 
-## While Loops
+### Code
 
 ```{r}
-#| label: while-loop
+#| label: for-loop-code
 #| echo: true
+#| eval: false
+
+for (i in 1:5) {
+  print(i^2)
+}
+```
+
+### Interpretation
+
+-   The `for` loop iterates over a sequence, executing the body once for each value
+-   This is fundamental for repetitive tasks like bootstrap resampling, permutation tests, and simulations
+:::
+
+## While Loops
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: while-loop-output
+#| echo: false
+#| eval: true
 
 i <- 0
 while (i < 5) {
@@ -954,11 +1346,36 @@ while (i < 5) {
 }
 ```
 
-## If-Else Statements
+### Code
 
 ```{r}
-#| label: if-else
+#| label: while-loop-code
 #| echo: true
+#| eval: false
+
+i <- 0
+while (i < 5) {
+  i <- i + 1
+  print(i)
+}
+```
+
+### Interpretation
+
+-   A `while` loop continues executing as long as its condition remains TRUE
+-   Useful when the number of iterations is not known in advance, such as convergence-based algorithms
+-   Be cautious: if the condition never becomes FALSE, the loop runs indefinitely
+:::
+
+## If-Else Statements
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: if-else-output
+#| echo: false
+#| eval: true
 
 eggs <- TRUE
 
@@ -971,6 +1388,30 @@ if (eggs == TRUE) {
 cat("Bought", n_milk, "cartons of milk")
 ```
 
+### Code
+
+```{r}
+#| label: if-else-code
+#| echo: true
+#| eval: false
+
+eggs <- TRUE
+
+if (eggs == TRUE) {
+  n_milk <- 6
+} else {
+  n_milk <- 1
+}
+
+cat("Bought", n_milk, "cartons of milk")
+```
+
+### Interpretation
+
+-   The `if-else` statement evaluates a logical condition and executes different code blocks depending on whether it is TRUE or FALSE
+-   This is essential for controlling program flow in simulations, data cleaning, and conditional analyses
+:::
+
 A programmer's partner says: "Buy milk, and if they have eggs, get six." The programmer returns with 6 cartons of milk.Permutation testing to create empirical null distributions
 
 ## Permutation Test Example
@@ -979,7 +1420,11 @@ A programmer's partner says: "Buy milk, and if they have eggs, get six." The pro
 
 ## DRAFT: Permutation Null Distribution
 
+::: panel-tabset
+### Output
+
 ```{r}
+#| label: perm-null-draft-output
 #| echo: false
 #| eval: true
 #| fig-width: 6
@@ -1010,6 +1455,46 @@ abline(v = obs_diff, lwd = 2)
 text(obs_diff + 0.1, max(h$counts) * 0.9, round(obs_diff, 3),
      cex = 1.1, adj = 0)
 ```
+
+### Code
+
+```{r}
+#| label: perm-null-draft-code
+#| echo: true
+#| eval: false
+
+# Simulate a permutation test: difference in means between SM and DM groups
+set.seed(123)
+sm_data <- rnorm(20, mean = 3.5, sd = 1.5)
+dm_data <- rnorm(20, mean = 5.0, sd = 1.5)
+obs_diff <- mean(sm_data) - mean(dm_data)
+
+combined <- c(sm_data, dm_data)
+n_perms <- 5000
+perm_diffs <- replicate(n_perms, {
+  shuffled <- sample(combined)
+  mean(shuffled[1:20]) - mean(shuffled[21:40])
+})
+
+# Color bars more extreme than observed
+h <- hist(perm_diffs, breaks = 40, plot = FALSE)
+colors <- ifelse(h$mids <= obs_diff, "red", "white")
+
+hist(perm_diffs, breaks = 40, col = colors, border = "black",
+     main = "", las = 1,
+     xlab = expression(bar(Y)[SM] - bar(Y)[DM] * " from randomized data sets"),
+     ylab = "Frequency")
+abline(v = obs_diff, lwd = 2)
+text(obs_diff + 0.1, max(h$counts) * 0.9, round(obs_diff, 3),
+     cex = 1.1, adj = 0)
+```
+
+### Interpretation
+
+-   The red-shaded bars represent permuted differences as extreme or more extreme than the observed difference, forming the empirical p-value region
+-   The black vertical line shows the observed mean difference between the SM and DM groups
+-   If few permuted values fall in the red region, it indicates the observed difference is unlikely due to chance alone
+:::
 
 ## Creating Empirical Null Distributions
 
@@ -1061,6 +1546,12 @@ t_rand <- replicate(1000, {
 hist(t_rand, breaks = 30, main = "Null Distribution", col = "lightgray")
 abline(v = t_obs, col = "red", lwd = 2)
 ```
+
+### Interpretation
+
+-   The histogram shows the distribution of t-statistics obtained by randomly shuffling group labels, representing what we would expect if there were no true difference
+-   The red vertical line marks the observed t-statistic from the original data -- values far from the center of the null distribution suggest a real group difference
+-   This permutation approach builds an empirical null distribution without relying on parametric assumptions about the data
 :::
 
 ## Calculating Empirical p-Value
@@ -1086,6 +1577,34 @@ cat("Empirical p-value:", p_value)
 
 p_value <- sum(t_rand >= t_obs) / 1000
 cat("Empirical p-value:", p_value)
+```
+
+### Interpretation
+
+-   The empirical p-value counts how often the permuted test statistics exceed the observed statistic, providing a distribution-free significance test
+-   A small empirical p-value indicates that the observed difference is unlikely under the null hypothesis of no group difference
+-   This approach does not rely on assumptions about the shape of the underlying distribution, making it robust for non-normal data
+
+### Try It
+
+```{r}
+#| label: empirical-p-try-it
+#| echo: true
+#| eval: false
+
+# Try increasing the number of permutations for a more precise p-value
+p_value_5000 <- sum(t_rand[1:5000] >= t_obs) / 5000
+
+# Compare the parametric p-value with the empirical one
+parametric_p <- t.test(x = pop_1, y = pop_2, alternative = "greater")$p.value
+cat("Parametric p-value:", parametric_p, "\n")
+cat("Empirical p-value:", p_value, "\n")
+
+# Try with equal means (should give non-significant results)
+set.seed(99)
+pop_equal_1 <- rnorm(50, mean = 20, sd = 2)
+pop_equal_2 <- rnorm(50, mean = 20, sd = 2)
+t.test(pop_equal_1, pop_equal_2)
 ```
 :::
 
@@ -1181,7 +1700,23 @@ Studies without double-blinding exaggerate treatment effects by 16% on average (
 
 ## DRAFT: Pooled Standard Error Formula
 
+::: panel-tabset
+### Equation
+
 $$\huge s_{\bar{y}_1 - \bar{y}_2} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}$$
+
+### LaTeX
+
+``` text
+\huge s_{\bar{y}_1 - \bar{y}_2} = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}
+```
+
+### Interpretation
+
+-   This formula calculates the standard error of the difference between two group means, pooling variance estimates from both groups
+-   When $n_1 = n_2$, the formula simplifies and yields the smallest possible standard error -- this is why **balanced designs** are preferred
+-   Larger sample sizes reduce the standard error, increasing the precision of the estimated difference
+:::
 
 When $n_1 = n_2$, this simplifies and gives the smallest standard error — this is why **balanced designs** are preferred.
 
@@ -1203,8 +1738,11 @@ Treating technical replicates or pseudo-replicates as biological replicates infl
 
 ## Biological vs. Technical Replication
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: replication-diagram-2
+#| label: replication-diagram-2-output
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -1236,6 +1774,47 @@ boxplot(value ~ treatment, data = tech_reps, col = c("lightblue", "coral"),
         ylab = "Response", xlab = "")
 text(1.5, 17, "True n=3, NOT n=9!", cex = 0.9, col = "red")
 ```
+
+### Code
+
+```{r}
+#| label: replication-diagram-2-code
+#| echo: true
+#| eval: false
+
+par(mfrow = c(1, 2), mar = c(4, 4, 3, 1))
+
+# Biological replication
+set.seed(42)
+bio_reps <- data.frame(
+  mouse = rep(1:6, each = 1),
+  treatment = rep(c("Control", "Treatment"), each = 3),
+  value = c(rnorm(3, 10, 2), rnorm(3, 15, 2))
+)
+boxplot(value ~ treatment, data = bio_reps, col = c("lightblue", "coral"),
+        main = "Biological Replicates (n=3 per group)",
+        ylab = "Response", xlab = "")
+text(1.5, 17, "Each point = different mouse", cex = 0.9)
+
+# Technical replication (wrong analysis)
+tech_reps <- data.frame(
+  measurement = 1:18,
+  treatment = rep(c("Control", "Treatment"), each = 9),
+  value = c(rep(rnorm(3, 10, 2), each = 3) + rnorm(9, 0, 0.5),
+            rep(rnorm(3, 15, 2), each = 3) + rnorm(9, 0, 0.5))
+)
+boxplot(value ~ treatment, data = tech_reps, col = c("lightblue", "coral"),
+        main = "Technical Replicates (n=3 mice, 3 measures each)",
+        ylab = "Response", xlab = "")
+text(1.5, 17, "True n=3, NOT n=9!", cex = 0.9, col = "red")
+```
+
+### Interpretation
+
+-   The left panel shows true biological replicates: each data point comes from a different mouse, giving n=3 per group
+-   The right panel illustrates pseudo-replication: 3 measurements per mouse inflates the apparent sample size to n=9, but the true n remains 3
+-   Using technical replicates as if they were biological replicates underestimates standard errors and inflates false positive rates
+:::
 
 ## Pseudo-Replication: A Common Pitfall
 
@@ -1285,6 +1864,12 @@ $$d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}$$
 ``` text
 d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}
 ```
+
+### Interpretation
+
+-   Cohen's d expresses the difference between two group means in units of pooled standard deviation, making it comparable across different measurement scales
+-   Values of 0.2, 0.5, and 0.8 are conventionally considered small, medium, and large effects, though context matters in biological applications
+-   Unlike p-values, Cohen's d is independent of sample size and directly quantifies the magnitude of the observed effect
 :::
 
 Where: $s_{pooled} = \sqrt{\frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}}$
@@ -1349,6 +1934,12 @@ cat("Cohen's d:", round(cohens_d, 2), "\n")
 t_result <- t.test(group2, group1)
 cat("p-value:", format(t_result$p.value, digits = 4))
 ```
+
+### Interpretation
+
+-   Cohen's d standardizes the mean difference by the pooled standard deviation, making it comparable across studies
+-   A d around 0.5 indicates a medium effect -- the two groups differ by about half a standard deviation
+-   The p-value tells us the effect is statistically significant, while d tells us the effect is practically meaningful
 :::
 
 ## Visualizing Effect Sizes
@@ -1409,6 +2000,12 @@ plot(x, dnorm(x, 0, 1), type = "l", lwd = 2, col = "steelblue",
      main = "Large Effect (d = 0.8)", ylab = "Density", xlab = "Value")
 lines(x, dnorm(x, 0.8, 1), lwd = 2, col = "coral")
 ```
+
+### Interpretation
+
+-   Small effects (d = 0.2) show nearly complete overlap between groups -- hard to detect without large samples
+-   Medium effects (d = 0.5) show visible separation but substantial overlap remains
+-   Large effects (d = 0.8) show clear separation between group distributions and are detectable with modest sample sizes
 :::
 
 ## Effect Sizes for Correlations
@@ -1497,6 +2094,12 @@ cat("Cohen's d =", round(boot_d$t0, 2),
     "\n95% CI: [", round(boot_ci$percent[4], 2), ",",
     round(boot_ci$percent[5], 2), "]")
 ```
+
+### Interpretation
+
+-   Bootstrap provides a confidence interval for the effect size without assuming normality of the sampling distribution
+-   If the 95% CI excludes zero, the effect is statistically significant at alpha = 0.05
+-   The width of the CI reflects uncertainty in the effect size estimate -- wider intervals suggest more data is needed
 :::
 
 ## Reporting Effect Sizes
@@ -1563,6 +2166,12 @@ $$FWER = 1 - (1 - \alpha)^k$$
 ``` text
 FWER = 1 - (1 - \alpha)^k
 ```
+
+### Interpretation
+
+-   The probability of at least one false positive grows rapidly with the number of tests
+-   With just 20 independent tests at alpha = 0.05, there is a 64% chance of at least one false positive
+-   This motivates the need for multiple testing corrections in high-throughput biological experiments
 :::
 
 Where $k$ is the number of tests performed.
@@ -1595,6 +2204,12 @@ $$p_{adjusted} = p \times k$$
 
 p_{adjusted} = p \times k
 ```
+
+### Interpretation
+
+-   The adjusted significance threshold becomes more stringent as the number of tests increases
+-   For 20 tests at alpha = 0.05, each individual test must reach p < 0.0025 to be declared significant
+-   This trades increased Type II error (missed true effects) for strict control of false positives
 :::
 
 **Pros:** Simple, controls FWER strictly
@@ -1691,4 +2306,11 @@ data.frame(
   BH = p.adjust(p_values, method = "BH")  # Benjamini-Hochberg (FDR)
 )
 ```
+
+### Interpretation
+
+-   Bonferroni is the most conservative: only the smallest p-value (0.001) remains significant after correction
+-   Holm provides slightly more power than Bonferroni while still controlling the family-wise error rate
+-   Benjamini-Hochberg (FDR) is the most liberal, ideal for exploratory genomics where some false positives are tolerable
+-   The choice of correction method depends on whether you prioritize avoiding any false positives (FWER) or maximizing discoveries (FDR)
 :::

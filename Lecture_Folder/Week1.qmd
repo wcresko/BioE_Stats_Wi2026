@@ -65,6 +65,9 @@ set.seed(2026)
 
 ## Packages for This Week
 
+::: panel-tabset
+### Install
+
 ```{r}
 #| label: week1-packages-install
 #| eval: false
@@ -72,12 +75,21 @@ set.seed(2026)
 
 # Install packages (run once)
 install.packages(c("tidyverse", "knitr", "readxl"))
+```
+
+### Load
+
+```{r}
+#| label: week1-packages-load
+#| eval: false
+#| echo: true
 
 # Load packages
 library(tidyverse)    # Data manipulation & visualization (includes ggplot2, dplyr, tidyr)
 library(knitr)        # Document generation
 library(readxl)       # Read Excel files
 ```
+:::
 
 ::: callout-tip
 The **tidyverse** is a collection of packages including: ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, and forcats.
@@ -502,14 +514,27 @@ R's power comes from community-contributed packages:
 -   **Install once** (downloads package)
 -   **Load each session** (makes functions available)
 
+::: panel-tabset
+### Install
+
 ```{r}
 #| label: week1-tidyverse-install
 #| eval: false
 #| echo: true
 
 install.packages("tidyverse")
+```
+
+### Load
+
+```{r}
+#| label: week1-tidyverse-load
+#| eval: false
+#| echo: true
+
 library(tidyverse)
 ```
+:::
 
 ::: callout-note
 Also install via RStudio: Tools → Install Packages
@@ -548,13 +573,33 @@ Always comment your code! Future you will thank present you.
 -   Anything following `#` is a comment
 -   R follows standard mathematical order of operations
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: basic-math
-#| echo: true
+#| label: basic-math-output
+#| echo: false
+#| eval: true
 
 4*4
 (4+3*2^2)
 ```
+
+### Code
+
+```{r}
+#| label: basic-math-code
+#| echo: true
+#| eval: false
+
+4*4
+(4+3*2^2)
+```
+
+### Interpretation
+
+-   R follows standard mathematical order of operations (PEMDAS). The parentheses in the second expression force addition before multiplication.
+:::
 
 ## Assigning Variables
 
@@ -562,9 +607,13 @@ Always comment your code! Future you will thank present you.
 -   Names must begin with a letter
 -   R is case sensitive
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: assigning-variables
-#| echo: true
+#| label: assigning-variables-output
+#| echo: false
+#| eval: true
 
 x <- 2
 x*3
@@ -572,32 +621,63 @@ y <- x * 3
 y-2
 ```
 
+### Code
+
+```{r}
+#| label: assigning-variables-code
+#| echo: true
+#| eval: false
+
+x <- 2
+x*3
+y <- x * 3
+y-2
+```
+
+### Interpretation
+
+-   The `<-` operator assigns values to variables. Variables can then be used in expressions. Note that `y` stores the result of `x * 3`, not the formula itself.
+:::
+
 These do **not** work: `3y <- 3` or `3*y <- 3`
 
 ## Arithmetic and Functions
 
-```{r}
-#| label: week1-arithmetic-basic
-#| eval: false
-#| echo: true
-
-x+2
-x^2
-log(x)
-```
-
--   `log` is a built-in function—the object goes in parentheses
--   Results can be assigned to new variables
+::: panel-tabset
+### Output
 
 ```{r}
-#| label: week1-arithmetic-functions
-#| echo: true
+#| label: week1-arithmetic-functions-output
+#| echo: false
+#| eval: true
 
 y <- 67
 x <- 124
 z <- (x*y)^2
 print(z)
 ```
+
+### Code
+
+```{r}
+#| label: week1-arithmetic-functions-code
+#| echo: true
+#| eval: false
+
+x+2
+x^2
+log(x)
+
+y <- 67
+x <- 124
+z <- (x*y)^2
+print(z)
+```
+
+### Interpretation
+
+-   R has many built-in mathematical functions like `log()`. Results of calculations can be assigned to new variables for later use.
+:::
 
 ## Common Data Types
 
@@ -620,9 +700,13 @@ Use `class()` or `str()` to check data types
 -   Characters need quotation marks
 -   `c()` stands for `concatenate`
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: week1-strings-example
-#| echo: true
+#| label: week1-strings-example-output
+#| echo: false
+#| eval: true
 
 x <- "I Love"
 y <- "Biostatistics"
@@ -630,20 +714,58 @@ z <- c(x,y)
 print(z)
 ```
 
+### Code
+
+```{r}
+#| label: week1-strings-example-code
+#| echo: true
+#| eval: false
+
+x <- "I Love"
+y <- "Biostatistics"
+z <- c(x,y)
+print(z)
+```
+
+### Interpretation
+
+-   Character strings require quotation marks. The `c()` function concatenates elements into a vector. Here it creates a character vector with two elements.
+:::
+
 ## Factors
 
 -   Sometimes we want to treat characters as units for calculations
 -   These are called `factors`—important for statistical analyses comparing groups
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: week1-factors-example
+#| label: week1-factors-example-output
+#| echo: false
 #| eval: true
-#| echo: true
 
 z <- "low, medium, high"
 z_factor <- as.factor(z)
 print(z_factor)
 ```
+
+### Code
+
+```{r}
+#| label: week1-factors-example-code
+#| echo: true
+#| eval: false
+
+z <- "low, medium, high"
+z_factor <- as.factor(z)
+print(z_factor)
+```
+
+### Interpretation
+
+-   Factors are R's way of representing categorical variables. The `as.factor()` function converts character strings into factor levels, which is essential for statistical analyses comparing groups.
+:::
 
 ## Data Type Coercion
 
@@ -665,34 +787,71 @@ Convert between data types using `as.*` functions:
 
 R thinks in terms of vectors (lists of values):
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: example-vectors
-#| echo: true
+#| label: example-vectors-output
+#| echo: false
+#| eval: true
 
 x <- c(2,3,4,2,1,2,4,5,10,8,9)
 print(x)
 ```
 
+### Code
+
+```{r}
+#| label: example-vectors-code
+#| echo: true
+#| eval: false
+
+x <- c(2,3,4,2,1,2,4,5,10,8,9)
+print(x)
+```
+
+### Interpretation
+
+-   Vectors are the fundamental data structure in R. The `c()` function creates a vector from individual values. R applies operations element-wise to vectors.
+:::
+
 ## Creating Vectors
 
 Use functions like `seq` and `sample`:
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: week1-seq-example
-#| echo: true
+#| label: week1-seq-output
+#| echo: false
+#| eval: true
 
 seq_1 <- seq(0.0, 10.0, by = 0.1)
 print(seq_1)
-```
-
-```{r}
-#| label: week1-seq-squared
-#| echo: true
-
 seq_2 <- seq(10.0, 0.0, by = -0.1)
 seq_square <- (seq_2)^2
 print(seq_square)
 ```
+
+### Code
+
+```{r}
+#| label: week1-seq-code
+#| echo: true
+#| eval: false
+
+seq_1 <- seq(0.0, 10.0, by = 0.1)
+print(seq_1)
+seq_2 <- seq(10.0, 0.0, by = -0.1)
+seq_square <- (seq_2)^2
+print(seq_square)
+```
+
+### Interpretation
+
+-   `seq()` generates regular sequences. Vectorized operations like squaring apply to every element simultaneously, making R efficient for numerical computation.
+:::
 
 ## Basic Statistics Functions on Vectors
 
@@ -721,15 +880,35 @@ All of these can function on vectors which are assigned to a variable (e.g. x ab
 | `|`      | or                | `x < 0 | x > 10`    |
 | `%in%`   | is element of     | `x %in% c(1, 2, 3)` |
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: week1-logical-operators
-#| eval: false
-#| echo: true
+#| label: week1-logical-operators-output
+#| echo: false
+#| eval: true
 
 x <- c(1, 5, 10, 15, 20)
 x > 10
 x[x > 10]
 ```
+
+### Code
+
+```{r}
+#| label: week1-logical-operators-code
+#| echo: true
+#| eval: false
+
+x <- c(1, 5, 10, 15, 20)
+x > 10
+x[x > 10]
+```
+
+### Interpretation
+
+-   Logical operators return TRUE/FALSE values. Square bracket indexing `x[x > 10]` filters a vector to keep only elements meeting the condition — a powerful pattern used throughout R programming.
+:::
 
 ## Handling Missing Data (NA)
 
@@ -819,6 +998,10 @@ x <- rnorm(10000, 0, 10)
 y <- sample(1:10000, 10000, replace = T)
 plot(x, y, pch = 20, col = rgb(0, 0, 1, 0.3))
 ```
+
+### Interpretation
+
+-   The `rnorm()` function draws from a normal distribution (centered at 0, SD=10), while `sample()` draws uniformly. The resulting scatterplot shows the characteristic elliptical shape of bivariate data with one normal and one uniform variable.
 :::
 
 ## Histograms
@@ -847,6 +1030,10 @@ hist(x, col = "steelblue", border = "white", main = "Normal Distribution")
 x <- rnorm(10000, 0, 10)
 hist(x, col = "steelblue", border = "white", main = "Normal Distribution")
 ```
+
+### Interpretation
+
+-   The histogram shows the frequency distribution of 10,000 values drawn from N(0,10). The bell-shaped curve confirms the normal distribution. The `col` and `border` arguments improve readability.
 :::
 
 ## Density Curves
@@ -877,6 +1064,10 @@ x <- rnorm(1000, 0, 100)
 hist(x, xlim = c(-500,500), col = "lightblue", border = "white", freq = FALSE)
 curve(dnorm(x, 0, 100), xlim = c(-500,500), add=TRUE, col='Red', lwd=2)
 ```
+
+### Interpretation
+
+-   Setting `freq=FALSE` converts the y-axis to probability density, allowing the theoretical curve overlay via `curve()`. The close match between histogram and curve confirms our sample approximates the theoretical distribution.
 :::
 
 ## Binomial Distribution
@@ -905,6 +1096,10 @@ hist(heads, col = "coral", border = "white")
 heads <- rbinom(n=1000, size=20, prob=0.5)
 hist(heads, col = "coral", border = "white")
 ```
+
+### Interpretation
+
+-   With n=20 trials and p=0.5, the most likely outcome is 10 successes, forming a symmetric distribution. This simulates scenarios like coin flips or Mendelian heterozygote crosses.
 :::
 
 ## Multiple Plots
@@ -947,6 +1142,10 @@ plot(seq_2, xlab="time", ylab="p in pop 2", type = "p", col = 'green', pch = 19)
 plot((seq_2)^2, xlab="time", ylab="p2 in pop 2", type = "p", col = 'blue', pch = 19)
 plot((seq_1)^2, xlab="time", ylab ="p in pop 1", type = "l", col = 'orange', lwd = 2)
 ```
+
+### Interpretation
+
+-   `par(mfrow=c(2,2))` creates a 2x2 grid layout. Different `type` arguments control display — `"p"` for points, `"l"` for lines. This technique is useful for comparing related datasets or showing different views of the same data.
 :::
 
 # Tidy Data & File Types {background-color="#2c3e50"}
@@ -997,9 +1196,13 @@ New observations can easily be added as rows, and new variables as columns.
 
 ## Creating an Example Data Frame
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: week1-dataframe-example
-#| echo: true
+#| label: week1-dataframe-example-output
+#| echo: false
+#| eval: true
 
 hydrogel_concentration <- factor(c("low", "high", "high", "high",
                                     "medium", "medium", "medium","low"))
@@ -1012,6 +1215,30 @@ mydata |>
   rownames_to_column(var = "Sample") |>
   kable()
 ```
+
+### Code
+
+```{r}
+#| label: week1-dataframe-example-code
+#| echo: true
+#| eval: false
+
+hydrogel_concentration <- factor(c("low", "high", "high", "high",
+                                    "medium", "medium", "medium","low"))
+compression <- c(3.4, 3.4, 8.4, 3, 5.6, 8.1, 8.3, 4.5)
+conductivity <- c(0, 9.2, 3.8, 5, 5.6, 4.1, 7.1, 5.3)
+mydata <- data.frame(hydrogel_concentration, compression, conductivity)
+row.names(mydata) <- paste0("Sample_", 1:8)
+
+mydata |>
+  rownames_to_column(var = "Sample") |>
+  kable()
+```
+
+### Interpretation
+
+-   `data.frame()` combines vectors of equal length into a structured table. `row.names()` assigns meaningful labels. The pipe `|>` passes the result to `kable()` for formatted display.
+:::
 
 # Importing data
 
@@ -1072,6 +1299,9 @@ Most bioinformatics programs work with FASTQ data
 
 ## Transcriptomic Data Analysis
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| label: week1-rnaseq-analysis-code
 #| eval: false
@@ -1089,6 +1319,11 @@ summary(RNAseq_Data$ENSGACG00000000003)
 boxplot(RNAseq_Data$ENSGACG00000000003 ~ RNAseq_Data$Treatment,
         col = "red", ylab = "Expression Level", xlab = "Treatment")
 ```
+
+### Interpretation
+
+-   This workflow demonstrates a typical data import and exploration pipeline: read the file, examine the first and last rows, extract specific columns, apply logical filters, compute summary statistics, and create visualizations.
+:::
 
 # Reproducible Research with Quarto {background-color="#2c3e50"}
 
@@ -1247,14 +1482,21 @@ $$\iint\limits_{a}^{b} f(x,y) \, dx \, dy$$
 ``` text
 \iint\limits_{a}^{b} f(x,y) \, dx \, dy
 ```
+
+### Interpretation
+
+-   This is the double integral notation used for computing probability over a two-dimensional region. In statistics, this appears when working with joint probability density functions of two continuous variables.
 :::
 
 ## Example: Biological Data Analysis
 
+::: panel-tabset
+### Output
+
 ```{r}
-#| label: bio-example-setup
-#| echo: true
-#| output: false
+#| label: bio-example-setup-output
+#| echo: false
+#| eval: true
 
 set.seed(42)
 gene_expression <- tibble(
@@ -1267,22 +1509,70 @@ gene_expression <- tibble(
 )
 ```
 
-## View the Data
+### Code
 
 ```{r}
-#| label: tbl-gene-data
+#| label: bio-example-setup-code
 #| echo: true
+#| eval: false
+
+set.seed(42)
+gene_expression <- tibble(
+  sample_id = paste0("S", 1:50),
+  treatment = rep(c("Control", "Drug_A", "Drug_B", "Drug_C", "Drug_D"), each = 10),
+  gene_BRCA1 = c(rnorm(10, 100, 15), rnorm(10, 150, 20), rnorm(10, 80, 12),
+                  rnorm(10, 120, 18), rnorm(10, 95, 14)),
+  gene_TP53 = c(rnorm(10, 200, 25), rnorm(10, 180, 22), rnorm(10, 250, 30),
+                 rnorm(10, 190, 28), rnorm(10, 210, 24))
+)
+```
+
+### Interpretation
+
+-   This creates a simulated gene expression dataset with 50 samples across 5 treatment groups, measuring two genes (BRCA1 and TP53). Using `set.seed()` ensures reproducibility.
+:::
+
+## View the Data
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: tbl-gene-data-output
+#| echo: false
+#| eval: true
 
 gene_expression |>
   head(8) |>
   kable(digits = 1)
 ```
 
-## Summary Statistics
+### Code
 
 ```{r}
-#| label: tbl-summary-stats
+#| label: tbl-gene-data-code
 #| echo: true
+#| eval: false
+
+gene_expression |>
+  head(8) |>
+  kable(digits = 1)
+```
+
+### Interpretation
+
+-   Always inspect your data after import. `head()` shows the first rows, and `kable()` produces a formatted table. Check that variable types and values look reasonable before analysis.
+:::
+
+## Summary Statistics
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: tbl-summary-stats-output
+#| echo: false
+#| eval: true
 
 gene_expression |>
   group_by(treatment) |>
@@ -1295,6 +1585,30 @@ gene_expression |>
   ) |>
   kable(digits = 1)
 ```
+
+### Code
+
+```{r}
+#| label: tbl-summary-stats-code
+#| echo: true
+#| eval: false
+
+gene_expression |>
+  group_by(treatment) |>
+  summarise(
+    n = n(),
+    BRCA1_mean = mean(gene_BRCA1),
+    BRCA1_sd = sd(gene_BRCA1),
+    TP53_mean = mean(gene_TP53),
+    TP53_sd = sd(gene_TP53)
+  ) |>
+  kable(digits = 1)
+```
+
+### Interpretation
+
+-   `group_by()` splits data by treatment, then `summarise()` calculates statistics within each group. Drug_A shows the highest mean BRCA1 expression while Drug_B shows the lowest.
+:::
 
 ## The Pipe Operator
 
@@ -1365,6 +1679,14 @@ ggplot(gene_expression, aes(x = treatment, y = gene_BRCA1, fill = treatment)) +
   theme(legend.position = "none") +
   scale_fill_brewer(palette = "Set2")
 ```
+
+### Interpretation
+
+-   The boxplot reveals group differences in BRCA1 expression. Drug_A appears elevated compared to other treatments. The jittered points show individual observations, helping identify potential outliers or non-normal distributions within groups.
+
+### Enhancement
+
+-   Try adding `geom_violin()` instead of `geom_boxplot()` to see the full distribution shape, or use `facet_wrap(~treatment)` for separate panels.
 :::
 
 ## Statistical Test
@@ -1395,6 +1717,14 @@ anova_result <- aov(gene_BRCA1 ~ treatment, data = gene_expression)
 tidy(anova_result) |>
   kable(digits = 4, caption = "ANOVA Results")
 ```
+
+### Interpretation
+
+-   The one-way ANOVA tests whether mean BRCA1 expression differs across treatments. A significant p-value indicates at least one group differs. The `broom::tidy()` function converts the output to a clean data frame for reporting.
+
+### Enhancement
+
+-   For post-hoc pairwise comparisons, use `TukeyHSD(anova_result)` or `emmeans(anova_result, pairwise ~ treatment)` to identify which specific groups differ.
 :::
 
 ::: callout-note

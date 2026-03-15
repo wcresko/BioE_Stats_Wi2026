@@ -142,6 +142,9 @@ library(brms)         # Bayesian regression with Stan
 
 ## LOESS Concept — Local Weighted Regression
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -185,6 +188,44 @@ for (x0 in focal_pts) {
 }
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Demonstrate LOESS local weighting at two focal points
+set.seed(42)
+n <- 150
+day <- runif(n, -155, 0)
+margin <- 0.05 * sin(day / 25) + 0.02 + rnorm(n, 0, 0.025)
+
+par(mfrow = c(1, 2))
+for (x0 in c(-125, -55)) {
+  span <- 0.3
+  dists <- abs(day - x0)
+  h <- sort(dists)[ceiling(span * n)]
+  u <- dists / h
+  w <- ifelse(u < 1, (1 - u^3)^3, 0)  # Tri-cube kernel
+
+  plot(day, margin, pch = 16, cex = 0.6 + 1.5 * w/max(w),
+       col = rgb(0, 0, 0, 0.15 + 0.85 * w/max(w)),
+       main = paste("Focal point:", x0))
+  local_fit <- lm(margin ~ day, weights = w)
+  x_range <- seq(x0 - h*0.5, x0 + h*0.5, length.out = 50)
+  lines(x_range, predict(local_fit, newdata = data.frame(day = x_range)),
+        col = "blue", lwd = 3)
+}
+```
+
+### Interpretation
+
+-   LOESS fits a separate weighted regression at each focal point — nearby data points receive high weight (large, dark), while distant points receive near-zero weight (small, faint)
+-   The tri-cube kernel $w(u) = (1 - u^3)^3$ smoothly tapers weights to zero at the edge of the local neighborhood, avoiding abrupt cutoffs
+-   The blue regression line at each focal point captures the local trend — notice how the slope differs between the two focal points, reflecting the non-linear underlying relationship
+-   The span parameter (0.3 here) controls what fraction of data is included in each local fit — smaller spans produce more flexible but noisier curves
+:::
+
 ## LOESS Animation
 
 ![](images/week_08_S121_loess_animation.gif){fig-align="center" width="80%"}
@@ -208,6 +249,9 @@ The span parameter controls the smoothness — smaller values create more flexib
 The span controls the fraction of data used in each local regression. Smaller span = more local = more wiggly.
 :::
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| eval: false
 #| echo: true
@@ -218,6 +262,13 @@ ggplot(data, aes(x, y)) +
   geom_smooth(method = "loess", span = 0.3, color = "red") +
   geom_smooth(method = "loess", span = 0.75, color = "blue")
 ```
+
+### Interpretation
+
+-   Overlaying LOESS curves with different span values on the same plot lets you visually assess how much smoothing is appropriate for your data
+-   A small span (0.3) follows local fluctuations closely and may overfit noise; a larger span (0.75) captures the broad trend and is the `ggplot2` default
+-   The `geom_smooth(method = "loess")` function in ggplot2 also displays a confidence band by default, helping assess uncertainty in the smooth
+:::
 
 ## From Exploration to Inference: Splines
 
@@ -277,6 +328,9 @@ A tissue engineering lab manufactured 120 PLGA scaffolds with varying porosity l
 | `porosity`      | Continuous | Scaffold porosity percentage      | \%    |
 | `proliferation` | Continuous | Cell proliferation index at day 7 | AU    |
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| label: porosity-load
 #| eval: false
@@ -286,6 +340,12 @@ A tissue engineering lab manufactured 120 PLGA scaffolds with varying porosity l
 porosity_data <- read_csv("data/scaffold_porosity.csv")
 glimpse(porosity_data)
 ```
+
+### Interpretation
+
+-   The `glimpse()` function provides a compact overview of variable types and sample values — always inspect your data structure before fitting models
+-   This dataset contains two continuous variables (porosity and proliferation), making it ideal for exploring non-linear smoothing techniques like LOESS and splines
+:::
 
 ## Exploring the Data: Porosity and Proliferation
 
@@ -427,6 +487,14 @@ summary(m4)  # includes significance test for smooth term
 | Polynomial      | Medium      | Dangerous     | Medium           | Yes       |
 | Natural splines | High        | Linear tails  | Medium           | Yes       |
 | GAM             | High        | Auto-tuned    | Lower            | Yes (edf) |
+
+### Interpretation
+
+-   **Linear regression** completely misses the curvature -- it reports near-zero correlation for what is clearly a strong non-linear relationship
+-   **Polynomial (degree 4)** captures the curvature well in the interior but can produce wild extrapolation at the edges
+-   **Natural splines (df = 4)** capture the curvature while constraining the tails to be linear -- the safest choice for inference and extrapolation
+-   **GAM** automatically selects smoothness via cross-validation and produces results very similar to natural splines -- ideal when you want the data to determine the complexity
+-   Compare models using AIC: the best model balances fit and complexity. For this inverted-U relationship, all non-linear methods dramatically outperform the linear model
 :::
 
 ## R Exercise: Scaffold Porosity Smoothing
@@ -513,6 +581,13 @@ $$S(t) = P(T > t)$$
 | Drug delivery        | Drug depletion     | Hours/Days  | Steep initial decline |
 | Cell culture         | Cell death         | Hours       | Varies by condition   |
 | Scaffold degradation | 50% mass loss      | Weeks       | Depends on coating    |
+
+### Interpretation
+
+-   The survival function $S(t)$ gives the probability that an event has not yet occurred by time $t$ — it is the fundamental quantity in survival analysis
+-   The monotonically decreasing property reflects that failures are irreversible; the Kaplan-Meier estimator enforces this constraint non-parametrically
+-   In bioengineering, the shape of $S(t)$ reveals whether failures occur early (steep initial drop), at a constant rate (exponential decay), or cluster at later times (delayed drop)
+-   Comparing survival curves across groups (e.g., materials, coatings) is the primary way to assess treatment or design effects on time-to-event outcomes
 :::
 
 ## The Hazard Function: h(t)
@@ -544,6 +619,13 @@ h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\De
 
 S(t) = \exp\left(-\int_0^t h(u)\,du\right)
 ```
+
+### Interpretation
+
+-   The hazard function describes the instantaneous failure rate at time $t$ for subjects who have survived to that point — it answers "how risky is this moment?"
+-   Unlike probability, the hazard is a rate and can exceed 1, making it suitable for modeling events that can happen at any continuous time point
+-   The shape of the hazard function reveals the failure mechanism: increasing hazard suggests wear-out, decreasing suggests early failures, and the bathtub curve combines both
+-   The survival and hazard functions are mathematically linked through $S(t) = \exp(-\int_0^t h(u)\,du)$, so knowing one determines the other
 :::
 
 ## Understanding Censoring
@@ -625,6 +707,9 @@ A multicenter orthopedic registry tracked 200 joint replacement implants over a 
 | `activity_level` | Continuous | Patient activity score | 1 (sedentary) -- 10 (very active) |
 | `bmi` | Continuous | Body mass index | kg/m² |
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| label: implant-load
 #| eval: false
@@ -636,6 +721,13 @@ implant$material <- factor(implant$material)
 implant$coating <- factor(implant$coating)
 glimpse(implant)
 ```
+
+### Interpretation
+
+-   Converting `material` and `coating` to factors ensures they are treated as categorical predictors in survival models
+-   The dataset includes both the event indicator (`failed`) and the time variable (`time_years`), which together define the survival outcome
+-   Censored observations (implants that have not yet failed at follow-up) are as informative as failures — they tell us the implant survived at least that long
+:::
 
 ## Load and Inspect the Data
 
@@ -1043,6 +1135,13 @@ ggplot(hr_df, aes(x = hr, y = reorder(term, hr))) +
 -   Points **right of the dashed line** (HR \> 1) indicate risk factors
 -   **Confidence intervals crossing 1** indicate non-significant effects
 -   This is the standard visualization for reporting Cox model results in biomedical literature
+
+### Interpretation
+
+-   The **forest plot** is the standard visualization for reporting Cox model results in biomedical literature -- it shows each covariate's hazard ratio with its 95% confidence interval
+-   Points to the **right of the dashed line** (HR > 1) indicate factors that increase failure risk; points to the **left** (HR < 1) indicate protective factors
+-   Confidence intervals that **cross the dashed line at HR = 1** indicate non-significant effects -- the data are compatible with no effect
+-   The relative position of the points allows quick comparison of which factors have the largest impact on implant survival
 :::
 
 ## Checking the Proportional Hazards Assumption
@@ -1302,6 +1401,14 @@ $$\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
 ``` text
 \text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
 ```
+
+### Interpretation
+
+-   The total prediction error on new data has three irreducible components: squared bias, variance, and irreducible noise
+-   **Bias** decreases as model complexity increases -- more flexible models can capture the true relationship more accurately
+-   **Variance** increases as model complexity increases -- more flexible models are more sensitive to the particular training sample
+-   The **optimal model** sits at the sweet spot where the sum of bias-squared and variance is minimized
+-   **Irreducible error** represents fundamental randomness (biological variability, measurement noise) that no model can eliminate
 :::
 
 -   **Bias**: error from incorrect model assumptions (too simple)
@@ -1309,6 +1416,9 @@ $$\text{Test Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}
 -   Goal: balance flexibility with stability
 
 ## Bias-Variance Tradeoff — Visualized
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1361,6 +1471,34 @@ text(x[opt_idx], -max(total_plot) * 0.02, "Optimal\nComplexity",
 mtext("← Underfitting", side = 1, line = 2, adj = 0.1, cex = 1.1)
 mtext("Overfitting →", side = 1, line = 2, adj = 0.9, cex = 1.1)
 ```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Simulate bias-variance tradeoff curves
+x <- seq(0.5, 10, length.out = 200)
+bias <- 3 * exp(-0.5 * x) + 0.1      # Bias decreases with complexity
+variance <- 0.05 * x^2                # Variance increases with complexity
+total <- (bias * 1.5 + variance * 0.8) * 0.7  # Total error = bias + variance
+
+plot(x, total, type = "l", lwd = 3, col = "gray30",
+     xlab = "Model Complexity", ylab = "Error",
+     main = "Bias-Variance Tradeoff")
+lines(x, bias * 1.5, lwd = 3, col = "darkred")
+lines(x, variance * 0.8, lwd = 3, col = "steelblue")
+abline(v = x[which.min(total)], lty = 3, col = "gray50")
+```
+
+### Interpretation
+
+-   Bias decreases as model complexity increases — more flexible models can capture the true data-generating process more accurately
+-   Variance increases with complexity — highly flexible models fit training noise and change dramatically across different training sets
+-   Total error has a U-shape with a minimum at the optimal complexity — this sweet spot balances underfitting (too simple) and overfitting (too complex)
+-   Cross-validation is the practical tool for finding this optimal complexity, since we cannot compute bias and variance directly from a single dataset
+:::
 
 ## In-Class Demo: Overfitting in Action
 
@@ -1428,6 +1566,13 @@ points(x_samp, y_samp, col = "black", pch = 19)
 lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)],
       col = "red", lwd = 2)
 ```
+
+### Interpretation
+
+-   The **left panel** shows a linear model fit to 25 sampled points (black dots) from a true linear population (light blue) -- the sample fit (red) closely approximates the true line (blue dashed), demonstrating good generalization
+-   The **right panel** shows a LOESS fit to the same 25 points -- it chases the noise in the sample, creating wiggles that do not exist in the true population
+-   The LOESS model has lower training error (it passes closer to each sample point) but would perform worse on new data from the population -- this is the hallmark of **overfitting**
+-   This demonstrates why cross-validation is essential: training error alone rewards memorization, not generalization
 :::
 
 # Cross-Validation {background-color="#2c3e50"}
@@ -1547,6 +1692,13 @@ abline(v = which.min(cv_errors), lty = 2, col = "red")
 -   After the optimal point, overfitting causes CV error to **increase**
 -   This "elbow" identifies the best bias-variance tradeoff
 -   Connects directly to model selection from Week 7
+
+### Interpretation
+
+-   The **LOOCV error curve** initially decreases as polynomial degree increases -- adding flexibility reduces bias
+-   After the optimal degree (marked by the red dashed line), CV error begins to **increase** -- the model is now overfitting, capturing noise rather than signal
+-   The optimal degree (typically 2 for this quadratic data) achieves the best **bias-variance tradeoff** -- complex enough to capture the true curvature but not so complex that it memorizes noise
+-   This procedure directly connects to the model selection criteria (AIC, BIC) from Week 7 -- CV provides a direct, honest estimate of out-of-sample prediction error
 :::
 
 # Decision Trees - ClAssification and Regression Trees (CART) {background-color="#2c3e50"}
@@ -1621,6 +1773,13 @@ H = -\sum_{k=1}^{K} p_k \log_2(p_k)
 
 MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \bar{y})^2
 ```
+
+### Interpretation
+
+-   CART greedily searches all features and all thresholds at each node, selecting the split that maximally reduces impurity — this makes it computationally intensive but thorough
+-   Gini impurity and entropy both measure node "purity" and usually select the same splits; Gini is the default in most implementations because it avoids the logarithm computation
+-   For regression trees, the splitting criterion is MSE reduction — equivalent to finding the split that maximizes the between-group variance
+-   The recursive partitioning continues until a stopping rule (minimum node size, maximum depth, or minimum impurity reduction) prevents further splits
 :::
 
 # Classification
@@ -1726,6 +1885,13 @@ After the same RGD coating split:
 -   Right (n=60): $H_R = -(0.25 \log_2 0.25 + 0.75 \log_2 0.75) = 0.811$
 
 $$IG = 1.0 - \left(\frac{40}{100}(0.544) + \frac{60}{100}(0.811)\right) = 1.0 - 0.704 = 0.296 \text{ bits}$$
+
+### Interpretation
+
+-   **Entropy** measures uncertainty in bits -- a pure node (all one class) has 0 bits of entropy, while a maximally mixed node has 1 bit (for binary classification)
+-   **Information gain** quantifies how much a split reduces uncertainty -- larger gains mean the split creates more homogeneous child nodes
+-   In practice, **Gini and entropy produce nearly identical trees** for most datasets -- Gini is slightly faster to compute and is the default in most implementations
+-   The worked example shows that the RGD coating split achieves an information gain of 0.296 bits, confirming it is a strong predictor of biocompatibility
 :::
 
 ## Biomaterial Screening Dataset
@@ -1744,6 +1910,9 @@ A biomaterials research group screened 200 scaffold formulations for biocompatib
 | `roughness` | Continuous | Average surface roughness (Ra) | μm |
 | `compat_score` | Binary | Biocompatibility classification | biocompatible / incompatible |
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| label: biocompat-load
 #| eval: false
@@ -1755,6 +1924,13 @@ biomat$coating <- factor(biomat$coating)
 biomat$compat_score <- factor(biomat$compat_score)
 glimpse(biomat)
 ```
+
+### Interpretation
+
+-   Converting `coating` and `compat_score` to factors ensures R treats them as categorical variables for tree-based models
+-   The `glimpse()` function provides a quick overview of variable types and sample values — always inspect your data before modeling
+-   This dataset has a binary outcome (`biocompatible` vs. `incompatible`), making it suitable for classification trees and random forests
+:::
 
 ## CART Classification: The Algorithm
 
@@ -1774,6 +1950,13 @@ Each step occurs at every node during tree construction:
 5.  **Stop + Label** — stop when a termination criterion is met (minimum node size, maximum depth, or CP threshold); label each leaf with its majority class
 
 This is a **greedy top-down algorithm**: each split is locally optimal, not globally optimal. A different first split might produce a better tree overall, but the search space is too large to evaluate exhaustively.
+
+### Interpretation
+
+-   The CART classification algorithm builds a decision tree by recursively finding the split (feature + threshold) that most reduces impurity, measured by Gini or entropy
+-   At each leaf node, the predicted class is the majority class among the training observations that fall into that region
+-   The greedy nature of the algorithm means it may not find the globally optimal tree, but it is computationally efficient and produces interpretable results
+-   Stopping rules (minimum node size, maximum depth, cp threshold) prevent the tree from growing too deep and overfitting the training data
 :::
 
 ## Decision Tree: Biomaterial Biocompatibility
@@ -1963,6 +2146,13 @@ $$\Delta \text{RSS} = \text{RSS}_{parent} - \text{RSS}_{split}$$
 ### Intuition
 
 The algorithm is searching for the feature and threshold that **divide the data into groups that are as homogeneous in y as possible**. Within each group, the prediction is simply the group mean. This creates a **piecewise constant (step-function) prediction surface** — a key limitation that random forests substantially overcome.
+
+### Interpretation
+
+-   Regression trees split the data to **minimize within-group variance** -- each split creates two groups whose members are as similar in response as possible
+-   Unlike classification trees that predict a class label, regression tree leaves predict the **mean response** of all observations in that region
+-   The prediction surface is a **step function** -- discontinuous jumps at split boundaries. This is both a strength (captures non-linearity) and a limitation (no smooth transitions)
+-   Random forests overcome the step-function limitation by averaging many trees, producing much smoother prediction surfaces
 :::
 
 ## Regression Tree: Step-by-Step
@@ -1984,6 +2174,13 @@ After fitting, each **leaf node** covers a region of predictor space and predict
 -   More splits → lower training RSS, but higher test error (overfitting)
 -   Cost-complexity pruning (same α / cp mechanism as classification) controls complexity
 -   With strong predictors, trees can capture non-linear relationships and interactions without specifying them
+
+### Interpretation
+
+-   Regression trees predict a continuous outcome by partitioning the predictor space into rectangular regions and assigning the mean response within each region
+-   The splitting criterion is RSS reduction — each split finds the variable and threshold that most reduces the sum of squared residuals
+-   Pruning via cost-complexity (cp) is essential to prevent overfitting — an unpruned tree will perfectly fit the training data but generalize poorly
+-   Regression trees naturally capture non-linear relationships and interactions without specifying them in the model formula
 :::
 
 ## Scaffold Cell Growth Dataset
@@ -2096,6 +2293,9 @@ Decision trees have a built-in mechanism for missing data called **surrogate spl
 -   `rpart` in R automatically computes and stores surrogate splits; the default `maxsurrogate = 5` stores the top 5 alternatives per node
 
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| echo: true
 #| eval: false
@@ -2106,6 +2306,14 @@ summary(tree_model)  # Prints primary + surrogate splits at each node
 # rpart handles missing values automatically during prediction
 predict(tree_model, newdata = test_data_with_NAs)  # No error needed
 ```
+
+### Interpretation
+
+-   The `summary()` function on an rpart model reveals surrogate splits at each node — alternative variables that produce similar partitions when the primary variable is missing
+-   Surrogate splits are ranked by their agreement rate with the primary split, and the top 5 are stored by default (`maxsurrogate = 5`)
+-   This built-in missing data handling is a major practical advantage of decision trees over methods that require complete cases or imputation
+-   During prediction, if a variable used for a split is missing, rpart automatically uses the best available surrogate — no preprocessing needed
+:::
 
 ## CART Summary: Strengths and Weaknesses
 
@@ -2321,6 +2529,13 @@ rf_model$confusion
 
 **Mean Decrease Gini (right panel):** Total reduction in node impurity across all trees from splits on this variable. Faster to compute but slightly biased toward continuous variables with many possible thresholds.
 
+
+### Interpretation
+
+-   **Mean Decrease Accuracy** (permutation importance) measures how much prediction accuracy drops when a variable's values are randomly shuffled -- larger drops indicate more important variables
+-   **Mean Decrease Gini** measures the total reduction in node impurity across all trees when splitting on that variable -- variables that produce purer nodes are more important
+-   Variables that rank highly on both measures are the most reliably important predictors in the model
+-   Variable importance does not imply causation -- it reflects predictive utility within the random forest model, which may include correlated surrogates
 :::
 
 ## Random Forest: Regression — Setup
@@ -2432,6 +2647,9 @@ For that, we need the language of **odds and odds ratios** — and we need to un
 
 Let's use the confusion matrix from our biomaterial random forest to motivate the ROC curve, then move to odds and log odds to quantify effects.
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -2445,6 +2663,32 @@ cat("Specificity (incompatible correctly identified):  ",
     round(rf_model$confusion["incompatible","incompatible"] /
           sum(rf_model$confusion["incompatible",1:2]), 3), "\n")
 ```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Print the OOB confusion matrix from randomForest
+print(rf_model$confusion)
+
+# Calculate sensitivity and specificity
+sensitivity <- rf_model$confusion["biocompatible","biocompatible"] /
+               sum(rf_model$confusion["biocompatible",1:2])
+specificity <- rf_model$confusion["incompatible","incompatible"] /
+               sum(rf_model$confusion["incompatible",1:2])
+cat("Sensitivity:", round(sensitivity, 3), "\n")
+cat("Specificity:", round(specificity, 3), "\n")
+```
+
+### Interpretation
+
+-   The confusion matrix summarizes classification performance by showing correct and incorrect predictions for each class
+-   Sensitivity (true positive rate) measures how well the model identifies biocompatible materials — critical when false negatives are costly
+-   Specificity (true negative rate) measures how well the model identifies incompatible materials — important for safety screening
+-   The trade-off between sensitivity and specificity depends on the application: in biomaterial screening, high sensitivity ensures promising materials are not missed
+:::
 
 ## ROC Curves and AUC
 
@@ -2547,6 +2791,13 @@ The ROC curve shows you the **trade-off landscape** — you choose the threshold
 -   **High specificity needed** (e.g., regulatory approval): move threshold higher → fewer false positives, risk missing some
 -   **Balanced** (Youden's J = TPR − FPR): choose the point on the ROC curve closest to the top-left corner
 -   AUC is useful for **comparing classifiers** independent of any specific threshold
+
+### Interpretation
+
+-   **Odds** express the ratio of the probability of an event to the probability of non-event -- odds of 3 mean the event is 3 times more likely than non-event
+-   **Log odds** (logit) transform probabilities from the bounded [0,1] range to the entire real line, making them suitable for linear modeling in logistic regression
+-   The **threshold** for classifying predictions (default 0.5) can be adjusted based on the relative costs of false positives vs. false negatives -- in medical applications, a lower threshold may be preferred to avoid missing true cases
+-   Understanding the odds scale is essential for interpreting logistic regression coefficients: each unit increase in a predictor multiplies the odds by exp(beta)
 :::
 
 ## Why Do We Need Odds?
@@ -2856,6 +3107,13 @@ P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}
 -   **Likelihood** $P(data \mid \theta)$: How probable the data is given a parameter value
 -   **Posterior** $P(\theta \mid data)$: Updated belief after seeing data
 -   The posterior is a compromise between the prior and the data
+
+### Interpretation
+
+-   Bayes' theorem provides a principled mechanism for updating beliefs: the posterior combines prior knowledge with observed data through the likelihood
+-   The denominator $P(data)$ serves as a normalizing constant ensuring the posterior integrates to 1 — in practice it is often computed implicitly rather than directly
+-   The proportionality form (Posterior $\propto$ Likelihood $\times$ Prior) highlights that the posterior shape is determined entirely by the product of prior and likelihood
+-   When the prior is "flat" (uninformative), the posterior is proportional to the likelihood alone, and Bayesian estimates converge to maximum likelihood estimates
 :::
 
 ## The Logic of Bayesian Inference
@@ -2937,6 +3195,13 @@ credible_interval <- qbeta(c(0.025, 0.975), 9, 5)
 cat("Posterior mean:", round(posterior_mean, 3))
 cat("95% Credible Interval:", round(credible_interval, 3))
 ```
+
+### Interpretation
+
+-   The posterior mean (0.643) is a compromise between the prior mean (0.50 from Beta(2,2)) and the data proportion (0.70 = 7/10), pulled toward the prior because n=10 is small
+-   The 95% credible interval gives a direct probability statement: there is a 95% probability the true coin bias lies within this range, given the data and prior
+-   The Beta-Binomial conjugacy makes updating trivial: just add observed heads to $\alpha$ and observed tails to $\beta$ — no numerical integration required
+-   With only 10 flips, the prior contributes meaningfully; with hundreds of flips, the posterior would be almost entirely determined by the data
 :::
 
 ## Bayesian Updating: Effect of Sample Size
@@ -3019,6 +3284,13 @@ for (n in flip_counts) {
 -   The dashed blue line (prior) becomes increasingly irrelevant — data dominates
 -   With n=200, the 95% credible interval barely spans 0.10 units
 -   **Practical implication:** With informative priors and small samples, Bayesian analysis provides regularization; with large samples, Bayesian and frequentist results converge
+
+### Interpretation
+
+-   Bayesian sequential updating demonstrates a core strength of the framework: each new batch of data refines the posterior, which becomes the prior for the next update
+-   With small samples (n=5), the prior has substantial influence — the posterior is wide and pulled toward the prior mean, providing regularization against noisy estimates
+-   As sample size grows (n=200), the posterior concentrates tightly around the true parameter value and the prior becomes effectively irrelevant
+-   This convergence of Bayesian and frequentist results with large samples is a reassuring property: with enough data, reasonable priors do not bias conclusions
 :::
 
 ## Credible Intervals vs. Confidence Intervals
@@ -3103,6 +3375,13 @@ legend("topleft", c("Posterior", "Mean", "95% CI"),
        col = c("#27ae60", "#27ae60", "#e74c3c"),
        lty = c(1, 1, 2), lwd = c(2.5, 2, 2), cex = 0.85)
 ```
+
+### Interpretation
+
+-   Bayesian credible intervals provide direct probability statements about parameters ("95% probability theta is in this range"), while frequentist confidence intervals describe the procedure's long-run coverage
+-   For large samples, credible and confidence intervals typically give nearly identical numerical results — the distinction matters most conceptually and with small samples
+-   The Highest Density Interval (HDI) is preferred for skewed posteriors because it always contains the mode and is the shortest interval covering 95% of the posterior mass
+-   The ability to make direct probability statements about parameters is one of the primary practical advantages of the Bayesian framework for applied researchers
 :::
 
 ## Conjugate Prior Distributions
@@ -3156,6 +3435,13 @@ The posterior mean $= (a + \sum X_i)/(b + n)$ — a shrinkage estimator that pul
 | **Good for teaching** | Makes Bayesian mechanics transparent |
 
 **Limitation:** Conjugate families are limited. Real-world models with multiple parameters, non-linear effects, or hierarchical structure require MCMC samplers like Stan (used by brms).
+
+### Interpretation
+
+-   Conjugate priors produce closed-form posteriors, avoiding the need for computationally expensive MCMC sampling
+-   The Beta-Binomial conjugate pair is the most intuitive: prior hyperparameters $\alpha$ and $\beta$ act as pseudo-counts of prior successes and failures, and simply add to the observed counts
+-   In the Normal-Normal case, the posterior mean is a precision-weighted average — when sample size is large, data dominate; when small, the prior stabilizes the estimate
+-   Conjugacy is elegant but limited to simple models; complex real-world analyses (hierarchical models, non-linear effects) require MCMC samplers like Stan
 :::
 
 ## Bayesian Linear Regression: Concept and Equations
@@ -3230,6 +3516,13 @@ abline(v = mean(beta1_samples), col = "darkblue", lwd = 2)
 legend("topright", c("Posterior mean", "95% CI"),
        col = c("darkblue", "red"), lwd = 2, lty = c(1, 2), cex = 0.8)
 ```
+
+### Interpretation
+
+-   In Bayesian linear regression, each parameter gets a full posterior distribution rather than a single point estimate, capturing the complete uncertainty about that parameter
+-   The posterior is proportional to the likelihood times the prior — with sufficient data, the likelihood dominates and results converge to the frequentist estimates
+-   Weakly informative priors (e.g., $\mathcal{N}(0, 5)$ for slopes) provide mild regularization without strongly influencing results, preventing extreme estimates while letting data speak
+-   The 95% credible intervals from the posterior histograms are directly interpretable: "there is a 95% probability the true parameter lies in this range"
 :::
 
 ## When to Use Bayesian Methods
@@ -3340,4 +3633,11 @@ The `summary(bayes_model)` output gives for each parameter:
 -   **Bulk ESS / Tail ESS**: Effective sample size — should be \> 400 for reliable inference
 
 With weak priors and n=150, the Bayesian and frequentist estimates will be very similar. The advantage of brms shows when: (1) the sample is small, (2) we have meaningful prior information, or (3) we need probability statements about parameters.
+
+### Interpretation
+
+-   The `brms` package lets you specify Bayesian regression models with the same formula syntax as `lm()`, making the transition from frequentist to Bayesian straightforward
+-   Posterior credible intervals give **direct probability statements** about parameters (e.g., "95% probability the slope is between 1.2 and 3.4"), unlike frequentist confidence intervals
+-   Specifying an informative prior for crosslink density ($\mathcal{N}(2, 2)$) encodes domain knowledge that the effect should be positive, providing regularization especially with small samples
+-   Convergence diagnostics (Rhat near 1.00, ESS > 400) must be checked before interpreting results — poor convergence means the posterior samples are unreliable
 :::

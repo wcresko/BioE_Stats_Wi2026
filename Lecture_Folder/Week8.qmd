@@ -1893,6 +1893,9 @@ Because REML projects out the fixed effects before computing the likelihood, two
 -   For final parameter estimates after model selection, refit the chosen model with **REML** for unbiased variance estimates
 :::
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| eval: false
 #| echo: true
@@ -1907,6 +1910,14 @@ mod_c <- lmer(y ~ treatment * time + (1 | subject), data = d, REML = FALSE)
 mod_d <- lmer(y ~ treatment + time + (1 | subject), data = d, REML = FALSE)
 anova(mod_d, mod_c)  # ML likelihoods are comparable
 ```
+
+### Interpretation
+
+-   When comparing models with the same fixed effects but different random structures, REML likelihoods are comparable — use `refit = FALSE` to keep REML estimation
+-   When comparing models with different fixed effects, you must use ML (`REML = FALSE`) because REML likelihoods are not comparable across different fixed-effect structures
+-   After selecting the best model via ML comparison, refit the chosen model with REML for unbiased variance component estimates
+-   The `anova()` function performs a likelihood ratio test between nested models — the p-value tests whether the more complex model fits significantly better
+:::
 
 ## Comparing Models with Different Random Structures
 
@@ -2089,6 +2100,13 @@ Y_i \sim \text{Binomial}(n_i, p_i)
 Y_i \sim \text{Poisson}(\lambda_i)
 Y_i \sim \text{Gamma}(\alpha, \beta_i)
 ```
+
+### Interpretation
+
+-   The random component specifies the probability distribution of the response variable — this is the first and most important modeling decision in a GLM
+-   Each distribution implies a specific variance function: Gaussian has constant variance, Poisson has variance equal to the mean, and Gamma has variance proportional to the mean squared
+-   Choosing the wrong distribution leads to incorrect standard errors and confidence intervals even if point estimates are reasonable
+-   In bioengineering, count data (colony counts, defect counts) call for Poisson; binary outcomes (pass/fail, biocompatible/not) call for Binomial; positive continuous data (times, concentrations) may call for Gamma
 :::
 
 Each distribution implies a specific **variance function** — how the variance of $Y$ relates to its mean. This is a crucial difference from linear models where variance is assumed constant.
@@ -2131,6 +2149,13 @@ Maps positive counts to the real line. The exponential inverse ensures predicted
 $$g(\mu) = \frac{1}{\mu} \quad \Rightarrow \quad \mu = \frac{1}{\eta}$$
 
 Used for positive continuous data where variance increases with the square of the mean (e.g., reaction times, costs).
+
+### Interpretation
+
+-   The link function is the mathematical bridge between the linear predictor ($\eta = X\beta$) and the mean of the response — it ensures predictions respect the natural constraints of the response variable
+-   Each GLM family has a "canonical" link function that simplifies the math, but alternative links can be used when they better match the scientific context
+-   The identity link (Gaussian) means coefficients directly represent changes in the mean; the logit link (Binomial) gives log-odds; the log link (Poisson) gives log-rates
+-   Choosing the right link function is as important as choosing the right distribution — the link determines how predictors combine to affect the response
 :::
 
 ## Visualizing GLM Families
@@ -2257,6 +2282,9 @@ GLMs do **not** assume normality of residuals or constant variance. Instead, the
 
 The `glm()` function in base R fits generalized linear models. It works almost identically to `lm()`, with the addition of a `family` argument that specifies the distribution and link function:
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| eval: false
 #| echo: true
@@ -2271,6 +2299,14 @@ glm(formula, family, data)
 #   poisson(link = "log")         — Poisson regression
 #   Gamma(link = "inverse")       — Gamma regression
 ```
+
+### Interpretation
+
+-   The `glm()` function extends `lm()` to handle non-normal response distributions by specifying the `family` argument — the formula syntax remains identical
+-   Each family has a default (canonical) link function, but you can override it (e.g., `binomial(link = "probit")`) when a different link is more appropriate for your data
+-   Use `type = "response"` with `predict()` to get predictions on the original scale (probabilities for logistic, counts for Poisson), and `type = "link"` for the linear predictor scale
+-   The deviance in GLM output plays the same role as RSS in linear models — it measures lack of fit, and differences in deviance between nested models follow a chi-squared distribution
+:::
 
 Key functions for working with GLM output:
 
@@ -2654,6 +2690,13 @@ P(Y = 1 \mid X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \ldots + \beta_p x_p
 
 \log\left(\frac{P}{1 - P}\right) = \beta_0 + \beta_1 x_1 + \ldots + \beta_p x_p
 ```
+
+### Interpretation
+
+-   Logistic regression models the probability of a binary outcome (e.g., failure/success, malignant/benign) as a function of predictors through the logistic (sigmoid) function
+-   The logit link transforms the bounded probability to an unbounded linear predictor, making the regression machinery applicable to binary data
+-   Coefficients are on the log-odds scale: a one-unit increase in $x_1$ changes the log-odds of the event by $\beta_1$ — exponentiate to get the odds ratio
+-   Unlike linear probability models, logistic regression guarantees predicted probabilities stay within (0, 1)
 :::
 
 ## The Logistic Function
@@ -2739,6 +2782,13 @@ Understanding odds is essential for interpreting logistic regression:
 
 \text{Odds Ratio} = e^{\beta_1}
 ```
+
+### Interpretation
+
+-   Odds express the ratio of success to failure probability — odds of 3 mean the event is 3 times more likely to occur than not occur
+-   The log-odds (logit) transformation maps probability from the bounded (0, 1) scale to the unbounded ($-\infty$, $+\infty$) scale, making linear modeling appropriate
+-   The odds ratio $e^{\beta_1}$ is the multiplicative change in odds for a one-unit increase in the predictor — an OR of 1.5 means 50% higher odds per unit increase
+-   Odds ratios are symmetric: OR = 2 for the event is equivalent to OR = 0.5 for the non-event, making them a natural measure for binary outcomes
 :::
 
 ## Implant Failure Dataset — Data Dictionary
@@ -3317,6 +3367,13 @@ When the observed variance exceeds the mean, we have **overdispersion** — and 
 
 E(Y_i) = \text{Var}(Y_i) = \lambda_i
 ```
+
+### Interpretation
+
+-   Poisson regression models count data using the log link, ensuring predicted counts are always non-negative regardless of predictor values
+-   The mean-variance equality ($E(Y) = Var(Y)$) is a strong assumption — if observed variance exceeds the mean (overdispersion), use quasipoisson or negative binomial models instead
+-   Coefficients on the log scale represent log rate ratios: $e^{\beta_1}$ gives the multiplicative change in the expected count for a one-unit increase in $x_1$
+-   Poisson regression is appropriate for counts of events (e.g., colony counts, defect counts) where the response is a non-negative integer
 :::
 
 ## Interpreting Poisson Coefficients: Rate Ratios
@@ -3731,6 +3788,9 @@ LOESS fits local polynomial regressions at each point, weighting nearby observat
 
 ## LOESS Concept — Local Weighted Regression
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -3774,6 +3834,44 @@ for (x0 in focal_pts) {
 }
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Demonstrate LOESS local weighting at two focal points
+set.seed(42)
+n <- 150
+day <- runif(n, -155, 0)
+margin <- 0.05 * sin(day / 25) + 0.02 + rnorm(n, 0, 0.025)
+
+par(mfrow = c(1, 2))
+for (x0 in c(-125, -55)) {
+  span <- 0.3
+  dists <- abs(day - x0)
+  h <- sort(dists)[ceiling(span * n)]
+  u <- dists / h
+  w <- ifelse(u < 1, (1 - u^3)^3, 0)  # Tri-cube kernel
+
+  plot(day, margin, pch = 16, cex = 0.6 + 1.5 * w/max(w),
+       col = rgb(0, 0, 0, 0.15 + 0.85 * w/max(w)),
+       main = paste("Focal point:", x0))
+  local_fit <- lm(margin ~ day, weights = w)
+  x_range <- seq(x0 - h*0.5, x0 + h*0.5, length.out = 50)
+  lines(x_range, predict(local_fit, newdata = data.frame(day = x_range)),
+        col = "blue", lwd = 3)
+}
+```
+
+### Interpretation
+
+-   LOESS fits a separate weighted regression at each focal point — nearby data points receive high weight (large, dark), while distant points receive near-zero weight (small, faint)
+-   The tri-cube kernel $w(u) = (1 - u^3)^3$ smoothly tapers weights to zero at the edge of the local neighborhood, avoiding abrupt cutoffs
+-   The blue regression line at each focal point captures the local trend — the slope differs between focal points, reflecting the non-linear underlying relationship
+-   The span parameter (0.3 here) controls what fraction of data is included in each local fit — smaller spans produce more flexible but noisier curves
+:::
+
 ## LOESS Animation
 
 ![](images/week_08_S121_loess_animation.gif){fig-align="center" width="80%"}
@@ -3797,6 +3895,9 @@ The span parameter controls the smoothness — smaller values create more flexib
 The span controls the fraction of data used in each local regression. Smaller span = more local = more wiggly.
 :::
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| eval: false
 #| echo: true
@@ -3807,6 +3908,13 @@ ggplot(data, aes(x, y)) +
   geom_smooth(method = "loess", span = 0.3, color = "red") +
   geom_smooth(method = "loess", span = 0.75, color = "blue")
 ```
+
+### Interpretation
+
+-   Overlaying LOESS curves with different span values lets you visually assess how much smoothing is appropriate for your data
+-   A small span (0.3) follows local fluctuations closely and may overfit noise; a larger span (0.75) captures the broad trend and is the `ggplot2` default
+-   The `geom_smooth(method = "loess")` function also displays a confidence band by default, helping assess uncertainty in the smooth
+:::
 
 # Splines for Model Building {background-color="#d4edda"}
 
@@ -3997,6 +4105,13 @@ summary(m4)  # includes significance test for smooth term
 | Polynomial      | Medium      | Dangerous     | Medium           | Yes       |
 | Natural splines | High        | Linear tails  | Medium           | Yes       |
 | GAM             | High        | Auto-tuned    | Lower            | Yes (edf) |
+
+### Interpretation
+
+-   Linear models are the simplest and most interpretable but miss non-linear relationships; polynomial models add flexibility but extrapolate dangerously beyond the data range
+-   Natural splines provide high flexibility with well-behaved linear tails, making them a strong default choice for non-linear modeling with inference
+-   GAMs automatically select smoothness via cross-validation, reducing the analyst's burden of choosing degrees of freedom — the effective degrees of freedom (edf) quantify the complexity
+-   The choice between methods depends on the goal: if prediction within the data range is paramount, GAMs excel; if extrapolation or simplicity matters, simpler models are preferred
 :::
 
 ------------------------------------------------------------------------
@@ -4042,6 +4157,13 @@ $$\hat{\beta}_{ridge} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta
 -   Closed-form solution: $\hat{\beta}_{ridge} = (X^TX + \lambda I)^{-1}X^Ty$
 -   As λ → 0: approaches OLS; as λ → ∞: coefficients → 0
 -   Ridge is ideal when you have correlated biomaterial properties and believe all predictors contribute
+
+### Interpretation
+
+-   Ridge regression adds a penalty proportional to the squared magnitude of coefficients, preventing any single coefficient from becoming unreasonably large
+-   Unlike Lasso, Ridge never sets coefficients exactly to zero — all predictors remain in the model, just with reduced influence
+-   The penalty parameter $\lambda$ controls the bias-variance tradeoff: larger $\lambda$ increases bias but decreases variance, reducing overfitting
+-   Ridge is particularly effective when predictors are correlated (multicollinearity), as it stabilizes the matrix inversion by adding $\lambda I$ to $X^TX$
 :::
 
 ## Lasso Regression (L1 Penalty)
@@ -4064,6 +4186,13 @@ $$\hat{\beta}_{lasso} = \arg\min_{\beta} \left[ \sum_{i=1}^{n} (y_i - x_i^T\beta
 -   No closed-form solution (requires optimization)
 -   Produces **sparse models** — useful when many predictors are irrelevant
 -   **Caution**: Among a group of correlated predictors, Lasso arbitrarily selects one and zeroes out the others
+
+### Interpretation
+
+-   Lasso's key advantage over Ridge is automatic variable selection — coefficients for unimportant predictors are set exactly to zero, producing simpler, more interpretable models
+-   The L1 penalty creates a diamond-shaped constraint region; the OLS solution is more likely to hit a corner where one or more coefficients are exactly zero
+-   Lasso is ideal when you suspect many predictors are irrelevant and want the model to identify the important ones automatically
+-   The arbitrary selection among correlated predictors is a practical limitation — if predictor A and B are highly correlated, Lasso may keep either one depending on small data perturbations
 :::
 
 ## Elastic Net
@@ -4080,6 +4209,12 @@ $$\hat{\beta}_{elastic} = \arg\min_{\beta} \left[ RSS + \lambda \left( \alpha \s
 ``` text
 \hat{\beta}_{elastic} = \arg\min_{\beta} \left[ RSS + \lambda \left( \alpha \sum |\beta_j| + (1-\alpha) \sum \beta_j^2 \right) \right]
 ```
+
+### Interpretation
+
+-   Elastic Net combines the strengths of both Ridge and Lasso by using a weighted mix of L1 and L2 penalties, controlled by the $\alpha$ parameter
+-   When correlated predictors exist, Lasso arbitrarily selects one and drops the rest; Elastic Net tends to keep or drop them as a group, which is more scientifically interpretable
+-   The method is often the best default choice when you are unsure whether Ridge or Lasso is more appropriate for your data
 :::
 
 -   α = 0: pure Ridge; α = 1: pure Lasso
@@ -4122,6 +4257,13 @@ elastic_cv <- cv.glmnet(X_train, y_train, alpha = 0.5, nfolds = 10)
 | **Ridge**       | Many predictors, most relevant; multicollinearity       |
 | **Lasso**       | Feature selection important; many irrelevant predictors |
 | **Elastic Net** | Groups of correlated predictors; best of both worlds    |
+
+### Interpretation
+
+-   The `glmnet` package uses cross-validation (`cv.glmnet`) to select the optimal penalty strength $\lambda$, avoiding manual tuning
+-   Setting `alpha = 0` gives Ridge, `alpha = 1` gives Lasso, and values in between give Elastic Net — the `alpha` parameter controls the mix of L1 and L2 penalties
+-   The `lambda.min` value minimizes cross-validated error, while `lambda.1se` gives a simpler model within one standard error of the minimum — the latter is often preferred for parsimony
+-   Regularization is especially valuable in bioengineering when you have many correlated material properties (e.g., porosity, stiffness, roughness) and limited samples
 :::
 
 ## Geometric Interpretation
@@ -4307,6 +4449,13 @@ $$S(t) = P(T > t)$$
 | Drug delivery        | Drug depletion     | Hours/Days  | Steep initial decline |
 | Cell culture         | Cell death         | Hours       | Varies by condition   |
 | Scaffold degradation | 50% mass loss      | Weeks       | Depends on coating    |
+
+### Interpretation
+
+-   The survival function $S(t)$ gives the probability that an event has not yet occurred by time $t$ — it is the fundamental quantity in survival analysis
+-   The monotonically decreasing property reflects that failures are irreversible; the Kaplan-Meier estimator enforces this constraint non-parametrically
+-   In bioengineering, the shape of $S(t)$ reveals whether failures occur early (steep initial drop), at a constant rate (exponential decay), or cluster at later times
+-   Comparing survival curves across groups (e.g., materials, coatings) is the primary way to assess treatment or design effects on time-to-event outcomes
 :::
 
 ## The Hazard Function: h(t)
@@ -4338,6 +4487,13 @@ h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\De
 
 S(t) = \exp\left(-\int_0^t h(u)\,du\right)
 ```
+
+### Interpretation
+
+-   The hazard function describes the instantaneous failure rate at time $t$ for subjects who have survived to that point — it answers "how risky is this moment?"
+-   Unlike probability, the hazard is a rate and can exceed 1, making it suitable for modeling events that can happen at any continuous time point
+-   The shape of the hazard function reveals the failure mechanism: increasing hazard suggests wear-out, decreasing suggests early failures, and the bathtub curve combines both
+-   The survival and hazard functions are linked through $S(t) = \exp(-\int_0^t h(u)\,du)$, so knowing one determines the other
 :::
 
 ## Understanding Censoring
@@ -4681,6 +4837,13 @@ summary(cox_model)
 cox_model <- coxph(Surv(time, status) ~ age + sex + ph.ecog, data = lung)
 summary(cox_model)
 ```
+
+### Interpretation
+
+-   The Cox model estimates hazard ratios without assuming a specific baseline hazard shape — it is "semi-parametric" because only the proportional hazards assumption is required
+-   Coefficients are on the log-hazard scale: a positive coefficient means higher hazard (faster event occurrence), and $e^{\beta}$ gives the hazard ratio for a one-unit increase in the predictor
+-   The proportional hazards assumption means the ratio of hazards between any two groups remains constant over time — this should always be tested with `cox.zph()`
+-   The model handles censored observations naturally through the partial likelihood, using only the ordering of event times
 :::
 
 ## Interpreting Hazard Ratios

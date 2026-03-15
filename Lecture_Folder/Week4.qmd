@@ -65,12 +65,22 @@ set.seed(2026)
 
 ## Packages for This Week
 
+:::: panel-tabset
+### Install
+
 ```{r}
 #| eval: false
 #| echo: true
 
 # Install new packages (run once)
 install.packages(c("epitools", "DescTools", "pwr"))
+```
+
+### Load
+
+```{r}
+#| eval: false
+#| echo: true
 
 # Load packages
 library(tidyverse)    # Data manipulation & visualization
@@ -78,6 +88,7 @@ library(epitools)     # Epidemiological tools (odds ratios, risk ratios)
 library(DescTools)    # Descriptive statistics & tests (G-test, Cramer's V)
 library(pwr)          # Power analysis for study design
 ```
+:::
 
 ::: callout-tip
 **epitools** is essential for 2×2 contingency table analyses in epidemiology and clinical research.
@@ -99,6 +110,12 @@ $$\chi^2_k = \sum_{i=1}^k Z_i^2$$
 ``` text
 \chi^2_k = \sum_{i=1}^k Z_i^2
 ```
+
+### Interpretation
+
+- The chi-square distribution arises from summing $k$ squared independent standard normal variables
+- The parameter $k$ (degrees of freedom) controls the shape: more terms produce a distribution with a larger mean and less skew
+- This distribution is the basis for chi-square goodness-of-fit and independence tests
 :::
 
 **Properties:**
@@ -150,6 +167,12 @@ for(i in 2:4) {
 }
 legend("topright", paste("df =", df_vals), col = colors, lwd = 2)
 ```
+
+### Interpretation
+
+- With low degrees of freedom (df = 1, 2), the chi-square distribution is strongly right-skewed with density concentrated near zero
+- As degrees of freedom increase, the distribution shifts rightward and becomes more symmetric, approaching a normal distribution
+- The mean of the distribution equals the degrees of freedom, and the spread increases with higher df
 :::
 
 ## Chi-Square Test Statistic
@@ -164,6 +187,12 @@ $$\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}$$
 ``` text
 \chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
 ```
+
+### Interpretation
+
+- The chi-square statistic sums the squared differences between observed and expected frequencies, each divided by its expected value
+- Larger values indicate greater deviation from the null hypothesis (expected distribution)
+- The statistic is compared to the chi-square distribution with appropriate degrees of freedom to obtain a p-value
 :::
 
 Where:
@@ -217,6 +246,12 @@ expected_probs <- c(0.75, 0.25)
 
 chisq.test(x = observed, p = expected_probs)
 ```
+
+### Interpretation
+
+- The test compares observed phenotype counts (72 dominant, 28 recessive) against the expected Mendelian 3:1 ratio (75:25)
+- A non-significant p-value indicates the observed data are consistent with Mendelian inheritance
+- Small deviations from expected values are normal due to sampling variation
 :::
 
 ## Goodness-of-Fit: Dice Example
@@ -249,6 +284,12 @@ expected_probs <- rep(1/6, 6)
 
 chisq.test(x = observed, p = expected_probs)
 ```
+
+### Interpretation
+
+- The null hypothesis is that the die is fair (each face has probability 1/6)
+- The observed counts (8, 9, 10, 12, 11, 10) are close to the expected count of 10 per face
+- A large p-value indicates no evidence to reject the null; the die appears to be fair
 :::
 
 ## Test of Independence
@@ -285,6 +326,12 @@ colnames(tbl) <- c("Outcome1", "Outcome2")
 
 chisq.test(tbl)
 ```
+
+### Interpretation
+
+- The chi-square test of independence evaluates whether group membership is associated with the outcome
+- A small p-value indicates a significant association: the distribution of outcomes differs between Group 1 and Group 2
+- Group 1 shows a strong preference for Outcome 1 (50 vs. 10), while Group 2 favors Outcome 2 (40 vs. 20)
 :::
 
 ## Mosaic Plot
@@ -319,6 +366,12 @@ mosaicplot(tbl,
            ylab = "Outcome",
            color = TRUE)
 ```
+
+### Interpretation
+
+- The mosaic plot visually represents the contingency table where tile widths correspond to row totals and tile heights correspond to column proportions within each row
+- Differences in tile proportions between groups indicate an association between the categorical variables
+- This plot makes it easy to see that Group 1 is heavily skewed toward Outcome 1, while Group 2 favors Outcome 2
 :::
 
 ## Cramér's V
@@ -335,6 +388,12 @@ $$V = \sqrt{\frac{\chi^2}{n(k-1)}}$$
 ``` text
 V = \sqrt{\frac{\chi^2}{n(k-1)}}
 ```
+
+### Interpretation
+
+- Cramér's V normalizes the chi-square statistic by sample size $n$ and table dimensions $k$ (the smaller of rows or columns)
+- This produces a value between 0 (no association) and 1 (perfect association), making it interpretable regardless of sample size
+- Convention: V around 0.1 is a small effect, 0.3 is medium, and 0.5 or above is large
 :::
 
 | V   | Interpretation |
@@ -395,6 +454,12 @@ cramers_v <- sqrt(chisq_val / (n * (k - 1)))
 
 cat("Cramér's V:", round(cramers_v, 3))
 ```
+
+### Interpretation
+
+- Cramér's V provides a standardized effect size for chi-square tests, bounded between 0 and 1
+- A value near 0.5 or above indicates a large effect, meaning the two categorical variables are strongly associated
+- This complements the p-value by quantifying the practical significance of the relationship
 :::
 
 ## Fisher's Exact Test
@@ -432,6 +497,12 @@ colnames(beverage_table) <- c("Coffee", "Tea")
 
 fisher.test(beverage_table)
 ```
+
+### Interpretation
+
+- Fisher's exact test is appropriate here because the sample size is small (n = 20) and some expected cell counts would be below 5
+- The test calculates the exact probability of observing the data under the null hypothesis of no association
+- The resulting p-value and odds ratio indicate whether nationality and beverage preference are significantly associated
 :::
 
 ## Odds Ratios
@@ -456,9 +527,28 @@ The chi-square test tells us **whether** there is a difference, but the odds rat
 
 ## Calculating Odds Ratio in R
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| eval: false
+#| label: odds-ratio-output
+#| echo: false
+#| eval: true
+
+# Fisher's test returns odds ratio automatically
+fisher_result <- fisher.test(beverage_table)
+fisher_result$estimate  # Odds ratio
+
+# 95% confidence interval for odds ratio
+fisher_result$conf.int
+```
+
+### Code
+
+```{r}
+#| label: odds-ratio-code
 #| echo: true
+#| eval: false
 
 # Fisher's test returns odds ratio automatically
 fisher_result <- fisher.test(beverage_table)
@@ -473,6 +563,13 @@ library(epitools)
 oddsratio(beverage_table)
 ```
 
+### Interpretation
+
+- The odds ratio quantifies how much more likely one group is to experience the outcome compared to another group
+- A wide confidence interval for the odds ratio suggests uncertainty due to small sample size
+- The `epitools` package provides additional functionality for computing odds ratios and relative risks in larger contingency tables
+:::
+
 ## G-Test (Log-Likelihood Ratio Test)
 
 An alternative to chi-square based on log-likelihood ratios:
@@ -481,9 +578,28 @@ An alternative to chi-square based on log-likelihood ratios:
 -   Better when differences between observed & expected are small
 -   Follows chi-square distribution
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| eval: false
+#| label: gtest-output
+#| echo: false
+#| eval: true
+
+library(DescTools)
+
+# G-test for goodness of fit
+observed <- c(161, 38, 53, 6)
+expected_ratio <- c(9/16, 3/16, 3/16, 1/16)
+GTest(observed, p = expected_ratio)
+```
+
+### Code
+
+```{r}
+#| label: gtest-code
 #| echo: true
+#| eval: false
 
 library(DescTools)
 
@@ -495,6 +611,13 @@ GTest(observed, p = expected_ratio)
 # G-test for independence
 GTest(contingency_table)
 ```
+
+### Interpretation
+
+- The G-test evaluates whether observed counts match expected proportions (here a 9:3:3:1 Mendelian ratio) using log-likelihood ratios
+- It is preferred over the chi-square test when sample sizes are small or when observed and expected values are close
+- The output provides a test statistic that follows a chi-square distribution, along with a p-value for the null hypothesis
+:::
 
 ## R Exercise: Chi-Square and Contingency Analysis
 
@@ -552,6 +675,12 @@ $$Cov(X,Y) = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{n-1}$$
 ``` text
 Cov(X,Y) = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{n-1}
 ```
+
+### Interpretation
+
+- Covariance measures how two variables change together: positive values mean they increase together, negative values mean one increases as the other decreases
+- The magnitude depends on the scales of both variables, making it difficult to compare across different variable pairs
+- This limitation motivates the use of the correlation coefficient, which standardizes covariance
 :::
 
 **Correlation** does the same thing but is a standardized covariance (ranges from -1 to 1):
@@ -566,6 +695,12 @@ $$r = \frac{Cov(X,Y)}{s_x \cdot s_y}$$
 ``` text
 r = \frac{Cov(X,Y)}{s_x \cdot s_y}
 ```
+
+### Interpretation
+
+- Pearson's correlation coefficient divides the covariance by the product of both standard deviations, standardizing it to the range [-1, 1]
+- Values near +1 or -1 indicate strong linear relationships; values near 0 indicate no linear relationship
+- Unlike covariance, correlation is unitless and comparable across different variable pairs
 :::
 
 -   Positive: variables increase together
@@ -638,6 +773,12 @@ for(r in correlations) {
   abline(lm(y ~ x, d), col = "red", lwd = 2)
 }
 ```
+
+### Interpretation
+
+- Strong correlations (r = -0.9, r = 0.9) show points tightly clustered around the regression line, while weak correlations (r = -0.3, r = 0.3) show much more scatter
+- Negative correlations slope downward (as X increases, Y decreases); positive correlations slope upward
+- The sign indicates direction and the magnitude indicates strength; these plots help build intuition for interpreting correlation values
 :::
 
 ## Calculating Correlations in R
@@ -666,6 +807,12 @@ cor(mtcars$mpg, mtcars$wt)  # Pearson correlation
 # Using built-in mtcars dataset
 cor(mtcars$mpg, mtcars$wt)  # Pearson correlation
 ```
+
+### Interpretation
+
+- The Pearson correlation between mpg and weight is approximately -0.87, indicating a strong negative linear relationship
+- As car weight increases, fuel efficiency (mpg) decreases substantially
+- The magnitude (close to -1) suggests weight is a strong predictor of fuel efficiency
 :::
 
 \
@@ -696,6 +843,12 @@ cor.test(mtcars$mpg, mtcars$wt)
 # Test significance
 cor.test(mtcars$mpg, mtcars$wt)
 ```
+
+### Interpretation
+
+- `cor.test()` provides a formal hypothesis test for whether the true correlation is zero
+- The very small p-value indicates a statistically significant negative correlation between mpg and weight
+- The 95% confidence interval for the correlation coefficient gives the plausible range for the true population correlation
 :::
 
 ## Parametric vs. Nonparametric Correlation
@@ -768,6 +921,12 @@ for(i in 1:4) {
   abline(lm(y ~ x), col = "red", lwd = 2)
 }
 ```
+
+### Interpretation
+
+- All four datasets share nearly identical correlation (r = 0.816) and regression lines, yet the scatterplots reveal very different patterns
+- Dataset 1 shows a standard linear relationship; Dataset 2 is clearly curvilinear; Dataset 3 has an influential outlier shifting the slope; Dataset 4 has a single extreme x-value driving the entire relationship
+- This classic example demonstrates that summary statistics alone can be misleading and visual inspection of data is essential
 :::
 
 ::: callout-warning
@@ -790,6 +949,12 @@ $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 ``` text
 y_i = \beta_0 + \beta_1 x_i + \epsilon_i
 ```
+
+### Interpretation
+
+- A linear model expresses the response variable $y$ as a linear function of predictor $x$ plus random error
+- $\beta_0$ (intercept) is the expected value of $y$ when $x = 0$; $\beta_1$ (slope) is the expected change in $y$ per unit increase in $x$
+- $\epsilon_i$ represents the residual error assumed to be normally distributed with mean zero
 :::
 
 -   $\beta_0$: intercept
@@ -798,11 +963,23 @@ y_i = \beta_0 + \beta_1 x_i + \epsilon_i
 
 ## What is a Linear Model?
 
+:::: panel-tabset
+### Equation
+
 $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 
--   $\beta_0$: intercept
--   $\beta_1$: slope
--   $\epsilon_i$: error/residual
+### LaTeX
+
+``` text
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+```
+
+### Interpretation
+
+- This is the same linear model equation shown previously, repeated here alongside Galton's historical regression-to-the-mean example
+- $\beta_0$ is the predicted value of y when x = 0; $\beta_1$ is the change in y per unit change in x
+- $\epsilon_i$ captures all variation not explained by the linear relationship
+:::
 
 ![](images/week_04_S35_galton_regression_to_mean_height.jpeg){fig-align="center" width="100%"}
 
@@ -833,9 +1010,25 @@ $$y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
 
 ## Linear Models in R
 
+:::: panel-tabset
+### Output
+
 ```{r}
-#| eval: false
+#| label: lm-syntax-output
+#| echo: false
+#| eval: true
+
+# Demonstrate formula syntax with mtcars
+my_lm <- lm(mpg ~ wt, data = mtcars)
+summary(my_lm)
+```
+
+### Code
+
+```{r}
+#| label: lm-syntax-code
 #| echo: true
+#| eval: false
 
 # Include intercept (default)
 Y ~ X
@@ -849,6 +1042,13 @@ Y ~ X - 1
 my_lm <- lm(Y ~ X, data = mydata)
 summary(my_lm)
 ```
+
+### Interpretation
+
+- R formula syntax uses `~` to separate the response (left) from predictors (right)
+- The intercept is included by default; use `-1` to fit a model through the origin
+- `lm()` fits the model and `summary()` provides coefficients, standard errors, t-values, p-values, and R-squared
+:::
 
 ## Linear Regression Example
 
@@ -886,4 +1086,10 @@ my_lm <- lm(y ~ x)
 plot(x, y, pch = 19, col = "steelblue")
 abline(my_lm, col = "red", lwd = 2)
 ```
+
+### Interpretation
+
+- The data were generated with a true intercept of 2 and slope of 1.5, so the fitted line should recover values close to these
+- The scatter around the line reflects the added noise (SD = 2), illustrating that residual variance is a natural part of regression
+- The positive slope confirms a positive linear relationship between x and y
 :::
