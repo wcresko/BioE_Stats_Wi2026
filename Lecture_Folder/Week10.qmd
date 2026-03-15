@@ -1857,6 +1857,13 @@ Where $\mu_j$ is the centroid of cluster $C_j$.
 ``` text
 \min_{C_1, \ldots, C_k} \sum_{j=1}^{k} \sum_{x_i \in C_j} ||x_i - \mu_j||^2
 ```
+
+### Interpretation
+
+-   K-means minimizes the total within-cluster variance -- it finds compact, spherical clusters where points are close to their assigned centroid
+-   The objective function decreases monotonically with each iteration, guaranteeing convergence (though not necessarily to the global optimum)
+-   Because the algorithm depends on random initialization, always use `nstart = 25` or higher and keep the best solution across multiple runs
+-   K-means assumes clusters are roughly spherical and equally sized -- it can perform poorly on elongated, overlapping, or very unequal clusters
 :::
 
 ## K-Means: Key Parameters and Assumptions

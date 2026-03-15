@@ -68,6 +68,9 @@ set.seed(2026)
 
 ## Packages for This Week
 
+::: panel-tabset
+### Install
+
 ```{r}
 #| eval: false
 #| echo: true
@@ -77,6 +80,13 @@ install.packages("car")
 install.packages("lmodel2")
 install.packages("patchwork")
 install.packages("ggfortify")
+```
+
+### Load
+
+```{r}
+#| eval: false
+#| echo: true
 
 # Load packages
 library(tidyverse)    # Data manipulation & visualization
@@ -89,6 +99,11 @@ library(lmodel2)      # Model II regression
 library(patchwork)    # Combine multiple plots side by side
 library(ggfortify)    # Diagnostic plots for lm objects (autoplot)
 ```
+
+### Interpretation
+
+This week introduces several new packages: `car` provides Levene's test for homogeneity of variance and Type II/III sums of squares; `lmodel2` fits Model II regression methods (MA, SMA, RMA) for when both variables have measurement error; `patchwork` arranges multiple ggplot objects side by side for comparison; and `ggfortify` provides `autoplot()` for quick diagnostic plots from `lm` objects. Install packages once, then load them each session.
+:::
 
 **Built-in datasets used this week:**
 
@@ -222,6 +237,10 @@ $$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i$$
 ``` text
 y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i
 ```
+
+### Interpretation
+
+This quadratic polynomial regression extends the simple linear model by adding an $x^2$ term. The coefficient $\beta_2$ controls the curvature: if $\beta_2 > 0$ the curve is U-shaped, and if $\beta_2 < 0$ it is inverted-U (a peak). Despite having a squared term, this remains a "linear model" because the parameters ($\beta_0, \beta_1, \beta_2$) enter the equation linearly. The trade-off with polynomial regression is that higher-degree polynomials fit training data better but risk overfitting -- always test whether the added complexity is statistically justified.
 :::
 
 -   This is still a **linear model** in the statistical sense (the parameters $\beta$ enter linearly), but the relationship between $y$ and $x$ is now curved.
@@ -266,6 +285,10 @@ grip <- read_csv("data/grip_strength_data.csv")
 lm_exercise <- lm(grip_strength_kg ~ exercise_hrs_week, data = grip)
 
 ```
+
+### Interpretation
+
+We import the grip strength dataset and fit the simple linear model from last week. This linear fit serves as our baseline for comparison with the polynomial model. If the residual plots from this linear model showed curvature (which they did in Week 5), it motivates fitting a polynomial to capture the nonlinear relationship.
 :::
 
 ## In R, we use `poly(x, degree)` inside the `lm()` formula:
@@ -299,6 +322,10 @@ summary(lm_exercise_poly)
 ```
 
 The `raw = TRUE` argument means R uses the raw polynomial terms ($x$ and $x^2$) rather than orthogonal polynomials, making the coefficients directly interpretable.
+
+### Interpretation
+
+The `poly()` function inside `lm()` adds polynomial terms to the model formula. With `degree = 2`, R fits a quadratic curve: $y = \beta_0 + \beta_1 x + \beta_2 x^2$. Using `raw = TRUE` produces coefficients that correspond directly to powers of $x$, making them easier to interpret. The `summary()` output shows whether each term (intercept, linear, quadratic) is significant. Note that this is still a **linear model** in the statistical sense because the parameters ($\beta$ values) enter linearly -- only the relationship between $y$ and $x$ is curved.
 :::
 
 ## Interpreting the Polynomial Model
@@ -336,6 +363,10 @@ glance(lm_exercise_poly) |> kable(digits = 4)
 tidy(lm_exercise_poly) |> kable(digits = 4)
 glance(lm_exercise_poly) |> kable(digits = 4)
 ```
+
+### Interpretation
+
+The `tidy()` output shows three coefficients: the intercept ($\beta_0$), the linear term ($\beta_1$), and the quadratic term ($\beta_2$). If the p-value for the quadratic term ($\beta_2$) is significant, it confirms that the curvature is real. The `glance()` output provides the overall $R^2$ -- compare this to the linear model's $R^2$ to see whether adding the quadratic term meaningfully improves the fit. A large increase in $R^2$ combined with a significant quadratic coefficient supports using the polynomial model.
 :::
 
 \
@@ -370,6 +401,10 @@ anova(lm_exercise, lm_exercise_poly)
 # Compare nested models: linear vs. quadratic
 anova(lm_exercise, lm_exercise_poly)
 ```
+
+### Interpretation
+
+The `anova()` function performs an F-test comparing the linear (reduced) model to the quadratic (full) model. A significant p-value means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone. This is a formal test of whether the extra complexity of the polynomial is justified. If p > 0.05, the simpler linear model is preferred (parsimony). Note the trade-off: higher-degree polynomials always fit the training data better, but risk overfitting.
 :::
 
 -   A significant p-value here means the quadratic term explains a statistically significant amount of additional variance beyond the linear term alone.
@@ -421,6 +456,10 @@ ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
   ) +
   theme_minimal(base_size = 14)
 ```
+
+### Interpretation
+
+The scatter plot with a quadratic fit line shows the curved relationship between exercise hours and grip strength. The shaded band represents the 95% confidence interval for the fitted curve. Unlike a straight line, the polynomial can capture diminishing returns -- grip strength may increase with exercise up to a point but then plateau or even decline. The $R^2$ value in the subtitle quantifies how well this curved model explains the variation in grip strength.
 :::
 
 ## Linear vs. Polynomial: Side by Side
@@ -486,6 +525,10 @@ p_poly <- ggplot(grip, aes(x = exercise_hrs_week, y = grip_strength_kg)) +
 
 p_lin + p_poly
 ```
+
+### Interpretation
+
+The side-by-side comparison shows the linear fit (left) and quadratic fit (right) on the same data. Compare the $R^2$ values in the subtitles -- a meaningful increase in $R^2$ for the quadratic model suggests the curved relationship is real. The `patchwork` package makes it easy to combine plots for direct visual comparison. Notice how the quadratic fit captures the curvature that the linear fit misses, particularly at the extremes of the exercise hours range.
 :::
 
 ## Residuals: Linear vs. Polynomial Exercise Model
@@ -559,6 +602,10 @@ ggplot(both_diag, aes(x = fitted, y = residuals)) +
        title = "Residuals vs. Fitted — Linear vs. Quadratic Exercise Model") +
   theme_minimal(base_size = 13)
 ```
+
+### Interpretation
+
+Comparing residual plots side by side reveals whether the polynomial term resolved the curvature issue. In the **linear** panel, the loess smoother deviates systematically from zero, indicating that a straight line misses the true relationship. In the **quadratic** panel, the smoother should be closer to flat, indicating that the polynomial captures the curvature. If the quadratic residuals look randomly scattered around zero, the polynomial model is a better specification.
 :::
 
 ## Full Diagnostics:
@@ -592,7 +639,9 @@ autoplot(lm_exercise_poly, which = 1:4, ncol = 2) +
   theme_minimal(base_size = 12)
 ```
 
-------------------------------------------------------------------------
+### Interpretation
+
+The four diagnostic plots assess the polynomial model's assumptions. **Residuals vs. Fitted**: look for random scatter around zero (no systematic pattern). **Normal Q-Q**: points should fall along the diagonal line, indicating normally distributed residuals. **Scale-Location**: a flat trend line indicates constant variance (homoscedasticity). **Cook's Distance**: identifies influential observations -- points with high Cook's distance disproportionately affect the regression coefficients. If all four plots look clean, the polynomial model is a good fit.
 :::
 
 # Model I vs Model II Regression {background-color="#2c3e50"}
@@ -658,6 +707,10 @@ cell_raw <- read_csv("data/cell_culture_expression.csv")
 
 cell_raw <- read_csv("data/cell_culture_expression.csv")
 ```
+
+### Interpretation
+
+This imports the cell culture gene expression dataset containing BMP4 and SOX9 expression measurements from 80 stem cell cultures. Both variables were measured by qPCR, meaning both have comparable measurement error -- making this dataset a natural candidate for Model II regression rather than standard OLS.
 :::
 
 ## Recall: Outliers in the Cell Culture Data
@@ -700,6 +753,10 @@ ggplot(cell_raw, aes(x = bmp4_expression, y = sox9_expression)) +
        title = "BMP4 vs. SOX9 Expression — Raw Data with Sample IDs") +
   theme_minimal(base_size = 14)
 ```
+
+### Interpretation
+
+The raw scatterplot with sample IDs reveals the outliers we identified last week using Cook's distance diagnostics. Several points are clearly separated from the main cluster of data: SC012 and SC055 have extremely high BMP4 values (~100-165), SC037 has an anomalously high SOX9 value (~28), and SC060 exerts high leverage on the regression. Labeling points with sample IDs is essential for tracking which observations need to be investigated or removed.
 :::
 
 ## Remove Outliers Identified Last Week
@@ -746,6 +803,10 @@ cat("Removed:", length(remove_ids), "observations:", paste(remove_ids, collapse 
 cat("Remaining observations:", nrow(cell), "\n")
 ```
 
+### Interpretation
+
+We removed four observations that were identified as problematic in Week 5: SC012 and SC055 had BMP4 values far outside the normal range (likely decimal place errors), SC037 had an extreme SOX9 value, and SC060 was a high-leverage, high-influence point. Removing these reduces the dataset from the original size to 76 observations. Always document your reasoning for removing data points -- these were not arbitrary exclusions but evidence-based decisions from our diagnostic analysis.
+
 ::: callout-important
 Always clean your data before fitting models. Outliers — especially data entry errors — can distort both OLS and Model II regression estimates. We documented our reasoning for these removals last week.
 :::
@@ -785,6 +846,10 @@ ggplot(cell, aes(x = bmp4_expression, y = sox9_expression)) +
        title = "BMP4 vs. SOX9 Expression — Cleaned Data") +
   theme_minimal(base_size = 14)
 ```
+
+### Interpretation
+
+After removing the four outliers identified via Cook's distance in Week 5, the cleaned scatterplot shows a clearer positive relationship between BMP4 and SOX9 expression. The data now range from approximately 0--50 for BMP4 and 0--8 for SOX9, with no extreme values distorting the pattern. This cleaned dataset is suitable for comparing Model I and Model II regression approaches.
 :::
 
 ## Model I (OLS) Fit for Comparison
@@ -823,6 +888,10 @@ lm_cell <- lm(sox9_expression ~ bmp4_expression, data = cell)
 tidy(lm_cell) |> kable(digits = 4)
 glance(lm_cell) |> kable(digits = 4)
 ```
+
+### Interpretation
+
+The OLS regression of SOX9 on BMP4 provides a baseline for comparison with Model II methods. The `tidy()` output shows the intercept and slope estimates with p-values, while `glance()` provides the overall $R^2$ and model fit statistics. Because both BMP4 and SOX9 are measured with comparable error from the same qPCR assay, this OLS slope is likely an underestimate of the true relationship -- motivating Model II regression.
 :::
 
 ## Model II Regression with lmodel2
@@ -859,6 +928,10 @@ mod2_cell
 
 -   `range.y = "relative"` and `range.x = "relative"` tell `lmodel2` to use the relative ranges of X and Y when computing the RMA regression
 -   `nperm = 999` runs a permutation test for the slope
+
+### Interpretation
+
+The `lmodel2` output provides regression results for four methods simultaneously: OLS, MA, SMA, and RMA. Compare the slopes across methods -- the Model II slopes (MA, SMA) will be steeper than OLS because they account for measurement error in BMP4. The permutation test p-value assesses whether the relationship between BMP4 and SOX9 is statistically significant. Use SMA when variables are measured in different units, and MA when they share the same units and scale.
 :::
 
 ## Comparing OLS vs. Model II
@@ -916,6 +989,10 @@ ggplot(cell, aes(x = bmp4_expression, y = sox9_expression)) +
        subtitle = "Red = OLS, Blue = Major Axis, Green = SMA") +
   theme_minimal(base_size = 14)
 ```
+
+### Interpretation
+
+The plot overlays three regression lines on the same scatterplot. The OLS line (red, solid) has the shallowest slope because it only minimizes vertical distances and ignores measurement error in X (BMP4). The Major Axis (blue, dashed) and SMA (green, dot-dash) lines are steeper because they account for error in both variables. The difference between the methods illustrates why Model II regression is important when both variables have measurement error -- OLS systematically underestimates the true slope in this situation.
 :::
 
 ## Choosing Between Model I and II
@@ -996,6 +1073,10 @@ $$y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \varepsilon_i$$
 ``` text
 y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \varepsilon_i
 ```
+
+### Interpretation
+
+This is the standard polynomial regression equation where $x$ is a continuous predictor. The coefficients $\beta_0$ (intercept), $\beta_1$ (linear slope), and $\beta_2$ (quadratic curvature) are estimated by minimizing the sum of squared residuals. This is the same least-squares framework used in ANOVA -- the only difference is that regression uses continuous predictors while ANOVA uses categorical ones.
 :::
 
 **ANOVA** (categorical predictor with $p$ groups):
@@ -1010,6 +1091,10 @@ $$y_{ij} = \mu + \alpha_i x_{ij} + \varepsilon_{ij}$$
 ``` text
 y_{ij} = \mu + \alpha_i x_{ij} + \varepsilon_{ij}
 ```
+
+### Interpretation
+
+In the ANOVA equation, $\mu$ is the overall mean (analogous to the intercept in regression), $\alpha_i$ is the effect of treatment group $i$, and $x_{ij}$ is an indicator variable (0 or 1) that flags whether observation $j$ belongs to group $i$. The key difference from regression is that the predictor is categorical rather than continuous, but the mathematical framework of minimizing squared residuals is identical.
 :::
 
 Or equivalently, with separate indicator variables for each group:
@@ -1024,6 +1109,10 @@ $$y_{ij} = \mu + \alpha_1 x_{1j} + \alpha_2 x_{2j} + \alpha_3 x_{3j} + \varepsil
 ``` text
 y_{ij} = \mu + \alpha_1 x_{1j} + \alpha_2 x_{2j} + \alpha_3 x_{3j} + \varepsilon_{ij}
 ```
+
+### Interpretation
+
+This expanded form shows that ANOVA uses indicator (dummy) variables $x_{1j}, x_{2j}, x_{3j}$ to encode group membership. Each indicator is 1 if observation $j$ belongs to that group and 0 otherwise. The coefficients $\alpha_1, \alpha_2, \alpha_3$ represent the effect of each treatment relative to the overall mean $\mu$. This makes explicit that ANOVA is simply a regression with binary predictor variables.
 :::
 
 -   $\mu$ is the overall mean (analogous to the intercept)
@@ -1046,6 +1135,10 @@ $$y_{ij} = \mu + \alpha_i + \varepsilon_{ij}$$
 ``` text
 y_{ij} = \mu + \alpha_i + \varepsilon_{ij}
 ```
+
+### Interpretation
+
+The full (alternative) model allows each group to have its own mean ($\mu + \alpha_i$). The treatment effect $\alpha_i$ represents how much group $i$ deviates from the overall mean. If any $\alpha_i \neq 0$, the groups differ. ANOVA tests whether this model explains significantly more variance than the reduced model.
 :::
 
 -   $\mu$ = overall mean (similar to intercept)
@@ -1063,6 +1156,10 @@ $$y_{ij} = \mu + \varepsilon_{ij}$$
 ``` text
 y_{ij} = \mu + \varepsilon_{ij}
 ```
+
+### Interpretation
+
+The reduced (null) model assumes all observations come from a single population with mean $\mu$. There are no group effects -- every observation is modeled as the grand mean plus random error. If this model fits as well as the full model, there is no evidence that groups differ.
 :::
 
 -   If the full model fits significantly better than the reduced model, we reject $H_0$ and conclude that at least one group differs
@@ -1080,7 +1177,11 @@ y_{ij} = \mu + \varepsilon_{ij}
 
 As before, ANOVA compares the fit of "reduced" and "full" models:
 
+::: panel-tabset
+### Output
+
 ```{r}
+#| label: anova-reduced-full-output
 #| echo: false
 #| eval: true
 #| fig-width: 10
@@ -1126,6 +1227,58 @@ segments(2.7, grp_means[3], 3.3, grp_means[3], lwd = 2)
 mtext("Full Model:\nDifferent Means", side = 4, line = 0.5, cex = 0.8, las = 0)
 ```
 
+### Code
+
+```{r}
+#| label: anova-reduced-full-code
+#| echo: true
+#| eval: false
+
+set.seed(42)
+n_per <- 14
+treatment <- rep(c("Isolated", "Companion\n(not injected)", "Companion\n(injected)"), each = n_per)
+stretching <- c(
+  rnorm(n_per, 40, 17),
+  rnorm(n_per, 45, 15),
+  rnorm(n_per, 58, 13)
+)
+stretching <- pmax(0, pmin(80, stretching))
+group_col <- rep(c("green3", "steelblue", "red"), each = n_per)
+
+par(mfrow = c(1, 2), mar = c(5, 5, 3, 4))
+
+# Reduced model (grand mean)
+plot(jitter(rep(1:3, each = n_per), 0.3), stretching,
+     pch = 16, col = group_col, cex = 1.3,
+     xlab = "Treatment", ylab = "Percent time stretching",
+     main = "stretching ~ 1", axes = FALSE, xlim = c(0.5, 3.5), ylim = c(0, 85))
+axis(1, at = 1:3, labels = c("Isolated", "Companion\n(not injected)", "Companion\n(injected)"), cex.axis = 0.8)
+axis(2, las = 1)
+abline(h = mean(stretching), lwd = 2)
+segments(rep(1:3, each = n_per) + runif(n_per * 3, -0.1, 0.1) * 0,
+         stretching, rep(1:3, each = n_per), mean(stretching),
+         col = "gray70", lwd = 0.5)
+mtext("Reduced Model:\nOne overall mean", side = 4, line = 0.5, cex = 0.8, las = 0)
+
+# Full model (group means)
+plot(jitter(rep(1:3, each = n_per), 0.3), stretching,
+     pch = 16, col = group_col, cex = 1.3,
+     xlab = "Treatment", ylab = "Percent time stretching",
+     main = "stretching ~ treatment", axes = FALSE, xlim = c(0.5, 3.5), ylim = c(0, 85))
+axis(1, at = 1:3, labels = c("Isolated", "Companion\n(not injected)", "Companion\n(injected)"), cex.axis = 0.8)
+axis(2, las = 1)
+grp_means <- tapply(stretching, rep(1:3, each = n_per), mean)
+segments(0.7, grp_means[1], 1.3, grp_means[1], lwd = 2)
+segments(1.7, grp_means[2], 2.3, grp_means[2], lwd = 2)
+segments(2.7, grp_means[3], 3.3, grp_means[3], lwd = 2)
+mtext("Full Model:\nDifferent Means", side = 4, line = 0.5, cex = 0.8, las = 0)
+```
+
+### Interpretation
+
+The left panel shows the **reduced model** (`stretching ~ 1`), which fits a single grand mean to all observations regardless of treatment group. The gray segments show the residuals -- the distances from each point to the overall mean. The right panel shows the **full model** (`stretching ~ treatment`), which fits separate means for each group. The residuals in the full model are shorter because group-specific means better capture the data. ANOVA asks whether this improvement in fit (the reduction in residual sum of squares) is statistically significant.
+:::
+
 ## ANOVA Table — Equations
 
 | Source | SS | df | MS |
@@ -1144,6 +1297,10 @@ $$F = \frac{MS_{groups}}{MS_{residuals}}$$
 ``` text
 F = \frac{MS_{groups}}{MS_{residuals}}
 ```
+
+### Interpretation
+
+The F-statistic is the ratio of between-group variance ($MS_{groups}$) to within-group variance ($MS_{residuals}$). Under the null hypothesis of no group differences, $F \approx 1$. Large F values indicate that the between-group variability is much greater than the within-group variability, providing evidence that at least one group mean differs. The p-value is computed from the F-distribution with $(p-1)$ and $(N-p)$ degrees of freedom.
 :::
 
 -   $MS_{groups}$ = variance **explained** by groupings
@@ -1192,6 +1349,10 @@ stripchart(iris$Sepal.Length ~ iris$Species, vertical=T, method="jitter",
 stripchart(iris$Sepal.Length ~ iris$Species, vertical=T, method="jitter",
            ylab="sepal length", xlab="species", pch=19, cex=0.5)
 ```
+
+### Interpretation
+
+The strip chart shows individual sepal length measurements for each iris species, with jittering to avoid overplotting. Even before formal testing, visual separation between groups suggests that species differ in sepal length. *I. setosa* has the shortest sepals, *I. virginica* the longest, and *I. versicolor* falls in between. The spread (variance) within each group appears roughly similar, supporting the homogeneity of variance assumption.
 :::
 
 ## ANOVA Hypotheses
@@ -1206,6 +1367,10 @@ $$H_0: \mu_1 = \mu_2 = \mu_3 = ... = \mu_k$$
 ``` text
 H_0: \mu_1 = \mu_2 = \mu_3 = ... = \mu_k
 ```
+
+### Interpretation
+
+The null hypothesis states that all $k$ group means are equal -- i.e., the categorical factor has no effect on the response variable. If this is true, any observed differences among groups are due to random sampling variation alone.
 :::
 
 ::: panel-tabset
@@ -1218,6 +1383,10 @@ $$H_A: \text{At least one group mean differs}$$
 ``` text
 H_A: \text{At least one group mean differs}
 ```
+
+### Interpretation
+
+The alternative hypothesis states that at least one group mean is different from the others. Importantly, this does not specify which groups differ or how many -- it only asserts that the groups are not all identical. A significant ANOVA result supports $H_A$ but requires follow-up post-hoc tests to determine specific pairwise differences.
 :::
 
 -   Note that $H_A$ does **not** say "all means differ" — it only says at least one is different
@@ -1275,6 +1444,10 @@ hist(set$Sepal.Length, main = "I. setosa")
 hist(vers$Sepal.Length, main = "I. versicolor")
 hist(vir$Sepal.Length, main="I. virginica")
 ```
+
+### Interpretation
+
+The histograms display the distribution of sepal length within each species. We look for approximate normality (bell-shaped curves) in each group, which is an assumption of ANOVA. All three distributions appear roughly symmetric and unimodal, supporting the normality assumption. Minor departures from normality are acceptable because ANOVA is robust to moderate non-normality, especially with sample sizes of 50 per group.
 :::
 
 ## Testing Homogeneity of Variance
@@ -1304,6 +1477,10 @@ car::leveneTest(Sepal.Length ~ Species, data = iris)
 # Levene's test from the car package
 car::leveneTest(Sepal.Length ~ Species, data = iris)
 ```
+
+### Interpretation
+
+Levene's test evaluates the null hypothesis that group variances are equal. A significant p-value (here p = 0.0021) suggests the variances differ across species. However, ANOVA is robust to moderate violations of homoscedasticity, especially when group sizes are equal (n = 50 per species here). If sample sizes were unequal, we might consider Welch's ANOVA (`oneway.test()`) as an alternative.
 :::
 
 -   Here, p = 0.0021 suggests unequal variances — but ANOVA is robust to this with equal sample sizes (n = 50 per species), so we proceed
@@ -1335,6 +1512,10 @@ anova(iris_aov)
 iris_aov <- aov(Sepal.Length ~ Species, iris)
 anova(iris_aov)
 ```
+
+### Interpretation
+
+The ANOVA F-test yields $F_{2, 147} = 119.26$ with $p < 2.2 \times 10^{-16}$, providing overwhelming evidence that at least one species differs in mean sepal length. The F-statistic is the ratio of between-group variance to within-group variance. A value this large means the variation among species means far exceeds what we would expect from random noise alone. However, ANOVA does not tell us *which* species differ -- post-hoc tests are needed for that.
 :::
 
 Would report as: $F_{2, 147} = 119.26; p < 2.2 \times 10^{-16}$
@@ -1375,6 +1556,10 @@ ggplot(iris, aes(x = Species, y = Sepal.Length, fill = Species)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
+
+### Interpretation
+
+The boxplot with jittered points shows the distribution of sepal length for each iris species. The boxes capture the interquartile range (IQR), whiskers extend to 1.5x IQR, and the red dots mark group means. Visual separation between the boxes confirms the ANOVA result -- the three species have clearly different sepal length distributions, with *I. setosa* having the shortest sepals and *I. virginica* the longest.
 :::
 
 ## ANOVA as Linear Model
@@ -1415,6 +1600,10 @@ anova(iris_lm) |>
   tidy() |>
   kable(digits = 4, caption = "ANOVA Table")
 ```
+
+### Interpretation
+
+When ANOVA is fit as a linear model, R uses dummy variable coding. The intercept represents the mean of the reference group (alphabetically first -- here *I. setosa*). Each subsequent coefficient represents the difference between that group's mean and the reference group mean. This parameterization makes it easy to see both the absolute level of the reference group and how much each other group deviates from it.
 :::
 
 -   Here, `(Intercept)` = mean sepal length for *I. setosa*
@@ -1422,6 +1611,9 @@ anova(iris_lm) |>
 -   `Speciesvirginica` = how much longer *I. virginica* sepals are compared to *I. setosa*
 
 ## ANOVA Table
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| label: anova-table-output
@@ -1432,6 +1624,23 @@ anova(iris_lm) |>
   tidy() |>
   kable(digits = 4, caption = "ANOVA Table")
 ```
+
+### Code
+
+```{r}
+#| label: anova-table-code-show
+#| echo: true
+#| eval: false
+
+anova(iris_lm) |>
+  tidy() |>
+  kable(digits = 4, caption = "ANOVA Table")
+```
+
+### Interpretation
+
+The ANOVA table shows the F-test for the overall effect of Species on sepal length. The large F-statistic with a very small p-value indicates that species identity explains a significant portion of the variance in sepal length. The `tidy()` function from `broom` converts the ANOVA table into a clean data frame, and `kable()` formats it for presentation.
+:::
 
 ## On Your Own ANOVA
 
@@ -1485,6 +1694,10 @@ $$\text{HSD} = q_{\alpha, k, N-k} \cdot \sqrt{\frac{MS_{within}}{n}}$$
 ``` text
 \text{HSD} = q_{\alpha, k, N-k} \cdot \sqrt{\frac{MS_{within}}{n}}
 ```
+
+### Interpretation
+
+The HSD critical value determines how large a difference between two group means must be to be declared significant. It depends on $q$ (the studentized range statistic), the number of groups $k$, total sample size $N$, and the within-group mean square $MS_{within}$. Any observed pairwise difference exceeding HSD is significant at level $\alpha$, while controlling the family-wise error rate across all $\binom{k}{2}$ comparisons.
 :::
 
 -   $k$ = number of groups, $N$ = total sample size, $n$ = observations per group
@@ -1512,6 +1725,10 @@ TukeyHSD(iris_aov)
 
 TukeyHSD(iris_aov)
 ```
+
+### Interpretation
+
+Tukey's HSD output shows the estimated difference (`diff`) between each pair of group means, along with 95% confidence intervals (`lwr`, `upr`) and adjusted p-values (`p adj`). If the confidence interval excludes zero, the difference is statistically significant. The adjustment controls the family-wise error rate so that the overall probability of any false positive across all comparisons remains at $\alpha = 0.05$.
 :::
 
 ## Interpreting Tukey's HSD Output
@@ -1546,6 +1763,10 @@ plot(TukeyHSD(iris_aov), las = 1, cex.axis = 0.8)
 # Intervals that don't cross zero are significant
 plot(TukeyHSD(iris_aov))
 ```
+
+### Interpretation
+
+The Tukey HSD plot displays 95% confidence intervals for the difference between each pair of group means. Intervals that do not cross the dashed zero line indicate statistically significant pairwise differences. Here, all three pairwise comparisons show intervals entirely above or below zero, confirming that every iris species differs significantly from every other species in sepal length.
 :::
 
 ## The emmeans Package
@@ -1561,6 +1782,9 @@ plot(TukeyHSD(iris_aov))
 -   Consistent syntax across different analyses
 -   Better support for complex factorial designs
 
+::: panel-tabset
+### Code
+
 ```{r}
 #| label: emmeans-setup
 #| echo: true
@@ -1569,6 +1793,11 @@ plot(TukeyHSD(iris_aov))
 
 library(emmeans)
 ```
+
+### Interpretation
+
+The `emmeans` package provides estimated marginal means and flexible post-hoc comparisons for a wide variety of model types. Loading it here prepares us to use `emmeans()`, `pairs()`, and `contrast()` functions for pairwise and custom group comparisons.
+:::
 
 ## Estimated Marginal Means
 
@@ -1605,6 +1834,10 @@ iris_lm <- lm(Sepal.Length ~ Species, data = iris)
 iris_emm <- emmeans(iris_lm, ~ Species)
 iris_emm
 ```
+
+### Interpretation
+
+The emmeans output displays the estimated marginal mean for each species along with standard errors and 95% confidence intervals. For a one-way ANOVA, these are identical to the raw group means. However, in more complex designs (e.g., factorial or unbalanced), emmeans adjusts for other factors in the model, providing marginal means that are averaged across the levels of other variables.
 :::
 
 ## Pairwise Comparisons with emmeans
@@ -1639,8 +1872,9 @@ pairs(iris_emm, adjust = "fdr")         # Benjamini-Hochberg (less conservative)
 pairs(iris_emm, adjust = "none")        # No adjustment (use with caution)
 ```
 
--   The `adjust` argument controls how p-values are corrected for multiple comparisons
--   Tukey is the standard default; Bonferroni is more conservative; FDR controls the false discovery rate rather than family-wise error
+### Interpretation
+
+The `pairs()` output shows the estimated difference between each pair of group means, along with standard errors, t-statistics, and adjusted p-values. The `adjust` argument controls how p-values are corrected for multiple comparisons -- Tukey is the standard default; Bonferroni is more conservative; FDR controls the false discovery rate rather than family-wise error. A significant adjusted p-value indicates that the two groups differ after accounting for the number of comparisons being made.
 :::
 
 ## Custom Contrasts with emmeans
@@ -1673,6 +1907,10 @@ contrast(iris_emm, method = list(
   "setosa vs others" = c(1, -0.5, -0.5)
 ))
 ```
+
+### Interpretation
+
+Custom contrasts let you test specific scientific hypotheses rather than all possible pairwise comparisons. Here, the contrast `c(1, -0.5, -0.5)` compares *I. setosa* against the average of the other two species. The coefficients must sum to zero. A significant result means *I. setosa* differs from the combined average of *I. versicolor* and *I. virginica*. This is more powerful than Tukey HSD when you have a priori hypotheses about which comparisons matter.
 :::
 
 ## Visualizing emmeans Results
@@ -1705,6 +1943,10 @@ plot(iris_emm, comparisons = TRUE) +
   labs(title = "Estimated Marginal Means with 95% CIs",
        subtitle = "Non-overlapping arrows indicate significant differences")
 ```
+
+### Interpretation
+
+The emmeans plot displays the estimated marginal mean for each species with 95% confidence intervals. The comparison arrows help visualize which groups differ significantly -- when arrows for two groups do not overlap, their means are significantly different after adjusting for multiple comparisons. This provides a quick visual summary of pairwise differences that complements the numerical output from `pairs()`.
 :::
 
 ## emmeans vs. TukeyHSD
@@ -1761,6 +2003,10 @@ $$x_{species} = \begin{cases} 0 & \text{for Species A} \\ 1 & \text{for Species 
 ``` text
 x_{species} = \begin{cases} 0 & \text{for Species A} \\ 1 & \text{for Species B} \end{cases}
 ```
+
+### Interpretation
+
+Dummy (indicator) variables encode categorical information as 0/1 numeric values. The reference group is coded as 0, so its effect is absorbed into the intercept. The coefficient for the dummy variable represents the difference between the group coded as 1 and the reference group. With $k$ groups, R automatically creates $k-1$ dummy variables.
 :::
 
 ## Parallel Slopes (Additive) Model
@@ -1777,7 +2023,14 @@ $$y = \beta_0 + \beta_1 x_{i,continuous} + \beta_2 x_{i,categorical} + \epsilon_
 ``` text
 y = \beta_0 + \beta_1 x_{i,continuous} + \beta_2 x_{i,categorical} + \epsilon_i
 ```
+
+### Interpretation
+
+In this additive model, $\beta_1$ captures the effect of the continuous predictor (the slope), which is the same for all groups. $\beta_2$ captures the difference in intercept between the categorical groups. The result is parallel regression lines -- each group has the same rate of change in $y$ per unit change in $x$, but different starting points.
 :::
+
+::: panel-tabset
+### Code
 
 ```{r}
 #| eval: false
@@ -1787,8 +2040,12 @@ y = \beta_0 + \beta_1 x_{i,continuous} + \beta_2 x_{i,categorical} + \epsilon_i
 lm(response ~ continuous_var + factor_var, data = mydata)
 ```
 
--   The `+` in the formula means "additive" — the effect of the covariate is the same in every group
+### Interpretation
+
+-   The `+` in the formula means "additive" -- the effect of the covariate is the same in every group
 -   This produces parallel regression lines for each group
+-   The continuous variable coefficient gives the shared slope, while the factor coefficients give the intercept offsets for each group relative to the reference level
+:::
 
 ## Interaction Model
 
@@ -1804,7 +2061,14 @@ $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2)+ \epsilon_i
 ``` text
 y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2)+ \epsilon_i
 ```
+
+### Interpretation
+
+The interaction model includes a product term $\beta_3 (x_1 \times x_2)$ that allows the slope of the continuous predictor to differ between groups. If $\beta_3$ is significant, the effect of $x_1$ on $y$ depends on the group ($x_2$). Each group gets its own slope ($\beta_1 + \beta_3$) and intercept ($\beta_0 + \beta_2$).
 :::
+
+::: panel-tabset
+### Code
 
 ```{r}
 #| eval: false
@@ -1818,10 +2082,18 @@ lm(response ~ continuous_var + factor_var + continuous_var:factor_var,
    data = mydata)
 ```
 
+### Interpretation
+
 -   The `*` in the formula expands to main effects plus interaction
 -   The interaction term allows **different slopes** for each group
+-   A significant interaction means that the relationship between the continuous predictor and the response differs depending on the group
+-   If the interaction is not significant, use the simpler additive model (parallel slopes) for parsimony
+:::
 
 ## Interpreting ANCOVA Output
+
+::: panel-tabset
+### Code
 
 ```{r}
 #| eval: false
@@ -1836,8 +2108,14 @@ lm(rate ~ temp + species, data = crickets)
 # speciesO.niveus  - difference in intercept from reference
 ```
 
+### Interpretation
+
 -   The categorical variable coefficient represents the **offset from the reference group**
--   This is the same dummy variable encoding that `lm()` uses for ANOVA — the only difference is we now have a continuous predictor in the model too
+-   This is the same dummy variable encoding that `lm()` uses for ANOVA -- the only difference is we now have a continuous predictor in the model too
+-   The `(Intercept)` is the predicted value for the reference group when the continuous predictor equals zero
+-   The `temp` coefficient gives the slope shared by all groups (in a parallel slopes model)
+-   The `speciesO.niveus` coefficient tells you how much the intercept shifts for that species relative to the reference
+:::
 
 ## Parallel vs Interaction: When to Use
 
@@ -1903,4 +2181,8 @@ abline(2, 0.8, col = "blue", lwd = 2)
 abline(5, 0.8, col = "red", lwd = 2)
 legend("bottomright", c("Group A", "Group B"), col = c("blue", "red"), pch = 19)
 ```
+
+### Interpretation
+
+The parallel slopes model shows two regression lines with the **same slope** but **different intercepts**. Group B's line is shifted upward relative to Group A, indicating a constant additive effect of group membership across all values of the predictor. This is the hallmark of an additive ANCOVA model -- the covariate effect is identical for both groups, and the group difference is the same vertical offset at every point along the x-axis.
 :::

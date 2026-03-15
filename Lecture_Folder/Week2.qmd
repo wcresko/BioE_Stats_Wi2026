@@ -65,6 +65,9 @@ set.seed(2026)
 
 ## Packages for This Week
 
+::: panel-tabset
+### Install
+
 ```{r}
 #| label: week2-packages-install
 #| eval: false
@@ -72,11 +75,25 @@ set.seed(2026)
 
 # Install new packages (run once)
 install.packages("nycflights13")
+```
+
+### Load
+
+```{r}
+#| label: week2-packages-load
+#| eval: false
+#| echo: true
 
 # Load packages
 library(tidyverse)    # ggplot2, dplyr, tidyr for data wrangling & visualization
 library(nycflights13) # NYC flights data for dplyr examples
 ```
+
+### Interpretation
+
+-   `tidyverse` is a collection of packages for data science including ggplot2 (visualization), dplyr (data manipulation), and tidyr (data tidying)
+-   `nycflights13` provides the `flights` dataset with 336,776 flights departing NYC in 2013, used for practicing data wrangling
+:::
 
 ::: callout-note
 **Dataset from package:** `flights` (336,776 flights departing NYC in 2013) - used for dplyr practice
@@ -101,13 +118,30 @@ library(nycflights13) # NYC flights data for dplyr examples
 
 ![Tidyverse packages overview](images/week_02_S08_tidyverse_packages.jpeg){#fig-week2-tidyverse fig-align="center" width="90%"}
 
+::: panel-tabset
+### Output
+
 ```{r}
 #| label: load-tidyverse
-#| echo: true
+#| echo: false
+#| eval: true
 #| output: false
 
 library(tidyverse)
 ```
+
+Loading `tidyverse` attaches core packages: ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, and forcats.
+
+### Code
+
+```{r}
+#| label: load-tidyverse-code
+#| echo: true
+#| eval: false
+
+library(tidyverse)
+```
+:::
 
 ## A tibble - a tidyverse dataframe
 
@@ -165,6 +199,21 @@ mpg
 
 ## Filter, Arrange, and Select
 
+::: panel-tabset
+### Output
+
+```{r}
+#| label: week2-filter-arrange-select-output
+#| echo: false
+#| eval: true
+
+library(nycflights13)
+# Filter rows
+filter(flights, month == 11 | month == 12)
+```
+
+### Code
+
 ```{r}
 #| label: week2-filter-arrange-select
 #| eval: false
@@ -179,6 +228,13 @@ arrange(flights, year, month, day)
 # Select columns
 select(flights, year, month, day)
 ```
+
+### Interpretation
+
+-   `filter()` subsets rows based on logical conditions; here selecting November and December flights using the OR operator
+-   `arrange()` reorders rows by one or more columns (ascending by default)
+-   `select()` picks specific columns, reducing the tibble to only the variables you need
+:::
 
 ![](images/week_02_S14_boolean_set_operations_venn.jpeg){fig-align="center" width="50%"}
 
@@ -196,6 +252,26 @@ select(flights, year, month, day)
 | `%in%`    | Belongs to set          |
 
 ## Mutate and Transmute
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: week2-mutate-example-output
+#| echo: false
+#| eval: true
+
+library(nycflights13)
+flights |>
+  mutate(
+    gain = arr_delay - dep_delay,
+    speed = distance / air_time * 60
+  ) |>
+  select(flight, gain, speed) |>
+  head(8)
+```
+
+### Code
 
 ```{r}
 #| label: week2-mutate-example
@@ -217,7 +293,29 @@ flights |>
   )
 ```
 
+### Interpretation
+
+-   `mutate()` adds new columns while keeping all existing columns, enabling derived variables like "gain" (difference between arrival and departure delay)
+-   The pipe operator `|>` chains operations together, reading left-to-right like a sentence
+-   New columns can reference other new columns created in the same `mutate()` call (e.g., `gain_per_hour` uses `gain` and `hours`)
+:::
+
 ## Group By and Summarise
+
+::: panel-tabset
+### Output
+
+```{r}
+#| label: week2-groupby-summarise-output
+#| echo: false
+#| eval: true
+
+library(nycflights13)
+by_day <- group_by(flights, year, month, day)
+summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
+```
+
+### Code
 
 ```{r}
 #| label: week2-groupby-summarise
@@ -230,6 +328,13 @@ by_day <- group_by(flights, year, month, day)
 # Summarise within groups
 summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
 ```
+
+### Interpretation
+
+-   `group_by()` splits the data into groups defined by one or more categorical variables (here: year, month, day)
+-   `summarise()` then collapses each group into a single row with the computed summary statistic
+-   The `na.rm = TRUE` argument is essential because missing values would otherwise cause the mean to return NA for any group containing missing data
+:::
 
 ::: callout-warning
 Aggregation functions return NA if any input value is NA. Use `na.rm = TRUE` to remove missing values.
@@ -299,6 +404,12 @@ ggplot(mpg, aes(displ, hwy, color = class)) +
 ggplot(mpg, aes(displ, hwy, color = class)) +
   geom_point(size = 4, alpha = 0.6)
 ```
+
+### Interpretation
+
+-   The scatterplot reveals a negative relationship between engine displacement and highway fuel efficiency
+-   Color coding by vehicle class shows that compact and subcompact cars cluster at low displacement/high efficiency, while SUVs and pickups cluster at high displacement/low efficiency
+-   The alpha transparency helps reveal overlapping points and density patterns
 :::
 
 ## Boxplots
@@ -306,6 +417,9 @@ ggplot(mpg, aes(displ, hwy, color = class)) +
 ![](images/week_02_S25_boxplot.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Boxplot Anatomy with Normal Distribution
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -379,6 +493,39 @@ text(lower_whisker, max(y) * 1.1, expression(-2.698*sigma), cex = 0.9)
 text(upper_whisker, max(y) * 1.1, expression(2.698*sigma), cex = 0.9)
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+x <- seq(-4, 4, length.out = 1000)
+y <- dnorm(x)
+q1 <- qnorm(0.25)
+q3 <- qnorm(0.75)
+iqr <- q3 - q1
+
+layout(matrix(c(1, 2), nrow = 2), heights = c(1, 2))
+
+# Top: boxplot
+boxplot(rnorm(10000), horizontal = TRUE, ylim = c(-4, 4),
+        col = "white", border = "darkred", lwd = 2, axes = FALSE)
+
+# Bottom: normal curve with shaded regions
+plot(x, y, type = "n", axes = FALSE, xlab = "", ylab = "")
+x_iqr <- x[x >= q1 & x <= q3]
+polygon(c(q1, x_iqr, q3), c(0, dnorm(x_iqr), 0),
+        col = rgb(0.4, 0.5, 0.8, 0.5), border = NA)
+lines(x, y, lwd = 3, col = "darkred")
+```
+
+### Interpretation
+
+-   The boxplot components map directly to regions of the normal distribution: the box spans Q1 to Q3 (the central 50% of data)
+-   Whiskers extend to Q1-1.5*IQR and Q3+1.5*IQR, capturing approximately 99.3% of normally distributed data
+-   Points beyond the whiskers are flagged as potential outliers, corresponding to values beyond approximately 2.7 standard deviations from the mean
+:::
+
 ## Boxplots
 
 ::: panel-tabset
@@ -409,6 +556,12 @@ ggplot(mpg, aes(manufacturer, hwy, colour = class)) +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust=1))
 ```
+
+### Interpretation
+
+-   Boxplots summarize the distribution of highway MPG for each manufacturer, showing median, IQR, and outliers
+-   Color coding by vehicle class reveals that manufacturers producing multiple vehicle types show wider spreads in fuel efficiency
+-   The angled x-axis labels accommodate the many manufacturer names without overlap
 :::
 
 ## Common ggplot Geoms
@@ -454,6 +607,12 @@ ggplot(data=mpg, aes(x=displ, y=hwy)) +
   labs(title = "Fuel efficiency decreases with engine size",
        caption = "Data from fueleconomy.gov")
 ```
+
+### Interpretation
+
+-   Layering `geom_point()` and `geom_smooth()` shows both the raw data and the estimated trend simultaneously
+-   The smoothing curve with confidence band reveals a clear negative trend: larger engines consume more fuel
+-   The gray confidence band widens where data is sparse, honestly representing uncertainty in the trend estimate
 :::
 
 ## Faceting
@@ -484,6 +643,12 @@ ggplot(data=mpg) +
   geom_point(mapping=aes(x=displ, y=hwy)) +
   facet_wrap(~class, nrow=2)
 ```
+
+### Interpretation
+
+-   Faceting splits the data into separate panels by vehicle class, making within-group patterns easier to see
+-   Each panel shares the same axes, enabling direct visual comparison of the displacement-efficiency relationship across classes
+-   Some classes (e.g., 2seater) have few data points while others (e.g., SUV) are well-represented, which affects pattern reliability
 :::
 
 ## Three-Dimensional Data
@@ -518,6 +683,12 @@ ggplot(d, aes(x=a, y=b)) +
   geom_density2d_filled() +
   theme_minimal()
 ```
+
+### Interpretation
+
+-   The filled 2D density plot represents a three-dimensional surface (x, y, density) projected onto two dimensions using color
+-   Warmer/brighter colors indicate regions of higher point density, revealing where observations cluster
+-   This is useful for visualizing bivariate distributions and identifying multimodal patterns that scatterplots alone might miss
 :::
 
 ## Choosing the Right Plot
@@ -676,6 +847,11 @@ $$Pr(X \text{ and } Y) = Pr(X) \times Pr(Y)$$
 ``` text
 Pr(X \text{ and } Y) = Pr(X) \times Pr(Y)
 ```
+
+### Interpretation
+
+-   The multiplication rule states that the probability of both independent events occurring is the product of their individual probabilities
+-   This means joint events are always less probable than either event alone (since probabilities are between 0 and 1)
 :::
 
 **'Or' rule (addition):**
@@ -690,6 +866,11 @@ $$Pr(X \text{ or } Y) = Pr(X) + Pr(Y)$$
 ``` text
 Pr(X \text{ or } Y) = Pr(X) + Pr(Y)
 ```
+
+### Interpretation
+
+-   The addition rule gives the probability that at least one of two mutually exclusive events occurs
+-   For non-mutually exclusive events, you must subtract the overlap: Pr(X or Y) = Pr(X) + Pr(Y) - Pr(X and Y)
 :::
 
 ::: callout-note
@@ -710,15 +891,51 @@ $$Pr(X,Y) = Pr(X) \times Pr(Y)$$
 ``` text
 Pr(X,Y) = Pr(X) \times Pr(Y)
 ```
+
+### Interpretation
+
+-   The joint probability of two independent events equals the product of their individual probabilities
+-   Independence means knowing that X occurred gives no information about whether Y will occur
+-   This simple multiplication rule only applies when events are truly independent; for dependent events, conditional probabilities are needed
 :::
 
 **Conditional probability (independent):**
 
+::: panel-tabset
+### Equation
+
 $$Pr(Y|X) = Pr(Y) \text{ and } Pr(X|Y) = Pr(X)$$
+
+### LaTeX
+
+``` text
+Pr(Y|X) = Pr(Y) \text{ and } Pr(X|Y) = Pr(X)
+```
+
+### Interpretation
+
+-   For independent events, conditioning on one event does not change the probability of the other
+-   This is the formal definition of statistical independence
+:::
 
 **Conditional probability (non-independent):**
 
+::: panel-tabset
+### Equation
+
 $$Pr(Y|X) \neq Pr(Y) \text{ and } Pr(X|Y) \neq Pr(X)$$
+
+### LaTeX
+
+``` text
+Pr(Y|X) \neq Pr(Y) \text{ and } Pr(X|Y) \neq Pr(X)
+```
+
+### Interpretation
+
+-   When events are dependent, knowing that one event occurred changes the probability of the other
+-   Most biological variables are not independent, which is why conditional probability is central to biostatistics
+:::
 
 ## Likelihood vs. Probability
 
@@ -735,6 +952,12 @@ $$L[\text{parameter}|\text{data}] = Pr[\text{data}|\text{parameter}]$$
 ``` text
 L[\text{parameter}|\text{data}] = Pr[\text{data}|\text{parameter}]
 ```
+
+### Interpretation
+
+-   Likelihood reverses the direction of conditioning: instead of asking "given parameters, how likely is the data?", it asks "given data, which parameters are most supported?"
+-   The likelihood function uses the same mathematical formula as the probability, but treats the parameter as the variable and the data as fixed
+-   Maximum likelihood estimation finds the parameter value that makes the observed data most probable
 :::
 
 -   **Maximum likelihood**: highest value of the likelihood function
@@ -754,6 +977,12 @@ $$E[X] = \sum_{\text{all x}}xP(X=x) = \mu$$
 ``` text
 E[X] = \sum_{\text{all x}}xP(X=x) = \mu
 ```
+
+### Interpretation
+
+-   The expected value (mean) is a probability-weighted average of all possible outcomes
+-   It represents the "center of mass" of the distribution and the value you would expect on average over many observations
+-   For symmetric distributions the mean equals the median; for skewed distributions they differ
 :::
 
 **2nd moment (variance):**
@@ -768,9 +997,32 @@ $$Var(X) = E[(X-\mu)^2] = \sigma^2$$
 ``` text
 Var(X) = E[(X-\mu)^2] = \sigma^2
 ```
+
+### Interpretation
+
+-   Variance measures the average squared deviation from the mean, quantifying how spread out the distribution is
+-   Because deviations are squared, larger deviations contribute disproportionately more to the variance
+-   Variance is in squared units of the original data, which is why we often take the square root to get standard deviation
 :::
 
-**Standard deviation:** $$SD = \sqrt{\sigma^2} = \sigma$$
+**Standard deviation:**
+
+::: panel-tabset
+### Equation
+
+$$SD = \sqrt{\sigma^2} = \sigma$$
+
+### LaTeX
+
+``` text
+SD = \sqrt{\sigma^2} = \sigma
+```
+
+### Interpretation
+
+-   The standard deviation is simply the square root of the variance, returning the spread measure to the original units of the data
+-   It quantifies the typical distance of individual observations from the mean
+:::
 
 Higher moments include skewness (3rd) and kurtosis (4th).
 
@@ -841,6 +1093,12 @@ plot(x_cont, pnorm(x_cont), type = "l", lwd = 2, col = "forestgreen",
      main = "CDF: Normal(0, 1)", xlab = "x", ylab = "F(x) = P(X ≤ x)")
 abline(h = c(0.025, 0.975), lty = 2, col = "gray")
 ```
+
+### Interpretation
+
+-   The PMF (top-left) shows exact probabilities for each discrete outcome in a Poisson distribution; the PDF (top-right) shows probability density for continuous normal values
+-   The CDFs (bottom row) give cumulative probabilities P(X <= x), always increasing from 0 to 1
+-   The dashed lines on the normal CDF mark the 2.5% and 97.5% quantiles, which define the central 95% interval used in hypothesis testing
 :::
 
 ## Common moments of distributions
@@ -912,6 +1170,12 @@ coin <- c("heads", "tails")
 flips <- sample(coin, prob = c(0.5, 0.5), size = 100, replace = TRUE)
 barplot(table(flips), col = c("steelblue", "coral"))
 ```
+
+### Interpretation
+
+-   The `sample()` function simulates 100 fair coin flips with equal probability (0.5) for heads and tails
+-   The barplot shows the observed counts, which will be close to but not exactly 50/50 due to random variation
+-   Each run with a different seed will produce slightly different results, illustrating sampling variability
 :::
 
 ## In-Class Demo: Law of Large Numbers with Coin Flips
@@ -972,6 +1236,12 @@ for(n in c(1, 8, 16, 32, 400, 1000)) {
   abline(h = 0.5, lty = 2, col = "gray")
 }
 ```
+
+### Interpretation
+
+-   With very small samples (n=1 or 8), the observed proportion of heads can deviate substantially from 0.5
+-   As sample size increases (n=400, 1000), the observed proportions converge tightly around the true probability of 0.5
+-   This demonstrates the Law of Large Numbers: sample statistics approach population parameters as n grows
 :::
 
 ::: callout-tip
@@ -1025,6 +1295,12 @@ abline(h = 10, col = "red", lwd = 2, lty = 2)
 legend("topright", c("Cumulative Mean", "True Mean (μ = 10)"),
        col = c("steelblue", "red"), lwd = 2, lty = c(1, 2))
 ```
+
+### Interpretation
+
+-   The cumulative mean starts with high variability when n is small and progressively stabilizes as more samples are added
+-   The blue line converges toward the red dashed line (true mean of 10), demonstrating the Law of Large Numbers
+-   This convergence is the mathematical foundation for why larger sample sizes produce more reliable estimates
 :::
 
 ## Binomial Distribution
@@ -1041,6 +1317,12 @@ $$\large f(k) = {n \choose k} p^{k} (1-p)^{n-k}$$
 ``` text
 \large f(k) = {n \choose k} p^{k} (1-p)^{n-k}
 ```
+
+### Interpretation
+
+-   The binomial formula gives the probability of exactly k successes in n independent Bernoulli trials
+-   The binomial coefficient counts the number of ways to arrange k successes among n trials
+-   The terms p^k and (1-p)^(n-k) give the probability of any one specific arrangement of k successes and n-k failures
 :::
 
 Where:
@@ -1054,6 +1336,9 @@ Where:
 ![](images/week_02_S71_bell_shaped_histogram.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: Binomial Distribution - Bell Shape
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1071,6 +1356,30 @@ barplot(probs, names.arg = x, col = "white", border = "black",
         xlab = "Number of Successes", ylab = "Probability",
         main = "", las = 1, space = 0)
 ```
+
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Binomial distribution that produces a bell shape
+n <- 20
+p <- 0.5
+x <- 0:n
+probs <- dbinom(x, size = n, prob = p)
+
+barplot(probs, names.arg = x, col = "white", border = "black",
+        xlab = "Number of Successes", ylab = "Probability",
+        main = "", las = 1, space = 0)
+```
+
+### Interpretation
+
+-   With n=20 trials and p=0.5, the binomial distribution forms a symmetric bell shape centered at 10 successes
+-   This bell shape foreshadows the normal distribution: as n increases, the binomial increasingly resembles a Gaussian curve
+-   The symmetry arises because p=0.5; with unequal p, the distribution would be skewed
+:::
 
 ## Creating a Binomial Distributions
 
@@ -1105,6 +1414,12 @@ plot(0:10, dbinom(x = 0:10, size = 10, prob = 0.5),
      type = "h", lwd = 3, col = "steelblue",
      xlab = "Number of Successes", ylab = "Probability")
 ```
+
+### Interpretation
+
+-   The `dbinom()` function calculates the exact probability of k successes in n independent trials
+-   With 10 fair coin flips (p=0.5), getting exactly 5 heads has the highest probability, but outcomes of 4 or 6 are nearly as likely
+-   The symmetric distribution centered at np=5 reflects the equal probability of success and failure
 :::
 
 ## Poisson Distribution
@@ -1121,6 +1436,12 @@ $$Pr(Y=r) = \frac{e^{-\lambda}\lambda^r}{r!}$$
 ``` text
 Pr(Y=r) = \frac{e^{-\lambda}\lambda^r}{r!}
 ```
+
+### Interpretation
+
+-   The Poisson distribution models the number of events occurring in a fixed interval when events happen independently at a constant rate
+-   It is uniquely defined by a single parameter lambda, which equals both the mean and the variance
+-   Common applications include counting mutations per gene, cells per grid square, or neuron firings per second
 :::
 
 ::: callout-note
@@ -1142,6 +1463,9 @@ Variables with variance \> mean are called "overdispersed" (common in RNA-seq da
 :::::
 
 ## DRAFT: Poisson Distribution Examples
+
+::: panel-tabset
+### Output
 
 ::::: columns
 ::: {.column width="50%"}
@@ -1198,6 +1522,37 @@ legend("topright", legend = paste("λ =", lambdas),
 :::
 :::::
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Left panel: gene length distribution (gamma-distributed)
+set.seed(42)
+gene_lengths <- rgamma(10000, shape = 2.5, rate = 0.001)
+gene_lengths <- gene_lengths[gene_lengths <= 15000]
+
+ggplot(data.frame(length = gene_lengths), aes(x = length)) +
+  geom_histogram(aes(y = after_stat(count) / sum(after_stat(count))),
+                 binwidth = 500, fill = "#CC6633", color = "#CC6633")
+
+# Right panel: Poisson distributions with different lambda values
+x <- 0:20
+lambdas <- 1:9
+plot(x, dpois(x, lambda = 1), type = "l", lwd = 2, ylim = c(0, 0.45))
+for (i in 2:length(lambdas)) {
+  lines(x, dpois(x, lambda = lambdas[i]), col = colors[i], lwd = 2)
+}
+```
+
+### Interpretation
+
+-   The left panel shows gene length data following a right-skewed (gamma) distribution, which is typical of biological count and size data
+-   The right panel shows how Poisson distributions change with lambda: small lambda values produce highly right-skewed distributions, while larger lambda values produce more symmetric, bell-shaped curves
+-   As lambda increases, the Poisson distribution converges toward a normal distribution, another illustration of the CLT
+:::
+
 ## Creating Poisson Distributions
 
 ::: panel-tabset
@@ -1231,13 +1586,35 @@ plot(0:15, dpois(x = 0:15, lambda = 3),
      type = "h", lwd = 3, col = "darkgreen",
      xlab = "Count", ylab = "Probability")
 ```
+
+### Interpretation
+
+-   The `dpois()` function calculates the probability of observing exactly r events given a rate lambda
+-   With lambda=3, the distribution peaks near x=3 and is slightly right-skewed, showing that counts near the mean are most probable
+-   The distribution only takes non-negative integer values, reflecting that counts cannot be negative or fractional
 :::
 
 ## Geometric Distribution
 
 Probability of observing $k$ trials before the first success:
 
+::: panel-tabset
+### Equation
+
 $$P(X=k)=(1-p)^{k-1}p$$
+
+### LaTeX
+
+``` text
+P(X=k)=(1-p)^{k-1}p
+```
+
+### Interpretation
+
+-   The geometric distribution models the number of independent trials until the first success
+-   Like the exponential distribution, it is memoryless: past failures do not affect the probability of future success
+-   With probability p=0.1, the expected number of trials until the first success is 1/p = 10
+:::
 
 -   Mean = $\frac{1}{p}$
 -   Variance = $\frac{(1-p)}{p^2}$
@@ -1248,7 +1625,23 @@ $$P(X=k)=(1-p)^{k-1}p$$
 
 Probability of the $r^{th}$ success on the $k^{th}$ trial:
 
+::: panel-tabset
+### Equation
+
 $$P(X=k)=\binom{k-1}{r-1}p^{r}(1-p)^{k-r}$$
+
+### LaTeX
+
+``` text
+P(X=k)=\binom{k-1}{r-1}p^{r}(1-p)^{k-r}
+```
+
+### Interpretation
+
+-   The negative binomial models the number of trials needed to achieve a fixed number of successes
+-   It generalizes the geometric distribution (which is the special case r=1)
+-   In biology, it is widely used to model overdispersed count data such as RNA-seq read counts, where variance exceeds the mean
+:::
 
 -   Mean = $\frac{r}{p}$
 -   Variance = $\frac{r(1-p)}{p^2}$
@@ -1256,6 +1649,9 @@ $$P(X=k)=\binom{k-1}{r-1}p^{r}(1-p)^{k-r}$$
 # Continuous Probability Distributions {background-color="#2c3e50"}
 
 ## Continuous Probability Distributions
+
+::: panel-tabset
+### Equation
 
 $$P(a\leq X \leq b) = \int_{a}^{b} f(x) dx$$
 
@@ -1265,11 +1661,43 @@ $$\int_{-\infty}^{\infty} f(x) dx = 1$$
 
 **Expectation:** $$E[X] = \int_{-\infty}^{\infty} xf(x) dx$$
 
+### LaTeX
+
+``` text
+P(a\leq X \leq b) = \int_{a}^{b} f(x) dx
+
+\int_{-\infty}^{\infty} f(x) dx = 1
+
+E[X] = \int_{-\infty}^{\infty} xf(x) dx
+```
+
+### Interpretation
+
+-   For continuous distributions, probabilities are defined as areas under the curve between two values, not as point probabilities
+-   The total area under the probability density function must equal 1 (certainty)
+-   The expectation (mean) is the integral-weighted average of all possible values
+:::
+
 ## Uniform Distribution
 
 All outcomes equally probable.
 
+::: panel-tabset
+### Equation
+
 $$E[X] = \frac{(a+b)}{2}$$
+
+### LaTeX
+
+``` text
+E[X] = \frac{(a+b)}{2}
+```
+
+### Interpretation
+
+-   The expected value of a uniform distribution is simply the midpoint of the interval [a, b]
+-   This reflects the symmetry: all values are equally likely, so the average must be the center
+:::
 
 ::: panel-tabset
 ### Output
@@ -1297,6 +1725,12 @@ x <- seq(0, 10, 0.1)
 plot(x, dunif(x, 0, 10), type = "l", lwd = 2, col = "purple",
      ylab = "Density", main = "Uniform Distribution (0, 10)")
 ```
+
+### Interpretation
+
+-   The flat density line shows that every value between 0 and 10 is equally likely
+-   The density equals 1/(b-a) = 0.1, ensuring the total area under the curve sums to 1
+-   The uniform distribution is often used as a baseline or "uninformative" prior in Bayesian analysis
 :::
 
 ## Exponential Distribution
@@ -1311,6 +1745,12 @@ $$f(x)=\lambda e^{-\lambda x}$$
 ``` text
 f(x)=\lambda e^{-\lambda x}
 ```
+
+### Interpretation
+
+-   The exponential distribution models waiting times between events in a Poisson process
+-   The rate parameter lambda determines both the mean (1/lambda) and standard deviation (1/lambda)
+-   It is "memoryless": the probability of an event in the next interval is independent of how long you have already waited
 :::
 
 -   $E[X] = \frac{1}{\lambda}$
@@ -1346,13 +1786,35 @@ x <- seq(0, 50, 0.5)
 plot(x, dexp(x, rate = 0.1), type = "l", lwd = 2, col = "red",
      ylab = "Density", main = "Exponential Distribution (λ = 0.1)")
 ```
+
+### Interpretation
+
+-   The density is highest near zero and decreases exponentially, meaning short waiting times are most probable
+-   With rate=0.1, the expected waiting time is 1/0.1 = 10 units
+-   The long right tail reflects that occasional very long waiting times are possible but increasingly unlikely
 :::
 
 ## Gamma Distribution
 
 Waiting time until the $r^{th}$ event at rate $\lambda$:
 
+::: panel-tabset
+### Equation
+
 $$f(x) = \frac{\lambda^r x^{r-1} e^{-\lambda x}}{(r-1)!}$$
+
+### LaTeX
+
+``` text
+f(x) = \frac{\lambda^r x^{r-1} e^{-\lambda x}}{(r-1)!}
+```
+
+### Interpretation
+
+-   The gamma distribution generalizes the exponential to model waiting times until multiple events occur
+-   The shape parameter r controls the number of events; the rate parameter lambda controls how fast events happen
+-   When r=1, the gamma reduces to the exponential distribution
+:::
 
 -   Mean = $\frac{r}{\lambda}$
 -   Variance = $\frac{r}{\lambda^2}$
@@ -1373,6 +1835,12 @@ $$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \, \mathrm{e}^{-\frac{(x - \mu)^2}{2\sigm
 ``` text
 f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \, \mathrm{e}^{-\frac{(x - \mu)^2}{2\sigma^2}}
 ```
+
+### Interpretation
+
+-   The normal (Gaussian) distribution is a symmetric, bell-shaped curve fully described by two parameters: mean and variance
+-   The exponential term creates the bell shape by assigning highest probability density near the mean and decreasing probability as values move further away
+-   Many biological measurements approximate this distribution due to the Central Limit Theorem
 :::
 
 Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
@@ -1382,6 +1850,9 @@ Notation: $v \sim \mathcal{N}(\mu, \sigma^2)$
 ![](images/week_02_S88_normal_distribution_68_95_99.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Normal Distribution - 68-95-99.7 Rule
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1428,11 +1899,47 @@ arrows(-3, 0.48, 3, 0.48, code = 3, length = 0.1, lwd = 2)
 text(0, 0.50, "99.7%", cex = 1.5, font = 2)
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+x <- seq(-4, 4, length.out = 1000)
+y <- dnorm(x)
+
+plot(x, y, type = "l", lwd = 3, axes = FALSE,
+     xlab = "", ylab = "", ylim = c(-0.02, max(y) * 1.35))
+
+# Shade 99.7% region (3 SD)
+x_99 <- x[x >= -3 & x <= 3]
+polygon(c(-3, x_99, 3), c(0, dnorm(x_99), 0),
+        col = rgb(0.85, 0.85, 0.95, 0.5), border = NA)
+# Shade 95% region (2 SD)
+x_95 <- x[x >= -2 & x <= 2]
+polygon(c(-2, x_95, 2), c(0, dnorm(x_95), 0),
+        col = rgb(0.7, 0.7, 0.9, 0.5), border = NA)
+# Shade 68% region (1 SD)
+x_68 <- x[x >= -1 & x <= 1]
+polygon(c(-1, x_68, 1), c(0, dnorm(x_68), 0),
+        col = rgb(0.5, 0.5, 0.85, 0.6), border = NA)
+```
+
+### Interpretation
+
+-   The 68-95-99.7 rule states that approximately 68% of data falls within 1 SD of the mean, 95% within 2 SD, and 99.7% within 3 SD
+-   This rule provides quick probability estimates without needing to compute integrals
+-   Values beyond 3 standard deviations are extremely rare (0.3%), which is why they are often flagged as potential outliers
+:::
+
 ## Normal Distribution
 
 ![](images/week_02_S90_normal_distributions_varying_params.jpeg){fig-align="center" width="50%"}
 
 ## DRAFT: Normal Distributions - Varying Parameters
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1478,6 +1985,37 @@ text(50, max(y3) * 0.7, expression(sigma * " = 3"), cex = 1.2)
 mtext(expression(mu * " = 50"), side = 1, line = 2.5, cex = 1)
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+par(mfrow = c(3, 1), mar = c(4, 4, 2, 1))
+
+# Normal with mu=40, sigma=1
+x1 <- seq(35, 45, length.out = 300)
+plot(x1, dnorm(x1, mean = 40, sd = 1), type = "l", lwd = 2,
+     xlab = "x", ylab = "f(x)")
+
+# Normal with mu=10, sigma=5
+x2 <- seq(-10, 30, length.out = 300)
+plot(x2, dnorm(x2, mean = 10, sd = 5), type = "l", lwd = 2,
+     xlab = "x", ylab = "f(x)")
+
+# Normal with mu=50, sigma=3
+x3 <- seq(38, 62, length.out = 300)
+plot(x3, dnorm(x3, mean = 50, sd = 3), type = "l", lwd = 2,
+     xlab = "x", ylab = "f(x)")
+```
+
+### Interpretation
+
+-   Changing the mean shifts the distribution left or right along the x-axis without altering its shape
+-   Changing the standard deviation controls the spread: smaller sigma produces a taller, narrower curve; larger sigma produces a shorter, wider curve
+-   The total area under each curve equals 1, regardless of the parameter values
+:::
+
 ## Why is the Normal Distribution Special?
 
 ![](images/week_02_S92_living_histogram_height.jpeg){fig-align="center" width="100%"}
@@ -1487,6 +2025,9 @@ mtext(expression(mu * " = 50"), side = 1, line = 2.5, cex = 1)
 ![](images/week_02_S93_galton_regression_to_mean.jpeg){fig-align="center" width="70%"}
 
 ## DRAFT: Galton's Regression to the Mean
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1528,6 +2069,43 @@ abline(a = 0, b = 1, lwd = 2, lty = 2)
 text(64, 72, "y = 29.4 + 0.57x", cex = 1.1)
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Recreate Galton's parent-offspring height data (approximate)
+set.seed(1885)
+n <- 200
+parent_height <- rnorm(n, mean = 68, sd = 2)
+offspring_height <- 29.4 + 0.57 * parent_height + rnorm(n, 0, 1.5)
+
+# Create bubble-like effect by rounding
+parent_r <- round(parent_height)
+offspring_r <- round(offspring_height)
+
+df <- data.frame(parent = parent_r, offspring = offspring_r)
+df_counts <- as.data.frame(table(df$parent, df$offspring))
+
+plot(df_counts$parent, df_counts$offspring,
+     cex = sqrt(df_counts$count) * 1.2,
+     pch = 16, col = rgb(0.3, 0.3, 0.3, 0.7),
+     xlab = "AVERAGE HEIGHT OF PARENTS (IN)",
+     ylab = "HEIGHT OF OFFSPRING (IN)")
+
+# Regression line vs 1:1 line
+abline(a = 29.4, b = 0.57, lwd = 2)
+abline(a = 0, b = 1, lwd = 2, lty = 2)
+```
+
+### Interpretation
+
+-   The regression line (solid) has a slope of 0.57, less than the 1:1 line (dashed), demonstrating regression to the mean
+-   Tall parents tend to have offspring shorter than themselves; short parents tend to have taller offspring
+-   This phenomenon occurs because extreme values arise partly from chance, and offspring "regress" toward the population mean
+:::
+
 ## Why Normal is Special in Biology
 
 ![](images/week_02_S95_birth_data_visualization_art.jpeg){fig-align="center" width="100%"}
@@ -1546,6 +2124,12 @@ $$\huge z_i = \frac{(x_i - \bar{x})}{s}$$
 ``` text
 \huge z_i = \frac{(x_i - \bar{x})}{s}
 ```
+
+### Interpretation
+
+-   A z-score expresses how many standard deviations a value lies from the mean
+-   Standardizing allows comparison of values from distributions with different means and spreads
+-   The resulting standard normal distribution (mean=0, SD=1) is the basis for many statistical tests
 :::
 
 This is the **standard normal distribution**.
@@ -1668,6 +2252,33 @@ for(n in c(5, 30, 100)) {
        col = "coral", border = "white", xlab = "Mean", breaks = 25)
 }
 ```
+
+### Interpretation
+
+-   The leftmost panels show the original population distributions: exponential (heavily right-skewed) and uniform (flat)
+-   As sample size increases from n=5 to n=100, the distribution of sample means becomes increasingly bell-shaped regardless of the original distribution
+-   By n=30, the sampling distribution is approximately normal, which is why n=30 is often cited as a practical threshold for CLT to take effect
+
+### Try It
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Try with a bimodal population - how does the CLT perform?
+set.seed(42)
+bimodal_pop <- c(rnorm(5000, mean = 3, sd = 1), rnorm(5000, mean = 8, sd = 1))
+hist(bimodal_pop, main = "Bimodal Population", col = "lightgray", breaks = 40)
+
+# Sample means at different n
+par(mfrow = c(1, 3))
+for(n in c(5, 30, 100)) {
+  means <- replicate(1000, mean(sample(bimodal_pop, n, replace = TRUE)))
+  hist(means, main = paste("Sample Means (n =", n, ")"),
+       col = "steelblue", border = "white", breaks = 25)
+}
+# Question: At what n does the bimodal shape disappear in the sampling distribution?
+```
 :::
 
 ## CLT in Quantitative Genetics
@@ -1744,6 +2355,12 @@ hist(phenotype_continuous, col = "coral", border = "white",
      main = "With Environmental Variation",
      xlab = "Phenotype Value", breaks = 20)
 ```
+
+### Interpretation
+
+-   The left panel shows that even with only 5 loci, summing discrete genetic effects produces a roughly bell-shaped distribution
+-   Adding environmental noise (right panel) smooths the distribution into an approximately normal shape
+-   This demonstrates why the CLT explains the normal distribution of complex traits: many small, independent genetic and environmental effects sum to produce a Gaussian outcome
 :::
 
 ::: callout-note
@@ -1757,6 +2374,9 @@ This is why quantitative traits (height, weight, blood pressure) are approximate
 ![](images/week_02_S106_population_vs_sampling_distribution.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: Population vs Sampling Distribution
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1790,11 +2410,53 @@ hist(sample_means, breaks = 40,
      ylab = "Probability", freq = FALSE, las = 1)
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Simulate gene length data (right-skewed gamma)
+set.seed(42)
+pop_data <- rgamma(100000, shape = 2.5, rate = 0.001)
+pop_data <- pop_data[pop_data <= 15000]
+pop_mean <- mean(pop_data)
+
+# Sampling distribution: means of samples of n=100
+sample_means <- replicate(10000, mean(sample(pop_data, 100)))
+
+par(mfrow = c(1, 2), mar = c(5, 4, 3, 1))
+
+# Left: Population distribution
+hist(pop_data, breaks = seq(0, 15000, by = 500),
+     col = "#CC6633", border = "#CC6633",
+     main = "Population Distribution",
+     xlab = "Gene length (no. nucleotides)", ylab = "Probability",
+     freq = FALSE, las = 1)
+
+# Right: Sampling distribution
+hist(sample_means, breaks = 40,
+     col = "#CC6633", border = "#CC6633",
+     main = "Sampling Distribution",
+     xlab = expression("Sample mean length " * bar(Y) * " (nucleotides)"),
+     ylab = "Probability", freq = FALSE, las = 1)
+```
+
+### Interpretation
+
+-   The left panel shows the population distribution of gene lengths, which is right-skewed (gamma-distributed)
+-   The right panel shows the sampling distribution of the mean from samples of n=100, which is approximately normal despite the skewed population
+-   This demonstrates the Central Limit Theorem: the distribution of sample means becomes normal regardless of the shape of the underlying population
+:::
+
 ##
 
 ![](images/week_02_S108_sampling_distribution_of_means.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: Sampling Distribution of Means
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1832,11 +2494,48 @@ mtext("Distribution of estimates of the\nmean from multiple samples",
       adj = 0.5)
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+set.seed(42)
+pop_data <- rgamma(100000, shape = 2.5, rate = 0.001)
+pop_data <- pop_data[pop_data <= 15000]
+sample_means <- replicate(10000, mean(sample(pop_data, 100)))
+
+par(mfrow = c(2, 1), mar = c(5, 5, 3, 8))
+
+# Top: Sampling distribution
+hist(sample_means, breaks = 40,
+     col = "#CC6633", border = "#CC6633",
+     main = "", xlim = c(1500, 4000),
+     xlab = expression("Sample mean length " * bar(X) * " (nucleotides)"),
+     ylab = "Probability", freq = FALSE, las = 1)
+
+# Bottom: Single sample mean
+plot(1, 1, type = "n", xlim = c(1500, 4000), ylim = c(0, 50),
+     xlab = expression("Sample mean length " * bar(X) * " (nucleotides)"),
+     ylab = "Frequency", las = 1, main = "")
+segments(2411, 0, 2411, 1, lwd = 8, col = "#CC6633")
+```
+
+### Interpretation
+
+-   The top panel shows the sampling distribution: the distribution of means from many samples of size n=100, which is approximately normal even though the population is skewed
+-   The bottom panel shows that any single sample mean is just one value drawn from this sampling distribution
+-   This highlights that our sample estimate is one realization from a distribution of possible estimates
+:::
+
 ## Estimation and Confidence Intervals
 
 ![](images/week_02_S110_population_vs_single_sample.jpeg){fig-align="center" width="90%"}
 
 ## DRAFT: Population vs Single Sample
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1879,11 +2578,52 @@ mtext("Distribution from\nOne sample of\n100 genes",
       side = 4, line = 1, cex = 1.0)
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+set.seed(42)
+pop_data <- rgamma(100000, shape = 2.5, rate = 0.001)
+pop_data <- pop_data[pop_data <= 15000]
+pop_mean <- mean(pop_data)
+
+# Single sample
+single_sample <- sample(pop_data, 100)
+sample_mean <- round(mean(single_sample))
+
+par(mfrow = c(2, 1), mar = c(5, 5, 3, 10))
+
+# Top: Population distribution
+hist(pop_data, breaks = seq(0, 15000, by = 500),
+     col = "#CC6633", border = "#CC6633",
+     main = "", xlab = "Gene length (number of nucleotides)",
+     ylab = "Probability", freq = FALSE, las = 1)
+
+# Bottom: Single sample
+hist(single_sample, breaks = seq(0, 15000, by = 500),
+     col = "#CC6633", border = "#CC6633",
+     main = "", xlim = c(0, 15000),
+     xlab = "Gene length (number of nucleotides)",
+     ylab = "Frequency", las = 1)
+```
+
+### Interpretation
+
+-   The top panel shows the true population distribution of gene lengths (right-skewed), with the population mean marked
+-   The bottom panel shows what we actually observe: a single sample of 100 genes, whose mean approximates but does not equal the true population mean
+-   This illustrates the fundamental challenge of statistics: we must infer population parameters from limited sample data
+:::
+
 ##
 
 ![](images/week_02_S112_standard_error_confidence_interval.jpeg){fig-align="center" width="100%"}
 
 ## DRAFT: Standard Error and Confidence Intervals
+
+::: panel-tabset
+### Output
 
 ```{r}
 #| echo: false
@@ -1949,6 +2689,49 @@ text(3200, 35, "Therefore, lines extending\n2 standard errors outward\nfrom the 
      cex = 0.85)
 ```
 
+### Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+set.seed(42)
+pop_data <- rgamma(100000, shape = 2.5, rate = 0.001)
+pop_data <- pop_data[pop_data <= 15000]
+pop_mean <- mean(pop_data)
+sample_means <- replicate(10000, mean(sample(pop_data, 100)))
+se <- sd(sample_means)
+
+par(mfrow = c(2, 2), mar = c(5, 4, 3, 1))
+
+# Top-left: sampling distribution + SE arrow
+hist(sample_means, breaks = 40, col = "#CC6633", border = "#CC6633",
+     main = "", xlim = c(1500, 4000),
+     xlab = expression("Sample mean length " * bar(X) * " (nucleotides)"),
+     ylab = "Probability", freq = FALSE, las = 1)
+arrows(pop_mean - se, 0.012, pop_mean + se, 0.012,
+       code = 3, length = 0.1, lwd = 2)
+
+# Top-right: sampling distribution + 2SE bracket
+hist(sample_means, breaks = 40, col = "#CC6633", border = "#CC6633",
+     main = "", xlim = c(1500, 4000),
+     xlab = expression("Sample mean length " * bar(X) * " (nucleotides)"),
+     ylab = "Probability", freq = FALSE, las = 1)
+arrows(pop_mean - 2*se, 0.012, pop_mean + 2*se, 0.012,
+       code = 3, length = 0.1, lwd = 2)
+
+# Bottom panels: single sample with CI brackets
+segments(2411 - 2*se, 5, 2411 + 2*se, 5, lwd = 2)
+```
+
+### Interpretation
+
+-   The four panels progressively build the concept of standard error and confidence intervals
+-   The standard error (top-left) is the standard deviation of the sampling distribution, measuring typical distance between a sample estimate and the true parameter
+-   Extending 2 standard errors from a sample mean (bottom-right) creates a 95% confidence interval that brackets the true parameter in roughly 95% of samples
+:::
+
+
 ## Standard Error of the Mean
 
 ::: panel-tabset
@@ -1961,6 +2744,12 @@ $$\huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}$$
 ``` text
 \huge \sigma_{\bar{x}} \approx s_{\bar{x}} = \frac{s}{\sqrt{n}}
 ```
+
+### Interpretation
+
+-   The standard error of the mean equals the sample standard deviation divided by the square root of the sample size
+-   SEM shrinks with larger samples because the square root of n is in the denominator
+-   SEM estimates how much the sample mean would vary across repeated samples from the same population
 :::
 
 ::: callout-note
@@ -2012,6 +2801,12 @@ sem_50 <- sd(apply(samps_50, 2, mean)) / sqrt(50)
 
 cat("SEM (n=5):", round(sem_5, 4), "\nSEM (n=50):", round(sem_50, 4))
 ```
+
+### Interpretation
+
+-   The standard error of the mean (SEM) quantifies uncertainty in the sample mean as an estimate of the population mean
+-   SEM decreases with larger sample sizes, reflecting greater precision with more data
+-   Comparing SEM at n=5 vs n=50 shows how increasing sample size dramatically reduces estimation uncertainty
 :::
 
 ## Confidence Intervals
@@ -2042,6 +2837,12 @@ t.test(sample_data)$conf.int
 sample_data <- rnorm(30, mean = 10, sd = 2)
 t.test(sample_data)$conf.int
 ```
+
+### Interpretation
+
+-   The `t.test()` function returns a 95% confidence interval for the population mean
+-   The interval provides a range of plausible values for the true parameter based on the sample data
+-   Wider intervals indicate greater uncertainty; narrower intervals indicate more precise estimates
 :::
 
 ## Visualizing What "95% Confidence" Means
@@ -2116,6 +2917,36 @@ for(i in 1:n_samples) {
 legend("topright", c(paste(sum(contains_true), "contain μ"),
        paste(sum(!contains_true), "miss μ")), col = c("steelblue", "red"), lwd = 2)
 ```
+
+### Interpretation
+
+-   Each horizontal line represents a 95% confidence interval from a different random sample
+-   Blue intervals contain the true population mean; red intervals miss it
+-   Approximately 95% of intervals capture the true mean, illustrating the frequentist interpretation of confidence
+-   This demonstrates that "95% confidence" refers to the long-run coverage rate, not the probability that any single interval contains the parameter
+
+### Try It
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Try changing the confidence level to 99% and see how interval width changes
+true_mean <- 10
+n_samples <- 50
+
+results_99 <- t(replicate(n_samples, {
+  samp <- rnorm(20, mean = true_mean, sd = 2)
+  ci <- t.test(samp, conf.level = 0.99)$conf.int
+  c(mean = mean(samp), lower = ci[1], upper = ci[2])
+}))
+
+# How does the coverage change? Are the intervals wider or narrower?
+contains_true <- results_99[, "lower"] <= true_mean & results_99[, "upper"] >= true_mean
+cat("Coverage at 99%:", sum(contains_true), "/", n_samples)
+
+# Also try: What happens with smaller samples (n=5) vs larger (n=100)?
+```
 :::
 
 ## Coefficient of Variation
@@ -2132,4 +2963,10 @@ $$CV = \frac{s}{\bar{x}} \times 100\%$$
 ``` text
 CV = \frac{s}{\bar{x}} \times 100\%
 ```
+
+### Interpretation
+
+-   The CV expresses the standard deviation as a percentage of the mean
+-   This allows comparison of variability between populations with very different means
+-   A higher CV indicates greater relative variability
 :::
