@@ -126,6 +126,10 @@ library(brms)         # Bayesian regression with Stan
 
 ![](images/week_08_S118_loess_splines_comparison.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material
+:::
+
 ## LOESS: How It Works
 
 -   LOESS (Locally Estimated Scatterplot Smoothing) fits local polynomial regressions at each point, weighting nearby observations more heavily.
@@ -550,6 +554,10 @@ In bioengineering, we frequently ask:
 -   Unlike standard regression, survival analysis handles a unique feature of biomedical and engineering data: **censoring**.
 
 ![](images/week_08_S140_survival_concepts.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material
+:::
 
 ## Why Can't We Just Use Standard Regression?
 
@@ -1341,9 +1349,17 @@ exp(cbind(HR = coef(cox_scaffold), confint(cox_scaffold)))
 
 ![The ML workflow from data to predictions](images/week_09_S42_the_ml_workflow_from_data_to_p.jpg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Lecture material
+:::
+
 ## General Steps for Machine Learning (SVG)
 
 ![The ML workflow from data to predictions](images/week_09_S42_ml_workflow.svg){fig-align="center" width="90%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 ## What's Coming: Bias-Variance and Cross-Validation
 
@@ -1596,12 +1612,20 @@ lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)],
 
 ![](images/week_09_S52_crossvalidation1.png){fig-align="center" width="70%"}
 
+::: {.aside}
+Source: Lecture material
+:::
+
 ## What is Cross-Validation? (SVG)
 
 -   Cross-validation is our primary tool for estimating how well a model will perform on **new, unseen data**.
 -   The core idea is simple: repeatedly split your data into training and testing portions, fit the model on the training portion, and evaluate on the testing portion.
 
 ![](images/week_09_S52_crossvalidation_data_split.svg){fig-align="center" width="70%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 **Why we need it:**
 
@@ -1614,6 +1638,10 @@ lines(sort(x_samp), predict(loess(y_samp ~ x_samp))[order(x_samp)],
 The most common approach splits data into **K equally-sized folds** and cycles through them:
 
 ![](images/week_09_S53_crossvalidation4.png){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: Lecture material
+:::
 
 **Process:**
 
@@ -1630,6 +1658,10 @@ The most common approach splits data into **K equally-sized folds** and cycles t
 
 ![](images/week_09_S53_crossvalidation_kfold.svg){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
+
 **Process:**
 
 1.  Split data into K folds (typically K = 5 or 10)
@@ -1645,6 +1677,10 @@ Cross-validation is most powerful when used to **compare models** of different c
 
 ![](images/week_09_S54_crossvalidation7.png){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: Lecture material
+:::
+
 | K      | Description           | Properties                       |
 |:-------|:----------------------|:---------------------------------|
 | K = 5  | 5-fold CV             | Good balance, common choice      |
@@ -1656,6 +1692,10 @@ Cross-validation is most powerful when used to **compare models** of different c
 Cross-validation is most powerful when used to **compare models** of different complexity. The model with the lowest CV error achieves the best bias-variance tradeoff.
 
 ![](images/week_09_S54_crossvalidation_5fold.svg){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 | K      | Description           | Properties                       |
 |:-------|:----------------------|:---------------------------------|
@@ -1985,6 +2025,10 @@ glimpse(biomat)
 
 ![](images/week_09_S65_cart_classification_flow.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material
+:::
+
 ### How to Read This Diagram
 
 Each step occurs at every node during tree construction:
@@ -2147,6 +2191,10 @@ rpart.plot(pruned_tree, type = 4, extra = 104)
 
 ![](images/week_09_S68_cart_pruning_steps.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material
+:::
+
 ::: callout-important
 ### The 1-SE Rule (Recommended)
 
@@ -2207,6 +2255,10 @@ The algorithm is searching for the feature and threshold that **divide the data 
 ### Algorithm Flow
 
 ![](images/week_09_S71_cart_regression_flow.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material
+:::
 
 ### Notes
 
@@ -2475,6 +2527,10 @@ If one predictor is very strong, every tree in a simple bagging ensemble would s
 ## Bagging and OOB: Workflow
 
 ![](images/week_09_S84_bagging_oob_diagram.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 
 ## Random Forest: Classification — OOB Error Convergence
@@ -2867,6 +2923,10 @@ $$\text{Odds} = \frac{p}{1-p} \qquad \text{Log Odds} = \ln\left(\frac{p}{1-p}\ri
 
 ![](images/week_09_S95_odds_log_odds_numberline.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
+
 - On the **probability scale**, 0.25 and 0.75 are equally far from 0.50 — symmetric around the midpoint.
 
 - On the **odds scale**, 0.33 and 3.0 are *not* equally far from 1.0 — the scale is asymmetric: compressed between 0 and 1, and unbounded above 1. A treatment that doubles the odds looks larger than one that halves them.
@@ -2878,6 +2938,10 @@ $$\text{Odds} = \frac{p}{1-p} \qquad \text{Log Odds} = \ln\left(\frac{p}{1-p}\ri
 ## Odds Ratios: Why They're Symmetric
 
 ![](images/week_09_S96_odds_ratio_symmetry.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 An **odds ratio (OR)** compares the odds of an outcome between two groups:
 
@@ -3165,6 +3229,10 @@ P(\theta \mid data) = \frac{P(data \mid \theta) \cdot P(\theta)}{P(data)}
 ## The Logic of Bayesian Inference
 
 ![](images/week_09_S109_bayesian_updating_flow.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 ## Bayesian Estimation: The Coin Flip
 

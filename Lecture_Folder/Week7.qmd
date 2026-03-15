@@ -1738,9 +1738,17 @@ A classic example: measuring femur length of walking stick insects. Multiple mea
 
 ![](images/week_07_S58_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Nested design diagram showing within-individual measurement structure
+:::
+
 ## Nested Design: Within-Individual Measurements (SVG)
 
 ![](images/week_07_S58_nested_design_within_individuals.svg){fig-align="center" width="90%"}
+
+::: {.aside}
+SVG recreation of nested design diagram showing within-individual measurement structure
+:::
 
 ## Femur Length Variation Within Individuals
 
@@ -1813,9 +1821,17 @@ ggplot(femur_df, aes(x = individual, y = femur_length)) +
 
 ![](images/week_07_S60_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
 
+::: {.aside}
+Source: Hierarchical variance decomposition diagram for nested designs
+:::
+
 ## Hierarchical Variance Decomposition (SVG)
 
 ![](images/week_07_S60_nested_design_hierarchy_diagram.svg){fig-align="center" width="90%"}
+
+::: {.aside}
+SVG recreation of hierarchical variance decomposition diagram for nested designs
+:::
 
 In a nested design, total variance is partitioned hierarchically:
 

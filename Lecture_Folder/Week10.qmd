@@ -440,6 +440,10 @@ PCA requires **continuous** variables. It works best when relationships between 
 
 ![](images/week_10_S17_pca_variance_maximization.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
+
 ## SVD and PCA: Step by Step
 
 ::: panel-tabset
@@ -1302,6 +1306,10 @@ This asymmetry is the single most important thing to understand about t-SNE. It 
 
 ![](images/week_10_S43_kl_divergence_distances.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
+
 ## Minimizing KL Divergence by Gradient Descent
 
 t-SNE minimizes the KL divergence between $P$ and $Q$ using **gradient descent** — the same optimization strategy used in neural networks and many other machine learning methods.
@@ -1344,9 +1352,17 @@ The gradient has an intuitive interpretation:
 
 ![](images/week_10_S45_kl_divergence_1d_optimization.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
+
 ## From SNE to t-SNE: Solving the Crowding Problem
 
 ![](images/week_10_S46_sne_to_tsne.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 ## The Crowding Problem and the t-Distribution Solution
 
@@ -1524,9 +1540,17 @@ The key difference from t-SNE is in how neighborhoods are defined. UMAP normaliz
 
 ![](images/week_10_S55_umap_algorithm.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
+
 ## UMAP Cross-Entropy Optimization
 
 ![](images/week_10_S56_umap_cross_entropy_optimization.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 ## How UMAP's Cross-Entropy Differs from t-SNE's KL Divergence
 
@@ -1572,6 +1596,10 @@ Start with `n_neighbors = 15` and `min_dist = 0.1` as defaults, then explore. Un
 ## t-SNE vs. UMAP: Shared Philosophy, Different Mathematics
 
 ![](images/week_10_S59_tsne_vs_umap_comparison.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 ## Key Differences Between t-SNE and UMAP
 
@@ -1816,6 +1844,10 @@ Dimensionality reduction shows us structure. **Clustering** formalizes that stru
 ## Overview of Clustering Methods
 
 ![](images/week_10_S67_clustering_methods_overview.svg){fig-align="center" width="95%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
 
 # Partitioning Methods: K-Means and K-Medoids {background-color="#2c3e50"}
 
@@ -2387,6 +2419,10 @@ Instance-based methods classify new observations by comparing them directly to e
 
 ![](images/week_10_S86_knn_concept.svg){fig-align="center" width="95%"}
 
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
+
 ## KNN: How It Works
 
 Unlike k-means (unsupervised), **K-Nearest Neighbors** is a **supervised** classification method. It uses labeled training data to classify new, unlabeled observations.
@@ -2836,3 +2872,7 @@ The best way to solidify these skills is to **apply them to your own research da
 ##  {background-color="#2c3e50"}
 
 ![](images/week_10_S109_happy_graduates.svg){fig-align="center" width="85%"}
+
+::: {.aside}
+Source: Lecture material (SVG recreation)
+:::
