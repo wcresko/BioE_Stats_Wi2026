@@ -3053,7 +3053,7 @@ Source: Portrait of Sir Francis Galton, public domain.
 -   Competitions for the "perfect family" to encourage public consciousness and support for eugenics
 
 ```{r, echo=FALSE, out.width='50%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S96_regression_formula_013.jpeg")
+knitr::include_graphics("images/week_05_S96_eugenics_building_state_fair.jpeg")
 ```
 
 ::: {.aside}
@@ -3063,7 +3063,7 @@ Source: Eugenics Building at a state fair, ca. 1920s. American Philosophical Soc
 ## Galton, Charles Davenport & G. Stanley Hall
 
 ```{r, echo=FALSE, out.width='50%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S97_regression_formula_014.jpeg")
+knitr::include_graphics("images/week_05_S97_galton_davenport_hall_portraits.jpeg")
 ```
 
 ::: {.aside}
@@ -3073,7 +3073,7 @@ Source: Historical photographs, public domain.
 ## Logo of the US eugenics society
 
 ```{r, echo=FALSE, out.width='80%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S98_regression_formula_015.jpeg")
+knitr::include_graphics("images/week_05_S98_eugenics_society_logo.jpeg")
 ```
 
 ::: {.aside}
@@ -3114,7 +3114,7 @@ Source: Portrait of R.A. Fisher, public domain.
 -   The forced sterilization program engineered by the Nazis was partly inspired by California's.
 
 ```{r, echo=FALSE, out.width='70%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S102_regression_formula_016.jpeg")
+knitr::include_graphics("images/week_05_S102_eugenics_to_nazism_portraits.jpeg")
 ```
 
 ::: {.aside}
@@ -3138,7 +3138,7 @@ Source: Historical photographs, public domain.
 ## Interested in learning more?
 
 ```{r, echo=FALSE, out.width='20%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S105_regression_formula_017.jpeg")
+knitr::include_graphics("images/week_05_S105_she_has_her_mothers_laugh_cover.jpeg")
 ```
 
 ::: {.aside}

@@ -175,7 +175,7 @@ Source: Photograph of R.A. Fisher, c. 1910s (public domain)
 
 ## Eugenics in the U.S.
 
-![](images/week_05_S97_regression_formula_014.jpeg){fig-align="center" width="50%"}
+![](images/week_05_S97_galton_davenport_hall_portraits.jpeg){fig-align="center" width="50%"}
 
 ::: {.aside}
 Source: Historical photographs of Francis Galton, Charles Davenport, G. Stanley Hall, and colleagues (public domain)
@@ -186,7 +186,7 @@ Source: Historical photographs of Francis Galton, Charles Davenport, G. Stanley 
 
 ## 
 
-![](images/week_05_S98_regression_formula_015.jpeg){fig-align="center" width="80%"}
+![](images/week_05_S98_eugenics_society_logo.jpeg){fig-align="center" width="80%"}
 
 ::: {.aside}
 Source: Eugenics tree logo, Second International Congress of Eugenics, 1921 (public domain)
@@ -202,7 +202,7 @@ Source: Eugenics tree logo, Second International Congress of Eugenics, 1921 (pub
 
 -   Competitions for the "perfect family" to encourage public consciousness and support for eugenics
 
-![](images/week_05_S96_regression_formula_013.jpeg){fig-align="center" width="50%"}
+![](images/week_05_S96_eugenics_building_state_fair.jpeg){fig-align="center" width="50%"}
 
 ::: {.aside}
 Source: "Fittest Family" contest at a state fair, c. 1920s, American Philosophical Society (public domain)
@@ -214,7 +214,7 @@ Source: "Fittest Family" contest at a state fair, c. 1920s, American Philosophic
 -   By 1933, California had subjected more people to forceful sterilization than all other U.S. states combined.
 -   The forced sterilization program engineered by the Nazis was partly inspired by California's.
 
-![](images/week_05_S102_regression_formula_016.jpeg){fig-align="center" width="70%"}
+![](images/week_05_S102_eugenics_to_nazism_portraits.jpeg){fig-align="center" width="70%"}
 
 ::: {.aside}
 Source: Historical photographs of Galton, Davenport, Hall, and Hitler (public domain)
@@ -235,7 +235,7 @@ Source: Historical photographs of Galton, Davenport, Hall, and Hitler (public do
 
 ## Interested in learning more?
 
-![](images/week_05_S105_regression_formula_017.jpeg){fig-align="center" width="20%"}
+![](images/week_05_S105_she_has_her_mothers_laugh_cover.jpeg){fig-align="center" width="20%"}
 
 ::: {.aside}
 Source: *She Has Her Mother's Laugh* by Carl Zimmer, Dutton/Penguin, 2018. Cover art copyright Penguin Random House.
