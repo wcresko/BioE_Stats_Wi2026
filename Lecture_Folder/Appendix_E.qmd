@@ -61,6 +61,13 @@ This appendix introduces Git and GitHub --- essential tools for version control 
 
 ## Git Workflow Concept {.smaller}
 
+![Git Workflow](images/appendix_E_git_workflow.svg){fig-align="center" width="100%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
+
+## Git Workflow Concept (Mermaid Original) {.smaller}
+
 ```{mermaid}
 %%| fig-width: 10
 %%| fig-height: 6
@@ -84,6 +91,7 @@ flowchart LR
     style GP fill:#ffffff,stroke:#333,stroke-width:2px,color:#000000
     style GPL fill:#ffffff,stroke:#333,stroke-width:2px,color:#000000
 ```
+-->
 
 ::: incremental
 -   **Track Changes**: Every modification is recorded
@@ -257,6 +265,11 @@ git fetch origin
 ::: panel-tabset
 ### Visual
 
+![Git Branching and Merging](images/appendix_E_git_branching.svg){fig-align="center" width="100%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
+
 ```{mermaid}
 %%| fig-width: 10
 %%| fig-height: 6
@@ -273,6 +286,7 @@ gitGraph
     merge feature
     commit id: "Continue work"
 ```
+-->
 
 ### Commands
 
@@ -417,6 +431,13 @@ results/temp/*
 
 ## Host Your Research Website for Free {.smaller}
 
+![GitHub Pages Workflow](images/appendix_E_github_pages.svg){fig-align="center" width="100%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
+
+## Host Your Research Website for Free (Mermaid Original) {.smaller}
+
 ```{mermaid}
 %%| fig-width: 10
 %%| fig-height: 5
@@ -439,6 +460,7 @@ flowchart LR
     style GP fill:#ffffff,stroke:#333,stroke-width:2px,color:#000000
     style AU fill:#ffffff,stroke:#333,stroke-width:2px,color:#000000
 ```
+-->
 
 ### Setup Steps:
 

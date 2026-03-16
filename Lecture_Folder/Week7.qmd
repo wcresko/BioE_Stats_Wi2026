@@ -2539,6 +2539,13 @@ Biodegradable implants are a cornerstone of modern bioengineering — they provi
 
 This experiment tracks 15 implant specimens over time, measuring the same specimens repeatedly — a classic **repeated measures** design where time points are nested within specimens.
 
+![Implant Degradation Experimental Design](images/week_07_implant_degradation_design.svg){fig-align="center" width="90%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove this slide when SVG is finalized)
+
+## Implant Degradation: Experimental Context (Mermaid Original)
+
 ```{mermaid}
 %%| fig-width: 7
 flowchart TD
@@ -2554,6 +2561,7 @@ flowchart TD
     style B2 fill:#52796f,color:#fff
     style B3 fill:#52796f,color:#fff
 ```
+-->
 
 -   **Between-subjects factor**: Coating type (PLGA, PCL, PLA-PEG) — each specimen has only one coating
 -   **Within-subjects factor**: Time (weeks 0, 4, 8, 12) — each specimen is measured at all time points

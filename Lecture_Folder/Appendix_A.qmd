@@ -51,6 +51,19 @@ This appendix introduces the fundamental computing concepts that underlie all of
 :::
 
 ::: {.column width="40%"}
+![Computer Components](images/appendix_A_computer_components.svg){fig-align="center" width="100%"}
+:::
+:::::
+
+## The Fetch-Decode-Execute Cycle
+
+![Fetch-Decode-Execute Cycle](images/appendix_A_fetch_decode_execute.svg){fig-align="center" width="100%"}
+
+<!--
+DUPLICATE SLIDES - Original Mermaid (remove when SVGs are finalized)
+
+## What is a Computer System? (Mermaid Original)
+
 ```{mermaid}
 graph TD
     A[Input Devices] --> B[CPU]
@@ -60,10 +73,8 @@ graph TD
     E[Storage] --> C
     C --> E
 ```
-:::
-:::::
 
-## The Fetch-Decode-Execute Cycle
+## The Fetch-Decode-Execute Cycle (Mermaid Original)
 
 ```{mermaid}
 graph LR
@@ -72,6 +83,7 @@ graph LR
     C --> D[Store Results]
     D --> A
 ```
+-->
 
 ::: incremental
 1.  **Fetch**: Retrieve instruction from memory
@@ -264,6 +276,13 @@ An OS is system software that manages computer hardware, software resources, and
 
 ## Operating System Architecture {.smaller}
 
+![OS Architecture](images/appendix_A_os_architecture.svg){fig-align="center" width="80%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
+
+## Operating System Architecture (Mermaid Original) {.smaller}
+
 ```{mermaid}
 graph TD
     A[User Applications] --> B[System Calls Interface]
@@ -276,6 +295,7 @@ graph TD
     C --> H[File System]
     C --> I[I/O Management]
 ```
+-->
 
 ## Core OS Functions {.smaller}
 
@@ -366,6 +386,13 @@ graph TD
 
 ## Computing Timeline {.smaller}
 
+![Computing Timeline](images/appendix_A_computing_timeline.svg){fig-align="center" width="100%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
+
+## Computing Timeline (Mermaid Original) {.smaller}
+
 ```{mermaid}
 graph LR
     A[1960s-70s<br/>Mainframes] --> B[1980s-90s<br/>Personal Computers]
@@ -374,6 +401,7 @@ graph LR
     D --> E[2006+<br/>Cloud Computing]
     E --> F[2020s<br/>Edge/Hybrid]
 ```
+-->
 
 ### Key Drivers of Change
 
@@ -413,6 +441,13 @@ Computing resources that are physically present and directly controlled by the u
 
 ## Local Computing Architecture
 
+![Local Computing Architecture](images/appendix_A_local_computing_arch.svg){fig-align="center" width="85%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
+
+## Local Computing Architecture (Mermaid Original)
+
 ```{mermaid}
 graph TB
     A[Applications] --> B[Operating System]
@@ -424,6 +459,7 @@ graph TB
     C --> H[Network Card]
     H --> I[Internet/LAN]
 ```
+-->
 
 ## Local Computing: Pros and Cons {.smaller}
 
@@ -457,6 +493,11 @@ graph TB
 
 A collection of interconnected computers working together as a single system
 
+![Cluster Computing](images/appendix_A_cluster_computing.svg){fig-align="center" width="80%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
+
 ```{mermaid}
 graph TB
     M[Master/Head Node] --> N1[Node 1]
@@ -469,6 +510,7 @@ graph TB
     N4 -.-> S
     U[Users] --> M
 ```
+-->
 
 **Key Components**
 
@@ -524,6 +566,11 @@ We use SLURM on Talapas at the University of Oregon for scheduling compute jobs.
 
 On-demand delivery of computing resources over the internet with pay-as-you-go pricing
 
+![Cloud Computing Architecture](images/appendix_A_cloud_computing.svg){fig-align="center" width="85%"}
+
+<!--
+DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
+
 ```{mermaid}
 graph TB
     R[Region 1] --> AZ1[Availability Zone 1]
@@ -536,6 +583,7 @@ graph TB
     AZ2 --> N2[Networking]
     U[Users] -.Internet.-> R
 ```
+-->
 
 ### Major Providers
 
