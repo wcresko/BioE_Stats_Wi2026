@@ -26,6 +26,21 @@ title: "Lectures"
 
 
 
+### Appendix Lectures (Pre-requisite Computational Tools)
+
+[Appendix A - Computer Systems & Computing Fundamentals](Lecture_Folder/Appendix_A.html)
+
+[Appendix B - Unix & the Command Line](Lecture_Folder/Appendix_B.html)
+
+[Appendix C - GREP, Regular Expressions & Shell Scripting](Lecture_Folder/Appendix_C.html)
+
+[Appendix D - R Programming Fundamentals](Lecture_Folder/Appendix_D.html)
+
+[Appendix E - Git, GitHub & Version Control](Lecture_Folder/Appendix_E.html)
+
+[Appendix F - High-Performance Computing with Talapas](Lecture_Folder/Appendix_F.html)
+
+
 ### Quarto Templates for Class Notes
 
 [Quarto_Template](Lecture_Folder/Week1_BioE_Stats_Analysis_Template.qmd)
