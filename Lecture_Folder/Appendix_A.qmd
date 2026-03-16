@@ -51,13 +51,13 @@ This appendix introduces the fundamental computing concepts that underlie all of
 :::
 
 ::: {.column width="40%"}
-![Computer Components](images/appendix_A_computer_components.svg){fig-align="center" width="100%"}
+![Computer Components](images/appendix_A_S02_computer_components.svg){fig-align="center" width="100%"}
 :::
 :::::
 
 ## The Fetch-Decode-Execute Cycle
 
-![Fetch-Decode-Execute Cycle](images/appendix_A_fetch_decode_execute.svg){fig-align="center" width="100%"}
+![Fetch-Decode-Execute Cycle](images/appendix_A_S03_fetch_decode_execute.svg){fig-align="center" width="100%"}
 
 <!--
 DUPLICATE SLIDES - Original Mermaid (remove when SVGs are finalized)
@@ -276,7 +276,7 @@ An OS is system software that manages computer hardware, software resources, and
 
 ## Operating System Architecture {.smaller}
 
-![OS Architecture](images/appendix_A_os_architecture.svg){fig-align="center" width="80%"}
+![OS Architecture](images/appendix_A_S13_os_architecture.svg){fig-align="center" width="80%"}
 
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
@@ -386,7 +386,7 @@ graph TD
 
 ## Computing Timeline {.smaller}
 
-![Computing Timeline](images/appendix_A_computing_timeline.svg){fig-align="center" width="100%"}
+![Computing Timeline](images/appendix_A_S18_computing_timeline.svg){fig-align="center" width="100%"}
 
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
@@ -441,7 +441,7 @@ Computing resources that are physically present and directly controlled by the u
 
 ## Local Computing Architecture
 
-![Local Computing Architecture](images/appendix_A_local_computing_arch.svg){fig-align="center" width="85%"}
+![Local Computing Architecture](images/appendix_A_S21_local_computing_arch.svg){fig-align="center" width="85%"}
 
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
@@ -493,7 +493,7 @@ graph TB
 
 A collection of interconnected computers working together as a single system
 
-![Cluster Computing](images/appendix_A_cluster_computing.svg){fig-align="center" width="80%"}
+![Cluster Computing](images/appendix_A_S24_cluster_computing.svg){fig-align="center" width="80%"}
 
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
@@ -566,7 +566,7 @@ We use SLURM on Talapas at the University of Oregon for scheduling compute jobs.
 
 On-demand delivery of computing resources over the internet with pay-as-you-go pricing
 
-![Cloud Computing Architecture](images/appendix_A_cloud_computing.svg){fig-align="center" width="85%"}
+![Cloud Computing Architecture](images/appendix_A_S27_cloud_computing.svg){fig-align="center" width="85%"}
 
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)

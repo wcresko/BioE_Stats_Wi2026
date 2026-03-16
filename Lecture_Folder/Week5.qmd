@@ -742,6 +742,10 @@ A trend that appears in groups can disappear or reverse when groups are combined
 
 ![](images/week_05_S25_simpsons_paradox_1.jpg){fig-align="center" width="80%"}
 
+::: {.aside}
+Source: Simpson's Paradox illustration
+:::
+
 ## DRAFT: Simpson's Paradox
 
 ::: panel-tabset
@@ -806,6 +810,10 @@ ggplot(df, aes(x, y)) +
 ## Simpson's Paradox Explained
 
 ![](images/week_05_S27_simpsons_paradox_explained_1.jpg){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: Simpson's Paradox illustration
+:::
 
 ## DRAFT: Simpson's Paradox Explained
 
@@ -3045,7 +3053,7 @@ Source: Portrait of Sir Francis Galton, public domain.
 -   Competitions for the "perfect family" to encourage public consciousness and support for eugenics
 
 ```{r, echo=FALSE, out.width='50%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S96_regression_formula_013.jpeg")
+knitr::include_graphics("images/week_05_S96_eugenics_building_state_fair.jpeg")
 ```
 
 ::: {.aside}
@@ -3055,7 +3063,7 @@ Source: Eugenics Building at a state fair, ca. 1920s. American Philosophical Soc
 ## Galton, Charles Davenport & G. Stanley Hall
 
 ```{r, echo=FALSE, out.width='50%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S97_regression_formula_014.jpeg")
+knitr::include_graphics("images/week_05_S97_galton_davenport_hall_portraits.jpeg")
 ```
 
 ::: {.aside}
@@ -3065,7 +3073,7 @@ Source: Historical photographs, public domain.
 ## Logo of the US eugenics society
 
 ```{r, echo=FALSE, out.width='80%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S98_regression_formula_015.jpeg")
+knitr::include_graphics("images/week_05_S98_eugenics_society_logo.jpeg")
 ```
 
 ::: {.aside}
@@ -3106,7 +3114,7 @@ Source: Portrait of R.A. Fisher, public domain.
 -   The forced sterilization program engineered by the Nazis was partly inspired by California's.
 
 ```{r, echo=FALSE, out.width='70%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S102_regression_formula_016.jpeg")
+knitr::include_graphics("images/week_05_S102_eugenics_to_nazism_portraits.jpeg")
 ```
 
 ::: {.aside}
@@ -3130,7 +3138,7 @@ Source: Historical photographs, public domain.
 ## Interested in learning more?
 
 ```{r, echo=FALSE, out.width='20%', fig.asp=.75, fig.align='center'}
-knitr::include_graphics("images/week_05_S105_regression_formula_017.jpeg")
+knitr::include_graphics("images/week_05_S105_she_has_her_mothers_laugh_cover.jpeg")
 ```
 
 ::: {.aside}
@@ -3954,15 +3962,7 @@ plot(degrees, r2, type = "b", pch = 16, cex = 1.5,
 - Model selection criteria like AIC, BIC, or Mallow's $C_p$ penalize complexity to identify the point where adding more terms is no longer justified.
 :::
 
-## Mallow's Cp Statistic
-
-![Cp statistic for model selectionKey Takeaways: Model Diagnostics](images/week_05_S131_cp_statistic_formula.jpeg){alt="Cp statistic for model selection" fig-align="center" width="90%"}
-
-## Mallow's Cp Statistic (SVG)
-
-![](images/week_05_S131_cp_statistic_formula.svg){fig-align="center" width="90%"}
-
-## Mallow's Cp Statistic (LaTeX)
+## Mallow's Cp Statistic {.smaller}
 
 $$C_p = \frac{SS_{\text{error}}}{\hat{\sigma}^2} - n + 2p$$
 
@@ -3975,34 +3975,19 @@ $C_p$ estimates mean square prediction error. (Related to AIC.)
 
 $2p$: sort of a penalty for including too many predictors. A feature shared with all other model selection criteria.
 
-## DRAFT: Mallow's Cp Statistic
-
-::: panel-tabset
-### Equation
-
-$$C_p = \frac{SS_{res,p}}{MS_{res,full}} - n + 2p$$
-
-### LaTeX
-
-``` text
-C_p = \frac{SS_{res,p}}{MS_{res,full}} - n + 2p
-```
-
-### Interpretation
-
-- Mallow's $C_p$ is a model selection criterion that balances goodness of fit against model complexity.
-- A well-fitting model without overfitting will have $C_p \approx p$ (the number of parameters). Models with $C_p \gg p$ are underfitting, while the model with the minimum $C_p$ is preferred.
-- Unlike $R^2$, which always increases with more predictors, $C_p$ penalizes unnecessary complexity, helping prevent overfitting.
-:::
-
-where:
-
-- $SS_{res,p}$ = residual sum of squares for model with $p$ parameters
-- $MS_{res,full}$ = residual mean square from the full model
-- $n$ = sample size
-- $p$ = number of parameters in the candidate model
-
 A model with $C_p \approx p$ fits well without overfitting. Models with $C_p \gg p$ underfit; those with minimum $C_p$ are preferred.
+
+<!--
+DUPLICATE SLIDES - Original image versions (remove when LaTeX is finalized)
+
+## Mallow's Cp Statistic (JPEG Original)
+
+![](images/week_05_S131_cp_statistic_formula.jpeg){fig-align="center" width="90%"}
+
+## Mallow's Cp Statistic (SVG)
+
+![](images/week_05_S131_cp_statistic_formula.svg){fig-align="center" width="90%"}
+-->
 
 ::: callout-tip
 ## Summary

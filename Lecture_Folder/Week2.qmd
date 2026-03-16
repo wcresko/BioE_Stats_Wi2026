@@ -2105,6 +2105,10 @@ plot(x3, dnorm(x3, mean = 50, sd = 3), type = "l", lwd = 2,
 
 ![](images/week_02_S92_living_histogram_height.jpeg){fig-align="center" width="100%"}
 
+::: {.aside}
+Source: Classroom demonstration photograph
+:::
+
 ## Why Normal is Special in Biology
 
 ![](images/week_02_S93_galton_regression_to_mean.jpeg){fig-align="center" width="70%"}
@@ -2198,6 +2202,10 @@ abline(a = 0, b = 1, lwd = 2, lty = 2)
 ## Why Normal is Special in Biology
 
 ![](images/week_02_S95_birth_data_visualization_art.jpeg){fig-align="center" width="100%"}
+
+::: {.aside}
+Source: Birth data visualization
+:::
 
 ## Z-Scores of Normal distributions
 
@@ -2378,7 +2386,7 @@ This animation shows repeated sampling from a **skewed exponential population** 
 - The **estimate** (red line) converges toward the true μ
 - The **SEM** (green bracket) shrinks as more samples are drawn
 
-![](images/week_02_clt_sampling_animation.gif){fig-align="center" width="95%"}
+![](images/week_02_S100_clt_sampling_animation.gif){fig-align="center" width="95%"}
 
 ::: {.aside}
 Source: CLT sampling animation created with Python/matplotlib

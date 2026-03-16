@@ -59,7 +59,7 @@ This appendix covers the University of Oregon's high-performance computing (HPC)
 
 ## Talapas Architecture {.smaller}
 
-![Talapas Architecture](images/appendix_F_talapas_architecture.svg){fig-align="center" width="85%"}
+![Talapas Architecture](images/appendix_F_S03_talapas_architecture.svg){fig-align="center" width="85%"}
 
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
@@ -196,7 +196,7 @@ ssh yourduckid@login1.talapas.uoregon.edu
 ::: panel-tabset
 ### Directory Map
 
-![Storage Structure](images/appendix_F_storage_structure.svg){fig-align="center" width="100%"}
+![Storage Structure](images/appendix_F_S09_storage_structure.svg){fig-align="center" width="100%"}
 
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
@@ -256,7 +256,7 @@ du -sh /projects/myPIRG/myusername
 -   Allocates resources fairly among users
 -   Ensures efficient cluster utilization
 
-![SLURM Job Workflow](images/appendix_F_slurm_workflow.svg){fig-align="center" width="100%"}
+![SLURM Job Workflow](images/appendix_F_S10_slurm_workflow.svg){fig-align="center" width="100%"}
 
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove when SVG is finalized)
