@@ -138,13 +138,25 @@ Source: George Nakashima Conoid Chair, Nakashima Woodworkers
 
 ![](images/week_01_S09_woodworking_tool_cabinet.jpeg){fig-align="center" width="100%"}
 
-## 
+::: {.aside}
+Source: Photo illustration (public domain)
+:::
+
+##
 
 ![](images/week_01_S10_learning_craftsmanship.jpeg){fig-align="center" width="100%"}
 
-## 
+::: {.aside}
+Source: Photo illustration (public domain)
+:::
+
+##
 
 ![](images/week_01_S11_historical_craftsmanship.jpeg){fig-align="center" width="100%"}
+
+::: {.aside}
+Source: Photo illustration (public domain)
+:::
 
 ## Class Logistics
 
@@ -267,6 +279,10 @@ Computers are literal! You must use explicit, pre-defined phrases to tell your c
 ## RStudio
 
 ![RStudio interface screenshot](images/week_01_S28_rstudio_screenshot.jpg){fig-align="center" width="75%"}
+
+::: {.aside}
+Source: RStudio IDE, Posit Software PBC
+:::
 
 ## Accessing the Shell
 
@@ -542,6 +558,10 @@ When you get an error, paste it into Google—someone else has had the same prob
 ## 
 
 ![](images/week_01_S65_rstudio.jpeg){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: RStudio IDE, Posit Software PBC
+:::
 
 | Pane                 | Location     | Purpose                              |
 |:---------------------|:-------------|:-------------------------------------|
@@ -1203,6 +1223,10 @@ plot((seq_1)^2, xlab="time", ylab ="p in pop 1", type = "l", col = 'orange', lwd
 
 ![](images/week_01_S95_stickleback_experiment.jpeg){fig-align="center" width="100%"}
 
+::: {.aside}
+Source: Photo illustration
+:::
+
 ## What is Tidy Data?
 
 | Term | Definition | Example |
@@ -1405,6 +1429,10 @@ Logos: R Project, GitHub (Octocat), UNIX (The Open Group), RStudio/Posit, Linux 
 ## The Importance of Organization
 
 ![](images/week_01_S112_messy_lab.jpg){fig-align="center" width="80%"}
+
+::: {.aside}
+Source: Photo illustration
+:::
 
 Keeping your data, code, and analyses organized is crucial for reproducibility.
 
