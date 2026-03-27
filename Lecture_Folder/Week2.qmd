@@ -279,7 +279,7 @@ flights |>
     gain = arr_delay - dep_delay,
     speed = distance / air_time * 60
   ) |>
-  select(flight, gain, speed) |>
+  dplyr::select(flight, gain, speed) |>
   head(8)
 ```
 
