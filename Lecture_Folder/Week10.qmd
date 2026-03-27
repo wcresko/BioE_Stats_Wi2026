@@ -440,7 +440,7 @@ PCA requires **continuous** variables. It works best when relationships between 
 
 ![](images/week_10_S17_pca_variance_maximization.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -1240,7 +1240,7 @@ The key steps are:
 2.  **Initialize a low-D layout** — Place all points in 2D (randomly or via PCA)
 3.  **Optimize** — Iteratively move points in 2D until the low-D neighborhood structure matches the high-D neighborhood structure as closely as possible
 
-The methods differ in *how* they define neighborhoods, *what* they optimize, and *how* they handle the mismatch between high-D and low-D space. 
+The methods differ in *how* they define neighborhoods, *what* they optimize, and *how* they handle the mismatch between high-D and low-D space.
 
 ## SNE: Stochastic Neighbor Embedding
 
@@ -1306,7 +1306,7 @@ This asymmetry is the single most important thing to understand about t-SNE. It 
 
 ![](images/week_10_S43_kl_divergence_distances.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -1352,7 +1352,7 @@ The gradient has an intuitive interpretation:
 
 ![](images/week_10_S45_kl_divergence_1d_optimization.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -1360,7 +1360,7 @@ Source: Lecture material (SVG recreation)
 
 ![](images/week_10_S46_sne_to_tsne.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -1513,9 +1513,9 @@ for (p in c(5, 10, 15, 25)) {
 
 ## UMAP: Uniform Manifold Approximation and Projection
 
-- UMAP (McInnes, Healy & Melville, 2018) achieves similar goals to t-SNE but approaches the problem from **algebraic topology** rather than information theory. 
+-   UMAP (McInnes, Healy & Melville, 2018) achieves similar goals to t-SNE but approaches the problem from **algebraic topology** rather than information theory.
 
-- The core assumption is that the data lies on a **manifold** — a curved surface embedded in high-dimensional space — and that the manifold is locally approximately uniform.
+-   The core assumption is that the data lies on a **manifold** — a curved surface embedded in high-dimensional space — and that the manifold is locally approximately uniform.
 
 ## The UMAP pipeline
 
@@ -1540,7 +1540,7 @@ The key difference from t-SNE is in how neighborhoods are defined. UMAP normaliz
 
 ![](images/week_10_S55_umap_algorithm.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -1548,7 +1548,7 @@ Source: Lecture material (SVG recreation)
 
 ![](images/week_10_S56_umap_cross_entropy_optimization.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -1597,7 +1597,7 @@ Start with `n_neighbors = 15` and `min_dist = 0.1` as defaults, then explore. Un
 
 ![](images/week_10_S59_tsne_vs_umap_comparison.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -1845,7 +1845,7 @@ Dimensionality reduction shows us structure. **Clustering** formalizes that stru
 
 ![](images/week_10_S67_clustering_methods_overview.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -2419,7 +2419,7 @@ Instance-based methods classify new observations by comparing them directly to e
 
 ![](images/week_10_S86_knn_concept.svg){fig-align="center" width="95%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::
 
@@ -2771,7 +2771,7 @@ When in doubt, **run multiple methods and compare**. Agreement between methods i
 ## Method Selection: Modeling Relationships
 
 | Response      | Predictors               | Method                      | Week |
-|:-------------|:--------------------|:----------------------|:-------------|
+|:---------------|:------------------|:--------------------|:---------------|
 | Continuous    | 1 continuous             | Simple linear regression    | 5    |
 | Continuous    | Multiple continuous      | Multiple regression         | 7    |
 | Continuous    | Continuous + categorical | ANCOVA                      | 7    |
@@ -2873,6 +2873,6 @@ The best way to solidify these skills is to **apply them to your own research da
 
 ![](images/week_10_S109_happy_graduates.svg){fig-align="center" width="85%"}
 
-::: {.aside}
+::: aside
 Source: Lecture material (SVG recreation)
 :::

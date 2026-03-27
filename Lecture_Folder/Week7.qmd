@@ -134,7 +134,7 @@ This week we continue with the biological motivations, interpretation, and assum
 
 ![](images/week_07_S07_neanderthal_human_skulls_skeletons.jpeg){fig-align="center" width="90%"}
 
-::: {.aside}
+::: aside
 Source: Ruff et al., 1977; skull reconstructions and skeleton comparison images
 :::
 
@@ -957,8 +957,6 @@ The output from `VarCorr()` shows:
 The ICC tells you what proportion of total variability is attributable to each level of the hierarchy. A high experiment ICC means most variability comes from run-to-run differences — potentially a quality control concern.
 :::
 
-
-
 # Factorial ANOVA {background-color="#d4edda"}
 
 ## Factorial vs. Nested Designs
@@ -1146,7 +1144,6 @@ H_0(AB): \sigma^2_{\alpha\beta} = 0
 -   A significant random interaction variance component means the combined effect of factors varies across the population of levels sampled
 -   Random effects are appropriate when the factor levels in the study represent a sample from a larger population of possible levels
 :::
-
 
 ## What is an Interaction in ANOVA?
 
@@ -1629,7 +1626,7 @@ How should you think about effect sizes in practice?
 ::: callout-tip
 ## Reporting Convention
 
-Always report effect sizes alongside p-values: *"Substrate stiffness had a significant effect on proliferation ($F_{2,54}$ = 15.3, p < 0.001,* $\eta_p^2$ = 0.36), indicating a large effect."
+Always report effect sizes alongside p-values: *"Substrate stiffness had a significant effect on proliferation (*$F_{2,54}$ = 15.3, p \< 0.001, $\eta_p^2$ = 0.36), indicating a large effect."
 :::
 
 -   When **p is small but** $\eta^2$ is tiny: the effect is real but practically negligible — you had enough power to detect a trivial difference
@@ -1723,12 +1720,11 @@ In many bioengineering experiments, factors are organized **hierarchically** rat
 -   Sources of variance are hierarchical — variance flows from the top of the hierarchy down
 -   No interaction terms exist (because B's levels don't repeat across A's levels)
 
-
 ## Nested Analysis: Walking Stick Insect
 
 ![](images/week_07_S57_walking_stick_insect_femur.jpeg){fig-align="center" width="90%"}
 
-::: {.aside}
+::: aside
 Source: Walking stick insect specimen photograph, used for illustration of femur length measurement
 :::
 
@@ -1738,7 +1734,7 @@ A classic example: measuring femur length of walking stick insects. Multiple mea
 
 ![](images/week_07_S58_nested_design_within_individuals.jpeg){fig-align="center" width="90%"}
 
-::: {.aside}
+::: aside
 Source: Nested design diagram showing within-individual measurement structure
 :::
 
@@ -1746,7 +1742,7 @@ Source: Nested design diagram showing within-individual measurement structure
 
 ![](images/week_07_S58_nested_design_within_individuals.svg){fig-align="center" width="90%"}
 
-::: {.aside}
+::: aside
 SVG recreation of nested design diagram showing within-individual measurement structure
 :::
 
@@ -1821,7 +1817,7 @@ ggplot(femur_df, aes(x = individual, y = femur_length)) +
 
 ![](images/week_07_S60_nested_design_hierarchy_diagram.jpeg){fig-align="center" width="90%"}
 
-::: {.aside}
+::: aside
 Source: Hierarchical variance decomposition diagram for nested designs
 :::
 
@@ -1829,7 +1825,7 @@ Source: Hierarchical variance decomposition diagram for nested designs
 
 ![](images/week_07_S60_nested_design_hierarchy_diagram.svg){fig-align="center" width="90%"}
 
-::: {.aside}
+::: aside
 SVG recreation of hierarchical variance decomposition diagram for nested designs
 :::
 
@@ -1933,7 +1929,7 @@ Results from the nested ANOVA on walking stick femur length data (measurements n
 
 | Source             | df  | SS      | MS        | F     | P        |
 |:-------------------|:----|:--------|:----------|:------|:---------|
-| Among individuals  | 24  | 0.0802  | 0.00334   | 46.89 | < 0.001 |
+| Among individuals  | 24  | 0.0802  | 0.00334   | 46.89 | \< 0.001 |
 | Within individuals | 25  | 0.00178 | 0.0000713 | —     | —        |
 | **Total**          | 49  | 0.0820  | —         | —     | —        |
 
@@ -2038,7 +2034,6 @@ R offers several equivalent notations for specifying nested designs:
 
 ## Nanofiber Experiment: Hierarchical Design
 
-
 **Scenario:** Researchers measure tensile strength of electrospun nanofiber scaffolds. Three **fabrication methods** (Aligned, Random, Core-Shell) each produce multiple **batches**, and multiple specimens are tested per batch. Batches are nested within methods.
 
 | Variable | Type | Description |
@@ -2051,12 +2046,17 @@ R offers several equivalent notations for specifying nested designs:
 ## Nanofiber Experiment: Hierarchical Design
 
 -   *n* = 60 (3 methods × 4 batches × 5 specimens)
+
 -   Batches are **nested** within fabrication method — each batch belongs to exactly one method
+
 -   Both among-method and batch-to-batch variation are of interest
 
 -   **Fixed factor**: Fabrication method (3 levels — these are the methods of scientific interest)
+
 -   **Random factor**: Batch (4 per method — specific batches are random samples of all possible production runs)
+
 -   **Observation unit**: Individual specimen (5 per batch)
+
 -   Batches are **nested** within methods: Batch 1 of Aligned ≠ Batch 1 of Random
 
 ## Nested ANOVA Worked Example: Visualization
@@ -2541,6 +2541,7 @@ This experiment tracks 15 implant specimens over time, measuring the same specim
 
 ![Implant Degradation Experimental Design](images/week_07_S76_implant_degradation_design.svg){fig-align="center" width="90%"}
 
+````{=html}
 <!--
 DUPLICATE SLIDE - Original Mermaid (remove this slide when SVG is finalized)
 
@@ -2562,6 +2563,7 @@ flowchart TD
     style B3 fill:#52796f,color:#fff
 ```
 -->
+````
 
 -   **Between-subjects factor**: Coating type (PLGA, PCL, PLA-PEG) — each specimen has only one coating
 -   **Within-subjects factor**: Time (weeks 0, 4, 8, 12) — each specimen is measured at all time points
@@ -3241,7 +3243,7 @@ When predictors are highly correlated, coefficient estimates become unstable, st
 
 ![](images/week_07_S100_multicollinearity_scatterplot_matrix.jpeg){fig-align="center" width="70%"}
 
-::: {.aside}
+::: aside
 Source: Scatterplot matrix example illustrating multicollinearity among environmental variables (SO~4~^2-^, Cl^-^, Elevation)
 :::
 
@@ -3588,7 +3590,7 @@ If two or more models fit the data almost equally well, prefer the simpler model
 
 ![](images/week_07_S110_beetle_wing_horn_overfitting.jpeg){fig-align="center" width="80%"}
 
-::: {.aside}
+::: aside
 Source: Emlen, D. J. 2001. Costs and the diversification of exaggerated animal structures. *Science* 291: 1534-1536.
 :::
 
@@ -3701,7 +3703,7 @@ ggplot(beetle_data, aes(x = wing, y = horn)) +
 
 -   The quadratic fit captures the non-linear (curved) relationship between wing length and horn size that a linear model misses
 -   Comparing models with F-tests or AIC reveals whether the added complexity of the quadratic term is justified by improved fit
--   Polynomial regression is a simple way to model curvature, but higher-order polynomials (degree > 3) can be unstable and should be used cautiously
+-   Polynomial regression is a simple way to model curvature, but higher-order polynomials (degree \> 3) can be unstable and should be used cautiously
 :::
 
 ## Higher-Order Polynomial Fits
@@ -3907,7 +3909,7 @@ plot(all_subsets, scale = "adjr2")
 
 -   All-subsets regression evaluates every possible combination of predictors and ranks them by a criterion like Mallow's Cp, AIC, or adjusted R-squared
 -   Models where Cp is close to the number of parameters (p) are well-calibrated — they balance fit and complexity
--   The `leaps` package in R makes all-subsets regression computationally feasible for moderate numbers of predictors (up to ~30)
+-   The `leaps` package in R makes all-subsets regression computationally feasible for moderate numbers of predictors (up to \~30)
 -   This approach is more thorough than stepwise methods but becomes infeasible with very large numbers of predictors
 :::
 
